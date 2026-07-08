@@ -5,9 +5,7 @@ const path = require("node:path");
 const PORT = Number(process.env.PORT || 3000);
 
 const HEARTBEAT_TOKEN = String(
-    process.env.HEARTBEAT_TOKEN ||
-    process.env.API_KEY ||
-    ""
+    process.env.HEARTBEAT_TOKEN || ""
 );
 
 const ADMIN_KEY = String(
@@ -205,39 +203,17 @@ function readJsonBody(req) {
 ============================================================ */
 
 function isHeartbeatAuthorized(req) {
-    /*
-        Kompatibilitätsmodus:
-
-        Ist bei Render noch kein
-        HEARTBEAT_TOKEN oder API_KEY gesetzt,
-        werden die Heartbeats angenommen.
-
-        Sobald ein Token gesetzt wird,
-        muss das Lua-Script exakt denselben
-        Token mitsenden.
-    */
-
-    if (!HEARTBEAT_TOKEN) {
+    // Kein Heartbeat-Token eingestellt:
+    // Presence-Verbindungen werden ohne Token angenommen.
+    if (HEARTBEAT_TOKEN === "") {
         return true;
     }
 
-    const supplied =
-        String(
-            req.headers[
-                "x-nexu-heartbeat-token"
-            ] ||
-
-            req.headers[
-                "x-api-key"
-            ] ||
-
-            ""
-        );
-
-    return (
-        supplied ===
-        HEARTBEAT_TOKEN
+    const supplied = String(
+        req.headers["x-nexu-heartbeat-token"] || ""
     );
+
+    return supplied === HEARTBEAT_TOKEN;
 }
 
 
