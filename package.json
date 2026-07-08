@@ -1,8 +1,12 @@
 {
-  "name": "lua-server",
+  "name": "nexu-presence-server",
   "version": "1.0.0",
   "private": true,
+  "description": "Nexu Presence Dashboard for a Roblox experience",
   "scripts": {
     "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
