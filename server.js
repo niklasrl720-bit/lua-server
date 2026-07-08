@@ -20,11 +20,18 @@ const DASHBOARD_PASSWORD_HASH = String(
         "df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8"
 ).toLowerCase();
 const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";
+const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";
 const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;
+const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;
 const LOGIN_RATE_WINDOW_MS = 10 * 60_000;
 const LOGIN_RATE_LIMIT = 8;
+const JOIN_COMMAND_TTL_MS = 2 * 60_000;
 const BAN_FILE_PATH = String(
     process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json")
+);
+const REMEMBER_FILE_PATH = String(
+    process.env.REMEMBER_FILE_PATH ||
+        path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json")
 );
 
 const presence = new Map();
@@ -33,8 +40,11 @@ const avatarCache = new Map();
 const directMessages = new Map();
 const dmRateLimits = new Map();
 const dashboardSessions = new Map();
+const rememberedDashboardDevices = new Map();
 const loginRateLimits = new Map();
+const joinCommands = new Map();
 let nextDirectMessageId = 1;
+let nextJoinCommandId = 1;
 
 function sendJson(res, statusCode, data, extraHeaders = {}) {
     res.writeHead(statusCode, {
@@ -306,6 +316,22 @@ function dashboardCookie(req, token, maxAgeSeconds) {
     return parts.join("; ");
 }
 
+function dashboardRememberCookie(req, token, maxAgeSeconds) {
+    const parts = [
+        `${DASHBOARD_REMEMBER_COOKIE}=${encodeURIComponent(token)}`,
+        "Path=/",
+        "HttpOnly",
+        "SameSite=Strict",
+        `Max-Age=${Math.max(0, Math.floor(maxAgeSeconds))}`,
+    ];
+
+    if (requestUsesHttps(req)) {
+        parts.push("Secure");
+    }
+
+    return parts.join("; ");
+}
+
 function pruneDashboardAuth() {
     const now = Date.now();
 
@@ -353,6 +379,155 @@ function sha256(value) {
 
 function safeTextEqual(left, right) {
     return crypto.timingSafeEqual(sha256(left), sha256(right));
+}
+
+function rememberTokenHash(token) {
+    return crypto
+        .createHash("sha256")
+        .update(String(token || ""), "utf8")
+        .digest("hex");
+}
+
+function pruneRememberedDashboardDevices(saveAfterPrune = false) {
+    const now = Date.now();
+    let changed = false;
+
+    for (const [tokenHash, entry] of rememberedDashboardDevices) {
+        if (!entry || entry.expiresAtMs <= now) {
+            rememberedDashboardDevices.delete(tokenHash);
+            changed = true;
+        }
+    }
+
+    if (changed && saveAfterPrune) {
+        saveRememberedDashboardDevices();
+    }
+}
+
+function loadRememberedDashboardDevices() {
+    try {
+        if (!fs.existsSync(REMEMBER_FILE_PATH)) {
+            return;
+        }
+
+        const parsed = JSON.parse(fs.readFileSync(REMEMBER_FILE_PATH, "utf8"));
+        const rows = Array.isArray(parsed) ? parsed : parsed.devices;
+        if (!Array.isArray(rows)) {
+            return;
+        }
+
+        for (const raw of rows) {
+            const tokenHash = cleanText(raw && raw.tokenHash, 64).toLowerCase();
+            const username = cleanText(raw && raw.username, 80);
+            const expiresAtMs = Number(raw && raw.expiresAtMs) || 0;
+
+            if (
+                /^[a-f0-9]{64}$/.test(tokenHash) &&
+                username === DASHBOARD_USERNAME &&
+                expiresAtMs > Date.now()
+            ) {
+                rememberedDashboardDevices.set(tokenHash, {
+                    username,
+                    expiresAtMs,
+                    createdAt: cleanText(raw && raw.createdAt, 64) || new Date().toISOString(),
+                });
+            }
+        }
+
+        pruneRememberedDashboardDevices(false);
+        console.log(
+            `[NEXU] ${rememberedDashboardDevices.size} gespeicherte Dashboard-Geräte geladen`
+        );
+    } catch (error) {
+        console.warn(
+            "[NEXU] Gespeicherte Dashboard-Accounts konnten nicht geladen werden:",
+            error.message
+        );
+    }
+}
+
+function saveRememberedDashboardDevices() {
+    try {
+        fs.mkdirSync(path.dirname(REMEMBER_FILE_PATH), { recursive: true });
+        const tempPath = `${REMEMBER_FILE_PATH}.tmp`;
+        fs.writeFileSync(
+            tempPath,
+            JSON.stringify(
+                {
+                    devices: [...rememberedDashboardDevices.entries()].map(
+                        ([tokenHash, entry]) => ({
+                            tokenHash,
+                            username: entry.username,
+                            expiresAtMs: entry.expiresAtMs,
+                            createdAt: entry.createdAt,
+                        })
+                    ),
+                },
+                null,
+                2
+            ),
+            "utf8"
+        );
+        fs.renameSync(tempPath, REMEMBER_FILE_PATH);
+        return true;
+    } catch (error) {
+        console.warn(
+            "[NEXU] Gespeicherte Dashboard-Accounts konnten nicht gespeichert werden:",
+            error.message
+        );
+        return false;
+    }
+}
+
+function createRememberedDashboardDevice() {
+    pruneRememberedDashboardDevices(false);
+
+    const rawToken = crypto.randomBytes(32).toString("hex");
+    const tokenHash = rememberTokenHash(rawToken);
+    rememberedDashboardDevices.set(tokenHash, {
+        username: DASHBOARD_USERNAME,
+        expiresAtMs: Date.now() + DASHBOARD_REMEMBER_TTL_MS,
+        createdAt: new Date().toISOString(),
+    });
+
+    // Pro Account höchstens zehn gespeicherte Geräte behalten.
+    const ordered = [...rememberedDashboardDevices.entries()].sort(
+        (a, b) => b[1].expiresAtMs - a[1].expiresAtMs
+    );
+    for (const [oldHash] of ordered.slice(10)) {
+        rememberedDashboardDevices.delete(oldHash);
+    }
+
+    saveRememberedDashboardDevices();
+    return rawToken;
+}
+
+function getRememberedDashboardAccount(req) {
+    pruneRememberedDashboardDevices(true);
+    const rawToken = parseCookies(req).get(DASHBOARD_REMEMBER_COOKIE) || "";
+    if (!/^[a-f0-9]{64}$/i.test(rawToken)) {
+        return null;
+    }
+
+    const entry = rememberedDashboardDevices.get(rememberTokenHash(rawToken));
+    if (!entry || entry.expiresAtMs <= Date.now()) {
+        return null;
+    }
+
+    return {
+        username: entry.username,
+        expiresAtMs: entry.expiresAtMs,
+    };
+}
+
+function removeRememberedDashboardDevice(req) {
+    const rawToken = parseCookies(req).get(DASHBOARD_REMEMBER_COOKIE) || "";
+    if (!rawToken) {
+        return;
+    }
+
+    rememberedDashboardDevices.delete(rememberTokenHash(rawToken));
+    saveRememberedDashboardDevices();
 }
 
 function validDashboardPassword(password) {
@@ -560,6 +735,7 @@ async function getPublicPresence() {
         username: row.username,
         displayName: row.displayName,
         avatarUrl: avatarUrls.get(row.userId) || "",
+        gameName: row.gameName || `Place ${row.placeId || 0}`,
         placeId: row.placeId,
         jobId: row.jobId,
         joinedAt: new Date(row.joinedAtMs).toISOString(),
@@ -572,6 +748,7 @@ async function getPublicPresence() {
         username: row.username || `User${row.userId}`,
         displayName: row.displayName || row.username || `User ${row.userId}`,
         avatarUrl: avatarUrls.get(row.userId) || "",
+        gameName: "",
         placeId: 0,
         jobId: "",
         banned: true,
@@ -603,9 +780,79 @@ function normalizeHeartbeatPlayers(body) {
     };
 }
 
-function loginHtml(errorMessage = "") {
+function pruneJoinCommands() {
+    const now = Date.now();
+    for (const [userId, command] of joinCommands) {
+        if (!command || now >= command.expiresAtMs) {
+            joinCommands.delete(userId);
+        }
+    }
+}
+
+function queueJoinCommand(targetUserId, targetPresence) {
+    pruneJoinCommands();
+
+    const now = Date.now();
+    const command = {
+        id: String(nextJoinCommandId++),
+        targetUserId: targetPresence.userId,
+        targetUsername: targetPresence.username,
+        targetDisplayName: targetPresence.displayName,
+        gameName: targetPresence.gameName || `Place ${targetPresence.placeId || 0}`,
+        placeId: targetPresence.placeId,
+        jobId: targetPresence.jobId,
+        createdAt: new Date(now).toISOString(),
+        expiresAt: new Date(now + JOIN_COMMAND_TTL_MS).toISOString(),
+        createdAtMs: now,
+        expiresAtMs: now + JOIN_COMMAND_TTL_MS,
+    };
+
+    joinCommands.set(targetUserId, command);
+    return command;
+}
+
+function takeJoinCommand(userId, sessionId) {
+    pruneJoinCommands();
+
+    const activeSession = findLatestPresenceForUser(userId);
+    if (!activeSession) {
+        return { error: "Keine aktive Nexu-Sitzung gefunden" };
+    }
+
+    if (!sessionId || activeSession.sessionId !== sessionId) {
+        return { error: "Nexu-Sitzung stimmt nicht überein" };
+    }
+
+    const command = joinCommands.get(userId) || null;
+    if (command) {
+        joinCommands.delete(userId);
+    }
+
+    return { command };
+}
+
+function loginHtml(errorMessage = "", rememberedAccount = null) {
     const errorBlock = errorMessage
         ? `<div class="login-error" role="alert">${escapeHtml(errorMessage)}</div>`
+        : "";
+    const rememberedBlock = rememberedAccount
+        ? `<section class="remembered-account" aria-label="Gespeicherter Account">
+            <div class="remembered-heading">GESPEICHERTER ACCOUNT</div>
+            <form method="post" action="/quick-login">
+                <button class="account-card" type="submit">
+                    <span class="account-avatar">O</span>
+                    <span class="account-copy">
+                        <strong>${escapeHtml(rememberedAccount.username)}</strong>
+                        <small>Zum direkten Anmelden klicken</small>
+                    </span>
+                    <span class="account-arrow">›</span>
+                </button>
+            </form>
+            <form method="post" action="/forget-account">
+                <button class="forget-account" type="submit">Gespeicherten Account entfernen</button>
+            </form>
+        </section>
+        <div class="login-divider"><span>oder mit Passwort anmelden</span></div>`
         : "";
 
     return String.raw`<!doctype html>
@@ -730,6 +977,91 @@ button {
     cursor:pointer;
 }
 button:hover { border-color:var(--cyan); box-shadow:0 0 22px rgba(0,200,255,.12); }
+.remembered-account {
+    margin:0 0 18px;
+    padding:14px;
+    border:1px solid rgba(0,200,255,.26);
+    border-radius:16px;
+    background:rgba(3,10,18,.62);
+}
+.remembered-heading {
+    margin:0 0 9px;
+    color:#6f93aa;
+    font-size:9px;
+    font-weight:850;
+    letter-spacing:.15em;
+}
+.account-card {
+    height:auto;
+    min-height:64px;
+    margin:0;
+    display:grid;
+    grid-template-columns:42px minmax(0,1fr) 20px;
+    align-items:center;
+    gap:11px;
+    padding:10px 12px;
+    text-align:left;
+    text-transform:none;
+    letter-spacing:0;
+    background:linear-gradient(135deg,rgba(0,200,255,.13),rgba(111,70,255,.12));
+}
+.account-avatar {
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    color:white;
+    font-size:17px;
+    font-weight:950;
+    background:linear-gradient(145deg,var(--cyan),var(--violet));
+    box-shadow:0 0 18px rgba(0,200,255,.18);
+}
+.account-copy { min-width:0; }
+.account-copy strong {
+    display:block;
+    overflow:hidden;
+    color:#eefaff;
+    font-size:14px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.account-copy small {
+    display:block;
+    margin-top:4px;
+    color:#7894a8;
+    font-size:10px;
+}
+.account-arrow { color:var(--cyan); font-size:25px; line-height:1; text-align:right; }
+.forget-account {
+    height:auto;
+    margin:9px 0 0;
+    padding:4px 0 0;
+    border:0;
+    color:#70899b;
+    background:transparent;
+    box-shadow:none;
+    font-size:9px;
+    letter-spacing:.08em;
+}
+.forget-account:hover { color:#ff9fb4; border:0; box-shadow:none; }
+.login-divider {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:0 0 18px;
+    color:#526d80;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+.login-divider::before,.login-divider::after {
+    content:"";
+    flex:1;
+    height:1px;
+    background:rgba(74,178,230,.18);
+}
 .login-error {
     margin:0 0 16px;
     padding:11px 12px;
@@ -753,6 +1085,7 @@ button:hover { border-color:var(--cyan); box-shadow:0 0 22px rgba(0,200,255,.12)
     <h1>Anmelden</h1>
     <p>Melde dich an, um das Spieler-, Nachrichten- und Moderations-Dashboard zu öffnen.</p>
     ${errorBlock}
+    ${rememberedBlock}
     <form method="post" action="/login" autocomplete="on">
         <div class="field">
             <label for="username">Benutzername</label>
@@ -913,7 +1246,7 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .players { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
 .player {
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     gap:14px;
     min-width:0;
     padding:13px;
@@ -929,6 +1262,11 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .display-name { overflow:hidden; font-weight:760; text-overflow:ellipsis; white-space:nowrap; }
 .username { overflow:hidden; margin-top:3px; color:var(--muted); font-size:13px; text-overflow:ellipsis; white-space:nowrap; }
 .reason { margin-top:5px; color:#ff9bb1; font-size:11px; line-height:1.4; }
+.presence-details { margin-top:9px; display:grid; gap:4px; }
+.presence-line { display:grid; grid-template-columns:58px minmax(0,1fr); gap:7px; align-items:start; font-size:10px; line-height:1.35; }
+.presence-key { color:#5f7e95; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing:.06em; }
+.presence-value { min-width:0; color:#b8d0df; overflow-wrap:anywhere; word-break:break-word; }
+.presence-value.server-id { color:#78b8d8; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:9px; word-break:break-all; }
 .player-actions { flex:0 0 auto; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
 .player-state { color:var(--green); font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
 .player-state.banned { color:var(--red); }
@@ -953,6 +1291,8 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .action-button.unban:hover { border-color:var(--green); }
 .action-button.dm { border-color:rgba(0,200,255,.48); color:#8cecff; background:rgba(3,28,42,.78); }
 .action-button.dm:hover { border-color:var(--cyan); }
+.action-button.join { border-color:rgba(45,255,165,.44); color:#91ffd2; background:rgba(4,35,24,.76); }
+.action-button.join:hover { border-color:var(--green); }
 .button-row { display:flex; align-items:center; justify-content:flex-end; gap:7px; flex-wrap:wrap; }
 .empty { grid-column:1/-1; padding:40px 20px; border:1px dashed rgba(74,178,230,.22); border-radius:17px; color:var(--muted); text-align:center; }
 .footer-note { margin-top:14px; color:#557084; font-size:12px; text-align:right; }
@@ -1031,7 +1371,7 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 <section class="hero">
     <div class="eyebrow">NEXU // LIVE SYSTEM</div>
     <h1>Aktive Nutzer auf einen Blick.</h1>
-    <p>Das Dashboard zeigt Spieler, deren Nexu-Menü gerade aktiv ist. Spieler können direkt über ihre Karte gebannt oder entbannt werden.</p>
+    <p>Das Dashboard zeigt aktive Nexu-Spieler mit Spielname, Place-ID und exakter Server-ID. Über SERVER JOIN wird dein laufendes Nexu-Menü zum ausgewählten Server geschickt.</p>
     <div class="stats">
         <article class="stat"><div class="stat-label">Serverstatus</div><div id="serverStatus" class="stat-value">Prüfe …</div><div class="stat-note">Render-Web-Service</div></article>
         <article class="stat"><div class="stat-label">Aktive Spieler</div><div id="playerCount" class="stat-value">0</div><div class="stat-note">Heartbeat in den letzten 75 Sekunden</div></article>
@@ -1130,12 +1470,27 @@ function escapeHtml(value) {
 function renderPlayer(player,banned) {
     const name = player.displayName || player.username || player.userId;
     const username = player.username || ("User" + player.userId);
+    const gameName = player.gameName || (player.placeId ? ("Place " + player.placeId) : "Unbekannt");
+    const placeId = String(player.placeId || "-");
+    const jobId = String(player.jobId || "-");
+    const joinable = !banned && /^\d+$/.test(placeId) && placeId !== "0" && jobId !== "-" && !jobId.startsWith("LOCAL-");
     const reason = banned && player.reason
         ? '<div class="reason">Grund: ' + escapeHtml(player.reason) + '</div>'
+        : "";
+    const locationDetails = banned
+        ? ""
+        : '<div class="presence-details">' +
+            '<div class="presence-line"><span class="presence-key">SPIEL</span><span class="presence-value">' + escapeHtml(gameName) + '</span></div>' +
+            '<div class="presence-line"><span class="presence-key">PLACE</span><span class="presence-value">' + escapeHtml(placeId) + '</span></div>' +
+            '<div class="presence-line"><span class="presence-key">SERVER</span><span class="presence-value server-id" title="' + escapeHtml(jobId) + '">' + escapeHtml(jobId) + '</span></div>' +
+        '</div>';
+    const joinButton = joinable
+        ? '<button class="action-button join" data-action="join" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">SERVER JOIN</button>'
         : "";
     const actionButtons = banned
         ? '<button class="action-button unban" data-action="unban" data-user-id="' + escapeHtml(player.userId) + '">ENTBANNEN</button>'
         : '<div class="button-row">' +
+            joinButton +
             '<button class="action-button dm" data-action="dm" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">DM</button>' +
             '<button class="action-button ban" data-action="ban" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BANNEN</button>' +
         '</div>';
@@ -1145,6 +1500,7 @@ function renderPlayer(player,banned) {
         '<div class="identity">' +
             '<div class="display-name">' + escapeHtml(name) + '</div>' +
             '<div class="username">@' + escapeHtml(username) + ' · ' + escapeHtml(player.userId) + '</div>' +
+            locationDetails +
             reason +
         '</div>' +
         '<div class="player-actions">' +
@@ -1289,6 +1645,25 @@ async function sendDirectMessage(target,message) {
     return data;
 }
 
+async function queueServerJoin(targetUserId) {
+    const response = await fetch("/api/join/send", {
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+        },
+        body:JSON.stringify({
+            userId:String(targetUserId || "").trim(),
+        }),
+    });
+
+    const data = await response.json().catch(function () { return {}; });
+    if (!response.ok || data.success !== true) {
+        throw new Error(data.error || ("HTTP " + response.status));
+    }
+    return data;
+}
+
 async function moderate(action,userId,reason,identity) {
     const normalizedUserId = String(userId || "").trim();
 
@@ -1328,6 +1703,26 @@ elements.search.addEventListener("input",function (event) {
 document.addEventListener("click",async function (event) {
     const button = event.target.closest("[data-action][data-user-id]");
     if (!button) {
+        return;
+    }
+
+    if (button.dataset.action === "join") {
+        const originalText = button.textContent;
+        button.disabled = true;
+        button.textContent = "SENDE …";
+        try {
+            const result = await queueServerJoin(button.dataset.userId);
+            button.textContent = result.ownerOnline ? "JOIN GESENDET" : "WARTET AUF SPIEL";
+        } catch (error) {
+            alert(error.message || "Server-Join konnte nicht gesendet werden.");
+            button.textContent = "JOIN FEHLER";
+        }
+        setTimeout(function () {
+            if (button.isConnected) {
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        },2200);
         return;
     }
 
@@ -1461,6 +1856,7 @@ setInterval(refresh,5000);
 }
 
 loadBans();
+loadRememberedDashboardDevices();
 
 const server = http.createServer(async (req, res) => {
     const requestUrl = new URL(req.url, "http://localhost");
@@ -1474,7 +1870,7 @@ const server = http.createServer(async (req, res) => {
             console.log("[NEXU] Dashboard aufgerufen");
             sendHtml(res, 200, dashboardHtml());
         } else {
-            sendHtml(res, 200, loginHtml());
+            sendHtml(res, 200, loginHtml("", getRememberedDashboardAccount(req)));
         }
         return;
     }
@@ -1485,7 +1881,7 @@ const server = http.createServer(async (req, res) => {
                 sendHtml(
                     res,
                     429,
-                    loginHtml("Zu viele Anmeldeversuche. Bitte später erneut versuchen.")
+                    loginHtml("Zu viele Anmeldeversuche. Bitte später erneut versuchen.", getRememberedDashboardAccount(req))
                 );
                 return;
             }
@@ -1501,20 +1897,28 @@ const server = http.createServer(async (req, res) => {
                 sendHtml(
                     res,
                     401,
-                    loginHtml("Benutzername oder Passwort ist falsch.")
+                    loginHtml("Benutzername oder Passwort ist falsch.", getRememberedDashboardAccount(req))
                 );
                 return;
             }
 
             clearLoginAttempts(req);
             const token = createDashboardSession();
+            const rememberToken = createRememberedDashboardDevice();
             console.log("[NEXU] Owner-Dashboard erfolgreich angemeldet");
             redirect(res, "/", {
-                "Set-Cookie": dashboardCookie(
-                    req,
-                    token,
-                    DASHBOARD_SESSION_TTL_MS / 1000
-                ),
+                "Set-Cookie": [
+                    dashboardCookie(
+                        req,
+                        token,
+                        DASHBOARD_SESSION_TTL_MS / 1000
+                    ),
+                    dashboardRememberCookie(
+                        req,
+                        rememberToken,
+                        DASHBOARD_REMEMBER_TTL_MS / 1000
+                    ),
+                ],
             });
         } catch (error) {
             sendHtml(
@@ -1523,16 +1927,66 @@ const server = http.createServer(async (req, res) => {
                 loginHtml(
                     error.message === "BODY_TOO_LARGE"
                         ? "Anmeldedaten sind zu groß."
-                        : "Anmeldung konnte nicht verarbeitet werden."
+                        : "Anmeldung konnte nicht verarbeitet werden.",
+                    getRememberedDashboardAccount(req)
                 )
             );
         }
         return;
     }
 
+    if (req.method === "POST" && pathname === "/quick-login") {
+        if (!allowLoginAttempt(req)) {
+            sendHtml(
+                res,
+                429,
+                loginHtml(
+                    "Zu viele Schnell-Anmeldungen. Bitte später erneut versuchen.",
+                    getRememberedDashboardAccount(req)
+                )
+            );
+            return;
+        }
+
+        const rememberedAccount = getRememberedDashboardAccount(req);
+        if (!rememberedAccount || rememberedAccount.username !== DASHBOARD_USERNAME) {
+            removeRememberedDashboardDevice(req);
+            redirect(res, "/login", {
+                "Set-Cookie": dashboardRememberCookie(req, "", 0),
+            });
+            return;
+        }
+
+        clearLoginAttempts(req);
+        const token = createDashboardSession();
+        console.log("[NEXU] Owner-Dashboard per gespeichertem Account angemeldet");
+        redirect(res, "/", {
+            "Set-Cookie": dashboardCookie(
+                req,
+                token,
+                DASHBOARD_SESSION_TTL_MS / 1000
+            ),
+        });
+        return;
+    }
+
+    if (req.method === "POST" && pathname === "/forget-account") {
+        removeDashboardSession(req);
+        removeRememberedDashboardDevice(req);
+        redirect(res, "/login", {
+            "Set-Cookie": [
+                dashboardCookie(req, "", 0),
+                dashboardRememberCookie(req, "", 0),
+            ],
+        });
+        return;
+    }
+
     if (req.method === "POST" && pathname === "/logout") {
         removeDashboardSession(req);
         redirect(res, "/", {
+            // Der Remember-Cookie bleibt absichtlich bestehen, damit der Account
+            // nach dem Abmelden als Schnell-Login-Karte angezeigt wird.
             "Set-Cookie": dashboardCookie(req, "", 0),
         });
         return;
@@ -1578,6 +2032,142 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
+    if (req.method === "POST" && pathname === "/api/join/send") {
+        if (!isDashboardAuthenticated(req)) {
+            sendJson(res, 401, {
+                success: false,
+                error: "Dashboard-Anmeldung erforderlich",
+            });
+            return;
+        }
+
+        try {
+            const body = await readJsonBody(req);
+            const targetPlayerId = cleanNumericId(body.userId);
+            if (!targetPlayerId) {
+                sendJson(res, 400, {
+                    success: false,
+                    error: "Ungültige Spieler-ID",
+                });
+                return;
+            }
+
+            prunePresence();
+            const targetPresence = findLatestPresenceForUser(targetPlayerId);
+            if (!targetPresence) {
+                sendJson(res, 404, {
+                    success: false,
+                    error: "Spieler ist nicht mehr online",
+                });
+                return;
+            }
+
+            if (
+                !targetPresence.placeId ||
+                !targetPresence.jobId ||
+                String(targetPresence.jobId).startsWith("LOCAL-")
+            ) {
+                sendJson(res, 409, {
+                    success: false,
+                    error: "Dieser Server kann nicht betreten werden",
+                });
+                return;
+            }
+
+            const command = queueJoinCommand(
+                MENU_CREATOR_USER_ID,
+                targetPresence
+            );
+            const ownerOnline = Boolean(
+                findLatestPresenceForUser(MENU_CREATOR_USER_ID)
+            );
+
+            console.log(
+                `[NEXU] Website-Join: ${MENU_CREATOR_USER_ID} -> ` +
+                    `${targetPresence.displayName} // ${targetPresence.placeId} // ${targetPresence.jobId}`
+            );
+
+            sendJson(res, 200, {
+                success: true,
+                queued: true,
+                ownerOnline,
+                commandId: command.id,
+                target: {
+                    userId: targetPresence.userId,
+                    username: targetPresence.username,
+                    displayName: targetPresence.displayName,
+                    gameName: targetPresence.gameName,
+                    placeId: targetPresence.placeId,
+                    jobId: targetPresence.jobId,
+                },
+                expiresAt: command.expiresAt,
+            });
+        } catch (error) {
+            sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+                success: false,
+                error: error.message === "INVALID_JSON"
+                    ? "Ungültige JSON-Daten"
+                    : "Join-Auftrag konnte nicht erstellt werden",
+            });
+        }
+        return;
+    }
+
+    if (req.method === "POST" && pathname === "/api/join/poll") {
+        if (!isHeartbeatAuthorized(req)) {
+            sendJson(res, 401, {
+                success: false,
+                error: "Ungültiger Heartbeat-Token",
+            });
+            return;
+        }
+
+        try {
+            const body = await readJsonBody(req);
+            const userId = cleanNumericId(body.userId);
+            const sessionId = cleanText(body.sessionId, 100);
+
+            if (!userId || userId !== MENU_CREATOR_USER_ID) {
+                sendJson(res, 200, {
+                    success: true,
+                    command: null,
+                });
+                return;
+            }
+
+            const result = takeJoinCommand(userId, sessionId);
+            if (result.error) {
+                sendJson(res, 403, {
+                    success: false,
+                    error: result.error,
+                });
+                return;
+            }
+
+            const command = result.command;
+            sendJson(res, 200, {
+                success: true,
+                command: command ? {
+                    id: command.id,
+                    targetUserId: command.targetUserId,
+                    targetUsername: command.targetUsername,
+                    targetDisplayName: command.targetDisplayName,
+                    gameName: command.gameName,
+                    placeId: command.placeId,
+                    jobId: command.jobId,
+                    createdAt: command.createdAt,
+                    expiresAt: command.expiresAt,
+                } : null,
+            });
+        } catch (error) {
+            sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+                success: false,
+                error: "Join-Poll konnte nicht verarbeitet werden",
+            });
+        }
+        return;
+    }
+
     if (req.method === "GET" && pathname === "/api/presence") {
         const data = await getPublicPresence();
         sendJson(res, 200, {
@@ -1607,6 +2197,7 @@ const server = http.createServer(async (req, res) => {
             const body = await readJsonBody(req);
             const jobId = cleanText(body.jobId, 100);
             const placeId = cleanInteger(body.placeId);
+            const gameName = cleanText(body.gameName, 120) || `Place ${placeId || 0}`;
             const sessionId = cleanText(body.sessionId, 100);
             const normalized = normalizeHeartbeatPlayers(body);
 
@@ -1649,6 +2240,7 @@ const server = http.createServer(async (req, res) => {
                     userId,
                     username,
                     displayName,
+                    gameName: cleanText(rawPlayer.gameName, 120) || gameName || (existing && existing.gameName) || `Place ${placeId || 0}`,
                     placeId,
                     jobId,
                     sessionId: cleanText(rawPlayer.sessionId, 100) || sessionId,
@@ -2003,6 +2595,7 @@ server.listen(PORT, "0.0.0.0", () => {
     console.log("Dashboard-Benutzer:", DASHBOARD_USERNAME);
     console.log("Presence: /api/presence");
     console.log("Direct Messages: /api/dm/send + /api/dm/poll");
+    console.log("Website Join: /api/join/send + /api/join/poll");
     console.log("Access: /api/menu/access?userId=...");
     console.log("========================================");
 });
