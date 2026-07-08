@@ -1,39 +1,32 @@
 const http = require("node:http");
+const fs = require("node:fs");
+const path = require("node:path");
 
 const PORT = Number(process.env.PORT || 3000);
-const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");
+const HEARTBEAT_TOKEN = String(
+    process.env.HEARTBEAT_TOKEN ||
+    process.env.API_KEY ||
+    ""
+);
+const ADMIN_KEY = String(process.env.ADMIN_KEY || "");
+
+const MENU_CREATOR_USER_ID = "10199760908";
 const ONLINE_TIMEOUT_MS = 75_000;
-const MAX_BODY_BYTES = 20_000;
-const AVATAR_CACHE_MS = 10 * 60_000;
+const MAX_BODY_BYTES = 100_000;
+
+const BAN_FILE_PATH = String(
+    process.env.BAN_FILE_PATH ||
+    path.join(process.cwd(), "data", "nexu-bans.json")
+);
 
 const presence = new Map();
-const avatarCache = new Map();
+const bans = new Map();
 
-function cleanText(value, maxLength = 100) {
-    return typeof value === "string"
-        ? value.trim().slice(0, maxLength)
-        : "";
-}
-
-function cleanUserId(value) {
-    const text = String(value ?? "").trim();
-    return /^\d{1,30}$/.test(text) ? text : "";
-}
-
-function cleanInteger(value) {
-    const number = Number(value);
-    return Number.isSafeInteger(number) && number >= 0 ? number : 0;
-}
-
-function sendJson(res, statusCode, data) {
-    res.writeHead(statusCode, {
+function sendJson(res, status, data) {
+    res.writeHead(status, {
         "Content-Type": "application/json; charset=utf-8",
         "Cache-Control": "no-store",
         "X-Content-Type-Options": "nosniff",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers":
-            "Content-Type, Accept, X-Nexu-Heartbeat-Token",
     });
 
     res.end(JSON.stringify(data));
@@ -44,17 +37,42 @@ function sendHtml(res, html) {
         "Content-Type": "text/html; charset=utf-8",
         "Cache-Control": "no-store",
         "X-Content-Type-Options": "nosniff",
-        "Referrer-Policy": "no-referrer",
         "Content-Security-Policy":
             "default-src 'self'; " +
             "img-src https: data:; " +
             "style-src 'unsafe-inline'; " +
             "script-src 'unsafe-inline'; " +
-            "connect-src 'self'; " +
-            "frame-ancestors 'none'",
+            "connect-src 'self'",
     });
 
     res.end(html);
+}
+
+function cleanText(value, maxLength) {
+    return typeof value === "string"
+        ? value.trim().slice(0, maxLength)
+        : "";
+}
+
+function cleanNumericId(value) {
+    const text = String(value ?? "").trim();
+    return /^\d{1,30}$/.test(text) ? text : "";
+}
+
+function cleanInteger(value) {
+    const number = Number(value);
+
+    return Number.isSafeInteger(number) && number >= 0
+        ? number
+        : 0;
+}
+
+function avatarUrl(userId) {
+    return (
+        "https://www.roblox.com/headshot-thumbnail/image" +
+        `?userId=${encodeURIComponent(userId)}` +
+        "&width=150&height=150&format=png"
+    );
 }
 
 function readJsonBody(req) {
@@ -65,7 +83,10 @@ function readJsonBody(req) {
         req.on("data", (chunk) => {
             raw += chunk.toString("utf8");
 
-            if (Buffer.byteLength(raw, "utf8") > MAX_BODY_BYTES) {
+            if (
+                Buffer.byteLength(raw, "utf8") >
+                MAX_BODY_BYTES
+            ) {
                 tooLarge = true;
             }
         });
@@ -87,146 +108,292 @@ function readJsonBody(req) {
     });
 }
 
-function isAuthorized(req) {
-    /*
-        Falls bei Render keine Umgebungsvariable namens
-        HEARTBEAT_TOKEN eingetragen ist, wird kein Token verlangt.
+function heartbeatAuthorized(req) {
+    const supplied = String(
+        req.headers["x-nexu-heartbeat-token"] ||
+        req.headers["x-api-key"] ||
+        ""
+    );
 
-        Falls du dort ein Token einträgst, muss im Lua-Script bei
-        NEXU_PRESENCE_HEARTBEAT_TOKEN genau dasselbe Token stehen.
-    */
+    return (
+        HEARTBEAT_TOKEN.length >= 16 &&
+        supplied === HEARTBEAT_TOKEN
+    );
+}
 
-    if (!HEARTBEAT_TOKEN) {
-        return true;
-    }
-
-    return req.headers["x-nexu-heartbeat-token"] === HEARTBEAT_TOKEN;
+function adminAuthorized(req) {
+    return (
+        ADMIN_KEY.length >= 20 &&
+        String(req.headers["x-admin-key"] || "") ===
+            ADMIN_KEY
+    );
 }
 
 function prunePresence() {
     const now = Date.now();
 
-    for (const [userId, entry] of presence) {
-        if (now - entry.lastSeenMs > ONLINE_TIMEOUT_MS) {
-            presence.delete(userId);
-
-            console.log(
-                `[NEXU] TIMEOUT/OFFLINE: ${entry.displayName} ` +
-                `(@${entry.username}) [${entry.userId}]`
-            );
+    for (const [key, entry] of presence) {
+        if (
+            now - entry.lastSeenMs >
+                ONLINE_TIMEOUT_MS ||
+            bans.has(entry.userId)
+        ) {
+            presence.delete(key);
         }
     }
 }
 
-async function getAvatarUrls(userIds) {
-    const now = Date.now();
-    const result = new Map();
-    const missing = [];
+function removePresenceForUser(userId) {
+    let removed = 0;
 
-    for (const userId of userIds) {
-        const cached = avatarCache.get(userId);
-
-        if (cached && now - cached.savedAt < AVATAR_CACHE_MS) {
-            result.set(userId, cached.url);
-        } else {
-            missing.push(userId);
+    for (const [key, entry] of presence) {
+        if (entry.userId === userId) {
+            presence.delete(key);
+            removed += 1;
         }
     }
 
-    for (let index = 0; index < missing.length; index += 100) {
-        const batch = missing.slice(index, index + 100);
+    return removed;
+}
 
-        try {
-            const url =
-                "https://thumbnails.roblox.com/v1/users/avatar-headshot" +
-                "?userIds=" + encodeURIComponent(batch.join(",")) +
-                "&size=150x150&format=Png&isCircular=false";
+function latestPresence(userId) {
+    let latest = null;
 
-            const response = await fetch(url, {
-                headers: {
-                    Accept: "application/json",
-                    "User-Agent": "Nexu-Presence/1.0",
-                },
-            });
+    for (const entry of presence.values()) {
+        if (
+            entry.userId === userId &&
+            (
+                !latest ||
+                entry.lastSeenMs > latest.lastSeenMs
+            )
+        ) {
+            latest = entry;
+        }
+    }
 
-            if (!response.ok) {
-                throw new Error("HTTP " + response.status);
-            }
+    return latest;
+}
 
-            const json = await response.json();
-            const rows = Array.isArray(json.data) ? json.data : [];
+function loadBans() {
+    try {
+        if (!fs.existsSync(BAN_FILE_PATH)) {
+            return;
+        }
 
-            for (const row of rows) {
-                const userId = cleanUserId(row.targetId);
-                const imageUrl = cleanText(row.imageUrl, 600);
+        const parsed = JSON.parse(
+            fs.readFileSync(BAN_FILE_PATH, "utf8")
+        );
 
-                if (userId && imageUrl.startsWith("https://")) {
-                    result.set(userId, imageUrl);
+        const rows = Array.isArray(parsed)
+            ? parsed
+            : parsed.bans;
 
-                    avatarCache.set(userId, {
-                        url: imageUrl,
-                        savedAt: now,
-                    });
-                }
-            }
-        } catch (error) {
-            console.warn(
-                "[NEXU] Avatar-Abfrage fehlgeschlagen:",
-                error.message
+        if (!Array.isArray(rows)) {
+            return;
+        }
+
+        for (const row of rows) {
+            const userId = cleanNumericId(
+                row?.userId
             );
-        }
-    }
 
-    /*
-        Ersatzbild-URL, falls die Roblox Thumbnail-API vorübergehend
-        nicht antwortet.
-    */
+            if (!userId) {
+                continue;
+            }
 
-    for (const userId of userIds) {
-        if (!result.has(userId)) {
-            result.set(
+            bans.set(userId, {
                 userId,
-                "https://www.roblox.com/headshot-thumbnail/image" +
-                    "?userId=" + encodeURIComponent(userId) +
-                    "&width=150&height=150&format=png"
-            );
-        }
-    }
 
-    return result;
+                username: cleanText(
+                    row.username,
+                    40
+                ),
+
+                displayName: cleanText(
+                    row.displayName,
+                    80
+                ),
+
+                reason:
+                    cleanText(
+                        row.reason,
+                        240
+                    ) ||
+                    "Vom Nexu-Menü ausgeschlossen",
+
+                bannedAt:
+                    cleanText(
+                        row.bannedAt,
+                        64
+                    ) ||
+                    new Date().toISOString(),
+
+                bannedBy:
+                    cleanText(
+                        row.bannedBy,
+                        80
+                    ) ||
+                    "server",
+            });
+        }
+
+        console.log(
+            `[NEXU] ${bans.size} Bans geladen`
+        );
+    } catch (error) {
+        console.warn(
+            "[NEXU] Ban-Datei konnte nicht geladen werden:",
+            error.message
+        );
+    }
 }
 
-async function getPublicPlayers(jobId = "") {
+function saveBans() {
+    try {
+        fs.mkdirSync(
+            path.dirname(BAN_FILE_PATH),
+            {
+                recursive: true,
+            }
+        );
+
+        const temporary =
+            `${BAN_FILE_PATH}.tmp`;
+
+        fs.writeFileSync(
+            temporary,
+            JSON.stringify(
+                {
+                    bans: [...bans.values()],
+                },
+                null,
+                2
+            ),
+            "utf8"
+        );
+
+        fs.renameSync(
+            temporary,
+            BAN_FILE_PATH
+        );
+
+        return true;
+    } catch (error) {
+        console.warn(
+            "[NEXU] Ban-Datei konnte nicht gespeichert werden:",
+            error.message
+        );
+
+        return false;
+    }
+}
+
+function publicPresence() {
     prunePresence();
 
-    const rows = [...presence.values()]
-        .filter((entry) => {
-            return !jobId || entry.jobId === jobId;
-        })
-        .sort((a, b) => {
-            return a.displayName.localeCompare(
+    const players = [
+        ...presence.values(),
+    ]
+        .sort((a, b) =>
+            a.displayName.localeCompare(
                 b.displayName,
-                "de",
-                {
-                    sensitivity: "base",
-                }
-            );
-        });
+                "de"
+            )
+        )
+        .map((entry) => ({
+            userId: entry.userId,
+            username: entry.username,
+            displayName: entry.displayName,
 
-    const avatarUrls = await getAvatarUrls(
-        [...new Set(rows.map((entry) => entry.userId))]
-    );
+            avatarUrl: avatarUrl(
+                entry.userId
+            ),
 
-    return rows.map((entry) => ({
-        userId: entry.userId,
-        username: entry.username,
-        displayName: entry.displayName,
-        avatarUrl: avatarUrls.get(entry.userId) || "",
-        placeId: entry.placeId,
-        jobId: entry.jobId,
-        joinedAt: new Date(entry.joinedAtMs).toISOString(),
-        lastSeen: new Date(entry.lastSeenMs).toISOString(),
-    }));
+            placeId: entry.placeId,
+            jobId: entry.jobId,
+
+            joinedAt: new Date(
+                entry.joinedAtMs
+            ).toISOString(),
+
+            lastSeen: new Date(
+                entry.lastSeenMs
+            ).toISOString(),
+
+            banned: false,
+        }));
+
+    const bannedPlayers = [
+        ...bans.values(),
+    ]
+        .sort((a, b) =>
+            (
+                a.displayName ||
+                a.username ||
+                a.userId
+            ).localeCompare(
+                b.displayName ||
+                b.username ||
+                b.userId,
+                "de"
+            )
+        )
+        .map((entry) => ({
+            userId: entry.userId,
+
+            username:
+                entry.username ||
+                `User${entry.userId}`,
+
+            displayName:
+                entry.displayName ||
+                entry.username ||
+                `User ${entry.userId}`,
+
+            avatarUrl: avatarUrl(
+                entry.userId
+            ),
+
+            placeId: 0,
+            jobId: "",
+
+            banned: true,
+            reason: entry.reason,
+            bannedAt: entry.bannedAt,
+        }));
+
+    return {
+        players,
+        bannedPlayers,
+    };
+}
+
+function heartbeatRows(body) {
+    if (Array.isArray(body.players)) {
+        return {
+            batch: true,
+
+            rows: body.players.slice(
+                0,
+                200
+            ),
+        };
+    }
+
+    return {
+        batch: false,
+
+        rows: [
+            {
+                userId: body.userId,
+                username: body.username,
+                displayName:
+                    body.displayName,
+                sessionId:
+                    body.sessionId,
+            },
+        ],
+    };
 }
 
 function dashboardHtml() {
@@ -234,212 +401,102 @@ function dashboardHtml() {
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Nexu Presence</title>
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+>
+<title>Nexu</title>
 
 <style>
-:root {
-    color-scheme: dark;
-    --bg: #03070e;
-    --panel: #08111e;
-    --text: #e1f4ff;
-    --muted: #7895aa;
-    --cyan: #00c8ff;
-    --green: #2dffa5;
-    --red: #ff4d78;
-    --border: rgba(0, 200, 255, .25);
-}
-
-* {
-    box-sizing: border-box;
-}
-
 body {
     margin: 0;
-    min-height: 100vh;
-    color: var(--text);
+    background: #03070e;
+    color: #dceef8;
     font-family: Arial, sans-serif;
-    background:
-        radial-gradient(
-            circle at 20% 0,
-            rgba(0, 200, 255, .15),
-            transparent 35rem
-        ),
-        radial-gradient(
-            circle at 90% 20%,
-            rgba(111, 70, 255, .14),
-            transparent 32rem
-        ),
-        var(--bg);
 }
 
 main {
-    width: min(1050px, calc(100% - 28px));
+    width: min(950px, calc(100% - 28px));
     margin: auto;
-    padding: 28px 0 50px;
+    padding: 28px 0;
 }
 
-header,
-.panel {
-    border: 1px solid var(--border);
-    background: rgba(8, 17, 30, .9);
-    box-shadow: 0 24px 70px rgba(0, 0, 0, .35);
-}
-
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+.box {
+    background: #081321;
+    border: 1px solid #00c8ff42;
+    border-radius: 20px;
     padding: 20px;
-    border-radius: 22px;
+    margin-bottom: 15px;
 }
 
-h1 {
-    margin: 0;
-    font-size: clamp(26px, 5vw, 44px);
-}
-
-.subtitle {
-    margin-top: 7px;
-    color: var(--muted);
-}
-
-.status {
+.stats {
     display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 10px 14px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    color: var(--muted);
-}
-
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    color: var(--red);
-    background: var(--red);
-    box-shadow: 0 0 14px currentColor;
-}
-
-.dot.online {
-    color: var(--green);
-    background: var(--green);
-}
-
-.panel {
-    margin-top: 20px;
-    padding: 22px;
-    border-radius: 22px;
-}
-
-.panel-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    margin-bottom: 18px;
-}
-
-.count {
-    color: var(--cyan);
-    font-weight: 700;
-}
-
-input {
-    width: min(360px, 100%);
-    height: 42px;
-    padding: 0 13px;
-    color: var(--text);
-    background: #050c16;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    outline: none;
-}
-
-.players {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    flex: 1;
+    min-width: 170px;
+    background: #0c1a2b;
+    border-radius: 13px;
+    padding: 15px;
+}
+
+.muted {
+    color: #7894a8;
+    font-size: 12px;
+}
+
+.value {
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: 7px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns:
+        repeat(2, 1fr);
+    gap: 9px;
 }
 
 .player {
     display: flex;
     align-items: center;
-    gap: 13px;
-    min-width: 0;
-    padding: 13px;
-    border: 1px solid rgba(0, 200, 255, .16);
-    border-radius: 16px;
-    background: #0b1728;
+    gap: 11px;
+    background: #0c1a2b;
+    border-radius: 13px;
+    padding: 10px;
 }
 
-.avatar {
-    width: 58px;
-    height: 58px;
-    flex: 0 0 58px;
-    object-fit: cover;
-    border-radius: 14px;
-    border: 1px solid var(--border);
+.player img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
 }
 
-.identity {
-    min-width: 0;
+.grow {
     flex: 1;
 }
 
-.display-name,
-.username {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.display-name {
-    font-weight: 700;
-}
-
-.username {
-    margin-top: 4px;
-    color: var(--muted);
+.user {
+    color: #7894a8;
     font-size: 13px;
+    margin-top: 3px;
 }
 
 .online {
-    color: var(--green);
-    font-size: 12px;
+    color: #2dffa5;
 }
 
-.empty {
-    grid-column: 1 / -1;
-    padding: 36px 15px;
-    color: var(--muted);
-    text-align: center;
-    border: 1px dashed var(--border);
-    border-radius: 16px;
+.ban {
+    color: #ff5269;
 }
 
-footer {
-    margin-top: 14px;
-    color: var(--muted);
-    font-size: 12px;
-}
-
-@media (max-width: 700px) {
-    header,
-    .panel-head {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .players {
+@media (max-width: 650px) {
+    .grid {
         grid-template-columns: 1fr;
-    }
-
-    input {
-        width: 100%;
     }
 }
 </style>
@@ -447,116 +504,111 @@ footer {
 
 <body>
 <main>
-    <header>
-        <div>
-            <h1>Nexu Presence</h1>
 
-            <div class="subtitle">
-                Aktuell verbundene Nutzer des Nexu-Menüs
-            </div>
+<div class="box">
+    <h1>
+        NEXU Presence & Moderation
+    </h1>
+
+    <div id="status">
+        Verbinde …
+    </div>
+</div>
+
+<div class="box stats">
+    <div class="stat">
+        <div class="muted">
+            SERVER
         </div>
 
-        <div class="status">
-            <span id="dot" class="dot"></span>
-            <span id="serverStatus">Prüfe Server …</span>
+        <div
+            id="server"
+            class="value"
+        >
+            …
         </div>
-    </header>
+    </div>
 
-    <section class="panel">
-        <div class="panel-head">
-            <div>
-                <span id="count" class="count">0</span>
-                aktive Spieler
-            </div>
-
-            <input
-                id="search"
-                type="search"
-                placeholder="Spieler suchen …"
-            >
+    <div class="stat">
+        <div class="muted">
+            AKTIV
         </div>
 
-        <div id="players" class="players"></div>
+        <div
+            id="active"
+            class="value"
+        >
+            0
+        </div>
+    </div>
 
-        <footer id="updated">
-            Noch nicht aktualisiert
-        </footer>
-    </section>
-</main>
+    <div class="stat">
+        <div class="muted">
+            GEBANNT
+        </div>
+
+        <div
+            id="banned"
+            class="value"
+        >
+            0
+        </div>
+    </div>
+</div>
+
+<div class="box">
+    <h2>Aktive Nutzer</h2>
+    <div
+        id="players"
+        class="grid"
+    ></div>
+</div>
+
+<div class="box">
+    <h2>Gebannte Nutzer</h2>
+    <div
+        id="bans"
+        class="grid"
+    ></div>
+</div>
 
 <script>
-const dot = document.getElementById("dot");
-const serverStatus = document.getElementById("serverStatus");
-const count = document.getElementById("count");
-const search = document.getElementById("search");
-const playersContainer = document.getElementById("players");
-const updated = document.getElementById("updated");
-
-let players = [];
-
-function escapeHtml(value) {
-    return String(value)
+const esc = (value) =>
+    String(value ?? "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
+        .replaceAll('"', "&quot;");
 
-function render() {
-    const query = search.value.trim().toLowerCase();
+const card = (player, banned) =>
+    '<div class="player">' +
+        '<img src="' +
+            esc(player.avatarUrl) +
+        '">' +
 
-    const filtered = players.filter((player) => {
-        return (
-            !query ||
-            String(player.displayName)
-                .toLowerCase()
-                .includes(query) ||
-            String(player.username)
-                .toLowerCase()
-                .includes(query)
-        );
-    });
+        '<div class="grow">' +
+            '<b>' +
+                esc(player.displayName) +
+            '</b>' +
 
-    count.textContent = String(players.length);
+            '<div class="user">' +
+                '@' +
+                esc(player.username) +
+                ' · ' +
+                esc(player.userId) +
+            '</div>' +
+        '</div>' +
 
-    if (filtered.length === 0) {
-        playersContainer.innerHTML =
-            '<div class="empty">' +
+        '<span class="' +
+            (banned ? "ban" : "online") +
+        '">' +
             (
-                players.length === 0
-                    ? "Zurzeit ist kein Nexu-Nutzer online."
-                    : "Kein Spieler passt zur Suche."
+                banned
+                    ? "GEBANNT"
+                    : "ONLINE"
             ) +
-            "</div>";
-
-        return;
-    }
-
-    playersContainer.innerHTML = filtered
-        .map((player) => {
-            return (
-                '<article class="player">' +
-                    '<img class="avatar" src="' +
-                        escapeHtml(player.avatarUrl) +
-                        '" alt="">' +
-
-                    '<div class="identity">' +
-                        '<div class="display-name">' +
-                            escapeHtml(player.displayName) +
-                        "</div>" +
-
-                        '<div class="username">@' +
-                            escapeHtml(player.username) +
-                        "</div>" +
-                    "</div>" +
-
-                    '<div class="online">ONLINE</div>' +
-                "</article>"
-            );
-        })
-        .join("");
-}
+        '</span>' +
+    '</div>';
 
 async function refresh() {
     try {
@@ -568,373 +620,746 @@ async function refresh() {
         );
 
         if (!response.ok) {
-            throw new Error("HTTP " + response.status);
+            throw new Error(
+                "HTTP " + response.status
+            );
         }
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
-        players = Array.isArray(data.players)
-            ? data.players
-            : [];
+        status.textContent =
+            "Server online";
 
-        dot.className = "dot online";
-        serverStatus.textContent = "Server online";
+        server.textContent =
+            "ONLINE";
 
-        updated.textContent =
-            "Letzte Aktualisierung: " +
-            new Date().toLocaleTimeString("de-DE");
-    } catch (error) {
-        players = [];
+        server.style.color =
+            "#2dffa5";
 
-        dot.className = "dot";
-        serverStatus.textContent =
+        active.textContent =
+            data.players.length;
+
+        banned.textContent =
+            data.bannedPlayers.length;
+
+        players.innerHTML =
+            data.players.length
+                ? data.players
+                    .map((player) =>
+                        card(
+                            player,
+                            false
+                        )
+                    )
+                    .join("")
+                : "Keine aktiven Nutzer";
+
+        bans.innerHTML =
+            data.bannedPlayers.length
+                ? data.bannedPlayers
+                    .map((player) =>
+                        card(
+                            player,
+                            true
+                        )
+                    )
+                    .join("")
+                : "Keine gebannten Nutzer";
+    } catch {
+        status.textContent =
             "Server nicht erreichbar";
 
-        updated.textContent =
-            "Fehler: " + error.message;
-    }
+        server.textContent =
+            "OFFLINE";
 
-    render();
+        server.style.color =
+            "#ff5269";
+    }
 }
 
-search.addEventListener("input", render);
-
 refresh();
-
-setInterval(refresh, 10_000);
+setInterval(refresh, 5000);
 </script>
+
+</main>
 </body>
 </html>`;
 }
 
-const server = http.createServer(async (req, res) => {
-    const requestUrl = new URL(
-        req.url,
-        "http://localhost"
-    );
+loadBans();
 
-    const pathname = requestUrl.pathname;
-
-    /*
-        CORS-Voranfrage
-    */
-
-    if (req.method === "OPTIONS") {
-        res.writeHead(204, {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods":
-                "GET, POST, OPTIONS",
-            "Access-Control-Allow-Headers":
-                "Content-Type, Accept, X-Nexu-Heartbeat-Token",
-        });
-
-        res.end();
-        return;
-    }
-
-    /*
-        Dashboard
-    */
-
-    if (
-        req.method === "GET" &&
-        pathname === "/"
-    ) {
-        console.log("[NEXU] Dashboard aufgerufen");
-
-        sendHtml(
-            res,
-            dashboardHtml()
+const server = http.createServer(
+    async (req, res) => {
+        const url = new URL(
+            req.url,
+            "http://localhost"
         );
 
-        return;
-    }
+        const pathname =
+            url.pathname;
 
-    /*
-        Serverstatus
-    */
-
-    if (
-        req.method === "GET" &&
-        (
-            pathname === "/status" ||
-            pathname === "/api/status"
-        )
-    ) {
-        prunePresence();
-
-        sendJson(res, 200, {
-            success: true,
-            online: true,
-            service: "Nexu Presence",
-            activePlayers: presence.size,
-            timeoutSeconds:
-                ONLINE_TIMEOUT_MS / 1000,
-            timestamp:
-                new Date().toISOString(),
-        });
-
-        return;
-    }
-
-    /*
-        Aktive Spieler abrufen.
-
-        Ohne jobId:
-        /api/presence
-
-        Nur Spieler aus derselben Roblox-Serverinstanz:
-        /api/presence?jobId=DEINE_JOB_ID
-    */
-
-    if (
-        req.method === "GET" &&
-        pathname === "/api/presence"
-    ) {
-        const jobId = cleanText(
-            requestUrl.searchParams.get("jobId"),
-            100
-        );
-
-        const players =
-            await getPublicPlayers(jobId);
-
-        sendJson(res, 200, {
-            success: true,
-            online: true,
-            activePlayers: players.length,
-            filteredJobId: jobId || null,
-            timeoutSeconds:
-                ONLINE_TIMEOUT_MS / 1000,
-            players,
-            timestamp:
-                new Date().toISOString(),
-        });
-
-        return;
-    }
-
-    /*
-        Heartbeat eines einzelnen Lua-Nutzers
-    */
-
-    if (
-        req.method === "POST" &&
-        pathname === "/api/presence/heartbeat"
-    ) {
-        if (!isAuthorized(req)) {
-            console.warn(
-                "[NEXU] Heartbeat abgelehnt: falsches Token"
+        if (
+            req.method === "GET" &&
+            pathname === "/"
+        ) {
+            sendHtml(
+                res,
+                dashboardHtml()
             );
 
-            sendJson(res, 401, {
-                success: false,
-                error:
-                    "Ungültiges Heartbeat-Token",
+            return;
+        }
+
+        if (
+            req.method === "GET" &&
+            (
+                pathname === "/status" ||
+                pathname === "/api/status"
+            )
+        ) {
+            prunePresence();
+
+            sendJson(res, 200, {
+                success: true,
+                online: true,
+
+                service:
+                    "Nexu Presence & Moderation",
+
+                activePlayers:
+                    presence.size,
+
+                bannedPlayers:
+                    bans.size,
+
+                timestamp:
+                    new Date().toISOString(),
             });
 
             return;
         }
 
-        try {
-            const body =
-                await readJsonBody(req);
-
+        if (
+            req.method === "GET" &&
+            pathname ===
+                "/api/menu/access"
+        ) {
             const userId =
-                cleanUserId(body.userId);
+                cleanNumericId(
+                    url.searchParams.get(
+                        "userId"
+                    )
+                );
 
-            const username =
-                cleanText(body.username, 40);
-
-            const displayName =
-                cleanText(body.displayName, 80);
-
-            const placeId =
-                cleanInteger(body.placeId);
-
-            const jobId =
-                cleanText(body.jobId, 100);
-
-            const sessionId =
-                cleanText(body.sessionId, 100);
-
-            if (
-                !userId ||
-                !username ||
-                !displayName ||
-                !jobId ||
-                !sessionId
-            ) {
+            if (!userId) {
                 sendJson(res, 400, {
                     success: false,
                     error:
-                        "userId, username, displayName, jobId und sessionId fehlen",
+                        "Ungültige User-ID",
                 });
 
                 return;
             }
 
-            const now = Date.now();
-            const oldEntry =
-                presence.get(userId);
-
-            const isNewSession =
-                !oldEntry ||
-                oldEntry.sessionId !== sessionId;
-
-            presence.set(userId, {
-                userId,
-                username,
-                displayName,
-                placeId,
-                jobId,
-                sessionId,
-
-                joinedAtMs:
-                    isNewSession
-                        ? now
-                        : oldEntry.joinedAtMs,
-
-                lastSeenMs: now,
-            });
-
-            prunePresence();
-
-            console.log(
-                `[NEXU] ${
-                    isNewSession
-                        ? "ONLINE"
-                        : "HEARTBEAT"
-                }: ` +
-                `${displayName} ` +
-                `(@${username}) ` +
-                `[${userId}] | ` +
-                `Place ${placeId} | ` +
-                `Job ${jobId} | ` +
-                `${presence.size} insgesamt`
-            );
-
-            const activePlayersInJob =
-                [...presence.values()]
-                    .filter((entry) => {
-                        return entry.jobId === jobId;
-                    })
-                    .length;
+            const ban =
+                bans.get(userId);
 
             sendJson(res, 200, {
                 success: true,
-                activePlayers:
-                    presence.size,
-                activePlayersInJob,
-                timeoutSeconds:
-                    ONLINE_TIMEOUT_MS / 1000,
+                allowed: !ban,
+                banned: Boolean(ban),
+                userId,
+
+                reason:
+                    ban?.reason || "",
+
+                bannedAt:
+                    ban?.bannedAt || "",
+
                 timestamp:
                     new Date().toISOString(),
-            });
-        } catch (error) {
-            sendJson(
-                res,
-                error.message === "BODY_TOO_LARGE"
-                    ? 413
-                    : 400,
-                {
-                    success: false,
-
-                    error:
-                        error.message ===
-                        "BODY_TOO_LARGE"
-                            ? "Anfrage zu groß"
-                            : "Ungültiges JSON",
-                }
-            );
-        }
-
-        return;
-    }
-
-    /*
-        Lua-Nutzer meldet sich beim Schließen
-        des Menüs ab.
-    */
-
-    if (
-        req.method === "POST" &&
-        pathname === "/api/presence/offline"
-    ) {
-        if (!isAuthorized(req)) {
-            sendJson(res, 401, {
-                success: false,
-                error:
-                    "Ungültiges Heartbeat-Token",
             });
 
             return;
         }
 
-        try {
-            const body =
-                await readJsonBody(req);
+        if (
+            req.method === "GET" &&
+            pathname === "/api/presence"
+        ) {
+            const data =
+                publicPresence();
 
-            const userId =
-                cleanUserId(body.userId);
+            sendJson(res, 200, {
+                success: true,
+                online: true,
 
-            const sessionId =
-                cleanText(body.sessionId, 100);
+                activePlayers:
+                    data.players.length,
 
-            const entry =
-                userId
-                    ? presence.get(userId)
-                    : null;
+                bannedCount:
+                    data.bannedPlayers.length,
 
-            /*
-                Nur die aktuell registrierte Sitzung
-                darf diesen Nutzer entfernen.
-            */
+                timeoutSeconds:
+                    ONLINE_TIMEOUT_MS / 1000,
 
+                players:
+                    data.players,
+
+                bannedPlayers:
+                    data.bannedPlayers,
+
+                timestamp:
+                    new Date().toISOString(),
+            });
+
+            return;
+        }
+
+        if (
+            req.method === "POST" &&
+            pathname ===
+                "/api/presence/heartbeat"
+        ) {
             if (
-                entry &&
-                entry.sessionId === sessionId
+                !heartbeatAuthorized(req)
             ) {
-                presence.delete(userId);
+                sendJson(res, 401, {
+                    success: false,
+
+                    error:
+                        "Ungültiger Heartbeat-Token",
+                });
+
+                return;
+            }
+
+            try {
+                const body =
+                    await readJsonBody(req);
+
+                const jobId =
+                    cleanText(
+                        body.jobId,
+                        100
+                    );
+
+                const placeId =
+                    cleanInteger(
+                        body.placeId
+                    );
+
+                const sessionId =
+                    cleanText(
+                        body.sessionId,
+                        100
+                    );
+
+                const normalized =
+                    heartbeatRows(body);
+
+                if (!jobId) {
+                    sendJson(res, 400, {
+                        success: false,
+                        error: "jobId fehlt",
+                    });
+
+                    return;
+                }
+
+                const now = Date.now();
+                const currentKeys =
+                    new Set();
+
+                const blockedUserIds =
+                    [];
+
+                for (
+                    const raw
+                    of normalized.rows
+                ) {
+                    if (
+                        !raw ||
+                        typeof raw !==
+                            "object"
+                    ) {
+                        continue;
+                    }
+
+                    const userId =
+                        cleanNumericId(
+                            raw.userId
+                        );
+
+                    const username =
+                        cleanText(
+                            raw.username,
+                            40
+                        );
+
+                    const displayName =
+                        cleanText(
+                            raw.displayName,
+                            80
+                        );
+
+                    if (
+                        !userId ||
+                        !username ||
+                        !displayName
+                    ) {
+                        continue;
+                    }
+
+                    if (bans.has(userId)) {
+                        blockedUserIds.push(
+                            userId
+                        );
+
+                        removePresenceForUser(
+                            userId
+                        );
+
+                        continue;
+                    }
+
+                    const key =
+                        `${jobId}:${userId}`;
+
+                    const previous =
+                        presence.get(key);
+
+                    currentKeys.add(key);
+
+                    presence.set(key, {
+                        userId,
+                        username,
+                        displayName,
+                        placeId,
+                        jobId,
+
+                        sessionId:
+                            cleanText(
+                                raw.sessionId,
+                                100
+                            ) ||
+                            sessionId,
+
+                        joinedAtMs:
+                            previous?.joinedAtMs ||
+                            now,
+
+                        lastSeenMs: now,
+                    });
+                }
+
+                if (normalized.batch) {
+                    for (
+                        const [
+                            key,
+                            entry,
+                        ]
+                        of presence
+                    ) {
+                        if (
+                            entry.jobId ===
+                                jobId &&
+                            !currentKeys.has(
+                                key
+                            )
+                        ) {
+                            presence.delete(
+                                key
+                            );
+                        }
+                    }
+                }
+
+                prunePresence();
+
+                if (
+                    !normalized.batch &&
+                    blockedUserIds.length
+                ) {
+                    const userId =
+                        blockedUserIds[0];
+
+                    sendJson(res, 403, {
+                        success: false,
+                        banned: true,
+                        userId,
+
+                        reason:
+                            bans.get(userId)
+                                ?.reason ||
+                            "Vom Nexu-Menü ausgeschlossen",
+                    });
+
+                    return;
+                }
 
                 console.log(
-                    `[NEXU] OFFLINE: ` +
-                    `${entry.displayName} ` +
-                    `(@${entry.username}) ` +
-                    `[${entry.userId}]`
+                    `[NEXU] Job ${jobId}: ` +
+                    `${currentKeys.size} aktiv, ` +
+                    `${blockedUserIds.length} blockiert`
                 );
+
+                sendJson(res, 200, {
+                    success: true,
+
+                    activePlayers:
+                        presence.size,
+
+                    receivedPlayers:
+                        currentKeys.size,
+
+                    blockedUserIds,
+
+                    timestamp:
+                        new Date().toISOString(),
+                });
+            } catch (error) {
+                sendJson(
+                    res,
+
+                    error.message ===
+                        "BODY_TOO_LARGE"
+                        ? 413
+                        : 400,
+
+                    {
+                        success: false,
+
+                        error:
+                            error.message ===
+                                "BODY_TOO_LARGE"
+                                ? "Anfrage zu groß"
+                                : "Ungültiges JSON",
+                    }
+                );
+            }
+
+            return;
+        }
+
+        if (
+            req.method === "POST" &&
+            pathname ===
+                "/api/presence/offline"
+        ) {
+            if (
+                !heartbeatAuthorized(req)
+            ) {
+                sendJson(res, 401, {
+                    success: false,
+
+                    error:
+                        "Ungültiger Heartbeat-Token",
+                });
+
+                return;
+            }
+
+            try {
+                const body =
+                    await readJsonBody(req);
+
+                const userId =
+                    cleanNumericId(
+                        body.userId
+                    );
+
+                const sessionId =
+                    cleanText(
+                        body.sessionId,
+                        100
+                    );
+
+                let removed = 0;
+
+                for (
+                    const [
+                        key,
+                        entry,
+                    ]
+                    of presence
+                ) {
+                    if (
+                        entry.userId ===
+                            userId &&
+                        (
+                            !sessionId ||
+                            !entry.sessionId ||
+                            entry.sessionId ===
+                                sessionId
+                        )
+                    ) {
+                        presence.delete(key);
+                        removed += 1;
+                    }
+                }
+
+                sendJson(res, 200, {
+                    success: true,
+                    removed,
+                });
+            } catch {
+                sendJson(res, 400, {
+                    success: false,
+                    error:
+                        "Ungültiges JSON",
+                });
+            }
+
+            return;
+        }
+
+        if (
+            req.method === "GET" &&
+            pathname ===
+                "/api/admin/bans"
+        ) {
+            if (!adminAuthorized(req)) {
+                sendJson(res, 401, {
+                    success: false,
+
+                    error:
+                        "Ungültiger Admin-Key",
+                });
+
+                return;
             }
 
             sendJson(res, 200, {
                 success: true,
-                activePlayers:
-                    presence.size,
-                timestamp:
-                    new Date().toISOString(),
+                bans: [...bans.values()],
             });
-        } catch {
-            sendJson(res, 400, {
-                success: false,
-                error: "Ungültiges JSON",
-            });
+
+            return;
         }
 
-        return;
+        if (
+            req.method === "POST" &&
+            pathname ===
+                "/api/admin/ban"
+        ) {
+            if (!adminAuthorized(req)) {
+                sendJson(res, 401, {
+                    success: false,
+
+                    error:
+                        "Ungültiger Admin-Key",
+                });
+
+                return;
+            }
+
+            try {
+                const body =
+                    await readJsonBody(req);
+
+                const userId =
+                    cleanNumericId(
+                        body.userId
+                    );
+
+                if (!userId) {
+                    sendJson(res, 400, {
+                        success: false,
+
+                        error:
+                            "Ungültige User-ID",
+                    });
+
+                    return;
+                }
+
+                if (
+                    userId ===
+                    MENU_CREATOR_USER_ID
+                ) {
+                    sendJson(res, 403, {
+                        success: false,
+
+                        error:
+                            "Der Menu Creator kann nicht gebannt werden",
+                    });
+
+                    return;
+                }
+
+                const live =
+                    latestPresence(userId);
+
+                const old =
+                    bans.get(userId);
+
+                const record = {
+                    userId,
+
+                    username:
+                        cleanText(
+                            body.username,
+                            40
+                        ) ||
+                        live?.username ||
+                        old?.username ||
+                        `User${userId}`,
+
+                    displayName:
+                        cleanText(
+                            body.displayName,
+                            80
+                        ) ||
+                        live?.displayName ||
+                        old?.displayName ||
+                        `User ${userId}`,
+
+                    reason:
+                        cleanText(
+                            body.reason,
+                            240
+                        ) ||
+                        "Vom Nexu-Menü ausgeschlossen",
+
+                    bannedAt:
+                        new Date().toISOString(),
+
+                    bannedBy: "admin",
+                };
+
+                bans.set(
+                    userId,
+                    record
+                );
+
+                const removedPresence =
+                    removePresenceForUser(
+                        userId
+                    );
+
+                const persisted =
+                    saveBans();
+
+                console.log(
+                    `[NEXU] BAN ${userId}`
+                );
+
+                sendJson(res, 200, {
+                    success: true,
+                    banned: true,
+                    record,
+                    removedPresence,
+                    persisted,
+                });
+            } catch (error) {
+                sendJson(
+                    res,
+
+                    error.message ===
+                        "BODY_TOO_LARGE"
+                        ? 413
+                        : 400,
+
+                    {
+                        success: false,
+
+                        error:
+                            error.message ===
+                                "BODY_TOO_LARGE"
+                                ? "Anfrage zu groß"
+                                : "Ungültiges JSON",
+                    }
+                );
+            }
+
+            return;
+        }
+
+        if (
+            req.method === "POST" &&
+            pathname ===
+                "/api/admin/unban"
+        ) {
+            if (!adminAuthorized(req)) {
+                sendJson(res, 401, {
+                    success: false,
+
+                    error:
+                        "Ungültiger Admin-Key",
+                });
+
+                return;
+            }
+
+            try {
+                const body =
+                    await readJsonBody(req);
+
+                const userId =
+                    cleanNumericId(
+                        body.userId
+                    );
+
+                if (!userId) {
+                    sendJson(res, 400, {
+                        success: false,
+
+                        error:
+                            "Ungültige User-ID",
+                    });
+
+                    return;
+                }
+
+                const existed =
+                    bans.delete(userId);
+
+                const persisted =
+                    saveBans();
+
+                console.log(
+                    `[NEXU] UNBAN ${userId}`
+                );
+
+                sendJson(res, 200, {
+                    success: true,
+                    banned: false,
+                    existed,
+                    persisted,
+                });
+            } catch (error) {
+                sendJson(
+                    res,
+
+                    error.message ===
+                        "BODY_TOO_LARGE"
+                        ? 413
+                        : 400,
+
+                    {
+                        success: false,
+
+                        error:
+                            error.message ===
+                                "BODY_TOO_LARGE"
+                                ? "Anfrage zu groß"
+                                : "Ungültiges JSON",
+                    }
+                );
+            }
+
+            return;
+        }
+
+        sendJson(res, 404, {
+            success: false,
+            error:
+                "Route nicht gefunden",
+        });
     }
-
-    /*
-        Unbekannte Route
-    */
-
-    sendJson(res, 404, {
-        success: false,
-        error: "Route nicht gefunden",
-    });
-});
-
-/*
-    Alle 20 Sekunden alte Nutzer entfernen.
-*/
+);
 
 setInterval(
     prunePresence,
@@ -950,7 +1375,7 @@ server.listen(
         );
 
         console.log(
-            "NEXU PRESENCE SERVER GESTARTET"
+            "NEXU PRESENCE & MODERATION GESTARTET"
         );
 
         console.log(
@@ -959,28 +1384,18 @@ server.listen(
         );
 
         console.log(
-            "Dashboard: /"
-        );
-
-        console.log(
-            "Status: /api/status"
-        );
-
-        console.log(
-            "Presence: /api/presence"
-        );
-
-        console.log(
-            "Heartbeat: POST /api/presence/heartbeat"
-        );
-
-        console.log(
-            "Offline: POST /api/presence/offline"
-        );
-
-        console.log(
             "Heartbeat-Token eingerichtet:",
-            HEARTBEAT_TOKEN.length > 0
+            HEARTBEAT_TOKEN.length >= 16
+        );
+
+        console.log(
+            "Admin-Key eingerichtet:",
+            ADMIN_KEY.length >= 20
+        );
+
+        console.log(
+            "Ban-Datei:",
+            BAN_FILE_PATH
         );
 
         console.log(
