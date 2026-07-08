@@ -9,32 +9,71 @@ const MAX_BODY_BYTES = 100_000;
 const AVATAR_CACHE_MS = 10 * 60_000;
 const MENU_CREATOR_USER_ID = "10199760908";
 
+const DM_MAX_LENGTH = 240;
+const DM_TTL_MS = 10 * 60_000;
+const DM_QUEUE_LIMIT = 12;
+const DM_RATE_WINDOW_MS = 30_000;
+const DM_RATE_LIMIT = 10;
+
 const BAN_FILE_PATH = String(
     process.env.BAN_FILE_PATH ||
-    path.join(process.cwd(), "data", "nexu-bans.json")
+    path.join(
+        process.cwd(),
+        "data",
+        "nexu-bans.json"
+    )
 );
 
 const presence = new Map();
 const bans = new Map();
 const avatarCache = new Map();
+const directMessages = new Map();
+const dmRateLimits = new Map();
 
-function sendJson(res, statusCode, data, extraHeaders = {}) {
+let nextDirectMessageId = 1;
+
+function sendJson(
+    res,
+    statusCode,
+    data,
+    extraHeaders = {}
+) {
     res.writeHead(statusCode, {
-        "Content-Type": "application/json; charset=utf-8",
-        "Cache-Control": "no-store",
-        "X-Content-Type-Options": "nosniff",
+        "Content-Type":
+            "application/json; charset=utf-8",
+
+        "Cache-Control":
+            "no-store",
+
+        "X-Content-Type-Options":
+            "nosniff",
+
         ...extraHeaders,
     });
 
-    res.end(JSON.stringify(data));
+    res.end(
+        JSON.stringify(data)
+    );
 }
 
-function sendHtml(res, statusCode, html, extraHeaders = {}) {
+function sendHtml(
+    res,
+    statusCode,
+    html,
+    extraHeaders = {}
+) {
     res.writeHead(statusCode, {
-        "Content-Type": "text/html; charset=utf-8",
-        "Cache-Control": "no-store",
-        "X-Content-Type-Options": "nosniff",
-        "Referrer-Policy": "no-referrer",
+        "Content-Type":
+            "text/html; charset=utf-8",
+
+        "Cache-Control":
+            "no-store",
+
+        "X-Content-Type-Options":
+            "nosniff",
+
+        "Referrer-Policy":
+            "no-referrer",
 
         "Content-Security-Policy":
             "default-src 'self'; " +
@@ -51,14 +90,21 @@ function sendHtml(res, statusCode, html, extraHeaders = {}) {
     res.end(html);
 }
 
-function cleanText(value, maxLength) {
+function cleanText(
+    value,
+    maxLength
+) {
     return typeof value === "string"
-        ? value.trim().slice(0, maxLength)
+        ? value
+            .trim()
+            .slice(0, maxLength)
         : "";
 }
 
 function cleanNumericId(value) {
-    const text = String(value ?? "").trim();
+    const text =
+        String(value ?? "")
+            .trim();
 
     return /^\d{1,30}$/.test(text)
         ? text
@@ -66,7 +112,8 @@ function cleanNumericId(value) {
 }
 
 function cleanInteger(value) {
-    const number = Number(value);
+    const number =
+        Number(value);
 
     return (
         Number.isSafeInteger(number) &&
@@ -77,89 +124,140 @@ function cleanInteger(value) {
 }
 
 function readJsonBody(req) {
-    return new Promise((resolve, reject) => {
-        let raw = "";
-        let tooLarge = false;
+    return new Promise(
+        (
+            resolve,
+            reject
+        ) => {
+            let raw = "";
+            let tooLarge = false;
 
-        req.on("data", (chunk) => {
-            raw += chunk.toString("utf8");
+            req.on(
+                "data",
+                (chunk) => {
+                    raw +=
+                        chunk.toString(
+                            "utf8"
+                        );
 
-            if (
-                Buffer.byteLength(raw, "utf8") >
-                MAX_BODY_BYTES
-            ) {
-                tooLarge = true;
-            }
-        });
+                    if (
+                        Buffer.byteLength(
+                            raw,
+                            "utf8"
+                        ) >
+                        MAX_BODY_BYTES
+                    ) {
+                        tooLarge = true;
+                    }
+                }
+            );
 
-        req.on("end", () => {
-            if (tooLarge) {
-                reject(
-                    new Error("BODY_TOO_LARGE")
-                );
+            req.on(
+                "end",
+                () => {
+                    if (tooLarge) {
+                        reject(
+                            new Error(
+                                "BODY_TOO_LARGE"
+                            )
+                        );
 
-                return;
-            }
+                        return;
+                    }
 
-            try {
-                resolve(
-                    raw
-                        ? JSON.parse(raw)
-                        : {}
-                );
-            } catch {
-                reject(
-                    new Error("INVALID_JSON")
-                );
-            }
-        });
+                    try {
+                        resolve(
+                            raw
+                                ? JSON.parse(raw)
+                                : {}
+                        );
+                    } catch {
+                        reject(
+                            new Error(
+                                "INVALID_JSON"
+                            )
+                        );
+                    }
+                }
+            );
 
-        req.on("error", reject);
-    });
+            req.on(
+                "error",
+                reject
+            );
+        }
+    );
 }
 
 function isHeartbeatAuthorized(req) {
     /*
-        Ist kein HEARTBEAT_TOKEN bei Render
-        gesetzt, werden Heartbeats ohne Token
-        angenommen.
+        Ohne HEARTBEAT_TOKEN läuft
+        der Server im Kompatibilitätsmodus.
     */
 
     if (HEARTBEAT_TOKEN === "") {
         return true;
     }
 
-    const supplied = String(
-        req.headers[
-            "x-nexu-heartbeat-token"
-        ] || ""
-    );
+    const supplied =
+        String(
+            req.headers[
+                "x-nexu-heartbeat-token"
+            ] || ""
+        );
 
-    return supplied === HEARTBEAT_TOKEN;
+    return (
+        supplied ===
+        HEARTBEAT_TOKEN
+    );
 }
 
 function prunePresence() {
-    const now = Date.now();
+    const now =
+        Date.now();
 
-    for (const [key, entry] of presence) {
+    for (
+        const [
+            key,
+            entry
+        ]
+        of presence
+    ) {
         const expired =
-            now - entry.lastSeenMs >
+            now -
+            entry.lastSeenMs >
             ONLINE_TIMEOUT_MS;
 
         const banned =
-            bans.has(entry.userId);
+            bans.has(
+                entry.userId
+            );
 
-        if (expired || banned) {
+        if (
+            expired ||
+            banned
+        ) {
             presence.delete(key);
         }
     }
 }
 
-function removePresenceForUser(userId) {
+function removePresenceForUser(
+    userId
+) {
     let removed = 0;
 
-    for (const [key, entry] of presence) {
-        if (entry.userId === userId) {
+    for (
+        const [
+            key,
+            entry
+        ]
+        of presence
+    ) {
+        if (
+            entry.userId ===
+            userId
+        ) {
             presence.delete(key);
             removed += 1;
         }
@@ -168,14 +266,22 @@ function removePresenceForUser(userId) {
     return removed;
 }
 
-function findLatestPresenceForUser(userId) {
+function findLatestPresenceForUser(
+    userId
+) {
     let latest = null;
 
-    for (const entry of presence.values()) {
+    for (
+        const entry
+        of presence.values()
+    ) {
         if (
-            entry.userId === userId &&
+            entry.userId ===
+                userId &&
+
             (
                 !latest ||
+
                 entry.lastSeenMs >
                     latest.lastSeenMs
             )
@@ -189,68 +295,90 @@ function findLatestPresenceForUser(userId) {
 
 function loadBans() {
     try {
-        if (!fs.existsSync(BAN_FILE_PATH)) {
-            return;
-        }
-
-        const parsed = JSON.parse(
-            fs.readFileSync(
-                BAN_FILE_PATH,
-                "utf8"
+        if (
+            !fs.existsSync(
+                BAN_FILE_PATH
             )
-        );
-
-        const rows = Array.isArray(parsed)
-            ? parsed
-            : parsed.bans;
-
-        if (!Array.isArray(rows)) {
+        ) {
             return;
         }
 
-        for (const raw of rows) {
-            const userId = cleanNumericId(
-                raw && raw.userId
+        const parsed =
+            JSON.parse(
+                fs.readFileSync(
+                    BAN_FILE_PATH,
+                    "utf8"
+                )
             );
+
+        const rows =
+            Array.isArray(parsed)
+                ? parsed
+                : parsed.bans;
+
+        if (
+            !Array.isArray(rows)
+        ) {
+            return;
+        }
+
+        for (
+            const raw
+            of rows
+        ) {
+            const userId =
+                cleanNumericId(
+                    raw &&
+                    raw.userId
+                );
 
             if (!userId) {
                 continue;
             }
 
-            bans.set(userId, {
+            bans.set(
                 userId,
+                {
+                    userId,
 
-                username: cleanText(
-                    raw.username,
-                    40
-                ),
+                    username:
+                        cleanText(
+                            raw.username,
+                            40
+                        ),
 
-                displayName: cleanText(
-                    raw.displayName,
-                    80
-                ),
+                    displayName:
+                        cleanText(
+                            raw.displayName,
+                            80
+                        ),
 
-                reason:
-                    cleanText(
-                        raw.reason,
-                        240
-                    ) ||
-                    "Vom Nexu-Menü ausgeschlossen",
+                    reason:
+                        cleanText(
+                            raw.reason,
+                            240
+                        ) ||
 
-                bannedAt:
-                    cleanText(
-                        raw.bannedAt,
-                        64
-                    ) ||
-                    new Date().toISOString(),
+                        "Vom Nexu-Menü ausgeschlossen",
 
-                bannedBy:
-                    cleanText(
-                        raw.bannedBy,
-                        80
-                    ) ||
-                    "dashboard",
-            });
+                    bannedAt:
+                        cleanText(
+                            raw.bannedAt,
+                            64
+                        ) ||
+
+                        new Date()
+                            .toISOString(),
+
+                    bannedBy:
+                        cleanText(
+                            raw.bannedBy,
+                            80
+                        ) ||
+
+                        "dashboard",
+                }
+            );
         }
 
         console.log(
@@ -267,7 +395,9 @@ function loadBans() {
 function saveBans() {
     try {
         fs.mkdirSync(
-            path.dirname(BAN_FILE_PATH),
+            path.dirname(
+                BAN_FILE_PATH
+            ),
             {
                 recursive: true,
             }
@@ -308,19 +438,229 @@ function saveBans() {
     }
 }
 
-async function fetchAvatarUrls(userIds) {
-    const now = Date.now();
-    const result = new Map();
+function getClientIp(req) {
+    const forwarded =
+        String(
+            req.headers[
+                "x-forwarded-for"
+            ] || ""
+        );
+
+    const firstForwarded =
+        forwarded
+            .split(",")[0]
+            .trim();
+
+    return (
+        firstForwarded ||
+
+        String(
+            req.socket.remoteAddress ||
+            "unknown"
+        )
+    );
+}
+
+function pruneDirectMessages() {
+    const now =
+        Date.now();
+
+    for (
+        const [
+            userId,
+            queue
+        ]
+        of directMessages
+    ) {
+        const fresh =
+            queue.filter(
+                (entry) =>
+                    now -
+                    entry.sentAtMs <=
+                    DM_TTL_MS
+            );
+
+        if (
+            fresh.length > 0
+        ) {
+            directMessages.set(
+                userId,
+                fresh
+            );
+        } else {
+            directMessages.delete(
+                userId
+            );
+        }
+    }
+
+    for (
+        const [
+            ip,
+            state
+        ]
+        of dmRateLimits
+    ) {
+        if (
+            now -
+            state.windowStartedAtMs >
+            DM_RATE_WINDOW_MS
+        ) {
+            dmRateLimits.delete(ip);
+        }
+    }
+}
+
+function allowDirectMessageSend(req) {
+    pruneDirectMessages();
+
+    const ip =
+        getClientIp(req);
+
+    const now =
+        Date.now();
+
+    let state =
+        dmRateLimits.get(ip);
+
+    if (
+        !state ||
+
+        now -
+        state.windowStartedAtMs >
+        DM_RATE_WINDOW_MS
+    ) {
+        state = {
+            windowStartedAtMs:
+                now,
+
+            count:
+                0,
+        };
+
+        dmRateLimits.set(
+            ip,
+            state
+        );
+    }
+
+    state.count += 1;
+
+    return (
+        state.count <=
+        DM_RATE_LIMIT
+    );
+}
+
+function queueDirectMessage(
+    userId,
+    message,
+    sender = "NEXU"
+) {
+    pruneDirectMessages();
+
+    const now =
+        Date.now();
+
+    const entry = {
+        id:
+            `${now}-${nextDirectMessageId++}`,
+
+        userId,
+
+        sender:
+            cleanText(
+                sender,
+                40
+            ) || "NEXU",
+
+        message:
+            cleanText(
+                message,
+                DM_MAX_LENGTH
+            ),
+
+        sentAt:
+            new Date(now)
+                .toISOString(),
+
+        sentAtMs:
+            now,
+    };
+
+    const queue =
+        directMessages.get(userId) ||
+        [];
+
+    queue.push(entry);
+
+    while (
+        queue.length >
+        DM_QUEUE_LIMIT
+    ) {
+        queue.shift();
+    }
+
+    directMessages.set(
+        userId,
+        queue
+    );
+
+    return entry;
+}
+
+function takeDirectMessages(
+    userId
+) {
+    pruneDirectMessages();
+
+    const queue =
+        directMessages.get(userId) ||
+        [];
+
+    directMessages.delete(userId);
+
+    return queue.map(
+        (entry) => ({
+            id:
+                entry.id,
+
+            sender:
+                entry.sender,
+
+            message:
+                entry.message,
+
+            sentAt:
+                entry.sentAt,
+        })
+    );
+}
+
+async function fetchAvatarUrls(
+    userIds
+) {
+    const now =
+        Date.now();
+
+    const result =
+        new Map();
+
     const missing = [];
 
-    for (const id of userIds) {
+    for (
+        const id
+        of userIds
+    ) {
         const cached =
             avatarCache.get(id);
 
         if (
             cached &&
-            now - cached.cachedAtMs <
-                AVATAR_CACHE_MS
+
+            now -
+            cached.cachedAtMs <
+            AVATAR_CACHE_MS
         ) {
             result.set(
                 id,
@@ -345,10 +685,12 @@ async function fetchAvatarUrls(userIds) {
         try {
             const endpoint =
                 "https://thumbnails.roblox.com/v1/users/avatar-headshot" +
+
                 "?userIds=" +
                 encodeURIComponent(
                     batch.join(",")
                 ) +
+
                 "&size=150x150" +
                 "&format=Png" +
                 "&isCircular=false";
@@ -367,7 +709,9 @@ async function fetchAvatarUrls(userIds) {
                     }
                 );
 
-            if (!response.ok) {
+            if (
+                !response.ok
+            ) {
                 throw new Error(
                     `Roblox thumbnail HTTP ${response.status}`
                 );
@@ -383,7 +727,10 @@ async function fetchAvatarUrls(userIds) {
                     ? payload.data
                     : [];
 
-            for (const row of rows) {
+            for (
+                const row
+                of rows
+            ) {
                 const id =
                     cleanNumericId(
                         row.targetId
@@ -397,17 +744,23 @@ async function fetchAvatarUrls(userIds) {
 
                 if (
                     id &&
+
                     url.startsWith(
                         "https://"
                     )
                 ) {
-                    result.set(id, url);
+                    result.set(
+                        id,
+                        url
+                    );
 
                     avatarCache.set(
                         id,
                         {
                             url,
-                            cachedAtMs: now,
+
+                            cachedAtMs:
+                                now,
                         }
                     );
                 }
@@ -420,14 +773,21 @@ async function fetchAvatarUrls(userIds) {
         }
     }
 
-    for (const id of userIds) {
-        if (!result.has(id)) {
+    for (
+        const id
+        of userIds
+    ) {
+        if (
+            !result.has(id)
+        ) {
             result.set(
                 id,
 
                 "https://www.roblox.com/headshot-thumbnail/image" +
+
                 "?userId=" +
                 encodeURIComponent(id) +
+
                 "&width=150" +
                 "&height=150" +
                 "&format=png"
@@ -443,113 +803,141 @@ async function getPublicPresence() {
 
     const activeRows = [
         ...presence.values(),
-    ].sort((a, b) =>
-        a.displayName.localeCompare(
-            b.displayName,
-            "de",
-            {
-                sensitivity: "base",
-            }
-        )
+    ].sort(
+        (
+            first,
+            second
+        ) =>
+            first.displayName
+                .localeCompare(
+                    second.displayName,
+                    "de",
+                    {
+                        sensitivity:
+                            "base",
+                    }
+                )
     );
 
     const bannedRows = [
         ...bans.values(),
-    ].sort((a, b) =>
+    ].sort(
         (
-            a.displayName ||
-            a.username ||
-            a.userId
-        ).localeCompare(
-            b.displayName ||
-            b.username ||
-            b.userId,
-            "de",
-            {
-                sensitivity: "base",
-            }
-        )
+            first,
+            second
+        ) =>
+            (
+                first.displayName ||
+                first.username ||
+                first.userId
+            )
+                .localeCompare(
+                    second.displayName ||
+                    second.username ||
+                    second.userId,
+
+                    "de",
+
+                    {
+                        sensitivity:
+                            "base",
+                    }
+                )
     );
 
     const allIds = [
         ...new Set([
             ...activeRows.map(
-                (row) => row.userId
+                (row) =>
+                    row.userId
             ),
 
             ...bannedRows.map(
-                (row) => row.userId
+                (row) =>
+                    row.userId
             ),
         ]),
     ];
 
     const avatarUrls =
-        await fetchAvatarUrls(allIds);
+        await fetchAvatarUrls(
+            allIds
+        );
 
     const players =
-        activeRows.map((row) => ({
-            userId:
-                row.userId,
+        activeRows.map(
+            (row) => ({
+                userId:
+                    row.userId,
 
-            username:
-                row.username,
+                username:
+                    row.username,
 
-            displayName:
-                row.displayName,
+                displayName:
+                    row.displayName,
 
-            avatarUrl:
-                avatarUrls.get(
-                    row.userId
-                ) || "",
+                avatarUrl:
+                    avatarUrls.get(
+                        row.userId
+                    ) || "",
 
-            placeId:
-                row.placeId,
+                placeId:
+                    row.placeId,
 
-            jobId:
-                row.jobId,
+                jobId:
+                    row.jobId,
 
-            joinedAt:
-                new Date(
-                    row.joinedAtMs
-                ).toISOString(),
+                joinedAt:
+                    new Date(
+                        row.joinedAtMs
+                    ).toISOString(),
 
-            lastSeen:
-                new Date(
-                    row.lastSeenMs
-                ).toISOString(),
+                lastSeen:
+                    new Date(
+                        row.lastSeenMs
+                    ).toISOString(),
 
-            banned: false,
-        }));
+                banned:
+                    false,
+            })
+        );
 
     const bannedPlayers =
-        bannedRows.map((row) => ({
-            userId:
-                row.userId,
+        bannedRows.map(
+            (row) => ({
+                userId:
+                    row.userId,
 
-            username:
-                row.username ||
-                `User${row.userId}`,
+                username:
+                    row.username ||
+                    `User${row.userId}`,
 
-            displayName:
-                row.displayName ||
-                row.username ||
-                `User ${row.userId}`,
+                displayName:
+                    row.displayName ||
+                    row.username ||
+                    `User ${row.userId}`,
 
-            avatarUrl:
-                avatarUrls.get(
-                    row.userId
-                ) || "",
+                avatarUrl:
+                    avatarUrls.get(
+                        row.userId
+                    ) || "",
 
-            placeId: 0,
-            jobId: "",
-            banned: true,
+                placeId:
+                    0,
 
-            reason:
-                row.reason,
+                jobId:
+                    "",
 
-            bannedAt:
-                row.bannedAt,
-        }));
+                banned:
+                    true,
+
+                reason:
+                    row.reason,
+
+                bannedAt:
+                    row.bannedAt,
+            })
+        );
 
     return {
         players,
@@ -557,10 +945,17 @@ async function getPublicPresence() {
     };
 }
 
-function normalizeHeartbeatPlayers(body) {
-    if (Array.isArray(body.players)) {
+function normalizeHeartbeatPlayers(
+    body
+) {
+    if (
+        Array.isArray(
+            body.players
+        )
+    ) {
         return {
-            batch: true,
+            batch:
+                true,
 
             rows:
                 body.players.slice(
@@ -571,7 +966,8 @@ function normalizeHeartbeatPlayers(body) {
     }
 
     return {
-        batch: false,
+        batch:
+            false,
 
         rows: [
             {
@@ -596,50 +992,44 @@ function dashboardHtml() {
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta
-    name="viewport"
-    content="width=device-width,initial-scale=1"
->
-<meta
-    name="theme-color"
-    content="#03070e"
->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#03070e">
 <title>Nexu</title>
 
 <style>
 :root {
-    --bg: #03070e;
-    --panel: rgba(7, 13, 23, .86);
-    --panel2: rgba(10, 18, 31, .76);
-    --text: #dceef8;
-    --muted: #7894a8;
-    --cyan: #00c8ff;
-    --violet: #6f46ff;
-    --green: #2dffa5;
-    --red: #ff4d78;
-    --border: rgba(74, 178, 230, .28);
+    --bg:#03070e;
+    --panel:rgba(7,13,23,.86);
+    --panel2:rgba(10,18,31,.76);
+    --text:#dceef8;
+    --muted:#7894a8;
+    --cyan:#00c8ff;
+    --violet:#6f46ff;
+    --green:#2dffa5;
+    --red:#ff4d78;
+    --border:rgba(74,178,230,.28);
 }
 
 * {
-    box-sizing: border-box;
+    box-sizing:border-box;
 }
 
 html,
 body {
-    margin: 0;
-    min-height: 100%;
-    color: var(--text);
+    margin:0;
+    min-height:100%;
+    color:var(--text);
 
     background:
         radial-gradient(
             circle at 18% 5%,
-            rgba(0, 200, 255, .14),
+            rgba(0,200,255,.14),
             transparent 34rem
         ),
 
         radial-gradient(
             circle at 88% 20%,
-            rgba(111, 70, 255, .14),
+            rgba(111,70,255,.14),
             transparent 32rem
         ),
 
@@ -655,25 +1045,26 @@ body {
 }
 
 body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: .23;
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.23;
 
     background-image:
         linear-gradient(
-            rgba(0, 200, 255, .06) 1px,
+            rgba(0,200,255,.06) 1px,
             transparent 1px
         ),
 
         linear-gradient(
             90deg,
-            rgba(0, 200, 255, .06) 1px,
+            rgba(0,200,255,.06) 1px,
             transparent 1px
         );
 
-    background-size: 32px 32px;
+    background-size:
+        32px 32px;
 
     mask-image:
         linear-gradient(
@@ -684,25 +1075,25 @@ body::before {
 }
 
 .scan {
-    position: fixed;
-    z-index: 0;
-    left: 0;
-    right: 0;
-    top: -2px;
-    height: 1px;
-    pointer-events: none;
+    position:fixed;
+    z-index:0;
+    left:0;
+    right:0;
+    top:-2px;
+    height:1px;
+    pointer-events:none;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(0, 200, 255, .8),
+            rgba(0,200,255,.8),
             transparent
         );
 
     box-shadow:
         0 0 20px
-        rgba(0, 200, 255, .75);
+        rgba(0,200,255,.75);
 
     animation:
         scan 7s linear infinite;
@@ -713,25 +1104,28 @@ body::before {
         transform:
             translateY(0);
 
-        opacity: 0;
+        opacity:
+            0;
     }
 
     8%,
     92% {
-        opacity: .65;
+        opacity:
+            .65;
     }
 
     to {
         transform:
             translateY(100vh);
 
-        opacity: 0;
+        opacity:
+            0;
     }
 }
 
 .shell {
-    position: relative;
-    z-index: 1;
+    position:relative;
+    z-index:1;
 
     width:
         min(
@@ -747,31 +1141,31 @@ body::before {
 }
 
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:28px;
 }
 
 .brand {
-    display: flex;
-    align-items: center;
-    gap: 13px;
+    display:flex;
+    align-items:center;
+    gap:13px;
 }
 
 .logo {
-    width: 44px;
-    height: 44px;
+    width:44px;
+    height:44px;
 
-    display: grid;
-    place-items: center;
+    display:grid;
+    place-items:center;
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    font-weight: 850;
-    font-size: 19px;
-    color: white;
+    font-weight:850;
+    font-size:19px;
+    color:white;
 
     background:
         linear-gradient(
@@ -782,57 +1176,60 @@ header {
 
     box-shadow:
         0 0 0 1px
-            rgba(255, 255, 255, .17)
+            rgba(255,255,255,.17)
             inset,
 
         0 0 28px
-            rgba(0, 200, 255, .28);
+            rgba(0,200,255,.28);
 }
 
 .brand-copy strong {
-    display: block;
-    font-size: 20px;
-    letter-spacing: .02em;
+    display:block;
+    font-size:20px;
+    letter-spacing:.02em;
 }
 
 .brand-copy span {
-    color: var(--muted);
-    font-size: 12px;
-    letter-spacing: .13em;
-    text-transform: uppercase;
+    color:var(--muted);
+    font-size:12px;
+    letter-spacing:.13em;
+    text-transform:uppercase;
 }
 
 .live-pill {
-    display: flex;
-    align-items: center;
-    gap: 9px;
+    display:flex;
+    align-items:center;
+    gap:9px;
 
-    min-height: 38px;
-    padding: 0 14px;
+    min-height:38px;
+    padding:0 14px;
 
     border:
         1px solid
         var(--border);
 
-    border-radius: 999px;
+    border-radius:
+        999px;
 
     background:
-        rgba(7, 13, 23, .72);
+        rgba(7,13,23,.72);
 
     color:
         var(--muted);
 
-    font-size: 13px;
+    font-size:
+        13px;
 
     backdrop-filter:
         blur(14px);
 }
 
 .dot {
-    width: 9px;
-    height: 9px;
+    width:9px;
+    height:9px;
 
-    border-radius: 50%;
+    border-radius:
+        50%;
 
     background:
         var(--muted);
@@ -867,18 +1264,18 @@ header {
     background:
         linear-gradient(
             135deg,
-            rgba(0, 200, 255, .06),
-            rgba(111, 70, 255, .045)
+            rgba(0,200,255,.06),
+            rgba(111,70,255,.045)
         ),
 
         var(--panel);
 
     box-shadow:
         0 26px 80px
-            rgba(0, 0, 0, .34),
+            rgba(0,0,0,.34),
 
         0 0 0 1px
-            rgba(255, 255, 255, .025)
+            rgba(255,255,255,.025)
             inset;
 
     backdrop-filter:
@@ -886,20 +1283,30 @@ header {
 }
 
 .hero {
-    padding: 29px;
-    border-radius: 28px;
+    padding:
+        29px;
+
+    border-radius:
+        28px;
 }
 
 .directory {
-    margin-top: 22px;
-    padding: 24px;
-    border-radius: 25px;
+    margin-top:
+        22px;
+
+    padding:
+        24px;
+
+    border-radius:
+        25px;
 }
 
 .eyebrow {
-    color: var(--cyan);
+    color:
+        var(--cyan);
 
-    font-size: 11px;
+    font-size:
+        11px;
 
     letter-spacing:
         .19em;
@@ -930,32 +1337,46 @@ h1 {
 }
 
 .hero p {
-    margin: 0;
-    max-width: 760px;
-    color: var(--muted);
-    line-height: 1.65;
+    margin:
+        0;
+
+    max-width:
+        760px;
+
+    color:
+        var(--muted);
+
+    line-height:
+        1.65;
 }
 
 .stats {
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         repeat(
             3,
-            minmax(0, 1fr)
+            minmax(0,1fr)
         );
 
-    gap: 14px;
-    margin-top: 24px;
+    gap:
+        14px;
+
+    margin-top:
+        24px;
 }
 
 .stat {
-    min-height: 122px;
-    padding: 18px;
+    min-height:
+        122px;
+
+    padding:
+        18px;
 
     border:
         1px solid
-        rgba(74, 178, 230, .19);
+        rgba(74,178,230,.19);
 
     border-radius:
         19px;
@@ -965,7 +1386,8 @@ h1 {
 }
 
 .stat-label {
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size:
         11px;
@@ -978,23 +1400,33 @@ h1 {
 }
 
 .stat-value {
-    margin-top: 11px;
-    font-size: 27px;
-    font-weight: 780;
+    margin-top:
+        11px;
+
+    font-size:
+        27px;
+
+    font-weight:
+        780;
 }
 
 .stat-note {
-    margin-top: 8px;
-    color: #66849a;
-    font-size: 12px;
+    margin-top:
+        8px;
+
+    color:
+        #66849a;
+
+    font-size:
+        12px;
 }
 
 .directory-head {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 18px;
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:18px;
+    margin-bottom:18px;
 }
 
 .directory h2 {
@@ -1012,11 +1444,12 @@ h1 {
             100%
         );
 
-    height: 44px;
+    height:
+        44px;
 
     border:
         1px solid
-        rgba(74, 178, 230, .25);
+        rgba(74,178,230,.25);
 
     border-radius:
         13px;
@@ -1031,7 +1464,7 @@ h1 {
         var(--text);
 
     background:
-        rgba(3, 8, 15, .8);
+        rgba(3,8,15,.8);
 
     font:
         inherit;
@@ -1039,42 +1472,46 @@ h1 {
 
 .search:focus {
     border-color:
-        rgba(0, 200, 255, .68);
+        rgba(0,200,255,.68);
 
     box-shadow:
         0 0 0 3px
-        rgba(0, 200, 255, .08);
+        rgba(0,200,255,.08);
 }
 
 .players {
-    display: grid;
+    display:grid;
 
     grid-template-columns:
         repeat(
             2,
-            minmax(0, 1fr)
+            minmax(0,1fr)
         );
 
-    gap: 12px;
+    gap:
+        12px;
 }
 
 .player {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    display:flex;
+    align-items:center;
+    gap:14px;
 
-    min-width: 0;
-    padding: 13px;
+    min-width:
+        0;
+
+    padding:
+        13px;
 
     border:
         1px solid
-        rgba(74, 178, 230, .16);
+        rgba(74,178,230,.16);
 
     border-radius:
         17px;
 
     background:
-        rgba(8, 15, 26, .76);
+        rgba(8,15,26,.76);
 
     transition:
         transform .16s ease,
@@ -1086,23 +1523,29 @@ h1 {
         translateY(-2px);
 
     border-color:
-        rgba(0, 200, 255, .37);
+        rgba(0,200,255,.37);
 }
 
 .player.banned {
     border-color:
-        rgba(255, 77, 120, .3);
+        rgba(255,77,120,.3);
 
     background:
-        rgba(30, 8, 15, .66);
+        rgba(30,8,15,.66);
 }
 
 .avatar {
-    width: 58px;
-    height: 58px;
-    flex: 0 0 58px;
+    width:
+        58px;
 
-    object-fit: cover;
+    height:
+        58px;
+
+    flex:
+        0 0 58px;
+
+    object-fit:
+        cover;
 
     border-radius:
         14px;
@@ -1112,59 +1555,97 @@ h1 {
 
     border:
         1px solid
-        rgba(0, 200, 255, .26);
+        rgba(0,200,255,.26);
 }
 
 .identity {
-    min-width: 0;
-    flex: 1;
+    min-width:
+        0;
+
+    flex:
+        1;
 }
 
 .display-name {
-    overflow: hidden;
-    font-weight: 760;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow:
+        hidden;
+
+    font-weight:
+        760;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
 }
 
 .username {
-    overflow: hidden;
-    margin-top: 3px;
-    color: var(--muted);
-    font-size: 13px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow:
+        hidden;
+
+    margin-top:
+        3px;
+
+    color:
+        var(--muted);
+
+    font-size:
+        13px;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
 }
 
 .reason {
-    margin-top: 5px;
-    color: #ff9bb1;
-    font-size: 11px;
-    line-height: 1.4;
+    margin-top:
+        5px;
+
+    color:
+        #ff9bb1;
+
+    font-size:
+        11px;
+
+    line-height:
+        1.4;
 }
 
 .player-actions {
-    flex: 0 0 auto;
+    flex:
+        0 0 auto;
 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
 }
 
 .player-state {
-    color: var(--green);
-    font-size: 11px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
+    color:
+        var(--green);
+
+    font-size:
+        11px;
+
+    letter-spacing:
+        .1em;
+
+    text-transform:
+        uppercase;
 }
 
 .player-state.banned {
-    color: var(--red);
+    color:
+        var(--red);
 }
 
 .action-button {
-    min-height: 34px;
+    min-height:
+        34px;
 
     border:
         1px solid
@@ -1180,7 +1661,7 @@ h1 {
         var(--text);
 
     background:
-        rgba(10, 18, 31, .92);
+        rgba(10,18,31,.92);
 
     font:
         inherit;
@@ -1218,13 +1699,13 @@ h1 {
 
 .action-button.ban {
     border-color:
-        rgba(255, 77, 120, .5);
+        rgba(255,77,120,.5);
 
     color:
         #ff9bb1;
 
     background:
-        rgba(42, 8, 18, .78);
+        rgba(42,8,18,.78);
 }
 
 .action-button.ban:hover {
@@ -1234,18 +1715,42 @@ h1 {
 
 .action-button.unban {
     border-color:
-        rgba(45, 255, 165, .42);
+        rgba(45,255,165,.42);
 
     color:
         #91ffd2;
 
     background:
-        rgba(4, 35, 24, .76);
+        rgba(4,35,24,.76);
 }
 
 .action-button.unban:hover {
     border-color:
         var(--green);
+}
+
+.action-button.dm {
+    border-color:
+        rgba(0,200,255,.48);
+
+    color:
+        #8cecff;
+
+    background:
+        rgba(3,28,42,.78);
+}
+
+.action-button.dm:hover {
+    border-color:
+        var(--cyan);
+}
+
+.button-row {
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:7px;
+    flex-wrap:wrap;
 }
 
 .empty {
@@ -1257,7 +1762,7 @@ h1 {
 
     border:
         1px dashed
-        rgba(74, 178, 230, .22);
+        rgba(74,178,230,.22);
 
     border-radius:
         17px;
@@ -1270,38 +1775,57 @@ h1 {
 }
 
 .footer-note {
-    margin-top: 14px;
-    color: #557084;
-    font-size: 12px;
-    text-align: right;
+    margin-top:
+        14px;
+
+    color:
+        #557084;
+
+    font-size:
+        12px;
+
+    text-align:
+        right;
 }
 
 .modal-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
+    position:
+        fixed;
 
-    display: grid;
-    place-items: center;
+    inset:
+        0;
+
+    z-index:
+        1000;
+
+    display:
+        grid;
+
+    place-items:
+        center;
 
     padding:
         18px;
 
     background:
-        rgba(0, 3, 8, .72);
+        rgba(0,3,8,.72);
 
     backdrop-filter:
         blur(10px);
 
-    opacity: 1;
+    opacity:
+        1;
 
     transition:
         opacity .2s ease;
 }
 
 .modal-backdrop.hidden {
-    opacity: 0;
-    pointer-events: none;
+    opacity:
+        0;
+
+    pointer-events:
+        none;
 }
 
 .modal-card {
@@ -1316,7 +1840,7 @@ h1 {
 
     border:
         1px solid
-        rgba(255, 77, 120, .42);
+        rgba(255,77,120,.42);
 
     border-radius:
         20px;
@@ -1324,18 +1848,18 @@ h1 {
     background:
         linear-gradient(
             145deg,
-            rgba(255, 77, 120, .07),
-            rgba(111, 70, 255, .04)
+            rgba(255,77,120,.07),
+            rgba(111,70,255,.04)
         ),
 
-        rgba(7, 13, 23, .97);
+        rgba(7,13,23,.97);
 
     box-shadow:
         0 28px 90px
-            rgba(0, 0, 0, .55),
+            rgba(0,0,0,.55),
 
         0 0 30px
-            rgba(255, 77, 120, .08);
+            rgba(255,77,120,.08);
 
     transform:
         translateY(0)
@@ -1345,7 +1869,8 @@ h1 {
         transform .2s ease;
 }
 
-.modal-backdrop.hidden .modal-card {
+.modal-backdrop.hidden
+.modal-card {
     transform:
         translateY(12px)
         scale(.98);
@@ -1371,15 +1896,18 @@ h1 {
 }
 
 .reason-input {
-    width: 100%;
-    min-height: 105px;
+    width:
+        100%;
+
+    min-height:
+        105px;
 
     resize:
         vertical;
 
     border:
         1px solid
-        rgba(255, 77, 120, .35);
+        rgba(255,77,120,.35);
 
     border-radius:
         13px;
@@ -1394,7 +1922,7 @@ h1 {
         var(--text);
 
     background:
-        rgba(3, 8, 15, .86);
+        rgba(3,8,15,.86);
 
     font:
         inherit;
@@ -1406,26 +1934,99 @@ h1 {
 
     box-shadow:
         0 0 0 3px
-        rgba(255, 77, 120, .08);
+        rgba(255,77,120,.08);
+}
+
+.modal-card.dm-card {
+    border-color:
+        rgba(0,200,255,.42);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0,200,255,.075),
+            rgba(111,70,255,.05)
+        ),
+
+        rgba(7,13,23,.97);
+
+    box-shadow:
+        0 28px 90px
+            rgba(0,0,0,.55),
+
+        0 0 34px
+            rgba(0,200,255,.10);
+}
+
+.message-input {
+    width:
+        100%;
+
+    min-height:
+        120px;
+
+    resize:
+        vertical;
+
+    border:
+        1px solid
+        rgba(0,200,255,.35);
+
+    border-radius:
+        13px;
+
+    outline:
+        none;
+
+    padding:
+        12px 13px;
+
+    color:
+        var(--text);
+
+    background:
+        rgba(3,8,15,.86);
+
+    font:
+        inherit;
+}
+
+.message-input:focus {
+    border-color:
+        var(--cyan);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(0,200,255,.09);
+}
+
+.modal-notice.ok {
+    color:
+        #91ffd2;
 }
 
 .modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 9px;
-
-    margin-top:
-        13px;
+    display:flex;
+    justify-content:flex-end;
+    gap:9px;
+    margin-top:13px;
 }
 
-.modal-actions .action-button {
-    min-height: 42px;
-    padding: 0 14px;
-    font-size: 12px;
+.modal-actions
+.action-button {
+    min-height:
+        42px;
+
+    padding:
+        0 14px;
+
+    font-size:
+        12px;
 }
 
 .modal-notice {
-    min-height: 18px;
+    min-height:
+        18px;
 
     margin-top:
         10px;
@@ -1438,7 +2039,7 @@ h1 {
 }
 
 @media (
-    max-width: 760px
+    max-width:760px
 ) {
     .shell {
         width:
@@ -1554,9 +2155,9 @@ Aktive Nutzer auf einen Blick.
 Das Dashboard zeigt Spieler,
 deren Nexu-Menü gerade aktiv ist.
 Spieler können direkt über ihre
-Karte gebannt oder entbannt werden.
+Karte gebannt, entbannt oder per
+Direktnachricht kontaktiert werden.
 </p>
-
 
 <div class="stats">
 
@@ -1758,13 +2359,86 @@ BAN BESTÄTIGEN
 </div>
 
 
+<div
+    id="dmModal"
+    class="modal-backdrop hidden"
+    aria-hidden="true"
+>
+
+<div
+    class="modal-card dm-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="dmModalTitle"
+>
+
+<div class="eyebrow">
+NEXU // DIREKTNACHRICHT
+</div>
+
+<h3 id="dmModalTitle">
+Nachricht senden
+</h3>
+
+<p
+    id="dmModalUser"
+    class="modal-user"
+></p>
+
+<textarea
+    id="dmMessageInput"
+    class="message-input"
+    maxlength="240"
+    placeholder="Nachricht an den Spieler eingeben …"
+></textarea>
+
+<div class="modal-actions">
+
+<button
+    id="cancelDmButton"
+    class="action-button"
+>
+ABBRECHEN
+</button>
+
+<button
+    id="confirmDmButton"
+    class="action-button dm"
+>
+DM SENDEN
+</button>
+
+</div>
+
+<div
+    id="dmModalNotice"
+    class="modal-notice"
+></div>
+
+</div>
+
+</div>
+
+
 <script>
 const state = {
-    online: false,
-    players: [],
-    bannedPlayers: [],
-    query: "",
-    pendingBan: null,
+    online:
+        false,
+
+    players:
+        [],
+
+    bannedPlayers:
+        [],
+
+    query:
+        "",
+
+    pendingBan:
+        null,
+
+    pendingDm:
+        null,
 };
 
 
@@ -1848,6 +2522,36 @@ const elements = {
         document.getElementById(
             "banModalNotice"
         ),
+
+    dmModal:
+        document.getElementById(
+            "dmModal"
+        ),
+
+    dmModalUser:
+        document.getElementById(
+            "dmModalUser"
+        ),
+
+    dmMessageInput:
+        document.getElementById(
+            "dmMessageInput"
+        ),
+
+    cancelDmButton:
+        document.getElementById(
+            "cancelDmButton"
+        ),
+
+    confirmDmButton:
+        document.getElementById(
+            "confirmDmButton"
+        ),
+
+    dmModalNotice:
+        document.getElementById(
+            "dmModalNotice"
+        ),
 };
 
 
@@ -1859,18 +2563,22 @@ function escapeHtml(value) {
             "&",
             "&amp;"
         )
+
         .replaceAll(
             "<",
             "&lt;"
         )
+
         .replaceAll(
             ">",
             "&gt;"
         )
+
         .replaceAll(
             '"',
             "&quot;"
         )
+
         .replaceAll(
             "'",
             "&#039;"
@@ -1909,20 +2617,54 @@ function renderPlayer(
 
             : "";
 
-    const action =
+    const actionButtons =
         banned
-            ? "unban"
-            : "ban";
 
-    const buttonText =
-        banned
-            ? "ENTBANNEN"
-            : "BANNEN";
+            ? (
+                '<button class="action-button unban" ' +
+                'data-action="unban" ' +
+                'data-user-id="' +
+                escapeHtml(
+                    player.userId
+                ) +
+                '">' +
+                "ENTBANNEN" +
+                "</button>"
+            )
 
-    const buttonClass =
-        banned
-            ? "unban"
-            : "ban";
+            : (
+                '<div class="button-row">' +
+
+                '<button class="action-button dm" ' +
+                'data-action="dm" ' +
+                'data-user-id="' +
+                escapeHtml(
+                    player.userId
+                ) +
+                '" data-display-name="' +
+                escapeHtml(name) +
+                '" data-username="' +
+                escapeHtml(username) +
+                '">' +
+                "DM" +
+                "</button>" +
+
+                '<button class="action-button ban" ' +
+                'data-action="ban" ' +
+                'data-user-id="' +
+                escapeHtml(
+                    player.userId
+                ) +
+                '" data-display-name="' +
+                escapeHtml(name) +
+                '" data-username="' +
+                escapeHtml(username) +
+                '">' +
+                "BANNEN" +
+                "</button>" +
+
+                "</div>"
+            );
 
     return (
         '<article class="player ' +
@@ -1975,28 +2717,7 @@ function renderPlayer(
 
         "</div>" +
 
-        '<button class="action-button ' +
-        buttonClass +
-
-        '" data-action="' +
-        action +
-
-        '" data-user-id="' +
-        escapeHtml(
-            player.userId
-        ) +
-
-        '" data-display-name="' +
-        escapeHtml(name) +
-
-        '" data-username="' +
-        escapeHtml(username) +
-
-        '">' +
-
-        buttonText +
-
-        "</button>" +
+        actionButtons +
 
         "</div>" +
 
@@ -2149,7 +2870,9 @@ async function refresh() {
                 }
             );
 
-        if (!response.ok) {
+        if (
+            !response.ok
+        ) {
             throw new Error(
                 "HTTP " +
                 response.status
@@ -2181,9 +2904,14 @@ async function refresh() {
             error
         );
 
-        state.online = false;
-        state.players = [];
-        state.bannedPlayers = [];
+        state.online =
+            false;
+
+        state.players =
+            [];
+
+        state.bannedPlayers =
+            [];
     }
 
     render();
@@ -2198,17 +2926,20 @@ function openBanModal(
     state.pendingBan = {
         userId:
             String(
-                userId || ""
+                userId ||
+                ""
             ),
 
         displayName:
             String(
-                displayName || ""
+                displayName ||
+                ""
             ),
 
         username:
             String(
-                username || ""
+                username ||
+                ""
             ),
     };
 
@@ -2275,6 +3006,166 @@ function closeBanModal() {
 }
 
 
+function openDmModal(
+    userId,
+    displayName,
+    username
+) {
+    state.pendingDm = {
+        userId:
+            String(
+                userId ||
+                ""
+            ),
+
+        displayName:
+            String(
+                displayName ||
+                ""
+            ),
+
+        username:
+            String(
+                username ||
+                ""
+            ),
+    };
+
+    elements.dmModalUser.textContent =
+        (
+            state.pendingDm.displayName ||
+            state.pendingDm.username ||
+            state.pendingDm.userId
+        ) +
+
+        (
+            state.pendingDm.username
+
+                ? (
+                    " (@" +
+                    state.pendingDm.username +
+                    ")"
+                )
+
+                : ""
+        );
+
+    elements.dmMessageInput.value =
+        "";
+
+    elements.dmModalNotice.textContent =
+        "";
+
+    elements.dmModalNotice.className =
+        "modal-notice";
+
+    elements.dmModal.classList.remove(
+        "hidden"
+    );
+
+    elements.dmModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    setTimeout(
+        function () {
+            elements
+                .dmMessageInput
+                .focus();
+        },
+        30
+    );
+}
+
+
+function closeDmModal() {
+    state.pendingDm =
+        null;
+
+    elements.dmModal.classList.add(
+        "hidden"
+    );
+
+    elements.dmModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    elements.dmModalNotice.textContent =
+        "";
+
+    elements.dmModalNotice.className =
+        "modal-notice";
+}
+
+
+async function sendDirectMessage(
+    target,
+    message
+) {
+    const response =
+        await fetch(
+            "/api/dm/send",
+            {
+                method:
+                    "POST",
+
+                headers: {
+                    "Accept":
+                        "application/json",
+
+                    "Content-Type":
+                        "application/json",
+                },
+
+                body:
+                    JSON.stringify({
+                        userId:
+                            target.userId,
+
+                        username:
+                            target.username,
+
+                        displayName:
+                            target.displayName,
+
+                        message:
+                            String(
+                                message ||
+                                ""
+                            )
+                                .trim(),
+                    }),
+            }
+        );
+
+    const data =
+        await response
+            .json()
+            .catch(
+                function () {
+                    return {};
+                }
+            );
+
+    if (
+        !response.ok ||
+        data.success !== true
+    ) {
+        throw new Error(
+            data.error ||
+            (
+                "HTTP " +
+                response.status
+            )
+        );
+    }
+
+    return data;
+}
+
+
 async function moderate(
     action,
     userId,
@@ -2283,7 +3174,8 @@ async function moderate(
 ) {
     const normalizedUserId =
         String(
-            userId || ""
+            userId ||
+            ""
         )
             .trim();
 
@@ -2337,7 +3229,8 @@ async function moderate(
                             action === "ban"
 
                                 ? String(
-                                    reason || ""
+                                    reason ||
+                                    ""
                                 )
                                     .trim()
 
@@ -2395,6 +3288,19 @@ document.addEventListener(
             );
 
         if (!button) {
+            return;
+        }
+
+        if (
+            button.dataset.action ===
+            "dm"
+        ) {
+            openDmModal(
+                button.dataset.userId,
+                button.dataset.displayName,
+                button.dataset.username
+            );
+
             return;
         }
 
@@ -2462,7 +3368,9 @@ elements.banModal.addEventListener(
 elements.confirmBanButton.addEventListener(
     "click",
     async function () {
-        if (!state.pendingBan) {
+        if (
+            !state.pendingBan
+        ) {
             return;
         }
 
@@ -2516,12 +3424,111 @@ elements.confirmBanButton.addEventListener(
 );
 
 
+elements.cancelDmButton.addEventListener(
+    "click",
+    closeDmModal
+);
+
+
+elements.dmModal.addEventListener(
+    "click",
+    function (event) {
+        if (
+            event.target ===
+            elements.dmModal
+        ) {
+            closeDmModal();
+        }
+    }
+);
+
+
+elements.confirmDmButton.addEventListener(
+    "click",
+    async function () {
+        if (
+            !state.pendingDm
+        ) {
+            return;
+        }
+
+        const message =
+            elements
+                .dmMessageInput
+                .value
+                .trim();
+
+        if (!message) {
+            elements.dmModalNotice.textContent =
+                "Bitte eine Nachricht eingeben.";
+
+            elements.dmModalNotice.className =
+                "modal-notice";
+
+            elements
+                .dmMessageInput
+                .focus();
+
+            return;
+        }
+
+        elements.confirmDmButton.disabled =
+            true;
+
+        elements.confirmDmButton.textContent =
+            "SENDE …";
+
+        elements.dmModalNotice.textContent =
+            "";
+
+        elements.dmModalNotice.className =
+            "modal-notice";
+
+        try {
+            await sendDirectMessage(
+                state.pendingDm,
+                message
+            );
+
+            elements.dmModalNotice.textContent =
+                "Nachricht wurde an den Spieler gesendet.";
+
+            elements.dmModalNotice.className =
+                "modal-notice ok";
+
+            setTimeout(
+                closeDmModal,
+                650
+            );
+        } catch (error) {
+            elements.dmModalNotice.textContent =
+                error.message ||
+                "Nachricht konnte nicht gesendet werden.";
+
+            elements.dmModalNotice.className =
+                "modal-notice";
+        } finally {
+            elements.confirmDmButton.disabled =
+                false;
+
+            elements.confirmDmButton.textContent =
+                "DM SENDEN";
+        }
+    }
+);
+
+
 document.addEventListener(
     "keydown",
     function (event) {
         if (
-            event.key === "Escape" &&
+            event.key !==
+            "Escape"
+        ) {
+            return;
+        }
 
+        if (
             !elements
                 .banModal
                 .classList
@@ -2530,6 +3537,17 @@ document.addEventListener(
                 )
         ) {
             closeBanModal();
+        }
+
+        if (
+            !elements
+                .dmModal
+                .classList
+                .contains(
+                    "hidden"
+                )
+        ) {
+            closeDmModal();
         }
     }
 );
@@ -2597,8 +3615,11 @@ const server =
                     res,
                     200,
                     {
-                        success: true,
-                        online: true,
+                        success:
+                            true,
+
+                        online:
+                            true,
 
                         service:
                             "Nexu Presence & Moderation",
@@ -2639,7 +3660,8 @@ const server =
                         res,
                         400,
                         {
-                            success: false,
+                            success:
+                                false,
 
                             error:
                                 "Ungültige User-ID",
@@ -2656,7 +3678,8 @@ const server =
                     res,
                     200,
                     {
-                        success: true,
+                        success:
+                            true,
 
                         allowed:
                             !ban,
@@ -2699,8 +3722,11 @@ const server =
                     res,
                     200,
                     {
-                        success: true,
-                        online: true,
+                        success:
+                            true,
+
+                        online:
+                            true,
 
                         activePlayers:
                             data
@@ -2751,7 +3777,8 @@ const server =
                         res,
                         401,
                         {
-                            success: false,
+                            success:
+                                false,
 
                             error:
                                 "Ungültiger Heartbeat-Token",
@@ -2794,7 +3821,8 @@ const server =
                             res,
                             400,
                             {
-                                success: false,
+                                success:
+                                    false,
 
                                 error:
                                     "jobId fehlt",
@@ -2910,10 +3938,11 @@ const server =
 
                     /*
                         Ein Batch enthält die
-                        vollständige Spielerliste.
+                        vollständige Liste eines
+                        Roblox-Servers.
 
                         Ein einzelner Client darf
-                        andere Spieler nicht aus
+                        keine anderen Spieler aus
                         der Liste entfernen.
                     */
 
@@ -2960,8 +3989,12 @@ const server =
                             res,
                             403,
                             {
-                                success: false,
-                                banned: true,
+                                success:
+                                    false,
+
+                                banned:
+                                    true,
+
                                 userId,
 
                                 reason:
@@ -2991,7 +4024,8 @@ const server =
                         res,
                         200,
                         {
-                            success: true,
+                            success:
+                                true,
 
                             activePlayers:
                                 presence.size,
@@ -3018,7 +4052,8 @@ const server =
                         res,
                         status,
                         {
-                            success: false,
+                            success:
+                                false,
 
                             error:
                                 error.message ===
@@ -3049,7 +4084,8 @@ const server =
                         res,
                         401,
                         {
-                            success: false,
+                            success:
+                                false,
 
                             error:
                                 "Ungültiger Heartbeat-Token",
@@ -3076,7 +4112,8 @@ const server =
                             100
                         );
 
-                    let removed = 0;
+                    let removed =
+                        0;
 
                     for (
                         const [
@@ -3095,14 +4132,15 @@ const server =
                                 !entry.sessionId ||
 
                                 entry.sessionId ===
-                                sessionId
+                                    sessionId
                             )
                         ) {
                             presence.delete(
                                 key
                             );
 
-                            removed += 1;
+                            removed +=
+                                1;
                         }
                     }
 
@@ -3110,7 +4148,9 @@ const server =
                         res,
                         200,
                         {
-                            success: true,
+                            success:
+                                true,
+
                             removed,
                         }
                     );
@@ -3119,10 +4159,287 @@ const server =
                         res,
                         400,
                         {
-                            success: false,
+                            success:
+                                false,
 
                             error:
                                 "Ungültiges JSON",
+                        }
+                    );
+                }
+
+                return;
+            }
+
+
+            if (
+                req.method === "POST" &&
+
+                pathname ===
+                "/api/dm/send"
+            ) {
+                if (
+                    !allowDirectMessageSend(
+                        req
+                    )
+                ) {
+                    sendJson(
+                        res,
+                        429,
+                        {
+                            success:
+                                false,
+
+                            error:
+                                "Zu viele Nachrichten. Bitte kurz warten.",
+                        }
+                    );
+
+                    return;
+                }
+
+                try {
+                    const body =
+                        await readJsonBody(
+                            req
+                        );
+
+                    const userId =
+                        cleanNumericId(
+                            body.userId
+                        );
+
+                    const message =
+                        cleanText(
+                            body.message,
+                            DM_MAX_LENGTH
+                        );
+
+                    if (!userId) {
+                        sendJson(
+                            res,
+                            400,
+                            {
+                                success:
+                                    false,
+
+                                error:
+                                    "Ungültige User-ID",
+                            }
+                        );
+
+                        return;
+                    }
+
+                    if (!message) {
+                        sendJson(
+                            res,
+                            400,
+                            {
+                                success:
+                                    false,
+
+                                error:
+                                    "Nachricht fehlt",
+                            }
+                        );
+
+                        return;
+                    }
+
+                    if (
+                        bans.has(userId)
+                    ) {
+                        sendJson(
+                            res,
+                            409,
+                            {
+                                success:
+                                    false,
+
+                                error:
+                                    "Der Spieler ist vom Menü gebannt.",
+                            }
+                        );
+
+                        return;
+                    }
+
+                    const live =
+                        findLatestPresenceForUser(
+                            userId
+                        );
+
+                    if (!live) {
+                        sendJson(
+                            res,
+                            409,
+                            {
+                                success:
+                                    false,
+
+                                error:
+                                    "Der Spieler ist nicht mehr mit Nexu verbunden.",
+                            }
+                        );
+
+                        return;
+                    }
+
+                    const directMessage =
+                        queueDirectMessage(
+                            userId,
+                            message,
+                            "NEXU"
+                        );
+
+                    console.log(
+                        `[NEXU] DM an ${userId}: ${message.slice(0, 60)}`
+                    );
+
+                    sendJson(
+                        res,
+                        200,
+                        {
+                            success:
+                                true,
+
+                            queued:
+                                true,
+
+                            directMessage: {
+                                id:
+                                    directMessage.id,
+
+                                userId:
+                                    directMessage.userId,
+
+                                message:
+                                    directMessage.message,
+
+                                sentAt:
+                                    directMessage.sentAt,
+                            },
+                        }
+                    );
+                } catch (error) {
+                    sendJson(
+                        res,
+
+                        error.message ===
+                            "BODY_TOO_LARGE"
+
+                            ? 413
+                            : 400,
+
+                        {
+                            success:
+                                false,
+
+                            error:
+                                error.message ===
+                                    "BODY_TOO_LARGE"
+
+                                    ? "Anfrage zu groß"
+                                    : "Ungültiges JSON",
+                        }
+                    );
+                }
+
+                return;
+            }
+
+
+            if (
+                req.method === "POST" &&
+
+                pathname ===
+                "/api/dm/poll"
+            ) {
+                if (
+                    !isHeartbeatAuthorized(
+                        req
+                    )
+                ) {
+                    sendJson(
+                        res,
+                        401,
+                        {
+                            success:
+                                false,
+
+                            error:
+                                "Ungültiger Heartbeat-Token",
+                        }
+                    );
+
+                    return;
+                }
+
+                try {
+                    const body =
+                        await readJsonBody(
+                            req
+                        );
+
+                    const userId =
+                        cleanNumericId(
+                            body.userId
+                        );
+
+                    if (!userId) {
+                        sendJson(
+                            res,
+                            400,
+                            {
+                                success:
+                                    false,
+
+                                error:
+                                    "Ungültige User-ID",
+                            }
+                        );
+
+                        return;
+                    }
+
+                    sendJson(
+                        res,
+                        200,
+                        {
+                            success:
+                                true,
+
+                            messages:
+                                takeDirectMessages(
+                                    userId
+                                ),
+
+                            timestamp:
+                                new Date()
+                                    .toISOString(),
+                        }
+                    );
+                } catch (error) {
+                    sendJson(
+                        res,
+
+                        error.message ===
+                            "BODY_TOO_LARGE"
+
+                            ? 413
+                            : 400,
+
+                        {
+                            success:
+                                false,
+
+                            error:
+                                error.message ===
+                                    "BODY_TOO_LARGE"
+
+                                    ? "Anfrage zu groß"
+                                    : "Ungültiges JSON",
                         }
                     );
                 }
@@ -3141,12 +4458,12 @@ const server =
                     res,
                     200,
                     {
-                        success: true,
+                        success:
+                            true,
 
-                        bans:
-                            [
-                                ...bans.values(),
-                            ],
+                        bans: [
+                            ...bans.values(),
+                        ],
                     }
                 );
 
@@ -3176,7 +4493,8 @@ const server =
                             res,
                             400,
                             {
-                                success: false,
+                                success:
+                                    false,
 
                                 error:
                                     "Ungültige User-ID",
@@ -3194,7 +4512,8 @@ const server =
                             res,
                             403,
                             {
-                                success: false,
+                                success:
+                                    false,
 
                                 error:
                                     "Der Menu Creator kann nicht gebannt werden",
@@ -3210,7 +4529,9 @@ const server =
                         );
 
                     const existing =
-                        bans.get(userId);
+                        bans.get(
+                            userId
+                        );
 
                     const record = {
                         userId,
@@ -3277,6 +4598,10 @@ const server =
                             userId
                         );
 
+                    directMessages.delete(
+                        userId
+                    );
+
                     const persisted =
                         saveBans();
 
@@ -3288,10 +4613,16 @@ const server =
                         res,
                         200,
                         {
-                            success: true,
-                            banned: true,
+                            success:
+                                true,
+
+                            banned:
+                                true,
+
                             record,
+
                             removedPresence,
+
                             persisted,
                         }
                     );
@@ -3306,7 +4637,8 @@ const server =
                             : 400,
 
                         {
-                            success: false,
+                            success:
+                                false,
 
                             error:
                                 error.message ===
@@ -3344,7 +4676,8 @@ const server =
                             res,
                             400,
                             {
-                                success: false,
+                                success:
+                                    false,
 
                                 error:
                                     "Ungültige User-ID",
@@ -3370,9 +4703,14 @@ const server =
                         res,
                         200,
                         {
-                            success: true,
-                            banned: false,
+                            success:
+                                true,
+
+                            banned:
+                                false,
+
                             existed,
+
                             persisted,
                         }
                     );
@@ -3387,7 +4725,8 @@ const server =
                             : 400,
 
                         {
-                            success: false,
+                            success:
+                                false,
 
                             error:
                                 error.message ===
@@ -3407,7 +4746,8 @@ const server =
                 res,
                 404,
                 {
-                    success: false,
+                    success:
+                        false,
 
                     error:
                         "Route nicht gefunden",
@@ -3418,7 +4758,10 @@ const server =
 
 
 setInterval(
-    prunePresence,
+    () => {
+        prunePresence();
+        pruneDirectMessages();
+    },
     20_000
 ).unref();
 
@@ -3461,6 +4804,10 @@ server.listen(
 
         console.log(
             "Presence: /api/presence"
+        );
+
+        console.log(
+            "Direct Messages: /api/dm/send + /api/dm/poll"
         );
 
         console.log(
