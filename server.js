@@ -842,40 +842,26 @@ function normalizeHeartbeat(
 ============================================================ */
 
 function dashboardHtml() {
-    return String.raw`
-<!doctype html>
-
+    return String.raw`<!doctype html>
 <html lang="de">
-
 <head>
-
 <meta charset="utf-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,initial-scale=1"
->
-
-<meta
-    name="theme-color"
-    content="#03070e"
->
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#03070e">
 <title>Nexu</title>
 
 <style>
-
 :root {
     --bg: #03070e;
-    --panel: rgba(7,13,23,.86);
-    --panel2: rgba(10,18,31,.76);
+    --panel: rgba(7, 13, 23, .86);
+    --panel2: rgba(10, 18, 31, .76);
     --text: #dceef8;
     --muted: #7894a8;
     --cyan: #00c8ff;
     --violet: #6f46ff;
     --green: #2dffa5;
     --red: #ff4d78;
-    --border: rgba(74,178,230,.28);
+    --border: rgba(74, 178, 230, .28);
 }
 
 * {
@@ -887,22 +873,18 @@ body {
     margin: 0;
     min-height: 100%;
     color: var(--text);
-
     background:
         radial-gradient(
             circle at 18% 5%,
-            rgba(0,200,255,.14),
+            rgba(0, 200, 255, .14),
             transparent 34rem
         ),
-
         radial-gradient(
             circle at 88% 20%,
-            rgba(111,70,255,.14),
+            rgba(111, 70, 255, .14),
             transparent 32rem
         ),
-
         var(--bg);
-
     font-family:
         Inter,
         ui-sans-serif,
@@ -918,22 +900,17 @@ body::before {
     inset: 0;
     pointer-events: none;
     opacity: .23;
-
     background-image:
         linear-gradient(
-            rgba(0,200,255,.06) 1px,
+            rgba(0, 200, 255, .06) 1px,
             transparent 1px
         ),
-
         linear-gradient(
             90deg,
-            rgba(0,200,255,.06) 1px,
+            rgba(0, 200, 255, .06) 1px,
             transparent 1px
         );
-
-    background-size:
-        32px 32px;
-
+    background-size: 32px 32px;
     mask-image:
         linear-gradient(
             to bottom,
@@ -947,47 +924,36 @@ body::before {
     z-index: 0;
     left: 0;
     right: 0;
-    height: 1px;
     top: -2px;
-
+    height: 1px;
+    pointer-events: none;
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(0,200,255,.8),
+            rgba(0, 200, 255, .8),
             transparent
         );
-
     box-shadow:
         0 0 20px
-        rgba(0,200,255,.75);
-
+        rgba(0, 200, 255, .75);
     animation:
         scan 7s linear infinite;
-
-    pointer-events: none;
 }
 
 @keyframes scan {
     from {
-        transform:
-            translateY(0);
-
+        transform: translateY(0);
         opacity: 0;
     }
 
-    8% {
-        opacity: .65;
-    }
-
+    8%,
     92% {
         opacity: .65;
     }
 
     to {
-        transform:
-            translateY(100vh);
-
+        transform: translateY(100vh);
         opacity: 0;
     }
 }
@@ -995,18 +961,13 @@ body::before {
 .shell {
     position: relative;
     z-index: 1;
-
     width:
         min(
             1180px,
             calc(100% - 32px)
         );
-
-    margin:
-        0 auto;
-
-    padding:
-        26px 0 54px;
+    margin: 0 auto;
+    padding: 26px 0 54px;
 }
 
 header {
@@ -1026,30 +987,24 @@ header {
 .logo {
     width: 44px;
     height: 44px;
-
     display: grid;
     place-items: center;
-
     border-radius: 50%;
-
     font-weight: 850;
     font-size: 19px;
     color: white;
-
     background:
         linear-gradient(
             135deg,
             var(--cyan),
             var(--violet)
         );
-
     box-shadow:
         0 0 0 1px
-            rgba(255,255,255,.17)
+            rgba(255, 255, 255, .17)
             inset,
-
         0 0 28px
-            rgba(0,200,255,.28);
+            rgba(0, 200, 255, .28);
 }
 
 .brand-copy strong {
@@ -1069,26 +1024,16 @@ header {
     display: flex;
     align-items: center;
     gap: 9px;
-
     min-height: 38px;
     padding: 0 14px;
-
     border:
         1px solid
         var(--border);
-
-    border-radius:
-        999px;
-
+    border-radius: 999px;
     background:
-        rgba(7,13,23,.72);
-
-    color:
-        var(--muted);
-
-    font-size:
-        13px;
-
+        rgba(7, 13, 23, .72);
+    color: var(--muted);
+    font-size: 13px;
     backdrop-filter:
         blur(14px);
 }
@@ -1097,95 +1042,73 @@ header {
     width: 9px;
     height: 9px;
     border-radius: 50%;
-
-    background:
-        var(--muted);
-
+    background: var(--muted);
     box-shadow:
         0 0 14px
         currentColor;
 }
 
 .dot.online {
-    background:
-        var(--green);
-
-    color:
-        var(--green);
+    background: var(--green);
+    color: var(--green);
 }
 
 .dot.offline {
-    background:
-        var(--red);
-
-    color:
-        var(--red);
+    background: var(--red);
+    color: var(--red);
 }
 
-.hero {
-    padding: 29px;
-
+.hero,
+.directory {
     border:
         1px solid
         var(--border);
-
-    border-radius:
-        28px;
-
     background:
         linear-gradient(
             135deg,
-            rgba(0,200,255,.07),
-            rgba(111,70,255,.05)
+            rgba(0, 200, 255, .06),
+            rgba(111, 70, 255, .045)
         ),
-
         var(--panel);
-
     box-shadow:
         0 26px 80px
-            rgba(0,0,0,.34),
-
+            rgba(0, 0, 0, .34),
         0 0 0 1px
-            rgba(255,255,255,.025)
+            rgba(255, 255, 255, .025)
             inset;
-
     backdrop-filter:
         blur(18px);
 }
 
+.hero {
+    padding: 29px;
+    border-radius: 28px;
+}
+
+.directory {
+    margin-top: 22px;
+    padding: 24px;
+    border-radius: 25px;
+}
+
 .eyebrow {
-    color:
-        var(--cyan);
-
-    font-size:
-        11px;
-
-    letter-spacing:
-        .19em;
-
-    text-transform:
-        uppercase;
+    color: var(--cyan);
+    font-size: 11px;
+    letter-spacing: .19em;
+    text-transform: uppercase;
 }
 
 h1 {
-    margin:
-        8px 0;
-
-    max-width:
-        760px;
-
+    margin: 8px 0;
+    max-width: 760px;
     font-size:
         clamp(
             30px,
             5vw,
             52px
         );
-
-    line-height:
-        1.03;
-
-    letter-spacing:
-        -.04em;
+    line-height: 1.03;
+    letter-spacing: -.04em;
 }
 
 .hero p {
@@ -1197,13 +1120,11 @@ h1 {
 
 .stats {
     display: grid;
-
     grid-template-columns:
         repeat(
             3,
-            minmax(0,1fr)
+            minmax(0, 1fr)
         );
-
     gap: 14px;
     margin-top: 24px;
 }
@@ -1211,30 +1132,18 @@ h1 {
 .stat {
     min-height: 122px;
     padding: 18px;
-
     border:
         1px solid
-        rgba(74,178,230,.19);
-
-    border-radius:
-        19px;
-
-    background:
-        var(--panel2);
+        rgba(74, 178, 230, .19);
+    border-radius: 19px;
+    background: var(--panel2);
 }
 
 .stat-label {
-    color:
-        var(--muted);
-
-    font-size:
-        11px;
-
-    letter-spacing:
-        .12em;
-
-    text-transform:
-        uppercase;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
 }
 
 .stat-value {
@@ -1249,24 +1158,6 @@ h1 {
     font-size: 12px;
 }
 
-.directory {
-    margin-top: 22px;
-    padding: 24px;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:
-        25px;
-
-    background:
-        var(--panel);
-
-    backdrop-filter:
-        blur(18px);
-}
-
 .directory-head {
     display: flex;
     align-items: end;
@@ -1276,11 +1167,23 @@ h1 {
 }
 
 .directory h2 {
-    margin:
-        4px 0 0;
+    margin: 4px 0 0;
+    font-size: 21px;
+}
 
-    font-size:
-        21px;
+.search,
+.admin-input {
+    height: 44px;
+    border:
+        1px solid
+        rgba(74, 178, 230, .25);
+    border-radius: 13px;
+    outline: none;
+    padding: 0 15px;
+    color: var(--text);
+    background:
+        rgba(3, 8, 15, .8);
+    font: inherit;
 }
 
 .search {
@@ -1289,49 +1192,108 @@ h1 {
             380px,
             100%
         );
-
-    height: 44px;
-
-    border:
-        1px solid
-        rgba(74,178,230,.25);
-
-    border-radius:
-        13px;
-
-    outline: none;
-
-    padding:
-        0 15px;
-
-    color:
-        var(--text);
-
-    background:
-        rgba(3,8,15,.8);
-
-    font:
-        inherit;
 }
 
-.search:focus {
+.search:focus,
+.admin-input:focus {
     border-color:
-        rgba(0,200,255,.68);
-
+        rgba(0, 200, 255, .68);
     box-shadow:
         0 0 0 3px
-        rgba(0,200,255,.08);
+        rgba(0, 200, 255, .08);
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns:
+        1.15fr
+        .8fr
+        1.25fr
+        auto
+        auto;
+    gap: 10px;
+}
+
+.action-button {
+    min-height: 44px;
+    border:
+        1px solid
+        var(--border);
+    border-radius: 13px;
+    padding: 0 15px;
+    color: var(--text);
+    background:
+        rgba(10, 18, 31, .92);
+    font: inherit;
+    font-weight: 760;
+    cursor: pointer;
+    transition:
+        transform .16s ease,
+        border-color .16s ease,
+        background .16s ease;
+}
+
+.action-button:hover {
+    transform:
+        translateY(-1px);
+}
+
+.action-button.ban {
+    border-color:
+        rgba(255, 77, 120, .5);
+    color: #ff9bb1;
+    background:
+        rgba(42, 8, 18, .78);
+}
+
+.action-button.ban:hover {
+    border-color:
+        var(--red);
+}
+
+.action-button.unban {
+    border-color:
+        rgba(45, 255, 165, .42);
+    color: #91ffd2;
+    background:
+        rgba(4, 35, 24, .76);
+}
+
+.action-button.unban:hover {
+    border-color:
+        var(--green);
+}
+
+.action-button.small {
+    min-height: 34px;
+    height: 34px;
+    padding: 0 10px;
+    border-radius: 10px;
+    font-size: 11px;
+}
+
+.admin-notice {
+    margin-top: 12px;
+    min-height: 20px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.admin-notice.ok {
+    color: #91ffd2;
+}
+
+.admin-notice.error {
+    color: #ff9bb1;
 }
 
 .players {
     display: grid;
-
     grid-template-columns:
         repeat(
             2,
-            minmax(0,1fr)
+            minmax(0, 1fr)
         );
-
     gap: 12px;
 }
 
@@ -1339,20 +1301,14 @@ h1 {
     display: flex;
     align-items: center;
     gap: 14px;
-
     min-width: 0;
     padding: 13px;
-
     border:
         1px solid
-        rgba(74,178,230,.16);
-
-    border-radius:
-        17px;
-
+        rgba(74, 178, 230, .16);
+    border-radius: 17px;
     background:
-        rgba(8,15,26,.76);
-
+        rgba(8, 15, 26, .76);
     transition:
         transform .16s ease,
         border-color .16s ease;
@@ -1361,35 +1317,27 @@ h1 {
 .player:hover {
     transform:
         translateY(-2px);
-
     border-color:
-        rgba(0,200,255,.37);
+        rgba(0, 200, 255, .37);
 }
 
 .player.banned {
     border-color:
-        rgba(255,77,120,.30);
-
+        rgba(255, 77, 120, .3);
     background:
-        rgba(30,8,15,.66);
+        rgba(30, 8, 15, .66);
 }
 
 .avatar {
     width: 58px;
     height: 58px;
     flex: 0 0 58px;
-
     object-fit: cover;
-
-    border-radius:
-        14px;
-
-    background:
-        #0b1422;
-
+    border-radius: 14px;
+    background: #0b1422;
     border:
         1px solid
-        rgba(0,200,255,.26);
+        rgba(0, 200, 255, .26);
 }
 
 .identity {
@@ -1413,8 +1361,21 @@ h1 {
     white-space: nowrap;
 }
 
-.player-state {
+.reason {
+    margin-top: 5px;
+    color: #b6808d;
+    font-size: 11px;
+}
+
+.player-actions {
     flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.player-state {
     color: var(--green);
     font-size: 11px;
     letter-spacing: .1em;
@@ -1422,35 +1383,18 @@ h1 {
 }
 
 .player-state.banned {
-    color:
-        var(--red);
-}
-
-.reason {
-    margin-top: 5px;
-    color: #b6808d;
-    font-size: 11px;
+    color: var(--red);
 }
 
 .empty {
-    grid-column:
-        1 / -1;
-
-    padding:
-        40px 20px;
-
+    grid-column: 1 / -1;
+    padding: 40px 20px;
     border:
         1px dashed
-        rgba(74,178,230,.22);
-
-    border-radius:
-        17px;
-
-    color:
-        var(--muted);
-
-    text-align:
-        center;
+        rgba(74, 178, 230, .22);
+    border-radius: 17px;
+    color: var(--muted);
+    text-align: center;
 }
 
 .footer-note {
@@ -1458,6 +1402,20 @@ h1 {
     color: #557084;
     font-size: 12px;
     text-align: right;
+}
+
+@media (
+    max-width: 900px
+) {
+    .admin-grid {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .admin-grid .wide {
+        grid-column:
+            1 / -1;
+    }
 }
 
 @media (
@@ -1469,9 +1427,7 @@ h1 {
                 100% - 20px,
                 1180px
             );
-
-        padding-top:
-            16px;
+        padding-top: 16px;
     }
 
     header {
@@ -1480,8 +1436,7 @@ h1 {
     }
 
     .brand-copy span {
-        display:
-            none;
+        display: none;
     }
 
     .hero {
@@ -1496,26 +1451,30 @@ h1 {
     }
 
     .directory {
-        padding:
-            18px;
+        padding: 18px;
     }
 
     .directory-head {
         align-items:
             stretch;
-
         flex-direction:
             column;
     }
 
     .search {
-        width:
-            100%;
+        width: 100%;
+    }
+
+    .admin-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .admin-grid .wide {
+        grid-column: auto;
     }
 }
-
 </style>
-
 </head>
 
 <body>
@@ -1575,10 +1534,9 @@ Aktive Nutzer auf einen Blick.
 <p>
 Das Dashboard zeigt Spieler,
 deren Nexu-Menü gerade aktiv ist.
-Ein Nutzer wird automatisch entfernt,
-wenn längere Zeit kein Heartbeat mehr eingeht.
+Bans und Unbans werden über den
+geschützten Moderations-Endpunkt ausgelöst.
 </p>
-
 
 <div class="stats">
 
@@ -1625,22 +1583,91 @@ Heartbeat in den letzten 75 Sekunden
 <article class="stat">
 
 <div class="stat-label">
-Letzte Aktualisierung
+Gesperrte Spieler
 </div>
 
 <div
-    id="updatedAt"
+    id="bannedCount"
     class="stat-value"
 >
-–
+0
 </div>
 
 <div class="stat-note">
-Automatisch alle 5 Sekunden
+Serverseitige Sperrliste
 </div>
 
 </article>
 
+</div>
+
+</section>
+
+
+<section class="directory">
+
+<div class="directory-head">
+
+<div>
+
+<div class="eyebrow">
+ADMINISTRATION
+</div>
+
+<h2>
+Spieler bannen oder entbannen
+</h2>
+
+</div>
+
+</div>
+
+<div class="admin-grid">
+
+<input
+    id="adminKey"
+    class="admin-input wide"
+    type="password"
+    autocomplete="off"
+    placeholder="ADMIN_KEY von Render"
+>
+
+<input
+    id="manualUserId"
+    class="admin-input"
+    inputmode="numeric"
+    autocomplete="off"
+    placeholder="Roblox User-ID"
+>
+
+<input
+    id="banReason"
+    class="admin-input wide"
+    autocomplete="off"
+    placeholder="Ban-Grund (optional)"
+>
+
+<button
+    id="manualBanButton"
+    class="action-button ban"
+>
+BANNEN
+</button>
+
+<button
+    id="manualUnbanButton"
+    class="action-button unban"
+>
+ENTBANNEN
+</button>
+
+</div>
+
+<div
+    id="adminNotice"
+    class="admin-notice"
+>
+Der Admin-Key bleibt nur in dieser Browser-Sitzung gespeichert.
 </div>
 
 </section>
@@ -1750,9 +1777,9 @@ const elements = {
             "playerCount"
         ),
 
-    updatedAt:
+    bannedCount:
         document.getElementById(
-            "updatedAt"
+            "bannedCount"
         ),
 
     search:
@@ -1779,7 +1806,54 @@ const elements = {
         document.getElementById(
             "bannedFooter"
         ),
+
+    adminKey:
+        document.getElementById(
+            "adminKey"
+        ),
+
+    manualUserId:
+        document.getElementById(
+            "manualUserId"
+        ),
+
+    banReason:
+        document.getElementById(
+            "banReason"
+        ),
+
+    manualBanButton:
+        document.getElementById(
+            "manualBanButton"
+        ),
+
+    manualUnbanButton:
+        document.getElementById(
+            "manualUnbanButton"
+        ),
+
+    adminNotice:
+        document.getElementById(
+            "adminNotice"
+        ),
 };
+
+
+elements.adminKey.value =
+    sessionStorage.getItem(
+        "nexuAdminKey"
+    ) || "";
+
+
+elements.adminKey.addEventListener(
+    "input",
+    function () {
+        sessionStorage.setItem(
+            "nexuAdminKey",
+            elements.adminKey.value
+        );
+    }
+);
 
 
 function escapeHtml(value) {
@@ -1805,6 +1879,23 @@ function escapeHtml(value) {
         .replaceAll(
             "'",
             "&#039;"
+        );
+}
+
+
+function setAdminNotice(
+    text,
+    type
+) {
+    elements.adminNotice.textContent =
+        text;
+
+    elements.adminNotice.className =
+        "admin-notice" +
+        (
+            type
+                ? " " + type
+                : ""
         );
 }
 
@@ -1839,6 +1930,21 @@ function renderPlayer(
 
             : "";
 
+    const action =
+        banned
+            ? "unban"
+            : "ban";
+
+    const buttonText =
+        banned
+            ? "ENTBANNEN"
+            : "BANNEN";
+
+    const buttonClass =
+        banned
+            ? "unban"
+            : "ban";
+
     return (
         '<article class="player ' +
         (
@@ -1872,6 +1978,8 @@ function renderPlayer(
 
         "</div>" +
 
+        '<div class="player-actions">' +
+
         '<div class="player-state ' +
         (
             banned
@@ -1885,6 +1993,22 @@ function renderPlayer(
                 ? "Gesperrt"
                 : "Online"
         ) +
+
+        "</div>" +
+
+        '<button class="action-button small ' +
+        buttonClass +
+        '" data-action="' +
+        action +
+        '" data-user-id="' +
+        escapeHtml(
+            player.userId
+        ) +
+        '">' +
+
+        buttonText +
+
+        "</button>" +
 
         "</div>" +
 
@@ -1922,6 +2046,11 @@ function render() {
             state.players.length
         );
 
+    elements.bannedCount.textContent =
+        String(
+            state.bannedPlayers.length
+        );
+
     const query =
         state.query
             .trim()
@@ -1929,28 +2058,31 @@ function render() {
 
     const filtered =
         state.players.filter(
-            (player) =>
-                !query ||
+            function (player) {
+                return (
+                    !query ||
 
-                String(
-                    player.displayName ||
-                    ""
-                )
-                    .toLocaleLowerCase()
-                    .includes(query) ||
+                    String(
+                        player.displayName ||
+                        ""
+                    )
+                        .toLocaleLowerCase()
+                        .includes(query) ||
 
-                String(
-                    player.username ||
-                    ""
-                )
-                    .toLocaleLowerCase()
-                    .includes(query) ||
+                    String(
+                        player.username ||
+                        ""
+                    )
+                        .toLocaleLowerCase()
+                        .includes(query) ||
 
-                String(
-                    player.userId ||
-                    ""
-                )
-                    .includes(query)
+                    String(
+                        player.userId ||
+                        ""
+                    )
+                        .includes(query)
+                );
+            }
         );
 
     elements.players.innerHTML =
@@ -1958,11 +2090,12 @@ function render() {
 
             ? filtered
                 .map(
-                    (player) =>
-                        renderPlayer(
+                    function (player) {
+                        return renderPlayer(
                             player,
                             false
-                        )
+                        );
+                    }
                 )
                 .join("")
 
@@ -1985,11 +2118,12 @@ function render() {
 
             ? state.bannedPlayers
                 .map(
-                    (player) =>
-                        renderPlayer(
+                    function (player) {
+                        return renderPlayer(
                             player,
                             true
-                        )
+                        );
+                    }
                 )
                 .join("")
 
@@ -2027,9 +2161,7 @@ async function refresh() {
                 }
             );
 
-        if (
-            !response.ok
-        ) {
+        if (!response.ok) {
             throw new Error(
                 "HTTP " +
                 response.status
@@ -2055,22 +2187,6 @@ async function refresh() {
             )
                 ? data.bannedPlayers
                 : [];
-
-        elements.updatedAt.textContent =
-            new Date()
-                .toLocaleTimeString(
-                    "de-DE",
-                    {
-                        hour:
-                            "2-digit",
-
-                        minute:
-                            "2-digit",
-
-                        second:
-                            "2-digit",
-                    }
-                );
     } catch (error) {
         console.error(
             "Nexu refresh failed:",
@@ -2080,18 +2196,143 @@ async function refresh() {
         state.online = false;
         state.players = [];
         state.bannedPlayers = [];
-
-        elements.updatedAt.textContent =
-            "Fehler";
     }
 
     render();
 }
 
 
+async function moderate(
+    action,
+    userId
+) {
+    const adminKey =
+        elements.adminKey
+            .value
+            .trim();
+
+    const normalizedUserId =
+        String(
+            userId || ""
+        )
+            .trim();
+
+    if (!adminKey) {
+        setAdminNotice(
+            "ADMIN_KEY fehlt.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (
+        !/^\d{1,30}$/.test(
+            normalizedUserId
+        )
+    ) {
+        setAdminNotice(
+            "Ungültige Roblox User-ID.",
+            "error"
+        );
+
+        return;
+    }
+
+    setAdminNotice(
+        action === "ban"
+            ? "Ban wird gesetzt …"
+            : "Ban wird aufgehoben …",
+        ""
+    );
+
+    try {
+        const response =
+            await fetch(
+                "/api/admin/" + action,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Accept":
+                            "application/json",
+
+                        "Content-Type":
+                            "application/json",
+
+                        "X-Admin-Key":
+                            adminKey,
+                    },
+
+                    body:
+                        JSON.stringify({
+                            userId:
+                                normalizedUserId,
+
+                            reason:
+                                action === "ban"
+
+                                    ? elements
+                                        .banReason
+                                        .value
+                                        .trim()
+
+                                    : "",
+                        }),
+                }
+            );
+
+        const data =
+            await response
+                .json()
+                .catch(
+                    function () {
+                        return {};
+                    }
+                );
+
+        if (
+            !response.ok ||
+            data.success !== true
+        ) {
+            throw new Error(
+                data.error ||
+                (
+                    "HTTP " +
+                    response.status
+                )
+            );
+        }
+
+        elements.manualUserId.value =
+            normalizedUserId;
+
+        setAdminNotice(
+            action === "ban"
+
+                ? "Spieler wurde vom Nexu-Menü gebannt. Der Client erkennt die Sperre beim nächsten Access-Check."
+
+                : "Spieler wurde entbannt.",
+
+            "ok"
+        );
+
+        await refresh();
+    } catch (error) {
+        setAdminNotice(
+            error.message ||
+            "Moderationsanfrage fehlgeschlagen.",
+
+            "error"
+        );
+    }
+}
+
+
 elements.search.addEventListener(
     "input",
-    (event) => {
+    function (event) {
         state.query =
             event.target.value ||
             "";
@@ -2101,21 +2342,64 @@ elements.search.addEventListener(
 );
 
 
+elements.manualBanButton.addEventListener(
+    "click",
+    function () {
+        moderate(
+            "ban",
+            elements.manualUserId.value
+        );
+    }
+);
+
+
+elements.manualUnbanButton.addEventListener(
+    "click",
+    function () {
+        moderate(
+            "unban",
+            elements.manualUserId.value
+        );
+    }
+);
+
+
+document.addEventListener(
+    "click",
+    function (event) {
+        const button =
+            event.target.closest(
+                "[data-action][data-user-id]"
+            );
+
+        if (!button) {
+            return;
+        }
+
+        elements.manualUserId.value =
+            button.dataset.userId ||
+            "";
+
+        moderate(
+            button.dataset.action,
+            button.dataset.userId
+        );
+    }
+);
+
+
 refresh();
 
 setInterval(
     refresh,
-    5_000
+    5000
 );
 
 </script>
 
 </body>
-
-</html>
-`;
+</html>`;
 }
-
 
 /* ============================================================
    ROUTEN
