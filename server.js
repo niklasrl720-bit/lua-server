@@ -3,124 +3,70 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const PORT = Number(process.env.PORT || 3000);
-
-const HEARTBEAT_TOKEN = String(
-    process.env.HEARTBEAT_TOKEN || ""
-);
-
-const ADMIN_KEY = String(
-    process.env.ADMIN_KEY || ""
-);
-
+const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");
 const ONLINE_TIMEOUT_MS = 75_000;
 const MAX_BODY_BYTES = 100_000;
 const AVATAR_CACHE_MS = 10 * 60_000;
-
 const MENU_CREATOR_USER_ID = "10199760908";
 
 const BAN_FILE_PATH = String(
     process.env.BAN_FILE_PATH ||
-    path.join(
-        process.cwd(),
-        "data",
-        "nexu-bans.json"
-    )
+    path.join(process.cwd(), "data", "nexu-bans.json")
 );
 
 const presence = new Map();
 const bans = new Map();
 const avatarCache = new Map();
 
+function sendJson(res, statusCode, data, extraHeaders = {}) {
+    res.writeHead(statusCode, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+        ...extraHeaders,
+    });
 
-/* ============================================================
-   HTTP-HILFSFUNKTIONEN
-============================================================ */
-
-function sendJson(
-    res,
-    statusCode,
-    data
-) {
-    res.writeHead(
-        statusCode,
-        {
-            "Content-Type":
-                "application/json; charset=utf-8",
-
-            "Cache-Control":
-                "no-store",
-
-            "X-Content-Type-Options":
-                "nosniff",
-        }
-    );
-
-    res.end(
-        JSON.stringify(data)
-    );
+    res.end(JSON.stringify(data));
 }
 
+function sendHtml(res, statusCode, html, extraHeaders = {}) {
+    res.writeHead(statusCode, {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "no-referrer",
 
-function sendHtml(
-    res,
-    html
-) {
-    res.writeHead(
-        200,
-        {
-            "Content-Type":
-                "text/html; charset=utf-8",
+        "Content-Security-Policy":
+            "default-src 'self'; " +
+            "img-src 'self' https: data:; " +
+            "style-src 'unsafe-inline'; " +
+            "script-src 'unsafe-inline'; " +
+            "connect-src 'self'; " +
+            "base-uri 'none'; " +
+            "frame-ancestors 'none'",
 
-            "Cache-Control":
-                "no-store",
-
-            "X-Content-Type-Options":
-                "nosniff",
-
-            "Referrer-Policy":
-                "no-referrer",
-
-            "Content-Security-Policy":
-                "default-src 'self'; " +
-                "img-src 'self' https: data:; " +
-                "style-src 'unsafe-inline'; " +
-                "script-src 'unsafe-inline'; " +
-                "connect-src 'self'; " +
-                "base-uri 'none'; " +
-                "frame-ancestors 'none'",
-        }
-    );
+        ...extraHeaders,
+    });
 
     res.end(html);
 }
 
-
-function cleanText(
-    value,
-    maxLength
-) {
+function cleanText(value, maxLength) {
     return typeof value === "string"
-        ? value
-            .trim()
-            .slice(0, maxLength)
+        ? value.trim().slice(0, maxLength)
         : "";
 }
 
-
 function cleanNumericId(value) {
-    const text =
-        String(value ?? "")
-            .trim();
+    const text = String(value ?? "").trim();
 
     return /^\d{1,30}$/.test(text)
         ? text
         : "";
 }
 
-
 function cleanInteger(value) {
-    const number =
-        Number(value);
+    const number = Number(value);
 
     return (
         Number.isSafeInteger(number) &&
@@ -130,157 +76,90 @@ function cleanInteger(value) {
         : 0;
 }
 
-
 function readJsonBody(req) {
-    return new Promise(
-        (
-            resolve,
-            reject
-        ) => {
-            let raw = "";
-            let tooLarge = false;
+    return new Promise((resolve, reject) => {
+        let raw = "";
+        let tooLarge = false;
 
-            req.on(
-                "data",
-                (chunk) => {
-                    raw +=
-                        chunk.toString(
-                            "utf8"
-                        );
+        req.on("data", (chunk) => {
+            raw += chunk.toString("utf8");
 
-                    if (
-                        Buffer.byteLength(
-                            raw,
-                            "utf8"
-                        ) >
-                        MAX_BODY_BYTES
-                    ) {
-                        tooLarge = true;
-                    }
-                }
-            );
+            if (
+                Buffer.byteLength(raw, "utf8") >
+                MAX_BODY_BYTES
+            ) {
+                tooLarge = true;
+            }
+        });
 
-            req.on(
-                "end",
-                () => {
-                    if (tooLarge) {
-                        reject(
-                            new Error(
-                                "BODY_TOO_LARGE"
-                            )
-                        );
+        req.on("end", () => {
+            if (tooLarge) {
+                reject(
+                    new Error("BODY_TOO_LARGE")
+                );
 
-                        return;
-                    }
+                return;
+            }
 
-                    try {
-                        resolve(
-                            raw
-                                ? JSON.parse(raw)
-                                : {}
-                        );
-                    } catch {
-                        reject(
-                            new Error(
-                                "INVALID_JSON"
-                            )
-                        );
-                    }
-                }
-            );
+            try {
+                resolve(
+                    raw
+                        ? JSON.parse(raw)
+                        : {}
+                );
+            } catch {
+                reject(
+                    new Error("INVALID_JSON")
+                );
+            }
+        });
 
-            req.on(
-                "error",
-                reject
-            );
-        }
-    );
+        req.on("error", reject);
+    });
 }
 
-
-/* ============================================================
-   AUTHENTIFIZIERUNG
-============================================================ */
-
 function isHeartbeatAuthorized(req) {
-    // Kein Heartbeat-Token eingestellt:
-    // Presence-Verbindungen werden ohne Token angenommen.
+    /*
+        Ist kein HEARTBEAT_TOKEN bei Render
+        gesetzt, werden Heartbeats ohne Token
+        angenommen.
+    */
+
     if (HEARTBEAT_TOKEN === "") {
         return true;
     }
 
     const supplied = String(
-        req.headers["x-nexu-heartbeat-token"] || ""
+        req.headers[
+            "x-nexu-heartbeat-token"
+        ] || ""
     );
 
     return supplied === HEARTBEAT_TOKEN;
 }
 
-
-function isAdminAuthorized(req) {
-    return (
-        ADMIN_KEY.length >= 20 &&
-
-        String(
-            req.headers[
-                "x-admin-key"
-            ] || ""
-        ) === ADMIN_KEY
-    );
-}
-
-
-/* ============================================================
-   PRESENCE
-============================================================ */
-
 function prunePresence() {
-    const now =
-        Date.now();
+    const now = Date.now();
 
-    for (
-        const [
-            key,
-            entry
-        ]
-        of presence
-    ) {
+    for (const [key, entry] of presence) {
         const expired =
-            now -
-            entry.lastSeenMs >
+            now - entry.lastSeenMs >
             ONLINE_TIMEOUT_MS;
 
-        const blocked =
-            bans.has(
-                entry.userId
-            );
+        const banned =
+            bans.has(entry.userId);
 
-        if (
-            expired ||
-            blocked
-        ) {
+        if (expired || banned) {
             presence.delete(key);
         }
     }
 }
 
-
-function removePresenceForUser(
-    userId
-) {
+function removePresenceForUser(userId) {
     let removed = 0;
 
-    for (
-        const [
-            key,
-            entry
-        ]
-        of presence
-    ) {
-        if (
-            entry.userId ===
-            userId
-        ) {
+    for (const [key, entry] of presence) {
+        if (entry.userId === userId) {
             presence.delete(key);
             removed += 1;
         }
@@ -289,25 +168,16 @@ function removePresenceForUser(
     return removed;
 }
 
-
-function latestPresence(
-    userId
-) {
+function findLatestPresenceForUser(userId) {
     let latest = null;
 
-    for (
-        const entry
-        of presence.values()
-    ) {
+    for (const entry of presence.values()) {
         if (
-            entry.userId ===
-                userId &&
-
+            entry.userId === userId &&
             (
                 !latest ||
-
                 entry.lastSeenMs >
-                latest.lastSeenMs
+                    latest.lastSeenMs
             )
         ) {
             latest = entry;
@@ -317,100 +187,74 @@ function latestPresence(
     return latest;
 }
 
-
-/* ============================================================
-   BAN-SPEICHER
-============================================================ */
-
 function loadBans() {
     try {
-        if (
-            !fs.existsSync(
-                BAN_FILE_PATH
+        if (!fs.existsSync(BAN_FILE_PATH)) {
+            return;
+        }
+
+        const parsed = JSON.parse(
+            fs.readFileSync(
+                BAN_FILE_PATH,
+                "utf8"
             )
-        ) {
+        );
+
+        const rows = Array.isArray(parsed)
+            ? parsed
+            : parsed.bans;
+
+        if (!Array.isArray(rows)) {
             return;
         }
 
-        const parsed =
-            JSON.parse(
-                fs.readFileSync(
-                    BAN_FILE_PATH,
-                    "utf8"
-                )
+        for (const raw of rows) {
+            const userId = cleanNumericId(
+                raw && raw.userId
             );
-
-        const rows =
-            Array.isArray(parsed)
-                ? parsed
-                : parsed.bans;
-
-        if (
-            !Array.isArray(rows)
-        ) {
-            return;
-        }
-
-        for (
-            const row
-            of rows
-        ) {
-            const userId =
-                cleanNumericId(
-                    row?.userId
-                );
 
             if (!userId) {
                 continue;
             }
 
-            bans.set(
+            bans.set(userId, {
                 userId,
-                {
-                    userId,
 
-                    username:
-                        cleanText(
-                            row.username,
-                            40
-                        ),
+                username: cleanText(
+                    raw.username,
+                    40
+                ),
 
-                    displayName:
-                        cleanText(
-                            row.displayName,
-                            80
-                        ),
+                displayName: cleanText(
+                    raw.displayName,
+                    80
+                ),
 
-                    reason:
-                        cleanText(
-                            row.reason,
-                            240
-                        ) ||
+                reason:
+                    cleanText(
+                        raw.reason,
+                        240
+                    ) ||
+                    "Vom Nexu-Menü ausgeschlossen",
 
-                        "Vom Nexu-Menü ausgeschlossen",
+                bannedAt:
+                    cleanText(
+                        raw.bannedAt,
+                        64
+                    ) ||
+                    new Date().toISOString(),
 
-                    bannedAt:
-                        cleanText(
-                            row.bannedAt,
-                            64
-                        ) ||
-
-                        new Date()
-                            .toISOString(),
-
-                    bannedBy:
-                        cleanText(
-                            row.bannedBy,
-                            80
-                        ) ||
-
-                        "server",
-                }
-            );
+                bannedBy:
+                    cleanText(
+                        raw.bannedBy,
+                        80
+                    ) ||
+                    "dashboard",
+            });
         }
 
         console.log(
-            `[NEXU] ${bans.size} Bans geladen`
+            `[NEXU] ${bans.size} gespeicherte Bans geladen`
         );
     } catch (error) {
         console.warn(
@@ -420,13 +264,10 @@ function loadBans() {
     }
 }
 
-
 function saveBans() {
     try {
         fs.mkdirSync(
-            path.dirname(
-                BAN_FILE_PATH
-            ),
+            path.dirname(BAN_FILE_PATH),
             {
                 recursive: true,
             }
@@ -440,10 +281,9 @@ function saveBans() {
 
             JSON.stringify(
                 {
-                    bans:
-                        [
-                            ...bans.values(),
-                        ],
+                    bans: [
+                        ...bans.values(),
+                    ],
                 },
                 null,
                 2
@@ -468,35 +308,19 @@ function saveBans() {
     }
 }
 
-
-/* ============================================================
-   ROBLOX-PROFILBILDER
-============================================================ */
-
-async function fetchAvatarUrls(
-    userIds
-) {
-    const now =
-        Date.now();
-
-    const result =
-        new Map();
-
+async function fetchAvatarUrls(userIds) {
+    const now = Date.now();
+    const result = new Map();
     const missing = [];
 
-    for (
-        const id
-        of userIds
-    ) {
+    for (const id of userIds) {
         const cached =
             avatarCache.get(id);
 
         if (
             cached &&
-
-            now -
-            cached.cachedAtMs <
-            AVATAR_CACHE_MS
+            now - cached.cachedAtMs <
+                AVATAR_CACHE_MS
         ) {
             result.set(
                 id,
@@ -521,12 +345,10 @@ async function fetchAvatarUrls(
         try {
             const endpoint =
                 "https://thumbnails.roblox.com/v1/users/avatar-headshot" +
-
                 "?userIds=" +
                 encodeURIComponent(
                     batch.join(",")
                 ) +
-
                 "&size=150x150" +
                 "&format=Png" +
                 "&isCircular=false";
@@ -537,7 +359,7 @@ async function fetchAvatarUrls(
                     {
                         headers: {
                             "User-Agent":
-                                "Nexu-Presence/3.0",
+                                "Nexu-Presence-Dashboard/3.0",
 
                             "Accept":
                                 "application/json",
@@ -545,11 +367,9 @@ async function fetchAvatarUrls(
                     }
                 );
 
-            if (
-                !response.ok
-            ) {
+            if (!response.ok) {
                 throw new Error(
-                    `HTTP ${response.status}`
+                    `Roblox thumbnail HTTP ${response.status}`
                 );
             }
 
@@ -563,10 +383,7 @@ async function fetchAvatarUrls(
                     ? payload.data
                     : [];
 
-            for (
-                const row
-                of rows
-            ) {
+            for (const row of rows) {
                 const id =
                     cleanNumericId(
                         row.targetId
@@ -584,43 +401,33 @@ async function fetchAvatarUrls(
                         "https://"
                     )
                 ) {
-                    result.set(
-                        id,
-                        url
-                    );
+                    result.set(id, url);
 
                     avatarCache.set(
                         id,
                         {
                             url,
-                            cachedAtMs:
-                                now,
+                            cachedAtMs: now,
                         }
                     );
                 }
             }
         } catch (error) {
             console.warn(
-                "[NEXU] Avatar lookup failed:",
+                "[NEXU] Avatar-Lookup fehlgeschlagen:",
                 error.message
             );
         }
     }
 
-    for (
-        const id
-        of userIds
-    ) {
-        if (
-            !result.has(id)
-        ) {
+    for (const id of userIds) {
+        if (!result.has(id)) {
             result.set(
                 id,
 
                 "https://www.roblox.com/headshot-thumbnail/image" +
-
-                `?userId=${encodeURIComponent(id)}` +
-
+                "?userId=" +
+                encodeURIComponent(id) +
                 "&width=150" +
                 "&height=150" +
                 "&format=png"
@@ -631,179 +438,127 @@ async function fetchAvatarUrls(
     return result;
 }
 
-
-/* ============================================================
-   ÖFFENTLICHE PRESENCE-AUSGABE
-============================================================ */
-
-async function getPublicPresence(
-    jobIdFilter = ""
-) {
+async function getPublicPresence() {
     prunePresence();
 
-    const active =
-        [
-            ...presence.values(),
-        ]
-            .filter(
-                (entry) =>
-                    !jobIdFilter ||
+    const activeRows = [
+        ...presence.values(),
+    ].sort((a, b) =>
+        a.displayName.localeCompare(
+            b.displayName,
+            "de",
+            {
+                sensitivity: "base",
+            }
+        )
+    );
 
-                    entry.jobId ===
-                    jobIdFilter
-            )
-            .sort(
-                (
-                    first,
-                    second
-                ) =>
-                    first.displayName
-                        .localeCompare(
-                            second.displayName,
-                            "de"
-                        )
-            );
+    const bannedRows = [
+        ...bans.values(),
+    ].sort((a, b) =>
+        (
+            a.displayName ||
+            a.username ||
+            a.userId
+        ).localeCompare(
+            b.displayName ||
+            b.username ||
+            b.userId,
+            "de",
+            {
+                sensitivity: "base",
+            }
+        )
+    );
 
-    const blocked =
-        [
-            ...bans.values(),
-        ]
-            .sort(
-                (
-                    first,
-                    second
-                ) =>
-                    (
-                        first.displayName ||
-                        first.username ||
-                        first.userId
-                    )
-                        .localeCompare(
-                            second.displayName ||
-                            second.username ||
-                            second.userId,
-
-                            "de"
-                        )
-            );
-
-    const ids =
-        [
-            ...new Set(
-                [
-                    ...active.map(
-                        (row) =>
-                            row.userId
-                    ),
-
-                    ...blocked.map(
-                        (row) =>
-                            row.userId
-                    ),
-                ]
+    const allIds = [
+        ...new Set([
+            ...activeRows.map(
+                (row) => row.userId
             ),
-        ];
 
-    const avatars =
-        await fetchAvatarUrls(
-            ids
-        );
+            ...bannedRows.map(
+                (row) => row.userId
+            ),
+        ]),
+    ];
+
+    const avatarUrls =
+        await fetchAvatarUrls(allIds);
+
+    const players =
+        activeRows.map((row) => ({
+            userId:
+                row.userId,
+
+            username:
+                row.username,
+
+            displayName:
+                row.displayName,
+
+            avatarUrl:
+                avatarUrls.get(
+                    row.userId
+                ) || "",
+
+            placeId:
+                row.placeId,
+
+            jobId:
+                row.jobId,
+
+            joinedAt:
+                new Date(
+                    row.joinedAtMs
+                ).toISOString(),
+
+            lastSeen:
+                new Date(
+                    row.lastSeenMs
+                ).toISOString(),
+
+            banned: false,
+        }));
+
+    const bannedPlayers =
+        bannedRows.map((row) => ({
+            userId:
+                row.userId,
+
+            username:
+                row.username ||
+                `User${row.userId}`,
+
+            displayName:
+                row.displayName ||
+                row.username ||
+                `User ${row.userId}`,
+
+            avatarUrl:
+                avatarUrls.get(
+                    row.userId
+                ) || "",
+
+            placeId: 0,
+            jobId: "",
+            banned: true,
+
+            reason:
+                row.reason,
+
+            bannedAt:
+                row.bannedAt,
+        }));
 
     return {
-        players:
-            active.map(
-                (entry) => ({
-                    userId:
-                        entry.userId,
-
-                    username:
-                        entry.username,
-
-                    displayName:
-                        entry.displayName,
-
-                    avatarUrl:
-                        avatars.get(
-                            entry.userId
-                        ) || "",
-
-                    placeId:
-                        entry.placeId,
-
-                    jobId:
-                        entry.jobId,
-
-                    joinedAt:
-                        new Date(
-                            entry.joinedAtMs
-                        ).toISOString(),
-
-                    lastSeen:
-                        new Date(
-                            entry.lastSeenMs
-                        ).toISOString(),
-
-                    banned: false,
-                })
-            ),
-
-        bannedPlayers:
-            blocked.map(
-                (entry) => ({
-                    userId:
-                        entry.userId,
-
-                    username:
-                        entry.username ||
-                        `User${entry.userId}`,
-
-                    displayName:
-                        entry.displayName ||
-                        entry.username ||
-                        `User ${entry.userId}`,
-
-                    avatarUrl:
-                        avatars.get(
-                            entry.userId
-                        ) || "",
-
-                    placeId: 0,
-                    jobId: "",
-                    banned: true,
-
-                    reason:
-                        entry.reason,
-
-                    bannedAt:
-                        entry.bannedAt,
-                })
-            ),
+        players,
+        bannedPlayers,
     };
 }
 
-
-/* ============================================================
-   ALTE UND NEUE HEARTBEATS UNTERSTÜTZEN
-============================================================ */
-
-function normalizeHeartbeat(
-    body
-) {
-    /*
-        Alte Server-Version:
-        body.players = [...]
-
-        Neues Lua-Menü:
-        body.userId
-        body.username
-        body.displayName
-    */
-
-    if (
-        Array.isArray(
-            body.players
-        )
-    ) {
+function normalizeHeartbeatPlayers(body) {
+    if (Array.isArray(body.players)) {
         return {
             batch: true,
 
@@ -836,18 +591,19 @@ function normalizeHeartbeat(
     };
 }
 
-
-/* ============================================================
-   DASHBOARD
-============================================================ */
-
 function dashboardHtml() {
     return String.raw`<!doctype html>
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#03070e">
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+>
+<meta
+    name="theme-color"
+    content="#03070e"
+>
 <title>Nexu</title>
 
 <style>
@@ -873,18 +629,22 @@ body {
     margin: 0;
     min-height: 100%;
     color: var(--text);
+
     background:
         radial-gradient(
             circle at 18% 5%,
             rgba(0, 200, 255, .14),
             transparent 34rem
         ),
+
         radial-gradient(
             circle at 88% 20%,
             rgba(111, 70, 255, .14),
             transparent 32rem
         ),
+
         var(--bg);
+
     font-family:
         Inter,
         ui-sans-serif,
@@ -900,17 +660,21 @@ body::before {
     inset: 0;
     pointer-events: none;
     opacity: .23;
+
     background-image:
         linear-gradient(
             rgba(0, 200, 255, .06) 1px,
             transparent 1px
         ),
+
         linear-gradient(
             90deg,
             rgba(0, 200, 255, .06) 1px,
             transparent 1px
         );
+
     background-size: 32px 32px;
+
     mask-image:
         linear-gradient(
             to bottom,
@@ -927,6 +691,7 @@ body::before {
     top: -2px;
     height: 1px;
     pointer-events: none;
+
     background:
         linear-gradient(
             90deg,
@@ -934,16 +699,20 @@ body::before {
             rgba(0, 200, 255, .8),
             transparent
         );
+
     box-shadow:
         0 0 20px
         rgba(0, 200, 255, .75);
+
     animation:
         scan 7s linear infinite;
 }
 
 @keyframes scan {
     from {
-        transform: translateY(0);
+        transform:
+            translateY(0);
+
         opacity: 0;
     }
 
@@ -953,7 +722,9 @@ body::before {
     }
 
     to {
-        transform: translateY(100vh);
+        transform:
+            translateY(100vh);
+
         opacity: 0;
     }
 }
@@ -961,13 +732,18 @@ body::before {
 .shell {
     position: relative;
     z-index: 1;
+
     width:
         min(
             1180px,
             calc(100% - 32px)
         );
-    margin: 0 auto;
-    padding: 26px 0 54px;
+
+    margin:
+        0 auto;
+
+    padding:
+        26px 0 54px;
 }
 
 header {
@@ -987,22 +763,28 @@ header {
 .logo {
     width: 44px;
     height: 44px;
+
     display: grid;
     place-items: center;
+
     border-radius: 50%;
+
     font-weight: 850;
     font-size: 19px;
     color: white;
+
     background:
         linear-gradient(
             135deg,
             var(--cyan),
             var(--violet)
         );
+
     box-shadow:
         0 0 0 1px
             rgba(255, 255, 255, .17)
             inset,
+
         0 0 28px
             rgba(0, 200, 255, .28);
 }
@@ -1024,16 +806,24 @@ header {
     display: flex;
     align-items: center;
     gap: 9px;
+
     min-height: 38px;
     padding: 0 14px;
+
     border:
         1px solid
         var(--border);
+
     border-radius: 999px;
+
     background:
         rgba(7, 13, 23, .72);
-    color: var(--muted);
+
+    color:
+        var(--muted);
+
     font-size: 13px;
+
     backdrop-filter:
         blur(14px);
 }
@@ -1041,21 +831,31 @@ header {
 .dot {
     width: 9px;
     height: 9px;
+
     border-radius: 50%;
-    background: var(--muted);
+
+    background:
+        var(--muted);
+
     box-shadow:
         0 0 14px
         currentColor;
 }
 
 .dot.online {
-    background: var(--green);
-    color: var(--green);
+    background:
+        var(--green);
+
+    color:
+        var(--green);
 }
 
 .dot.offline {
-    background: var(--red);
-    color: var(--red);
+    background:
+        var(--red);
+
+    color:
+        var(--red);
 }
 
 .hero,
@@ -1063,19 +863,24 @@ header {
     border:
         1px solid
         var(--border);
+
     background:
         linear-gradient(
             135deg,
             rgba(0, 200, 255, .06),
             rgba(111, 70, 255, .045)
         ),
+
         var(--panel);
+
     box-shadow:
         0 26px 80px
             rgba(0, 0, 0, .34),
+
         0 0 0 1px
             rgba(255, 255, 255, .025)
             inset;
+
     backdrop-filter:
         blur(18px);
 }
@@ -1093,22 +898,35 @@ header {
 
 .eyebrow {
     color: var(--cyan);
+
     font-size: 11px;
-    letter-spacing: .19em;
-    text-transform: uppercase;
+
+    letter-spacing:
+        .19em;
+
+    text-transform:
+        uppercase;
 }
 
 h1 {
-    margin: 8px 0;
-    max-width: 760px;
+    margin:
+        8px 0;
+
+    max-width:
+        760px;
+
     font-size:
         clamp(
             30px,
             5vw,
             52px
         );
-    line-height: 1.03;
-    letter-spacing: -.04em;
+
+    line-height:
+        1.03;
+
+    letter-spacing:
+        -.04em;
 }
 
 .hero p {
@@ -1120,11 +938,13 @@ h1 {
 
 .stats {
     display: grid;
+
     grid-template-columns:
         repeat(
             3,
             minmax(0, 1fr)
         );
+
     gap: 14px;
     margin-top: 24px;
 }
@@ -1132,18 +952,29 @@ h1 {
 .stat {
     min-height: 122px;
     padding: 18px;
+
     border:
         1px solid
         rgba(74, 178, 230, .19);
-    border-radius: 19px;
-    background: var(--panel2);
+
+    border-radius:
+        19px;
+
+    background:
+        var(--panel2);
 }
 
 .stat-label {
     color: var(--muted);
-    font-size: 11px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
+
+    font-size:
+        11px;
+
+    letter-spacing:
+        .12em;
+
+    text-transform:
+        uppercase;
 }
 
 .stat-value {
@@ -1167,23 +998,11 @@ h1 {
 }
 
 .directory h2 {
-    margin: 4px 0 0;
-    font-size: 21px;
-}
+    margin:
+        4px 0 0;
 
-.search,
-.admin-input {
-    height: 44px;
-    border:
-        1px solid
-        rgba(74, 178, 230, .25);
-    border-radius: 13px;
-    outline: none;
-    padding: 0 15px;
-    color: var(--text);
-    background:
-        rgba(3, 8, 15, .8);
-    font: inherit;
+    font-size:
+        21px;
 }
 
 .search {
@@ -1192,108 +1011,50 @@ h1 {
             380px,
             100%
         );
+
+    height: 44px;
+
+    border:
+        1px solid
+        rgba(74, 178, 230, .25);
+
+    border-radius:
+        13px;
+
+    outline:
+        none;
+
+    padding:
+        0 15px;
+
+    color:
+        var(--text);
+
+    background:
+        rgba(3, 8, 15, .8);
+
+    font:
+        inherit;
 }
 
-.search:focus,
-.admin-input:focus {
+.search:focus {
     border-color:
         rgba(0, 200, 255, .68);
+
     box-shadow:
         0 0 0 3px
         rgba(0, 200, 255, .08);
 }
 
-.admin-grid {
-    display: grid;
-    grid-template-columns:
-        1.15fr
-        .8fr
-        1.25fr
-        auto
-        auto;
-    gap: 10px;
-}
-
-.action-button {
-    min-height: 44px;
-    border:
-        1px solid
-        var(--border);
-    border-radius: 13px;
-    padding: 0 15px;
-    color: var(--text);
-    background:
-        rgba(10, 18, 31, .92);
-    font: inherit;
-    font-weight: 760;
-    cursor: pointer;
-    transition:
-        transform .16s ease,
-        border-color .16s ease,
-        background .16s ease;
-}
-
-.action-button:hover {
-    transform:
-        translateY(-1px);
-}
-
-.action-button.ban {
-    border-color:
-        rgba(255, 77, 120, .5);
-    color: #ff9bb1;
-    background:
-        rgba(42, 8, 18, .78);
-}
-
-.action-button.ban:hover {
-    border-color:
-        var(--red);
-}
-
-.action-button.unban {
-    border-color:
-        rgba(45, 255, 165, .42);
-    color: #91ffd2;
-    background:
-        rgba(4, 35, 24, .76);
-}
-
-.action-button.unban:hover {
-    border-color:
-        var(--green);
-}
-
-.action-button.small {
-    min-height: 34px;
-    height: 34px;
-    padding: 0 10px;
-    border-radius: 10px;
-    font-size: 11px;
-}
-
-.admin-notice {
-    margin-top: 12px;
-    min-height: 20px;
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.admin-notice.ok {
-    color: #91ffd2;
-}
-
-.admin-notice.error {
-    color: #ff9bb1;
-}
-
 .players {
     display: grid;
+
     grid-template-columns:
         repeat(
             2,
             minmax(0, 1fr)
         );
+
     gap: 12px;
 }
 
@@ -1301,14 +1062,20 @@ h1 {
     display: flex;
     align-items: center;
     gap: 14px;
+
     min-width: 0;
     padding: 13px;
+
     border:
         1px solid
         rgba(74, 178, 230, .16);
-    border-radius: 17px;
+
+    border-radius:
+        17px;
+
     background:
         rgba(8, 15, 26, .76);
+
     transition:
         transform .16s ease,
         border-color .16s ease;
@@ -1317,6 +1084,7 @@ h1 {
 .player:hover {
     transform:
         translateY(-2px);
+
     border-color:
         rgba(0, 200, 255, .37);
 }
@@ -1324,6 +1092,7 @@ h1 {
 .player.banned {
     border-color:
         rgba(255, 77, 120, .3);
+
     background:
         rgba(30, 8, 15, .66);
 }
@@ -1332,9 +1101,15 @@ h1 {
     width: 58px;
     height: 58px;
     flex: 0 0 58px;
+
     object-fit: cover;
-    border-radius: 14px;
-    background: #0b1422;
+
+    border-radius:
+        14px;
+
+    background:
+        #0b1422;
+
     border:
         1px solid
         rgba(0, 200, 255, .26);
@@ -1363,12 +1138,14 @@ h1 {
 
 .reason {
     margin-top: 5px;
-    color: #b6808d;
+    color: #ff9bb1;
     font-size: 11px;
+    line-height: 1.4;
 }
 
 .player-actions {
     flex: 0 0 auto;
+
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -1386,15 +1163,110 @@ h1 {
     color: var(--red);
 }
 
+.action-button {
+    min-height: 34px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        10px;
+
+    padding:
+        0 10px;
+
+    color:
+        var(--text);
+
+    background:
+        rgba(10, 18, 31, .92);
+
+    font:
+        inherit;
+
+    font-size:
+        11px;
+
+    font-weight:
+        760;
+
+    cursor:
+        pointer;
+
+    transition:
+        transform .16s ease,
+        border-color .16s ease,
+        background .16s ease;
+}
+
+.action-button:hover {
+    transform:
+        translateY(-1px);
+}
+
+.action-button:disabled {
+    cursor:
+        not-allowed;
+
+    opacity:
+        .55;
+
+    transform:
+        none;
+}
+
+.action-button.ban {
+    border-color:
+        rgba(255, 77, 120, .5);
+
+    color:
+        #ff9bb1;
+
+    background:
+        rgba(42, 8, 18, .78);
+}
+
+.action-button.ban:hover {
+    border-color:
+        var(--red);
+}
+
+.action-button.unban {
+    border-color:
+        rgba(45, 255, 165, .42);
+
+    color:
+        #91ffd2;
+
+    background:
+        rgba(4, 35, 24, .76);
+}
+
+.action-button.unban:hover {
+    border-color:
+        var(--green);
+}
+
 .empty {
-    grid-column: 1 / -1;
-    padding: 40px 20px;
+    grid-column:
+        1 / -1;
+
+    padding:
+        40px 20px;
+
     border:
         1px dashed
         rgba(74, 178, 230, .22);
-    border-radius: 17px;
-    color: var(--muted);
-    text-align: center;
+
+    border-radius:
+        17px;
+
+    color:
+        var(--muted);
+
+    text-align:
+        center;
 }
 
 .footer-note {
@@ -1404,18 +1276,165 @@ h1 {
     text-align: right;
 }
 
-@media (
-    max-width: 900px
-) {
-    .admin-grid {
-        grid-template-columns:
-            1fr 1fr;
-    }
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
 
-    .admin-grid .wide {
-        grid-column:
-            1 / -1;
-    }
+    display: grid;
+    place-items: center;
+
+    padding:
+        18px;
+
+    background:
+        rgba(0, 3, 8, .72);
+
+    backdrop-filter:
+        blur(10px);
+
+    opacity: 1;
+
+    transition:
+        opacity .2s ease;
+}
+
+.modal-backdrop.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-card {
+    width:
+        min(
+            430px,
+            100%
+        );
+
+    padding:
+        22px;
+
+    border:
+        1px solid
+        rgba(255, 77, 120, .42);
+
+    border-radius:
+        20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 77, 120, .07),
+            rgba(111, 70, 255, .04)
+        ),
+
+        rgba(7, 13, 23, .97);
+
+    box-shadow:
+        0 28px 90px
+            rgba(0, 0, 0, .55),
+
+        0 0 30px
+            rgba(255, 77, 120, .08);
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    transition:
+        transform .2s ease;
+}
+
+.modal-backdrop.hidden .modal-card {
+    transform:
+        translateY(12px)
+        scale(.98);
+}
+
+.modal-card h3 {
+    margin:
+        7px 0 5px;
+
+    font-size:
+        22px;
+}
+
+.modal-user {
+    margin:
+        0 0 15px;
+
+    color:
+        var(--muted);
+
+    font-size:
+        13px;
+}
+
+.reason-input {
+    width: 100%;
+    min-height: 105px;
+
+    resize:
+        vertical;
+
+    border:
+        1px solid
+        rgba(255, 77, 120, .35);
+
+    border-radius:
+        13px;
+
+    outline:
+        none;
+
+    padding:
+        12px 13px;
+
+    color:
+        var(--text);
+
+    background:
+        rgba(3, 8, 15, .86);
+
+    font:
+        inherit;
+}
+
+.reason-input:focus {
+    border-color:
+        var(--red);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255, 77, 120, .08);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+
+    margin-top:
+        13px;
+}
+
+.modal-actions .action-button {
+    min-height: 42px;
+    padding: 0 14px;
+    font-size: 12px;
+}
+
+.modal-notice {
+    min-height: 18px;
+
+    margin-top:
+        10px;
+
+    color:
+        #ff9bb1;
+
+    font-size:
+        12px;
 }
 
 @media (
@@ -1427,7 +1446,9 @@ h1 {
                 100% - 20px,
                 1180px
             );
-        padding-top: 16px;
+
+        padding-top:
+            16px;
     }
 
     header {
@@ -1436,12 +1457,16 @@ h1 {
     }
 
     .brand-copy span {
-        display: none;
+        display:
+            none;
     }
 
     .hero {
-        padding: 22px;
-        border-radius: 22px;
+        padding:
+            22px;
+
+        border-radius:
+            22px;
     }
 
     .stats,
@@ -1451,27 +1476,21 @@ h1 {
     }
 
     .directory {
-        padding: 18px;
+        padding:
+            18px;
     }
 
     .directory-head {
         align-items:
             stretch;
+
         flex-direction:
             column;
     }
 
     .search {
-        width: 100%;
-    }
-
-    .admin-grid {
-        grid-template-columns:
-            1fr;
-    }
-
-    .admin-grid .wide {
-        grid-column: auto;
+        width:
+            100%;
     }
 }
 </style>
@@ -1534,9 +1553,10 @@ Aktive Nutzer auf einen Blick.
 <p>
 Das Dashboard zeigt Spieler,
 deren Nexu-Menü gerade aktiv ist.
-Bans und Unbans werden über den
-geschützten Moderations-Endpunkt ausgelöst.
+Spieler können direkt über ihre
+Karte gebannt oder entbannt werden.
 </p>
+
 
 <div class="stats">
 
@@ -1594,80 +1614,11 @@ Gesperrte Spieler
 </div>
 
 <div class="stat-note">
-Serverseitige Sperrliste
+Bleiben bis zum Entbannen gespeichert
 </div>
 
 </article>
 
-</div>
-
-</section>
-
-
-<section class="directory">
-
-<div class="directory-head">
-
-<div>
-
-<div class="eyebrow">
-ADMINISTRATION
-</div>
-
-<h2>
-Spieler bannen oder entbannen
-</h2>
-
-</div>
-
-</div>
-
-<div class="admin-grid">
-
-<input
-    id="adminKey"
-    class="admin-input wide"
-    type="password"
-    autocomplete="off"
-    placeholder="ADMIN_KEY von Render"
->
-
-<input
-    id="manualUserId"
-    class="admin-input"
-    inputmode="numeric"
-    autocomplete="off"
-    placeholder="Roblox User-ID"
->
-
-<input
-    id="banReason"
-    class="admin-input wide"
-    autocomplete="off"
-    placeholder="Ban-Grund (optional)"
->
-
-<button
-    id="manualBanButton"
-    class="action-button ban"
->
-BANNEN
-</button>
-
-<button
-    id="manualUnbanButton"
-    class="action-button unban"
->
-ENTBANNEN
-</button>
-
-</div>
-
-<div
-    id="adminNotice"
-    class="admin-notice"
->
-Der Admin-Key bleibt nur in dieser Browser-Sitzung gespeichert.
 </div>
 
 </section>
@@ -1746,13 +1697,74 @@ Gebannte Nutzer
 </main>
 
 
-<script>
+<div
+    id="banModal"
+    class="modal-backdrop hidden"
+    aria-hidden="true"
+>
 
+<div
+    class="modal-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="banModalTitle"
+>
+
+<div class="eyebrow">
+MENÜ-SPERRE
+</div>
+
+<h3 id="banModalTitle">
+Spieler bannen
+</h3>
+
+<p
+    id="banModalUser"
+    class="modal-user"
+></p>
+
+<textarea
+    id="banReasonInput"
+    class="reason-input"
+    maxlength="240"
+    placeholder="Grund für den Ban eingeben …"
+></textarea>
+
+<div class="modal-actions">
+
+<button
+    id="cancelBanButton"
+    class="action-button"
+>
+ABBRECHEN
+</button>
+
+<button
+    id="confirmBanButton"
+    class="action-button ban"
+>
+BAN BESTÄTIGEN
+</button>
+
+</div>
+
+<div
+    id="banModalNotice"
+    class="modal-notice"
+></div>
+
+</div>
+
+</div>
+
+
+<script>
 const state = {
     online: false,
     players: [],
     bannedPlayers: [],
     query: "",
+    pendingBan: null,
 };
 
 
@@ -1807,53 +1819,36 @@ const elements = {
             "bannedFooter"
         ),
 
-    adminKey:
+    banModal:
         document.getElementById(
-            "adminKey"
+            "banModal"
         ),
 
-    manualUserId:
+    banModalUser:
         document.getElementById(
-            "manualUserId"
+            "banModalUser"
         ),
 
-    banReason:
+    banReasonInput:
         document.getElementById(
-            "banReason"
+            "banReasonInput"
         ),
 
-    manualBanButton:
+    cancelBanButton:
         document.getElementById(
-            "manualBanButton"
+            "cancelBanButton"
         ),
 
-    manualUnbanButton:
+    confirmBanButton:
         document.getElementById(
-            "manualUnbanButton"
+            "confirmBanButton"
         ),
 
-    adminNotice:
+    banModalNotice:
         document.getElementById(
-            "adminNotice"
+            "banModalNotice"
         ),
 };
-
-
-elements.adminKey.value =
-    sessionStorage.getItem(
-        "nexuAdminKey"
-    ) || "";
-
-
-elements.adminKey.addEventListener(
-    "input",
-    function () {
-        sessionStorage.setItem(
-            "nexuAdminKey",
-            elements.adminKey.value
-        );
-    }
-);
 
 
 function escapeHtml(value) {
@@ -1883,23 +1878,6 @@ function escapeHtml(value) {
 }
 
 
-function setAdminNotice(
-    text,
-    type
-) {
-    elements.adminNotice.textContent =
-        text;
-
-    elements.adminNotice.className =
-        "admin-notice" +
-        (
-            type
-                ? " " + type
-                : ""
-        );
-}
-
-
 function renderPlayer(
     player,
     banned
@@ -1922,6 +1900,7 @@ function renderPlayer(
 
             ? (
                 '<div class="reason">' +
+                "Grund: " +
                 escapeHtml(
                     player.reason
                 ) +
@@ -1996,14 +1975,23 @@ function renderPlayer(
 
         "</div>" +
 
-        '<button class="action-button small ' +
+        '<button class="action-button ' +
         buttonClass +
+
         '" data-action="' +
         action +
+
         '" data-user-id="' +
         escapeHtml(
             player.userId
         ) +
+
+        '" data-display-name="' +
+        escapeHtml(name) +
+
+        '" data-username="' +
+        escapeHtml(username) +
+
         '">' +
 
         buttonText +
@@ -2202,131 +2190,187 @@ async function refresh() {
 }
 
 
+function openBanModal(
+    userId,
+    displayName,
+    username
+) {
+    state.pendingBan = {
+        userId:
+            String(
+                userId || ""
+            ),
+
+        displayName:
+            String(
+                displayName || ""
+            ),
+
+        username:
+            String(
+                username || ""
+            ),
+    };
+
+    elements.banModalUser.textContent =
+        (
+            state.pendingBan.displayName ||
+            state.pendingBan.username ||
+            state.pendingBan.userId
+        ) +
+
+        (
+            state.pendingBan.username
+
+                ? (
+                    " (@" +
+                    state.pendingBan.username +
+                    ")"
+                )
+
+                : ""
+        );
+
+    elements.banReasonInput.value =
+        "";
+
+    elements.banModalNotice.textContent =
+        "";
+
+    elements.banModal.classList.remove(
+        "hidden"
+    );
+
+    elements.banModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    setTimeout(
+        function () {
+            elements
+                .banReasonInput
+                .focus();
+        },
+        30
+    );
+}
+
+
+function closeBanModal() {
+    state.pendingBan =
+        null;
+
+    elements.banModal.classList.add(
+        "hidden"
+    );
+
+    elements.banModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    elements.banModalNotice.textContent =
+        "";
+}
+
+
 async function moderate(
     action,
-    userId
+    userId,
+    reason,
+    identity
 ) {
-    const adminKey =
-        elements.adminKey
-            .value
-            .trim();
-
     const normalizedUserId =
         String(
             userId || ""
         )
             .trim();
 
-    if (!adminKey) {
-        setAdminNotice(
-            "ADMIN_KEY fehlt.",
-            "error"
-        );
-
-        return;
-    }
-
     if (
         !/^\d{1,30}$/.test(
             normalizedUserId
         )
     ) {
-        setAdminNotice(
-            "Ungültige Roblox User-ID.",
-            "error"
+        throw new Error(
+            "Ungültige Roblox User-ID."
         );
-
-        return;
     }
 
-    setAdminNotice(
-        action === "ban"
-            ? "Ban wird gesetzt …"
-            : "Ban wird aufgehoben …",
-        ""
-    );
+    const response =
+        await fetch(
+            "/api/admin/" +
+            action,
 
-    try {
-        const response =
-            await fetch(
-                "/api/admin/" + action,
-                {
-                    method:
-                        "POST",
+            {
+                method:
+                    "POST",
 
-                    headers: {
-                        "Accept":
-                            "application/json",
+                headers: {
+                    "Accept":
+                        "application/json",
 
-                        "Content-Type":
-                            "application/json",
+                    "Content-Type":
+                        "application/json",
+                },
 
-                        "X-Admin-Key":
-                            adminKey,
-                    },
+                body:
+                    JSON.stringify({
+                        userId:
+                            normalizedUserId,
 
-                    body:
-                        JSON.stringify({
-                            userId:
-                                normalizedUserId,
+                        username:
+                            identity &&
+                            identity.username
 
-                            reason:
-                                action === "ban"
+                                ? identity.username
+                                : "",
 
-                                    ? elements
-                                        .banReason
-                                        .value
-                                        .trim()
+                        displayName:
+                            identity &&
+                            identity.displayName
 
-                                    : "",
-                        }),
+                                ? identity.displayName
+                                : "",
+
+                        reason:
+                            action === "ban"
+
+                                ? String(
+                                    reason || ""
+                                )
+                                    .trim()
+
+                                : "",
+                    }),
+            }
+        );
+
+    const data =
+        await response
+            .json()
+            .catch(
+                function () {
+                    return {};
                 }
             );
 
-        const data =
-            await response
-                .json()
-                .catch(
-                    function () {
-                        return {};
-                    }
-                );
-
-        if (
-            !response.ok ||
-            data.success !== true
-        ) {
-            throw new Error(
-                data.error ||
-                (
-                    "HTTP " +
-                    response.status
-                )
-            );
-        }
-
-        elements.manualUserId.value =
-            normalizedUserId;
-
-        setAdminNotice(
-            action === "ban"
-
-                ? "Spieler wurde vom Nexu-Menü gebannt. Der Client erkennt die Sperre beim nächsten Access-Check."
-
-                : "Spieler wurde entbannt.",
-
-            "ok"
-        );
-
-        await refresh();
-    } catch (error) {
-        setAdminNotice(
-            error.message ||
-            "Moderationsanfrage fehlgeschlagen.",
-
-            "error"
+    if (
+        !response.ok ||
+        data.success !== true
+    ) {
+        throw new Error(
+            data.error ||
+            (
+                "HTTP " +
+                response.status
+            )
         );
     }
+
+    await refresh();
+
+    return data;
 }
 
 
@@ -2342,31 +2386,9 @@ elements.search.addEventListener(
 );
 
 
-elements.manualBanButton.addEventListener(
-    "click",
-    function () {
-        moderate(
-            "ban",
-            elements.manualUserId.value
-        );
-    }
-);
-
-
-elements.manualUnbanButton.addEventListener(
-    "click",
-    function () {
-        moderate(
-            "unban",
-            elements.manualUserId.value
-        );
-    }
-);
-
-
 document.addEventListener(
     "click",
-    function (event) {
+    async function (event) {
         const button =
             event.target.closest(
                 "[data-action][data-user-id]"
@@ -2376,14 +2398,139 @@ document.addEventListener(
             return;
         }
 
-        elements.manualUserId.value =
-            button.dataset.userId ||
+        if (
+            button.dataset.action ===
+            "ban"
+        ) {
+            openBanModal(
+                button.dataset.userId,
+                button.dataset.displayName,
+                button.dataset.username
+            );
+
+            return;
+        }
+
+        button.disabled =
+            true;
+
+        button.textContent =
+            "ENTBANNE …";
+
+        try {
+            await moderate(
+                "unban",
+                button.dataset.userId,
+                "",
+                null
+            );
+        } catch (error) {
+            alert(
+                error.message ||
+                "Entbannen fehlgeschlagen."
+            );
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "ENTBANNEN";
+        }
+    }
+);
+
+
+elements.cancelBanButton.addEventListener(
+    "click",
+    closeBanModal
+);
+
+
+elements.banModal.addEventListener(
+    "click",
+    function (event) {
+        if (
+            event.target ===
+            elements.banModal
+        ) {
+            closeBanModal();
+        }
+    }
+);
+
+
+elements.confirmBanButton.addEventListener(
+    "click",
+    async function () {
+        if (!state.pendingBan) {
+            return;
+        }
+
+        const reason =
+            elements
+                .banReasonInput
+                .value
+                .trim();
+
+        if (!reason) {
+            elements.banModalNotice.textContent =
+                "Bitte einen Ban-Grund eingeben.";
+
+            elements
+                .banReasonInput
+                .focus();
+
+            return;
+        }
+
+        elements.confirmBanButton.disabled =
+            true;
+
+        elements.confirmBanButton.textContent =
+            "BANNE …";
+
+        elements.banModalNotice.textContent =
             "";
 
-        moderate(
-            button.dataset.action,
-            button.dataset.userId
-        );
+        try {
+            await moderate(
+                "ban",
+                state.pendingBan.userId,
+                reason,
+                state.pendingBan
+            );
+
+            closeBanModal();
+        } catch (error) {
+            elements.banModalNotice.textContent =
+                error.message ||
+                "Bannen fehlgeschlagen.";
+        } finally {
+            elements.confirmBanButton.disabled =
+                false;
+
+            elements.confirmBanButton.textContent =
+                "BAN BESTÄTIGEN";
+        }
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+        if (
+            event.key === "Escape" &&
+
+            !elements
+                .banModal
+                .classList
+                .contains(
+                    "hidden"
+                )
+        ) {
+            closeBanModal();
+        }
     }
 );
 
@@ -2394,19 +2541,13 @@ setInterval(
     refresh,
     5000
 );
-
 </script>
 
 </body>
 </html>`;
 }
 
-/* ============================================================
-   ROUTEN
-============================================================ */
-
 loadBans();
-
 
 const server =
     http.createServer(
@@ -2424,8 +2565,6 @@ const server =
                 requestUrl.pathname;
 
 
-            /* DASHBOARD */
-
             if (
                 req.method === "GET" &&
                 pathname === "/"
@@ -2436,14 +2575,13 @@ const server =
 
                 sendHtml(
                     res,
+                    200,
                     dashboardHtml()
                 );
 
                 return;
             }
 
-
-            /* STATUS */
 
             if (
                 req.method === "GET" &&
@@ -2480,8 +2618,6 @@ const server =
                 return;
             }
 
-
-            /* MENÜ-ZUGANGSPRÜFUNG */
 
             if (
                 req.method === "GET" &&
@@ -2531,12 +2667,14 @@ const server =
                         userId,
 
                         reason:
-                            ban?.reason ||
-                            "",
+                            ban
+                                ? ban.reason
+                                : "",
 
                         bannedAt:
-                            ban?.bannedAt ||
-                            "",
+                            ban
+                                ? ban.bannedAt
+                                : "",
 
                         timestamp:
                             new Date()
@@ -2548,29 +2686,14 @@ const server =
             }
 
 
-            /* PRESENCE ABRUF */
-
             if (
                 req.method === "GET" &&
 
                 pathname ===
                 "/api/presence"
             ) {
-                const jobId =
-                    cleanText(
-                        requestUrl
-                            .searchParams
-                            .get(
-                                "jobId"
-                            ) || "",
-
-                        100
-                    );
-
                 const data =
-                    await getPublicPresence(
-                        jobId
-                    );
+                    await getPublicPresence();
 
                 sendJson(
                     res,
@@ -2580,7 +2703,9 @@ const server =
                         online: true,
 
                         activePlayers:
-                            data.players.length,
+                            data
+                                .players
+                                .length,
 
                         bannedCount:
                             data
@@ -2606,8 +2731,6 @@ const server =
                 return;
             }
 
-
-            /* HEARTBEAT */
 
             if (
                 req.method === "POST" &&
@@ -2662,7 +2785,7 @@ const server =
                         );
 
                     const normalized =
-                        normalizeHeartbeat(
+                        normalizeHeartbeatPlayers(
                             body
                         );
 
@@ -2691,13 +2814,13 @@ const server =
                         [];
 
                     for (
-                        const raw
+                        const rawPlayer
                         of normalized.rows
                     ) {
                         if (
-                            !raw ||
+                            !rawPlayer ||
 
-                            typeof raw !==
+                            typeof rawPlayer !==
                             "object"
                         ) {
                             continue;
@@ -2705,18 +2828,18 @@ const server =
 
                         const userId =
                             cleanNumericId(
-                                raw.userId
+                                rawPlayer.userId
                             );
 
                         const username =
                             cleanText(
-                                raw.username,
+                                rawPlayer.username,
                                 40
                             );
 
                         const displayName =
                             cleanText(
-                                raw.displayName,
+                                rawPlayer.displayName,
                                 80
                             );
 
@@ -2765,7 +2888,7 @@ const server =
 
                                 sessionId:
                                     cleanText(
-                                        raw.sessionId,
+                                        rawPlayer.sessionId,
                                         100
                                     ) ||
 
@@ -2773,9 +2896,11 @@ const server =
 
                                 joinedAtMs:
                                     existing
-                                        ?.joinedAtMs ||
 
-                                    now,
+                                        ? existing
+                                            .joinedAtMs
+
+                                        : now,
 
                                 lastSeenMs:
                                     now,
@@ -2784,14 +2909,12 @@ const server =
                     }
 
                     /*
-                        Nur ein Batch-Heartbeat
-                        enthält die vollständige
-                        Serverliste.
+                        Ein Batch enthält die
+                        vollständige Spielerliste.
 
-                        Ein einzelner Lua-Client
-                        sendet nur sich selbst
-                        und darf deshalb keine
-                        anderen Spieler löschen.
+                        Ein einzelner Client darf
+                        andere Spieler nicht aus
+                        der Liste entfernen.
                     */
 
                     if (
@@ -2830,6 +2953,9 @@ const server =
                         const userId =
                             blockedUserIds[0];
 
+                        const ban =
+                            bans.get(userId);
+
                         sendJson(
                             res,
                             403,
@@ -2839,9 +2965,10 @@ const server =
                                 userId,
 
                                 reason:
-                                    bans.get(
-                                        userId
-                                    )?.reason ||
+                                    (
+                                        ban &&
+                                        ban.reason
+                                    ) ||
 
                                     "Vom Nexu-Menü ausgeschlossen",
                             }
@@ -2880,15 +3007,16 @@ const server =
                         }
                     );
                 } catch (error) {
-                    sendJson(
-                        res,
-
+                    const status =
                         error.message ===
-                            "BODY_TOO_LARGE"
+                        "BODY_TOO_LARGE"
 
                             ? 413
-                            : 400,
+                            : 400;
 
+                    sendJson(
+                        res,
+                        status,
                         {
                             success: false,
 
@@ -2905,8 +3033,6 @@ const server =
                 return;
             }
 
-
-            /* OFFLINE */
 
             if (
                 req.method === "POST" &&
@@ -3005,33 +3131,12 @@ const server =
             }
 
 
-            /* BAN-LISTE */
-
             if (
                 req.method === "GET" &&
 
                 pathname ===
                 "/api/admin/bans"
             ) {
-                if (
-                    !isAdminAuthorized(
-                        req
-                    )
-                ) {
-                    sendJson(
-                        res,
-                        401,
-                        {
-                            success: false,
-
-                            error:
-                                "Ungültiger Admin-Key",
-                        }
-                    );
-
-                    return;
-                }
-
                 sendJson(
                     res,
                     200,
@@ -3049,33 +3154,12 @@ const server =
             }
 
 
-            /* BAN */
-
             if (
                 req.method === "POST" &&
 
                 pathname ===
                 "/api/admin/ban"
             ) {
-                if (
-                    !isAdminAuthorized(
-                        req
-                    )
-                ) {
-                    sendJson(
-                        res,
-                        401,
-                        {
-                            success: false,
-
-                            error:
-                                "Ungültiger Admin-Key",
-                        }
-                    );
-
-                    return;
-                }
-
                 try {
                     const body =
                         await readJsonBody(
@@ -3121,14 +3205,12 @@ const server =
                     }
 
                     const live =
-                        latestPresence(
+                        findLatestPresenceForUser(
                             userId
                         );
 
-                    const old =
-                        bans.get(
-                            userId
-                        );
+                    const existing =
+                        bans.get(userId);
 
                     const record = {
                         userId,
@@ -3139,9 +3221,15 @@ const server =
                                 40
                             ) ||
 
-                            live?.username ||
+                            (
+                                live &&
+                                live.username
+                            ) ||
 
-                            old?.username ||
+                            (
+                                existing &&
+                                existing.username
+                            ) ||
 
                             `User${userId}`,
 
@@ -3151,9 +3239,15 @@ const server =
                                 80
                             ) ||
 
-                            live?.displayName ||
+                            (
+                                live &&
+                                live.displayName
+                            ) ||
 
-                            old?.displayName ||
+                            (
+                                existing &&
+                                existing.displayName
+                            ) ||
 
                             `User ${userId}`,
 
@@ -3170,7 +3264,7 @@ const server =
                                 .toISOString(),
 
                         bannedBy:
-                            "admin",
+                            "dashboard",
                     };
 
                     bans.set(
@@ -3187,7 +3281,7 @@ const server =
                         saveBans();
 
                     console.log(
-                        `[NEXU] BAN ${userId}`
+                        `[NEXU] BAN ${userId}; Presence entfernt: ${removedPresence}`
                     );
 
                     sendJson(
@@ -3228,33 +3322,12 @@ const server =
             }
 
 
-            /* UNBAN */
-
             if (
                 req.method === "POST" &&
 
                 pathname ===
                 "/api/admin/unban"
             ) {
-                if (
-                    !isAdminAuthorized(
-                        req
-                    )
-                ) {
-                    sendJson(
-                        res,
-                        401,
-                        {
-                            success: false,
-
-                            error:
-                                "Ungültiger Admin-Key",
-                        }
-                    );
-
-                    return;
-                }
-
                 try {
                     const body =
                         await readJsonBody(
@@ -3290,7 +3363,7 @@ const server =
                         saveBans();
 
                     console.log(
-                        `[NEXU] UNBAN ${userId}`
+                        `[NEXU] UNBAN ${userId}; vorhanden: ${existed}`
                     );
 
                     sendJson(
@@ -3378,11 +3451,6 @@ server.listen(
         );
 
         console.log(
-            "Admin-Key eingerichtet:",
-            ADMIN_KEY.length >= 20
-        );
-
-        console.log(
             "Ban-Datei:",
             BAN_FILE_PATH
         );
@@ -3393,6 +3461,10 @@ server.listen(
 
         console.log(
             "Presence: /api/presence"
+        );
+
+        console.log(
+            "Access: /api/menu/access?userId=..."
         );
 
         console.log(
