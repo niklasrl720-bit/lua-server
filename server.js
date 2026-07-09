@@ -1,6 +1,6 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const SUPPORTER_USER_IDS = new Set(["11203703629"]);const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const DASHBOARD_USERNAME = String(process.env.DASHBOARD_USERNAME || "OwnerAccount");const DASHBOARD_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const DASHBOARD_USERNAME = String(process.env.DASHBOARD_USERNAME || "OwnerAccount");const DASHBOARD_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));
 
 const presence = new Map();const knownPlayers = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;
 
@@ -18,7 +18,13 @@ function cleanNumericId(value) {const text = String(value ?? "").trim();return /
 
 function cleanInteger(value) {const number = Number(value);return Number.isSafeInteger(number) && number >= 0 ? number : 0;}
 
-function getNexuRoleInfo(userId) {const id = cleanNumericId(userId);if (MENU_CREATOR_RANK_ENABLED && id === MENU_CREATOR_USER_ID) {return {title: "MENU CREATOR", key: "creator"};}if (SUPPORTER_USER_IDS.has(id)) {return {title: "SUPPORTER", key: "supporter"};}return {title: "SPIELER", key: "player"};}
+function cleanPlayerRoleAssignment(value) {const role = String(value ?? "").trim().toLowerCase();if (role === "players") {return "player";}return PLAYER_ROLE_KEYS.has(role) ? role : "";}
+
+function getAssignedPlayerRoleKey(userId) {const id = cleanNumericId(userId);if (!id) {return "player";}const stored = knownPlayers.get(id);const assigned = cleanPlayerRoleAssignment(stored && (stored.roleKey || stored.role || stored.assignedRole));if (assigned) {return assigned;}return DEFAULT_SUPPORTER_USER_IDS.has(id) ? "supporter" : "player";}
+
+function getNexuRoleInfo(userId) {const id = cleanNumericId(userId);if (MENU_CREATOR_RANK_ENABLED && id === MENU_CREATOR_USER_ID) {return {title: "MENU CREATOR", key: "creator", canBring: true};}const key = getAssignedPlayerRoleKey(id);if (key === "supporter") {return {title: "SUPPORTER", key: "supporter", canBring: true};}return {title: PLAYER_ROLE_TITLES.player, key: "player", canBring: false};}
+
+function canUseNexuBringRole(userId) {const role = getNexuRoleInfo(userId);return role.key === "creator" || role.key === "supporter" || role.canBring === true;}
 
 function readRawBody(req) {return new Promise((resolve, reject) => {let raw = "";let tooLarge = false;
 
@@ -153,13 +159,13 @@ function saveBans() {try {fs.mkdirSync(path.dirname(BAN_FILE_PATH), { recursive:
 }
 
 
-function normalizeKnownPlayer(raw, now = Date.now()) {const userId = cleanNumericId(raw && raw.userId);if (!userId) {return null;}const firstSeenMs = cleanInteger(raw && raw.firstSeenMs) || now;const lastSeenMs = cleanInteger(raw && raw.lastSeenMs) || now;return {userId,username: cleanText(raw && raw.username, 40) || `User${userId}`,displayName: cleanText(raw && raw.displayName, 80) || cleanText(raw && raw.username, 40) || `User ${userId}`,gameName: cleanText(raw && raw.gameName, 120),placeId: cleanInteger(raw && raw.placeId),jobId: cleanText(raw && raw.jobId, 100),sessionId: cleanText(raw && raw.sessionId, 100),firstSeen: cleanText(raw && raw.firstSeen, 64) || new Date(firstSeenMs).toISOString(),lastSeen: cleanText(raw && raw.lastSeen, 64) || new Date(lastSeenMs).toISOString(),firstSeenMs,lastSeenMs,};}
+function normalizeKnownPlayer(raw, now = Date.now()) {const userId = cleanNumericId(raw && raw.userId);if (!userId) {return null;}const firstSeenMs = cleanInteger(raw && raw.firstSeenMs) || now;const lastSeenMs = cleanInteger(raw && raw.lastSeenMs) || now;const roleKey = cleanPlayerRoleAssignment(raw && (raw.roleKey || raw.role || raw.assignedRole));return {userId,username: cleanText(raw && raw.username, 40) || `User${userId}`,displayName: cleanText(raw && raw.displayName, 80) || cleanText(raw && raw.username, 40) || `User ${userId}`,gameName: cleanText(raw && raw.gameName, 120),placeId: cleanInteger(raw && raw.placeId),jobId: cleanText(raw && raw.jobId, 100),sessionId: cleanText(raw && raw.sessionId, 100),roleKey,firstSeen: cleanText(raw && raw.firstSeen, 64) || new Date(firstSeenMs).toISOString(),lastSeen: cleanText(raw && raw.lastSeen, 64) || new Date(lastSeenMs).toISOString(),firstSeenMs,lastSeenMs,};}
 
 function loadKnownPlayers() {try {if (!fs.existsSync(KNOWN_PLAYERS_FILE_PATH)) {return;}const parsed = JSON.parse(fs.readFileSync(KNOWN_PLAYERS_FILE_PATH, "utf8"));const rows = Array.isArray(parsed) ? parsed : parsed.players;if (!Array.isArray(rows)) {return;}for (const raw of rows) {const entry = normalizeKnownPlayer(raw);if (entry) {knownPlayers.set(entry.userId, entry);}}console.log(`[NEXU] ${knownPlayers.size} gespeicherte Spieler geladen`);} catch (error) {console.warn("[NEXU] Gespeicherte Spieler konnten nicht geladen werden:", error.message);}}
 
 function saveKnownPlayers() {try {fs.mkdirSync(path.dirname(KNOWN_PLAYERS_FILE_PATH), { recursive: true });const tempPath = `${KNOWN_PLAYERS_FILE_PATH}.tmp`;const rows = [...knownPlayers.values()].sort((a, b) => (b.lastSeenMs || 0) - (a.lastSeenMs || 0));fs.writeFileSync(tempPath, JSON.stringify({ players: rows }, null, 2), "utf8");fs.renameSync(tempPath, KNOWN_PLAYERS_FILE_PATH);return true;} catch (error) {console.warn("[NEXU] Gespeicherte Spieler konnten nicht gespeichert werden:", error.message);return false;}}
 
-function rememberKnownPlayer(raw, now = Date.now()) {const incoming = normalizeKnownPlayer({...(raw || {}),lastSeenMs: now,lastSeen: new Date(now).toISOString(),}, now);if (!incoming) {return false;}const existing = knownPlayers.get(incoming.userId);const next = {userId: incoming.userId,username: incoming.username || (existing && existing.username) || `User${incoming.userId}`,displayName: incoming.displayName || (existing && existing.displayName) || incoming.username || `User ${incoming.userId}`,gameName: incoming.gameName || (existing && existing.gameName) || "",placeId: incoming.placeId || (existing && existing.placeId) || 0,jobId: incoming.jobId || (existing && existing.jobId) || "",sessionId: incoming.sessionId || (existing && existing.sessionId) || "",firstSeen: existing && existing.firstSeen ? existing.firstSeen : new Date(now).toISOString(),firstSeenMs: existing && existing.firstSeenMs ? existing.firstSeenMs : now,lastSeen: new Date(now).toISOString(),lastSeenMs: now,};const before = existing ? JSON.stringify(existing) : "";knownPlayers.set(next.userId, next);return before !== JSON.stringify(next);}
+function rememberKnownPlayer(raw, now = Date.now()) {const incoming = normalizeKnownPlayer({...(raw || {}),lastSeenMs: now,lastSeen: new Date(now).toISOString(),}, now);if (!incoming) {return false;}const existing = knownPlayers.get(incoming.userId);const next = {userId: incoming.userId,username: incoming.username || (existing && existing.username) || `User${incoming.userId}`,displayName: incoming.displayName || (existing && existing.displayName) || incoming.username || `User ${incoming.userId}`,gameName: incoming.gameName || (existing && existing.gameName) || "",placeId: incoming.placeId || (existing && existing.placeId) || 0,jobId: incoming.jobId || (existing && existing.jobId) || "",sessionId: incoming.sessionId || (existing && existing.sessionId) || "",roleKey: (existing && cleanPlayerRoleAssignment(existing.roleKey || existing.role || existing.assignedRole)) || incoming.roleKey || "",firstSeen: existing && existing.firstSeen ? existing.firstSeen : new Date(now).toISOString(),firstSeenMs: existing && existing.firstSeenMs ? existing.firstSeenMs : now,lastSeen: new Date(now).toISOString(),lastSeenMs: now,};const before = existing ? JSON.stringify(existing) : "";knownPlayers.set(next.userId, next);return before !== JSON.stringify(next);}
 
 function markKnownPlayerOffline(userId, sessionId, now = Date.now(), identity = {}) {const id = cleanNumericId(userId);if (!id) {return false;}const existing = knownPlayers.get(id);if (!existing) {return false;}if (sessionId && existing.sessionId && existing.sessionId !== sessionId) {return false;}const username = cleanText(identity.username, 40);const displayName = cleanText(identity.displayName, 80);knownPlayers.set(id, {...existing,username: username || existing.username,displayName: displayName || existing.displayName,lastSeen: new Date(now).toISOString(),lastSeenMs: now,});return true;}
 
@@ -1202,6 +1208,12 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .role-badge { display:inline-flex; align-items:center; justify-content:center; margin-top:7px; width:max-content; max-width:100%; border:1px solid rgba(66,255,145,.42); border-radius:999px; padding:4px 9px; font-size:9px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#42ff91; background:rgba(7,38,24,.72); box-shadow:0 0 14px rgba(66,255,145,.12); }
 .role-badge.creator { border-color:rgba(255,194,45,.72); color:#fff6ae; background:linear-gradient(115deg,rgba(47,27,3,.9),rgba(255,194,45,.18),rgba(47,27,3,.9)); box-shadow:0 0 20px rgba(255,194,45,.28); }
 .role-badge.supporter { border-color:rgba(245,250,255,.78); color:#ffffff; background:linear-gradient(115deg,rgba(23,28,38,.92),rgba(245,250,255,.24),rgba(23,28,38,.92)); box-shadow:0 0 22px rgba(245,250,255,.25); }
+.role-controls { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:8px; }
+.role-button { min-height:24px; border:1px solid rgba(74,178,230,.25); border-radius:999px; padding:0 9px; color:#b8d0df; background:rgba(5,12,22,.78); font:inherit; font-size:9px; font-weight:850; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:transform .16s ease,border-color .16s ease,color .16s ease,background .16s ease; }
+.role-button:hover { transform:translateY(-1px); border-color:rgba(0,200,255,.55); color:#8cecff; }
+.role-button.active { cursor:default; color:#91ffd2; border-color:rgba(45,255,165,.45); background:rgba(4,35,24,.74); transform:none; }
+.role-button.supporter.active { color:#ffffff; border-color:rgba(245,250,255,.7); background:rgba(245,250,255,.16); }
+.role-button:disabled { opacity:.86; }
 .action-button {
     min-height:34px;
     border:1px solid var(--border);
@@ -1487,10 +1499,16 @@ function renderPlayer(player,banned) {
     const joinable = online && /^\d+$/.test(placeId) && placeId !== "0" && jobId !== "-" && !jobId.startsWith("LOCAL-");
     const bringable = online && String(player.userId || "") !== "${MENU_CREATOR_USER_ID}";
     const roleKey = String(player.roleKey || "player").replace(/[^a-z0-9_-]/gi,"").toLowerCase() || "player";
-    const roleTitle = player.roleTitle || "SPIELER";
+    const roleTitle = player.roleTitle || "PLAYERS";
     const stateClass = banned ? "banned" : (online ? "online" : "offline");
     const stateText = banned ? "Gesperrt" : (online ? "Online" : "Offline");
     const roleBadge = '<div class="role-badge ' + escapeHtml(roleKey) + '">' + escapeHtml(roleTitle) + '</div>';
+    const roleControls = (!banned && roleKey !== "creator")
+        ? '<div class="role-controls" aria-label="Rang einstellen">' +
+            '<button class="role-button player ' + (roleKey === "player" ? "active" : "") + '" data-action="set-role" data-role="player" data-user-id="' + escapeHtml(player.userId) + '" ' + (roleKey === "player" ? "disabled" : "") + '>PLAYERS</button>' +
+            '<button class="role-button supporter ' + (roleKey === "supporter" ? "active" : "") + '" data-action="set-role" data-role="supporter" data-user-id="' + escapeHtml(player.userId) + '" ' + (roleKey === "supporter" ? "disabled" : "") + '>SUPPORTER</button>' +
+        '</div>'
+        : "";
     const reason = banned && player.reason
         ? '<div class="reason">Grund: ' + escapeHtml(player.reason) + '</div>'
         : "";
@@ -1526,6 +1544,7 @@ function renderPlayer(player,banned) {
             '<div class="display-name">' + escapeHtml(name) + '</div>' +
             '<div class="username">@' + escapeHtml(username) + ' · ' + escapeHtml(player.userId) + '</div>' +
             roleBadge +
+            roleControls +
             locationDetails +
             reason +
         '</div>' +
@@ -1553,6 +1572,8 @@ function render() {
         return !query ||
             String(player.displayName || "").toLocaleLowerCase().includes(query) ||
             String(player.username || "").toLocaleLowerCase().includes(query) ||
+            String(player.roleTitle || "").toLocaleLowerCase().includes(query) ||
+            String(player.roleKey || "").toLocaleLowerCase().includes(query) ||
             String(player.userId || "").includes(query);
     });
 
@@ -1724,6 +1745,26 @@ async function queueBring(targetUserId) {
     return data;
 }
 
+async function setPlayerRole(targetUserId,roleKey) {
+    const response = await fetch("/api/admin/role", {
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+        },
+        body:JSON.stringify({
+            userId:String(targetUserId || "").trim(),
+            role:String(roleKey || "").trim(),
+        }),
+    });
+
+    const data = await response.json().catch(function () { return {}; });
+    if (!response.ok || data.success !== true) {
+        throw new Error(data.error || ("HTTP " + response.status));
+    }
+    return data;
+}
+
 async function moderate(action,userId,reason,identity) {
     const normalizedUserId = String(userId || "").trim();
 
@@ -1763,6 +1804,24 @@ elements.search.addEventListener("input",function (event) {
 document.addEventListener("click",async function (event) {
     const button = event.target.closest("[data-action][data-user-id]");
     if (!button) {
+        return;
+    }
+
+    if (button.dataset.action === "set-role") {
+        const originalText = button.textContent;
+        const roleKey = String(button.dataset.role || "").trim();
+        button.disabled = true;
+        button.textContent = "SETZE …";
+        try {
+            await setPlayerRole(button.dataset.userId,roleKey);
+            await refresh();
+        } catch (error) {
+            alert(error.message || "Rang konnte nicht gespeichert werden.");
+            if (button.isConnected) {
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        }
         return;
     }
 
@@ -2098,11 +2157,18 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
     }
 
     const ban = bans.get(userId);
+    const role = getNexuRoleInfo(userId);
     sendJson(res, 200, {
         success: true,
         allowed: !ban,
         banned: Boolean(ban),
         userId,
+        roleKey: role.key,
+        roleTitle: role.title,
+        permissions: {
+            bring: canUseNexuBringRole(userId),
+            menuCreator: role.key === "creator",
+        },
         reason: ban ? ban.reason : "",
         bannedAt: ban ? ban.bannedAt : "",
         timestamp: new Date().toISOString(),
@@ -2293,9 +2359,7 @@ if (req.method === "POST" && pathname === "/api/bring/send") {
                 return;
             }
 
-            const requesterAllowed =
-                requesterUserId === MENU_CREATOR_USER_ID ||
-                SUPPORTER_USER_IDS.has(requesterUserId);
+            const requesterAllowed = canUseNexuBringRole(requesterUserId);
             const requesterPresence = requesterUserId
                 ? findLatestPresenceForUser(requesterUserId)
                 : null;
@@ -2574,11 +2638,19 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 `${presence.size} insgesamt`
         );
 
+        const selfUserId = normalized.batch ? "" : cleanNumericId(body.userId);
+        const selfRole = selfUserId ? getNexuRoleInfo(selfUserId) : null;
         sendJson(res, 200, {
             success: true,
             activePlayers: presence.size,
             receivedPlayers: currentKeys.size,
             blockedUserIds,
+            roleKey: selfRole ? selfRole.key : "",
+            roleTitle: selfRole ? selfRole.title : "",
+            permissions: selfUserId ? {
+                bring: canUseNexuBringRole(selfUserId),
+                menuCreator: selfRole && selfRole.key === "creator",
+            } : {},
             timestamp: new Date().toISOString(),
         });
     } catch (error) {
@@ -2742,6 +2814,90 @@ if (req.method === "POST" && pathname === "/api/dm/poll") {
                     ? "Anfrage zu groß"
                     : "Ungültiges JSON",
         });
+    }
+    return;
+}
+
+if (req.method === "POST" && pathname === "/api/admin/role") {
+    if (!isDashboardAuthenticated(req)) {
+        sendJson(res, 401, {
+            success: false,
+            error: "Dashboard-Anmeldung erforderlich",
+        });
+        return;
+    }
+
+    try {
+        const body = await readJsonBody(req);
+        const userId = cleanNumericId(body.userId);
+        const roleKey = cleanPlayerRoleAssignment(body.role || body.roleKey);
+
+        if (!userId) {
+            sendJson(res, 400, {
+                success: false,
+                error: "Ungültige User-ID",
+            });
+            return;
+        }
+
+        if (!roleKey) {
+            sendJson(res, 400, {
+                success: false,
+                error: "Ungültiger Rang. Erlaubt: players oder supporter",
+            });
+            return;
+        }
+
+        if (userId === MENU_CREATOR_USER_ID) {
+            sendJson(res, 409, {
+                success: false,
+                error: "Der Menu Creator Rang ist fest und kann hier nicht geändert werden.",
+            });
+            return;
+        }
+
+        const existing = knownPlayers.get(userId);
+        if (!existing) {
+            sendJson(res, 404, {
+                success: false,
+                error: "Spieler ist noch nicht gespeichert.",
+            });
+            return;
+        }
+
+        const next = {
+            ...existing,
+            roleKey,
+        };
+        knownPlayers.set(userId, next);
+        const persisted = saveKnownPlayers();
+        const role = getNexuRoleInfo(userId);
+
+        console.log(`[NEXU] RANG ${userId} -> ${role.key}`);
+
+        sendJson(res, 200, {
+            success: true,
+            persisted,
+            userId,
+            roleKey: role.key,
+            roleTitle: role.title,
+            permissions: {
+                bring: canUseNexuBringRole(userId),
+                menuCreator: role.key === "creator",
+            },
+        });
+    } catch (error) {
+        sendJson(
+            res,
+            error.message === "BODY_TOO_LARGE" ? 413 : 400,
+            {
+                success: false,
+                error:
+                    error.message === "BODY_TOO_LARGE"
+                        ? "Anfrage zu groß"
+                        : "Rang konnte nicht gespeichert werden",
+            }
+        );
     }
     return;
 }
