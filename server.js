@@ -2060,7 +2060,7 @@ if (req.method === "POST" && pathname === "/api/bring/send") {
         const requesterUserId = cleanNumericId(body.requesterUserId);
         const requesterSessionId = cleanText(body.requesterSessionId, 100);
 
-        if (!targetPlayerId || targetPlayerId === MENU_CREATOR_USER_ID) {
+        if (!targetPlayerId) {
             sendJson(res, 400, {
                 success: false,
                 error: "Ungültige Ziel-Spieler-ID",
@@ -2082,6 +2082,13 @@ if (req.method === "POST" && pathname === "/api/bring/send") {
         let requestSource = "Website-Bring";
 
         if (dashboardAuthenticated) {
+            if (targetPlayerId === MENU_CREATOR_USER_ID) {
+                sendJson(res, 400, {
+                    success: false,
+                    error: "Du kannst dich nicht selbst bringen.",
+                });
+                return;
+            }
             ownerPresence = findLatestPresenceForUser(MENU_CREATOR_USER_ID);
         } else {
             if (!isHeartbeatAuthorized(req)) {
