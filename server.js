@@ -1,8 +1,8 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const EMAIL_VERIFICATION_TTL_MS = 10 * 60_000;const EMAIL_VERIFICATION_RATE_WINDOW_MS = 15 * 60_000;const EMAIL_VERIFICATION_RATE_LIMIT = 5;const RESEND_API_KEY = String(process.env.RESEND_API_KEY || "");const RESEND_FROM_EMAIL = String(process.env.RESEND_FROM_EMAIL || "Nexu <noreply@nexu.local>");
 
-const presence = new Map();const knownPlayers = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const pendingDashboardRegistrations = new Map();const emailVerificationRateLimits = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;
 
 function sendJson(res, statusCode, data, extraHeaders = {}) {res.writeHead(statusCode, {"Content-Type": "application/json; charset=utf-8","Cache-Control": "no-store","X-Content-Type-Options": "nosniff",...extraHeaders,});res.end(JSON.stringify(data));}
 
@@ -166,11 +166,6 @@ function loadKnownPlayers() {try {if (!fs.existsSync(KNOWN_PLAYERS_FILE_PATH)) {
 function saveKnownPlayers() {try {fs.mkdirSync(path.dirname(KNOWN_PLAYERS_FILE_PATH), { recursive: true });const tempPath = `${KNOWN_PLAYERS_FILE_PATH}.tmp`;const rows = [...knownPlayers.values()].sort((a, b) => (b.lastSeenMs || 0) - (a.lastSeenMs || 0));fs.writeFileSync(tempPath, JSON.stringify({ players: rows }, null, 2), "utf8");fs.renameSync(tempPath, KNOWN_PLAYERS_FILE_PATH);return true;} catch (error) {console.warn("[NEXU] Gespeicherte Spieler konnten nicht gespeichert werden:", error.message);return false;}}
 
 
-let dashboardAccount = {
-    username: cleanDashboardUsername(DASHBOARD_DEFAULT_USERNAME) || OWNER_ACCOUNT_USERNAME,
-    passwordHash: normalizePasswordHash(DASHBOARD_DEFAULT_PASSWORD_HASH),
-    updatedAt: "",
-};
 
 function normalizePasswordHash(value) {
     const hash = String(value || "").trim().toLowerCase();
@@ -185,71 +180,227 @@ function cleanDashboardUsername(value) {
     return username;
 }
 
+function cleanDashboardEmail(value) {
+    const email = cleanText(value, 254).toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        return "";
+    }
+    return email;
+}
+
+function normalizeDashboardAccount(raw) {
+    const username = cleanDashboardUsername(raw && raw.username);
+    const email = cleanDashboardEmail(raw && raw.email);
+    const passwordHash = normalizePasswordHash(raw && raw.passwordHash);
+    if (!username || !email || !/^[a-f0-9]{64}$/.test(passwordHash)) {
+        return null;
+    }
+    return {
+        username,
+        email,
+        passwordHash,
+        createdAt: cleanText(raw && raw.createdAt, 64) || new Date().toISOString(),
+        updatedAt: cleanText(raw && raw.updatedAt, 64) || "",
+    };
+}
+
+function getDashboardAccountByEmail(email) {
+    return dashboardAccounts.get(cleanDashboardEmail(email)) || null;
+}
+
+function getDashboardAccountByUsername(username) {
+    const cleanUsername = cleanDashboardUsername(username);
+    if (!cleanUsername) return null;
+    const wanted = cleanUsername.toLowerCase();
+    for (const account of dashboardAccounts.values()) {
+        if (String(account.username || "").toLowerCase() === wanted) {
+            return account;
+        }
+    }
+    return null;
+}
+
+function getFirstDashboardAccount() {
+    return dashboardAccounts.values().next().value || null;
+}
+
+function getOwnerDashboardAccount() {
+    return getDashboardAccountByUsername(OWNER_ACCOUNT_USERNAME);
+}
+
 function getDashboardUsername() {
-    return dashboardAccount.username || OWNER_ACCOUNT_USERNAME;
+    const owner = getOwnerDashboardAccount();
+    const first = getFirstDashboardAccount();
+    return (owner && owner.username) || (first && first.username) || OWNER_ACCOUNT_USERNAME;
 }
 
 function getDashboardPasswordHash() {
-    return normalizePasswordHash(dashboardAccount.passwordHash || DASHBOARD_DEFAULT_PASSWORD_HASH);
+    const owner = getOwnerDashboardAccount();
+    const first = getFirstDashboardAccount();
+    return normalizePasswordHash((owner && owner.passwordHash) || (first && first.passwordHash) || DASHBOARD_DEFAULT_PASSWORD_HASH);
+}
+
+function putDashboardAccount(account) {
+    const normalized = normalizeDashboardAccount(account);
+    if (!normalized) return null;
+    dashboardAccounts.set(normalized.email, normalized);
+    return normalized;
 }
 
 function loadDashboardAccount() {
+    dashboardAccounts.clear();
     try {
-        if (!fs.existsSync(DASHBOARD_ACCOUNT_FILE_PATH)) {
-            dashboardAccount = {
-                username: cleanDashboardUsername(DASHBOARD_DEFAULT_USERNAME) || OWNER_ACCOUNT_USERNAME,
-                passwordHash: normalizePasswordHash(DASHBOARD_DEFAULT_PASSWORD_HASH),
-                updatedAt: "",
-            };
-            return;
+        if (fs.existsSync(DASHBOARD_ACCOUNT_FILE_PATH)) {
+            const parsed = JSON.parse(fs.readFileSync(DASHBOARD_ACCOUNT_FILE_PATH, "utf8"));
+            const rows = Array.isArray(parsed) ? parsed : Array.isArray(parsed && parsed.accounts) ? parsed.accounts : [];
+            if (rows.length > 0) {
+                for (const raw of rows) {
+                    putDashboardAccount(raw);
+                }
+            } else if (parsed && (parsed.username || parsed.passwordHash)) {
+                putDashboardAccount({
+                    username: parsed.username || DASHBOARD_DEFAULT_USERNAME,
+                    email: parsed.email || DASHBOARD_DEFAULT_EMAIL,
+                    passwordHash: parsed.passwordHash || DASHBOARD_DEFAULT_PASSWORD_HASH,
+                    createdAt: parsed.createdAt || new Date().toISOString(),
+                    updatedAt: parsed.updatedAt || "",
+                });
+            }
         }
-        const parsed = JSON.parse(fs.readFileSync(DASHBOARD_ACCOUNT_FILE_PATH, "utf8"));
-        const username = cleanDashboardUsername(parsed && parsed.username) || cleanDashboardUsername(DASHBOARD_DEFAULT_USERNAME) || OWNER_ACCOUNT_USERNAME;
-        const passwordHash = normalizePasswordHash(parsed && parsed.passwordHash) || normalizePasswordHash(DASHBOARD_DEFAULT_PASSWORD_HASH);
-        dashboardAccount = {
-            username,
-            passwordHash,
-            updatedAt: cleanText(parsed && parsed.updatedAt, 64),
-        };
-        console.log(`[NEXU] Dashboard-Account geladen: ${dashboardAccount.username}`);
     } catch (error) {
-        console.warn("[NEXU] Dashboard-Account konnte nicht geladen werden:", error.message);
-        dashboardAccount = {
-            username: cleanDashboardUsername(DASHBOARD_DEFAULT_USERNAME) || OWNER_ACCOUNT_USERNAME,
-            passwordHash: normalizePasswordHash(DASHBOARD_DEFAULT_PASSWORD_HASH),
-            updatedAt: "",
-        };
+        console.warn("[NEXU] Dashboard-Accounts konnten nicht geladen werden:", error.message);
     }
+
+    if (dashboardAccounts.size === 0) {
+        putDashboardAccount({
+            username: cleanDashboardUsername(DASHBOARD_DEFAULT_USERNAME) || OWNER_ACCOUNT_USERNAME,
+            email: cleanDashboardEmail(DASHBOARD_DEFAULT_EMAIL) || "owner@nexu.local",
+            passwordHash: normalizePasswordHash(DASHBOARD_DEFAULT_PASSWORD_HASH),
+            createdAt: new Date().toISOString(),
+            updatedAt: "",
+        });
+        saveDashboardAccount();
+    }
+
+    console.log(`[NEXU] ${dashboardAccounts.size} Dashboard-Account(s) geladen`);
 }
 
 function saveDashboardAccount() {
     try {
         fs.mkdirSync(path.dirname(DASHBOARD_ACCOUNT_FILE_PATH), { recursive: true });
         const tempPath = `${DASHBOARD_ACCOUNT_FILE_PATH}.tmp`;
-        fs.writeFileSync(
-            tempPath,
-            JSON.stringify({
-                username: getDashboardUsername(),
-                passwordHash: getDashboardPasswordHash(),
-                updatedAt: dashboardAccount.updatedAt || new Date().toISOString(),
-            }, null, 2),
-            "utf8"
-        );
+        const accounts = [...dashboardAccounts.values()].sort((a, b) => String(a.username).localeCompare(String(b.username)));
+        fs.writeFileSync(tempPath, JSON.stringify({ accounts }, null, 2), "utf8");
         fs.renameSync(tempPath, DASHBOARD_ACCOUNT_FILE_PATH);
         return true;
     } catch (error) {
-        console.warn("[NEXU] Dashboard-Account konnte nicht gespeichert werden:", error.message);
+        console.warn("[NEXU] Dashboard-Accounts konnten nicht gespeichert werden:", error.message);
         return false;
     }
 }
 
-function updateDashboardAccount(username, passwordHash) {
-    dashboardAccount = {
-        username: cleanDashboardUsername(username) || getDashboardUsername(),
-        passwordHash: normalizePasswordHash(passwordHash || getDashboardPasswordHash()),
+function updateDashboardAccount(username, passwordHash, email = "") {
+    const current = email ? getDashboardAccountByEmail(email) : getOwnerDashboardAccount() || getFirstDashboardAccount();
+    if (!current) return false;
+    const next = normalizeDashboardAccount({
+        ...current,
+        username: cleanDashboardUsername(username) || current.username,
+        passwordHash: normalizePasswordHash(passwordHash || current.passwordHash),
         updatedAt: new Date().toISOString(),
-    };
+    });
+    if (!next) return false;
+    dashboardAccounts.delete(current.email);
+    dashboardAccounts.set(next.email, next);
     return saveDashboardAccount();
+}
+
+function deleteDashboardAccount(email) {
+    const cleanEmail = cleanDashboardEmail(email);
+    if (!cleanEmail || !dashboardAccounts.has(cleanEmail)) {
+        return false;
+    }
+    dashboardAccounts.delete(cleanEmail);
+    return saveDashboardAccount();
+}
+
+function dashboardUsernameExists(username, exceptEmail = "") {
+    const wanted = cleanDashboardUsername(username).toLowerCase();
+    const except = cleanDashboardEmail(exceptEmail);
+    if (!wanted) return false;
+    for (const account of dashboardAccounts.values()) {
+        if (account.email !== except && String(account.username || "").toLowerCase() === wanted) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function validDashboardAccountPassword(account, password) {
+    if (!account || !/^[a-f0-9]{64}$/.test(account.passwordHash || "")) {return false;}
+    const suppliedHash = sha256(password);
+    const expectedHash = Buffer.from(account.passwordHash, "hex");
+    return suppliedHash.length === expectedHash.length && crypto.timingSafeEqual(suppliedHash, expectedHash);
+}
+
+function createVerificationCode() {
+    return String(crypto.randomInt(100000, 1000000));
+}
+
+function prunePendingDashboardRegistrations() {
+    const now = Date.now();
+    for (const [email, entry] of pendingDashboardRegistrations) {
+        if (!entry || entry.expiresAtMs <= now) pendingDashboardRegistrations.delete(email);
+    }
+    for (const [key, state] of emailVerificationRateLimits) {
+        if (!state || now - state.windowStartedAtMs > EMAIL_VERIFICATION_RATE_WINDOW_MS) emailVerificationRateLimits.delete(key);
+    }
+}
+
+function allowVerificationEmail(req, email) {
+    prunePendingDashboardRegistrations();
+    const key = `${getClientIp(req)}:${cleanDashboardEmail(email)}`;
+    const now = Date.now();
+    let state = emailVerificationRateLimits.get(key);
+    if (!state || now - state.windowStartedAtMs > EMAIL_VERIFICATION_RATE_WINDOW_MS) {
+        state = { windowStartedAtMs: now, count: 0 };
+        emailVerificationRateLimits.set(key, state);
+    }
+    state.count += 1;
+    return state.count <= EMAIL_VERIFICATION_RATE_LIMIT;
+}
+
+async function sendDashboardVerificationEmail(email, username, code) {
+    const cleanEmail = cleanDashboardEmail(email);
+    if (!cleanEmail) throw new Error("INVALID_EMAIL");
+    const subject = "Nexu Bestätigungscode";
+    const text = `Dein Nexu Bestätigungscode ist: ${code}\n\nDer Code ist 10 Minuten gültig.`;
+    const html = `<div style="font-family:Arial,sans-serif;background:#03070e;color:#dceef8;padding:24px"><h2 style="color:#00c8ff">Nexu Bestätigung</h2><p>Hallo ${escapeHtml(username)},</p><p>dein Bestätigungscode lautet:</p><div style="font-size:28px;font-weight:900;letter-spacing:6px;color:#fff;background:#07131f;border:1px solid #00c8ff;border-radius:14px;padding:16px;text-align:center">${escapeHtml(code)}</div><p style="color:#7894a8">Der Code ist 10 Minuten gültig.</p></div>`;
+
+    if (!RESEND_API_KEY || !globalThis.fetch) {
+        console.warn(`[NEXU] E-Mail-Service nicht konfiguriert. Bestätigungscode für ${cleanEmail}: ${code}`);
+        return { sent: false, provider: "console" };
+    }
+
+    const response = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${RESEND_API_KEY}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            from: RESEND_FROM_EMAIL,
+            to: [cleanEmail],
+            subject,
+            text,
+            html,
+        }),
+    });
+    if (!response.ok) {
+        const body = await response.text().catch(() => "");
+        console.warn("[NEXU] Bestätigungsmail konnte nicht gesendet werden:", response.status, body.slice(0, 300));
+        throw new Error("EMAIL_SEND_FAILED");
+    }
+    return { sent: true, provider: "resend" };
 }
 
 function rememberKnownPlayer(raw, now = Date.now()) {const incoming = normalizeKnownPlayer({...(raw || {}),lastSeenMs: now,lastSeen: new Date(now).toISOString(),}, now);if (!incoming) {return false;}const existing = knownPlayers.get(incoming.userId);const next = {userId: incoming.userId,username: incoming.username || (existing && existing.username) || `User${incoming.userId}`,displayName: incoming.displayName || (existing && existing.displayName) || incoming.username || `User ${incoming.userId}`,gameName: incoming.gameName || (existing && existing.gameName) || "",placeId: incoming.placeId || (existing && existing.placeId) || 0,jobId: incoming.jobId || (existing && existing.jobId) || "",sessionId: incoming.sessionId || (existing && existing.sessionId) || "",roleKey: (existing && cleanPlayerRoleAssignment(existing.roleKey || existing.role || existing.assignedRole)) || incoming.roleKey || "",firstSeen: existing && existing.firstSeen ? existing.firstSeen : new Date(now).toISOString(),firstSeenMs: existing && existing.firstSeenMs ? existing.firstSeenMs : now,lastSeen: new Date(now).toISOString(),lastSeenMs: now,};const before = existing ? JSON.stringify(existing) : "";knownPlayers.set(next.userId, next);return before !== JSON.stringify(next);}
@@ -299,7 +450,8 @@ return parts.join("; ");
 
 }
 
-function getDashboardSessionEntry(token) {const raw = dashboardSessions.get(token);if (!raw) {return null;}if (typeof raw === "number") {return {username: getDashboardUsername(), expiresAtMs: raw};}return {username: cleanText(raw.username, 80) || getDashboardUsername(), expiresAtMs: Number(raw.expiresAtMs) || 0};}
+
+function getDashboardSessionEntry(token) {const raw = dashboardSessions.get(token);if (!raw) {return null;}if (typeof raw === "number") {const owner = getOwnerDashboardAccount() || getFirstDashboardAccount();return owner ? {username: owner.username, email: owner.email, expiresAtMs: raw} : null;}const email = cleanDashboardEmail(raw.email);const username = cleanDashboardUsername(raw.username);const account = email ? getDashboardAccountByEmail(email) : getDashboardAccountByUsername(username);if (!account) {return null;}return {username: account.username, email: account.email, expiresAtMs: Number(raw.expiresAtMs) || 0};}
 
 function pruneDashboardAuth() {const now = Date.now();
 
@@ -315,6 +467,7 @@ for (const [ip, state] of loginRateLimits) {
         loginRateLimits.delete(ip);
     }
 }
+prunePendingDashboardRegistrations();
 
 }
 
@@ -324,16 +477,18 @@ if (!token || !entry || entry.expiresAtMs <= Date.now()) {
     if (token) dashboardSessions.delete(token);
     return null;
 }
+const account = getDashboardAccountByEmail(entry.email) || getDashboardAccountByUsername(entry.username);
+if (!account) {dashboardSessions.delete(token);return null;}
 
-return {token, username: entry.username, expiresAtMs: entry.expiresAtMs};
+return {token, username: account.username, email: account.email, account, expiresAtMs: entry.expiresAtMs};
 
 }
 
 function isDashboardAuthenticated(req) {return Boolean(getDashboardSession(req));}
 
-function isOwnerAccountSession(req) {const session = getDashboardSession(req);return Boolean(session && session.username === OWNER_ACCOUNT_USERNAME && getDashboardUsername() === OWNER_ACCOUNT_USERNAME);}
+function isOwnerAccountSession(req) {const session = getDashboardSession(req);return Boolean(session && session.username === OWNER_ACCOUNT_USERNAME);}
 
-function createDashboardSession(username = getDashboardUsername()) {pruneDashboardAuth();const token = crypto.randomBytes(32).toString("hex");dashboardSessions.set(token, {username: cleanText(username, 80) || getDashboardUsername(), expiresAtMs: Date.now() + DASHBOARD_SESSION_TTL_MS});return token;}
+function createDashboardSession(account = getOwnerDashboardAccount() || getFirstDashboardAccount()) {pruneDashboardAuth();const normalized = typeof account === "string" ? (getDashboardAccountByEmail(account) || getDashboardAccountByUsername(account)) : account;if (!normalized) {return "";}const token = crypto.randomBytes(32).toString("hex");dashboardSessions.set(token, {username: normalized.username,email: normalized.email,expiresAtMs: Date.now() + DASHBOARD_SESSION_TTL_MS});return token;}
 
 function removeDashboardSession(req) {const token = parseCookies(req).get(DASHBOARD_SESSION_COOKIE) || "";if (token) dashboardSessions.delete(token);}
 
@@ -368,16 +523,15 @@ function loadRememberedDashboardDevices() {try {if (!fs.existsSync(REMEMBER_FILE
 
     for (const raw of rows) {
         const tokenHash = cleanText(raw && raw.tokenHash, 64).toLowerCase();
-        const username = cleanText(raw && raw.username, 80);
+        const username = cleanDashboardUsername(raw && raw.username);
+        const email = cleanDashboardEmail(raw && raw.email);
         const expiresAtMs = Number(raw && raw.expiresAtMs) || 0;
+        const account = email ? getDashboardAccountByEmail(email) : getDashboardAccountByUsername(username);
 
-        if (
-            /^[a-f0-9]{64}$/.test(tokenHash) &&
-            username === getDashboardUsername() &&
-            expiresAtMs > Date.now()
-        ) {
+        if (/^[a-f0-9]{64}$/.test(tokenHash) && account && expiresAtMs > Date.now()) {
             rememberedDashboardDevices.set(tokenHash, {
-                username,
+                username: account.username,
+                email: account.email,
                 expiresAtMs,
                 createdAt: cleanText(raw && raw.createdAt, 64) || new Date().toISOString(),
             });
@@ -397,14 +551,15 @@ function loadRememberedDashboardDevices() {try {if (!fs.existsSync(REMEMBER_FILE
 
 }
 
-function saveRememberedDashboardDevices() {try {fs.mkdirSync(path.dirname(REMEMBER_FILE_PATH), { recursive: true });const tempPath = `${REMEMBER_FILE_PATH}.tmp`;fs.writeFileSync(tempPath,JSON.stringify({devices: [...rememberedDashboardDevices.entries()].map(([tokenHash, entry]) => ({tokenHash,username: entry.username,expiresAtMs: entry.expiresAtMs,createdAt: entry.createdAt,})),},null,2),"utf8");fs.renameSync(tempPath, REMEMBER_FILE_PATH);return true;} catch (error) {console.warn("[NEXU] Gespeicherte Dashboard-Accounts konnten nicht gespeichert werden:",error.message);return false;}}
+function saveRememberedDashboardDevices() {try {fs.mkdirSync(path.dirname(REMEMBER_FILE_PATH), { recursive: true });const tempPath = `${REMEMBER_FILE_PATH}.tmp`;fs.writeFileSync(tempPath,JSON.stringify({devices: [...rememberedDashboardDevices.entries()].map(([tokenHash, entry]) => ({tokenHash,username: entry.username,email: entry.email,expiresAtMs: entry.expiresAtMs,createdAt: entry.createdAt,})),},null,2),"utf8");fs.renameSync(tempPath, REMEMBER_FILE_PATH);return true;} catch (error) {console.warn("[NEXU] Gespeicherte Dashboard-Accounts konnten nicht gespeichert werden:",error.message);return false;}}
 
-function createRememberedDashboardDevice() {pruneRememberedDashboardDevices(false);
+function createRememberedDashboardDevice(account = getOwnerDashboardAccount() || getFirstDashboardAccount()) {pruneRememberedDashboardDevices(false);const normalized = typeof account === "string" ? (getDashboardAccountByEmail(account) || getDashboardAccountByUsername(account)) : account;if (!normalized) {return "";}
 
 const rawToken = crypto.randomBytes(32).toString("hex");
 const tokenHash = rememberTokenHash(rawToken);
 rememberedDashboardDevices.set(tokenHash, {
-    username: getDashboardUsername(),
+    username: normalized.username,
+    email: normalized.email,
     expiresAtMs: Date.now() + DASHBOARD_REMEMBER_TTL_MS,
     createdAt: new Date().toISOString(),
 });
@@ -428,9 +583,12 @@ const entry = rememberedDashboardDevices.get(rememberTokenHash(rawToken));
 if (!entry || entry.expiresAtMs <= Date.now()) {
     return null;
 }
+const account = getDashboardAccountByEmail(entry.email) || getDashboardAccountByUsername(entry.username);
+if (!account) {return null;}
 
 return {
-    username: entry.username,
+    username: account.username,
+    email: account.email,
     expiresAtMs: entry.expiresAtMs,
 };
 
@@ -443,14 +601,7 @@ saveRememberedDashboardDevices();
 
 }
 
-function validDashboardPassword(password) {const currentHash = getDashboardPasswordHash();if (!/^[a-f0-9]{64}$/.test(currentHash)) {return false;}
-
-const suppliedHash = sha256(password);
-const expectedHash = Buffer.from(currentHash, "hex");
-return suppliedHash.length === expectedHash.length &&
-    crypto.timingSafeEqual(suppliedHash, expectedHash);
-
-}
+function validDashboardPassword(password) {const account = getOwnerDashboardAccount() || getFirstDashboardAccount();return validDashboardAccountPassword(account, password);}
 
 function sha256Hex(value) {return crypto.createHash("sha256").update(String(value ?? ""), "utf8").digest("hex");}
 
@@ -815,14 +966,14 @@ return { command };
 
 }
 
-function loginHtml(errorMessage = "", rememberedAccount = null) {const errorBlock = errorMessage ? `<div class="login-error" role="alert">${escapeHtml(errorMessage)}</div>` : "";const rememberedBlock = rememberedAccount ? `<section class="remembered-account" aria-label="Gespeicherter Account">
+function loginHtml(errorMessage = "", rememberedAccount = null, options = {}) {const errorBlock = errorMessage ? `<div class="login-error" role="alert">${escapeHtml(errorMessage)}</div>` : "";const noticeBlock = options.notice ? `<div class="login-notice" role="status">${escapeHtml(options.notice)}</div>` : "";const verificationEmail = cleanDashboardEmail(options.verificationEmail || "");const verificationUsername = cleanDashboardUsername(options.verificationUsername || "");const verificationBlock = verificationEmail ? `<section class="verify-card"><div class="eyebrow">E-MAIL BESTÄTIGEN</div><h2>Code eingeben</h2><p>Wir haben einen 6-stelligen Code an <b>${escapeHtml(verificationEmail)}</b> gesendet. Gib ihn hier ein, um den Account zu erstellen.</p><form method="post" action="/register/verify" autocomplete="one-time-code"><input type="hidden" name="email" value="${escapeHtml(verificationEmail)}"><div class="field"><label for="verificationCode">Bestätigungscode</label><input id="verificationCode" name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required></div><button type="submit">Account bestätigen</button></form></section><div class="login-divider"><span>oder anmelden</span></div>` : "";const rememberedBlock = rememberedAccount ? `<section class="remembered-account" aria-label="Gespeicherter Account">
             <div class="remembered-heading">GESPEICHERTER ACCOUNT</div>
             <form method="post" action="/quick-login">
                 <button class="account-card" type="submit">
-                    <span class="account-avatar">O</span>
+                    <span class="account-avatar">${escapeHtml(String(rememberedAccount.username || "N").slice(0,1).toUpperCase())}</span>
                     <span class="account-copy">
                         <strong>${escapeHtml(rememberedAccount.username)}</strong>
-                        <small>Zum direkten Anmelden klicken</small>
+                        <small>${escapeHtml(rememberedAccount.email || "Zum direkten Anmelden klicken")}</small>
                     </span>
                     <span class="account-arrow">›</span>
                 </button>
@@ -831,7 +982,7 @@ function loginHtml(errorMessage = "", rememberedAccount = null) {const errorBloc
                 <button class="forget-account" type="submit">Gespeicherten Account entfernen</button>
             </form>
         </section>
-        <div class="login-divider"><span>oder mit Passwort anmelden</span></div>` : "";
+        <div class="login-divider"><span>oder mit E-Mail anmelden</span></div>` : "";
 
 return String.raw`<!doctype html>
 
@@ -842,269 +993,92 @@ return String.raw`<!doctype html>
 <meta name="theme-color" content="#03070e">
 <title>Nexu Anmeldung</title>
 <style>
-:root {
-    --bg:#03070e;
-    --panel:rgba(7,13,23,.94);
-    --text:#dceef8;
-    --muted:#7894a8;
-    --cyan:#00c8ff;
-    --violet:#6f46ff;
-    --red:#ff4d78;
-}
+:root { --bg:#03070e; --panel:rgba(7,13,23,.94); --text:#dceef8; --muted:#7894a8; --cyan:#00c8ff; --violet:#6f46ff; --red:#ff4d78; --green:#2dffa5; }
 * { box-sizing:border-box; }
-body,
-body *:not(input):not(textarea) {
-    -webkit-user-select:none !important;
-    user-select:none !important;
-    -webkit-touch-callout:none;
-}
-body *:not(input):not(textarea):not(button):not(a) {
-    caret-color:transparent;
-    cursor:default;
-}
-img,svg {
-    -webkit-user-drag:none;
-    user-drag:none;
-}
-input,textarea {
-    -webkit-user-select:text !important;
-    user-select:text !important;
-    caret-color:auto;
-    cursor:text;
-}
+body,body *:not(input):not(textarea) { -webkit-user-select:none !important; user-select:none !important; -webkit-touch-callout:none; }
+body *:not(input):not(textarea):not(button):not(a) { caret-color:transparent; cursor:default; }
+img,svg { -webkit-user-drag:none; user-drag:none; }
+input,textarea { -webkit-user-select:text !important; user-select:text !important; caret-color:auto; cursor:text; }
 button { -webkit-user-select:none !important; user-select:none !important; }
 html,body { margin:0; min-height:100%; }
-body {
-    min-height:100vh;
-    display:grid;
-    place-items:center;
-    padding:22px;
-    color:var(--text);
-    background:
-        radial-gradient(circle at 18% 5%,rgba(0,200,255,.16),transparent 34rem),
-        radial-gradient(circle at 88% 20%,rgba(111,70,255,.17),transparent 32rem),
-        var(--bg);
-    font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;
-    overflow:hidden;
-}
-body::before {
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    opacity:.25;
-    background-image:
-        linear-gradient(rgba(0,200,255,.06) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,200,255,.06) 1px,transparent 1px);
-    background-size:32px 32px;
-    mask-image:linear-gradient(to bottom,black,transparent 90%);
-}
-.scan {
-    position:fixed;
-    left:0;
-    right:0;
-    top:-2px;
-    height:1px;
-    pointer-events:none;
-    background:linear-gradient(90deg,transparent,rgba(0,200,255,.9),transparent);
-    box-shadow:0 0 22px rgba(0,200,255,.8);
-    animation:scan 7s linear infinite;
-}
-@keyframes scan {
-    from { transform:translateY(0); opacity:0; }
-    8%,92% { opacity:.7; }
-    to { transform:translateY(100vh); opacity:0; }
-}
-.login-card {
-    position:relative;
-    z-index:1;
-    width:min(430px,100%);
-    padding:30px;
-    border:1px solid rgba(74,178,230,.34);
-    border-radius:24px;
-    background:
-        linear-gradient(145deg,rgba(0,200,255,.075),rgba(111,70,255,.055)),
-        var(--panel);
-    box-shadow:0 30px 100px rgba(0,0,0,.58),0 0 42px rgba(0,200,255,.08);
-    backdrop-filter:blur(18px);
-}
+body { min-height:100vh; display:grid; place-items:center; padding:22px; color:var(--text); background:radial-gradient(circle at 18% 5%,rgba(0,200,255,.16),transparent 34rem),radial-gradient(circle at 88% 20%,rgba(111,70,255,.17),transparent 32rem),var(--bg); font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif; overflow:auto; }
+body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.25; background-image:linear-gradient(rgba(0,200,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.06) 1px,transparent 1px); background-size:32px 32px; mask-image:linear-gradient(to bottom,black,transparent 90%); }
+.scan { position:fixed; left:0; right:0; top:-2px; height:1px; pointer-events:none; background:linear-gradient(90deg,transparent,rgba(0,200,255,.9),transparent); box-shadow:0 0 22px rgba(0,200,255,.8); animation:scan 7s linear infinite; }
+@keyframes scan { from { transform:translateY(0); opacity:0; } 8%,92% { opacity:.7; } to { transform:translateY(100vh); opacity:0; } }
+.login-card { position:relative; z-index:1; width:min(920px,100%); padding:30px; border:1px solid rgba(74,178,230,.34); border-radius:24px; background:linear-gradient(145deg,rgba(0,200,255,.075),rgba(111,70,255,.055)),var(--panel); box-shadow:0 30px 100px rgba(0,0,0,.58),0 0 42px rgba(0,200,255,.08); backdrop-filter:blur(18px); }
 .brand { display:flex; align-items:center; gap:13px; margin-bottom:25px; }
-.logo {
-    width:48px;
-    height:48px;
-    display:grid;
-    place-items:center;
-    border-radius:50%;
-    color:white;
-    font-size:20px;
-    font-weight:900;
-    background:linear-gradient(145deg,var(--cyan),var(--violet));
-    box-shadow:0 0 26px rgba(0,200,255,.24);
-}
+.logo { width:48px; height:48px; display:grid; place-items:center; border-radius:50%; color:white; font-size:20px; font-weight:900; background:linear-gradient(145deg,var(--cyan),var(--violet)); box-shadow:0 0 26px rgba(0,200,255,.24); }
 .brand strong { display:block; font-size:21px; }
 .brand span { display:block; margin-top:2px; color:var(--muted); font-size:11px; letter-spacing:.14em; text-transform:uppercase; }
 .eyebrow { color:var(--cyan); font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
 h1 { margin:7px 0 8px; font-size:28px; line-height:1.1; }
-p { margin:0 0 23px; color:var(--muted); font-size:13px; line-height:1.6; }
+h2 { margin:8px 0 8px; font-size:21px; }
+p { margin:0 0 18px; color:var(--muted); font-size:13px; line-height:1.6; }
+.auth-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; }
+.auth-panel,.verify-card,.remembered-account { padding:18px; border:1px solid rgba(0,200,255,.22); border-radius:18px; background:rgba(3,10,18,.62); }
+.verify-card { margin-bottom:18px; border-color:rgba(45,255,165,.32); background:rgba(7,38,28,.5); }
 label { display:block; margin:0 0 7px; color:#a8c2d4; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-.field { margin-bottom:16px; }
-input {
-    width:100%;
-    height:48px;
-    border:1px solid rgba(74,178,230,.3);
-    border-radius:13px;
-    outline:none;
-    padding:0 14px;
-    color:var(--text);
-    background:rgba(3,8,15,.84);
-    font:inherit;
-    transition:border-color .16s ease,box-shadow .16s ease;
-}
+.field { margin-bottom:14px; }
+input { width:100%; height:48px; border:1px solid rgba(74,178,230,.3); border-radius:13px; outline:none; padding:0 14px; color:var(--text); background:rgba(3,8,15,.84); font:inherit; transition:border-color .16s ease,box-shadow .16s ease; }
 input:focus { border-color:var(--cyan); box-shadow:0 0 0 3px rgba(0,200,255,.09); }
-button {
-    width:100%;
-    height:49px;
-    margin-top:5px;
-    border:1px solid rgba(0,200,255,.55);
-    border-radius:13px;
-    color:#e9f9ff;
-    background:linear-gradient(135deg,rgba(0,200,255,.24),rgba(111,70,255,.22));
-    font:inherit;
-    font-size:12px;
-    font-weight:850;
-    letter-spacing:.09em;
-    text-transform:uppercase;
-    cursor:pointer;
-}
+button { width:100%; min-height:49px; margin-top:5px; border:1px solid rgba(0,200,255,.55); border-radius:13px; color:#e9f9ff; background:linear-gradient(135deg,rgba(0,200,255,.24),rgba(111,70,255,.22)); font:inherit; font-size:12px; font-weight:850; letter-spacing:.09em; text-transform:uppercase; cursor:pointer; }
 button:hover { border-color:var(--cyan); box-shadow:0 0 22px rgba(0,200,255,.12); }
-.remembered-account {
-    margin:0 0 18px;
-    padding:14px;
-    border:1px solid rgba(0,200,255,.26);
-    border-radius:16px;
-    background:rgba(3,10,18,.62);
-}
-.remembered-heading {
-    margin:0 0 9px;
-    color:#6f93aa;
-    font-size:9px;
-    font-weight:850;
-    letter-spacing:.15em;
-}
-.account-card {
-    height:auto;
-    min-height:64px;
-    margin:0;
-    display:grid;
-    grid-template-columns:42px minmax(0,1fr) 20px;
-    align-items:center;
-    gap:11px;
-    padding:10px 12px;
-    text-align:left;
-    text-transform:none;
-    letter-spacing:0;
-    background:linear-gradient(135deg,rgba(0,200,255,.13),rgba(111,70,255,.12));
-}
-.account-avatar {
-    width:42px;
-    height:42px;
-    display:grid;
-    place-items:center;
-    border-radius:50%;
-    color:white;
-    font-size:17px;
-    font-weight:950;
-    background:linear-gradient(145deg,var(--cyan),var(--violet));
-    box-shadow:0 0 18px rgba(0,200,255,.18);
-}
+.remembered-account { margin:0 0 18px; }
+.remembered-heading { margin:0 0 9px; color:#6f93aa; font-size:9px; font-weight:850; letter-spacing:.15em; }
+.account-card { height:auto; min-height:64px; margin:0; display:grid; grid-template-columns:42px minmax(0,1fr) 20px; align-items:center; gap:11px; padding:10px 12px; text-align:left; text-transform:none; letter-spacing:0; background:linear-gradient(135deg,rgba(0,200,255,.13),rgba(111,70,255,.12)); }
+.account-avatar { width:42px; height:42px; display:grid; place-items:center; border-radius:50%; color:white; font-size:17px; font-weight:950; background:linear-gradient(145deg,var(--cyan),var(--violet)); box-shadow:0 0 18px rgba(0,200,255,.18); }
 .account-copy { min-width:0; }
-.account-copy strong {
-    display:block;
-    overflow:hidden;
-    color:#eefaff;
-    font-size:14px;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-.account-copy small {
-    display:block;
-    margin-top:4px;
-    color:#7894a8;
-    font-size:10px;
-}
+.account-copy strong { display:block; overflow:hidden; color:#eefaff; font-size:14px; text-overflow:ellipsis; white-space:nowrap; }
+.account-copy small { display:block; margin-top:4px; color:#7894a8; font-size:10px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .account-arrow { color:var(--cyan); font-size:25px; line-height:1; text-align:right; }
-.forget-account {
-    height:auto;
-    margin:9px 0 0;
-    padding:4px 0 0;
-    border:0;
-    color:#70899b;
-    background:transparent;
-    box-shadow:none;
-    font-size:9px;
-    letter-spacing:.08em;
-}
+.forget-account { min-height:0; margin:9px 0 0; padding:4px 0 0; border:0; color:#70899b; background:transparent; box-shadow:none; font-size:9px; letter-spacing:.08em; }
 .forget-account:hover { color:#ff9fb4; border:0; box-shadow:none; }
-.login-divider {
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin:0 0 18px;
-    color:#526d80;
-    font-size:9px;
-    font-weight:800;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-}
-.login-divider::before,.login-divider::after {
-    content:"";
-    flex:1;
-    height:1px;
-    background:rgba(74,178,230,.18);
-}
-.login-error {
-    margin:0 0 16px;
-    padding:11px 12px;
-    border:1px solid rgba(255,77,120,.38);
-    border-radius:11px;
-    color:#ffb0c1;
-    background:rgba(55,7,20,.58);
-    font-size:12px;
-}
+.login-divider { display:flex; align-items:center; gap:10px; margin:0 0 18px; color:#526d80; font-size:9px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.login-divider::before,.login-divider::after { content:""; flex:1; height:1px; background:rgba(74,178,230,.18); }
+.login-error,.login-notice { margin:0 0 16px; padding:11px 12px; border-radius:11px; font-size:12px; }
+.login-error { border:1px solid rgba(255,77,120,.38); color:#ffb0c1; background:rgba(55,7,20,.58); }
+.login-notice { border:1px solid rgba(45,255,165,.32); color:#b8ffdc; background:rgba(7,45,30,.58); }
 .security-note { margin:18px 0 0; text-align:center; color:#557084; font-size:11px; }
+@media (max-width:820px) { .auth-grid { grid-template-columns:1fr; } .login-card { padding:22px; } }
 </style>
 </head>
 <body>
 <div class="scan"></div>
 <main class="login-card">
-    <div class="brand">
-        <div class="logo">N</div>
-        <div><strong>Nexu</strong><span>Owner Dashboard</span></div>
-    </div>
+    <div class="brand"><div class="logo">N</div><div><strong>Nexu</strong><span>Account Login</span></div></div>
     <div class="eyebrow">GESCHÜTZTER ZUGANG</div>
-    <h1>Anmelden</h1>
-    <p>Melde dich an, um das Spieler-, Nachrichten- und Moderations-Dashboard zu öffnen.</p>
-    ${errorBlock}
-    ${rememberedBlock}
-    <form method="post" action="/login" autocomplete="on">
-        <div class="field">
-            <label for="username">Benutzername</label>
-            <input id="username" name="username" type="text" maxlength="80" autocomplete="username" required autofocus>
-        </div>
-        <div class="field">
-            <label for="password">Passwort</label>
-            <input id="password" name="password" type="password" maxlength="200" autocomplete="current-password" required>
-        </div>
-        <button type="submit">Dashboard öffnen</button>
-    </form>
-    <div class="security-note">NEXU // GESICHERTE OWNER-SESSION</div>
+    <h1>Anmelden oder registrieren</h1>
+    <p>Accounts melden sich jetzt mit E-Mail und Passwort an. Neue Accounts müssen die E-Mail per Code bestätigen.</p>
+    ${errorBlock}${noticeBlock}${verificationBlock}${rememberedBlock}
+    <div class="auth-grid">
+        <section class="auth-panel">
+            <div class="eyebrow">LOGIN</div>
+            <h2>Anmelden</h2>
+            <form method="post" action="/login" autocomplete="on">
+                <div class="field"><label for="email">E-Mail</label><input id="email" name="email" type="email" maxlength="254" autocomplete="email" required autofocus></div>
+                <div class="field"><label for="password">Passwort</label><input id="password" name="password" type="password" maxlength="200" autocomplete="current-password" required></div>
+                <button type="submit">Dashboard öffnen</button>
+            </form>
+        </section>
+        <section class="auth-panel">
+            <div class="eyebrow">REGISTRIEREN</div>
+            <h2>Account erstellen</h2>
+            <form method="post" action="/register/request" autocomplete="on">
+                <div class="field"><label for="registerUsername">Benutzername</label><input id="registerUsername" name="username" type="text" maxlength="80" autocomplete="username" value="${escapeHtml(verificationUsername)}" required></div>
+                <div class="field"><label for="registerEmail">E-Mail</label><input id="registerEmail" name="email" type="email" maxlength="254" autocomplete="email" value="${escapeHtml(verificationEmail)}" required></div>
+                <div class="field"><label for="registerPassword">Passwort</label><input id="registerPassword" name="password" type="password" maxlength="200" autocomplete="new-password" required></div>
+                <div class="field"><label for="registerConfirmPassword">Passwort bestätigen</label><input id="registerConfirmPassword" name="confirmPassword" type="password" maxlength="200" autocomplete="new-password" required></div>
+                <button type="submit">Code per E-Mail senden</button>
+            </form>
+        </section>
+    </div>
+    <div class="security-note">NEXU // E-MAIL ACCOUNT SYSTEM</div>
 </main>
 </body>
 </html>`;
 }
 
-
-function homeHtml(notice = "", error = "") {const accountName = getDashboardUsername();const isOwnerAccount = accountName === OWNER_ACCOUNT_USERNAME;const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = isOwnerAccount
+function homeHtml(notice = "", error = "", account = null) {const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = accountName === OWNER_ACCOUNT_USERNAME;const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = isOwnerAccount
     ? '<a class="primary-tile menu-server" href="/menu-server"><span>MENU SERVER</span><strong>Spieler-Dashboard öffnen</strong><small>Nur OwnerAccount</small></a>'
     : '<div class="primary-tile menu-server locked"><span>MENU SERVER</span><strong>Zugriff gesperrt</strong><small>Nur OwnerAccount darf diesen Bereich öffnen.</small></div>';
 return String.raw`<!doctype html>
@@ -1125,16 +1099,16 @@ body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity
 .scan { position:fixed; z-index:0; left:0; right:0; top:-2px; height:1px; pointer-events:none; background:linear-gradient(90deg,transparent,rgba(0,200,255,.8),transparent); box-shadow:0 0 20px rgba(0,200,255,.75); animation:scan 7s linear infinite; }
 @keyframes scan { from { transform:translateY(0); opacity:0; } 8%,92% { opacity:.65; } to { transform:translateY(100vh); opacity:0; } }
 .shell { position:relative; z-index:1; width:min(1180px,calc(100% - 32px)); margin:0 auto; padding:26px 0 54px; }
-.header { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:34px; }
+.header { position:relative; z-index:200; display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:34px; }
 .brand { display:flex; align-items:center; gap:13px; }
 .logo { width:48px; height:48px; display:grid; place-items:center; border-radius:50%; font-weight:900; font-size:21px; color:white; background:linear-gradient(135deg,var(--cyan),var(--violet)); box-shadow:0 0 0 1px rgba(255,255,255,.17) inset,0 0 30px rgba(0,200,255,.32); }
 .brand strong { display:block; font-size:22px; letter-spacing:.02em; }
 .brand span { color:var(--muted); font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
-.account { position:relative; }
+.account { position:relative; z-index:10000; }
 .account-button { display:flex; align-items:center; gap:11px; min-height:44px; padding:0 13px 0 8px; border:1px solid var(--border); border-radius:999px; color:var(--text); background:rgba(7,13,23,.78); font:inherit; cursor:pointer; }
 .account-avatar { width:30px; height:30px; border-radius:50%; display:grid; place-items:center; color:white; font-weight:900; background:linear-gradient(135deg,var(--cyan),var(--violet)); }
 .account-name { max-width:170px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:13px; font-weight:800; }
-.account-menu { position:absolute; right:0; top:54px; width:235px; padding:10px; border:1px solid rgba(74,178,230,.25); border-radius:18px; background:rgba(6,12,21,.96); box-shadow:0 22px 70px rgba(0,0,0,.42); display:none; }
+.account-menu { position:absolute; z-index:10001; right:0; top:54px; width:235px; padding:10px; border:1px solid rgba(74,178,230,.25); border-radius:18px; background:rgba(6,12,21,.98); box-shadow:0 22px 70px rgba(0,0,0,.62); display:none; }
 .account.open .account-menu { display:block; }
 .menu-item { width:100%; min-height:38px; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:0 11px; border:1px solid rgba(74,178,230,.14); border-radius:12px; color:var(--text); background:rgba(10,18,31,.72); font:inherit; font-size:12px; font-weight:800; letter-spacing:.05em; text-decoration:none; cursor:pointer; }
 .menu-item + .menu-item,.menu-item-form { margin-top:8px; }
@@ -1158,7 +1132,7 @@ p { margin:0; color:var(--muted); line-height:1.65; }
 .home-notice { margin-bottom:16px; padding:13px 14px; border-radius:14px; font-size:13px; font-weight:780; }
 .home-notice.success { border:1px solid rgba(45,255,165,.32); background:rgba(7,45,30,.48); color:#b8ffdc; }
 .home-notice.error { border:1px solid rgba(255,77,120,.38); background:rgba(55,7,20,.58); color:#ffb0c1; }
-.modal-backdrop { position:fixed; z-index:20; inset:0; display:grid; place-items:center; padding:18px; background:rgba(0,0,0,.54); backdrop-filter:blur(10px); }
+.modal-backdrop { position:fixed; z-index:20000; inset:0; display:grid; place-items:center; padding:18px; background:rgba(0,0,0,.54); backdrop-filter:blur(10px); }
 .modal-backdrop.hidden { display:none; }
 .modal-card { width:min(500px,100%); padding:24px; border:1px solid rgba(74,178,230,.28); border-radius:24px; background:rgba(7,13,23,.96); box-shadow:0 30px 90px rgba(0,0,0,.52); }
 .modal-card h2 { margin:8px 0 8px; }
@@ -1168,7 +1142,7 @@ p { margin:0; color:var(--muted); line-height:1.65; }
 .field input:focus { border-color:rgba(0,200,255,.68); box-shadow:0 0 0 3px rgba(0,200,255,.08); }
 .modal-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:18px; }
 .modal-actions button { min-height:42px; padding:0 14px; border:1px solid rgba(74,178,230,.28); border-radius:13px; color:var(--text); background:rgba(10,18,31,.78); font:inherit; font-size:12px; font-weight:850; letter-spacing:.06em; cursor:pointer; }
-.modal-actions .save { border-color:rgba(0,200,255,.5); background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(111,70,255,.16)); }
+.modal-actions .save { border-color:rgba(0,200,255,.5); background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(111,70,255,.16)); }.danger-zone { margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,77,120,.22); }.danger-zone h3 { margin:0 0 8px; color:#ffb3c2; }.danger-zone button { border-color:rgba(255,77,120,.4); background:rgba(55,7,20,.62); color:#ffd6df; }
 @media (max-width:820px) { .shell { width:min(100% - 20px,1180px); padding-top:16px; } .hero { grid-template-columns:1fr; } .header { align-items:flex-start; } .quick-info { grid-template-columns:1fr; } }
 </style>
 </head>
@@ -1195,7 +1169,7 @@ p { margin:0; color:var(--muted); line-height:1.65; }
         <div class="panel action-grid">
             ${menuServerButton}
             <div class="quick-info">
-                <article class="info-card"><div class="info-label">Account</div><div class="info-value">${escapeHtml(accountName)}</div></article>
+                <article class="info-card"><div class="info-label">Account</div><div class="info-value">${escapeHtml(accountName)}</div><p>${escapeHtml(accountEmail)}</p></article>
                 <article class="info-card"><div class="info-label">Menu Server Zugriff</div><div class="info-value">${isOwnerAccount ? "Erlaubt" : "Gesperrt"}</div></article>
             </div>
         </div>
@@ -1205,12 +1179,15 @@ p { margin:0; color:var(--muted); line-height:1.65; }
     <form class="modal-card" method="post" action="/account/settings" autocomplete="on">
         <div class="eyebrow">ACCOUNT SETTINGS</div>
         <h2>Account bearbeiten</h2>
-        <p>Benutzername und Passwort werden serverseitig gespeichert.</p>
-        <div class="field"><label for="newUsername">Benutzername</label><input id="newUsername" name="newUsername" type="text" maxlength="80" value="${escapeHtml(accountName)}" autocomplete="username" required></div>
+        <p>Benutzername und Passwort werden serverseitig gespeichert. Die E-Mail bleibt mit diesem Account verknüpft.</p>
+        <div class="field"><label for="accountEmail">E-Mail</label><input id="accountEmail" type="email" value="${escapeHtml(accountEmail)}" disabled></div><div class="field"><label for="newUsername">Benutzername</label><input id="newUsername" name="newUsername" type="text" maxlength="80" value="${escapeHtml(accountName)}" autocomplete="username" required></div>
         <div class="field"><label for="currentPassword">Aktuelles Passwort</label><input id="currentPassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div>
         <div class="field"><label for="newPassword">Neues Passwort</label><input id="newPassword" name="newPassword" type="password" maxlength="200" autocomplete="new-password" placeholder="Leer lassen, wenn gleich bleiben soll"></div>
         <div class="field"><label for="confirmPassword">Neues Passwort bestätigen</label><input id="confirmPassword" name="confirmPassword" type="password" maxlength="200" autocomplete="new-password"></div>
         <div class="modal-actions"><button id="closeSettings" type="button">ABBRECHEN</button><button class="save" type="submit">SPEICHERN</button></div>
+    </form>
+    <form class="modal-card" method="post" action="/account/delete" autocomplete="off">
+        <div class="danger-zone"><h3>Account löschen</h3><p>Dieser Account wird dauerhaft vom Dashboard entfernt. Danach wirst du abgemeldet.</p><div class="field"><label for="deletePassword">Passwort bestätigen</label><input id="deletePassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div><div class="modal-actions"><button type="submit">ACCOUNT LÖSCHEN</button></div></div>
     </form>
 </div>
 <script>
@@ -2241,10 +2218,13 @@ if (req.method === "GET" && pathname === "/") {
     if (isDashboardAuthenticated(req)) {
         const message = requestUrl.searchParams.get("settings") === "updated"
             ? "Account-Einstellungen wurden gespeichert."
-            : "";
-        sendHtml(res, 200, homeHtml(message, ""));
+            : requestUrl.searchParams.get("account") === "deleted"
+                ? "Account wurde gelöscht."
+                : "";
+        const session = getDashboardSession(req);
+        sendHtml(res, 200, homeHtml(message, "", session && session.account));
     } else {
-        sendHtml(res, 200, loginHtml("", getRememberedDashboardAccount(req)));
+        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccount(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Account wurde gelöscht." : ""}));
     }
     return;
 }
@@ -2253,7 +2233,7 @@ if (req.method === "GET" && pathname === "/login") {
     if (isDashboardAuthenticated(req)) {
         redirect(res, "/");
     } else {
-        sendHtml(res, 200, loginHtml("", getRememberedDashboardAccount(req)));
+        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccount(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Account wurde gelöscht." : ""}));
     }
     return;
 }
@@ -2264,7 +2244,8 @@ if (req.method === "GET" && pathname === "/menu-server") {
         return;
     }
     if (!isOwnerAccountSession(req)) {
-        sendHtml(res, 403, homeHtml("", "Menu Server ist nur für den Account OwnerAccount freigegeben."));
+        const session = getDashboardSession(req);
+        sendHtml(res, 403, homeHtml("", "Menu Server ist nur für den Account OwnerAccount freigegeben.", session && session.account));
         return;
     }
     console.log("[NEXU] Menu Server Dashboard aufgerufen");
@@ -2284,10 +2265,10 @@ if (req.method === "POST" && pathname === "/login") {
         }
 
         const form = await readFormBody(req);
-        const username = cleanText(form.username, 80);
+        const email = cleanDashboardEmail(form.email || form.username);
         const password = String(form.password || "");
-        const validLogin = safeTextEqual(username, getDashboardUsername()) &&
-            validDashboardPassword(password);
+        const account = getDashboardAccountByEmail(email);
+        const validLogin = Boolean(account && validDashboardAccountPassword(account, password));
 
         if (!validLogin) {
             console.warn("[NEXU] Fehlgeschlagene Dashboard-Anmeldung von", getClientIp(req));
@@ -2300,8 +2281,8 @@ if (req.method === "POST" && pathname === "/login") {
         }
 
         clearLoginAttempts(req);
-        const token = createDashboardSession(getDashboardUsername());
-        const rememberToken = createRememberedDashboardDevice();
+        const token = createDashboardSession(account);
+        const rememberToken = createRememberedDashboardDevice(account);
         console.log("[NEXU] Owner-Dashboard erfolgreich angemeldet");
         redirect(res, "/", {
             "Set-Cookie": [
@@ -2346,7 +2327,8 @@ if (req.method === "POST" && pathname === "/quick-login") {
     }
 
     const rememberedAccount = getRememberedDashboardAccount(req);
-    if (!rememberedAccount || rememberedAccount.username !== getDashboardUsername()) {
+    const rememberedLoginAccount = rememberedAccount && (getDashboardAccountByEmail(rememberedAccount.email) || getDashboardAccountByUsername(rememberedAccount.username));
+    if (!rememberedAccount || !rememberedLoginAccount) {
         removeRememberedDashboardDevice(req);
         redirect(res, "/login", {
             "Set-Cookie": dashboardRememberCookie(req, "", 0),
@@ -2355,7 +2337,7 @@ if (req.method === "POST" && pathname === "/quick-login") {
     }
 
     clearLoginAttempts(req);
-    const token = createDashboardSession(getDashboardUsername());
+    const token = createDashboardSession(rememberedLoginAccount);
     console.log("[NEXU] Owner-Dashboard per gespeichertem Account angemeldet");
     redirect(res, "/", {
         "Set-Cookie": dashboardCookie(
@@ -2391,7 +2373,8 @@ if (req.method === "POST" && pathname === "/logout") {
 
 
 if (req.method === "POST" && pathname === "/account/settings") {
-    if (!isDashboardAuthenticated(req)) {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
         redirect(res, "/login");
         return;
     }
@@ -2403,51 +2386,207 @@ if (req.method === "POST" && pathname === "/account/settings") {
         const confirmPassword = String(form.confirmPassword || "");
 
         if (!nextUsername) {
-            sendHtml(res, 400, homeHtml("", "Benutzername ungültig. Erlaubt sind 3-80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -."));
+            sendHtml(res, 400, homeHtml("", "Benutzername ungültig. Erlaubt sind 3-80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", session.account));
             return;
         }
-        if (!validDashboardPassword(currentPassword)) {
-            sendHtml(res, 403, homeHtml("", "Aktuelles Passwort ist falsch."));
+        if (dashboardUsernameExists(nextUsername, session.account.email)) {
+            sendHtml(res, 409, homeHtml("", "Dieser Benutzername ist bereits vergeben.", session.account));
             return;
         }
-        let nextPasswordHash = getDashboardPasswordHash();
+        if (!validDashboardAccountPassword(session.account, currentPassword)) {
+            sendHtml(res, 403, homeHtml("", "Aktuelles Passwort ist falsch.", session.account));
+            return;
+        }
+        let nextPasswordHash = session.account.passwordHash;
         if (nextPassword !== "" || confirmPassword !== "") {
             if (nextPassword.length < 8) {
-                sendHtml(res, 400, homeHtml("", "Das neue Passwort muss mindestens 8 Zeichen haben."));
+                sendHtml(res, 400, homeHtml("", "Das neue Passwort muss mindestens 8 Zeichen haben.", session.account));
                 return;
             }
             if (nextPassword !== confirmPassword) {
-                sendHtml(res, 400, homeHtml("", "Neue Passwörter stimmen nicht überein."));
+                sendHtml(res, 400, homeHtml("", "Neue Passwörter stimmen nicht überein.", session.account));
                 return;
             }
             nextPasswordHash = sha256Hex(nextPassword);
         }
-        if (!updateDashboardAccount(nextUsername, nextPasswordHash)) {
-            sendHtml(res, 500, homeHtml("", "Account konnte nicht gespeichert werden."));
+        const updated = normalizeDashboardAccount({...session.account, username: nextUsername, passwordHash: nextPasswordHash, updatedAt: new Date().toISOString()});
+        if (!updated) {
+            sendHtml(res, 500, homeHtml("", "Account konnte nicht gespeichert werden.", session.account));
             return;
         }
-        const session = getDashboardSession(req);
+        dashboardAccounts.set(updated.email, updated);
+        if (!saveDashboardAccount()) {
+            sendHtml(res, 500, homeHtml("", "Account konnte nicht gespeichert werden.", session.account));
+            return;
+        }
         if (session && session.token) {
             dashboardSessions.set(session.token, {
-                username: getDashboardUsername(),
+                username: updated.username,
+                email: updated.email,
                 expiresAtMs: session.expiresAtMs,
             });
         }
         for (const [tokenHash, entry] of rememberedDashboardDevices) {
-            if (entry) {
+            if (entry && entry.email === updated.email) {
                 rememberedDashboardDevices.set(tokenHash, {
                     ...entry,
-                    username: getDashboardUsername(),
+                    username: updated.username,
+                    email: updated.email,
                 });
             }
         }
         saveRememberedDashboardDevices();
         redirect(res, "/?settings=updated");
     } catch (error) {
-        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, homeHtml("", "Account-Einstellungen konnten nicht verarbeitet werden."));
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, homeHtml("", "Account-Einstellungen konnten nicht verarbeitet werden.", session.account));
     }
     return;
 }
+
+if (req.method === "POST" && pathname === "/account/delete") {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
+        redirect(res, "/login");
+        return;
+    }
+    try {
+        const form = await readFormBody(req);
+        const currentPassword = String(form.currentPassword || "");
+        if (!validDashboardAccountPassword(session.account, currentPassword)) {
+            sendHtml(res, 403, homeHtml("", "Passwort für Account-Löschung ist falsch.", session.account));
+            return;
+        }
+        const deletedEmail = session.account.email;
+        deleteDashboardAccount(deletedEmail);
+        for (const [token, raw] of dashboardSessions) {
+            if (raw && raw.email === deletedEmail) dashboardSessions.delete(token);
+        }
+        for (const [tokenHash, entry] of rememberedDashboardDevices) {
+            if (entry && entry.email === deletedEmail) rememberedDashboardDevices.delete(tokenHash);
+        }
+        saveRememberedDashboardDevices();
+        redirect(res, "/login?account=deleted", {
+            "Set-Cookie": [dashboardCookie(req, "", 0), dashboardRememberCookie(req, "", 0)],
+        });
+    } catch (error) {
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, homeHtml("", "Account konnte nicht gelöscht werden.", session.account));
+    }
+    return;
+}
+
+if (req.method === "POST" && pathname === "/register/request") {
+    try {
+        if (!allowLoginAttempt(req)) {
+            sendHtml(res, 429, loginHtml("Zu viele Registrierungsversuche. Bitte später erneut versuchen.", getRememberedDashboardAccount(req)));
+            return;
+        }
+        const form = await readFormBody(req);
+        const username = cleanDashboardUsername(form.username);
+        const email = cleanDashboardEmail(form.email);
+        const password = String(form.password || "");
+        const confirmPassword = String(form.confirmPassword || "");
+        if (!username) {
+            sendHtml(res, 400, loginHtml("Benutzername ungültig. Erlaubt sind 3-80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: form.username}));
+            return;
+        }
+        if (!email) {
+            sendHtml(res, 400, loginHtml("Bitte eine gültige E-Mail eingeben.", getRememberedDashboardAccount(req), {verificationUsername: username}));
+            return;
+        }
+        if (getDashboardAccountByEmail(email)) {
+            sendHtml(res, 409, loginHtml("Diese E-Mail ist bereits registriert.", getRememberedDashboardAccount(req)));
+            return;
+        }
+        if (dashboardUsernameExists(username)) {
+            sendHtml(res, 409, loginHtml("Dieser Benutzername ist bereits vergeben.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: username}));
+            return;
+        }
+        if (password.length < 8) {
+            sendHtml(res, 400, loginHtml("Das Passwort muss mindestens 8 Zeichen haben.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: username}));
+            return;
+        }
+        if (password !== confirmPassword) {
+            sendHtml(res, 400, loginHtml("Passwörter stimmen nicht überein.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: username}));
+            return;
+        }
+        if (!allowVerificationEmail(req, email)) {
+            sendHtml(res, 429, loginHtml("Zu viele Codes für diese E-Mail. Bitte später erneut versuchen.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: username}));
+            return;
+        }
+        const code = createVerificationCode();
+        pendingDashboardRegistrations.set(email, {
+            username,
+            email,
+            passwordHash: sha256Hex(password),
+            codeHash: sha256Hex(code),
+            createdAt: new Date().toISOString(),
+            expiresAtMs: Date.now() + EMAIL_VERIFICATION_TTL_MS,
+            attempts: 0,
+        });
+        const mailResult = await sendDashboardVerificationEmail(email, username, code);
+        const notice = mailResult.sent
+            ? "Bestätigungscode wurde an deine E-Mail gesendet."
+            : "E-Mail-Service ist noch nicht konfiguriert. Der Code steht in den Render-Logs.";
+        sendHtml(res, 200, loginHtml("", getRememberedDashboardAccount(req), {notice, verificationEmail: email, verificationUsername: username}));
+    } catch (error) {
+        const message = error.message === "EMAIL_SEND_FAILED"
+            ? "Bestätigungsmail konnte nicht gesendet werden. Prüfe RESEND_API_KEY und RESEND_FROM_EMAIL in Render."
+            : error.message === "BODY_TOO_LARGE"
+                ? "Registrierungsdaten sind zu groß."
+                : "Registrierung konnte nicht verarbeitet werden.";
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, loginHtml(message, getRememberedDashboardAccount(req)));
+    }
+    return;
+}
+
+if (req.method === "POST" && pathname === "/register/verify") {
+    try {
+        const form = await readFormBody(req);
+        const email = cleanDashboardEmail(form.email);
+        const code = cleanText(form.code, 12).replace(/\D/g, "");
+        prunePendingDashboardRegistrations();
+        const pending = pendingDashboardRegistrations.get(email);
+        if (!pending) {
+            sendHtml(res, 400, loginHtml("Der Bestätigungscode ist abgelaufen oder ungültig.", getRememberedDashboardAccount(req), {verificationEmail: email}));
+            return;
+        }
+        pending.attempts = (pending.attempts || 0) + 1;
+        if (pending.attempts > 8) {
+            pendingDashboardRegistrations.delete(email);
+            sendHtml(res, 429, loginHtml("Zu viele falsche Codes. Bitte Registrierung neu starten.", getRememberedDashboardAccount(req)));
+            return;
+        }
+        if (!code || pending.codeHash !== sha256Hex(code)) {
+            sendHtml(res, 403, loginHtml("Bestätigungscode ist falsch.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: pending.username}));
+            return;
+        }
+        if (getDashboardAccountByEmail(email) || dashboardUsernameExists(pending.username)) {
+            pendingDashboardRegistrations.delete(email);
+            sendHtml(res, 409, loginHtml("Account existiert bereits. Bitte anmelden.", getRememberedDashboardAccount(req)));
+            return;
+        }
+        const account = putDashboardAccount({
+            username: pending.username,
+            email: pending.email,
+            passwordHash: pending.passwordHash,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+        });
+        pendingDashboardRegistrations.delete(email);
+        if (!account || !saveDashboardAccount()) {
+            sendHtml(res, 500, loginHtml("Account konnte nicht gespeichert werden.", getRememberedDashboardAccount(req)));
+            return;
+        }
+        clearLoginAttempts(req);
+        const token = createDashboardSession(account);
+        const rememberToken = createRememberedDashboardDevice(account);
+        redirect(res, "/", {"Set-Cookie": [dashboardCookie(req, token, DASHBOARD_SESSION_TTL_MS / 1000), dashboardRememberCookie(req, rememberToken, DASHBOARD_REMEMBER_TTL_MS / 1000)]});
+    } catch (error) {
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, loginHtml("Bestätigung konnte nicht verarbeitet werden.", getRememberedDashboardAccount(req)));
+    }
+    return;
+}
+
 
 if (
     req.method === "GET" &&
@@ -3353,4 +3492,4 @@ sendJson(res, 404, {
 
 setInterval(() => {prunePresence();pruneDirectMessages();pruneDashboardAuth();}, 20_000).unref();
 
-server.listen(PORT, "0.0.0.0", () => {console.log("========================================");console.log("NEXU PRESENCE & MODERATION GESTARTET");console.log("Port:", PORT);console.log("Heartbeat-Schutz:",HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");console.log("Ban-Datei:", BAN_FILE_PATH);console.log("Spieler-Speicher:", KNOWN_PLAYERS_FILE_PATH);console.log("Dashboard-Anmeldung: /");console.log("Dashboard-Benutzer:", getDashboardUsername());console.log("Presence: /api/presence");console.log("Direct Messages: /api/dm/send + /api/dm/poll");console.log("Website Join: /api/join/send + /api/join/poll");console.log("Access: /api/menu/access?userId=...");console.log("========================================");});
+server.listen(PORT, "0.0.0.0", () => {console.log("========================================");console.log("NEXU PRESENCE & MODERATION GESTARTET");console.log("Port:", PORT);console.log("Heartbeat-Schutz:",HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");console.log("Ban-Datei:", BAN_FILE_PATH);console.log("Spieler-Speicher:", KNOWN_PLAYERS_FILE_PATH);console.log("Dashboard-Anmeldung: /");console.log("Dashboard-Accounts:", dashboardAccounts.size);console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Presence: /api/presence");console.log("Direct Messages: /api/dm/send + /api/dm/poll");console.log("Website Join: /api/join/send + /api/join/poll");console.log("Access: /api/menu/access?userId=...");console.log("========================================");});
