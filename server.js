@@ -706,6 +706,19 @@ return String.raw`<!doctype html>
     --red:#ff4d78;
 }
 * { box-sizing:border-box; }
+body,h1,h2,h3,p,.eyebrow,.brand-copy,.hero,.directory,.stat,.player,.identity,.display-name,.username,.presence-details,.presence-line,.presence-key,.presence-value,.role-badge,.footer-note,.live-pill,.modal-user,.modal-notice {
+    -webkit-user-select:none;
+    user-select:none;
+    caret-color:transparent;
+    cursor:default;
+}
+input,textarea {
+    -webkit-user-select:text;
+    user-select:text;
+    caret-color:auto;
+    cursor:text;
+}
+button { -webkit-user-select:none; user-select:none; }
 html,body { margin:0; min-height:100%; }
 body {
     min-height:100vh;
@@ -958,6 +971,19 @@ function dashboardHtml() {return String.raw`<!doctype html>
     --border:rgba(74,178,230,.28);
 }
 * { box-sizing:border-box; }
+body,h1,h2,h3,p,.eyebrow,.brand-copy,.hero,.directory,.stat,.player,.identity,.display-name,.username,.presence-details,.presence-line,.presence-key,.presence-value,.role-badge,.footer-note,.live-pill,.modal-user,.modal-notice {
+    -webkit-user-select:none;
+    user-select:none;
+    caret-color:transparent;
+    cursor:default;
+}
+input,textarea {
+    -webkit-user-select:text;
+    user-select:text;
+    caret-color:auto;
+    cursor:text;
+}
+button { -webkit-user-select:none; user-select:none; }
 html,body {
     margin:0;
     min-height:100%;
@@ -1129,8 +1155,8 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .action-button.dm:hover { border-color:var(--cyan); }
 .action-button.join { border-color:rgba(45,255,165,.44); color:#91ffd2; background:rgba(4,35,24,.76); }
 .action-button.join:hover { border-color:var(--green); }
-.action-button.bring { border-color:rgba(245,250,255,.58); color:#ffffff; background:rgba(28,34,46,.82); }
-.action-button.bring:hover { border-color:#ffffff; }
+.action-button.bring { border-color:rgba(0,200,255,.48); color:#8cecff; background:rgba(3,28,42,.78); }
+.action-button.bring:hover { border-color:var(--cyan); }
 .button-row { display:flex; align-items:center; justify-content:flex-end; gap:7px; flex-wrap:wrap; }
 .empty { grid-column:1/-1; padding:40px 20px; border:1px dashed rgba(74,178,230,.22); border-radius:17px; color:var(--muted); text-align:center; }
 .footer-note { margin-top:14px; color:#557084; font-size:12px; text-align:right; }
@@ -1270,6 +1296,16 @@ const state = {
     pendingBan:null,
     pendingDm:null,
 };
+
+const allowTextEditingTargets = "input, textarea";
+document.documentElement.setAttribute("spellcheck", "false");
+document.body.setAttribute("contenteditable", "false");
+document.addEventListener("beforeinput", function (event) {
+    const target = event.target;
+    if (!target || !target.matches || !target.matches(allowTextEditingTargets)) {
+        event.preventDefault();
+    }
+}, { capture:true });
 
 const elements = {
     headerDot:document.getElementById("headerDot"),
