@@ -1145,11 +1145,17 @@ header {
 .eyebrow { color:var(--cyan); font-size:11px; letter-spacing:.19em; text-transform:uppercase; }
 h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:1.03; letter-spacing:-.04em; }
 .hero p { margin:0; max-width:760px; color:var(--muted); line-height:1.65; }
-.stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:24px; }
+.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-top:24px; }
 .stat { min-height:122px; padding:18px; border:1px solid rgba(74,178,230,.19); border-radius:19px; background:var(--panel2); }
 .stat-label { color:var(--muted); font-size:11px; letter-spacing:.12em; text-transform:uppercase; }
 .stat-value { margin-top:11px; font-size:27px; font-weight:780; }
 .stat-note { margin-top:8px; color:#66849a; font-size:12px; }
+.stat-split { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:11px; }
+.stat-mini { padding:10px 11px; border:1px solid rgba(74,178,230,.16); border-radius:13px; background:rgba(3,8,15,.36); }
+.stat-mini-label { color:#7895a9; font-size:10px; letter-spacing:.11em; text-transform:uppercase; }
+.stat-mini-value { margin-top:5px; font-size:25px; font-weight:820; line-height:1; }
+.stat-mini-value.online { color:var(--green); }
+.stat-mini-value.offline { color:#8fa9ba; }
 .directory-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:18px; }
 .directory h2 { margin:4px 0 0; font-size:21px; }
 .search {
@@ -1302,7 +1308,8 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
     <p>Das Dashboard speichert jeden Spieler nach dem ersten Nexu-Start und zeigt ihn danach weiter an. Aktive Spieler stehen oben im Online-Feld. Deaktivierte oder abgelaufene Sitzungen werden automatisch in das Offline-Feld darunter verschoben.</p>
     <div class="stats">
         <article class="stat"><div class="stat-label">Serverstatus</div><div id="serverStatus" class="stat-value">Prüfe …</div><div class="stat-note">Render-Web-Service</div></article>
-        <article class="stat"><div class="stat-label">Gespeicherte Spieler</div><div id="playerCount" class="stat-value">0</div><div class="stat-note">Online oben, Offline unten</div></article>
+        <article class="stat"><div class="stat-label">Gespeicherte Spieler</div><div id="playerCount" class="stat-value">0</div><div class="stat-note">Alle Spieler, die Nexu einmal gestartet haben</div></article>
+        <article class="stat"><div class="stat-label">Spieler Online / Offline</div><div class="stat-split"><div class="stat-mini"><div class="stat-mini-label">Online</div><div id="onlinePlayerCount" class="stat-mini-value online">0</div></div><div class="stat-mini"><div class="stat-mini-label">Offline</div><div id="offlinePlayerCount" class="stat-mini-value offline">0</div></div></div><div class="stat-note">Wird automatisch verschoben</div></article>
         <article class="stat"><div class="stat-label">Gesperrte Spieler</div><div id="bannedCount" class="stat-value">0</div><div class="stat-note">Bleiben bis zum Entbannen gespeichert</div></article>
     </div>
 </section>
@@ -1419,6 +1426,8 @@ const elements = {
     headerStatus:document.getElementById("headerStatus"),
     serverStatus:document.getElementById("serverStatus"),
     playerCount:document.getElementById("playerCount"),
+    onlinePlayerCount:document.getElementById("onlinePlayerCount"),
+    offlinePlayerCount:document.getElementById("offlinePlayerCount"),
     bannedCount:document.getElementById("bannedCount"),
     search:document.getElementById("search"),
     players:document.getElementById("players"),
@@ -1532,7 +1541,11 @@ function render() {
     elements.headerStatus.textContent = state.online ? "Server online" : "Server nicht erreichbar";
     elements.serverStatus.textContent = state.online ? "ONLINE" : "OFFLINE";
     elements.serverStatus.style.color = state.online ? "var(--green)" : "var(--red)";
+    const totalOnlineCount = state.players.filter(function (player) { return player.online === true; }).length;
+    const totalOfflineCount = state.players.length - totalOnlineCount;
     elements.playerCount.textContent = String(state.players.length);
+    elements.onlinePlayerCount.textContent = String(totalOnlineCount);
+    elements.offlinePlayerCount.textContent = String(totalOfflineCount);
     elements.bannedCount.textContent = String(state.bannedPlayers.length);
 
     const query = state.query.trim().toLocaleLowerCase();
@@ -1545,8 +1558,6 @@ function render() {
 
     const onlinePlayers = filtered.filter(function (player) { return player.online === true; });
     const offlinePlayers = filtered.filter(function (player) { return player.online !== true; });
-    const totalOnlineCount = state.players.filter(function (player) { return player.online === true; }).length;
-    const totalOfflineCount = state.players.length - totalOnlineCount;
 
     elements.players.innerHTML = onlinePlayers.length
         ? onlinePlayers.map(function (player) { return renderPlayer(player,false); }).join("")
