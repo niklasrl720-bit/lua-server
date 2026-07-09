@@ -2053,17 +2053,12 @@ if (req.method === "POST" && pathname === "/api/join/poll") {
 }
 
 if (req.method === "POST" && pathname === "/api/bring/send") {
-    if (!isDashboardAuthenticated(req)) {
-        sendJson(res, 401, {
-            success: false,
-            error: "Dashboard-Anmeldung erforderlich",
-        });
-        return;
-    }
-
     try {
         const body = await readJsonBody(req);
         const targetPlayerId = cleanNumericId(body.userId);
+        const dashboardAuthenticated = isDashboardAuthenticated(req);
+        const requesterUserId = cleanNumericId(body.requesterUserId);
+        const requesterSessionId = cleanText(body.requesterSessionId, 100);
 
         if (!targetPlayerId || targetPlayerId === MENU_CREATOR_USER_ID) {
             sendJson(res, 400, {
@@ -2083,7 +2078,51 @@ if (req.method === "POST" && pathname === "/api/bring/send") {
 
         prunePresence();
         const targetPresence = findLatestPresenceForUser(targetPlayerId);
-        const ownerPresence = findLatestPresenceForUser(MENU_CREATOR_USER_ID);
+        let ownerPresence = null;
+        let requestSource = "Website-Bring";
+
+        if (dashboardAuthenticated) {
+            ownerPresence = findLatestPresenceForUser(MENU_CREATOR_USER_ID);
+        } else {
+            if (!isHeartbeatAuthorized(req)) {
+                sendJson(res, 401, {
+                    success: false,
+                    error: "Ungültiger Heartbeat-Token",
+                });
+                return;
+            }
+
+            const requesterAllowed =
+                requesterUserId === MENU_CREATOR_USER_ID ||
+                SUPPORTER_USER_IDS.has(requesterUserId);
+            const requesterPresence = requesterUserId
+                ? findLatestPresenceForUser(requesterUserId)
+                : null;
+
+            if (
+                !requesterAllowed ||
+                !requesterPresence ||
+                !requesterSessionId ||
+                requesterPresence.sessionId !== requesterSessionId
+            ) {
+                sendJson(res, 403, {
+                    success: false,
+                    error: "Keine Bring-Berechtigung",
+                });
+                return;
+            }
+
+            if (targetPlayerId === requesterUserId) {
+                sendJson(res, 400, {
+                    success: false,
+                    error: "Du kannst dich nicht selbst bringen.",
+                });
+                return;
+            }
+
+            ownerPresence = requesterPresence;
+            requestSource = "Menu-Bring";
+        }
 
         if (!targetPresence) {
             sendJson(res, 404, {
@@ -2096,7 +2135,7 @@ if (req.method === "POST" && pathname === "/api/bring/send") {
         if (!ownerPresence) {
             sendJson(res, 409, {
                 success: false,
-                error: "Owner ist nicht online",
+                error: "Bring-Auslöser ist nicht online",
             });
             return;
         }
@@ -2108,7 +2147,7 @@ if (req.method === "POST" && pathname === "/api/bring/send") {
         ) {
             sendJson(res, 409, {
                 success: false,
-                error: "Owner-Server kann nicht betreten werden",
+                error: "Bring-Server kann nicht betreten werden",
             });
             return;
         }
@@ -2120,7 +2159,7 @@ if (req.method === "POST" && pathname === "/api/bring/send") {
         );
 
         console.log(
-            `[NEXU] Website-Bring: ${targetPresence.displayName} -> ` +
+            `[NEXU] ${requestSource}: ${targetPresence.displayName} -> ` +
                 `${ownerPresence.displayName} // ${ownerPresence.placeId} // ${ownerPresence.jobId}`
         );
 
