@@ -1140,6 +1140,8 @@ header {
 }
 .hero { padding:29px; border-radius:28px; }
 .directory { margin-top:22px; padding:24px; border-radius:25px; }
+.offline-directory { border-color:rgba(125,150,170,.24); background:linear-gradient(135deg,rgba(125,150,170,.045),rgba(111,70,255,.025)),var(--panel); }
+.offline-directory .eyebrow { color:#8da8ba; }
 .eyebrow { color:var(--cyan); font-size:11px; letter-spacing:.19em; text-transform:uppercase; }
 h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:1.03; letter-spacing:-.04em; }
 .hero p { margin:0; max-width:760px; color:var(--muted); line-height:1.65; }
@@ -1297,21 +1299,29 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 <section class="hero">
     <div class="eyebrow">NEXU // LIVE SYSTEM</div>
     <h1>Aktive Nutzer auf einen Blick.</h1>
-    <p>Das Dashboard speichert jeden Spieler nach dem ersten Nexu-Start und zeigt ihn danach weiter an. Aktive Spieler bleiben online, deaktivierte oder abgelaufene Sitzungen werden offline markiert.</p>
+    <p>Das Dashboard speichert jeden Spieler nach dem ersten Nexu-Start und zeigt ihn danach weiter an. Aktive Spieler stehen oben im Online-Feld. Deaktivierte oder abgelaufene Sitzungen werden automatisch in das Offline-Feld darunter verschoben.</p>
     <div class="stats">
         <article class="stat"><div class="stat-label">Serverstatus</div><div id="serverStatus" class="stat-value">Prüfe …</div><div class="stat-note">Render-Web-Service</div></article>
-        <article class="stat"><div class="stat-label">Gespeicherte Spieler</div><div id="playerCount" class="stat-value">0</div><div class="stat-note">Online und Offline im Verzeichnis</div></article>
+        <article class="stat"><div class="stat-label">Gespeicherte Spieler</div><div id="playerCount" class="stat-value">0</div><div class="stat-note">Online oben, Offline unten</div></article>
         <article class="stat"><div class="stat-label">Gesperrte Spieler</div><div id="bannedCount" class="stat-value">0</div><div class="stat-note">Bleiben bis zum Entbannen gespeichert</div></article>
     </div>
 </section>
 
-<section class="directory">
+<section class="directory online-directory">
     <div class="directory-head">
-        <div><div class="eyebrow">MENU SPIELER</div><h2>Gespeichertes Spieler-Verzeichnis</h2></div>
+        <div><div class="eyebrow">MENU SPIELER</div><h2>Online Spieler</h2></div>
         <input id="search" class="search" type="search" autocomplete="off" placeholder="Spieler suchen …" aria-label="Spieler suchen">
     </div>
     <div id="players" class="players"></div>
     <div id="footerNote" class="footer-note"></div>
+</section>
+
+<section class="directory offline-directory">
+    <div class="directory-head">
+        <div><div class="eyebrow">OFFLINE ARCHIV</div><h2>Offline Spieler</h2></div>
+    </div>
+    <div id="offlinePlayers" class="players"></div>
+    <div id="offlineFooter" class="footer-note"></div>
 </section>
 
 <section class="directory">
@@ -1413,6 +1423,8 @@ const elements = {
     search:document.getElementById("search"),
     players:document.getElementById("players"),
     footerNote:document.getElementById("footerNote"),
+    offlinePlayers:document.getElementById("offlinePlayers"),
+    offlineFooter:document.getElementById("offlineFooter"),
     bannedPlayers:document.getElementById("bannedPlayers"),
     bannedFooter:document.getElementById("bannedFooter"),
     banModal:document.getElementById("banModal"),
@@ -1531,18 +1543,29 @@ function render() {
             String(player.userId || "").includes(query);
     });
 
-    elements.players.innerHTML = filtered.length
-        ? filtered.map(function (player) { return renderPlayer(player,false); }).join("")
+    const onlinePlayers = filtered.filter(function (player) { return player.online === true; });
+    const offlinePlayers = filtered.filter(function (player) { return player.online !== true; });
+    const totalOnlineCount = state.players.filter(function (player) { return player.online === true; }).length;
+    const totalOfflineCount = state.players.length - totalOnlineCount;
+
+    elements.players.innerHTML = onlinePlayers.length
+        ? onlinePlayers.map(function (player) { return renderPlayer(player,false); }).join("")
         : '<div class="empty">' + (state.players.length === 0
             ? 'Noch kein Spieler hat das Nexu-Menü ausgeführt.'
-            : 'Kein Spieler passt zu deiner Suche.') + '</div>';
+            : (query ? 'Kein Online-Spieler passt zu deiner Suche.' : 'Aktuell ist kein Spieler online.')) + '</div>';
+
+    elements.offlinePlayers.innerHTML = offlinePlayers.length
+        ? offlinePlayers.map(function (player) { return renderPlayer(player,false); }).join("")
+        : '<div class="empty">' + (state.players.length === 0
+            ? 'Offline-Liste ist noch leer.'
+            : (query ? 'Kein Offline-Spieler passt zu deiner Suche.' : 'Keine gespeicherten Offline-Spieler.')) + '</div>';
 
     elements.bannedPlayers.innerHTML = state.bannedPlayers.length
         ? state.bannedPlayers.map(function (player) { return renderPlayer(player,true); }).join("")
         : '<div class="empty">Die Sperrliste ist leer.</div>';
 
-    const onlineCount = state.players.filter(function (player) { return player.online === true; }).length;
-    elements.footerNote.textContent = filtered.length + " von " + state.players.length + " Spielern angezeigt · " + onlineCount + " online";
+    elements.footerNote.textContent = onlinePlayers.length + " von " + totalOnlineCount + " Online-Spielern angezeigt";
+    elements.offlineFooter.textContent = offlinePlayers.length + " von " + totalOfflineCount + " Offline-Spielern angezeigt";
     elements.bannedFooter.textContent = state.bannedPlayers.length + " gesperrte Nutzer";
 }
 
