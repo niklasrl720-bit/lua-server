@@ -1057,7 +1057,7 @@ button:hover { border-color:var(--cyan); box-shadow:0 0 22px rgba(0,200,255,.12)
             <form method="post" action="/login" autocomplete="on">
                 <div class="field"><label for="email">E-Mail</label><input id="email" name="email" type="email" maxlength="254" autocomplete="email" required autofocus></div>
                 <div class="field"><label for="password">Passwort</label><input id="password" name="password" type="password" maxlength="200" autocomplete="current-password" required></div>
-                <button type="submit">Dashboard öffnen</button>
+                <button type="submit">Anmelden</button>
             </form>
         </section>
         <section class="auth-panel">
@@ -1068,7 +1068,7 @@ button:hover { border-color:var(--cyan); box-shadow:0 0 22px rgba(0,200,255,.12)
                 <div class="field"><label for="registerEmail">E-Mail</label><input id="registerEmail" name="email" type="email" maxlength="254" autocomplete="email" value="${escapeHtml(verificationEmail)}" required></div>
                 <div class="field"><label for="registerPassword">Passwort</label><input id="registerPassword" name="password" type="password" maxlength="200" autocomplete="new-password" required></div>
                 <div class="field"><label for="registerConfirmPassword">Passwort bestätigen</label><input id="registerConfirmPassword" name="confirmPassword" type="password" maxlength="200" autocomplete="new-password" required></div>
-                <button type="submit">Code per E-Mail senden</button>
+                <button type="submit">Registrieren</button>
             </form>
         </section>
     </div>
@@ -2275,7 +2275,7 @@ if (req.method === "POST" && pathname === "/login") {
             sendHtml(
                 res,
                 401,
-                loginHtml("Benutzername oder Passwort ist falsch.", getRememberedDashboardAccount(req))
+                loginHtml("E-Mail oder Passwort ist falsch.", getRememberedDashboardAccount(req))
             );
             return;
         }
