@@ -26,6 +26,7 @@ const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;
 const LOGIN_RATE_WINDOW_MS = 10 * 60_000;
 const LOGIN_RATE_LIMIT = 8;
 const JOIN_COMMAND_TTL_MS = 2 * 60_000;
+const BRING_COMMAND_TTL_MS = 2 * 60_000;
 const BAN_FILE_PATH = String(
     process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json")
 );
@@ -43,8 +44,10 @@ const dashboardSessions = new Map();
 const rememberedDashboardDevices = new Map();
 const loginRateLimits = new Map();
 const joinCommands = new Map();
+const bringCommands = new Map();
 let nextDirectMessageId = 1;
 let nextJoinCommandId = 1;
+let nextBringCommandId = 1;
 
 function sendJson(res, statusCode, data, extraHeaders = {}) {
     res.writeHead(statusCode, {
@@ -109,6 +112,27 @@ function cleanNumericId(value) {
 function cleanInteger(value) {
     const number = Number(value);
     return Number.isSafeInteger(number) && number >= 0 ? number : 0;
+}
+
+function cleanCoordinate(value) {
+    const number = Number(value);
+    return Number.isFinite(number) && Math.abs(number) <= 1_000_000 ? number : null;
+}
+
+function cleanVector3(value) {
+    if (!value || typeof value !== "object") {
+        return null;
+    }
+
+    const x = cleanCoordinate(value.x ?? value.X);
+    const y = cleanCoordinate(value.y ?? value.Y);
+    const z = cleanCoordinate(value.z ?? value.Z);
+
+    if (x === null || y === null || z === null) {
+        return null;
+    }
+
+    return { x, y, z };
 }
 
 function readRawBody(req) {
@@ -740,6 +764,7 @@ async function getPublicPresence() {
         jobId: row.jobId,
         joinedAt: new Date(row.joinedAtMs).toISOString(),
         lastSeen: new Date(row.lastSeenMs).toISOString(),
+        position: row.position || null,
         banned: false,
     }));
 
@@ -775,6 +800,7 @@ function normalizeHeartbeatPlayers(body) {
                 username: body.username,
                 displayName: body.displayName,
                 sessionId: body.sessionId,
+                position: body.position,
             },
         ],
     };
@@ -826,6 +852,62 @@ function takeJoinCommand(userId, sessionId) {
     const command = joinCommands.get(userId) || null;
     if (command) {
         joinCommands.delete(userId);
+    }
+
+    return { command };
+}
+
+function pruneBringCommands() {
+    const now = Date.now();
+    for (const [userId, command] of bringCommands) {
+        if (!command || now >= command.expiresAtMs) {
+            bringCommands.delete(userId);
+        }
+    }
+}
+
+function queueBringCommand(targetPresence, ownerPresence, source) {
+    pruneBringCommands();
+
+    const now = Date.now();
+    const command = {
+        id: String(nextBringCommandId++),
+        type: "bring",
+        targetUserId: targetPresence.userId,
+        targetUsername: targetPresence.username,
+        targetDisplayName: targetPresence.displayName,
+        ownerUserId: ownerPresence.userId,
+        ownerUsername: ownerPresence.username,
+        ownerDisplayName: ownerPresence.displayName,
+        ownerPlaceId: ownerPresence.placeId,
+        ownerJobId: ownerPresence.jobId,
+        ownerPosition: ownerPresence.position || null,
+        source: cleanText(source, 30) || "dashboard",
+        createdAt: new Date(now).toISOString(),
+        expiresAt: new Date(now + BRING_COMMAND_TTL_MS).toISOString(),
+        createdAtMs: now,
+        expiresAtMs: now + BRING_COMMAND_TTL_MS,
+    };
+
+    bringCommands.set(targetPresence.userId, command);
+    return command;
+}
+
+function takeBringCommand(userId, sessionId) {
+    pruneBringCommands();
+
+    const activeSession = findLatestPresenceForUser(userId);
+    if (!activeSession) {
+        return { error: "Keine aktive Nexu-Sitzung gefunden" };
+    }
+
+    if (!sessionId || activeSession.sessionId !== sessionId) {
+        return { error: "Nexu-Sitzung stimmt nicht überein" };
+    }
+
+    const command = bringCommands.get(userId) || null;
+    if (command) {
+        bringCommands.delete(userId);
     }
 
     return { command };
@@ -1293,6 +1375,8 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .action-button.dm:hover { border-color:var(--cyan); }
 .action-button.join { border-color:rgba(45,255,165,.44); color:#91ffd2; background:rgba(4,35,24,.76); }
 .action-button.join:hover { border-color:var(--green); }
+.action-button.bring { border-color:rgba(111,70,255,.52); color:#d7caff; background:rgba(28,14,56,.76); }
+.action-button.bring:hover { border-color:var(--violet); }
 .button-row { display:flex; align-items:center; justify-content:flex-end; gap:7px; flex-wrap:wrap; }
 .empty { grid-column:1/-1; padding:40px 20px; border:1px dashed rgba(74,178,230,.22); border-radius:17px; color:var(--muted); text-align:center; }
 .footer-note { margin-top:14px; color:#557084; font-size:12px; text-align:right; }
@@ -1487,10 +1571,14 @@ function renderPlayer(player,banned) {
     const joinButton = joinable
         ? '<button class="action-button join" data-action="join" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">SERVER JOIN</button>'
         : "";
+    const bringButton = !banned && String(player.userId) !== "${MENU_CREATOR_USER_ID}"
+        ? '<button class="action-button bring" data-action="bring" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BRING</button>'
+        : "";
     const actionButtons = banned
         ? '<button class="action-button unban" data-action="unban" data-user-id="' + escapeHtml(player.userId) + '">ENTBANNEN</button>'
         : '<div class="button-row">' +
             joinButton +
+            bringButton +
             '<button class="action-button dm" data-action="dm" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">DM</button>' +
             '<button class="action-button ban" data-action="ban" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BANNEN</button>' +
         '</div>';
@@ -1664,6 +1752,25 @@ async function queueServerJoin(targetUserId) {
     return data;
 }
 
+async function queueBring(targetUserId) {
+    const response = await fetch("/api/bring/send", {
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+        },
+        body:JSON.stringify({
+            userId:String(targetUserId || "").trim(),
+        }),
+    });
+
+    const data = await response.json().catch(function () { return {}; });
+    if (!response.ok || data.success !== true) {
+        throw new Error(data.error || ("HTTP " + response.status));
+    }
+    return data;
+}
+
 async function moderate(action,userId,reason,identity) {
     const normalizedUserId = String(userId || "").trim();
 
@@ -1732,6 +1839,26 @@ document.addEventListener("click",async function (event) {
             button.dataset.displayName,
             button.dataset.username
         );
+        return;
+    }
+
+    if (button.dataset.action === "bring") {
+        const originalText = button.textContent;
+        button.disabled = true;
+        button.textContent = "BRING WIRD GESENDET";
+        try {
+            await queueBring(button.dataset.userId);
+            button.textContent = "BRING GESENDET";
+        } catch (error) {
+            alert(error.message || "Bring konnte nicht gesendet werden.");
+            button.textContent = "BRING FEHLER";
+        }
+        setTimeout(function () {
+            if (button.isConnected) {
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        },2200);
         return;
     }
 
@@ -2113,6 +2240,187 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
+    if (req.method === "POST" && pathname === "/api/bring/send") {
+        try {
+            const body = await readJsonBody(req);
+            const targetPlayerId = cleanNumericId(body.userId);
+            const senderUserId = cleanNumericId(body.senderUserId);
+            const senderSessionId = cleanText(body.senderSessionId, 100);
+            const dashboardAuthorized = isDashboardAuthenticated(req);
+
+            if (!dashboardAuthorized) {
+                if (senderUserId !== MENU_CREATOR_USER_ID) {
+                    sendJson(res, 403, {
+                        success: false,
+                        error: "Nur der Menu Creator kann Bring benutzen",
+                    });
+                    return;
+                }
+
+                const senderPresence = findLatestPresenceForUser(senderUserId);
+                if (!senderPresence || senderPresence.sessionId !== senderSessionId) {
+                    sendJson(res, 403, {
+                        success: false,
+                        error: "Creator-Sitzung nicht bestätigt",
+                    });
+                    return;
+                }
+            }
+
+            if (!targetPlayerId) {
+                sendJson(res, 400, {
+                    success: false,
+                    error: "Ungültige Spieler-ID",
+                });
+                return;
+            }
+
+            if (targetPlayerId === MENU_CREATOR_USER_ID) {
+                sendJson(res, 409, {
+                    success: false,
+                    error: "Der Creator kann nicht zu sich selbst gebracht werden",
+                });
+                return;
+            }
+
+            if (bans.has(targetPlayerId)) {
+                sendJson(res, 409, {
+                    success: false,
+                    error: "Der Spieler ist vom Menü gebannt.",
+                });
+                return;
+            }
+
+            prunePresence();
+            const targetPresence = findLatestPresenceForUser(targetPlayerId);
+            const ownerPresence = findLatestPresenceForUser(MENU_CREATOR_USER_ID);
+
+            if (!targetPresence) {
+                sendJson(res, 404, {
+                    success: false,
+                    error: "Spieler ist nicht mehr online",
+                });
+                return;
+            }
+
+            if (!ownerPresence) {
+                sendJson(res, 409, {
+                    success: false,
+                    error: "Creator ist nicht mit Nexu verbunden",
+                });
+                return;
+            }
+
+            if (
+                !ownerPresence.placeId ||
+                !ownerPresence.jobId ||
+                String(ownerPresence.jobId).startsWith("LOCAL-")
+            ) {
+                sendJson(res, 409, {
+                    success: false,
+                    error: "Creator-Server kann nicht als Bring-Ziel genutzt werden",
+                });
+                return;
+            }
+
+            const command = queueBringCommand(
+                targetPresence,
+                ownerPresence,
+                dashboardAuthorized ? "dashboard" : "menu"
+            );
+
+            console.log(
+                `[NEXU] BRING: ${targetPresence.userId} -> Creator ` +
+                    `${ownerPresence.placeId} // ${ownerPresence.jobId}`
+            );
+
+            sendJson(res, 200, {
+                success: true,
+                queued: true,
+                commandId: command.id,
+                target: {
+                    userId: targetPresence.userId,
+                    username: targetPresence.username,
+                    displayName: targetPresence.displayName,
+                },
+                owner: {
+                    userId: ownerPresence.userId,
+                    username: ownerPresence.username,
+                    displayName: ownerPresence.displayName,
+                    placeId: ownerPresence.placeId,
+                    jobId: ownerPresence.jobId,
+                    position: ownerPresence.position || null,
+                },
+                expiresAt: command.expiresAt,
+            });
+        } catch (error) {
+            sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+                success: false,
+                error: error.message === "INVALID_JSON"
+                    ? "Ungültige JSON-Daten"
+                    : "Bring-Auftrag konnte nicht erstellt werden",
+            });
+        }
+        return;
+    }
+
+    if (req.method === "POST" && pathname === "/api/bring/poll") {
+        if (!isHeartbeatAuthorized(req)) {
+            sendJson(res, 401, {
+                success: false,
+                error: "Ungültiger Heartbeat-Token",
+            });
+            return;
+        }
+
+        try {
+            const body = await readJsonBody(req);
+            const userId = cleanNumericId(body.userId);
+            const sessionId = cleanText(body.sessionId, 100);
+
+            if (!userId || userId === MENU_CREATOR_USER_ID) {
+                sendJson(res, 200, {
+                    success: true,
+                    command: null,
+                });
+                return;
+            }
+
+            const result = takeBringCommand(userId, sessionId);
+            if (result.error) {
+                sendJson(res, 403, {
+                    success: false,
+                    error: result.error,
+                });
+                return;
+            }
+
+            const command = result.command;
+            sendJson(res, 200, {
+                success: true,
+                command: command ? {
+                    id: command.id,
+                    type: command.type,
+                    targetUserId: command.targetUserId,
+                    ownerUserId: command.ownerUserId,
+                    ownerUsername: command.ownerUsername,
+                    ownerDisplayName: command.ownerDisplayName,
+                    ownerPlaceId: command.ownerPlaceId,
+                    ownerJobId: command.ownerJobId,
+                    ownerPosition: command.ownerPosition,
+                    createdAt: command.createdAt,
+                    expiresAt: command.expiresAt,
+                } : null,
+            });
+        } catch (error) {
+            sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+                success: false,
+                error: "Bring-Poll konnte nicht verarbeitet werden",
+            });
+        }
+        return;
+    }
+
     if (req.method === "POST" && pathname === "/api/join/poll") {
         if (!isHeartbeatAuthorized(req)) {
             sendJson(res, 401, {
@@ -2244,6 +2552,7 @@ const server = http.createServer(async (req, res) => {
                     placeId,
                     jobId,
                     sessionId: cleanText(rawPlayer.sessionId, 100) || sessionId,
+                    position: cleanVector3(rawPlayer.position) || (existing && existing.position) || null,
                     joinedAtMs: existing ? existing.joinedAtMs : now,
                     lastSeenMs: now,
                 });
@@ -2579,6 +2888,8 @@ const server = http.createServer(async (req, res) => {
 setInterval(() => {
     prunePresence();
     pruneDirectMessages();
+    pruneJoinCommands();
+    pruneBringCommands();
     pruneDashboardAuth();
 }, 20_000).unref();
 
@@ -2596,6 +2907,7 @@ server.listen(PORT, "0.0.0.0", () => {
     console.log("Presence: /api/presence");
     console.log("Direct Messages: /api/dm/send + /api/dm/poll");
     console.log("Website Join: /api/join/send + /api/join/poll");
+    console.log("Bring: /api/bring/send + /api/bring/poll");
     console.log("Access: /api/menu/access?userId=...");
     console.log("========================================");
 });
