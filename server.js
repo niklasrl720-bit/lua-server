@@ -1,8 +1,8 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const SUPPORTER_USER_IDS = new Set(["11203703629"]);const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const DASHBOARD_USERNAME = String(process.env.DASHBOARD_USERNAME || "OwnerAccount");const DASHBOARD_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const SUPPORTER_USER_IDS = new Set(["11203703629"]);const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const DASHBOARD_USERNAME = String(process.env.DASHBOARD_USERNAME || "OwnerAccount");const DASHBOARD_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));
 
-const presence = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;
+const presence = new Map();const knownPlayers = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;
 
 function sendJson(res, statusCode, data, extraHeaders = {}) {res.writeHead(statusCode, {"Content-Type": "application/json; charset=utf-8","Cache-Control": "no-store","X-Content-Type-Options": "nosniff",...extraHeaders,});res.end(JSON.stringify(data));}
 
@@ -151,6 +151,17 @@ function saveBans() {try {fs.mkdirSync(path.dirname(BAN_FILE_PATH), { recursive:
 }
 
 }
+
+
+function normalizeKnownPlayer(raw, now = Date.now()) {const userId = cleanNumericId(raw && raw.userId);if (!userId) {return null;}const firstSeenMs = cleanInteger(raw && raw.firstSeenMs) || now;const lastSeenMs = cleanInteger(raw && raw.lastSeenMs) || now;return {userId,username: cleanText(raw && raw.username, 40) || `User${userId}`,displayName: cleanText(raw && raw.displayName, 80) || cleanText(raw && raw.username, 40) || `User ${userId}`,gameName: cleanText(raw && raw.gameName, 120),placeId: cleanInteger(raw && raw.placeId),jobId: cleanText(raw && raw.jobId, 100),sessionId: cleanText(raw && raw.sessionId, 100),firstSeen: cleanText(raw && raw.firstSeen, 64) || new Date(firstSeenMs).toISOString(),lastSeen: cleanText(raw && raw.lastSeen, 64) || new Date(lastSeenMs).toISOString(),firstSeenMs,lastSeenMs,};}
+
+function loadKnownPlayers() {try {if (!fs.existsSync(KNOWN_PLAYERS_FILE_PATH)) {return;}const parsed = JSON.parse(fs.readFileSync(KNOWN_PLAYERS_FILE_PATH, "utf8"));const rows = Array.isArray(parsed) ? parsed : parsed.players;if (!Array.isArray(rows)) {return;}for (const raw of rows) {const entry = normalizeKnownPlayer(raw);if (entry) {knownPlayers.set(entry.userId, entry);}}console.log(`[NEXU] ${knownPlayers.size} gespeicherte Spieler geladen`);} catch (error) {console.warn("[NEXU] Gespeicherte Spieler konnten nicht geladen werden:", error.message);}}
+
+function saveKnownPlayers() {try {fs.mkdirSync(path.dirname(KNOWN_PLAYERS_FILE_PATH), { recursive: true });const tempPath = `${KNOWN_PLAYERS_FILE_PATH}.tmp`;const rows = [...knownPlayers.values()].sort((a, b) => (b.lastSeenMs || 0) - (a.lastSeenMs || 0));fs.writeFileSync(tempPath, JSON.stringify({ players: rows }, null, 2), "utf8");fs.renameSync(tempPath, KNOWN_PLAYERS_FILE_PATH);return true;} catch (error) {console.warn("[NEXU] Gespeicherte Spieler konnten nicht gespeichert werden:", error.message);return false;}}
+
+function rememberKnownPlayer(raw, now = Date.now()) {const incoming = normalizeKnownPlayer({...(raw || {}),lastSeenMs: now,lastSeen: new Date(now).toISOString(),}, now);if (!incoming) {return false;}const existing = knownPlayers.get(incoming.userId);const next = {userId: incoming.userId,username: incoming.username || (existing && existing.username) || `User${incoming.userId}`,displayName: incoming.displayName || (existing && existing.displayName) || incoming.username || `User ${incoming.userId}`,gameName: incoming.gameName || (existing && existing.gameName) || "",placeId: incoming.placeId || (existing && existing.placeId) || 0,jobId: incoming.jobId || (existing && existing.jobId) || "",sessionId: incoming.sessionId || (existing && existing.sessionId) || "",firstSeen: existing && existing.firstSeen ? existing.firstSeen : new Date(now).toISOString(),firstSeenMs: existing && existing.firstSeenMs ? existing.firstSeenMs : now,lastSeen: new Date(now).toISOString(),lastSeenMs: now,};const before = existing ? JSON.stringify(existing) : "";knownPlayers.set(next.userId, next);return before !== JSON.stringify(next);}
+
+function markKnownPlayerOffline(userId, sessionId, now = Date.now(), identity = {}) {const id = cleanNumericId(userId);if (!id) {return false;}const existing = knownPlayers.get(id);if (!existing) {return false;}if (sessionId && existing.sessionId && existing.sessionId !== sessionId) {return false;}const username = cleanText(identity.username, 40);const displayName = cleanText(identity.displayName, 80);knownPlayers.set(id, {...existing,username: username || existing.username,displayName: displayName || existing.displayName,lastSeen: new Date(now).toISOString(),lastSeenMs: now,});return true;}
 
 function getClientIp(req) {const forwarded = String(req.headers["x-forwarded-for"] || "");const firstForwarded = forwarded.split(",")[0].trim();return firstForwarded || String(req.socket.remoteAddress || "unknown");}
 
@@ -499,11 +510,37 @@ return result;
 
 async function getPublicPresence() {prunePresence();
 
-const activeRows = [...presence.values()].sort((a, b) =>
-    a.displayName.localeCompare(b.displayName, "de", {
-        sensitivity: "base",
-    })
-);
+const latestActiveByUserId = new Map();
+for (const row of presence.values()) {
+    const current = latestActiveByUserId.get(row.userId);
+    if (!current || row.lastSeenMs > current.lastSeenMs) {
+        latestActiveByUserId.set(row.userId, row);
+    }
+}
+
+const mergedByUserId = new Map();
+for (const row of knownPlayers.values()) {
+    if (!bans.has(row.userId)) {
+        mergedByUserId.set(row.userId, {...row,online: false});
+    }
+}
+for (const row of latestActiveByUserId.values()) {
+    if (!bans.has(row.userId)) {
+        const remembered = mergedByUserId.get(row.userId) || {};
+        mergedByUserId.set(row.userId, {...remembered,...row,online: true});
+    }
+}
+
+const playerRows = [...mergedByUserId.values()].sort((a, b) => {
+    if ((a.online === true) !== (b.online === true)) {
+        return a.online === true ? -1 : 1;
+    }
+    return (a.displayName || a.username || a.userId).localeCompare(
+        b.displayName || b.username || b.userId,
+        "de",
+        { sensitivity: "base" }
+    );
+});
 
 const bannedRows = [...bans.values()].sort((a, b) =>
     (a.displayName || a.username || a.userId).localeCompare(
@@ -515,15 +552,17 @@ const bannedRows = [...bans.values()].sort((a, b) =>
 
 const allIds = [
     ...new Set([
-        ...activeRows.map((row) => row.userId),
+        ...playerRows.map((row) => row.userId),
         ...bannedRows.map((row) => row.userId),
     ]),
 ];
 
 const avatarUrls = await fetchAvatarUrls(allIds);
 
-const players = activeRows.map((row) => {
+const players = playerRows.map((row) => {
     const role = getNexuRoleInfo(row.userId);
+    const lastSeenMs = cleanInteger(row.lastSeenMs) || Date.now();
+    const joinedAtMs = cleanInteger(row.joinedAtMs) || cleanInteger(row.firstSeenMs) || lastSeenMs;
     return {
         userId: row.userId,
         username: row.username,
@@ -532,8 +571,10 @@ const players = activeRows.map((row) => {
         gameName: row.gameName || `Place ${row.placeId || 0}`,
         placeId: row.placeId,
         jobId: row.jobId,
-        joinedAt: new Date(row.joinedAtMs).toISOString(),
-        lastSeen: new Date(row.lastSeenMs).toISOString(),
+        joinedAt: new Date(joinedAtMs).toISOString(),
+        firstSeen: new Date(cleanInteger(row.firstSeenMs) || joinedAtMs).toISOString(),
+        lastSeen: new Date(lastSeenMs).toISOString(),
+        online: row.online === true,
         roleTitle: role.title,
         roleKey: role.key,
         banned: false,
@@ -558,7 +599,7 @@ const bannedPlayers = bannedRows.map((row) => {
     };
 });
 
-return { players, bannedPlayers };
+return { players, bannedPlayers, activeCount: latestActiveByUserId.size };
 
 }
 
@@ -571,6 +612,9 @@ return {
             userId: body.userId,
             username: body.username,
             displayName: body.displayName,
+            gameName: body.gameName,
+            placeId: body.placeId,
+            jobId: body.jobId,
             sessionId: body.sessionId,
         },
     ],
@@ -1132,6 +1176,7 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 }
 .player:hover { transform:translateY(-2px); border-color:rgba(0,200,255,.37); }
 .player.banned { border-color:rgba(255,77,120,.3); background:rgba(30,8,15,.66); }
+.player.offline { border-color:rgba(125,150,170,.16); background:rgba(7,12,20,.66); opacity:.76; }
 .avatar { width:58px; height:58px; flex:0 0 58px; object-fit:cover; border-radius:14px; background:#0b1422; border:1px solid rgba(0,200,255,.26); }
 .identity { min-width:0; flex:1; }
 .display-name { overflow:hidden; font-weight:760; text-overflow:ellipsis; white-space:nowrap; }
@@ -1144,6 +1189,7 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .presence-value.server-id { color:#78b8d8; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:9px; word-break:break-all; }
 .player-actions { flex:0 0 auto; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
 .player-state { color:var(--green); font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
+.player-state.offline { color:#7d96aa; }
 .player-state.banned { color:var(--red); }
 .role-badge { display:inline-flex; align-items:center; justify-content:center; margin-top:7px; width:max-content; max-width:100%; border:1px solid rgba(66,255,145,.42); border-radius:999px; padding:4px 9px; font-size:9px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#42ff91; background:rgba(7,38,24,.72); box-shadow:0 0 14px rgba(66,255,145,.12); }
 .role-badge.creator { border-color:rgba(255,194,45,.72); color:#fff6ae; background:linear-gradient(115deg,rgba(47,27,3,.9),rgba(255,194,45,.18),rgba(47,27,3,.9)); box-shadow:0 0 20px rgba(255,194,45,.28); }
@@ -1251,17 +1297,17 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 <section class="hero">
     <div class="eyebrow">NEXU // LIVE SYSTEM</div>
     <h1>Aktive Nutzer auf einen Blick.</h1>
-    <p>Das Dashboard zeigt aktive Nexu-Spieler mit Spielname, Place-ID und exakter Server-ID. Über SERVER JOIN wird dein laufendes Nexu-Menü zum ausgewählten Server geschickt.</p>
+    <p>Das Dashboard speichert jeden Spieler nach dem ersten Nexu-Start und zeigt ihn danach weiter an. Aktive Spieler bleiben online, deaktivierte oder abgelaufene Sitzungen werden offline markiert.</p>
     <div class="stats">
         <article class="stat"><div class="stat-label">Serverstatus</div><div id="serverStatus" class="stat-value">Prüfe …</div><div class="stat-note">Render-Web-Service</div></article>
-        <article class="stat"><div class="stat-label">Aktive Spieler</div><div id="playerCount" class="stat-value">0</div><div class="stat-note">Heartbeat in den letzten 75 Sekunden</div></article>
+        <article class="stat"><div class="stat-label">Gespeicherte Spieler</div><div id="playerCount" class="stat-value">0</div><div class="stat-note">Online und Offline im Verzeichnis</div></article>
         <article class="stat"><div class="stat-label">Gesperrte Spieler</div><div id="bannedCount" class="stat-value">0</div><div class="stat-note">Bleiben bis zum Entbannen gespeichert</div></article>
     </div>
 </section>
 
 <section class="directory">
     <div class="directory-head">
-        <div><div class="eyebrow">MENU SPIELER</div><h2>Verbundenes Spieler-Verzeichnis</h2></div>
+        <div><div class="eyebrow">MENU SPIELER</div><h2>Gespeichertes Spieler-Verzeichnis</h2></div>
         <input id="search" class="search" type="search" autocomplete="off" placeholder="Spieler suchen …" aria-label="Spieler suchen">
     </div>
     <div id="players" class="players"></div>
@@ -1307,6 +1353,7 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 const state = {
     online:false,
     players:[],
+    activePlayers:0,
     bannedPlayers:[],
     query:"",
     pendingBan:null,
@@ -1391,16 +1438,37 @@ function escapeHtml(value) {
         .replaceAll("'","&#039;");
 }
 
+function formatDashboardDate(value) {
+    if (!value) {
+        return "-";
+    }
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+        return "-";
+    }
+    return date.toLocaleString("de-DE", {
+        day:"2-digit",
+        month:"2-digit",
+        year:"2-digit",
+        hour:"2-digit",
+        minute:"2-digit",
+    });
+}
+
 function renderPlayer(player,banned) {
+    const online = !banned && player.online === true;
     const name = player.displayName || player.username || player.userId;
     const username = player.username || ("User" + player.userId);
     const gameName = player.gameName || (player.placeId ? ("Place " + player.placeId) : "Unbekannt");
     const placeId = String(player.placeId || "-");
     const jobId = String(player.jobId || "-");
-    const joinable = !banned && /^\d+$/.test(placeId) && placeId !== "0" && jobId !== "-" && !jobId.startsWith("LOCAL-");
-    const bringable = !banned && String(player.userId || "") !== "${MENU_CREATOR_USER_ID}";
+    const lastSeenText = formatDashboardDate(player.lastSeen);
+    const joinable = online && /^\d+$/.test(placeId) && placeId !== "0" && jobId !== "-" && !jobId.startsWith("LOCAL-");
+    const bringable = online && String(player.userId || "") !== "${MENU_CREATOR_USER_ID}";
     const roleKey = String(player.roleKey || "player").replace(/[^a-z0-9_-]/gi,"").toLowerCase() || "player";
     const roleTitle = player.roleTitle || "SPIELER";
+    const stateClass = banned ? "banned" : (online ? "online" : "offline");
+    const stateText = banned ? "Gesperrt" : (online ? "Online" : "Offline");
     const roleBadge = '<div class="role-badge ' + escapeHtml(roleKey) + '">' + escapeHtml(roleTitle) + '</div>';
     const reason = banned && player.reason
         ? '<div class="reason">Grund: ' + escapeHtml(player.reason) + '</div>'
@@ -1411,6 +1479,7 @@ function renderPlayer(player,banned) {
             '<div class="presence-line"><span class="presence-key">SPIEL</span><span class="presence-value">' + escapeHtml(gameName) + '</span></div>' +
             '<div class="presence-line"><span class="presence-key">PLACE</span><span class="presence-value">' + escapeHtml(placeId) + '</span></div>' +
             '<div class="presence-line"><span class="presence-key">SERVER</span><span class="presence-value server-id" title="' + escapeHtml(jobId) + '">' + escapeHtml(jobId) + '</span></div>' +
+            '<div class="presence-line"><span class="presence-key">ZULETZT</span><span class="presence-value">' + escapeHtml(lastSeenText) + '</span></div>' +
         '</div>';
     const joinButton = joinable
         ? '<button class="action-button join" data-action="join" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">SERVER JOIN</button>'
@@ -1418,16 +1487,19 @@ function renderPlayer(player,banned) {
     const bringButton = bringable
         ? '<button class="action-button bring" data-action="bring" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BRING</button>'
         : "";
+    const dmButton = online
+        ? '<button class="action-button dm" data-action="dm" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">DM</button>'
+        : "";
     const actionButtons = banned
         ? '<button class="action-button unban" data-action="unban" data-user-id="' + escapeHtml(player.userId) + '">ENTBANNEN</button>'
         : '<div class="button-row">' +
             joinButton +
             bringButton +
-            '<button class="action-button dm" data-action="dm" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">DM</button>' +
+            dmButton +
             '<button class="action-button ban" data-action="ban" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BANNEN</button>' +
         '</div>';
 
-    return '<article class="player ' + (banned ? 'banned' : '') + '">' +
+    return '<article class="player ' + (banned ? 'banned' : (online ? 'online' : 'offline')) + '">' +
         '<img class="avatar" src="' + escapeHtml(player.avatarUrl) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' +
         '<div class="identity">' +
             '<div class="display-name">' + escapeHtml(name) + '</div>' +
@@ -1437,7 +1509,7 @@ function renderPlayer(player,banned) {
             reason +
         '</div>' +
         '<div class="player-actions">' +
-            '<div class="player-state ' + (banned ? 'banned' : '') + '">' + (banned ? 'Gesperrt' : 'Online') + '</div>' +
+            '<div class="player-state ' + stateClass + '">' + stateText + '</div>' +
             actionButtons +
         '</div>' +
     '</article>';
@@ -1462,14 +1534,15 @@ function render() {
     elements.players.innerHTML = filtered.length
         ? filtered.map(function (player) { return renderPlayer(player,false); }).join("")
         : '<div class="empty">' + (state.players.length === 0
-            ? 'Zurzeit ist kein Spieler mit dem Nexu-Menü verbunden.'
+            ? 'Noch kein Spieler hat das Nexu-Menü ausgeführt.'
             : 'Kein Spieler passt zu deiner Suche.') + '</div>';
 
     elements.bannedPlayers.innerHTML = state.bannedPlayers.length
         ? state.bannedPlayers.map(function (player) { return renderPlayer(player,true); }).join("")
         : '<div class="empty">Die Sperrliste ist leer.</div>';
 
-    elements.footerNote.textContent = filtered.length + " von " + state.players.length + " Spielern angezeigt";
+    const onlineCount = state.players.filter(function (player) { return player.online === true; }).length;
+    elements.footerNote.textContent = filtered.length + " von " + state.players.length + " Spielern angezeigt · " + onlineCount + " online";
     elements.bannedFooter.textContent = state.bannedPlayers.length + " gesperrte Nutzer";
 }
 
@@ -1487,6 +1560,7 @@ async function refresh() {
         const data = await response.json();
         state.online = data.online === true;
         state.players = Array.isArray(data.players) ? data.players : [];
+        state.activePlayers = Number(data.activePlayers) || state.players.filter(function (player) { return player.online === true; }).length;
         state.bannedPlayers = Array.isArray(data.bannedPlayers) ? data.bannedPlayers : [];
     } catch (error) {
         console.error("Nexu refresh failed:",error);
@@ -1828,7 +1902,7 @@ setInterval(refresh,5000);
 </html>`;
 }
 
-loadBans();loadRememberedDashboardDevices();
+loadBans();loadKnownPlayers();loadRememberedDashboardDevices();
 
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
@@ -2349,7 +2423,7 @@ if (req.method === "GET" && pathname === "/api/presence") {
     sendJson(res, 200, {
         success: true,
         online: true,
-        activePlayers: data.players.length,
+        activePlayers: data.activeCount,
         bannedCount: data.bannedPlayers.length,
         timeoutSeconds: ONLINE_TIMEOUT_MS / 1000,
         players: data.players,
@@ -2388,6 +2462,7 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
         const now = Date.now();
         const currentKeys = new Set();
         const blockedUserIds = [];
+        let knownPlayersChanged = false;
 
         for (const rawPlayer of normalized.rows) {
             if (!rawPlayer || typeof rawPlayer !== "object") {
@@ -2412,7 +2487,7 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
             currentKeys.add(key);
 
             const existing = presence.get(key);
-            presence.set(key, {
+            const entry = {
                 userId,
                 username,
                 displayName,
@@ -2422,7 +2497,9 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 sessionId: cleanText(rawPlayer.sessionId, 100) || sessionId,
                 joinedAtMs: existing ? existing.joinedAtMs : now,
                 lastSeenMs: now,
-            });
+            };
+            presence.set(key, entry);
+            knownPlayersChanged = rememberKnownPlayer(entry, now) || knownPlayersChanged;
         }
 
         // Ein Batch enthält die vollständige Liste eines Roblox-Servers.
@@ -2433,6 +2510,10 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                     presence.delete(key);
                 }
             }
+        }
+
+        if (knownPlayersChanged) {
+            saveKnownPlayers();
         }
 
         prunePresence();
@@ -2492,6 +2573,9 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
         const body = await readJsonBody(req);
         const userId = cleanNumericId(body.userId);
         const sessionId = cleanText(body.sessionId, 100);
+        const username = cleanText(body.username, 40);
+        const displayName = cleanText(body.displayName, 80);
+        const now = Date.now();
         let removed = 0;
 
         for (const [key, entry] of presence) {
@@ -2502,6 +2586,10 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
                 presence.delete(key);
                 removed += 1;
             }
+        }
+
+        if (markKnownPlayerOffline(userId, sessionId, now, { username, displayName })) {
+            saveKnownPlayers();
         }
 
         sendJson(res, 200, { success: true, removed });
@@ -2755,4 +2843,4 @@ sendJson(res, 404, {
 
 setInterval(() => {prunePresence();pruneDirectMessages();pruneDashboardAuth();}, 20_000).unref();
 
-server.listen(PORT, "0.0.0.0", () => {console.log("========================================");console.log("NEXU PRESENCE & MODERATION GESTARTET");console.log("Port:", PORT);console.log("Heartbeat-Schutz:",HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");console.log("Ban-Datei:", BAN_FILE_PATH);console.log("Dashboard-Anmeldung: /");console.log("Dashboard-Benutzer:", DASHBOARD_USERNAME);console.log("Presence: /api/presence");console.log("Direct Messages: /api/dm/send + /api/dm/poll");console.log("Website Join: /api/join/send + /api/join/poll");console.log("Access: /api/menu/access?userId=...");console.log("========================================");});
+server.listen(PORT, "0.0.0.0", () => {console.log("========================================");console.log("NEXU PRESENCE & MODERATION GESTARTET");console.log("Port:", PORT);console.log("Heartbeat-Schutz:",HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");console.log("Ban-Datei:", BAN_FILE_PATH);console.log("Spieler-Speicher:", KNOWN_PLAYERS_FILE_PATH);console.log("Dashboard-Anmeldung: /");console.log("Dashboard-Benutzer:", DASHBOARD_USERNAME);console.log("Presence: /api/presence");console.log("Direct Messages: /api/dm/send + /api/dm/poll");console.log("Website Join: /api/join/send + /api/join/poll");console.log("Access: /api/menu/access?userId=...");console.log("========================================");});
