@@ -2,7 +2,7 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 
 const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};
 
 function sendJson(res, statusCode, data, extraHeaders = {}) {res.writeHead(statusCode, {"Content-Type": "application/json; charset=utf-8","Cache-Control": "no-store","X-Content-Type-Options": "nosniff",...extraHeaders,});res.end(JSON.stringify(data));}
 
@@ -228,6 +228,7 @@ function startMenuUpdate(durationMinutes, startedBy) {
     }
     const now = Date.now();
     const endsAtMs = now + normalizedMinutes * 60_000;
+    menuUpdateMutationRevision += 1;
     menuUpdateState = {
         active: true,
         startedAtMs: now,
@@ -237,15 +238,35 @@ function startMenuUpdate(durationMinutes, startedBy) {
         startedAt: new Date(now).toISOString(),
         endsAt: new Date(endsAtMs).toISOString(),
     };
-    saveMenuUpdateState();
-    return { status: getMenuUpdateStatus() };
+    const persisted = saveMenuUpdateState();
+    return { persisted, status: getMenuUpdateStatus() };
 }
 
 function cancelMenuUpdate() {
     const wasActive = getMenuUpdateStatus().active;
-    menuUpdateState = normalizeMenuUpdateState({});
-    saveMenuUpdateState();
-    return { wasActive, status: getMenuUpdateStatus() };
+    menuUpdateMutationRevision += 1;
+    menuUpdateState = {
+        active: false,
+        startedAtMs: 0,
+        endsAtMs: 0,
+        durationMinutes: 0,
+        startedBy: "",
+        startedAt: "",
+        endsAt: "",
+    };
+    const persisted = saveMenuUpdateState();
+    return { wasActive, persisted, status: getMenuUpdateStatus() };
+}
+
+function formatMenuUpdateDuration(totalSeconds) {
+    const safe = Math.max(0, Math.floor(Number(totalSeconds) || 0));
+    const hours = Math.floor(safe / 3600);
+    const minutes = Math.floor((safe % 3600) / 60);
+    const seconds = safe % 60;
+    const pad = (value) => String(value).padStart(2, "0");
+    return hours > 0
+        ? `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`
+        : `${pad(minutes)}:${pad(seconds)}`;
 }
 
 
@@ -1612,7 +1633,27 @@ button.danger { margin-top:10px; border-color:rgba(255,77,120,.4); background:rg
 </html>`;
 }
 
-function dashboardHtml(account = null) {const permissionSnapshot = getDashboardPermissionSnapshot(account || {});const permissionJson = JSON.stringify(permissionSnapshot);const updateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="openUpdateButton" class="logout-button update-button" type="button">UPDATE SCRIPT</button>' : "";const shutdownButtonHtml = permissionSnapshot.shutdownScript === true ? '<button id="shutdownAllButton" class="logout-button shutdown-button" type="button">ALLE SCRIPTS AUS</button>' : "";const cancelUpdateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="cancelUpdateButton" class="action-button update-cancel" type="button">UPDATE ABBRECHEN</button>' : "";return String.raw`<!doctype html>
+function dashboardHtml(account = null, notice = "") {
+const permissionSnapshot = getDashboardPermissionSnapshot(account || {});
+const permissionJson = JSON.stringify(permissionSnapshot);
+const initialMenuUpdate = getMenuUpdateStatus();
+const initialMenuUpdateJson = JSON.stringify(initialMenuUpdate).replace(/</g, "\\u003c");
+const initialUpdateHiddenClass = initialMenuUpdate.active ? "" : " hidden";
+const initialUpdateCountdown = formatMenuUpdateDuration(initialMenuUpdate.remainingSeconds);
+const initialUpdateEnd = initialMenuUpdate.endsAtMs ? new Date(initialMenuUpdate.endsAtMs).toLocaleString("de-DE") : "-";
+const initialUpdateStarter = initialMenuUpdate.startedBy ? ` · gestartet von ${initialMenuUpdate.startedBy}` : "";
+const initialUpdateText = initialMenuUpdate.active
+    ? `Zugriff bis ungefähr ${initialUpdateEnd} gesperrt${initialUpdateStarter}.`
+    : "Das Lua-Menü ist nicht gesperrt.";
+const dashboardNoticeHtml = notice
+    ? `<div class="dashboard-notice" role="status">${escapeHtml(notice)}</div>`
+    : "";
+const updateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="openUpdateButton" class="logout-button update-button" type="button">UPDATE SCRIPT</button>' : "";
+const shutdownButtonHtml = permissionSnapshot.shutdownScript === true ? '<button id="shutdownAllButton" class="logout-button shutdown-button" type="button">ALLE SCRIPTS AUS</button>' : "";
+const cancelUpdateButtonHtml = permissionSnapshot.updateScript === true
+    ? '<form id="cancelUpdateForm" class="update-cancel-form" method="post" action="/menu-server/update/cancel"><button id="cancelUpdateButton" class="action-button update-cancel" type="submit">UPDATE ABBRECHEN</button></form>'
+    : "";
+return String.raw`<!doctype html>
 
 <html lang="de">
 <head>
@@ -1862,6 +1903,9 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .update-status p { margin:0; color:#9ab0bf; }
 .update-countdown { color:#ffe29a; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:24px; font-weight:900; letter-spacing:.06em; white-space:nowrap; }
 .action-button.update-cancel { border-color:rgba(255,190,70,.5); color:#ffe4a1; background:rgba(55,35,4,.72); }
+.update-cancel-form { margin:10px 0 0; position:relative; z-index:4; }
+.update-cancel-form .action-button { width:100%; min-width:190px; }
+.dashboard-notice { margin:0 0 18px; padding:13px 16px; border:1px solid rgba(45,255,165,.3); border-radius:14px; color:#aaffdc; background:rgba(45,255,165,.1); font-weight:850; }
 .modal-card.update-card { border-color:rgba(255,190,70,.42); background:linear-gradient(145deg,rgba(255,190,70,.07),rgba(0,200,255,.04)),rgba(7,13,23,.97); }
 .update-duration-grid { display:grid; grid-template-columns:1fr 150px; gap:10px; }
 .update-field { display:grid; gap:7px; margin-top:14px; }
@@ -1948,6 +1992,7 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
         <form class="logout-form" method="post" action="/logout"><button class="logout-button" type="submit">Abmelden</button></form>
     </div>
 </header>
+${dashboardNoticeHtml}
 
 <section class="hero">
     <div class="eyebrow">NEXU // LIVE SYSTEM</div>
@@ -1961,10 +2006,10 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
     </div>
 </section>
 
-<section id="updateStatusPanel" class="update-status hidden" aria-live="polite">
+<section id="updateStatusPanel" class="update-status${initialUpdateHiddenClass}" aria-live="polite">
     <div class="update-status-row">
-        <div><div class="eyebrow">NEXU // SCRIPT UPDATE</div><h2>Wartungsmodus ist aktiv</h2><p id="updateStatusText">Das Lua-Menü ist vorübergehend gesperrt.</p></div>
-        <div><div id="updateCountdown" class="update-countdown">00:00</div>${cancelUpdateButtonHtml}</div>
+        <div><div class="eyebrow">NEXU // SCRIPT UPDATE</div><h2>Wartungsmodus ist aktiv</h2><p id="updateStatusText">${escapeHtml(initialUpdateText)}</p></div>
+        <div><div id="updateCountdown" class="update-countdown">${escapeHtml(initialUpdateCountdown)}</div>${cancelUpdateButtonHtml}</div>
     </div>
 </section>
 
@@ -2043,7 +2088,7 @@ const state = {
     offlineQuery:"",
     bannedQuery:"",
     activeDirectory:"online",
-    menuUpdate:{active:false,remainingSeconds:0},
+    menuUpdate:${initialMenuUpdateJson},
     updateSyncedAt:Date.now(),
     pendingBan:null,
     pendingDm:null,
@@ -2650,21 +2695,6 @@ if (elements.startUpdateButton) elements.startUpdateButton.addEventListener("cli
         elements.startUpdateButton.textContent = "UPDATE STARTEN";
     }
 });
-if (elements.cancelUpdateButton) elements.cancelUpdateButton.addEventListener("click", async function () {
-    if (!window.confirm("Script-Update jetzt vorzeitig beenden?")) return;
-    elements.cancelUpdateButton.disabled = true;
-    elements.cancelUpdateButton.textContent = "BEENDE …";
-    try {
-        await updateScriptAction("cancel", 0);
-        await refresh();
-    } catch (error) {
-        alert(error.message || "Update konnte nicht beendet werden.");
-    } finally {
-        elements.cancelUpdateButton.disabled = false;
-        elements.cancelUpdateButton.textContent = "UPDATE ABBRECHEN";
-    }
-});
-
 document.addEventListener("click",async function (event) {
     const button = event.target.closest("[data-action][data-user-id]");
     if (!button) {
@@ -2902,7 +2932,28 @@ if (req.method === "GET" && pathname === "/menu-server") {
         return;
     }
     console.log("[NEXU] Menu Server Dashboard aufgerufen");
-    sendHtml(res, 200, dashboardHtml(session.account));
+    const updateNotice = requestUrl.searchParams.get("update") === "cancelled"
+        ? "Das Script-Update wurde beendet. Alle Spieler können das Menü wieder starten."
+        : requestUrl.searchParams.get("update") === "already-inactive"
+            ? "Der Update-Modus war bereits beendet."
+            : "";
+    sendHtml(res, 200, dashboardHtml(session.account, updateNotice));
+    return;
+}
+
+if (req.method === "POST" && pathname === "/menu-server/update/cancel") {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
+        redirect(res, "/login");
+        return;
+    }
+    if (!hasDashboardPermission(session.account, "updateScript")) {
+        sendHtml(res, 403, homeHtml("", dashboardPermissionError("updateScript"), session.account));
+        return;
+    }
+    const result = cancelMenuUpdate();
+    console.log(`[NEXU] Script-Update ${result.wasActive ? "über Dashboard-Formular beendet" : "war bereits inaktiv"}: ${session.username}`);
+    redirect(res, result.wasActive ? "/menu-server?update=cancelled" : "/menu-server?update=already-inactive");
     return;
 }
 
@@ -3416,7 +3467,12 @@ if (req.method === "POST" && pathname === "/api/admin/update/start") {
         return;
     }
     try {
+        const requestRevision = menuUpdateMutationRevision;
         const body = await readJsonBody(req);
+        if (requestRevision !== menuUpdateMutationRevision) {
+            sendJson(res, 409, {success:false,error:"Der Update-Start wurde verworfen, weil der Update-Modus inzwischen beendet oder geändert wurde."});
+            return;
+        }
         const result = startMenuUpdate(body.durationMinutes, session.username);
         if (result.error) {
             sendJson(res, 400, {success:false,error:result.error});
@@ -3438,7 +3494,7 @@ if (req.method === "POST" && pathname === "/api/admin/update/cancel") {
     }
     const result = cancelMenuUpdate();
     console.log(`[NEXU] Script-Update ${result.wasActive ? "vorzeitig beendet" : "war bereits inaktiv"}: ${session.username}`);
-    sendJson(res, 200, {success:true,menuUpdate:result.status});
+    sendJson(res, 200, {success:true,persisted:result.persisted !== false,menuUpdate:result.status});
     return;
 }
 
