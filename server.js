@@ -1,7 +1,7 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
 // V143: Presence-Stabilisierung gegen kurzzeitige Poll-Fehler, Render-Neustarts und verspätete Heartbeats.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 180_000);return Number.isFinite(configured) ? Math.min(15 * 60_000, Math.max(60_000, Math.floor(configured))) : 180_000;})();const SERVER_STARTED_AT_MS = Date.now();const PRESENCE_RESTART_GRACE_MS = 30_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 5 * 60_000);return Number.isFinite(configured) ? Math.min(15 * 60_000, Math.max(3 * 60_000, Math.floor(configured))) : 5 * 60_000;})();const SERVER_STARTED_AT_MS = Date.now();const PRESENCE_RESTART_GRACE_MS = 90_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(ONLINE_TIMEOUT_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
 
 const GITHUB_DATA_TOKEN = String(process.env.GITHUB_DATA_TOKEN || "").trim();
 const GITHUB_DATA_OWNER = String(process.env.GITHUB_DATA_OWNER || "").trim();
@@ -358,6 +358,42 @@ for (const entry of presence.values()) {
 
 return latest;
 
+}
+
+function restoreRecentPresenceFromKnownPlayers() {
+    const now = Date.now();
+    let restored = 0;
+    for (const row of knownPlayers.values()) {
+        if (!row || bans.has(row.userId)) continue;
+        const lastSeenMs = cleanInteger(row.lastSeenMs);
+        const sessionId = cleanText(row.sessionId, 100);
+        if (!lastSeenMs || !sessionId || now - lastSeenMs > PRESENCE_RESTORE_WINDOW_MS) continue;
+        const key = `${row.userId}:${sessionId}`;
+        if (presence.has(key)) continue;
+        presence.set(key, {
+            ...row,
+            sessionId,
+            joinedAtMs: cleanInteger(row.joinedAtMs) || cleanInteger(row.firstSeenMs) || lastSeenMs,
+            lastSeenMs,
+            restoredAfterRestart: true,
+        });
+        restored += 1;
+    }
+    if (restored > 0) {
+        console.log(`[NEXU] ${restored} kürzlich aktive Script-Sitzungen nach Neustart wiederhergestellt`);
+    }
+    return restored;
+}
+
+function countActivePresenceUsers() {
+    prunePresence();
+    const userIds = new Set();
+    for (const entry of presence.values()) {
+        if (entry && entry.userId && !bans.has(entry.userId)) {
+            userIds.add(entry.userId);
+        }
+    }
+    return userIds.size;
 }
 
 function loadBans() {try {if (!fs.existsSync(BAN_FILE_PATH)) {return;}
@@ -3339,7 +3375,7 @@ setInterval(renderUpdateStatus,250);
 }
 
 loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();
-const githubStorageStartupPromise = loadGitHubStorage();
+const githubStorageStartupPromise = loadGitHubStorage().then(() => { restoreRecentPresenceFromKnownPlayers(); }).catch((error) => { console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); restoreRecentPresenceFromKnownPlayers(); });
 
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
@@ -3846,7 +3882,8 @@ if (
         success: true,
         online: true,
         service: "Nexu Presence & Moderation",
-        activePlayers: presence.size,
+        activePlayers: countActivePresenceUsers(),
+        activeSessions: presence.size,
         bannedPlayers: bans.size,
         menuUpdate: getMenuUpdateStatus(),
         pendingShutdownSessions: shutdownCommandsBySession.size,
@@ -4294,6 +4331,7 @@ if (req.method === "GET" && pathname === "/api/presence") {
         activePlayers: data.activeCount,
         bannedCount: data.bannedPlayers.length,
         timeoutSeconds: ONLINE_TIMEOUT_MS / 1000,
+        heartbeatMode: "per-script-session",
         players: data.players,
         bannedPlayers: data.bannedPlayers,
         menuUpdate: getMenuUpdateStatus(),
@@ -4321,6 +4359,17 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
         const placeId = cleanInteger(body.placeId);
         const gameName = cleanText(body.gameName, 120) || `Place ${placeId || 0}`;
         const sessionId = cleanText(body.sessionId, 100);
+
+        // Presence ist absichtlich pro ausgeführter Script-Instanz. Batch-Listen
+        // dürfen niemals andere Spieler als online eintragen oder entfernen.
+        if (Array.isArray(body.players)) {
+            sendJson(res, 400, {
+                success: false,
+                error: "Batch-Heartbeats werden nicht unterstützt",
+            });
+            return;
+        }
+
         const normalized = normalizeHeartbeatPlayers(body);
 
         if (!jobId) {
@@ -4355,16 +4404,19 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 continue;
             }
 
-            const key = `${jobId}:${userId}`;
+            const incomingSessionId = cleanText(rawPlayer.sessionId, 100) || sessionId;
+            if (!incomingSessionId) {
+                continue;
+            }
+
+            // Eine Session-ID entspricht genau einer laufenden Script-Ausführung.
+            // Dadurch kann eine alte oder parallele Instanz keine neue Instanz
+            // desselben Spielers überschreiben oder versehentlich abmelden.
+            const key = `${userId}:${incomingSessionId}`;
             currentKeys.add(key);
 
             const existing = presence.get(key);
-            const incomingSessionId = cleanText(rawPlayer.sessionId, 100) || sessionId;
-            const sameSession = Boolean(
-                existing &&
-                incomingSessionId &&
-                existing.sessionId === incomingSessionId
-            );
+            const sameSession = Boolean(existing && existing.sessionId === incomingSessionId);
             const entry = {
                 userId,
                 username,
@@ -4408,16 +4460,6 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
             }
         }
 
-        // Ein Batch enthält die vollständige Liste eines Roblox-Servers.
-        // Ein einzelner Client darf dagegen keine anderen Spieler entfernen.
-        if (normalized.batch) {
-            for (const [key, entry] of presence) {
-                if (entry.jobId === jobId && !currentKeys.has(key)) {
-                    presence.delete(key);
-                }
-            }
-        }
-
         if (knownPlayersChanged) {
             saveKnownPlayers();
         }
@@ -4439,22 +4481,22 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
             return;
         }
 
-        console.log(
-            `[NEXU] Heartbeat: Job ${jobId}, ` +
-                `${currentKeys.size} aktiv, ` +
-                `${blockedUserIds.length} blockiert, ` +
-                `${presence.size} insgesamt`
-        );
-
-        const selfUserId = normalized.batch ? "" : cleanNumericId(body.userId);
+        const selfUserId = cleanNumericId(body.userId);
         const selfRole = selfUserId ? getNexuRoleInfo(selfUserId) : null;
-        const selfSessionId = normalized.batch ? "" : cleanText(body.sessionId, 100);
+        const selfSessionId = cleanText(body.sessionId, 100);
+        const activePlayerCount = countActivePresenceUsers();
+        console.log(
+            `[NEXU] Heartbeat: ${selfUserId || "unbekannt"}, ` +
+                `Session ${selfSessionId || "ohne-id"}, ` +
+                `${activePlayerCount} Spieler / ${presence.size} Sessions aktiv`
+        );
         const shutdown = selfUserId
             ? getShutdownCommandForClient(selfUserId, selfSessionId)
             : { active: false };
         sendJson(res, 200, {
             success: true,
-            activePlayers: presence.size,
+            activePlayers: activePlayerCount,
+            activeSessions: presence.size,
             receivedPlayers: currentKeys.size,
             blockedUserIds,
             roleKey: selfRole ? selfRole.key : "",
@@ -4879,7 +4921,7 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION GESTARTET");
+        console.log("NEXU PRESENCE & MODERATION V144 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
@@ -4890,7 +4932,7 @@ async function startNexuServer() {
         console.log("Dashboard-Accounts:", dashboardAccounts.size);
         console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");
         console.log("Presence: /api/presence");
-        console.log("Presence-Timeout:", Math.round(ONLINE_TIMEOUT_MS / 1000), "Sekunden");
+        console.log("Aktive-Script-Timeout:", Math.round(ONLINE_TIMEOUT_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
         console.log("Direct Messages: /api/dm/send + /api/dm/poll");
         console.log("Website Join: /api/join/send + /api/join/poll");
