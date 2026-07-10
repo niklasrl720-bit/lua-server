@@ -216,14 +216,14 @@ function normalizeDashboardAccess(raw, username = "") {
     const merged = { ...source, ...nested };
     const isOwner = cleanDashboardUsername(username) === OWNER_ACCOUNT_USERNAME;
     const enabled = (value) => value === true || value === "true" || value === "1" || value === "on" || value === 1;
-    const legacyMenuAccess = enabled(merged.menuServer) || enabled(merged.menuServerAccess);
+    const dashboardAccess = isOwner || enabled(merged.menuServer) || enabled(merged.menuServerAccess);
     return {
-        menuServer: isOwner || legacyMenuAccess,
-        dm: isOwner || enabled(merged.dm) || enabled(merged.dashboardDm) || enabled(merged.dmSend) || legacyMenuAccess,
-        bring: isOwner || enabled(merged.bring) || enabled(merged.dashboardBring) || legacyMenuAccess,
-        serverJoin: isOwner || enabled(merged.serverJoin) || enabled(merged.dashboardJoin) || enabled(merged.join) || legacyMenuAccess,
-        managePlayerRoles: isOwner || enabled(merged.managePlayerRoles) || enabled(merged.dashboardRole) || enabled(merged.roles) || legacyMenuAccess,
-        banPlayers: isOwner || enabled(merged.banPlayers) || enabled(merged.dashboardBan) || enabled(merged.bans) || legacyMenuAccess,
+        menuServer: dashboardAccess,
+        dm: isOwner || (dashboardAccess && (enabled(merged.dm) || enabled(merged.dashboardDm) || enabled(merged.dmSend))),
+        bring: isOwner || (dashboardAccess && (enabled(merged.bring) || enabled(merged.dashboardBring))),
+        serverJoin: isOwner || (dashboardAccess && (enabled(merged.serverJoin) || enabled(merged.dashboardJoin) || enabled(merged.join))),
+        managePlayerRoles: isOwner || (dashboardAccess && (enabled(merged.managePlayerRoles) || enabled(merged.dashboardRole) || enabled(merged.roles))),
+        banPlayers: isOwner || (dashboardAccess && (enabled(merged.banPlayers) || enabled(merged.dashboardBan) || enabled(merged.bans))),
         accountManager: isOwner,
     };
 }
@@ -1279,11 +1279,18 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
         const created = cleanText(entry.createdAt, 32) || "unbekannt";
         const updated = cleanText(entry.updatedAt, 32) || "nie";
         const ownerBadge = owner ? '<span class="badge owner">OWNER LOCK</span>' : '';
-        const accessInput = '<div class="access-grid">' + DASHBOARD_PERMISSION_DEFINITIONS.map((definition) => {
+        const dashboardEnabled = owner || permissionSnapshot.menuServer === true;
+        const accessInput = '<div class="access-grid" data-dashboard-permissions="1">' + DASHBOARD_PERMISSION_DEFINITIONS.map((definition) => {
+            const isDashboardRoot = definition.key === "menuServer";
             const checked = owner || permissionSnapshot[definition.key] === true;
-            const disabled = owner ? ' disabled' : '';
-            const hidden = owner && definition.key === "menuServer" ? '<input type="hidden" name="menuServerAccess" value="1">' : '';
-            return '<label class="check ' + (owner ? 'disabled' : '') + '"><input type="checkbox" name="' + escapeHtml(definition.formName) + '" value="1" ' + (checked ? 'checked' : '') + disabled + '><span><b>' + escapeHtml(definition.title) + '</b><small>' + escapeHtml(definition.description) + '</small></span></label>' + hidden;
+            const lockedByDashboard = !owner && !isDashboardRoot && !dashboardEnabled;
+            const disabled = (owner || lockedByDashboard) ? ' disabled' : '';
+            const dataRole = isDashboardRoot ? ' data-dashboard-root="1"' : ' data-dashboard-child="1"';
+            const hidden = owner && isDashboardRoot ? '<input type="hidden" name="menuServerAccess" value="1">' : '';
+            const classes = ['check', isDashboardRoot ? 'dashboard-root' : 'dashboard-child'];
+            if (owner) classes.push('disabled');
+            if (lockedByDashboard) classes.push('locked-by-dashboard');
+            return '<label class="' + classes.join(' ') + '"><input type="checkbox" name="' + escapeHtml(definition.formName) + '" value="1" ' + (checked ? 'checked' : '') + disabled + dataRole + '><span><b>' + escapeHtml(definition.title) + '</b><small>' + escapeHtml(definition.description) + '</small></span></label>' + hidden;
         }).join("") + '</div>';
         const usernameReadonly = owner ? 'readonly' : '';
         const deleteForm = owner
@@ -1298,7 +1305,7 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
             + '<label>Neues Passwort<input name="newPassword" type="password" maxlength="200" placeholder="Leer lassen = bleibt gleich"></label>'
             + '<label>Passwort bestätigen<input name="confirmPassword" type="password" maxlength="200"></label>'
             + '</div>'
-            + '<div class="access-box"><div><b>Dashboard-Rechte</b><p>Startseite und eigene Settings sind immer erlaubt. Hier bestimmst du exakt, welche Dashboard-Funktionen dieser Account benutzen darf.</p></div>' + accessInput + '</div>'
+            + '<div class="access-box"><div><b>Dashboard-Rechte</b><p>Erst wenn <b>Dashboard öffnen</b> aktiviert ist, können die einzelnen Dashboard-Funktionen angeklickt und gespeichert werden. Startseite und eigene Settings bleiben immer erlaubt.</p></div>' + accessInput + '</div>'
             + '<div class="meta"><span>Erstellt: ' + escapeHtml(created) + '</span><span>Geändert: ' + escapeHtml(updated) + '</span></div>'
             + '<div class="actions"><button type="submit">Speichern</button></div>'
             + '</form>'
@@ -1351,6 +1358,9 @@ input[readonly] { opacity:.72; }
 .check b { display:block; color:#dceef8; font-size:12px; letter-spacing:.04em; }
 .check small { display:block; margin-top:2px; color:#7894a8; font-size:10px; line-height:1.35; letter-spacing:0; text-transform:none; }
 .check.disabled { opacity:.68; }
+.check.locked-by-dashboard { opacity:.43; filter:saturate(.55); }
+.check.locked-by-dashboard small::after { content:" Erst Dashboard öffnen aktivieren."; color:#d7bd72; }
+.dashboard-root { border-color:rgba(0,200,255,.34); background:rgba(0,200,255,.08); }
 .meta { margin-top:10px; display:flex; flex-wrap:wrap; gap:8px 14px; color:var(--muted); font-size:11px; }
 .actions { margin-top:13px; }
 button { min-height:40px; padding:0 13px; border:1px solid rgba(0,200,255,.4); border-radius:13px; color:var(--text); background:linear-gradient(135deg,rgba(0,200,255,.18),rgba(111,70,255,.14)); font:inherit; font-size:12px; font-weight:900; letter-spacing:.06em; cursor:pointer; }
@@ -1374,6 +1384,27 @@ button.danger { margin-top:10px; border-color:rgba(255,77,120,.4); background:rg
         ${cards}
     </section>
 </main>
+<script>
+(function(){
+    function syncPermissionGroup(grid) {
+        var root = grid.querySelector('input[data-dashboard-root="1"]');
+        if (!root) return;
+        var children = Array.prototype.slice.call(grid.querySelectorAll('input[data-dashboard-child="1"]'));
+        function sync() {
+            var enabled = root.checked === true;
+            children.forEach(function(input) {
+                input.disabled = !enabled;
+                if (!enabled) input.checked = false;
+                var label = input.closest ? input.closest('.check') : null;
+                if (label) label.classList.toggle('locked-by-dashboard', !enabled);
+            });
+        }
+        root.addEventListener('change', sync);
+        sync();
+    }
+    Array.prototype.slice.call(document.querySelectorAll('[data-dashboard-permissions="1"]')).forEach(syncPermissionGroup);
+})();
+</script>
 </body>
 </html>`;
 }
@@ -2488,6 +2519,7 @@ if (req.method === "POST" && pathname === "/accounts/update") {
             }
             nextPasswordHash = sha256Hex(newPassword);
         }
+        const dashboardAccessEnabled = form.menuServerAccess === "1" || form.menuServerAccess === "on";
         const updated = normalizeDashboardAccount({
             ...target,
             username: nextUsername,
@@ -2495,12 +2527,12 @@ if (req.method === "POST" && pathname === "/accounts/update") {
             access: targetIsOwner
                 ? normalizeDashboardAccess({}, OWNER_ACCOUNT_USERNAME)
                 : normalizeDashboardAccess({
-                    menuServer: form.menuServerAccess === "1" || form.menuServerAccess === "on",
-                    dm: form.dashboardDm === "1" || form.dashboardDm === "on",
-                    bring: form.dashboardBring === "1" || form.dashboardBring === "on",
-                    serverJoin: form.dashboardJoin === "1" || form.dashboardJoin === "on",
-                    managePlayerRoles: form.dashboardRole === "1" || form.dashboardRole === "on",
-                    banPlayers: form.dashboardBan === "1" || form.dashboardBan === "on",
+                    menuServer: dashboardAccessEnabled,
+                    dm: dashboardAccessEnabled && (form.dashboardDm === "1" || form.dashboardDm === "on"),
+                    bring: dashboardAccessEnabled && (form.dashboardBring === "1" || form.dashboardBring === "on"),
+                    serverJoin: dashboardAccessEnabled && (form.dashboardJoin === "1" || form.dashboardJoin === "on"),
+                    managePlayerRoles: dashboardAccessEnabled && (form.dashboardRole === "1" || form.dashboardRole === "on"),
+                    banPlayers: dashboardAccessEnabled && (form.dashboardBan === "1" || form.dashboardBan === "on"),
                 }, nextUsername),
             updatedAt: new Date().toISOString(),
         });
