@@ -1,5 +1,5 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
-// V143: Presence-Stabilisierung gegen kurzzeitige Poll-Fehler, Render-Neustarts und verspätete Heartbeats.
+// V146: Stabile Owner-Erkennung und garantierter Zugriff auf DM/Rundsendung.
 
 const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 5 * 60_000);return Number.isFinite(configured) ? Math.min(15 * 60_000, Math.max(3 * 60_000, Math.floor(configured))) : 5 * 60_000;})();const SERVER_STARTED_AT_MS = Date.now();const PRESENCE_RESTART_GRACE_MS = 90_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(ONLINE_TIMEOUT_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
 
@@ -754,7 +754,17 @@ const DASHBOARD_PERMISSION_DEFINITIONS = [
     { key: "shutdownScript", formName: "dashboardShutdownScript", title: "Scripts deaktivieren", description: "Darf alle aktuell verbundenen Lua-Sitzungen einmalig deaktivieren." },
 ];
 
-function normalizeDashboardAccess(raw, username = "") {
+function isOwnerDashboardIdentity(username = "", email = "", explicitOwner = false) {
+    if (explicitOwner === true) return true;
+    const normalizedUsername = cleanDashboardUsername(username).toLowerCase();
+    const configuredOwnerUsername = cleanDashboardUsername(OWNER_ACCOUNT_USERNAME).toLowerCase();
+    if (normalizedUsername && normalizedUsername === configuredOwnerUsername) return true;
+    const normalizedEmail = cleanDashboardEmail(email);
+    const configuredOwnerEmail = cleanDashboardEmail(DASHBOARD_DEFAULT_EMAIL);
+    return Boolean(normalizedEmail && configuredOwnerEmail && normalizedEmail === configuredOwnerEmail);
+}
+
+function normalizeDashboardAccess(raw, username = "", email = "") {
     const source = raw && typeof raw === "object" ? raw : {};
     const nested = source.access && typeof source.access === "object"
         ? source.access
@@ -762,7 +772,7 @@ function normalizeDashboardAccess(raw, username = "") {
             ? source.permissions
             : {};
     const merged = { ...source, ...nested };
-    const isOwner = cleanDashboardUsername(username) === OWNER_ACCOUNT_USERNAME;
+    const isOwner = isOwnerDashboardIdentity(username, email, source.isOwner === true || source.owner === true);
     const enabled = (value) => value === true || value === "true" || value === "1" || value === "on" || value === 1;
     const dashboardAccess = isOwner || enabled(merged.menuServer) || enabled(merged.menuServerAccess);
     return {
@@ -779,7 +789,7 @@ function normalizeDashboardAccess(raw, username = "") {
 }
 
 function isOwnerDashboardAccount(account) {
-    return Boolean(account && account.username === OWNER_ACCOUNT_USERNAME);
+    return Boolean(account && isOwnerDashboardIdentity(account.username, account.email, account.isOwner === true));
 }
 
 function canManageDashboardAccounts(account) {
@@ -825,11 +835,13 @@ function normalizeDashboardAccount(raw) {
     if (!username || !email || !/^[a-f0-9]{64}$/.test(passwordHash)) {
         return null;
     }
-    const access = normalizeDashboardAccess(raw || {}, username);
+    const isOwner = isOwnerDashboardIdentity(username, email, raw && (raw.isOwner === true || raw.owner === true));
+    const access = normalizeDashboardAccess(raw || {}, username, email);
     return {
         username,
         email,
         passwordHash,
+        isOwner,
         access,
         createdAt: cleanText(raw && raw.createdAt, 64) || new Date().toISOString(),
         updatedAt: cleanText(raw && raw.updatedAt, 64) || "",
@@ -857,7 +869,10 @@ function getFirstDashboardAccount() {
 }
 
 function getOwnerDashboardAccount() {
-    return getDashboardAccountByUsername(OWNER_ACCOUNT_USERNAME);
+    for (const account of dashboardAccounts.values()) {
+        if (isOwnerDashboardAccount(account)) return account;
+    }
+    return null;
 }
 
 function getDashboardUsername() {
@@ -908,10 +923,43 @@ function loadDashboardAccount() {
             username: cleanDashboardUsername(DASHBOARD_DEFAULT_USERNAME) || OWNER_ACCOUNT_USERNAME,
             email: cleanDashboardEmail(DASHBOARD_DEFAULT_EMAIL) || "owner@nexu.local",
             passwordHash: normalizePasswordHash(DASHBOARD_DEFAULT_PASSWORD_HASH),
+            isOwner: true,
             createdAt: new Date().toISOString(),
             updatedAt: "",
         });
         saveDashboardAccount();
+    }
+
+    // Migration für ältere Account-Dateien: Falls durch eine frühere Umbenennung
+    // kein Owner mehr erkannt wird, wird der konfigurierte bzw. älteste Account
+    // einmalig als Owner markiert. Dadurch gehen Owner-Rechte nie verloren.
+    if (!getOwnerDashboardAccount() && dashboardAccounts.size > 0) {
+        const configuredEmail = cleanDashboardEmail(DASHBOARD_DEFAULT_EMAIL);
+        const configuredUsername = cleanDashboardUsername(DASHBOARD_DEFAULT_USERNAME).toLowerCase();
+        let ownerCandidate = configuredEmail ? getDashboardAccountByEmail(configuredEmail) : null;
+        if (!ownerCandidate && configuredUsername) {
+            ownerCandidate = [...dashboardAccounts.values()].find(
+                (account) => String(account.username || "").toLowerCase() === configuredUsername
+            ) || null;
+        }
+        if (!ownerCandidate) {
+            ownerCandidate = [...dashboardAccounts.values()].sort((left, right) =>
+                String(left.createdAt || "").localeCompare(String(right.createdAt || ""))
+            )[0] || null;
+        }
+        if (ownerCandidate) {
+            const promotedOwner = normalizeDashboardAccount({
+                ...ownerCandidate,
+                isOwner: true,
+                access: normalizeDashboardAccess({ ...ownerCandidate, isOwner: true }, ownerCandidate.username, ownerCandidate.email),
+                updatedAt: new Date().toISOString(),
+            });
+            if (promotedOwner) {
+                dashboardAccounts.set(promotedOwner.email, promotedOwner);
+                saveDashboardAccount();
+                console.warn(`[NEXU] Owner-Rechte für ${promotedOwner.username} automatisch wiederhergestellt`);
+            }
+        }
     }
 
     console.log(`[NEXU] ${dashboardAccounts.size} Dashboard-Account(s) geladen`);
@@ -3609,7 +3657,7 @@ if (req.method === "POST" && pathname === "/accounts/update") {
             username: nextUsername,
             passwordHash: nextPasswordHash,
             access: targetIsOwner
-                ? normalizeDashboardAccess({}, OWNER_ACCOUNT_USERNAME)
+                ? normalizeDashboardAccess({}, OWNER_ACCOUNT_USERNAME, DASHBOARD_DEFAULT_EMAIL)
                 : normalizeDashboardAccess({
                     menuServer: dashboardAccessEnabled,
                     dm: dashboardAccessEnabled && (form.dashboardDm === "1" || form.dashboardDm === "on"),
@@ -5079,7 +5127,7 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V145 GESTARTET");
+        console.log("NEXU PRESENCE & MODERATION V146 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
@@ -5088,7 +5136,7 @@ async function startNexuServer() {
         console.log("GitHub-Datendatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_DATA_PATH}`);
         console.log("Dashboard-Anmeldung: /");
         console.log("Dashboard-Accounts:", dashboardAccounts.size);
-        console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");
+        console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");
         console.log("Presence: /api/presence");
         console.log("Aktive-Script-Timeout:", Math.round(ONLINE_TIMEOUT_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
