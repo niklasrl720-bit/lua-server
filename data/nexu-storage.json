@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-10T16:58:35.195Z",
+  "updatedAt": "2026-07-10T16:58:43.841Z",
   "players": [
     {
       "userId": "11015160431",
@@ -17,8 +17,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:54:42.779Z",
       "firstSeenMs": 1783702482779,
-      "lastSeen": "2026-07-10T16:58:34.797Z",
-      "lastSeenMs": 1783702714797
+      "lastSeen": "2026-07-10T16:58:43.313Z",
+      "lastSeenMs": 1783702723313
     },
     {
       "userId": "7660247397",
@@ -35,8 +35,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:29:05.838Z",
       "firstSeenMs": 1783700945838,
-      "lastSeen": "2026-07-10T16:58:34.297Z",
-      "lastSeenMs": 1783702714297
+      "lastSeen": "2026-07-10T16:58:42.635Z",
+      "lastSeenMs": 1783702722635
     },
     {
       "userId": "3964643119",
@@ -53,62 +53,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:23:00.681Z",
       "firstSeenMs": 1783700580681,
-      "lastSeen": "2026-07-10T16:58:34.006Z",
-      "lastSeenMs": 1783702714006
-    },
-    {
-      "userId": "8722514497",
-      "username": "Andrislohs12345",
-      "displayName": "YT_Dobroginer",
-      "gameName": "[🎨] Paint And SEEK!",
-      "placeId": 78724049937437,
-      "jobId": "44f0da78-b91c-4519-8ebf-77764283fa37",
-      "sessionId": "34db2f4f-4ccc-458c-8758-d56f7e6e5f6d",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:12:42.504Z",
-      "firstSeenMs": 1783699962504,
-      "lastSeen": "2026-07-10T16:58:33.846Z",
-      "lastSeenMs": 1783702713846
-    },
-    {
-      "userId": "2811493214",
-      "username": "Xxcarol_07",
-      "displayName": "requeijao",
-      "gameName": "Vovó",
-      "placeId": 6000468131,
-      "jobId": "902ed1bb-52f1-4cdc-b4a8-6b03819539a3",
-      "sessionId": "a73bc1ef-d220-48eb-bec3-029672cc14c6",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:18:00.947Z",
-      "firstSeenMs": 1783700280947,
-      "lastSeen": "2026-07-10T16:58:33.778Z",
-      "lastSeenMs": 1783702713778
-    },
-    {
-      "userId": "5133851373",
-      "username": "19yFCo",
-      "displayName": "Idk",
-      "gameName": "เซิร์ฟเวอร์ Noob",
-      "placeId": 137378874406308,
-      "jobId": "b37369f3-007f-4884-bacc-68b62a471c6b",
-      "sessionId": "2a6f002e-4f8d-4e19-a4a6-fcb7baae0a76",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:47:27.379Z",
-      "firstSeenMs": 1783702047379,
-      "lastSeen": "2026-07-10T16:58:33.656Z",
-      "lastSeenMs": 1783702713656
+      "lastSeen": "2026-07-10T16:58:42.618Z",
+      "lastSeenMs": 1783702722618
     },
     {
       "userId": "9730296199",
@@ -125,26 +71,80 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:58:24.884Z",
       "firstSeenMs": 1783702704884,
-      "lastSeen": "2026-07-10T16:58:33.610Z",
-      "lastSeenMs": 1783702713610
+      "lastSeen": "2026-07-10T16:58:42.496Z",
+      "lastSeenMs": 1783702722496
     },
     {
-      "userId": "3670027748",
-      "username": "Jf_520",
-      "displayName": "X4ZT",
-      "gameName": "Blocky Parti 主頁",
-      "placeId": 108772269317636,
-      "jobId": "a4872808-73de-4ed9-86c4-e0d40cdc2324",
-      "sessionId": "dbcb0663-f5b5-4699-bdf5-8b4661506cb0",
+      "userId": "5133851373",
+      "username": "19yFCo",
+      "displayName": "Idk",
+      "gameName": "เซิร์ฟเวอร์ Noob",
+      "placeId": 137378874406308,
+      "jobId": "b37369f3-007f-4884-bacc-68b62a471c6b",
+      "sessionId": "2a6f002e-4f8d-4e19-a4a6-fcb7baae0a76",
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
       "roleKey": "",
-      "firstSeen": "2026-07-10T16:12:45.314Z",
-      "firstSeenMs": 1783699965314,
-      "lastSeen": "2026-07-10T16:58:33.503Z",
-      "lastSeenMs": 1783702713503
+      "firstSeen": "2026-07-10T16:47:27.379Z",
+      "firstSeenMs": 1783702047379,
+      "lastSeen": "2026-07-10T16:58:42.415Z",
+      "lastSeenMs": 1783702722415
+    },
+    {
+      "userId": "8722514497",
+      "username": "Andrislohs12345",
+      "displayName": "YT_Dobroginer",
+      "gameName": "[🎨] Paint And SEEK!",
+      "placeId": 78724049937437,
+      "jobId": "44f0da78-b91c-4519-8ebf-77764283fa37",
+      "sessionId": "34db2f4f-4ccc-458c-8758-d56f7e6e5f6d",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:12:42.504Z",
+      "firstSeenMs": 1783699962504,
+      "lastSeen": "2026-07-10T16:58:42.258Z",
+      "lastSeenMs": 1783702722258
+    },
+    {
+      "userId": "2811493214",
+      "username": "Xxcarol_07",
+      "displayName": "requeijao",
+      "gameName": "Vovó",
+      "placeId": 6000468131,
+      "jobId": "902ed1bb-52f1-4cdc-b4a8-6b03819539a3",
+      "sessionId": "a73bc1ef-d220-48eb-bec3-029672cc14c6",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:18:00.947Z",
+      "firstSeenMs": 1783700280947,
+      "lastSeen": "2026-07-10T16:58:42.187Z",
+      "lastSeenMs": 1783702722187
+    },
+    {
+      "userId": "1382390207",
+      "username": "zeuz2143popular",
+      "displayName": "Ismael",
+      "gameName": "Batalhas de Salto de Parede",
+      "placeId": 103185879508967,
+      "jobId": "4b99e3cd-1b29-4a27-a7a6-955e7bf9fb4f",
+      "sessionId": "96a7393d-7887-40c4-86bf-ee103219fab9",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:58:42.187Z",
+      "firstSeenMs": 1783702722187,
+      "lastSeen": "2026-07-10T16:58:42.187Z",
+      "lastSeenMs": 1783702722187
     },
     {
       "userId": "10774723762",
@@ -161,44 +161,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:57:21.796Z",
       "firstSeenMs": 1783702641796,
-      "lastSeen": "2026-07-10T16:58:33.237Z",
-      "lastSeenMs": 1783702713237
-    },
-    {
-      "userId": "1382390207",
-      "username": "zeuz2143popular",
-      "displayName": "Ismael",
-      "gameName": "Batalhas de Salto de Parede",
-      "placeId": 103185879508967,
-      "jobId": "4b99e3cd-1b29-4a27-a7a6-955e7bf9fb4f",
-      "sessionId": "96a7393d-7887-40c4-86bf-ee103219fab9",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:58:33.221Z",
-      "firstSeenMs": 1783702713221,
-      "lastSeen": "2026-07-10T16:58:33.221Z",
-      "lastSeenMs": 1783702713221
-    },
-    {
-      "userId": "10616328055",
-      "username": "ujiloo7",
-      "displayName": "soyjakerpro67",
-      "gameName": "Gigantes al acecho [ALFA]",
-      "placeId": 6328880674,
-      "jobId": "dc985306-6095-4d6f-9490-30e6c805edf2",
-      "sessionId": "a3ba5769-4af8-460c-a5ed-bff6b0bd3829",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:55:17.221Z",
-      "firstSeenMs": 1783702517221,
-      "lastSeen": "2026-07-10T16:58:32.774Z",
-      "lastSeenMs": 1783702712774
+      "lastSeen": "2026-07-10T16:58:42.139Z",
+      "lastSeenMs": 1783702722139
     },
     {
       "userId": "6143172338",
@@ -215,8 +179,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:51:31.298Z",
       "firstSeenMs": 1783702291298,
-      "lastSeen": "2026-07-10T16:58:32.088Z",
-      "lastSeenMs": 1783702712088
+      "lastSeen": "2026-07-10T16:58:40.778Z",
+      "lastSeenMs": 1783702720778
     },
     {
       "userId": "2596875527",
@@ -233,8 +197,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:48:56.156Z",
       "firstSeenMs": 1783702136156,
-      "lastSeen": "2026-07-10T16:58:30.215Z",
-      "lastSeenMs": 1783702710215
+      "lastSeen": "2026-07-10T16:58:38.997Z",
+      "lastSeenMs": 1783702718997
     },
     {
       "userId": "3308477086",
@@ -249,46 +213,10 @@
       "clientPlatform": "Android",
       "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
       "roleKey": "",
-      "firstSeen": "2026-07-10T16:58:30.196Z",
-      "firstSeenMs": 1783702710196,
-      "lastSeen": "2026-07-10T16:58:30.196Z",
-      "lastSeenMs": 1783702710196
-    },
-    {
-      "userId": "5422342247",
-      "username": "ruzzolareli",
-      "displayName": "Luna_00",
-      "gameName": "Torre de palco de iogurte",
-      "placeId": 14178291764,
-      "jobId": "a16925f7-c27c-4843-8287-a2d66366c6ee",
-      "sessionId": "0fbf7652-6f4d-4818-aa33-1aee24324c72",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:12:44.312Z",
-      "firstSeenMs": 1783699964312,
-      "lastSeen": "2026-07-10T16:58:30.138Z",
-      "lastSeenMs": 1783702710138
-    },
-    {
-      "userId": "8468029434",
-      "username": "6788ddk2",
-      "displayName": "6788ddk2",
-      "gameName": "Загадка убийства 2",
-      "placeId": 142823291,
-      "jobId": "615ef86b-df68-4751-8d73-19e5c725b9be",
-      "sessionId": "3ee13c08-6f94-459a-b508-c28f125c37a5",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:58:12.197Z",
-      "firstSeenMs": 1783702692197,
-      "lastSeen": "2026-07-10T16:58:29.954Z",
-      "lastSeenMs": 1783702709954
+      "firstSeen": "2026-07-10T16:58:38.841Z",
+      "firstSeenMs": 1783702718841,
+      "lastSeen": "2026-07-10T16:58:38.841Z",
+      "lastSeenMs": 1783702718841
     },
     {
       "userId": "6028498520",
@@ -305,8 +233,44 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:51:27.102Z",
       "firstSeenMs": 1783702287102,
-      "lastSeen": "2026-07-10T16:58:29.876Z",
-      "lastSeenMs": 1783702709876
+      "lastSeen": "2026-07-10T16:58:38.788Z",
+      "lastSeenMs": 1783702718788
+    },
+    {
+      "userId": "5422342247",
+      "username": "ruzzolareli",
+      "displayName": "Luna_00",
+      "gameName": "Torre de palco de iogurte",
+      "placeId": 14178291764,
+      "jobId": "a16925f7-c27c-4843-8287-a2d66366c6ee",
+      "sessionId": "0fbf7652-6f4d-4818-aa33-1aee24324c72",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:12:44.312Z",
+      "firstSeenMs": 1783699964312,
+      "lastSeen": "2026-07-10T16:58:38.756Z",
+      "lastSeenMs": 1783702718756
+    },
+    {
+      "userId": "8468029434",
+      "username": "6788ddk2",
+      "displayName": "6788ddk2",
+      "gameName": "Загадка убийства 2",
+      "placeId": 142823291,
+      "jobId": "615ef86b-df68-4751-8d73-19e5c725b9be",
+      "sessionId": "3ee13c08-6f94-459a-b508-c28f125c37a5",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:58:12.197Z",
+      "firstSeenMs": 1783702692197,
+      "lastSeen": "2026-07-10T16:58:38.580Z",
+      "lastSeenMs": 1783702718580
     },
     {
       "userId": "3229334808",
@@ -323,26 +287,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:12:44.016Z",
       "firstSeenMs": 1783699964016,
-      "lastSeen": "2026-07-10T16:58:29.645Z",
-      "lastSeenMs": 1783702709645
-    },
-    {
-      "userId": "11262802336",
-      "username": "hackerJohnthethird",
-      "displayName": "hackerJohnthethird",
-      "gameName": "Brookhaven 🏡RP",
-      "placeId": 4924922222,
-      "jobId": "6f645fa0-950b-4c07-a757-1f6f25daaa05",
-      "sessionId": "ed1d9339-b044-40c2-934c-fb5b4d02dc5c",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:57:30.011Z",
-      "firstSeenMs": 1783702650011,
-      "lastSeen": "2026-07-10T16:58:29.554Z",
-      "lastSeenMs": 1783702709554
+      "lastSeen": "2026-07-10T16:58:38.248Z",
+      "lastSeenMs": 1783702718248
     },
     {
       "userId": "5027825304",
@@ -359,8 +305,26 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:58:11.549Z",
       "firstSeenMs": 1783702691549,
-      "lastSeen": "2026-07-10T16:58:28.931Z",
-      "lastSeenMs": 1783702708931
+      "lastSeen": "2026-07-10T16:58:37.944Z",
+      "lastSeenMs": 1783702717944
+    },
+    {
+      "userId": "11262802336",
+      "username": "hackerJohnthethird",
+      "displayName": "hackerJohnthethird",
+      "gameName": "Brookhaven 🏡RP",
+      "placeId": 4924922222,
+      "jobId": "6f645fa0-950b-4c07-a757-1f6f25daaa05",
+      "sessionId": "ed1d9339-b044-40c2-934c-fb5b4d02dc5c",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:57:30.011Z",
+      "firstSeenMs": 1783702650011,
+      "lastSeen": "2026-07-10T16:58:37.799Z",
+      "lastSeenMs": 1783702717799
     },
     {
       "userId": "10199760908",
@@ -377,8 +341,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:18:05.941Z",
       "firstSeenMs": 1783700285941,
-      "lastSeen": "2026-07-10T16:58:28.608Z",
-      "lastSeenMs": 1783702708608
+      "lastSeen": "2026-07-10T16:58:36.746Z",
+      "lastSeenMs": 1783702716746
     },
     {
       "userId": "5773747871",
@@ -395,8 +359,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:58:19.300Z",
       "firstSeenMs": 1783702699300,
-      "lastSeen": "2026-07-10T16:58:27.979Z",
-      "lastSeenMs": 1783702707979
+      "lastSeen": "2026-07-10T16:58:36.613Z",
+      "lastSeenMs": 1783702716613
     },
     {
       "userId": "1142537782",
@@ -413,8 +377,26 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:57:55.061Z",
       "firstSeenMs": 1783702675061,
-      "lastSeen": "2026-07-10T16:58:27.871Z",
-      "lastSeenMs": 1783702707871
+      "lastSeen": "2026-07-10T16:58:36.033Z",
+      "lastSeenMs": 1783702716033
+    },
+    {
+      "userId": "10616328055",
+      "username": "ujiloo7",
+      "displayName": "soyjakerpro67",
+      "gameName": "Gigantes al acecho [ALFA]",
+      "placeId": 6328880674,
+      "jobId": "dc985306-6095-4d6f-9490-30e6c805edf2",
+      "sessionId": "a3ba5769-4af8-460c-a5ed-bff6b0bd3829",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:55:17.221Z",
+      "firstSeenMs": 1783702517221,
+      "lastSeen": "2026-07-10T16:58:35.239Z",
+      "lastSeenMs": 1783702715239
     },
     {
       "userId": "9539008686",
@@ -430,9 +412,27 @@
       "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
       "roleKey": "",
       "firstSeen": "2026-07-10T16:22:55.790Z",
-      "firstSeenMs": 1783700575790,
       "lastSeen": "2026-07-10T16:58:26.660Z",
+      "firstSeenMs": 1783700575790,
       "lastSeenMs": 1783702706660
+    },
+    {
+      "userId": "3670027748",
+      "username": "Jf_520",
+      "displayName": "X4ZT",
+      "gameName": "Blocky Parti 主頁",
+      "placeId": 108772269317636,
+      "jobId": "a4872808-73de-4ed9-86c4-e0d40cdc2324",
+      "sessionId": "dbcb0663-f5b5-4699-bdf5-8b4661506cb0",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:12:45.314Z",
+      "lastSeen": "2026-07-10T16:58:24.873Z",
+      "firstSeenMs": 1783699965314,
+      "lastSeenMs": 1783702704873
     },
     {
       "userId": "1476618895",
@@ -448,8 +448,8 @@
       "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
       "roleKey": "",
       "firstSeen": "2026-07-10T16:16:38.804Z",
-      "firstSeenMs": 1783700198804,
       "lastSeen": "2026-07-10T16:58:17.973Z",
+      "firstSeenMs": 1783700198804,
       "lastSeenMs": 1783702697973
     },
     {
@@ -484,8 +484,8 @@
       "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
       "roleKey": "",
       "firstSeen": "2026-07-10T16:57:19.643Z",
-      "firstSeenMs": 1783702639643,
       "lastSeen": "2026-07-10T16:58:10.436Z",
+      "firstSeenMs": 1783702639643,
       "lastSeenMs": 1783702690436
     },
     {
@@ -502,8 +502,8 @@
       "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
       "roleKey": "",
       "firstSeen": "2026-07-10T16:56:46.484Z",
-      "firstSeenMs": 1783702606484,
       "lastSeen": "2026-07-10T16:58:08.342Z",
+      "firstSeenMs": 1783702606484,
       "lastSeenMs": 1783702688342
     },
     {
