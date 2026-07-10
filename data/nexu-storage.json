@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-10T16:06:43.271Z",
+  "updatedAt": "2026-07-10T16:07:23.320Z",
   "players": [
     {
       "userId": "8559084848",
@@ -1175,13 +1175,13 @@
   ],
   "bans": [],
   "updateState": {
-    "active": true,
-    "startedAt": "2026-07-10T16:06:21.674Z",
-    "endsAt": "2026-07-10T16:07:21.674Z",
-    "startedAtMs": 1783699581674,
-    "endsAtMs": 1783699641674,
-    "durationMinutes": 1,
-    "remainingSeconds": 39,
-    "startedBy": "OwnerAccount"
+    "active": false,
+    "startedAt": "",
+    "endsAt": "",
+    "startedAtMs": 0,
+    "endsAtMs": 0,
+    "durationMinutes": 0,
+    "remainingSeconds": 0,
+    "startedBy": ""
   }
 }
