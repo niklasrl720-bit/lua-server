@@ -197,6 +197,34 @@ function internalDashboardEmailForUsername(username) {
     return `account-${hash}@nexu.local`;
 }
 
+function normalizeDashboardAccess(raw, username = "") {
+    const source = raw && typeof raw === "object" ? raw : {};
+    const nested = source.access && typeof source.access === "object"
+        ? source.access
+        : source.permissions && typeof source.permissions === "object"
+            ? source.permissions
+            : {};
+    const merged = { ...source, ...nested };
+    const isOwner = cleanDashboardUsername(username) === OWNER_ACCOUNT_USERNAME;
+    const enabled = (value) => value === true || value === "true" || value === "1" || value === "on" || value === 1;
+    return {
+        menuServer: isOwner || enabled(merged.menuServer) || enabled(merged.menuServerAccess),
+        accountManager: isOwner,
+    };
+}
+
+function isOwnerDashboardAccount(account) {
+    return Boolean(account && account.username === OWNER_ACCOUNT_USERNAME);
+}
+
+function canManageDashboardAccounts(account) {
+    return isOwnerDashboardAccount(account);
+}
+
+function canAccessMenuServer(account) {
+    return Boolean(account && (isOwnerDashboardAccount(account) || (account.access && account.access.menuServer === true)));
+}
+
 function normalizeDashboardAccount(raw) {
     const username = cleanDashboardUsername(raw && raw.username);
     const email = cleanDashboardEmail(raw && raw.email) || internalDashboardEmailForUsername(username);
@@ -204,10 +232,12 @@ function normalizeDashboardAccount(raw) {
     if (!username || !email || !/^[a-f0-9]{64}$/.test(passwordHash)) {
         return null;
     }
+    const access = normalizeDashboardAccess(raw || {}, username);
     return {
         username,
         email,
         passwordHash,
+        access,
         createdAt: cleanText(raw && raw.createdAt, 64) || new Date().toISOString(),
         updatedAt: cleanText(raw && raw.updatedAt, 64) || "",
     };
@@ -433,7 +463,8 @@ return {token, username: account.username, email: account.email, account, expire
 
 function isDashboardAuthenticated(req) {return Boolean(getDashboardSession(req));}
 
-function isOwnerAccountSession(req) {const session = getDashboardSession(req);return Boolean(session && session.username === OWNER_ACCOUNT_USERNAME);}
+function isOwnerAccountSession(req) {const session = getDashboardSession(req);return Boolean(session && canManageDashboardAccounts(session.account));}
+function isMenuServerAccountSession(req) {const session = getDashboardSession(req);return Boolean(session && canAccessMenuServer(session.account));}
 
 function createDashboardSession(account = getOwnerDashboardAccount() || getFirstDashboardAccount()) {pruneDashboardAuth();const normalized = typeof account === "string" ? (getDashboardAccountByEmail(account) || getDashboardAccountByUsername(account)) : account;if (!normalized) {return "";}const token = crypto.randomBytes(32).toString("hex");dashboardSessions.set(token, {username: normalized.username,email: normalized.email,expiresAtMs: Date.now() + DASHBOARD_SESSION_TTL_MS});return token;}
 
@@ -1008,9 +1039,13 @@ button.ghost { background:rgba(255,255,255,.06); box-shadow:none; border:1px sol
 </body>
 </html>`;}
 
-function homeHtml(notice = "", error = "", account = null) {const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = accountName === OWNER_ACCOUNT_USERNAME;const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = isOwnerAccount
-    ? '<a class="primary-tile menu-server" href="/menu-server"><span>MENU SERVER</span><strong>Spieler-Dashboard öffnen</strong><small>Nur OwnerAccount</small></a>'
-    : '<div class="primary-tile menu-server locked"><span>MENU SERVER</span><strong>Zugriff gesperrt</strong><small>Nur OwnerAccount darf diesen Bereich öffnen.</small></div>';
+function homeHtml(notice = "", error = "", account = null) {const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = isOwnerDashboardAccount(accountData);const canOpenMenuServer = canAccessMenuServer(accountData);const canManageAccounts = canManageDashboardAccounts(accountData);const usernameReadonly = isOwnerAccount ? "readonly" : "";const deleteAccountBlock = isOwnerAccount
+    ? '<section class="modal-card"><div class="danger-zone"><h3>OwnerAccount geschützt</h3><p>Der OwnerAccount kann hier nicht gelöscht werden, damit du den Hauptzugriff nicht verlierst.</p></div></section>'
+    : '<form class="modal-card" method="post" action="/account/delete" autocomplete="off"><div class="danger-zone"><h3>Account löschen</h3><p>Dieser Account wird dauerhaft vom Dashboard entfernt. Danach wirst du abgemeldet.</p><div class="field"><label for="deletePassword">Passwort bestätigen</label><input id="deletePassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div><div class="modal-actions"><button type="submit">ACCOUNT LÖSCHEN</button></div></div></form>';const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = canOpenMenuServer
+    ? '<a class="primary-tile menu-server" href="/menu-server"><span>MENU SERVER</span><strong>Spieler-Dashboard öffnen</strong><small>' + (isOwnerAccount ? 'OwnerAccount Zugriff' : 'Vom Owner freigegeben') + '</small></a>'
+    : '<div class="primary-tile menu-server locked"><span>MENU SERVER</span><strong>Zugriff gesperrt</strong><small>Der OwnerAccount kann deinen Zugriff freigeben.</small></div>';const accountManagerButton = canManageAccounts
+    ? '<a class="primary-tile account-admin" href="/accounts"><span>ACCOUNTS</span><strong>Account-Verwaltung</strong><small>Benutzer, Passwörter und Zugriffe einstellen</small></a>'
+    : '';
 return String.raw`<!doctype html>
 <html lang="de">
 <head>
@@ -1098,9 +1133,10 @@ p { margin:0; color:var(--muted); line-height:1.65; }
         </div>
         <div class="panel action-grid">
             ${menuServerButton}
+            ${accountManagerButton}
             <div class="quick-info">
                 <article class="info-card"><div class="info-label">Account</div><div class="info-value">${escapeHtml(accountName)}</div><p>Benutzername-Login aktiv</p></article>
-                <article class="info-card"><div class="info-label">Menu Server Zugriff</div><div class="info-value">${isOwnerAccount ? "Erlaubt" : "Gesperrt"}</div></article>
+                <article class="info-card"><div class="info-label">Menu Server Zugriff</div><div class="info-value">${canOpenMenuServer ? "Erlaubt" : "Gesperrt"}</div></article>
             </div>
         </div>
     </section>
@@ -1109,16 +1145,14 @@ p { margin:0; color:var(--muted); line-height:1.65; }
     <form class="modal-card" method="post" action="/account/settings" autocomplete="on">
         <div class="eyebrow">ACCOUNT SETTINGS</div>
         <h2>Account bearbeiten</h2>
-        <p>Benutzername und Passwort werden serverseitig gespeichert. Registrierung läuft ohne Bestätigungscode.</p>
-        <div class="field"><label for="newUsername">Benutzername</label><input id="newUsername" name="newUsername" type="text" maxlength="80" value="${escapeHtml(accountName)}" autocomplete="username" required></div>
+        <p>Benutzername und Passwort werden serverseitig gespeichert. Registrierung läuft ohne Bestätigungscode.${isOwnerAccount ? " Der OwnerAccount-Name ist geschützt." : ""}</p>
+        <div class="field"><label for="newUsername">Benutzername</label><input id="newUsername" name="newUsername" type="text" maxlength="80" value="${escapeHtml(accountName)}" autocomplete="username" ${usernameReadonly} required></div>
         <div class="field"><label for="currentPassword">Aktuelles Passwort</label><input id="currentPassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div>
         <div class="field"><label for="newPassword">Neues Passwort</label><input id="newPassword" name="newPassword" type="password" maxlength="200" autocomplete="new-password" placeholder="Leer lassen, wenn gleich bleiben soll"></div>
         <div class="field"><label for="confirmPassword">Neues Passwort bestätigen</label><input id="confirmPassword" name="confirmPassword" type="password" maxlength="200" autocomplete="new-password"></div>
         <div class="modal-actions"><button id="closeSettings" type="button">ABBRECHEN</button><button class="save" type="submit">SPEICHERN</button></div>
     </form>
-    <form class="modal-card" method="post" action="/account/delete" autocomplete="off">
-        <div class="danger-zone"><h3>Account löschen</h3><p>Dieser Account wird dauerhaft vom Dashboard entfernt. Danach wirst du abgemeldet.</p><div class="field"><label for="deletePassword">Passwort bestätigen</label><input id="deletePassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div><div class="modal-actions"><button type="submit">ACCOUNT LÖSCHEN</button></div></div>
-    </form>
+    ${deleteAccountBlock}
 </div>
 <script>
 const account = document.getElementById("account");
@@ -1137,6 +1171,111 @@ document.addEventListener("contextmenu", function (event) { if (!event.target.cl
 </script>
 </body>
 </html>`;}
+
+
+function dashboardAccountsHtml(notice = "", error = "", account = null) {
+    const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || { username: OWNER_ACCOUNT_USERNAME };
+    const noticeBlock = notice ? '<div class="notice success">' + escapeHtml(notice) + '</div>' : "";
+    const errorBlock = error ? '<div class="notice error">' + escapeHtml(error) + '</div>' : "";
+    const rows = [...dashboardAccounts.values()].sort((a, b) => String(a.username).localeCompare(String(b.username)));
+    const cards = rows.map((entry) => {
+        const owner = isOwnerDashboardAccount(entry);
+        const menuAccess = canAccessMenuServer(entry);
+        const created = cleanText(entry.createdAt, 32) || "unbekannt";
+        const updated = cleanText(entry.updatedAt, 32) || "nie";
+        const ownerBadge = owner ? '<span class="badge owner">OWNER LOCK</span>' : '';
+        const accessInput = owner
+            ? '<label class="check disabled"><input type="checkbox" checked disabled><span>Menu Server Zugriff</span></label><input type="hidden" name="menuServerAccess" value="1">'
+            : '<label class="check"><input type="checkbox" name="menuServerAccess" value="1" ' + (menuAccess ? 'checked' : '') + '><span>Menu Server Zugriff</span></label>';
+        const usernameReadonly = owner ? 'readonly' : '';
+        const deleteForm = owner
+            ? '<div class="owner-note">OwnerAccount kann nicht gelöscht oder vom Hauptzugriff getrennt werden.</div>'
+            : '<form method="post" action="/accounts/delete" onsubmit="return confirm(\'Diesen Account wirklich löschen?\');"><input type="hidden" name="accountEmail" value="' + escapeHtml(entry.email) + '"><button class="danger" type="submit">Account löschen</button></form>';
+        return '<article class="account-card">'
+            + '<div class="account-card-head"><div><strong>' + escapeHtml(entry.username) + '</strong><small>' + escapeHtml(entry.email) + '</small></div>' + ownerBadge + '</div>'
+            + '<form method="post" action="/accounts/update" autocomplete="off">'
+            + '<input type="hidden" name="accountEmail" value="' + escapeHtml(entry.email) + '">'
+            + '<div class="grid">'
+            + '<label>Benutzername<input name="username" maxlength="80" value="' + escapeHtml(entry.username) + '" ' + usernameReadonly + ' required></label>'
+            + '<label>Neues Passwort<input name="newPassword" type="password" maxlength="200" placeholder="Leer lassen = bleibt gleich"></label>'
+            + '<label>Passwort bestätigen<input name="confirmPassword" type="password" maxlength="200"></label>'
+            + '</div>'
+            + '<div class="access-box"><div><b>Zugriffe</b><p>Startseite und eigene Settings sind für jeden Account erlaubt. Menu Server steuerst du hier.</p></div>' + accessInput + '</div>'
+            + '<div class="meta"><span>Erstellt: ' + escapeHtml(created) + '</span><span>Geändert: ' + escapeHtml(updated) + '</span></div>'
+            + '<div class="actions"><button type="submit">Speichern</button></div>'
+            + '</form>'
+            + deleteForm
+            + '</article>';
+    }).join("") || '<div class="empty">Keine Accounts vorhanden.</div>';
+    return String.raw`<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#03070e">
+<title>Nexu Account-Verwaltung</title>
+<style>
+:root { --bg:#03070e; --panel:rgba(7,13,23,.86); --text:#dceef8; --muted:#7894a8; --cyan:#00c8ff; --violet:#6f46ff; --green:#2dffa5; --red:#ff4d78; --border:rgba(74,178,230,.28); }
+* { box-sizing:border-box; }
+body,body *:not(input):not(textarea) { -webkit-user-select:none !important; user-select:none !important; -webkit-touch-callout:none; }
+body *:not(input):not(textarea):not(button):not(a) { caret-color:transparent; cursor:default; }
+input { -webkit-user-select:text !important; user-select:text !important; caret-color:auto; cursor:text; }
+html,body { margin:0; min-height:100%; color:var(--text); background:radial-gradient(circle at 20% 5%,rgba(0,200,255,.16),transparent 32rem),radial-gradient(circle at 84% 18%,rgba(111,70,255,.15),transparent 33rem),var(--bg); font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif; }
+body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.18; background-image:linear-gradient(rgba(0,200,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.06) 1px,transparent 1px); background-size:32px 32px; }
+.shell { position:relative; z-index:1; width:min(1180px,calc(100% - 28px)); margin:0 auto; padding:26px 0 54px; }
+.topbar { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:22px; }
+.brand { display:flex; align-items:center; gap:12px; }
+.logo { width:44px; height:44px; border-radius:50%; display:grid; place-items:center; font-weight:900; background:linear-gradient(135deg,var(--cyan),var(--violet)); box-shadow:0 0 28px rgba(0,200,255,.28); }
+h1 { margin:0; font-size:30px; letter-spacing:-.03em; }
+p { margin:0; color:var(--muted); line-height:1.55; }
+a.back { min-height:40px; display:inline-flex; align-items:center; padding:0 13px; border:1px solid var(--border); border-radius:13px; color:var(--text); text-decoration:none; background:rgba(7,13,23,.78); font-weight:850; font-size:12px; letter-spacing:.06em; }
+.notice { margin:0 0 16px; padding:13px 14px; border-radius:14px; font-size:13px; font-weight:780; }
+.notice.success { border:1px solid rgba(45,255,165,.32); background:rgba(7,45,30,.48); color:#b8ffdc; }
+.notice.error { border:1px solid rgba(255,77,120,.38); background:rgba(55,7,20,.58); color:#ffb0c1; }
+.intro { margin-bottom:18px; padding:18px; border:1px solid var(--border); border-radius:22px; background:var(--panel); }
+.account-list { display:grid; gap:14px; }
+.account-card { padding:18px; border:1px solid rgba(74,178,230,.24); border-radius:22px; background:linear-gradient(135deg,rgba(0,200,255,.055),rgba(111,70,255,.04)),rgba(7,13,23,.88); box-shadow:0 20px 60px rgba(0,0,0,.22); }
+.account-card-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:14px; }
+.account-card-head strong { display:block; font-size:18px; }
+.account-card-head small { display:block; color:var(--muted); margin-top:3px; }
+.badge { display:inline-flex; align-items:center; min-height:26px; padding:0 9px; border-radius:999px; font-size:10px; font-weight:950; letter-spacing:.08em; }
+.badge.owner { color:#fff2a8; border:1px solid rgba(255,194,45,.42); background:rgba(47,27,3,.7); }
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+label { display:block; color:#9bb8c9; font-size:10px; letter-spacing:.1em; text-transform:uppercase; font-weight:850; }
+label input { width:100%; height:42px; margin-top:7px; border:1px solid rgba(74,178,230,.24); border-radius:12px; outline:none; padding:0 12px; color:var(--text); background:rgba(3,8,15,.78); font:inherit; font-size:13px; text-transform:none; letter-spacing:0; }
+label input:focus { border-color:rgba(0,200,255,.68); box-shadow:0 0 0 3px rgba(0,200,255,.08); }
+input[readonly] { opacity:.72; }
+.access-box { margin-top:12px; padding:13px; display:flex; justify-content:space-between; gap:14px; align-items:center; border:1px solid rgba(74,178,230,.18); border-radius:16px; background:rgba(3,8,15,.45); }
+.access-box b { display:block; margin-bottom:3px; }
+.check { display:flex; align-items:center; gap:9px; min-width:190px; color:var(--text); font-size:12px; letter-spacing:.04em; text-transform:none; }
+.check input { width:18px; height:18px; margin:0; accent-color:#00c8ff; }
+.check.disabled { opacity:.68; }
+.meta { margin-top:10px; display:flex; flex-wrap:wrap; gap:8px 14px; color:var(--muted); font-size:11px; }
+.actions { margin-top:13px; }
+button { min-height:40px; padding:0 13px; border:1px solid rgba(0,200,255,.4); border-radius:13px; color:var(--text); background:linear-gradient(135deg,rgba(0,200,255,.18),rgba(111,70,255,.14)); font:inherit; font-size:12px; font-weight:900; letter-spacing:.06em; cursor:pointer; }
+button.danger { margin-top:10px; border-color:rgba(255,77,120,.4); background:rgba(55,7,20,.62); color:#ffd6df; }
+.owner-note { margin-top:10px; color:#d7bd72; font-size:12px; }
+.empty { padding:22px; border:1px dashed rgba(74,178,230,.28); border-radius:18px; color:var(--muted); }
+@media (max-width:820px) { .grid { grid-template-columns:1fr; } .access-box { align-items:flex-start; flex-direction:column; } .topbar { align-items:flex-start; flex-direction:column; } }
+</style>
+</head>
+<body>
+<main class="shell">
+    <div class="topbar">
+        <div class="brand"><div class="logo">N</div><div><h1>Account-Verwaltung</h1><p>Eingeloggt als ${escapeHtml(accountData.username || OWNER_ACCOUNT_USERNAME)}</p></div></div>
+        <a class="back" href="/">← STARTSEITE</a>
+    </div>
+    ${noticeBlock}${errorBlock}
+    <section class="intro">
+        <p>Nur der feste <b>OwnerAccount</b> kann diese Seite öffnen. Hier stellst du Benutzername, Passwort und den Zugriff auf den Menu Server ein. Die Account-Verwaltung selbst bleibt immer nur für OwnerAccount.</p>
+    </section>
+    <section class="account-list">
+        ${cards}
+    </section>
+</main>
+</body>
+</html>`;
+}
 
 function dashboardHtml() {return String.raw`<!doctype html>
 
@@ -2173,13 +2312,148 @@ if (req.method === "GET" && pathname === "/menu-server") {
         redirect(res, "/login");
         return;
     }
-    if (!isOwnerAccountSession(req)) {
+    if (!isMenuServerAccountSession(req)) {
         const session = getDashboardSession(req);
-        sendHtml(res, 403, homeHtml("", "Menu Server ist nur für den Account OwnerAccount freigegeben.", session && session.account));
+        sendHtml(res, 403, homeHtml("", "Menu Server Zugriff ist für diesen Account nicht freigegeben.", session && session.account));
         return;
     }
     console.log("[NEXU] Menu Server Dashboard aufgerufen");
     sendHtml(res, 200, dashboardHtml());
+    return;
+}
+
+if (req.method === "GET" && pathname === "/accounts") {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
+        redirect(res, "/login");
+        return;
+    }
+    if (!canManageDashboardAccounts(session.account)) {
+        sendHtml(res, 403, homeHtml("", "Account-Verwaltung ist nur für OwnerAccount freigegeben.", session.account));
+        return;
+    }
+    const notice = requestUrl.searchParams.get("updated") === "1"
+        ? "Account wurde gespeichert."
+        : requestUrl.searchParams.get("deleted") === "1"
+            ? "Account wurde gelöscht."
+            : "";
+    sendHtml(res, 200, dashboardAccountsHtml(notice, "", session.account));
+    return;
+}
+
+if (req.method === "POST" && pathname === "/accounts/update") {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
+        redirect(res, "/login");
+        return;
+    }
+    if (!canManageDashboardAccounts(session.account)) {
+        sendHtml(res, 403, homeHtml("", "Account-Verwaltung ist nur für OwnerAccount freigegeben.", session.account));
+        return;
+    }
+    try {
+        const form = await readFormBody(req);
+        const accountEmail = cleanDashboardEmail(form.accountEmail);
+        const target = getDashboardAccountByEmail(accountEmail);
+        if (!target) {
+            sendHtml(res, 404, dashboardAccountsHtml("", "Account wurde nicht gefunden.", session.account));
+            return;
+        }
+        const targetIsOwner = isOwnerDashboardAccount(target);
+        const nextUsername = targetIsOwner ? OWNER_ACCOUNT_USERNAME : cleanDashboardUsername(form.username);
+        const newPassword = String(form.newPassword || "");
+        const confirmPassword = String(form.confirmPassword || "");
+        if (!nextUsername) {
+            sendHtml(res, 400, dashboardAccountsHtml("", "Benutzername ungültig.", session.account));
+            return;
+        }
+        if (dashboardUsernameExists(nextUsername, target.email)) {
+            sendHtml(res, 409, dashboardAccountsHtml("", "Dieser Benutzername ist bereits vergeben.", session.account));
+            return;
+        }
+        let nextPasswordHash = target.passwordHash;
+        if (newPassword !== "" || confirmPassword !== "") {
+            if (newPassword.length < 8) {
+                sendHtml(res, 400, dashboardAccountsHtml("", "Das neue Passwort muss mindestens 8 Zeichen haben.", session.account));
+                return;
+            }
+            if (newPassword !== confirmPassword) {
+                sendHtml(res, 400, dashboardAccountsHtml("", "Neue Passwörter stimmen nicht überein.", session.account));
+                return;
+            }
+            nextPasswordHash = sha256Hex(newPassword);
+        }
+        const updated = normalizeDashboardAccount({
+            ...target,
+            username: nextUsername,
+            passwordHash: nextPasswordHash,
+            access: {
+                ...(target.access || {}),
+                menuServer: targetIsOwner || form.menuServerAccess === "1" || form.menuServerAccess === "on",
+            },
+            updatedAt: new Date().toISOString(),
+        });
+        if (!updated) {
+            sendHtml(res, 500, dashboardAccountsHtml("", "Account konnte nicht normalisiert werden.", session.account));
+            return;
+        }
+        dashboardAccounts.set(updated.email, updated);
+        if (!saveDashboardAccount()) {
+            sendHtml(res, 500, dashboardAccountsHtml("", "Account konnte nicht gespeichert werden.", session.account));
+            return;
+        }
+        for (const [token, raw] of dashboardSessions) {
+            if (raw && raw.email === updated.email) {
+                dashboardSessions.set(token, { ...raw, username: updated.username, email: updated.email });
+            }
+        }
+        for (const [tokenHash, entry] of rememberedDashboardDevices) {
+            if (entry && entry.email === updated.email) {
+                rememberedDashboardDevices.set(tokenHash, { ...entry, username: updated.username, email: updated.email });
+            }
+        }
+        saveRememberedDashboardDevices();
+        redirect(res, "/accounts?updated=1");
+    } catch (error) {
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, dashboardAccountsHtml("", "Account konnte nicht verarbeitet werden.", session.account));
+    }
+    return;
+}
+
+if (req.method === "POST" && pathname === "/accounts/delete") {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
+        redirect(res, "/login");
+        return;
+    }
+    if (!canManageDashboardAccounts(session.account)) {
+        sendHtml(res, 403, homeHtml("", "Account-Verwaltung ist nur für OwnerAccount freigegeben.", session.account));
+        return;
+    }
+    try {
+        const form = await readFormBody(req);
+        const accountEmail = cleanDashboardEmail(form.accountEmail);
+        const target = getDashboardAccountByEmail(accountEmail);
+        if (!target) {
+            sendHtml(res, 404, dashboardAccountsHtml("", "Account wurde nicht gefunden.", session.account));
+            return;
+        }
+        if (isOwnerDashboardAccount(target)) {
+            sendHtml(res, 409, dashboardAccountsHtml("", "OwnerAccount kann nicht gelöscht werden.", session.account));
+            return;
+        }
+        deleteDashboardAccount(target.email);
+        for (const [token, raw] of dashboardSessions) {
+            if (raw && raw.email === target.email) dashboardSessions.delete(token);
+        }
+        for (const [tokenHash, entry] of rememberedDashboardDevices) {
+            if (entry && entry.email === target.email) rememberedDashboardDevices.delete(tokenHash);
+        }
+        saveRememberedDashboardDevices();
+        redirect(res, "/accounts?deleted=1");
+    } catch (error) {
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, dashboardAccountsHtml("", "Account konnte nicht gelöscht werden.", session.account));
+    }
     return;
 }
 
@@ -2310,7 +2584,8 @@ if (req.method === "POST" && pathname === "/account/settings") {
     }
     try {
         const form = await readFormBody(req);
-        const nextUsername = cleanDashboardUsername(form.newUsername);
+        const requestedUsername = cleanDashboardUsername(form.newUsername);
+        const nextUsername = isOwnerDashboardAccount(session.account) ? OWNER_ACCOUNT_USERNAME : requestedUsername;
         const currentPassword = String(form.currentPassword || "");
         const nextPassword = String(form.newPassword || "");
         const confirmPassword = String(form.confirmPassword || "");
@@ -2382,6 +2657,10 @@ if (req.method === "POST" && pathname === "/account/delete") {
     try {
         const form = await readFormBody(req);
         const currentPassword = String(form.currentPassword || "");
+        if (isOwnerDashboardAccount(session.account)) {
+            sendHtml(res, 409, homeHtml("", "OwnerAccount kann nicht gelöscht werden.", session.account));
+            return;
+        }
         if (!validDashboardAccountPassword(session.account, currentPassword)) {
             sendHtml(res, 403, homeHtml("", "Passwort für Account-Löschung ist falsch.", session.account));
             return;
@@ -2508,10 +2787,10 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
 }
 
 if (req.method === "POST" && pathname === "/api/join/send") {
-    if (!isDashboardAuthenticated(req)) {
-        sendJson(res, 401, {
+    if (!isMenuServerAccountSession(req)) {
+        sendJson(res, 403, {
             success: false,
-            error: "Dashboard-Anmeldung erforderlich",
+            error: "Menu Server Zugriff erforderlich",
         });
         return;
     }
@@ -2647,7 +2926,7 @@ if (req.method === "POST" && pathname === "/api/bring/send") {
     try {
         const body = await readJsonBody(req);
         const targetPlayerId = cleanNumericId(body.userId);
-        const dashboardAuthenticated = isDashboardAuthenticated(req);
+        const dashboardAuthenticated = isMenuServerAccountSession(req);
         const requesterUserId = cleanNumericId(body.requesterUserId);
         const requesterSessionId = cleanText(body.requesterSessionId, 100);
 
@@ -3040,6 +3319,10 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
 }
 
 if (req.method === "POST" && pathname === "/api/dm/send") {
+    if (!isMenuServerAccountSession(req)) {
+        sendJson(res, 403, {success: false, error: "Menu Server Zugriff erforderlich"});
+        return;
+    }
     if (!allowDirectMessageSend(req)) {
         sendJson(res, 429, {
             success: false,
@@ -3150,10 +3433,10 @@ if (req.method === "POST" && pathname === "/api/dm/poll") {
 }
 
 if (req.method === "POST" && pathname === "/api/admin/role") {
-    if (!isDashboardAuthenticated(req)) {
-        sendJson(res, 401, {
+    if (!isMenuServerAccountSession(req)) {
+        sendJson(res, 403, {
             success: false,
-            error: "Dashboard-Anmeldung erforderlich",
+            error: "Menu Server Zugriff erforderlich",
         });
         return;
     }
@@ -3234,6 +3517,10 @@ if (req.method === "POST" && pathname === "/api/admin/role") {
 }
 
 if (req.method === "GET" && pathname === "/api/admin/bans") {
+    if (!isMenuServerAccountSession(req)) {
+        sendJson(res, 403, {success: false, error: "Menu Server Zugriff erforderlich"});
+        return;
+    }
     sendJson(res, 200, {
         success: true,
         bans: [...bans.values()],
@@ -3242,6 +3529,10 @@ if (req.method === "GET" && pathname === "/api/admin/bans") {
 }
 
 if (req.method === "POST" && pathname === "/api/admin/ban") {
+    if (!isMenuServerAccountSession(req)) {
+        sendJson(res, 403, {success: false, error: "Menu Server Zugriff erforderlich"});
+        return;
+    }
     try {
         const body = await readJsonBody(req);
         const userId = cleanNumericId(body.userId);
@@ -3316,6 +3607,10 @@ if (req.method === "POST" && pathname === "/api/admin/ban") {
 }
 
 if (req.method === "POST" && pathname === "/api/admin/unban") {
+    if (!isMenuServerAccountSession(req)) {
+        sendJson(res, 403, {success: false, error: "Menu Server Zugriff erforderlich"});
+        return;
+    }
     try {
         const body = await readJsonBody(req);
         const userId = cleanNumericId(body.userId);
