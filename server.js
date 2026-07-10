@@ -1,6 +1,7 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
+// V143: Presence-Stabilisierung gegen kurzzeitige Poll-Fehler, Render-Neustarts und verspätete Heartbeats.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 180_000);return Number.isFinite(configured) ? Math.min(15 * 60_000, Math.max(60_000, Math.floor(configured))) : 180_000;})();const SERVER_STARTED_AT_MS = Date.now();const PRESENCE_RESTART_GRACE_MS = 30_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
 
 const GITHUB_DATA_TOKEN = String(process.env.GITHUB_DATA_TOKEN || "").trim();
 const GITHUB_DATA_OWNER = String(process.env.GITHUB_DATA_OWNER || "").trim();
@@ -2488,7 +2489,11 @@ const state = {
     pendingBan:null,
     pendingDm:null,
     permissions:DASHBOARD_PERMISSIONS || {},
+    refreshFailures:0,
+    lastSuccessfulRefreshAt:0,
+    stale:false,
 };
+let presenceRefreshInFlight = false;
 
 const allowTextEditingTargets = "input, textarea";
 document.documentElement.setAttribute("spellcheck", "false");
@@ -2767,8 +2772,10 @@ function renderPlayer(player,banned) {
 
 function render() {
     elements.headerDot.className = "dot " + (state.online ? "online" : "offline");
-    elements.headerStatus.textContent = state.online ? "Server online" : "Server nicht erreichbar";
-    elements.serverStatus.textContent = state.online ? "ONLINE" : "OFFLINE";
+    elements.headerStatus.textContent = state.online
+        ? "Server online"
+        : (state.stale ? "Verbindung unterbrochen – letzte Daten bleiben sichtbar" : "Server nicht erreichbar");
+    elements.serverStatus.textContent = state.online ? "ONLINE" : (state.stale ? "WIEDERVERBINDUNG" : "OFFLINE");
     elements.serverStatus.style.color = state.online ? "var(--green)" : "var(--red)";
     const totalOnlineCount = state.players.filter(function (player) { return player.online === true; }).length;
     const totalOfflineCount = state.players.length - totalOnlineCount;
@@ -2824,16 +2831,27 @@ function render() {
             : '<div class="empty">' + (bannedQuery ? 'Kein gebannter Spieler passt zu deiner Suche.' : 'Die Sperrliste ist leer.') + '</div>')
         : '<div class="empty">Für diesen Account ist Bannen/Entbannen nicht freigegeben.</div>';
 
-    elements.footerNote.textContent = onlinePlayers.length + " von " + totalOnlineCount + " Online-Spielern angezeigt";
-    elements.offlineFooter.textContent = offlinePlayers.length + " von " + totalOfflineCount + " Offline-Spielern angezeigt";
-    elements.bannedFooter.textContent = bannedPlayers.length + " von " + state.bannedPlayers.length + " gesperrten Nutzern angezeigt";
+    const staleSuffix = state.stale
+        ? " // Letzte erfolgreiche Aktualisierung wird weiter angezeigt"
+        : "";
+    elements.footerNote.textContent = onlinePlayers.length + " von " + totalOnlineCount + " Online-Spielern angezeigt" + staleSuffix;
+    elements.offlineFooter.textContent = offlinePlayers.length + " von " + totalOfflineCount + " Offline-Spielern angezeigt" + staleSuffix;
+    elements.bannedFooter.textContent = bannedPlayers.length + " von " + state.bannedPlayers.length + " gesperrten Nutzern angezeigt" + staleSuffix;
 }
 
 async function refresh() {
+    if (presenceRefreshInFlight) {
+        return;
+    }
+    presenceRefreshInFlight = true;
+    const controller = new AbortController();
+    const requestTimeout = setTimeout(function () { controller.abort(); }, 15000);
+
     try {
         const response = await fetch("/api/presence", {
             headers:{ Accept:"application/json" },
             cache:"no-store",
+            signal:controller.signal,
         });
 
         if (!response.ok) {
@@ -2841,17 +2859,49 @@ async function refresh() {
         }
 
         const data = await response.json();
+        const incomingPlayers = Array.isArray(data.players) ? data.players : [];
+        const previousByUserId = new Map(state.players.map(function (player) {
+            return [String(player.userId || ""), player];
+        }));
+        const preservePreviousOnline = data.presenceWarmup === true && state.lastSuccessfulRefreshAt > 0;
+        state.players = incomingPlayers.map(function (player) {
+            const previous = previousByUserId.get(String(player.userId || ""));
+            if (preservePreviousOnline && previous && previous.online === true && player.online !== true) {
+                return Object.assign({}, player, { online:true, reconnecting:true });
+            }
+            return player;
+        });
         state.online = data.online === true;
-        state.players = Array.isArray(data.players) ? data.players : [];
-        state.activePlayers = Number(data.activePlayers) || state.players.filter(function (player) { return player.online === true; }).length;
+        state.activePlayers = state.players.filter(function (player) { return player.online === true; }).length;
         state.bannedPlayers = Array.isArray(data.bannedPlayers) ? data.bannedPlayers : [];
         state.menuUpdate = data.menuUpdate && typeof data.menuUpdate === "object" ? data.menuUpdate : {active:false,remainingSeconds:0};
         state.updateSyncedAt = Date.now();
+        state.lastSuccessfulRefreshAt = Date.now();
+        state.refreshFailures = 0;
+        state.stale = false;
     } catch (error) {
         console.error("Nexu refresh failed:",error);
         state.online = false;
-        state.players = [];
-        state.bannedPlayers = [];
+        state.refreshFailures += 1;
+        state.stale = state.players.length > 0 || state.bannedPlayers.length > 0;
+
+        // Bei einem einzelnen fehlgeschlagenen Poll niemals alle Karten leeren.
+        // Erst nach 90 Sekunden ohne erfolgreiche Antwort werden bisherige
+        // Online-Spieler als offline markiert; gespeicherte Karten bleiben erhalten.
+        const staleForMs = state.lastSuccessfulRefreshAt > 0
+            ? Date.now() - state.lastSuccessfulRefreshAt
+            : Number.POSITIVE_INFINITY;
+        if (staleForMs > 90000) {
+            state.players = state.players.map(function (player) {
+                return player.online === true
+                    ? Object.assign({}, player, { online:false, reconnecting:false })
+                    : player;
+            });
+            state.activePlayers = 0;
+        }
+    } finally {
+        clearTimeout(requestTimeout);
+        presenceRefreshInFlight = false;
     }
 
     render();
@@ -3800,6 +3850,8 @@ if (
         bannedPlayers: bans.size,
         menuUpdate: getMenuUpdateStatus(),
         pendingShutdownSessions: shutdownCommandsBySession.size,
+        serverStartedAtMs: SERVER_STARTED_AT_MS,
+        presenceWarmup: Date.now() - SERVER_STARTED_AT_MS < PRESENCE_RESTART_GRACE_MS,
         timestamp: new Date().toISOString(),
     });
     return;
@@ -4246,6 +4298,8 @@ if (req.method === "GET" && pathname === "/api/presence") {
         bannedPlayers: data.bannedPlayers,
         menuUpdate: getMenuUpdateStatus(),
         pendingShutdownSessions: shutdownCommandsBySession.size,
+        serverStartedAtMs: SERVER_STARTED_AT_MS,
+        presenceWarmup: Date.now() - SERVER_STARTED_AT_MS < PRESENCE_RESTART_GRACE_MS,
         timestamp: new Date().toISOString(),
     });
     return;
@@ -4836,6 +4890,8 @@ async function startNexuServer() {
         console.log("Dashboard-Accounts:", dashboardAccounts.size);
         console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");
         console.log("Presence: /api/presence");
+        console.log("Presence-Timeout:", Math.round(ONLINE_TIMEOUT_MS / 1000), "Sekunden");
+        console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
         console.log("Direct Messages: /api/dm/send + /api/dm/poll");
         console.log("Website Join: /api/join/send + /api/join/poll");
         console.log("Access: /api/menu/access?userId=...");
