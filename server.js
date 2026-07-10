@@ -197,6 +197,15 @@ function internalDashboardEmailForUsername(username) {
     return `account-${hash}@nexu.local`;
 }
 
+const DASHBOARD_PERMISSION_DEFINITIONS = [
+    { key: "menuServer", formName: "menuServerAccess", title: "Dashboard öffnen", description: "Darf den Menu Server ansehen." },
+    { key: "dm", formName: "dashboardDm", title: "DM senden", description: "Darf Nachrichten an Online-Spieler senden." },
+    { key: "bring", formName: "dashboardBring", title: "Bring benutzen", description: "Darf Spieler per Website zum Creator bringen." },
+    { key: "serverJoin", formName: "dashboardJoin", title: "Server Join", description: "Darf den Creator zu einem Spieler-Server schicken." },
+    { key: "managePlayerRoles", formName: "dashboardRole", title: "Ränge einstellen", description: "Darf PLAYERS/SUPPORTER für gespeicherte Spieler ändern." },
+    { key: "banPlayers", formName: "dashboardBan", title: "Bannen/Entbannen", description: "Darf Spieler bannen, entbannen und die Sperrliste sehen." },
+];
+
 function normalizeDashboardAccess(raw, username = "") {
     const source = raw && typeof raw === "object" ? raw : {};
     const nested = source.access && typeof source.access === "object"
@@ -207,8 +216,14 @@ function normalizeDashboardAccess(raw, username = "") {
     const merged = { ...source, ...nested };
     const isOwner = cleanDashboardUsername(username) === OWNER_ACCOUNT_USERNAME;
     const enabled = (value) => value === true || value === "true" || value === "1" || value === "on" || value === 1;
+    const legacyMenuAccess = enabled(merged.menuServer) || enabled(merged.menuServerAccess);
     return {
-        menuServer: isOwner || enabled(merged.menuServer) || enabled(merged.menuServerAccess),
+        menuServer: isOwner || legacyMenuAccess,
+        dm: isOwner || enabled(merged.dm) || enabled(merged.dashboardDm) || enabled(merged.dmSend) || legacyMenuAccess,
+        bring: isOwner || enabled(merged.bring) || enabled(merged.dashboardBring) || legacyMenuAccess,
+        serverJoin: isOwner || enabled(merged.serverJoin) || enabled(merged.dashboardJoin) || enabled(merged.join) || legacyMenuAccess,
+        managePlayerRoles: isOwner || enabled(merged.managePlayerRoles) || enabled(merged.dashboardRole) || enabled(merged.roles) || legacyMenuAccess,
+        banPlayers: isOwner || enabled(merged.banPlayers) || enabled(merged.dashboardBan) || enabled(merged.bans) || legacyMenuAccess,
         accountManager: isOwner,
     };
 }
@@ -221,8 +236,36 @@ function canManageDashboardAccounts(account) {
     return isOwnerDashboardAccount(account);
 }
 
+function hasDashboardPermission(account, permissionKey) {
+    if (!account) return false;
+    if (isOwnerDashboardAccount(account)) return true;
+    const access = account.access || {};
+    if (permissionKey === "accountManager") return false;
+    if (permissionKey !== "menuServer" && access.menuServer !== true) return false;
+    return access[permissionKey] === true;
+}
+
 function canAccessMenuServer(account) {
-    return Boolean(account && (isOwnerDashboardAccount(account) || (account.access && account.access.menuServer === true)));
+    return hasDashboardPermission(account, "menuServer");
+}
+
+function getDashboardPermissionSnapshot(account) {
+    const snapshot = {};
+    for (const definition of DASHBOARD_PERMISSION_DEFINITIONS) {
+        snapshot[definition.key] = hasDashboardPermission(account, definition.key);
+    }
+    snapshot.accountManager = canManageDashboardAccounts(account);
+    return snapshot;
+}
+
+function isDashboardPermissionSession(req, permissionKey) {
+    const session = getDashboardSession(req);
+    return Boolean(session && hasDashboardPermission(session.account, permissionKey));
+}
+
+function dashboardPermissionError(permissionKey) {
+    const definition = DASHBOARD_PERMISSION_DEFINITIONS.find((entry) => entry.key === permissionKey);
+    return definition ? `${definition.title} Zugriff erforderlich` : "Dashboard-Zugriff erforderlich";
 }
 
 function normalizeDashboardAccount(raw) {
@@ -555,28 +598,74 @@ return rawToken;
 
 }
 
-function getRememberedDashboardAccount(req) {pruneRememberedDashboardDevices(true);const rawToken = parseCookies(req).get(DASHBOARD_REMEMBER_COOKIE) || "";if (!/^[a-f0-9]{64}$/i.test(rawToken)) {return null;}
-
-const entry = rememberedDashboardDevices.get(rememberTokenHash(rawToken));
-if (!entry || entry.expiresAtMs <= Date.now()) {
-    return null;
-}
-const account = getDashboardAccountByEmail(entry.email) || getDashboardAccountByUsername(entry.username);
-if (!account) {return null;}
-
-return {
-    username: account.username,
-    email: account.email,
-    expiresAtMs: entry.expiresAtMs,
-};
-
+function parseRememberedDashboardTokens(req) {
+    const rawValue = parseCookies(req).get(DASHBOARD_REMEMBER_COOKIE) || "";
+    const tokens = [];
+    for (const rawToken of String(rawValue).split(/[,.|]/)) {
+        const token = rawToken.trim();
+        if (/^[a-f0-9]{64}$/i.test(token) && !tokens.includes(token)) {
+            tokens.push(token);
+        }
+    }
+    return tokens.slice(0, 8);
 }
 
-function removeRememberedDashboardDevice(req) {const rawToken = parseCookies(req).get(DASHBOARD_REMEMBER_COOKIE) || "";if (!rawToken) {return;}
+function getRememberedDashboardAccounts(req) {
+    pruneRememberedDashboardDevices(true);
+    const result = [];
+    const seenEmails = new Set();
+    for (const rawToken of parseRememberedDashboardTokens(req)) {
+        const entry = rememberedDashboardDevices.get(rememberTokenHash(rawToken));
+        if (!entry || entry.expiresAtMs <= Date.now()) {
+            continue;
+        }
+        const account = getDashboardAccountByEmail(entry.email) || getDashboardAccountByUsername(entry.username);
+        if (!account || seenEmails.has(account.email)) {
+            continue;
+        }
+        seenEmails.add(account.email);
+        result.push({
+            username: account.username,
+            email: account.email,
+            expiresAtMs: entry.expiresAtMs,
+            rememberToken: rawToken,
+        });
+    }
+    return result;
+}
 
-rememberedDashboardDevices.delete(rememberTokenHash(rawToken));
-saveRememberedDashboardDevices();
+function getRememberedDashboardAccount(req) {
+    return getRememberedDashboardAccounts(req)[0] || null;
+}
 
+function rememberCookieValueWithNewToken(req, rawToken) {
+    const tokens = parseRememberedDashboardTokens(req).filter((token) => token !== rawToken);
+    if (/^[a-f0-9]{64}$/i.test(rawToken || "")) {
+        tokens.unshift(rawToken);
+    }
+    return tokens.slice(0, 8).join(".");
+}
+
+function rememberCookieValueWithoutToken(req, rawToken = "") {
+    const tokens = parseRememberedDashboardTokens(req);
+    if (!rawToken) {
+        return "";
+    }
+    return tokens.filter((token) => token !== rawToken).slice(0, 8).join(".");
+}
+
+function removeRememberedDashboardDevice(req, rawToken = "") {
+    const tokens = rawToken ? [rawToken] : parseRememberedDashboardTokens(req);
+    let changed = false;
+    for (const token of tokens) {
+        if (/^[a-f0-9]{64}$/i.test(token)) {
+            rememberedDashboardDevices.delete(rememberTokenHash(token));
+            changed = true;
+        }
+    }
+    if (changed) {
+        saveRememberedDashboardDevices();
+    }
 }
 
 function validDashboardPassword(password) {const account = getOwnerDashboardAccount() || getFirstDashboardAccount();return validDashboardAccountPassword(account, password);}
@@ -944,17 +1033,23 @@ return { command };
 
 }
 
-function loginHtml(errorMessage = "", rememberedAccount = null, options = {}) {const errorBlock = errorMessage ? `<div class="login-error" role="alert">${escapeHtml(errorMessage)}</div>` : "";const noticeBlock = options.notice ? `<div class="login-notice" role="status">${escapeHtml(options.notice)}</div>` : "";const rememberedBlock = rememberedAccount ? `<section class="remembered-account" aria-label="Gespeicherter Account">
-            <div>
-                <b>${escapeHtml(rememberedAccount.username || "Gespeicherter Account")}</b>
-                <small>Zum direkten Anmelden klicken</small>
-            </div>
-            <form method="post" action="/quick-login">
-                <button type="submit">Direkt anmelden</button>
-            </form>
-            <form method="post" action="/forget-account">
-                <button class="ghost" type="submit">Vergessen</button>
-            </form>
+function loginHtml(errorMessage = "", rememberedAccount = null, options = {}) {const errorBlock = errorMessage ? `<div class="login-error" role="alert">${escapeHtml(errorMessage)}</div>` : "";const noticeBlock = options.notice ? `<div class="login-notice" role="status">${escapeHtml(options.notice)}</div>` : "";const rememberedAccounts = Array.isArray(rememberedAccount) ? rememberedAccount : (rememberedAccount ? [rememberedAccount] : []);const rememberedBlock = rememberedAccounts.length ? `<section class="remembered-list" aria-label="Gespeicherte Accounts">
+            <h2>Gespeicherte Accounts</h2>
+            <p>Accounts, mit denen du auf diesem Browser angemeldet warst.</p>
+            ${rememberedAccounts.map((remembered) => `<div class="remembered-account">
+                <div>
+                    <b>${escapeHtml(remembered.username || "Gespeicherter Account")}</b>
+                    <small>${escapeHtml(remembered.email || "")}</small>
+                </div>
+                <form method="post" action="/quick-login">
+                    <input type="hidden" name="rememberToken" value="${escapeHtml(remembered.rememberToken || "")}">
+                    <button type="submit">Direkt anmelden</button>
+                </form>
+                <form method="post" action="/forget-account">
+                    <input type="hidden" name="rememberToken" value="${escapeHtml(remembered.rememberToken || "")}">
+                    <button class="ghost" type="submit">Vergessen</button>
+                </form>
+            </div>`).join("")}
         </section>
         <div class="login-divider"><span>oder anmelden</span></div>` : "";return `<!doctype html>
 <html lang="de">
@@ -981,7 +1076,7 @@ p { color:#8fa8ba; line-height:1.6; margin:14px 0 0; }
 .stat span { color:#6cdfff; font-size:12px; }
 .auth-card { padding:24px; }
 .auth-grid { display:grid; gap:16px; }
-.auth-panel,.remembered-account { padding:18px; border:1px solid rgba(0,200,255,.22); border-radius:18px; background:rgba(3,10,18,.62); }
+.auth-panel,.remembered-list { padding:18px; border:1px solid rgba(0,200,255,.22); border-radius:18px; background:rgba(3,10,18,.62); }.remembered-list { display:grid; gap:10px; }.remembered-list h2 { margin:0; font-size:19px; }.remembered-list p { margin:0 0 4px; font-size:12px; }
 .auth-panel h2 { margin:0 0 12px; font-size:19px; }
 .field { display:grid; gap:7px; margin-bottom:12px; }
 label { color:#a7bed0; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.12em; }
@@ -994,7 +1089,7 @@ button.ghost { background:rgba(255,255,255,.06); box-shadow:none; border:1px sol
 .login-notice { background:rgba(45,255,165,.12); border:1px solid rgba(45,255,165,.25); color:#aaffdc; }
 .login-divider { display:flex; align-items:center; gap:12px; color:#6f8496; font-size:12px; font-weight:900; text-transform:uppercase; letter-spacing:.14em; margin:2px 0; }
 .login-divider:before,.login-divider:after { content:""; height:1px; background:rgba(255,255,255,.1); flex:1; }
-.remembered-account { display:grid; grid-template-columns:1fr auto auto; gap:10px; align-items:center; }
+.remembered-account { display:grid; grid-template-columns:1fr auto auto; gap:10px; align-items:center; padding:12px; border:1px solid rgba(255,255,255,.08); border-radius:14px; background:rgba(255,255,255,.035); }
 .remembered-account small { display:block; color:#7894a8; margin-top:3px; }
 .remembered-account button { width:auto; padding:10px 12px; font-size:11px; }
 @media (max-width:820px) { .login-shell { grid-template-columns:1fr; } body { align-items:flex-start; } }
@@ -1180,13 +1275,16 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
     const rows = [...dashboardAccounts.values()].sort((a, b) => String(a.username).localeCompare(String(b.username)));
     const cards = rows.map((entry) => {
         const owner = isOwnerDashboardAccount(entry);
-        const menuAccess = canAccessMenuServer(entry);
+        const permissionSnapshot = getDashboardPermissionSnapshot(entry);
         const created = cleanText(entry.createdAt, 32) || "unbekannt";
         const updated = cleanText(entry.updatedAt, 32) || "nie";
         const ownerBadge = owner ? '<span class="badge owner">OWNER LOCK</span>' : '';
-        const accessInput = owner
-            ? '<label class="check disabled"><input type="checkbox" checked disabled><span>Menu Server Zugriff</span></label><input type="hidden" name="menuServerAccess" value="1">'
-            : '<label class="check"><input type="checkbox" name="menuServerAccess" value="1" ' + (menuAccess ? 'checked' : '') + '><span>Menu Server Zugriff</span></label>';
+        const accessInput = '<div class="access-grid">' + DASHBOARD_PERMISSION_DEFINITIONS.map((definition) => {
+            const checked = owner || permissionSnapshot[definition.key] === true;
+            const disabled = owner ? ' disabled' : '';
+            const hidden = owner && definition.key === "menuServer" ? '<input type="hidden" name="menuServerAccess" value="1">' : '';
+            return '<label class="check ' + (owner ? 'disabled' : '') + '"><input type="checkbox" name="' + escapeHtml(definition.formName) + '" value="1" ' + (checked ? 'checked' : '') + disabled + '><span><b>' + escapeHtml(definition.title) + '</b><small>' + escapeHtml(definition.description) + '</small></span></label>' + hidden;
+        }).join("") + '</div>';
         const usernameReadonly = owner ? 'readonly' : '';
         const deleteForm = owner
             ? '<div class="owner-note">OwnerAccount kann nicht gelöscht oder vom Hauptzugriff getrennt werden.</div>'
@@ -1200,7 +1298,7 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
             + '<label>Neues Passwort<input name="newPassword" type="password" maxlength="200" placeholder="Leer lassen = bleibt gleich"></label>'
             + '<label>Passwort bestätigen<input name="confirmPassword" type="password" maxlength="200"></label>'
             + '</div>'
-            + '<div class="access-box"><div><b>Zugriffe</b><p>Startseite und eigene Settings sind für jeden Account erlaubt. Menu Server steuerst du hier.</p></div>' + accessInput + '</div>'
+            + '<div class="access-box"><div><b>Dashboard-Rechte</b><p>Startseite und eigene Settings sind immer erlaubt. Hier bestimmst du exakt, welche Dashboard-Funktionen dieser Account benutzen darf.</p></div>' + accessInput + '</div>'
             + '<div class="meta"><span>Erstellt: ' + escapeHtml(created) + '</span><span>Geändert: ' + escapeHtml(updated) + '</span></div>'
             + '<div class="actions"><button type="submit">Speichern</button></div>'
             + '</form>'
@@ -1245,10 +1343,13 @@ label { display:block; color:#9bb8c9; font-size:10px; letter-spacing:.1em; text-
 label input { width:100%; height:42px; margin-top:7px; border:1px solid rgba(74,178,230,.24); border-radius:12px; outline:none; padding:0 12px; color:var(--text); background:rgba(3,8,15,.78); font:inherit; font-size:13px; text-transform:none; letter-spacing:0; }
 label input:focus { border-color:rgba(0,200,255,.68); box-shadow:0 0 0 3px rgba(0,200,255,.08); }
 input[readonly] { opacity:.72; }
-.access-box { margin-top:12px; padding:13px; display:flex; justify-content:space-between; gap:14px; align-items:center; border:1px solid rgba(74,178,230,.18); border-radius:16px; background:rgba(3,8,15,.45); }
+.access-box { margin-top:12px; padding:13px; display:grid; grid-template-columns:minmax(210px,.55fr) 1fr; gap:14px; align-items:start; border:1px solid rgba(74,178,230,.18); border-radius:16px; background:rgba(3,8,15,.45); }
 .access-box b { display:block; margin-bottom:3px; }
-.check { display:flex; align-items:center; gap:9px; min-width:190px; color:var(--text); font-size:12px; letter-spacing:.04em; text-transform:none; }
-.check input { width:18px; height:18px; margin:0; accent-color:#00c8ff; }
+.access-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+.check { display:flex; align-items:flex-start; gap:9px; min-width:0; color:var(--text); font-size:12px; letter-spacing:.04em; text-transform:none; padding:9px; border:1px solid rgba(74,178,230,.13); border-radius:13px; background:rgba(7,13,23,.55); }
+.check input { width:18px; height:18px; margin:1px 0 0; flex:0 0 auto; accent-color:#00c8ff; }
+.check b { display:block; color:#dceef8; font-size:12px; letter-spacing:.04em; }
+.check small { display:block; margin-top:2px; color:#7894a8; font-size:10px; line-height:1.35; letter-spacing:0; text-transform:none; }
 .check.disabled { opacity:.68; }
 .meta { margin-top:10px; display:flex; flex-wrap:wrap; gap:8px 14px; color:var(--muted); font-size:11px; }
 .actions { margin-top:13px; }
@@ -1267,7 +1368,7 @@ button.danger { margin-top:10px; border-color:rgba(255,77,120,.4); background:rg
     </div>
     ${noticeBlock}${errorBlock}
     <section class="intro">
-        <p>Nur der feste <b>OwnerAccount</b> kann diese Seite öffnen. Hier stellst du Benutzername, Passwort und den Zugriff auf den Menu Server ein. Die Account-Verwaltung selbst bleibt immer nur für OwnerAccount.</p>
+        <p>Nur der feste <b>OwnerAccount</b> kann diese Seite öffnen. Hier stellst du Benutzername, Passwort und die einzelnen Dashboard-Rechte ein. Die Account-Verwaltung selbst bleibt immer nur für OwnerAccount.</p>
     </section>
     <section class="account-list">
         ${cards}
@@ -1277,7 +1378,7 @@ button.danger { margin-top:10px; border-color:rgba(255,77,120,.4); background:rg
 </html>`;
 }
 
-function dashboardHtml() {return String.raw`<!doctype html>
+function dashboardHtml(account = null) {const permissionJson = JSON.stringify(getDashboardPermissionSnapshot(account || {}));return String.raw`<!doctype html>
 
 <html lang="de">
 <head>
@@ -1651,6 +1752,7 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 </div>
 
 <script>
+const DASHBOARD_PERMISSIONS = ${permissionJson};
 const state = {
     online:false,
     players:[],
@@ -1660,6 +1762,7 @@ const state = {
     offlineQuery:"",
     pendingBan:null,
     pendingDm:null,
+    permissions:DASHBOARD_PERMISSIONS || {},
 };
 
 const allowTextEditingTargets = "input, textarea";
@@ -1777,7 +1880,7 @@ function renderPlayer(player,banned) {
     const stateClass = banned ? "banned" : (online ? "online" : "offline");
     const stateText = banned ? "Gesperrt" : (online ? "Online" : "Offline");
     const roleBadge = '<div class="role-badge ' + escapeHtml(roleKey) + '">' + escapeHtml(roleTitle) + '</div>';
-    const roleControls = (!banned && roleKey !== "creator")
+    const roleControls = (!banned && roleKey !== "creator" && state.permissions.managePlayerRoles === true)
         ? '<div class="role-controls" aria-label="Rang einstellen">' +
             '<button class="role-button player ' + (roleKey === "player" ? "active" : "") + '" data-action="set-role" data-role="player" data-user-id="' + escapeHtml(player.userId) + '" ' + (roleKey === "player" ? "disabled" : "") + '>PLAYERS</button>' +
             '<button class="role-button supporter ' + (roleKey === "supporter" ? "active" : "") + '" data-action="set-role" data-role="supporter" data-user-id="' + escapeHtml(player.userId) + '" ' + (roleKey === "supporter" ? "disabled" : "") + '>SUPPORTER</button>' +
@@ -1794,22 +1897,22 @@ function renderPlayer(player,banned) {
             '<div class="presence-line"><span class="presence-key">SERVER</span><span class="presence-value server-id" title="' + escapeHtml(jobId) + '">' + escapeHtml(jobId) + '</span></div>' +
             '<div class="presence-line"><span class="presence-key">ZULETZT</span><span class="presence-value">' + escapeHtml(lastSeenText) + '</span></div>' +
         '</div>';
-    const joinButton = joinable
+    const joinButton = joinable && state.permissions.serverJoin === true
         ? '<button class="action-button join" data-action="join" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">SERVER JOIN</button>'
         : "";
-    const bringButton = bringable
+    const bringButton = bringable && state.permissions.bring === true
         ? '<button class="action-button bring" data-action="bring" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BRING</button>'
         : "";
-    const dmButton = online
+    const dmButton = online && state.permissions.dm === true
         ? '<button class="action-button dm" data-action="dm" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">DM</button>'
         : "";
     const actionButtons = banned
-        ? '<button class="action-button unban" data-action="unban" data-user-id="' + escapeHtml(player.userId) + '">ENTBANNEN</button>'
+        ? (state.permissions.banPlayers === true ? '<button class="action-button unban" data-action="unban" data-user-id="' + escapeHtml(player.userId) + '">ENTBANNEN</button>' : '')
         : '<div class="button-row">' +
             joinButton +
             bringButton +
             dmButton +
-            '<button class="action-button ban" data-action="ban" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BANNEN</button>' +
+            (state.permissions.banPlayers === true ? '<button class="action-button ban" data-action="ban" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BANNEN</button>' : '') +
         '</div>';
 
     return '<article class="player ' + (banned ? 'banned' : (online ? 'online' : 'offline')) + '">' +
@@ -1871,9 +1974,11 @@ function render() {
             ? 'Offline-Liste ist noch leer.'
             : (offlineQuery ? 'Kein Offline-Spieler passt zu deiner Suche.' : 'Keine gespeicherten Offline-Spieler.')) + '</div>';
 
-    elements.bannedPlayers.innerHTML = state.bannedPlayers.length
-        ? state.bannedPlayers.map(function (player) { return renderPlayer(player,true); }).join("")
-        : '<div class="empty">Die Sperrliste ist leer.</div>';
+    elements.bannedPlayers.innerHTML = state.permissions.banPlayers === true
+        ? (state.bannedPlayers.length
+            ? state.bannedPlayers.map(function (player) { return renderPlayer(player,true); }).join("")
+            : '<div class="empty">Die Sperrliste ist leer.</div>')
+        : '<div class="empty">Für diesen Account ist Bannen/Entbannen nicht freigegeben.</div>';
 
     elements.footerNote.textContent = onlinePlayers.length + " von " + totalOnlineCount + " Online-Spielern angezeigt";
     elements.offlineFooter.textContent = offlinePlayers.length + " von " + totalOfflineCount + " Offline-Spielern angezeigt";
@@ -2293,7 +2398,7 @@ if (req.method === "GET" && pathname === "/") {
         const session = getDashboardSession(req);
         sendHtml(res, 200, homeHtml(message, "", session && session.account));
     } else {
-        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccount(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Account wurde gelöscht." : ""}));
+        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccounts(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Account wurde gelöscht." : ""}));
     }
     return;
 }
@@ -2302,23 +2407,23 @@ if (req.method === "GET" && pathname === "/login") {
     if (isDashboardAuthenticated(req)) {
         redirect(res, "/");
     } else {
-        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccount(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Account wurde gelöscht." : ""}));
+        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccounts(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Account wurde gelöscht." : ""}));
     }
     return;
 }
 
 if (req.method === "GET" && pathname === "/menu-server") {
-    if (!isDashboardAuthenticated(req)) {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
         redirect(res, "/login");
         return;
     }
-    if (!isMenuServerAccountSession(req)) {
-        const session = getDashboardSession(req);
-        sendHtml(res, 403, homeHtml("", "Menu Server Zugriff ist für diesen Account nicht freigegeben.", session && session.account));
+    if (!canAccessMenuServer(session.account)) {
+        sendHtml(res, 403, homeHtml("", "Menu Server Zugriff ist für diesen Account nicht freigegeben.", session.account));
         return;
     }
     console.log("[NEXU] Menu Server Dashboard aufgerufen");
-    sendHtml(res, 200, dashboardHtml());
+    sendHtml(res, 200, dashboardHtml(session.account));
     return;
 }
 
@@ -2387,10 +2492,16 @@ if (req.method === "POST" && pathname === "/accounts/update") {
             ...target,
             username: nextUsername,
             passwordHash: nextPasswordHash,
-            access: {
-                ...(target.access || {}),
-                menuServer: targetIsOwner || form.menuServerAccess === "1" || form.menuServerAccess === "on",
-            },
+            access: targetIsOwner
+                ? normalizeDashboardAccess({}, OWNER_ACCOUNT_USERNAME)
+                : normalizeDashboardAccess({
+                    menuServer: form.menuServerAccess === "1" || form.menuServerAccess === "on",
+                    dm: form.dashboardDm === "1" || form.dashboardDm === "on",
+                    bring: form.dashboardBring === "1" || form.dashboardBring === "on",
+                    serverJoin: form.dashboardJoin === "1" || form.dashboardJoin === "on",
+                    managePlayerRoles: form.dashboardRole === "1" || form.dashboardRole === "on",
+                    banPlayers: form.dashboardBan === "1" || form.dashboardBan === "on",
+                }, nextUsername),
             updatedAt: new Date().toISOString(),
         });
         if (!updated) {
@@ -2463,7 +2574,7 @@ if (req.method === "POST" && pathname === "/login") {
             sendHtml(
                 res,
                 429,
-                loginHtml("Zu viele Anmeldeversuche. Bitte später erneut versuchen.", getRememberedDashboardAccount(req))
+                loginHtml("Zu viele Anmeldeversuche. Bitte später erneut versuchen.", getRememberedDashboardAccounts(req))
             );
             return;
         }
@@ -2479,7 +2590,7 @@ if (req.method === "POST" && pathname === "/login") {
             sendHtml(
                 res,
                 401,
-                loginHtml("Benutzername oder Passwort ist falsch.", getRememberedDashboardAccount(req))
+                loginHtml("Benutzername oder Passwort ist falsch.", getRememberedDashboardAccounts(req))
             );
             return;
         }
@@ -2497,7 +2608,7 @@ if (req.method === "POST" && pathname === "/login") {
                 ),
                 dashboardRememberCookie(
                     req,
-                    rememberToken,
+                    rememberCookieValueWithNewToken(req, rememberToken),
                     DASHBOARD_REMEMBER_TTL_MS / 1000
                 ),
             ],
@@ -2510,7 +2621,7 @@ if (req.method === "POST" && pathname === "/login") {
                 error.message === "BODY_TOO_LARGE"
                     ? "Anmeldedaten sind zu groß."
                     : "Anmeldung konnte nicht verarbeitet werden.",
-                getRememberedDashboardAccount(req)
+                getRememberedDashboardAccounts(req)
             )
         );
     }
@@ -2524,18 +2635,22 @@ if (req.method === "POST" && pathname === "/quick-login") {
             429,
             loginHtml(
                 "Zu viele Schnell-Anmeldungen. Bitte später erneut versuchen.",
-                getRememberedDashboardAccount(req)
+                getRememberedDashboardAccounts(req)
             )
         );
         return;
     }
 
-    const rememberedAccount = getRememberedDashboardAccount(req);
+    const form = await readFormBody(req).catch(() => ({}));
+    const requestedRememberToken = String(form.rememberToken || "").trim();
+    const rememberedAccounts = getRememberedDashboardAccounts(req);
+    const rememberedAccount = rememberedAccounts.find((entry) => entry.rememberToken === requestedRememberToken) || rememberedAccounts[0] || null;
     const rememberedLoginAccount = rememberedAccount && (getDashboardAccountByEmail(rememberedAccount.email) || getDashboardAccountByUsername(rememberedAccount.username));
     if (!rememberedAccount || !rememberedLoginAccount) {
-        removeRememberedDashboardDevice(req);
+        const nextRememberValue = rememberCookieValueWithoutToken(req, requestedRememberToken);
+        if (requestedRememberToken) removeRememberedDashboardDevice(req, requestedRememberToken);
         redirect(res, "/login", {
-            "Set-Cookie": dashboardRememberCookie(req, "", 0),
+            "Set-Cookie": dashboardRememberCookie(req, nextRememberValue, nextRememberValue ? DASHBOARD_REMEMBER_TTL_MS / 1000 : 0),
         });
         return;
     }
@@ -2554,12 +2669,17 @@ if (req.method === "POST" && pathname === "/quick-login") {
 }
 
 if (req.method === "POST" && pathname === "/forget-account") {
+    const form = await readFormBody(req).catch(() => ({}));
+    const requestedRememberToken = String(form.rememberToken || "").trim();
+    const nextRememberValue = rememberCookieValueWithoutToken(req, requestedRememberToken);
+    if (requestedRememberToken) {
+        removeRememberedDashboardDevice(req, requestedRememberToken);
+    }
     removeDashboardSession(req);
-    removeRememberedDashboardDevice(req);
     redirect(res, "/login", {
         "Set-Cookie": [
             dashboardCookie(req, "", 0),
-            dashboardRememberCookie(req, "", 0),
+            dashboardRememberCookie(req, nextRememberValue, nextRememberValue ? DASHBOARD_REMEMBER_TTL_MS / 1000 : 0),
         ],
     });
     return;
@@ -2686,7 +2806,7 @@ if (req.method === "POST" && pathname === "/account/delete") {
 if (req.method === "POST" && pathname === "/register/request") {
     try {
         if (!allowLoginAttempt(req)) {
-            sendHtml(res, 429, loginHtml("Zu viele Registrierungsversuche. Bitte später erneut versuchen.", getRememberedDashboardAccount(req)));
+            sendHtml(res, 429, loginHtml("Zu viele Registrierungsversuche. Bitte später erneut versuchen.", getRememberedDashboardAccounts(req)));
             return;
         }
         const form = await readFormBody(req);
@@ -2694,19 +2814,19 @@ if (req.method === "POST" && pathname === "/register/request") {
         const password = String(form.password || "");
         const confirmPassword = String(form.confirmPassword || "");
         if (!username) {
-            sendHtml(res, 400, loginHtml("Benutzername ungültig. Erlaubt sind 3-80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", getRememberedDashboardAccount(req)));
+            sendHtml(res, 400, loginHtml("Benutzername ungültig. Erlaubt sind 3-80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", getRememberedDashboardAccounts(req)));
             return;
         }
         if (dashboardUsernameExists(username)) {
-            sendHtml(res, 409, loginHtml("Dieser Benutzername ist bereits vergeben.", getRememberedDashboardAccount(req)));
+            sendHtml(res, 409, loginHtml("Dieser Benutzername ist bereits vergeben.", getRememberedDashboardAccounts(req)));
             return;
         }
         if (password.length < 8) {
-            sendHtml(res, 400, loginHtml("Das Passwort muss mindestens 8 Zeichen haben.", getRememberedDashboardAccount(req)));
+            sendHtml(res, 400, loginHtml("Das Passwort muss mindestens 8 Zeichen haben.", getRememberedDashboardAccounts(req)));
             return;
         }
         if (password !== confirmPassword) {
-            sendHtml(res, 400, loginHtml("Passwörter stimmen nicht überein.", getRememberedDashboardAccount(req)));
+            sendHtml(res, 400, loginHtml("Passwörter stimmen nicht überein.", getRememberedDashboardAccounts(req)));
             return;
         }
         const account = putDashboardAccount({
@@ -2717,18 +2837,18 @@ if (req.method === "POST" && pathname === "/register/request") {
             updatedAt: new Date().toISOString(),
         });
         if (!account || !saveDashboardAccount()) {
-            sendHtml(res, 500, loginHtml("Account konnte nicht gespeichert werden.", getRememberedDashboardAccount(req)));
+            sendHtml(res, 500, loginHtml("Account konnte nicht gespeichert werden.", getRememberedDashboardAccounts(req)));
             return;
         }
         clearLoginAttempts(req);
         const token = createDashboardSession(account);
         const rememberToken = createRememberedDashboardDevice(account);
-        redirect(res, "/", {"Set-Cookie": [dashboardCookie(req, token, DASHBOARD_SESSION_TTL_MS / 1000), dashboardRememberCookie(req, rememberToken, DASHBOARD_REMEMBER_TTL_MS / 1000)]});
+        redirect(res, "/", {"Set-Cookie": [dashboardCookie(req, token, DASHBOARD_SESSION_TTL_MS / 1000), dashboardRememberCookie(req, rememberCookieValueWithNewToken(req, rememberToken), DASHBOARD_REMEMBER_TTL_MS / 1000)]});
     } catch (error) {
         const message = error.message === "BODY_TOO_LARGE"
             ? "Registrierungsdaten sind zu groß."
             : "Registrierung konnte nicht verarbeitet werden.";
-        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, loginHtml(message, getRememberedDashboardAccount(req)));
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, loginHtml(message, getRememberedDashboardAccounts(req)));
     }
     return;
 }
@@ -2787,10 +2907,10 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
 }
 
 if (req.method === "POST" && pathname === "/api/join/send") {
-    if (!isMenuServerAccountSession(req)) {
+    if (!isDashboardPermissionSession(req, "serverJoin")) {
         sendJson(res, 403, {
             success: false,
-            error: "Menu Server Zugriff erforderlich",
+            error: dashboardPermissionError("serverJoin"),
         });
         return;
     }
@@ -2926,7 +3046,7 @@ if (req.method === "POST" && pathname === "/api/bring/send") {
     try {
         const body = await readJsonBody(req);
         const targetPlayerId = cleanNumericId(body.userId);
-        const dashboardAuthenticated = isMenuServerAccountSession(req);
+        const dashboardAuthenticated = isDashboardPermissionSession(req, "bring");
         const requesterUserId = cleanNumericId(body.requesterUserId);
         const requesterSessionId = cleanText(body.requesterSessionId, 100);
 
@@ -3319,8 +3439,8 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
 }
 
 if (req.method === "POST" && pathname === "/api/dm/send") {
-    if (!isMenuServerAccountSession(req)) {
-        sendJson(res, 403, {success: false, error: "Menu Server Zugriff erforderlich"});
+    if (!isDashboardPermissionSession(req, "dm")) {
+        sendJson(res, 403, {success: false, error: dashboardPermissionError("dm")});
         return;
     }
     if (!allowDirectMessageSend(req)) {
@@ -3433,10 +3553,10 @@ if (req.method === "POST" && pathname === "/api/dm/poll") {
 }
 
 if (req.method === "POST" && pathname === "/api/admin/role") {
-    if (!isMenuServerAccountSession(req)) {
+    if (!isDashboardPermissionSession(req, "managePlayerRoles")) {
         sendJson(res, 403, {
             success: false,
-            error: "Menu Server Zugriff erforderlich",
+            error: dashboardPermissionError("managePlayerRoles"),
         });
         return;
     }
@@ -3517,8 +3637,8 @@ if (req.method === "POST" && pathname === "/api/admin/role") {
 }
 
 if (req.method === "GET" && pathname === "/api/admin/bans") {
-    if (!isMenuServerAccountSession(req)) {
-        sendJson(res, 403, {success: false, error: "Menu Server Zugriff erforderlich"});
+    if (!isDashboardPermissionSession(req, "banPlayers")) {
+        sendJson(res, 403, {success: false, error: dashboardPermissionError("banPlayers")});
         return;
     }
     sendJson(res, 200, {
@@ -3529,8 +3649,8 @@ if (req.method === "GET" && pathname === "/api/admin/bans") {
 }
 
 if (req.method === "POST" && pathname === "/api/admin/ban") {
-    if (!isMenuServerAccountSession(req)) {
-        sendJson(res, 403, {success: false, error: "Menu Server Zugriff erforderlich"});
+    if (!isDashboardPermissionSession(req, "banPlayers")) {
+        sendJson(res, 403, {success: false, error: dashboardPermissionError("banPlayers")});
         return;
     }
     try {
@@ -3607,8 +3727,8 @@ if (req.method === "POST" && pathname === "/api/admin/ban") {
 }
 
 if (req.method === "POST" && pathname === "/api/admin/unban") {
-    if (!isMenuServerAccountSession(req)) {
-        sendJson(res, 403, {success: false, error: "Menu Server Zugriff erforderlich"});
+    if (!isDashboardPermissionSession(req, "banPlayers")) {
+        sendJson(res, 403, {success: false, error: dashboardPermissionError("banPlayers")});
         return;
     }
     try {
