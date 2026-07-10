@@ -1,8 +1,8 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const EMAIL_VERIFICATION_TTL_MS = 10 * 60_000;const EMAIL_VERIFICATION_RATE_WINDOW_MS = 15 * 60_000;const EMAIL_VERIFICATION_RATE_LIMIT = 5;const RESEND_API_KEY = String(process.env.RESEND_API_KEY || "");const RESEND_FROM_EMAIL = String(process.env.RESEND_FROM_EMAIL || "Nexu <noreply@nexu.local>");
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const pendingDashboardRegistrations = new Map();const emailVerificationRateLimits = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;
 
 function sendJson(res, statusCode, data, extraHeaders = {}) {res.writeHead(statusCode, {"Content-Type": "application/json; charset=utf-8","Cache-Control": "no-store","X-Content-Type-Options": "nosniff",...extraHeaders,});res.end(JSON.stringify(data));}
 
@@ -188,9 +188,18 @@ function cleanDashboardEmail(value) {
     return email;
 }
 
+function internalDashboardEmailForUsername(username) {
+    const cleanUsername = cleanDashboardUsername(username);
+    if (!cleanUsername) {
+        return "";
+    }
+    const hash = crypto.createHash("sha256").update(cleanUsername.toLowerCase(), "utf8").digest("hex").slice(0, 24);
+    return `account-${hash}@nexu.local`;
+}
+
 function normalizeDashboardAccount(raw) {
     const username = cleanDashboardUsername(raw && raw.username);
-    const email = cleanDashboardEmail(raw && raw.email);
+    const email = cleanDashboardEmail(raw && raw.email) || internalDashboardEmailForUsername(username);
     const passwordHash = normalizePasswordHash(raw && raw.passwordHash);
     if (!username || !email || !/^[a-f0-9]{64}$/.test(passwordHash)) {
         return null;
@@ -342,67 +351,6 @@ function validDashboardAccountPassword(account, password) {
     return suppliedHash.length === expectedHash.length && crypto.timingSafeEqual(suppliedHash, expectedHash);
 }
 
-function createVerificationCode() {
-    return String(crypto.randomInt(100000, 1000000));
-}
-
-function prunePendingDashboardRegistrations() {
-    const now = Date.now();
-    for (const [email, entry] of pendingDashboardRegistrations) {
-        if (!entry || entry.expiresAtMs <= now) pendingDashboardRegistrations.delete(email);
-    }
-    for (const [key, state] of emailVerificationRateLimits) {
-        if (!state || now - state.windowStartedAtMs > EMAIL_VERIFICATION_RATE_WINDOW_MS) emailVerificationRateLimits.delete(key);
-    }
-}
-
-function allowVerificationEmail(req, email) {
-    prunePendingDashboardRegistrations();
-    const key = `${getClientIp(req)}:${cleanDashboardEmail(email)}`;
-    const now = Date.now();
-    let state = emailVerificationRateLimits.get(key);
-    if (!state || now - state.windowStartedAtMs > EMAIL_VERIFICATION_RATE_WINDOW_MS) {
-        state = { windowStartedAtMs: now, count: 0 };
-        emailVerificationRateLimits.set(key, state);
-    }
-    state.count += 1;
-    return state.count <= EMAIL_VERIFICATION_RATE_LIMIT;
-}
-
-async function sendDashboardVerificationEmail(email, username, code) {
-    const cleanEmail = cleanDashboardEmail(email);
-    if (!cleanEmail) throw new Error("INVALID_EMAIL");
-    const subject = "Nexu Bestätigungscode";
-    const text = `Dein Nexu Bestätigungscode ist: ${code}\n\nDer Code ist 10 Minuten gültig.`;
-    const html = `<div style="font-family:Arial,sans-serif;background:#03070e;color:#dceef8;padding:24px"><h2 style="color:#00c8ff">Nexu Bestätigung</h2><p>Hallo ${escapeHtml(username)},</p><p>dein Bestätigungscode lautet:</p><div style="font-size:28px;font-weight:900;letter-spacing:6px;color:#fff;background:#07131f;border:1px solid #00c8ff;border-radius:14px;padding:16px;text-align:center">${escapeHtml(code)}</div><p style="color:#7894a8">Der Code ist 10 Minuten gültig.</p></div>`;
-
-    if (!RESEND_API_KEY || !globalThis.fetch) {
-        console.warn(`[NEXU] E-Mail-Service nicht konfiguriert. Bestätigungscode für ${cleanEmail}: ${code}`);
-        return { sent: false, provider: "console" };
-    }
-
-    const response = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${RESEND_API_KEY}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            from: RESEND_FROM_EMAIL,
-            to: [cleanEmail],
-            subject,
-            text,
-            html,
-        }),
-    });
-    if (!response.ok) {
-        const body = await response.text().catch(() => "");
-        console.warn("[NEXU] Bestätigungsmail konnte nicht gesendet werden:", response.status, body.slice(0, 300));
-        throw new Error("EMAIL_SEND_FAILED");
-    }
-    return { sent: true, provider: "resend" };
-}
-
 function rememberKnownPlayer(raw, now = Date.now()) {const incoming = normalizeKnownPlayer({...(raw || {}),lastSeenMs: now,lastSeen: new Date(now).toISOString(),}, now);if (!incoming) {return false;}const existing = knownPlayers.get(incoming.userId);const next = {userId: incoming.userId,username: incoming.username || (existing && existing.username) || `User${incoming.userId}`,displayName: incoming.displayName || (existing && existing.displayName) || incoming.username || `User ${incoming.userId}`,gameName: incoming.gameName || (existing && existing.gameName) || "",placeId: incoming.placeId || (existing && existing.placeId) || 0,jobId: incoming.jobId || (existing && existing.jobId) || "",sessionId: incoming.sessionId || (existing && existing.sessionId) || "",roleKey: (existing && cleanPlayerRoleAssignment(existing.roleKey || existing.role || existing.assignedRole)) || incoming.roleKey || "",firstSeen: existing && existing.firstSeen ? existing.firstSeen : new Date(now).toISOString(),firstSeenMs: existing && existing.firstSeenMs ? existing.firstSeenMs : now,lastSeen: new Date(now).toISOString(),lastSeenMs: now,};const before = existing ? JSON.stringify(existing) : "";knownPlayers.set(next.userId, next);return before !== JSON.stringify(next);}
 
 function markKnownPlayerOffline(userId, sessionId, now = Date.now(), identity = {}) {const id = cleanNumericId(userId);if (!id) {return false;}const existing = knownPlayers.get(id);if (!existing) {return false;}if (sessionId && existing.sessionId && existing.sessionId !== sessionId) {return false;}const username = cleanText(identity.username, 40);const displayName = cleanText(identity.displayName, 80);knownPlayers.set(id, {...existing,username: username || existing.username,displayName: displayName || existing.displayName,lastSeen: new Date(now).toISOString(),lastSeenMs: now,});return true;}
@@ -467,7 +415,6 @@ for (const [ip, state] of loginRateLimits) {
         loginRateLimits.delete(ip);
     }
 }
-prunePendingDashboardRegistrations();
 
 }
 
@@ -966,117 +913,100 @@ return { command };
 
 }
 
-function loginHtml(errorMessage = "", rememberedAccount = null, options = {}) {const errorBlock = errorMessage ? `<div class="login-error" role="alert">${escapeHtml(errorMessage)}</div>` : "";const noticeBlock = options.notice ? `<div class="login-notice" role="status">${escapeHtml(options.notice)}</div>` : "";const verificationEmail = cleanDashboardEmail(options.verificationEmail || "");const verificationUsername = cleanDashboardUsername(options.verificationUsername || "");const verificationBlock = verificationEmail ? `<section class="verify-card"><div class="eyebrow">E-MAIL BESTÄTIGEN</div><h2>Code eingeben</h2><p>Wir haben einen 6-stelligen Code an <b>${escapeHtml(verificationEmail)}</b> gesendet. Gib ihn hier ein, um den Account zu erstellen.</p><form method="post" action="/register/verify" autocomplete="one-time-code"><input type="hidden" name="email" value="${escapeHtml(verificationEmail)}"><div class="field"><label for="verificationCode">Bestätigungscode</label><input id="verificationCode" name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required></div><button type="submit">Account bestätigen</button></form></section><div class="login-divider"><span>oder anmelden</span></div>` : "";const rememberedBlock = rememberedAccount ? `<section class="remembered-account" aria-label="Gespeicherter Account">
-            <div class="remembered-heading">GESPEICHERTER ACCOUNT</div>
+function loginHtml(errorMessage = "", rememberedAccount = null, options = {}) {const errorBlock = errorMessage ? `<div class="login-error" role="alert">${escapeHtml(errorMessage)}</div>` : "";const noticeBlock = options.notice ? `<div class="login-notice" role="status">${escapeHtml(options.notice)}</div>` : "";const rememberedBlock = rememberedAccount ? `<section class="remembered-account" aria-label="Gespeicherter Account">
+            <div>
+                <b>${escapeHtml(rememberedAccount.username || "Gespeicherter Account")}</b>
+                <small>Zum direkten Anmelden klicken</small>
+            </div>
             <form method="post" action="/quick-login">
-                <button class="account-card" type="submit">
-                    <span class="account-avatar">${escapeHtml(String(rememberedAccount.username || "N").slice(0,1).toUpperCase())}</span>
-                    <span class="account-copy">
-                        <strong>${escapeHtml(rememberedAccount.username)}</strong>
-                        <small>${escapeHtml(rememberedAccount.email || "Zum direkten Anmelden klicken")}</small>
-                    </span>
-                    <span class="account-arrow">›</span>
-                </button>
+                <button type="submit">Direkt anmelden</button>
             </form>
             <form method="post" action="/forget-account">
-                <button class="forget-account" type="submit">Gespeicherten Account entfernen</button>
+                <button class="ghost" type="submit">Vergessen</button>
             </form>
         </section>
-        <div class="login-divider"><span>oder mit E-Mail anmelden</span></div>` : "";
-
-return String.raw`<!doctype html>
-
+        <div class="login-divider"><span>oder anmelden</span></div>` : "";return `<!doctype html>
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#03070e">
-<title>Nexu Anmeldung</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nexu Dashboard Login</title>
 <style>
-:root { --bg:#03070e; --panel:rgba(7,13,23,.94); --text:#dceef8; --muted:#7894a8; --cyan:#00c8ff; --violet:#6f46ff; --red:#ff4d78; --green:#2dffa5; }
 * { box-sizing:border-box; }
-body,body *:not(input):not(textarea) { -webkit-user-select:none !important; user-select:none !important; -webkit-touch-callout:none; }
-body *:not(input):not(textarea):not(button):not(a) { caret-color:transparent; cursor:default; }
-img,svg { -webkit-user-drag:none; user-drag:none; }
-input,textarea { -webkit-user-select:text !important; user-select:text !important; caret-color:auto; cursor:text; }
-button { -webkit-user-select:none !important; user-select:none !important; }
-html,body { margin:0; min-height:100%; }
-body { min-height:100vh; display:grid; place-items:center; padding:22px; color:var(--text); background:radial-gradient(circle at 18% 5%,rgba(0,200,255,.16),transparent 34rem),radial-gradient(circle at 88% 20%,rgba(111,70,255,.17),transparent 32rem),var(--bg); font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif; overflow:auto; }
-body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.25; background-image:linear-gradient(rgba(0,200,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.06) 1px,transparent 1px); background-size:32px 32px; mask-image:linear-gradient(to bottom,black,transparent 90%); }
-.scan { position:fixed; left:0; right:0; top:-2px; height:1px; pointer-events:none; background:linear-gradient(90deg,transparent,rgba(0,200,255,.9),transparent); box-shadow:0 0 22px rgba(0,200,255,.8); animation:scan 7s linear infinite; }
-@keyframes scan { from { transform:translateY(0); opacity:0; } 8%,92% { opacity:.7; } to { transform:translateY(100vh); opacity:0; } }
-.login-card { position:relative; z-index:1; width:min(920px,100%); padding:30px; border:1px solid rgba(74,178,230,.34); border-radius:24px; background:linear-gradient(145deg,rgba(0,200,255,.075),rgba(111,70,255,.055)),var(--panel); box-shadow:0 30px 100px rgba(0,0,0,.58),0 0 42px rgba(0,200,255,.08); backdrop-filter:blur(18px); }
-.brand { display:flex; align-items:center; gap:13px; margin-bottom:25px; }
-.logo { width:48px; height:48px; display:grid; place-items:center; border-radius:50%; color:white; font-size:20px; font-weight:900; background:linear-gradient(145deg,var(--cyan),var(--violet)); box-shadow:0 0 26px rgba(0,200,255,.24); }
-.brand strong { display:block; font-size:21px; }
-.brand span { display:block; margin-top:2px; color:var(--muted); font-size:11px; letter-spacing:.14em; text-transform:uppercase; }
-.eyebrow { color:var(--cyan); font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
-h1 { margin:7px 0 8px; font-size:28px; line-height:1.1; }
-h2 { margin:8px 0 8px; font-size:21px; }
-p { margin:0 0 18px; color:var(--muted); font-size:13px; line-height:1.6; }
-.auth-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; }
-.auth-panel,.verify-card,.remembered-account { padding:18px; border:1px solid rgba(0,200,255,.22); border-radius:18px; background:rgba(3,10,18,.62); }
-.verify-card { margin-bottom:18px; border-color:rgba(45,255,165,.32); background:rgba(7,38,28,.5); }
-label { display:block; margin:0 0 7px; color:#a8c2d4; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-.field { margin-bottom:14px; }
-input { width:100%; height:48px; border:1px solid rgba(74,178,230,.3); border-radius:13px; outline:none; padding:0 14px; color:var(--text); background:rgba(3,8,15,.84); font:inherit; transition:border-color .16s ease,box-shadow .16s ease; }
-input:focus { border-color:var(--cyan); box-shadow:0 0 0 3px rgba(0,200,255,.09); }
-button { width:100%; min-height:49px; margin-top:5px; border:1px solid rgba(0,200,255,.55); border-radius:13px; color:#e9f9ff; background:linear-gradient(135deg,rgba(0,200,255,.24),rgba(111,70,255,.22)); font:inherit; font-size:12px; font-weight:850; letter-spacing:.09em; text-transform:uppercase; cursor:pointer; }
-button:hover { border-color:var(--cyan); box-shadow:0 0 22px rgba(0,200,255,.12); }
-.remembered-account { margin:0 0 18px; }
-.remembered-heading { margin:0 0 9px; color:#6f93aa; font-size:9px; font-weight:850; letter-spacing:.15em; }
-.account-card { height:auto; min-height:64px; margin:0; display:grid; grid-template-columns:42px minmax(0,1fr) 20px; align-items:center; gap:11px; padding:10px 12px; text-align:left; text-transform:none; letter-spacing:0; background:linear-gradient(135deg,rgba(0,200,255,.13),rgba(111,70,255,.12)); }
-.account-avatar { width:42px; height:42px; display:grid; place-items:center; border-radius:50%; color:white; font-size:17px; font-weight:950; background:linear-gradient(145deg,var(--cyan),var(--violet)); box-shadow:0 0 18px rgba(0,200,255,.18); }
-.account-copy { min-width:0; }
-.account-copy strong { display:block; overflow:hidden; color:#eefaff; font-size:14px; text-overflow:ellipsis; white-space:nowrap; }
-.account-copy small { display:block; margin-top:4px; color:#7894a8; font-size:10px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.account-arrow { color:var(--cyan); font-size:25px; line-height:1; text-align:right; }
-.forget-account { min-height:0; margin:9px 0 0; padding:4px 0 0; border:0; color:#70899b; background:transparent; box-shadow:none; font-size:9px; letter-spacing:.08em; }
-.forget-account:hover { color:#ff9fb4; border:0; box-shadow:none; }
-.login-divider { display:flex; align-items:center; gap:10px; margin:0 0 18px; color:#526d80; font-size:9px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-.login-divider::before,.login-divider::after { content:""; flex:1; height:1px; background:rgba(74,178,230,.18); }
-.login-error,.login-notice { margin:0 0 16px; padding:11px 12px; border-radius:11px; font-size:12px; }
-.login-error { border:1px solid rgba(255,77,120,.38); color:#ffb0c1; background:rgba(55,7,20,.58); }
-.login-notice { border:1px solid rgba(45,255,165,.32); color:#b8ffdc; background:rgba(7,45,30,.58); }
-.security-note { margin:18px 0 0; text-align:center; color:#557084; font-size:11px; }
-@media (max-width:820px) { .auth-grid { grid-template-columns:1fr; } .login-card { padding:22px; } }
+html,body { margin:0; min-height:100%; font-family:Inter,Segoe UI,Arial,sans-serif; background:#02050a; color:#dceef8; }
+body { display:flex; align-items:center; justify-content:center; padding:28px; overflow-x:hidden; }
+body:before { content:""; position:fixed; inset:-20%; background:radial-gradient(circle at 20% 15%, rgba(0,200,255,.22), transparent 34%),radial-gradient(circle at 82% 72%, rgba(111,70,255,.16), transparent 38%),linear-gradient(135deg,#02050a,#06101d 55%,#02050a); z-index:-2; }
+body:after { content:""; position:fixed; inset:0; background:linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px, transparent 1px); background-size:42px 42px; mask-image:radial-gradient(circle at center, black, transparent 75%); z-index:-1; }
+.login-shell { width:min(920px,100%); display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:stretch; }
+.brand-card,.auth-card { border:1px solid rgba(0,200,255,.26); border-radius:26px; background:rgba(3,10,18,.78); box-shadow:0 28px 90px rgba(0,0,0,.45), inset 0 0 28px rgba(0,200,255,.04); backdrop-filter: blur(14px); }
+.brand-card { padding:34px; position:relative; overflow:hidden; }
+.brand-card:before { content:""; position:absolute; inset:-80px auto auto -80px; width:240px; height:240px; border-radius:50%; background:rgba(0,200,255,.16); filter:blur(18px); }
+.logo { width:78px; height:78px; border-radius:22px; display:grid; place-items:center; color:#fff; font-size:32px; font-weight:950; letter-spacing:-2px; background:linear-gradient(135deg,#00c8ff,#6f46ff); box-shadow:0 0 36px rgba(0,200,255,.35); margin-bottom:24px; }
+h1 { margin:0; font-size:42px; letter-spacing:-1.8px; line-height:1; }
+p { color:#8fa8ba; line-height:1.6; margin:14px 0 0; }
+.statline { margin-top:30px; display:grid; gap:12px; }
+.stat { padding:14px 16px; border:1px solid rgba(255,255,255,.08); border-radius:16px; background:rgba(255,255,255,.035); }
+.stat b { display:block; color:#fff; font-size:13px; letter-spacing:.12em; text-transform:uppercase; }
+.stat span { color:#6cdfff; font-size:12px; }
+.auth-card { padding:24px; }
+.auth-grid { display:grid; gap:16px; }
+.auth-panel,.remembered-account { padding:18px; border:1px solid rgba(0,200,255,.22); border-radius:18px; background:rgba(3,10,18,.62); }
+.auth-panel h2 { margin:0 0 12px; font-size:19px; }
+.field { display:grid; gap:7px; margin-bottom:12px; }
+label { color:#a7bed0; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.12em; }
+input { width:100%; border:1px solid rgba(0,200,255,.28); border-radius:12px; background:#07131f; color:#fff; padding:12px 13px; outline:none; }
+input:focus { border-color:#00c8ff; box-shadow:0 0 0 3px rgba(0,200,255,.14); }
+button,.button-link { width:100%; border:0; border-radius:13px; background:linear-gradient(135deg,#00c8ff,#2f75ff); color:#fff; font-weight:950; letter-spacing:.08em; text-transform:uppercase; padding:12px 14px; cursor:pointer; box-shadow:0 12px 24px rgba(0,123,255,.22); text-decoration:none; display:inline-flex; justify-content:center; }
+button.ghost { background:rgba(255,255,255,.06); box-shadow:none; border:1px solid rgba(255,255,255,.1); color:#bed2df; }
+.login-error,.login-notice { margin-bottom:16px; border-radius:14px; padding:12px 14px; font-weight:800; }
+.login-error { background:rgba(255,48,72,.14); border:1px solid rgba(255,48,72,.3); color:#ff9aa8; }
+.login-notice { background:rgba(45,255,165,.12); border:1px solid rgba(45,255,165,.25); color:#aaffdc; }
+.login-divider { display:flex; align-items:center; gap:12px; color:#6f8496; font-size:12px; font-weight:900; text-transform:uppercase; letter-spacing:.14em; margin:2px 0; }
+.login-divider:before,.login-divider:after { content:""; height:1px; background:rgba(255,255,255,.1); flex:1; }
+.remembered-account { display:grid; grid-template-columns:1fr auto auto; gap:10px; align-items:center; }
+.remembered-account small { display:block; color:#7894a8; margin-top:3px; }
+.remembered-account button { width:auto; padding:10px 12px; font-size:11px; }
+@media (max-width:820px) { .login-shell { grid-template-columns:1fr; } body { align-items:flex-start; } }
 </style>
 </head>
 <body>
-<div class="scan"></div>
-<main class="login-card">
-    <div class="brand"><div class="logo">N</div><div><strong>Nexu</strong><span>Account Login</span></div></div>
-    <div class="eyebrow">GESCHÜTZTER ZUGANG</div>
-    <h1>Anmelden oder registrieren</h1>
-    <p>Accounts melden sich jetzt mit E-Mail und Passwort an. Neue Accounts müssen die E-Mail per Code bestätigen.</p>
-    ${errorBlock}${noticeBlock}${verificationBlock}${rememberedBlock}
-    <div class="auth-grid">
-        <section class="auth-panel">
-            <div class="eyebrow">LOGIN</div>
-            <h2>Anmelden</h2>
-            <form method="post" action="/login" autocomplete="on">
-                <div class="field"><label for="email">E-Mail</label><input id="email" name="email" type="email" maxlength="254" autocomplete="email" required autofocus></div>
-                <div class="field"><label for="password">Passwort</label><input id="password" name="password" type="password" maxlength="200" autocomplete="current-password" required></div>
-                <button type="submit">Anmelden</button>
-            </form>
-        </section>
-        <section class="auth-panel">
-            <div class="eyebrow">REGISTRIEREN</div>
-            <h2>Account erstellen</h2>
-            <form method="post" action="/register/request" autocomplete="on">
-                <div class="field"><label for="registerUsername">Benutzername</label><input id="registerUsername" name="username" type="text" maxlength="80" autocomplete="username" value="${escapeHtml(verificationUsername)}" required></div>
-                <div class="field"><label for="registerEmail">E-Mail</label><input id="registerEmail" name="email" type="email" maxlength="254" autocomplete="email" value="${escapeHtml(verificationEmail)}" required></div>
-                <div class="field"><label for="registerPassword">Passwort</label><input id="registerPassword" name="password" type="password" maxlength="200" autocomplete="new-password" required></div>
-                <div class="field"><label for="registerConfirmPassword">Passwort bestätigen</label><input id="registerConfirmPassword" name="confirmPassword" type="password" maxlength="200" autocomplete="new-password" required></div>
-                <button type="submit">Registrieren</button>
-            </form>
-        </section>
-    </div>
-    <div class="security-note">NEXU // E-MAIL ACCOUNT SYSTEM</div>
+<main class="login-shell">
+    <section class="brand-card">
+        <div class="logo">N</div>
+        <h1>Nexu</h1>
+        <p>Privates Dashboard für Menu Server, gespeicherte Spieler, Rollen, Bring, DM und Server-Join.</p>
+        <div class="statline">
+            <div class="stat"><b>Account Login</b><span>Benutzername + Passwort</span></div>
+            <div class="stat"><b>Menu Server</b><span>nur OwnerAccount</span></div>
+            <div class="stat"><b>Accounts</b><span>Registrieren, Einstellungen und Löschen</span></div>
+        </div>
+    </section>
+    <section class="auth-card">
+        <p>Melde dich mit Benutzername und Passwort an. Neue Accounts können direkt registriert werden.</p>
+        ${errorBlock}${noticeBlock}${rememberedBlock}
+        <div class="auth-grid">
+            <section class="auth-panel">
+                <h2>Anmelden</h2>
+                <form method="post" action="/login" autocomplete="on">
+                    <div class="field"><label for="username">Benutzername</label><input id="username" name="username" type="text" maxlength="80" autocomplete="username" required autofocus></div>
+                    <div class="field"><label for="password">Passwort</label><input id="password" name="password" type="password" maxlength="200" autocomplete="current-password" required></div>
+                    <button type="submit">Anmelden</button>
+                </form>
+            </section>
+            <section class="auth-panel">
+                <h2>Registrieren</h2>
+                <form method="post" action="/register/request" autocomplete="on">
+                    <div class="field"><label for="registerUsername">Benutzername</label><input id="registerUsername" name="username" type="text" maxlength="80" autocomplete="username" required></div>
+                    <div class="field"><label for="registerPassword">Passwort</label><input id="registerPassword" name="password" type="password" maxlength="200" autocomplete="new-password" required></div>
+                    <div class="field"><label for="registerConfirmPassword">Passwort bestätigen</label><input id="registerConfirmPassword" name="confirmPassword" type="password" maxlength="200" autocomplete="new-password" required></div>
+                    <button type="submit">Registrieren</button>
+                </form>
+            </section>
+        </div>
+    </section>
 </main>
 </body>
-</html>`;
-}
+</html>`;}
 
 function homeHtml(notice = "", error = "", account = null) {const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = accountName === OWNER_ACCOUNT_USERNAME;const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = isOwnerAccount
     ? '<a class="primary-tile menu-server" href="/menu-server"><span>MENU SERVER</span><strong>Spieler-Dashboard öffnen</strong><small>Nur OwnerAccount</small></a>'
@@ -1169,7 +1099,7 @@ p { margin:0; color:var(--muted); line-height:1.65; }
         <div class="panel action-grid">
             ${menuServerButton}
             <div class="quick-info">
-                <article class="info-card"><div class="info-label">Account</div><div class="info-value">${escapeHtml(accountName)}</div><p>${escapeHtml(accountEmail)}</p></article>
+                <article class="info-card"><div class="info-label">Account</div><div class="info-value">${escapeHtml(accountName)}</div><p>Benutzername-Login aktiv</p></article>
                 <article class="info-card"><div class="info-label">Menu Server Zugriff</div><div class="info-value">${isOwnerAccount ? "Erlaubt" : "Gesperrt"}</div></article>
             </div>
         </div>
@@ -1179,8 +1109,8 @@ p { margin:0; color:var(--muted); line-height:1.65; }
     <form class="modal-card" method="post" action="/account/settings" autocomplete="on">
         <div class="eyebrow">ACCOUNT SETTINGS</div>
         <h2>Account bearbeiten</h2>
-        <p>Benutzername und Passwort werden serverseitig gespeichert. Die E-Mail bleibt mit diesem Account verknüpft.</p>
-        <div class="field"><label for="accountEmail">E-Mail</label><input id="accountEmail" type="email" value="${escapeHtml(accountEmail)}" disabled></div><div class="field"><label for="newUsername">Benutzername</label><input id="newUsername" name="newUsername" type="text" maxlength="80" value="${escapeHtml(accountName)}" autocomplete="username" required></div>
+        <p>Benutzername und Passwort werden serverseitig gespeichert. Registrierung läuft ohne Bestätigungscode.</p>
+        <div class="field"><label for="newUsername">Benutzername</label><input id="newUsername" name="newUsername" type="text" maxlength="80" value="${escapeHtml(accountName)}" autocomplete="username" required></div>
         <div class="field"><label for="currentPassword">Aktuelles Passwort</label><input id="currentPassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div>
         <div class="field"><label for="newPassword">Neues Passwort</label><input id="newPassword" name="newPassword" type="password" maxlength="200" autocomplete="new-password" placeholder="Leer lassen, wenn gleich bleiben soll"></div>
         <div class="field"><label for="confirmPassword">Neues Passwort bestätigen</label><input id="confirmPassword" name="confirmPassword" type="password" maxlength="200" autocomplete="new-password"></div>
@@ -2265,9 +2195,9 @@ if (req.method === "POST" && pathname === "/login") {
         }
 
         const form = await readFormBody(req);
-        const email = cleanDashboardEmail(form.email || form.username);
+        const username = cleanDashboardUsername(form.username || form.email);
         const password = String(form.password || "");
-        const account = getDashboardAccountByEmail(email);
+        const account = getDashboardAccountByUsername(username);
         const validLogin = Boolean(account && validDashboardAccountPassword(account, password));
 
         if (!validLogin) {
@@ -2275,7 +2205,7 @@ if (req.method === "POST" && pathname === "/login") {
             sendHtml(
                 res,
                 401,
-                loginHtml("E-Mail oder Passwort ist falsch.", getRememberedDashboardAccount(req))
+                loginHtml("Benutzername oder Passwort ist falsch.", getRememberedDashboardAccount(req))
             );
             return;
         }
@@ -2482,97 +2412,31 @@ if (req.method === "POST" && pathname === "/register/request") {
         }
         const form = await readFormBody(req);
         const username = cleanDashboardUsername(form.username);
-        const email = cleanDashboardEmail(form.email);
         const password = String(form.password || "");
         const confirmPassword = String(form.confirmPassword || "");
         if (!username) {
-            sendHtml(res, 400, loginHtml("Benutzername ungültig. Erlaubt sind 3-80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: form.username}));
-            return;
-        }
-        if (!email) {
-            sendHtml(res, 400, loginHtml("Bitte eine gültige E-Mail eingeben.", getRememberedDashboardAccount(req), {verificationUsername: username}));
-            return;
-        }
-        if (getDashboardAccountByEmail(email)) {
-            sendHtml(res, 409, loginHtml("Diese E-Mail ist bereits registriert.", getRememberedDashboardAccount(req)));
+            sendHtml(res, 400, loginHtml("Benutzername ungültig. Erlaubt sind 3-80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", getRememberedDashboardAccount(req)));
             return;
         }
         if (dashboardUsernameExists(username)) {
-            sendHtml(res, 409, loginHtml("Dieser Benutzername ist bereits vergeben.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: username}));
+            sendHtml(res, 409, loginHtml("Dieser Benutzername ist bereits vergeben.", getRememberedDashboardAccount(req)));
             return;
         }
         if (password.length < 8) {
-            sendHtml(res, 400, loginHtml("Das Passwort muss mindestens 8 Zeichen haben.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: username}));
+            sendHtml(res, 400, loginHtml("Das Passwort muss mindestens 8 Zeichen haben.", getRememberedDashboardAccount(req)));
             return;
         }
         if (password !== confirmPassword) {
-            sendHtml(res, 400, loginHtml("Passwörter stimmen nicht überein.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: username}));
-            return;
-        }
-        if (!allowVerificationEmail(req, email)) {
-            sendHtml(res, 429, loginHtml("Zu viele Codes für diese E-Mail. Bitte später erneut versuchen.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: username}));
-            return;
-        }
-        const code = createVerificationCode();
-        pendingDashboardRegistrations.set(email, {
-            username,
-            email,
-            passwordHash: sha256Hex(password),
-            codeHash: sha256Hex(code),
-            createdAt: new Date().toISOString(),
-            expiresAtMs: Date.now() + EMAIL_VERIFICATION_TTL_MS,
-            attempts: 0,
-        });
-        const mailResult = await sendDashboardVerificationEmail(email, username, code);
-        const notice = mailResult.sent
-            ? "Bestätigungscode wurde an deine E-Mail gesendet."
-            : "E-Mail-Service ist noch nicht konfiguriert. Der Code steht in den Render-Logs.";
-        sendHtml(res, 200, loginHtml("", getRememberedDashboardAccount(req), {notice, verificationEmail: email, verificationUsername: username}));
-    } catch (error) {
-        const message = error.message === "EMAIL_SEND_FAILED"
-            ? "Bestätigungsmail konnte nicht gesendet werden. Prüfe RESEND_API_KEY und RESEND_FROM_EMAIL in Render."
-            : error.message === "BODY_TOO_LARGE"
-                ? "Registrierungsdaten sind zu groß."
-                : "Registrierung konnte nicht verarbeitet werden.";
-        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, loginHtml(message, getRememberedDashboardAccount(req)));
-    }
-    return;
-}
-
-if (req.method === "POST" && pathname === "/register/verify") {
-    try {
-        const form = await readFormBody(req);
-        const email = cleanDashboardEmail(form.email);
-        const code = cleanText(form.code, 12).replace(/\D/g, "");
-        prunePendingDashboardRegistrations();
-        const pending = pendingDashboardRegistrations.get(email);
-        if (!pending) {
-            sendHtml(res, 400, loginHtml("Der Bestätigungscode ist abgelaufen oder ungültig.", getRememberedDashboardAccount(req), {verificationEmail: email}));
-            return;
-        }
-        pending.attempts = (pending.attempts || 0) + 1;
-        if (pending.attempts > 8) {
-            pendingDashboardRegistrations.delete(email);
-            sendHtml(res, 429, loginHtml("Zu viele falsche Codes. Bitte Registrierung neu starten.", getRememberedDashboardAccount(req)));
-            return;
-        }
-        if (!code || pending.codeHash !== sha256Hex(code)) {
-            sendHtml(res, 403, loginHtml("Bestätigungscode ist falsch.", getRememberedDashboardAccount(req), {verificationEmail: email, verificationUsername: pending.username}));
-            return;
-        }
-        if (getDashboardAccountByEmail(email) || dashboardUsernameExists(pending.username)) {
-            pendingDashboardRegistrations.delete(email);
-            sendHtml(res, 409, loginHtml("Account existiert bereits. Bitte anmelden.", getRememberedDashboardAccount(req)));
+            sendHtml(res, 400, loginHtml("Passwörter stimmen nicht überein.", getRememberedDashboardAccount(req)));
             return;
         }
         const account = putDashboardAccount({
-            username: pending.username,
-            email: pending.email,
-            passwordHash: pending.passwordHash,
+            username,
+            email: internalDashboardEmailForUsername(username),
+            passwordHash: sha256Hex(password),
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         });
-        pendingDashboardRegistrations.delete(email);
         if (!account || !saveDashboardAccount()) {
             sendHtml(res, 500, loginHtml("Account konnte nicht gespeichert werden.", getRememberedDashboardAccount(req)));
             return;
@@ -2582,8 +2446,16 @@ if (req.method === "POST" && pathname === "/register/verify") {
         const rememberToken = createRememberedDashboardDevice(account);
         redirect(res, "/", {"Set-Cookie": [dashboardCookie(req, token, DASHBOARD_SESSION_TTL_MS / 1000), dashboardRememberCookie(req, rememberToken, DASHBOARD_REMEMBER_TTL_MS / 1000)]});
     } catch (error) {
-        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, loginHtml("Bestätigung konnte nicht verarbeitet werden.", getRememberedDashboardAccount(req)));
+        const message = error.message === "BODY_TOO_LARGE"
+            ? "Registrierungsdaten sind zu groß."
+            : "Registrierung konnte nicht verarbeitet werden.";
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, loginHtml(message, getRememberedDashboardAccount(req)));
     }
+    return;
+}
+
+if (req.method === "POST" && pathname === "/register/verify") {
+    redirect(res, "/login");
     return;
 }
 
