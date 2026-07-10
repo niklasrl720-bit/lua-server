@@ -1,37 +1,8 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
-// V148: Neustartfeste, signierte Dashboard-Sitzungen und stabiler Owner-Rundsendungszugriff.
-// V150: Website und Lua-Menü verwenden dieselbe autoritative Active-Presence-Liste.
-// V152: Stabile Online-Anzeige mit Heartbeat-Toleranz und ohne falschen Nullstand bei einzelnen Dashboard-Fehlern.
-// V153: Autoritative Lease-Presence, revisionsbasierte Aktualisierung und keine nutzlosen Player-Speichercommits.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 40_000);return Number.isFinite(configured) ? Math.min(90_000, Math.max(25_000, Math.floor(configured))) : 40_000;})();const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 90_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(ONLINE_TIMEOUT_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = Math.max(90_000, Math.min(300_000, Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000) || 120_000));const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
 
-const GITHUB_DATA_TOKEN = String(process.env.GITHUB_DATA_TOKEN || "").trim();
-const GITHUB_DATA_OWNER = String(process.env.GITHUB_DATA_OWNER || "").trim();
-const GITHUB_DATA_REPO = String(process.env.GITHUB_DATA_REPO || "").trim();
-const GITHUB_DATA_BRANCH = String(process.env.GITHUB_DATA_BRANCH || "main").trim() || "main";
-const GITHUB_DATA_PATH = String(process.env.GITHUB_DATA_PATH || "data/nexu-storage.json").trim() || "data/nexu-storage.json";
-const GITHUB_STORAGE_API_VERSION = "2022-11-28";
-const GITHUB_STORAGE_USER_AGENT = "Nexu-Presence-Storage/1.0";
-const GITHUB_STORAGE_DEFAULT_DELAY_MS = 12_000;
-const GITHUB_DATA_IS_DEPLOY_BRANCH = /^(main|master)$/i.test(GITHUB_DATA_BRANCH);
-const GITHUB_PLAYER_AUTOSAVE_ENABLED = !GITHUB_DATA_IS_DEPLOY_BRANCH || String(process.env.GITHUB_PLAYER_AUTOSAVE_ON_DEPLOY_BRANCH || "").toLowerCase() === "true";
-const DASHBOARD_SESSION_TOKEN_VERSION = "nxs2";
-const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SECRET || "").trim() || crypto
-    .createHash("sha256")
-    .update([
-        DASHBOARD_DEFAULT_PASSWORD_HASH,
-        HEARTBEAT_TOKEN,
-        GITHUB_DATA_TOKEN,
-        DASHBOARD_DEFAULT_EMAIL,
-        OWNER_ACCOUNT_USERNAME,
-    ].join("|"), "utf8")
-    .digest("hex");
-
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
-let latestGlobalShutdownCommand = null;
-let presenceRevision = 1;
-let presenceSnapshotSignature = "";
+const presence = new Map();const knownPlayers = new Map();let presenceRevision = 1;const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};
 
 function sendJson(res, statusCode, data, extraHeaders = {}) {res.writeHead(statusCode, {"Content-Type": "application/json; charset=utf-8","Cache-Control": "no-store","X-Content-Type-Options": "nosniff",...extraHeaders,});res.end(JSON.stringify(data));}
 
@@ -46,256 +17,6 @@ function cleanText(value, maxLength) {return typeof value === "string"? value.tr
 function cleanNumericId(value) {const text = String(value ?? "").trim();return /^\d{1,30}$/.test(text) ? text : "";}
 
 function cleanInteger(value) {const number = Number(value);return Number.isSafeInteger(number) && number >= 0 ? number : 0;}
-
-function isGitHubStorageConfigured() {
-    return Boolean(
-        GITHUB_DATA_TOKEN &&
-        GITHUB_DATA_OWNER &&
-        GITHUB_DATA_REPO &&
-        GITHUB_DATA_BRANCH &&
-        GITHUB_DATA_PATH
-    );
-}
-
-function githubStorageEndpoint() {
-    const encodedPath = GITHUB_DATA_PATH
-        .split("/")
-        .map((part) => encodeURIComponent(part))
-        .join("/");
-    return `https://api.github.com/repos/${encodeURIComponent(GITHUB_DATA_OWNER)}/${encodeURIComponent(GITHUB_DATA_REPO)}/contents/${encodedPath}`;
-}
-
-function githubStorageHeaders(extra = {}) {
-    return {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${GITHUB_DATA_TOKEN}`,
-        "X-GitHub-Api-Version": GITHUB_STORAGE_API_VERSION,
-        "User-Agent": GITHUB_STORAGE_USER_AGENT,
-        ...extra,
-    };
-}
-
-function decodeGitHubBase64(value) {
-    return Buffer.from(String(value || "").replace(/\s+/g, ""), "base64").toString("utf8");
-}
-
-function encodeGitHubBase64(value) {
-    return Buffer.from(String(value || ""), "utf8").toString("base64");
-}
-
-function normalizeStoredBan(raw) {
-    const userId = cleanNumericId(raw && raw.userId);
-    if (!userId) return null;
-    return {
-        userId,
-        username: cleanText(raw && raw.username, 40),
-        displayName: cleanText(raw && raw.displayName, 80),
-        reason: cleanText(raw && raw.reason, 240) || "Vom Nexu-Menü ausgeschlossen",
-        bannedAt: cleanText(raw && raw.bannedAt, 64) || new Date().toISOString(),
-        bannedBy: cleanText(raw && raw.bannedBy, 80) || "dashboard",
-    };
-}
-
-function buildGitHubStorageSnapshot() {
-    return {
-        version: 1,
-        updatedAt: new Date().toISOString(),
-        players: [...knownPlayers.values()].sort(
-            (a, b) => (Number(b.lastSeenMs) || 0) - (Number(a.lastSeenMs) || 0)
-        ),
-        bans: [...bans.values()].sort((a, b) =>
-            String(a.displayName || a.username || a.userId).localeCompare(
-                String(b.displayName || b.username || b.userId),
-                "de",
-                { sensitivity: "base" }
-            )
-        ),
-        updateState: getMenuUpdateStatus(),
-    };
-}
-
-function applyGitHubStorageSnapshot(payload) {
-    const source = payload && typeof payload === "object" ? payload : {};
-    const playerRows = Array.isArray(source.players) ? source.players : [];
-    const banRows = Array.isArray(source.bans) ? source.bans : [];
-
-    knownPlayers.clear();
-    for (const raw of playerRows) {
-        const playerEntry = normalizeKnownPlayer(raw);
-        if (playerEntry) knownPlayers.set(playerEntry.userId, playerEntry);
-    }
-
-    bans.clear();
-    for (const raw of banRows) {
-        const banEntry = normalizeStoredBan(raw);
-        if (banEntry) bans.set(banEntry.userId, banEntry);
-    }
-
-    menuUpdateState = normalizeMenuUpdateState(source.updateState || source.update || {});
-}
-
-async function fetchGitHubStorageFile() {
-    const endpoint = `${githubStorageEndpoint()}?ref=${encodeURIComponent(GITHUB_DATA_BRANCH)}`;
-    const response = await fetch(endpoint, {
-        method: "GET",
-        headers: githubStorageHeaders(),
-    });
-
-    if (response.status === 404) {
-        return { exists: false, sha: "", payload: { players: [], bans: [], updateState: null } };
-    }
-
-    const body = await response.json().catch(() => ({}));
-    if (!response.ok) {
-        throw new Error(
-            `GitHub-Speicher konnte nicht gelesen werden: HTTP ${response.status}` +
-            (body && body.message ? ` // ${body.message}` : "")
-        );
-    }
-
-    const rawText = decodeGitHubBase64(body.content || "");
-    const payload = rawText ? JSON.parse(rawText) : {};
-    return {
-        exists: true,
-        sha: cleanText(body.sha, 100),
-        payload,
-    };
-}
-
-async function loadGitHubStorage() {
-    if (!isGitHubStorageConfigured()) {
-        console.warn("[NEXU] GitHub-Speicher ist nicht vollständig konfiguriert; lokale JSON-Dateien bleiben als Fallback aktiv.");
-        githubStorageReady = true;
-        return false;
-    }
-
-    try {
-        const remote = await fetchGitHubStorageFile();
-        githubStorageSha = remote.sha || "";
-        applyGitHubStorageSnapshot(remote.payload);
-        githubStorageReady = true;
-
-        // Lokale Fallback-Dateien aktualisieren, damit der Server auch bei einem
-        // vorübergehenden GitHub-Ausfall mit dem letzten Stand weiterarbeiten kann.
-        saveKnownPlayers(false);
-        saveBans(false);
-        saveMenuUpdateState(false);
-
-        console.log(
-            `[NEXU] GitHub-Speicher geladen: ${knownPlayers.size} Spieler, ` +
-            `${bans.size} Bans, Update ${menuUpdateState.active ? "AKTIV" : "INAKTIV"}`
-        );
-
-        if (!remote.exists) {
-            scheduleGitHubStorageSave("initial-create", 1_000);
-        }
-        return true;
-    } catch (error) {
-        githubStorageReady = true;
-        console.warn("[NEXU] GitHub-Speicher konnte nicht geladen werden:", error.message);
-        return false;
-    }
-}
-
-async function writeGitHubStorageNow() {
-    if (!githubStorageReady || !isGitHubStorageConfigured() || !githubStorageDirty) {
-        return false;
-    }
-
-    const snapshot = buildGitHubStorageSnapshot();
-    const content = encodeGitHubBase64(JSON.stringify(snapshot, null, 2));
-    const reasons = [...githubStorageReasons];
-    githubStorageReasons.clear();
-    githubStorageDirty = false;
-
-    const writeAttempt = async (refreshSha) => {
-        if (refreshSha || !githubStorageSha) {
-            const remote = await fetchGitHubStorageFile();
-            githubStorageSha = remote.sha || "";
-        }
-
-        const body = {
-            message: `Nexu data update${reasons.length ? `: ${reasons.slice(0, 4).join(", ")}` : ""}`,
-            content,
-            branch: GITHUB_DATA_BRANCH,
-        };
-        if (githubStorageSha) body.sha = githubStorageSha;
-
-        const response = await fetch(githubStorageEndpoint(), {
-            method: "PUT",
-            headers: githubStorageHeaders({ "Content-Type": "application/json" }),
-            body: JSON.stringify(body),
-        });
-        const payload = await response.json().catch(() => ({}));
-        if (!response.ok) {
-            const error = new Error(
-                `GitHub-Speicher konnte nicht geschrieben werden: HTTP ${response.status}` +
-                (payload && payload.message ? ` // ${payload.message}` : "")
-            );
-            error.statusCode = response.status;
-            throw error;
-        }
-
-        githubStorageSha = cleanText(
-            payload && payload.content && payload.content.sha,
-            100
-        ) || githubStorageSha;
-        console.log(
-            `[NEXU] GitHub-Speicher aktualisiert (${knownPlayers.size} Spieler, ${bans.size} Bans).`
-        );
-        return true;
-    };
-
-    try {
-        return await writeAttempt(false);
-    } catch (error) {
-        if (error && (error.statusCode === 409 || error.statusCode === 422)) {
-            try {
-                return await writeAttempt(true);
-            } catch (retryError) {
-                githubStorageDirty = true;
-                for (const reason of reasons) githubStorageReasons.add(reason);
-                console.warn("[NEXU] GitHub-Speicher Retry fehlgeschlagen:", retryError.message);
-                return false;
-            }
-        }
-
-        githubStorageDirty = true;
-        for (const reason of reasons) githubStorageReasons.add(reason);
-        console.warn("[NEXU] GitHub-Speicher fehlgeschlagen:", error.message);
-        return false;
-    }
-}
-
-function scheduleGitHubStorageSave(reason = "change", delayMs = GITHUB_STORAGE_DEFAULT_DELAY_MS) {
-    if (!githubStorageReady || !isGitHubStorageConfigured()) return false;
-
-    githubStorageDirty = true;
-    githubStorageReasons.add(cleanText(reason, 80) || "change");
-
-    const safeDelay = Math.max(500, Math.min(10 * 60_000, Number(delayMs) || GITHUB_STORAGE_DEFAULT_DELAY_MS));
-    const desiredDueAt = Date.now() + safeDelay;
-
-    if (githubStorageTimer && githubStorageDueAtMs <= desiredDueAt) {
-        return true;
-    }
-
-    if (githubStorageTimer) clearTimeout(githubStorageTimer);
-    githubStorageDueAtMs = desiredDueAt;
-    githubStorageTimer = setTimeout(() => {
-        githubStorageTimer = null;
-        githubStorageDueAtMs = 0;
-        githubStorageWriteChain = githubStorageWriteChain
-            .then(() => writeGitHubStorageNow())
-            .catch((error) => {
-                githubStorageDirty = true;
-                console.warn("[NEXU] GitHub-Speicherwarteschlange:", error.message);
-            });
-    }, safeDelay);
-    if (typeof githubStorageTimer.unref === "function") githubStorageTimer.unref();
-    return true;
-}
-
 
 function cleanPlayerRoleAssignment(value) {const role = String(value ?? "").trim().toLowerCase();if (role === "players") {return "player";}return PLAYER_ROLE_KEYS.has(role) ? role : "";}
 
@@ -338,52 +59,11 @@ return supplied === HEARTBEAT_TOKEN;
 
 }
 
-function isPresenceEntryActive(entry, now = Date.now()) {return Boolean(entry && entry.userId && !bans.has(entry.userId) && Number.isFinite(Number(entry.lastSeenMs)) && now - Number(entry.lastSeenMs) <= ACTIVE_PRESENCE_WINDOW_MS);}
+function bumpPresenceRevision() { presenceRevision = (presenceRevision + 1) % Number.MAX_SAFE_INTEGER; if (presenceRevision < 1) presenceRevision = 1; }
 
-function getLatestActivePresenceByUser(now = Date.now()) {
-    const latestByUserId = new Map();
-    for (const row of presence.values()) {
-        if (!isPresenceEntryActive(row, now)) continue;
-        const current = latestByUserId.get(row.userId);
-        if (!current || Number(row.lastSeenMs) > Number(current.lastSeenMs)) {
-            latestByUserId.set(row.userId, row);
-        }
-    }
-    return latestByUserId;
-}
+function getPresenceSnapshotToken() { return `v154-${presenceRevision}`; }
 
-function buildPresenceSnapshotSignature(now = Date.now()) {
-    const rows = [...getLatestActivePresenceByUser(now).values()]
-        .sort((a, b) => String(a.userId).localeCompare(String(b.userId)))
-        .map((row) => [
-            row.userId,
-            row.sessionId,
-            row.username,
-            row.displayName,
-            row.placeId,
-            row.jobId,
-            row.gameName,
-            row.scriptBuild,
-        ].map((value) => String(value ?? "")).join("|"))
-        .join("\n");
-    return crypto.createHash("sha1").update(rows, "utf8").digest("hex");
-}
-
-function syncPresenceRevision(now = Date.now()) {
-    const nextSignature = buildPresenceSnapshotSignature(now);
-    if (nextSignature !== presenceSnapshotSignature) {
-        presenceSnapshotSignature = nextSignature;
-        presenceRevision += 1;
-        return true;
-    }
-    return false;
-}
-
-function getPresenceSnapshotToken() {
-    return `${SERVER_INSTANCE_ID}:${presenceRevision}`;
-}
-
-function prunePresence() {const now = Date.now();
+function prunePresence() {const now = Date.now();let changed = false;
 
 for (const [key, entry] of presence) {
     const expired = now - entry.lastSeenMs > ONLINE_TIMEOUT_MS;
@@ -391,10 +71,10 @@ for (const [key, entry] of presence) {
 
     if (expired || banned) {
         presence.delete(key);
+        changed = true;
     }
 }
-
-syncPresenceRevision(now);
+if (changed) bumpPresenceRevision();
 
 }
 
@@ -407,21 +87,24 @@ for (const [key, entry] of presence) {
     }
 }
 
-if (removed > 0) syncPresenceRevision();
+if (removed > 0) bumpPresenceRevision();
 return removed;
 
 }
 
-function findLatestPresenceForUser(userId) {return getLatestActivePresenceByUser(Date.now()).get(userId) || null;}
+function findLatestPresenceForUser(userId) {let latest = null;
 
-function restoreRecentPresenceFromKnownPlayers() {
-    // Gespeicherte Spieler sind Historie und werden niemals als live rekonstruiert.
-    return 0;
+for (const entry of presence.values()) {
+    if (
+        entry.userId === userId &&
+        (!latest || entry.lastSeenMs > latest.lastSeenMs)
+    ) {
+        latest = entry;
+    }
 }
 
-function countActivePresenceUsers() {
-    prunePresence();
-    return getLatestActivePresenceByUser(Date.now()).size;
+return latest;
+
 }
 
 function loadBans() {try {if (!fs.existsSync(BAN_FILE_PATH)) {return;}
@@ -462,7 +145,7 @@ function loadBans() {try {if (!fs.existsSync(BAN_FILE_PATH)) {return;}
 
 }
 
-function saveBans(syncGitHub = true) {try {fs.mkdirSync(path.dirname(BAN_FILE_PATH), { recursive: true });
+function saveBans() {try {fs.mkdirSync(path.dirname(BAN_FILE_PATH), { recursive: true });
 
     const tempPath = `${BAN_FILE_PATH}.tmp`;
     fs.writeFileSync(
@@ -471,7 +154,6 @@ function saveBans(syncGitHub = true) {try {fs.mkdirSync(path.dirname(BAN_FILE_PA
         "utf8"
     );
     fs.renameSync(tempPath, BAN_FILE_PATH);
-    if (syncGitHub) scheduleGitHubStorageSave("bans", 2_500);
     return true;
 } catch (error) {
     console.warn(
@@ -500,13 +182,12 @@ function normalizeMenuUpdateState(raw) {
     };
 }
 
-function saveMenuUpdateState(syncGitHub = true) {
+function saveMenuUpdateState() {
     try {
         fs.mkdirSync(path.dirname(MENU_UPDATE_FILE_PATH), { recursive: true });
         const tempPath = `${MENU_UPDATE_FILE_PATH}.tmp`;
         fs.writeFileSync(tempPath, JSON.stringify({ update: menuUpdateState }, null, 2), "utf8");
         fs.renameSync(tempPath, MENU_UPDATE_FILE_PATH);
-        if (syncGitHub) scheduleGitHubStorageSave("update-state", 1_500);
         return true;
     } catch (error) {
         console.warn("[NEXU] Update-Status konnte nicht gespeichert werden:", error.message);
@@ -554,7 +235,6 @@ function startMenuUpdate(durationMinutes, startedBy) {
     }
     const now = Date.now();
     const endsAtMs = now + normalizedMinutes * 60_000;
-    menuUpdateMutationRevision += 1;
     menuUpdateState = {
         active: true,
         startedAtMs: now,
@@ -564,218 +244,61 @@ function startMenuUpdate(durationMinutes, startedBy) {
         startedAt: new Date(now).toISOString(),
         endsAt: new Date(endsAtMs).toISOString(),
     };
-    const persisted = saveMenuUpdateState();
-    return { persisted, status: getMenuUpdateStatus() };
+    saveMenuUpdateState();
+    return { status: getMenuUpdateStatus() };
 }
 
 function cancelMenuUpdate() {
     const wasActive = getMenuUpdateStatus().active;
-    menuUpdateMutationRevision += 1;
-    menuUpdateState = {
-        active: false,
-        startedAtMs: 0,
-        endsAtMs: 0,
-        durationMinutes: 0,
-        startedBy: "",
-        startedAt: "",
-        endsAt: "",
-    };
-    const persisted = saveMenuUpdateState();
-    return { wasActive, persisted, status: getMenuUpdateStatus() };
-}
-
-function formatMenuUpdateDuration(totalSeconds) {
-    const safe = Math.max(0, Math.floor(Number(totalSeconds) || 0));
-    const hours = Math.floor(safe / 3600);
-    const minutes = Math.floor((safe % 3600) / 60);
-    const seconds = safe % 60;
-    const pad = (value) => String(value).padStart(2, "0");
-    return hours > 0
-        ? `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`
-        : `${pad(minutes)}:${pad(seconds)}`;
+    menuUpdateState = normalizeMenuUpdateState({});
+    saveMenuUpdateState();
+    return { wasActive, status: getMenuUpdateStatus() };
 }
 
 
-function pruneShutdownCommands() {
-    const now = Date.now();
-
-    for (const [sessionId, command] of shutdownCommandsBySession) {
-        if (!command || command.expiresAtMs <= now) {
-            shutdownCommandsBySession.delete(sessionId);
-        }
-    }
-
-    for (const [userId, command] of shutdownCommandsByUser) {
-        if (!command || command.expiresAtMs <= now) {
-            shutdownCommandsByUser.delete(userId);
-        }
-    }
-
-    if (
-        latestGlobalShutdownCommand &&
-        latestGlobalShutdownCommand.expiresAtMs <= now
-    ) {
-        latestGlobalShutdownCommand = null;
-    }
-}
-
-function queueGlobalScriptShutdown(startedBy) {
-    prunePresence();
-    pruneShutdownCommands();
-
-    const now = Date.now();
-    const commandId = `${now}-${nextShutdownCommandId++}`;
-    const sessions = new Set();
-    const users = new Map();
-    const issuedBy = cleanText(startedBy, 80) || "dashboard";
-
-    for (const entry of presence.values()) {
-        if (!isPresenceEntryActive(entry, now)) continue;
-        const userId = cleanNumericId(entry && entry.userId);
-        if (!userId) continue;
-
-        const sessionId = cleanText(entry && entry.sessionId, 100);
-        const userState = users.get(userId) || {
-            sessionIds: new Set(),
-            oldestJoinedAtMs: cleanInteger(entry && entry.joinedAtMs) || now,
-        };
-
-        if (sessionId) {
-            sessions.add(sessionId);
-            userState.sessionIds.add(sessionId);
-        }
-        userState.oldestJoinedAtMs = Math.min(
-            userState.oldestJoinedAtMs || now,
-            cleanInteger(entry && entry.joinedAtMs) || now
-        );
-        users.set(userId, userState);
-    }
-
-    const baseCommand = {
-        active: true,
-        id: commandId,
-        issuedAt: new Date(now).toISOString(),
-        issuedAtMs: now,
-        expiresAtMs: now + GLOBAL_SHUTDOWN_COMMAND_TTL_MS,
-        issuedBy,
-        reason: "Vom Dashboard deaktiviert",
-    };
-
-    for (const sessionId of sessions) {
-        shutdownCommandsBySession.set(sessionId, {
-            ...baseCommand,
-            sessionId,
-        });
-    }
-
-    for (const [userId, userState] of users) {
-        shutdownCommandsByUser.set(userId, {
-            ...baseCommand,
-            userId,
-            sessionIds: [...userState.sessionIds],
-            oldestJoinedAtMs: userState.oldestJoinedAtMs,
-        });
-    }
-
-    // Auch noch nicht vollständig registrierte V149-Clients können anhand ihrer
-    // Script-Startzeit erkennen, dass sie bereits vor dem Klick liefen. Eine neu
-    // gestartete Ausführung besitzt eine spätere Startzeit und bleibt erlaubt.
-    latestGlobalShutdownCommand = {
-        ...baseCommand,
-        targetedSessions: sessions.size,
-        targetedPlayers: users.size,
-    };
-
-    // Auf der Website gehen alle aktuell erkannten Script-Sitzungen sofort offline.
-    // Die Befehle bleiben separat erhalten und werden den alten Session-IDs beim
-    // nächsten Heartbeat bzw. Access-Poll weiterhin zugestellt.
-    const forcedOfflineSessions = presence.size;
-    presence.clear();
-
+function normalizeKnownPlayer(raw, now = Date.now()) {
+    const userId = cleanNumericId(raw && raw.userId);
+    if (!userId) return null;
+    const firstSeenMs = cleanInteger(raw && raw.firstSeenMs) || now;
+    const roleKey = cleanPlayerRoleAssignment(raw && (raw.roleKey || raw.role || raw.assignedRole));
     return {
-        id: commandId,
-        targetedSessions: sessions.size,
-        targetedPlayers: users.size,
-        forcedOfflineSessions,
-        issuedAt: baseCommand.issuedAt,
-        issuedBy,
+        userId,
+        username: cleanText(raw && raw.username, 40) || `User${userId}`,
+        displayName: cleanText(raw && raw.displayName, 80) || cleanText(raw && raw.username, 40) || `User ${userId}`,
+        roleKey,
+        firstSeen: cleanText(raw && raw.firstSeen, 64) || new Date(firstSeenMs).toISOString(),
+        firstSeenMs,
     };
 }
-
-function serializeShutdownCommand(command) {
-    if (!command) return { active: false };
-    return {
-        active: true,
-        id: command.id,
-        issuedAt: command.issuedAt,
-        issuedBy: command.issuedBy,
-        reason: command.reason,
-    };
-}
-
-function getShutdownCommandForClient(userId, sessionId, sessionStartedAtMs = 0) {
-    pruneShutdownCommands();
-
-    const cleanUserId = cleanNumericId(userId);
-    const cleanSessionId = cleanText(sessionId, 100);
-    const cleanStartedAtMs = cleanInteger(sessionStartedAtMs);
-
-    if (cleanSessionId) {
-        const exact = shutdownCommandsBySession.get(cleanSessionId);
-        if (exact) return serializeShutdownCommand(exact);
-    }
-
-    if (cleanUserId) {
-        const userCommand = shutdownCommandsByUser.get(cleanUserId);
-        if (userCommand) {
-            if (
-                cleanSessionId &&
-                Array.isArray(userCommand.sessionIds) &&
-                userCommand.sessionIds.includes(cleanSessionId)
-            ) {
-                return serializeShutdownCommand(userCommand);
-            }
-
-            // Kompatibilitäts-Fallback für ältere Clients, deren Session-ID erst
-            // mit einem verspäteten Heartbeat sichtbar wurde.
-            const currentPresence = [...presence.values()].find((entry) =>
-                entry &&
-                entry.userId === cleanUserId &&
-                (
-                    !cleanSessionId ||
-                    !entry.sessionId ||
-                    entry.sessionId === cleanSessionId
-                )
-            );
-            if (
-                currentPresence &&
-                (cleanInteger(currentPresence.joinedAtMs) || Date.now()) <= userCommand.issuedAtMs
-            ) {
-                return serializeShutdownCommand(userCommand);
-            }
-        }
-    }
-
-    // V149-Fallback: Erfasst auch eine Script-Ausführung, die beim Klick gerade
-    // noch im Ladeaufbau war und deshalb noch nicht in presence stand. Eine danach
-    // manuell neu gestartete Ausführung hat eine spätere Startzeit und wird nicht
-    // erneut abgeschaltet.
-    if (
-        latestGlobalShutdownCommand &&
-        cleanStartedAtMs > 0 &&
-        cleanStartedAtMs <= latestGlobalShutdownCommand.issuedAtMs
-    ) {
-        return serializeShutdownCommand(latestGlobalShutdownCommand);
-    }
-
-    return { active: false };
-}
-
-function normalizeKnownPlayer(raw, now = Date.now()) {const userId = cleanNumericId(raw && raw.userId);if (!userId) {return null;}const firstSeenMs = cleanInteger(raw && raw.firstSeenMs) || now;const lastSeenMs = cleanInteger(raw && raw.lastSeenMs) || now;const roleKey = cleanPlayerRoleAssignment(raw && (raw.roleKey || raw.role || raw.assignedRole));return {userId,username: cleanText(raw && raw.username, 40) || `User${userId}`,displayName: cleanText(raw && raw.displayName, 80) || cleanText(raw && raw.username, 40) || `User ${userId}`,gameName: cleanText(raw && raw.gameName, 120),placeId: cleanInteger(raw && raw.placeId),jobId: cleanText(raw && raw.jobId, 100),sessionId: cleanText(raw && raw.sessionId, 100),executionSource: cleanText(raw && raw.executionSource, 80),executionVersion: cleanText(raw && raw.executionVersion, 80),clientPlatform: cleanText(raw && raw.clientPlatform, 40),scriptBuild: cleanText(raw && raw.scriptBuild, 120),roleKey,firstSeen: cleanText(raw && raw.firstSeen, 64) || new Date(firstSeenMs).toISOString(),lastSeen: cleanText(raw && raw.lastSeen, 64) || new Date(lastSeenMs).toISOString(),firstSeenMs,lastSeenMs,};}
 
 function loadKnownPlayers() {try {if (!fs.existsSync(KNOWN_PLAYERS_FILE_PATH)) {return;}const parsed = JSON.parse(fs.readFileSync(KNOWN_PLAYERS_FILE_PATH, "utf8"));const rows = Array.isArray(parsed) ? parsed : parsed.players;if (!Array.isArray(rows)) {return;}for (const raw of rows) {const entry = normalizeKnownPlayer(raw);if (entry) {knownPlayers.set(entry.userId, entry);}}console.log(`[NEXU] ${knownPlayers.size} gespeicherte Spieler geladen`);} catch (error) {console.warn("[NEXU] Gespeicherte Spieler konnten nicht geladen werden:", error.message);}}
 
-function saveKnownPlayers(syncGitHub = false) {try {fs.mkdirSync(path.dirname(KNOWN_PLAYERS_FILE_PATH), { recursive: true });const tempPath = `${KNOWN_PLAYERS_FILE_PATH}.tmp`;const rows = [...knownPlayers.values()].sort((a, b) => (b.lastSeenMs || 0) - (a.lastSeenMs || 0));fs.writeFileSync(tempPath, JSON.stringify({ players: rows }, null, 2), "utf8");fs.renameSync(tempPath, KNOWN_PLAYERS_FILE_PATH);if (syncGitHub) scheduleGitHubStorageSave("players", 5_000);return true;} catch (error) {console.warn("[NEXU] Gespeicherte Spieler konnten nicht gespeichert werden:", error.message);return false;}}
+function serializeKnownPlayers() {
+    const rows = [...knownPlayers.values()]
+        .map((row) => normalizeKnownPlayer(row, cleanInteger(row.firstSeenMs) || Date.now()))
+        .filter(Boolean)
+        .sort((a, b) => String(a.userId).localeCompare(String(b.userId)));
+    return JSON.stringify({ players: rows }, null, 2);
+}
+
+function saveKnownPlayers() {
+    try {
+        fs.mkdirSync(path.dirname(KNOWN_PLAYERS_FILE_PATH), { recursive: true });
+        const serialized = serializeKnownPlayers();
+        if (fs.existsSync(KNOWN_PLAYERS_FILE_PATH)) {
+            const current = fs.readFileSync(KNOWN_PLAYERS_FILE_PATH, "utf8");
+            if (current === serialized) return false;
+        }
+        const tempPath = `${KNOWN_PLAYERS_FILE_PATH}.tmp`;
+        fs.writeFileSync(tempPath, serialized, "utf8");
+        fs.renameSync(tempPath, KNOWN_PLAYERS_FILE_PATH);
+        bumpPresenceRevision();
+        return true;
+    } catch (error) {
+        console.warn("[NEXU] Gespeicherte Spieler konnten nicht gespeichert werden:", error.message);
+        return false;
+    }
+}
 
 
 
@@ -811,26 +334,15 @@ function internalDashboardEmailForUsername(username) {
 
 const DASHBOARD_PERMISSION_DEFINITIONS = [
     { key: "menuServer", formName: "menuServerAccess", title: "Dashboard öffnen", description: "Darf den Menu Server ansehen." },
-    { key: "dm", formName: "dashboardDm", title: "Nachrichten senden", description: "Darf DMs und Rundsendungen an aktive Nexu-Spieler senden." },
+    { key: "dm", formName: "dashboardDm", title: "DM senden", description: "Darf Nachrichten an Online-Spieler senden." },
     { key: "bring", formName: "dashboardBring", title: "Bring benutzen", description: "Darf Spieler per Website zum Creator bringen." },
     { key: "serverJoin", formName: "dashboardJoin", title: "Server Join", description: "Darf den Creator zu einem Spieler-Server schicken." },
     { key: "managePlayerRoles", formName: "dashboardRole", title: "Ränge einstellen", description: "Darf PLAYERS/SUPPORTER für gespeicherte Spieler ändern." },
     { key: "banPlayers", formName: "dashboardBan", title: "Bannen/Entbannen", description: "Darf Spieler bannen, entbannen und die Sperrliste sehen." },
     { key: "updateScript", formName: "dashboardUpdateScript", title: "Script-Update", description: "Darf den zeitgesteuerten Wartungsmodus starten und vorzeitig beenden." },
-    { key: "shutdownScript", formName: "dashboardShutdownScript", title: "Scripts deaktivieren", description: "Darf alle aktuell verbundenen Lua-Sitzungen einmalig deaktivieren." },
 ];
 
-function isOwnerDashboardIdentity(username = "", email = "", explicitOwner = false) {
-    if (explicitOwner === true) return true;
-    const normalizedUsername = cleanDashboardUsername(username).toLowerCase();
-    const configuredOwnerUsername = cleanDashboardUsername(OWNER_ACCOUNT_USERNAME).toLowerCase();
-    if (normalizedUsername && normalizedUsername === configuredOwnerUsername) return true;
-    const normalizedEmail = cleanDashboardEmail(email);
-    const configuredOwnerEmail = cleanDashboardEmail(DASHBOARD_DEFAULT_EMAIL);
-    return Boolean(normalizedEmail && configuredOwnerEmail && normalizedEmail === configuredOwnerEmail);
-}
-
-function normalizeDashboardAccess(raw, username = "", email = "") {
+function normalizeDashboardAccess(raw, username = "") {
     const source = raw && typeof raw === "object" ? raw : {};
     const nested = source.access && typeof source.access === "object"
         ? source.access
@@ -838,7 +350,7 @@ function normalizeDashboardAccess(raw, username = "", email = "") {
             ? source.permissions
             : {};
     const merged = { ...source, ...nested };
-    const isOwner = isOwnerDashboardIdentity(username, email, source.isOwner === true || source.owner === true);
+    const isOwner = cleanDashboardUsername(username) === OWNER_ACCOUNT_USERNAME;
     const enabled = (value) => value === true || value === "true" || value === "1" || value === "on" || value === 1;
     const dashboardAccess = isOwner || enabled(merged.menuServer) || enabled(merged.menuServerAccess);
     return {
@@ -849,13 +361,12 @@ function normalizeDashboardAccess(raw, username = "", email = "") {
         managePlayerRoles: isOwner || (dashboardAccess && (enabled(merged.managePlayerRoles) || enabled(merged.dashboardRole) || enabled(merged.roles))),
         banPlayers: isOwner || (dashboardAccess && (enabled(merged.banPlayers) || enabled(merged.dashboardBan) || enabled(merged.bans))),
         updateScript: isOwner || (dashboardAccess && (enabled(merged.updateScript) || enabled(merged.dashboardUpdateScript) || enabled(merged.maintenance))),
-        shutdownScript: isOwner || (dashboardAccess && (enabled(merged.shutdownScript) || enabled(merged.dashboardShutdownScript) || enabled(merged.shutdownAll))),
         accountManager: isOwner,
     };
 }
 
 function isOwnerDashboardAccount(account) {
-    return Boolean(account && isOwnerDashboardIdentity(account.username, account.email, account.isOwner === true));
+    return Boolean(account && account.username === OWNER_ACCOUNT_USERNAME);
 }
 
 function canManageDashboardAccounts(account) {
@@ -886,10 +397,7 @@ function getDashboardPermissionSnapshot(account) {
 
 function isDashboardPermissionSession(req, permissionKey) {
     const session = getDashboardSession(req);
-    return Boolean(
-        session &&
-        (session.isOwner === true || hasDashboardPermission(session.account, permissionKey))
-    );
+    return Boolean(session && hasDashboardPermission(session.account, permissionKey));
 }
 
 function dashboardPermissionError(permissionKey) {
@@ -904,13 +412,11 @@ function normalizeDashboardAccount(raw) {
     if (!username || !email || !/^[a-f0-9]{64}$/.test(passwordHash)) {
         return null;
     }
-    const isOwner = isOwnerDashboardIdentity(username, email, raw && (raw.isOwner === true || raw.owner === true));
-    const access = normalizeDashboardAccess(raw || {}, username, email);
+    const access = normalizeDashboardAccess(raw || {}, username);
     return {
         username,
         email,
         passwordHash,
-        isOwner,
         access,
         createdAt: cleanText(raw && raw.createdAt, 64) || new Date().toISOString(),
         updatedAt: cleanText(raw && raw.updatedAt, 64) || "",
@@ -938,10 +444,7 @@ function getFirstDashboardAccount() {
 }
 
 function getOwnerDashboardAccount() {
-    for (const account of dashboardAccounts.values()) {
-        if (isOwnerDashboardAccount(account)) return account;
-    }
-    return null;
+    return getDashboardAccountByUsername(OWNER_ACCOUNT_USERNAME);
 }
 
 function getDashboardUsername() {
@@ -992,43 +495,10 @@ function loadDashboardAccount() {
             username: cleanDashboardUsername(DASHBOARD_DEFAULT_USERNAME) || OWNER_ACCOUNT_USERNAME,
             email: cleanDashboardEmail(DASHBOARD_DEFAULT_EMAIL) || "owner@nexu.local",
             passwordHash: normalizePasswordHash(DASHBOARD_DEFAULT_PASSWORD_HASH),
-            isOwner: true,
             createdAt: new Date().toISOString(),
             updatedAt: "",
         });
         saveDashboardAccount();
-    }
-
-    // Migration für ältere Account-Dateien: Falls durch eine frühere Umbenennung
-    // kein Owner mehr erkannt wird, wird der konfigurierte bzw. älteste Account
-    // einmalig als Owner markiert. Dadurch gehen Owner-Rechte nie verloren.
-    if (!getOwnerDashboardAccount() && dashboardAccounts.size > 0) {
-        const configuredEmail = cleanDashboardEmail(DASHBOARD_DEFAULT_EMAIL);
-        const configuredUsername = cleanDashboardUsername(DASHBOARD_DEFAULT_USERNAME).toLowerCase();
-        let ownerCandidate = configuredEmail ? getDashboardAccountByEmail(configuredEmail) : null;
-        if (!ownerCandidate && configuredUsername) {
-            ownerCandidate = [...dashboardAccounts.values()].find(
-                (account) => String(account.username || "").toLowerCase() === configuredUsername
-            ) || null;
-        }
-        if (!ownerCandidate) {
-            ownerCandidate = [...dashboardAccounts.values()].sort((left, right) =>
-                String(left.createdAt || "").localeCompare(String(right.createdAt || ""))
-            )[0] || null;
-        }
-        if (ownerCandidate) {
-            const promotedOwner = normalizeDashboardAccount({
-                ...ownerCandidate,
-                isOwner: true,
-                access: normalizeDashboardAccess({ ...ownerCandidate, isOwner: true }, ownerCandidate.username, ownerCandidate.email),
-                updatedAt: new Date().toISOString(),
-            });
-            if (promotedOwner) {
-                dashboardAccounts.set(promotedOwner.email, promotedOwner);
-                saveDashboardAccount();
-                console.warn(`[NEXU] Owner-Rechte für ${promotedOwner.username} automatisch wiederhergestellt`);
-            }
-        }
     }
 
     console.log(`[NEXU] ${dashboardAccounts.size} Dashboard-Account(s) geladen`);
@@ -1091,50 +561,18 @@ function validDashboardAccountPassword(account, password) {
     return suppliedHash.length === expectedHash.length && crypto.timingSafeEqual(suppliedHash, expectedHash);
 }
 
-function persistentPlayerSignature(row) {
-    const source = row && typeof row === "object" ? row : {};
-    return JSON.stringify({
-        userId: cleanNumericId(source.userId),
-        username: cleanText(source.username, 40),
-        displayName: cleanText(source.displayName, 80),
-        roleKey: cleanPlayerRoleAssignment(source.roleKey || source.role || source.assignedRole),
-    });
-}
-
 function rememberKnownPlayer(raw, now = Date.now()) {
-    const incoming = normalizeKnownPlayer({
-        ...(raw || {}),
-        lastSeenMs: now,
-        lastSeen: new Date(now).toISOString(),
-    }, now);
-    if (!incoming) return false;
-
-    const existing = knownPlayers.get(incoming.userId);
-    const next = {
-        userId: incoming.userId,
-        username: incoming.username || (existing && existing.username) || `User${incoming.userId}`,
-        displayName: incoming.displayName || (existing && existing.displayName) || incoming.username || `User ${incoming.userId}`,
-        gameName: incoming.gameName || (existing && existing.gameName) || "",
-        placeId: incoming.placeId || (existing && existing.placeId) || 0,
-        jobId: incoming.jobId || (existing && existing.jobId) || "",
-        sessionId: incoming.sessionId || (existing && existing.sessionId) || "",
-        executionSource: incoming.executionSource || (existing && existing.executionSource) || "",
-        executionVersion: incoming.executionVersion || (existing && existing.executionVersion) || "",
-        clientPlatform: incoming.clientPlatform || (existing && existing.clientPlatform) || "",
-        scriptBuild: incoming.scriptBuild || (existing && existing.scriptBuild) || "",
-        roleKey: (existing && cleanPlayerRoleAssignment(existing.roleKey || existing.role || existing.assignedRole)) || incoming.roleKey || "",
-        firstSeen: existing && existing.firstSeen ? existing.firstSeen : new Date(now).toISOString(),
-        firstSeenMs: existing && existing.firstSeenMs ? existing.firstSeenMs : now,
-        lastSeen: new Date(now).toISOString(),
-        lastSeenMs: now,
-    };
-
-    const importantChanged = !existing || persistentPlayerSignature(existing) !== persistentPlayerSignature(next);
-    knownPlayers.set(next.userId, next);
-    return importantChanged ? "important" : false;
+    const incoming = normalizeKnownPlayer(raw || {}, now);
+    if (!incoming || knownPlayers.has(incoming.userId)) return false;
+    knownPlayers.set(incoming.userId, incoming);
+    return true;
 }
 
-function markKnownPlayerOffline(userId, sessionId, now = Date.now(), identity = {}) {const id = cleanNumericId(userId);if (!id) {return false;}const existing = knownPlayers.get(id);if (!existing) {return false;}if (sessionId && existing.sessionId && existing.sessionId !== sessionId) {return false;}const username = cleanText(identity.username, 40);const displayName = cleanText(identity.displayName, 80);knownPlayers.set(id, {...existing,username: username || existing.username,displayName: displayName || existing.displayName,lastSeen: new Date(now).toISOString(),lastSeenMs: now,});return true;}
+
+function markKnownPlayerOffline() {
+    return false;
+}
+
 
 function getClientIp(req) {const forwarded = String(req.headers["x-forwarded-for"] || "");const firstForwarded = forwarded.split(",")[0].trim();return firstForwarded || String(req.socket.remoteAddress || "unknown");}
 
@@ -1180,107 +618,7 @@ return parts.join("; ");
 }
 
 
-function encodeDashboardSessionPayload(payload) {
-    return Buffer.from(JSON.stringify(payload), "utf8").toString("base64url");
-}
-
-function decodeDashboardSessionPayload(encoded) {
-    try {
-        const parsed = JSON.parse(Buffer.from(String(encoded || ""), "base64url").toString("utf8"));
-        return parsed && typeof parsed === "object" ? parsed : null;
-    } catch {
-        return null;
-    }
-}
-
-function signDashboardSessionPayload(encodedPayload) {
-    return crypto
-        .createHmac("sha256", DASHBOARD_SESSION_SIGNING_SECRET)
-        .update(String(encodedPayload || ""), "utf8")
-        .digest("base64url");
-}
-
-function createSignedDashboardSessionToken(account) {
-    const now = Date.now();
-    const payload = {
-        version: DASHBOARD_SESSION_TOKEN_VERSION,
-        username: cleanDashboardUsername(account && account.username),
-        email: cleanDashboardEmail(account && account.email),
-        isOwner: isOwnerDashboardAccount(account),
-        issuedAtMs: now,
-        expiresAtMs: now + DASHBOARD_SESSION_TTL_MS,
-    };
-    const encodedPayload = encodeDashboardSessionPayload(payload);
-    return `${DASHBOARD_SESSION_TOKEN_VERSION}.${encodedPayload}.${signDashboardSessionPayload(encodedPayload)}`;
-}
-
-function readSignedDashboardSessionToken(token) {
-    const parts = String(token || "").split(".");
-    if (parts.length !== 3 || parts[0] !== DASHBOARD_SESSION_TOKEN_VERSION) return null;
-
-    const encodedPayload = parts[1];
-    const suppliedSignature = parts[2];
-    const expectedSignature = signDashboardSessionPayload(encodedPayload);
-    const suppliedBuffer = Buffer.from(suppliedSignature, "utf8");
-    const expectedBuffer = Buffer.from(expectedSignature, "utf8");
-    if (suppliedBuffer.length !== expectedBuffer.length) return null;
-    if (!crypto.timingSafeEqual(suppliedBuffer, expectedBuffer)) return null;
-
-    const payload = decodeDashboardSessionPayload(encodedPayload);
-    if (!payload || payload.version !== DASHBOARD_SESSION_TOKEN_VERSION) return null;
-
-    const username = cleanDashboardUsername(payload.username);
-    const email = cleanDashboardEmail(payload.email);
-    const expiresAtMs = Number(payload.expiresAtMs) || 0;
-    if ((!username && !email) || expiresAtMs <= Date.now()) return null;
-
-    return {
-        username,
-        email,
-        isOwner: payload.isOwner === true || isOwnerDashboardIdentity(username, email, false),
-        expiresAtMs,
-    };
-}
-
-function getDashboardSessionEntry(token) {
-    const signedEntry = readSignedDashboardSessionToken(token);
-    if (signedEntry) return signedEntry;
-
-    const raw = dashboardSessions.get(token);
-    if (!raw) return null;
-
-    if (typeof raw === "number") {
-        const owner = getOwnerDashboardAccount() || getFirstDashboardAccount();
-        return owner
-            ? {
-                username: owner.username,
-                email: owner.email,
-                isOwner: true,
-                expiresAtMs: raw,
-            }
-            : null;
-    }
-
-    const email = cleanDashboardEmail(raw.email);
-    const username = cleanDashboardUsername(raw.username);
-    const storedOwnerFlag = raw.isOwner === true;
-    const identityOwnerFlag = isOwnerDashboardIdentity(username, email, false);
-
-    // Bestehende Sitzungen dürfen bei einer geänderten Account-E-Mail nicht
-    // ungültig werden. Deshalb immer E-Mail und Benutzername probieren.
-    let account = getDashboardAccountByEmail(email) || getDashboardAccountByUsername(username);
-    if (!account && (storedOwnerFlag || identityOwnerFlag)) {
-        account = getOwnerDashboardAccount() || getFirstDashboardAccount();
-    }
-    if (!account) return null;
-
-    return {
-        username: account.username,
-        email: account.email,
-        isOwner: storedOwnerFlag || identityOwnerFlag || isOwnerDashboardAccount(account),
-        expiresAtMs: Number(raw.expiresAtMs) || 0,
-    };
-}
+function getDashboardSessionEntry(token) {const raw = dashboardSessions.get(token);if (!raw) {return null;}if (typeof raw === "number") {const owner = getOwnerDashboardAccount() || getFirstDashboardAccount();return owner ? {username: owner.username, email: owner.email, expiresAtMs: raw} : null;}const email = cleanDashboardEmail(raw.email);const username = cleanDashboardUsername(raw.username);const account = email ? getDashboardAccountByEmail(email) : getDashboardAccountByUsername(username);if (!account) {return null;}return {username: account.username, email: account.email, expiresAtMs: Number(raw.expiresAtMs) || 0};}
 
 function pruneDashboardAuth() {const now = Date.now();
 
@@ -1299,79 +637,25 @@ for (const [ip, state] of loginRateLimits) {
 
 }
 
-function getDashboardSession(req) {
-    pruneDashboardAuth();
-    const token = parseCookies(req).get(DASHBOARD_SESSION_COOKIE) || "";
-    const entry = getDashboardSessionEntry(token);
+function getDashboardSession(req) {pruneDashboardAuth();const token = parseCookies(req).get(DASHBOARD_SESSION_COOKIE) || "";const entry = getDashboardSessionEntry(token);
 
-    if (!token || !entry || entry.expiresAtMs <= Date.now()) {
-        if (token) dashboardSessions.delete(token);
-        return null;
-    }
+if (!token || !entry || entry.expiresAtMs <= Date.now()) {
+    if (token) dashboardSessions.delete(token);
+    return null;
+}
+const account = getDashboardAccountByEmail(entry.email) || getDashboardAccountByUsername(entry.username);
+if (!account) {dashboardSessions.delete(token);return null;}
 
-    let account =
-        getDashboardAccountByEmail(entry.email) ||
-        getDashboardAccountByUsername(entry.username);
+return {token, username: account.username, email: account.email, account, expiresAtMs: entry.expiresAtMs};
 
-    if (!account && entry.isOwner === true) {
-        account = getOwnerDashboardAccount() || getFirstDashboardAccount();
-    }
-    if (!account) {
-        dashboardSessions.delete(token);
-        return null;
-    }
-
-    const isOwner = entry.isOwner === true || isOwnerDashboardAccount(account);
-    const effectiveAccount = isOwner
-        ? {
-            ...account,
-            isOwner: true,
-            access: normalizeDashboardAccess(
-                { ...account, isOwner: true },
-                account.username,
-                account.email
-            ),
-        }
-        : account;
-
-    return {
-        token,
-        username: effectiveAccount.username,
-        email: effectiveAccount.email,
-        account: effectiveAccount,
-        isOwner,
-        expiresAtMs: entry.expiresAtMs,
-    };
 }
 
 function isDashboardAuthenticated(req) {return Boolean(getDashboardSession(req));}
 
-function isOwnerAccountSession(req) {
-    const session = getDashboardSession(req);
-    return Boolean(session && (session.isOwner === true || canManageDashboardAccounts(session.account)));
-}
-function isMenuServerAccountSession(req) {
-    const session = getDashboardSession(req);
-    return Boolean(session && (session.isOwner === true || canAccessMenuServer(session.account)));
-}
+function isOwnerAccountSession(req) {const session = getDashboardSession(req);return Boolean(session && canManageDashboardAccounts(session.account));}
+function isMenuServerAccountSession(req) {const session = getDashboardSession(req);return Boolean(session && canAccessMenuServer(session.account));}
 
-function createDashboardSession(account = getOwnerDashboardAccount() || getFirstDashboardAccount()) {
-    pruneDashboardAuth();
-    const normalized = typeof account === "string"
-        ? (getDashboardAccountByEmail(account) || getDashboardAccountByUsername(account))
-        : account;
-    if (!normalized) return "";
-
-    const token = createSignedDashboardSessionToken(normalized);
-    const signedEntry = readSignedDashboardSessionToken(token);
-    dashboardSessions.set(token, signedEntry || {
-        username: normalized.username,
-        email: normalized.email,
-        isOwner: isOwnerDashboardAccount(normalized),
-        expiresAtMs: Date.now() + DASHBOARD_SESSION_TTL_MS,
-    });
-    return token;
-}
+function createDashboardSession(account = getOwnerDashboardAccount() || getFirstDashboardAccount()) {pruneDashboardAuth();const normalized = typeof account === "string" ? (getDashboardAccountByEmail(account) || getDashboardAccountByUsername(account)) : account;if (!normalized) {return "";}const token = crypto.randomBytes(32).toString("hex");dashboardSessions.set(token, {username: normalized.username,email: normalized.email,expiresAtMs: Date.now() + DASHBOARD_SESSION_TTL_MS});return token;}
 
 function removeDashboardSession(req) {const token = parseCookies(req).get(DASHBOARD_SESSION_COOKIE) || "";if (token) dashboardSessions.delete(token);}
 
@@ -1692,9 +976,13 @@ return result;
 
 async function getPublicPresence() {prunePresence();
 
-const snapshotGeneratedAtMs = Date.now();
-syncPresenceRevision(snapshotGeneratedAtMs);
-const latestActiveByUserId = getLatestActivePresenceByUser(snapshotGeneratedAtMs);
+const latestActiveByUserId = new Map();
+for (const row of presence.values()) {
+    const current = latestActiveByUserId.get(row.userId);
+    if (!current || row.lastSeenMs > current.lastSeenMs) {
+        latestActiveByUserId.set(row.userId, row);
+    }
+}
 
 const mergedByUserId = new Map();
 for (const row of knownPlayers.values()) {
@@ -1749,10 +1037,6 @@ const players = playerRows.map((row) => {
         gameName: row.gameName || `Place ${row.placeId || 0}`,
         placeId: row.placeId,
         jobId: row.jobId,
-        executionSource: row.executionSource || "",
-        executionVersion: row.executionVersion || "",
-        clientPlatform: row.clientPlatform || "",
-        scriptBuild: row.scriptBuild || "",
         joinedAt: new Date(joinedAtMs).toISOString(),
         firstSeen: new Date(cleanInteger(row.firstSeenMs) || joinedAtMs).toISOString(),
         lastSeen: new Date(lastSeenMs).toISOString(),
@@ -1781,18 +1065,7 @@ const bannedPlayers = bannedRows.map((row) => {
     };
 });
 
-const activeUserIds = [...latestActiveByUserId.keys()].sort((a, b) => String(a).localeCompare(String(b)));
-return {
-    players,
-    bannedPlayers,
-    activeCount: activeUserIds.length,
-    activeUserIds,
-    snapshotGeneratedAtMs,
-    activeWindowMs: ACTIVE_PRESENCE_WINDOW_MS,
-    revision: presenceRevision,
-    snapshotToken: getPresenceSnapshotToken(),
-    serverInstanceId: SERVER_INSTANCE_ID,
-};
+return { players, bannedPlayers, activeCount: latestActiveByUserId.size };
 
 }
 
@@ -1809,15 +1082,6 @@ return {
             placeId: body.placeId,
             jobId: body.jobId,
             sessionId: body.sessionId,
-            executionSource: body.executionSource,
-            executionVersion: body.executionVersion,
-            clientPlatform: body.clientPlatform,
-            scriptBuild: body.scriptBuild,
-            executorName: body.executorName,
-            executorVersion: body.executorVersion,
-            platform: body.platform,
-            buildId: body.buildId,
-            clientInfo: body.clientInfo,
         },
     ],
 };
@@ -2330,28 +1594,7 @@ button.danger { margin-top:10px; border-color:rgba(255,77,120,.4); background:rg
 </html>`;
 }
 
-function dashboardHtml(account = null, notice = "") {
-const permissionSnapshot = getDashboardPermissionSnapshot(account || {});
-const permissionJson = JSON.stringify(permissionSnapshot);
-const initialMenuUpdate = getMenuUpdateStatus();
-const initialMenuUpdateJson = JSON.stringify(initialMenuUpdate).replace(/</g, "\\u003c");
-const initialUpdateHiddenClass = initialMenuUpdate.active ? "" : " hidden";
-const initialUpdateCountdown = formatMenuUpdateDuration(initialMenuUpdate.remainingSeconds);
-const initialUpdateEnd = initialMenuUpdate.endsAtMs ? new Date(initialMenuUpdate.endsAtMs).toLocaleString("de-DE") : "-";
-const initialUpdateStarter = initialMenuUpdate.startedBy ? ` · gestartet von ${initialMenuUpdate.startedBy}` : "";
-const initialUpdateText = initialMenuUpdate.active
-    ? `Zugriff bis ungefähr ${initialUpdateEnd} gesperrt${initialUpdateStarter}.`
-    : "Das Lua-Menü ist nicht gesperrt.";
-const dashboardNoticeHtml = notice
-    ? `<div class="dashboard-notice" role="status">${escapeHtml(notice)}</div>`
-    : "";
-const broadcastButtonHtml = permissionSnapshot.dm === true ? '<button id="broadcastDmButton" class="logout-button broadcast-button" type="button">NACHRICHT AN ALLE</button>' : "";
-const updateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="openUpdateButton" class="logout-button update-button" type="button">UPDATE SCRIPT</button>' : "";
-const shutdownButtonHtml = permissionSnapshot.shutdownScript === true ? '<button id="shutdownAllButton" class="logout-button shutdown-button" type="button">ALLE SCRIPTS AUS</button>' : "";
-const cancelUpdateButtonHtml = permissionSnapshot.updateScript === true
-    ? '<form id="cancelUpdateForm" class="update-cancel-form" method="post" action="/menu-server/update/cancel"><button id="cancelUpdateButton" class="action-button update-cancel" type="submit">UPDATE ABBRECHEN</button></form>'
-    : "";
-return String.raw`<!doctype html>
+function dashboardHtml(account = null) {const permissionSnapshot = getDashboardPermissionSnapshot(account || {});const permissionJson = JSON.stringify(permissionSnapshot);const updateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="openUpdateButton" class="logout-button update-button" type="button">UPDATE SCRIPT</button>' : "";const cancelUpdateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="cancelUpdateButton" class="action-button update-cancel" type="button">UPDATE ABBRECHEN</button>' : "";return String.raw`<!doctype html>
 
 <html lang="de">
 <head>
@@ -2549,7 +1792,7 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .username { overflow:hidden; margin-top:3px; color:var(--muted); font-size:13px; text-overflow:ellipsis; white-space:nowrap; }
 .reason { margin-top:5px; color:#ff9bb1; font-size:11px; line-height:1.4; }
 .presence-details { margin-top:9px; display:grid; gap:4px; }
-.presence-line { display:grid; grid-template-columns:82px minmax(0,1fr); gap:7px; align-items:start; font-size:10px; line-height:1.35; }
+.presence-line { display:grid; grid-template-columns:58px minmax(0,1fr); gap:7px; align-items:start; font-size:10px; line-height:1.35; }
 .presence-key { color:#5f7e95; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing:.06em; }
 .presence-value { min-width:0; color:#b8d0df; overflow-wrap:anywhere; word-break:break-word; }
 .presence-value.server-id { color:#78b8d8; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:9px; word-break:break-all; }
@@ -2591,11 +1834,7 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .action-button.join:hover { border-color:var(--green); }
 .action-button.bring { border-color:rgba(0,200,255,.48); color:#8cecff; background:rgba(3,28,42,.78); }
 .action-button.bring:hover { border-color:var(--cyan); }
-.broadcast-button { border-color:rgba(0,200,255,.46) !important; color:#bcefff !important; background:rgba(2,38,55,.62) !important; }
-.broadcast-button:hover { border-color:rgba(0,200,255,.8) !important; box-shadow:0 0 24px rgba(0,200,255,.16); }
 .update-button { border-color:rgba(255,190,70,.42) !important; color:#ffe5a8 !important; background:rgba(55,35,4,.56) !important; }
-.shutdown-button { border-color:rgba(255,77,120,.46) !important; color:#ffc0d0 !important; background:rgba(58,7,23,.62) !important; }
-.shutdown-button:hover { border-color:rgba(255,77,120,.78) !important; box-shadow:0 0 24px rgba(255,77,120,.16); }
 .update-status { margin-top:22px; padding:20px 22px; border:1px solid rgba(255,190,70,.35); border-radius:22px; background:linear-gradient(135deg,rgba(255,190,70,.09),rgba(0,200,255,.05)),var(--panel); }
 .update-status.hidden { display:none; }
 .update-status-row { display:flex; align-items:center; justify-content:space-between; gap:18px; }
@@ -2603,9 +1842,6 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .update-status p { margin:0; color:#9ab0bf; }
 .update-countdown { color:#ffe29a; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:24px; font-weight:900; letter-spacing:.06em; white-space:nowrap; }
 .action-button.update-cancel { border-color:rgba(255,190,70,.5); color:#ffe4a1; background:rgba(55,35,4,.72); }
-.update-cancel-form { margin:10px 0 0; position:relative; z-index:4; }
-.update-cancel-form .action-button { width:100%; min-width:190px; }
-.dashboard-notice { margin:0 0 18px; padding:13px 16px; border:1px solid rgba(45,255,165,.3); border-radius:14px; color:#aaffdc; background:rgba(45,255,165,.1); font-weight:850; }
 .modal-card.update-card { border-color:rgba(255,190,70,.42); background:linear-gradient(145deg,rgba(255,190,70,.07),rgba(0,200,255,.04)),rgba(7,13,23,.97); }
 .update-duration-grid { display:grid; grid-template-columns:1fr 150px; gap:10px; }
 .update-field { display:grid; gap:7px; margin-top:14px; }
@@ -2686,14 +1922,11 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
     </div>
     <div class="header-actions">
         <a class="logout-button" href="/" style="display:inline-flex;align-items:center;text-decoration:none;border-color:rgba(74,178,230,.32);color:var(--text);background:rgba(7,13,23,.72);">Startseite</a>
-        ${broadcastButtonHtml}
         ${updateButtonHtml}
-        ${shutdownButtonHtml}
         <div class="live-pill"><span id="headerDot" class="dot"></span><span id="headerStatus">Verbindung wird geprüft</span></div>
         <form class="logout-form" method="post" action="/logout"><button class="logout-button" type="submit">Abmelden</button></form>
     </div>
 </header>
-${dashboardNoticeHtml}
 
 <section class="hero">
     <div class="eyebrow">NEXU // LIVE SYSTEM</div>
@@ -2707,10 +1940,10 @@ ${dashboardNoticeHtml}
     </div>
 </section>
 
-<section id="updateStatusPanel" class="update-status${initialUpdateHiddenClass}" aria-live="polite">
+<section id="updateStatusPanel" class="update-status hidden" aria-live="polite">
     <div class="update-status-row">
-        <div><div class="eyebrow">NEXU // SCRIPT UPDATE</div><h2>Wartungsmodus ist aktiv</h2><p id="updateStatusText">${escapeHtml(initialUpdateText)}</p></div>
-        <div><div id="updateCountdown" class="update-countdown">${escapeHtml(initialUpdateCountdown)}</div>${cancelUpdateButtonHtml}</div>
+        <div><div class="eyebrow">NEXU // SCRIPT UPDATE</div><h2>Wartungsmodus ist aktiv</h2><p id="updateStatusText">Das Lua-Menü ist vorübergehend gesperrt.</p></div>
+        <div><div id="updateCountdown" class="update-countdown">00:00</div>${cancelUpdateButtonHtml}</div>
     </div>
 </section>
 
@@ -2764,20 +1997,6 @@ ${dashboardNoticeHtml}
     </div>
 </div>
 
-<div id="broadcastModal" class="modal-backdrop hidden" aria-hidden="true">
-    <div class="modal-card dm-card" role="dialog" aria-modal="true" aria-labelledby="broadcastModalTitle">
-        <div class="eyebrow">NEXU // RUNDSENDUNG</div>
-        <h3 id="broadcastModalTitle">Nachricht an alle aktiven Spieler</h3>
-        <p id="broadcastModalUser" class="modal-user">Die Nachricht wird an alle Spieler mit einer aktuell aktiven Nexu-Sitzung gesendet.</p>
-        <textarea id="broadcastMessageInput" class="message-input" maxlength="240" placeholder="Nachricht an alle aktiven Spieler eingeben …"></textarea>
-        <div class="modal-actions">
-            <button id="cancelBroadcastButton" class="action-button">ABBRECHEN</button>
-            <button id="confirmBroadcastButton" class="action-button dm">AN ALLE SENDEN</button>
-        </div>
-        <div id="broadcastModalNotice" class="modal-notice"></div>
-    </div>
-</div>
-
 <div id="dmModal" class="modal-backdrop hidden" aria-hidden="true">
     <div class="modal-card dm-card" role="dialog" aria-modal="true" aria-labelledby="dmModalTitle">
         <div class="eyebrow">NEXU // DIREKTNACHRICHT</div>
@@ -2795,6 +2014,7 @@ ${dashboardNoticeHtml}
 <script>
 const DASHBOARD_PERMISSIONS = ${permissionJson};
 const state = {
+    snapshotToken:"",
     online:false,
     players:[],
     activePlayers:0,
@@ -2803,19 +2023,12 @@ const state = {
     offlineQuery:"",
     bannedQuery:"",
     activeDirectory:"online",
-    menuUpdate:${initialMenuUpdateJson},
+    menuUpdate:{active:false,remainingSeconds:0},
     updateSyncedAt:Date.now(),
     pendingBan:null,
     pendingDm:null,
-    broadcastTargetCount:0,
     permissions:DASHBOARD_PERMISSIONS || {},
-    refreshFailures:0,
-    lastSuccessfulRefreshAt:0,
-    stale:false,
-    snapshotToken:"",
-    serverInstanceId:"",
 };
-let presenceRefreshInFlight = false;
 
 const allowTextEditingTargets = "input, textarea";
 document.documentElement.setAttribute("spellcheck", "false");
@@ -2895,15 +2108,7 @@ const elements = {
     cancelDmButton:document.getElementById("cancelDmButton"),
     confirmDmButton:document.getElementById("confirmDmButton"),
     dmModalNotice:document.getElementById("dmModalNotice"),
-    broadcastDmButton:document.getElementById("broadcastDmButton"),
-    broadcastModal:document.getElementById("broadcastModal"),
-    broadcastModalUser:document.getElementById("broadcastModalUser"),
-    broadcastMessageInput:document.getElementById("broadcastMessageInput"),
-    cancelBroadcastButton:document.getElementById("cancelBroadcastButton"),
-    confirmBroadcastButton:document.getElementById("confirmBroadcastButton"),
-    broadcastModalNotice:document.getElementById("broadcastModalNotice"),
     openUpdateButton:document.getElementById("openUpdateButton"),
-    shutdownAllButton:document.getElementById("shutdownAllButton"),
     updateStatusPanel:document.getElementById("updateStatusPanel"),
     updateStatusText:document.getElementById("updateStatusText"),
     updateCountdown:document.getElementById("updateCountdown"),
@@ -2994,21 +2199,6 @@ async function updateScriptAction(action, durationMinutes) {
     return data;
 }
 
-
-
-async function shutdownAllActiveScripts() {
-    const response = await fetch("/api/admin/shutdown/all", {
-        method:"POST",
-        headers:{Accept:"application/json","Content-Type":"application/json"},
-        body:"{}",
-    });
-    const data = await response.json().catch(function () { return {}; });
-    if (!response.ok || data.success !== true) {
-        throw new Error(data.error || ("HTTP " + response.status));
-    }
-    return data;
-}
-
 function openUpdateModal() {
     if (!elements.updateModal) return;
     elements.updateModalNotice.textContent = "";
@@ -3026,25 +2216,18 @@ function closeUpdateModal() {
 
 function renderPlayer(player,banned) {
     const online = !banned && player.online === true;
-    const reconnecting = online && player.reconnecting === true;
-    const actionableOnline = online && !reconnecting;
     const name = player.displayName || player.username || player.userId;
     const username = player.username || ("User" + player.userId);
     const gameName = player.gameName || (player.placeId ? ("Place " + player.placeId) : "Unbekannt");
     const placeId = String(player.placeId || "-");
     const jobId = String(player.jobId || "-");
-    const executionSource = String(player.executionSource || (player.online ? "WIRD GEMELDET…" : "NICHT GEMELDET"));
-    const executionVersion = String(player.executionVersion || "");
-    const clientPlatform = String(player.clientPlatform || (player.online ? "WIRD GEMELDET…" : "NICHT GEMELDET"));
-    const scriptBuild = String(player.scriptBuild || (player.online ? "WIRD GEMELDET…" : "CLIENT VOR V138"));
-    const executionDisplay = executionVersion ? (executionSource + " " + executionVersion) : executionSource;
     const lastSeenText = formatDashboardDate(player.lastSeen);
-    const joinable = actionableOnline && /^\d+$/.test(placeId) && placeId !== "0" && jobId !== "-" && !jobId.startsWith("LOCAL-");
-    const bringable = actionableOnline && String(player.userId || "") !== "${MENU_CREATOR_USER_ID}";
+    const joinable = online && /^\d+$/.test(placeId) && placeId !== "0" && jobId !== "-" && !jobId.startsWith("LOCAL-");
+    const bringable = online && String(player.userId || "") !== "${MENU_CREATOR_USER_ID}";
     const roleKey = String(player.roleKey || "player").replace(/[^a-z0-9_-]/gi,"").toLowerCase() || "player";
     const roleTitle = player.roleTitle || "PLAYERS";
     const stateClass = banned ? "banned" : (online ? "online" : "offline");
-    const stateText = banned ? "Gesperrt" : (reconnecting ? "Letzter Stand" : (online ? "Online" : "Offline"));
+    const stateText = banned ? "Gesperrt" : (online ? "Online" : "Offline");
     const roleBadge = '<div class="role-badge ' + escapeHtml(roleKey) + '">' + escapeHtml(roleTitle) + '</div>';
     const roleControls = (!banned && roleKey !== "creator" && state.permissions.managePlayerRoles === true)
         ? '<div class="role-controls" aria-label="Rang einstellen">' +
@@ -3061,9 +2244,6 @@ function renderPlayer(player,banned) {
             '<div class="presence-line"><span class="presence-key">SPIEL</span><span class="presence-value">' + escapeHtml(gameName) + '</span></div>' +
             '<div class="presence-line"><span class="presence-key">PLACE</span><span class="presence-value">' + escapeHtml(placeId) + '</span></div>' +
             '<div class="presence-line"><span class="presence-key">SERVER</span><span class="presence-value server-id" title="' + escapeHtml(jobId) + '">' + escapeHtml(jobId) + '</span></div>' +
-            '<div class="presence-line"><span class="presence-key">AUSFÜHRUNG</span><span class="presence-value" title="' + escapeHtml(executionDisplay) + '">' + escapeHtml(executionDisplay) + '</span></div>' +
-            '<div class="presence-line"><span class="presence-key">PLATTFORM</span><span class="presence-value">' + escapeHtml(clientPlatform) + '</span></div>' +
-            '<div class="presence-line"><span class="presence-key">BUILD</span><span class="presence-value server-id" title="' + escapeHtml(scriptBuild) + '">' + escapeHtml(scriptBuild) + '</span></div>' +
             '<div class="presence-line"><span class="presence-key">ZULETZT</span><span class="presence-value">' + escapeHtml(lastSeenText) + '</span></div>' +
         '</div>';
     const joinButton = joinable && state.permissions.serverJoin === true
@@ -3072,7 +2252,7 @@ function renderPlayer(player,banned) {
     const bringButton = bringable && state.permissions.bring === true
         ? '<button class="action-button bring" data-action="bring" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BRING</button>'
         : "";
-    const dmButton = actionableOnline && state.permissions.dm === true
+    const dmButton = online && state.permissions.dm === true
         ? '<button class="action-button dm" data-action="dm" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">DM</button>'
         : "";
     const actionButtons = banned
@@ -3103,10 +2283,8 @@ function renderPlayer(player,banned) {
 
 function render() {
     elements.headerDot.className = "dot " + (state.online ? "online" : "offline");
-    elements.headerStatus.textContent = state.online
-        ? "Server online"
-        : (state.stale ? "Verbindung unterbrochen – letzte Daten bleiben sichtbar" : "Server nicht erreichbar");
-    elements.serverStatus.textContent = state.online ? "ONLINE" : (state.stale ? "WIEDERVERBINDUNG" : "OFFLINE");
+    elements.headerStatus.textContent = state.online ? "Server online" : "Server nicht erreichbar";
+    elements.serverStatus.textContent = state.online ? "ONLINE" : "OFFLINE";
     elements.serverStatus.style.color = state.online ? "var(--green)" : "var(--red)";
     const totalOnlineCount = state.players.filter(function (player) { return player.online === true; }).length;
     const totalOfflineCount = state.players.length - totalOnlineCount;
@@ -3124,9 +2302,6 @@ function render() {
             String(player.username || "").toLocaleLowerCase().includes(query) ||
             String(player.roleTitle || "").toLocaleLowerCase().includes(query) ||
             String(player.roleKey || "").toLocaleLowerCase().includes(query) ||
-            String(player.executionSource || "").toLocaleLowerCase().includes(query) ||
-            String(player.clientPlatform || "").toLocaleLowerCase().includes(query) ||
-            String(player.scriptBuild || "").toLocaleLowerCase().includes(query) ||
             String(player.userId || "").includes(query);
     }
 
@@ -3162,31 +2337,17 @@ function render() {
             : '<div class="empty">' + (bannedQuery ? 'Kein gebannter Spieler passt zu deiner Suche.' : 'Die Sperrliste ist leer.') + '</div>')
         : '<div class="empty">Für diesen Account ist Bannen/Entbannen nicht freigegeben.</div>';
 
-    const staleSuffix = state.stale
-        ? " // Letzte erfolgreiche Aktualisierung wird weiter angezeigt"
-        : "";
-    elements.footerNote.textContent = onlinePlayers.length + " von " + totalOnlineCount + " Online-Spielern angezeigt" + staleSuffix;
-    elements.offlineFooter.textContent = offlinePlayers.length + " von " + totalOfflineCount + " Offline-Spielern angezeigt" + staleSuffix;
-    elements.bannedFooter.textContent = bannedPlayers.length + " von " + state.bannedPlayers.length + " gesperrten Nutzern angezeigt" + staleSuffix;
+    elements.footerNote.textContent = onlinePlayers.length + " von " + totalOnlineCount + " Online-Spielern angezeigt";
+    elements.offlineFooter.textContent = offlinePlayers.length + " von " + totalOfflineCount + " Offline-Spielern angezeigt";
+    elements.bannedFooter.textContent = bannedPlayers.length + " von " + state.bannedPlayers.length + " gesperrten Nutzern angezeigt";
 }
 
 async function refresh() {
-    if (presenceRefreshInFlight) {
-        return;
-    }
-    presenceRefreshInFlight = true;
-    let shouldRender = false;
-    const controller = new AbortController();
-    const requestTimeout = setTimeout(function () { controller.abort(); }, 15000);
-
     try {
-        const tokenQuery = state.snapshotToken
-            ? ("?snapshotToken=" + encodeURIComponent(state.snapshotToken))
-            : "";
-        const response = await fetch("/api/presence" + tokenQuery, {
+        const requestPath = state.snapshotToken ? ("/api/presence?snapshotToken=" + encodeURIComponent(state.snapshotToken)) : "/api/presence";
+        const response = await fetch(requestPath, {
             headers:{ Accept:"application/json" },
             cache:"no-store",
-            signal:controller.signal,
         });
 
         if (!response.ok) {
@@ -3195,60 +2356,19 @@ async function refresh() {
 
         const data = await response.json();
         state.online = data.online === true;
-        state.lastSuccessfulRefreshAt = Date.now();
-        state.refreshFailures = 0;
-        const wasStale = state.stale;
-        state.stale = false;
-
-        if (data.unchanged === true) {
-            state.snapshotToken = String(data.snapshotToken || state.snapshotToken || "");
-            state.serverInstanceId = String(data.serverInstanceId || state.serverInstanceId || "");
-            state.activePlayers = Number(data.activePlayers) || state.activePlayers;
-            shouldRender = wasStale;
-        } else {
-            const incomingPlayers = Array.isArray(data.players) ? data.players : [];
-            const authoritativeActiveIds = new Set(
-                (Array.isArray(data.activeUserIds) ? data.activeUserIds : [])
-                    .map(function (userId) { return String(userId || ""); })
-                    .filter(Boolean)
-            );
-            const hasAuthoritativeActiveList = Array.isArray(data.activeUserIds);
-            state.players = incomingPlayers.map(function (player) {
-                const userId = String(player.userId || "");
-                const isActive = hasAuthoritativeActiveList
-                    ? authoritativeActiveIds.has(userId)
-                    : player.online === true;
-                return Object.assign({}, player, { online:isActive, reconnecting:false });
-            });
-            state.activePlayers = hasAuthoritativeActiveList
-                ? authoritativeActiveIds.size
-                : state.players.filter(function (player) { return player.online === true; }).length;
-            state.bannedPlayers = Array.isArray(data.bannedPlayers) ? data.bannedPlayers : [];
-            state.menuUpdate = data.menuUpdate && typeof data.menuUpdate === "object" ? data.menuUpdate : {active:false,remainingSeconds:0};
-            state.updateSyncedAt = Date.now();
-            state.snapshotToken = String(data.snapshotToken || "");
-            state.serverInstanceId = String(data.serverInstanceId || "");
-            shouldRender = true;
-        }
+        if (typeof data.snapshotToken === "string") state.snapshotToken = data.snapshotToken;
+        if (data.unchanged === true) { return; }
+        state.players = Array.isArray(data.players) ? data.players : [];
+        state.activePlayers = Number(data.activePlayers) || state.players.filter(function (player) { return player.online === true; }).length;
+        state.bannedPlayers = Array.isArray(data.bannedPlayers) ? data.bannedPlayers : [];
+        state.menuUpdate = data.menuUpdate && typeof data.menuUpdate === "object" ? data.menuUpdate : {active:false,remainingSeconds:0};
+        state.updateSyncedAt = Date.now();
     } catch (error) {
         console.error("Nexu refresh failed:",error);
         state.online = false;
-        state.refreshFailures += 1;
-        state.stale = state.players.length > 0 || state.bannedPlayers.length > 0;
-        state.players = state.players.map(function (player) {
-            return player.online === true
-                ? Object.assign({}, player, { reconnecting:true })
-                : player;
-        });
-        shouldRender = true;
-    } finally {
-        clearTimeout(requestTimeout);
-        presenceRefreshInFlight = false;
     }
 
-    if (shouldRender) {
-        render();
-    }
+    render();
 }
 
 function openBanModal(userId,displayName,username) {
@@ -3307,44 +2427,6 @@ function closeDmModal() {
     elements.dmModal.setAttribute("aria-hidden","true");
     elements.dmModalNotice.textContent = "";
     elements.dmModalNotice.className = "modal-notice";
-}
-
-function openBroadcastModal() {
-    const onlineCount = state.players.filter(function (player) { return player.online === true; }).length;
-    state.broadcastTargetCount = onlineCount;
-    elements.broadcastModalUser.textContent = onlineCount === 1
-        ? "Die Nachricht wird an 1 aktuell aktiven Spieler gesendet."
-        : "Die Nachricht wird an " + onlineCount + " aktuell aktive Spieler gesendet.";
-    elements.broadcastMessageInput.value = "";
-    elements.broadcastModalNotice.textContent = "";
-    elements.broadcastModalNotice.className = "modal-notice";
-    elements.broadcastModal.classList.remove("hidden");
-    elements.broadcastModal.setAttribute("aria-hidden","false");
-    setTimeout(function () { elements.broadcastMessageInput.focus(); },30);
-}
-
-function closeBroadcastModal() {
-    state.broadcastTargetCount = 0;
-    elements.broadcastModal.classList.add("hidden");
-    elements.broadcastModal.setAttribute("aria-hidden","true");
-    elements.broadcastModalNotice.textContent = "";
-    elements.broadcastModalNotice.className = "modal-notice";
-}
-
-async function sendBroadcastMessage(message) {
-    const response = await fetch("/api/dm/broadcast", {
-        method:"POST",
-        headers:{
-            Accept:"application/json",
-            "Content-Type":"application/json",
-        },
-        body:JSON.stringify({ message:String(message || "").trim() }),
-    });
-    const data = await response.json().catch(function () { return {}; });
-    if (!response.ok || data.success !== true) {
-        throw new Error(data.error || ("HTTP " + response.status));
-    }
-    return data;
 }
 
 async function sendDirectMessage(target,message) {
@@ -3477,24 +2559,7 @@ elements.directoryTabs.forEach(function (button) {
     button.addEventListener("click", function () { setDirectoryTab(button.dataset.directoryTab); });
 });
 
-if (elements.broadcastDmButton) elements.broadcastDmButton.addEventListener("click", openBroadcastModal);
 if (elements.openUpdateButton) elements.openUpdateButton.addEventListener("click", openUpdateModal);
-if (elements.shutdownAllButton) elements.shutdownAllButton.addEventListener("click", async function () {
-    if (!window.confirm("Alle aktuell verbundenen Nexu-Scripts jetzt deaktivieren? Die Spieler können das Script danach sofort wieder neu starten.")) return;
-    const originalText = elements.shutdownAllButton.textContent;
-    elements.shutdownAllButton.disabled = true;
-    elements.shutdownAllButton.textContent = "DEAKTIVIERE …";
-    try {
-        const result = await shutdownAllActiveScripts();
-        alert((result.targetedPlayers || 0) + " Spieler / " + (result.targetedSessions || 0) + " aktive Sitzung(en) wurden zum Deaktivieren markiert.");
-        await refresh();
-    } catch (error) {
-        alert(error.message || "Scripts konnten nicht deaktiviert werden.");
-    } finally {
-        elements.shutdownAllButton.disabled = false;
-        elements.shutdownAllButton.textContent = originalText;
-    }
-});
 if (elements.closeUpdateButton) elements.closeUpdateButton.addEventListener("click", closeUpdateModal);
 if (elements.updateModal) elements.updateModal.addEventListener("click", function (event) { if (event.target === elements.updateModal) closeUpdateModal(); });
 document.querySelectorAll("[data-update-minutes]").forEach(function (button) {
@@ -3523,6 +2588,21 @@ if (elements.startUpdateButton) elements.startUpdateButton.addEventListener("cli
         elements.startUpdateButton.textContent = "UPDATE STARTEN";
     }
 });
+if (elements.cancelUpdateButton) elements.cancelUpdateButton.addEventListener("click", async function () {
+    if (!window.confirm("Script-Update jetzt vorzeitig beenden?")) return;
+    elements.cancelUpdateButton.disabled = true;
+    elements.cancelUpdateButton.textContent = "BEENDE …";
+    try {
+        await updateScriptAction("cancel", 0);
+        await refresh();
+    } catch (error) {
+        alert(error.message || "Update konnte nicht beendet werden.");
+    } finally {
+        elements.cancelUpdateButton.disabled = false;
+        elements.cancelUpdateButton.textContent = "UPDATE ABBRECHEN";
+    }
+});
+
 document.addEventListener("click",async function (event) {
     const button = event.target.closest("[data-action][data-user-id]");
     if (!button) {
@@ -3657,41 +2737,6 @@ elements.confirmBanButton.addEventListener("click",async function () {
     }
 });
 
-if (elements.cancelBroadcastButton) elements.cancelBroadcastButton.addEventListener("click",closeBroadcastModal);
-if (elements.broadcastModal) elements.broadcastModal.addEventListener("click",function (event) {
-    if (event.target === elements.broadcastModal) {
-        closeBroadcastModal();
-    }
-});
-if (elements.confirmBroadcastButton) elements.confirmBroadcastButton.addEventListener("click",async function () {
-    const message = elements.broadcastMessageInput.value.trim();
-    if (!message) {
-        elements.broadcastModalNotice.textContent = "Bitte eine Nachricht eingeben.";
-        elements.broadcastModalNotice.className = "modal-notice";
-        elements.broadcastMessageInput.focus();
-        return;
-    }
-    elements.confirmBroadcastButton.disabled = true;
-    elements.confirmBroadcastButton.textContent = "SENDE …";
-    elements.broadcastModalNotice.textContent = "";
-    elements.broadcastModalNotice.className = "modal-notice";
-    try {
-        const result = await sendBroadcastMessage(message);
-        const count = Number(result.targetedPlayers) || 0;
-        elements.broadcastModalNotice.textContent = count === 1
-            ? "Nachricht wurde an 1 aktiven Spieler gesendet."
-            : "Nachricht wurde an " + count + " aktive Spieler gesendet.";
-        elements.broadcastModalNotice.className = "modal-notice ok";
-        setTimeout(closeBroadcastModal,900);
-    } catch (error) {
-        elements.broadcastModalNotice.textContent = error.message || "Nachricht konnte nicht an alle gesendet werden.";
-        elements.broadcastModalNotice.className = "modal-notice";
-    } finally {
-        elements.confirmBroadcastButton.disabled = false;
-        elements.confirmBroadcastButton.textContent = "AN ALLE SENDEN";
-    }
-});
-
 elements.cancelDmButton.addEventListener("click",closeDmModal);
 
 elements.dmModal.addEventListener("click",function (event) {
@@ -3742,16 +2787,13 @@ document.addEventListener("keydown",function (event) {
     if (!elements.dmModal.classList.contains("hidden")) {
         closeDmModal();
     }
-    if (elements.broadcastModal && !elements.broadcastModal.classList.contains("hidden")) {
-        closeBroadcastModal();
-    }
     if (elements.updateModal && !elements.updateModal.classList.contains("hidden")) {
         closeUpdateModal();
     }
 });
 
 refresh();
-setInterval(refresh,2000);
+setInterval(refresh,5000);
 setInterval(renderUpdateStatus,250);
 </script>
 
@@ -3760,7 +2802,6 @@ setInterval(renderUpdateStatus,250);
 }
 
 loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();
-const githubStorageStartupPromise = loadGitHubStorage().then(() => { syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler geladen; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
 
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
@@ -3799,28 +2840,7 @@ if (req.method === "GET" && pathname === "/menu-server") {
         return;
     }
     console.log("[NEXU] Menu Server Dashboard aufgerufen");
-    const updateNotice = requestUrl.searchParams.get("update") === "cancelled"
-        ? "Das Script-Update wurde beendet. Alle Spieler können das Menü wieder starten."
-        : requestUrl.searchParams.get("update") === "already-inactive"
-            ? "Der Update-Modus war bereits beendet."
-            : "";
-    sendHtml(res, 200, dashboardHtml(session.account, updateNotice));
-    return;
-}
-
-if (req.method === "POST" && pathname === "/menu-server/update/cancel") {
-    const session = getDashboardSession(req);
-    if (!session || !session.account) {
-        redirect(res, "/login");
-        return;
-    }
-    if (!hasDashboardPermission(session.account, "updateScript")) {
-        sendHtml(res, 403, homeHtml("", dashboardPermissionError("updateScript"), session.account));
-        return;
-    }
-    const result = cancelMenuUpdate();
-    console.log(`[NEXU] Script-Update ${result.wasActive ? "über Dashboard-Formular beendet" : "war bereits inaktiv"}: ${session.username}`);
-    redirect(res, result.wasActive ? "/menu-server?update=cancelled" : "/menu-server?update=already-inactive");
+    sendHtml(res, 200, dashboardHtml(session.account));
     return;
 }
 
@@ -3891,7 +2911,7 @@ if (req.method === "POST" && pathname === "/accounts/update") {
             username: nextUsername,
             passwordHash: nextPasswordHash,
             access: targetIsOwner
-                ? normalizeDashboardAccess({}, OWNER_ACCOUNT_USERNAME, DASHBOARD_DEFAULT_EMAIL)
+                ? normalizeDashboardAccess({}, OWNER_ACCOUNT_USERNAME)
                 : normalizeDashboardAccess({
                     menuServer: dashboardAccessEnabled,
                     dm: dashboardAccessEnabled && (form.dashboardDm === "1" || form.dashboardDm === "on"),
@@ -4267,13 +3287,9 @@ if (
         success: true,
         online: true,
         service: "Nexu Presence & Moderation",
-        activePlayers: countActivePresenceUsers(),
-        activeSessions: presence.size,
+        activePlayers: presence.size,
         bannedPlayers: bans.size,
         menuUpdate: getMenuUpdateStatus(),
-        pendingShutdownSessions: shutdownCommandsBySession.size,
-        serverStartedAtMs: SERVER_STARTED_AT_MS,
-        presenceWarmup: Date.now() - SERVER_STARTED_AT_MS < PRESENCE_RESTART_GRACE_MS,
         timestamp: new Date().toISOString(),
     });
     return;
@@ -4281,11 +3297,6 @@ if (
 
 if (req.method === "GET" && pathname === "/api/menu/access") {
     const userId = cleanNumericId(requestUrl.searchParams.get("userId"));
-    const sessionId = cleanText(requestUrl.searchParams.get("sessionId"), 100);
-    const sessionStartedAtMs = cleanInteger(
-        requestUrl.searchParams.get("sessionStartedAtMs") ||
-        requestUrl.searchParams.get("startedAtMs")
-    );
 
     if (!userId) {
         sendJson(res, 400, {
@@ -4298,14 +3309,12 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
     const ban = bans.get(userId);
     const role = getNexuRoleInfo(userId);
     const menuUpdate = getMenuUpdateStatus();
-    const shutdown = getShutdownCommandForClient(userId, sessionId, sessionStartedAtMs);
     sendJson(res, 200, {
         success: true,
-        allowed: !ban && !menuUpdate.active && shutdown.active !== true,
+        allowed: !ban && !menuUpdate.active,
         banned: Boolean(ban),
         updating: menuUpdate.active,
         maintenance: menuUpdate,
-        shutdown,
         userId,
         roleKey: role.key,
         roleTitle: role.title,
@@ -4320,20 +3329,6 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
     return;
 }
 
-
-
-if (req.method === "POST" && pathname === "/api/admin/shutdown/all") {
-    const session = getDashboardSession(req);
-    if (!session || !hasDashboardPermission(session.account, "shutdownScript")) {
-        sendJson(res, 403, {success:false,error:dashboardPermissionError("shutdownScript")});
-        return;
-    }
-    const result = queueGlobalScriptShutdown(session.username);
-    console.log(`[NEXU] Globales Script-Deaktivieren: ${result.targetedPlayers} Spieler / ${result.targetedSessions} Sitzungen von ${session.username}`);
-    sendJson(res, 200, {success:true,...result});
-    return;
-}
-
 if (req.method === "POST" && pathname === "/api/admin/update/start") {
     const session = getDashboardSession(req);
     if (!session || !hasDashboardPermission(session.account, "updateScript")) {
@@ -4341,12 +3336,7 @@ if (req.method === "POST" && pathname === "/api/admin/update/start") {
         return;
     }
     try {
-        const requestRevision = menuUpdateMutationRevision;
         const body = await readJsonBody(req);
-        if (requestRevision !== menuUpdateMutationRevision) {
-            sendJson(res, 409, {success:false,error:"Der Update-Start wurde verworfen, weil der Update-Modus inzwischen beendet oder geändert wurde."});
-            return;
-        }
         const result = startMenuUpdate(body.durationMinutes, session.username);
         if (result.error) {
             sendJson(res, 400, {success:false,error:result.error});
@@ -4368,7 +3358,7 @@ if (req.method === "POST" && pathname === "/api/admin/update/cancel") {
     }
     const result = cancelMenuUpdate();
     console.log(`[NEXU] Script-Update ${result.wasActive ? "vorzeitig beendet" : "war bereits inaktiv"}: ${session.username}`);
-    sendJson(res, 200, {success:true,persisted:result.persisted !== false,menuUpdate:result.status});
+    sendJson(res, 200, {success:true,menuUpdate:result.status});
     return;
 }
 
@@ -4714,44 +3704,24 @@ if (req.method === "POST" && pathname === "/api/bring/poll") {
 
 if (req.method === "GET" && pathname === "/api/presence") {
     prunePresence();
-    const requestedToken = cleanText(requestUrl.searchParams.get("snapshotToken"), 200);
-    const currentToken = getPresenceSnapshotToken();
-    if (requestedToken && requestedToken === currentToken) {
-        sendJson(res, 200, {
-            success: true,
-            online: true,
-            unchanged: true,
-            activePlayers: countActivePresenceUsers(),
-            revision: presenceRevision,
-            snapshotToken: currentToken,
-            serverInstanceId: SERVER_INSTANCE_ID,
-            snapshotGeneratedAtMs: Date.now(),
-            timestamp: new Date().toISOString(),
-        });
+    const snapshotToken = getPresenceSnapshotToken();
+    const requestedSnapshotToken = cleanText(requestUrl.searchParams.get("snapshotToken"), 120);
+    if (requestedSnapshotToken && requestedSnapshotToken === snapshotToken) {
+        sendJson(res, 200, { success: true, online: true, unchanged: true, snapshotToken, timestamp: new Date().toISOString() });
         return;
     }
-
     const data = await getPublicPresence();
     sendJson(res, 200, {
         success: true,
         online: true,
-        unchanged: false,
         activePlayers: data.activeCount,
-        activeUserIds: data.activeUserIds,
-        revision: data.revision,
-        snapshotToken: data.snapshotToken,
-        serverInstanceId: data.serverInstanceId,
-        snapshotGeneratedAtMs: data.snapshotGeneratedAtMs,
-        activeWindowSeconds: ACTIVE_PRESENCE_WINDOW_MS / 1000,
         bannedCount: data.bannedPlayers.length,
         timeoutSeconds: ONLINE_TIMEOUT_MS / 1000,
-        heartbeatMode: "per-script-session-lease",
+        snapshotToken,
+        unchanged: false,
         players: data.players,
         bannedPlayers: data.bannedPlayers,
         menuUpdate: getMenuUpdateStatus(),
-        pendingShutdownSessions: shutdownCommandsBySession.size,
-        serverStartedAtMs: SERVER_STARTED_AT_MS,
-        presenceWarmup: Date.now() - SERVER_STARTED_AT_MS < PRESENCE_RESTART_GRACE_MS,
         timestamp: new Date().toISOString(),
     });
     return;
@@ -4773,45 +3743,6 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
         const placeId = cleanInteger(body.placeId);
         const gameName = cleanText(body.gameName, 120) || `Place ${placeId || 0}`;
         const sessionId = cleanText(body.sessionId, 100);
-        const selfUserId = cleanNumericId(body.userId);
-        const selfSessionId = sessionId;
-        const selfSessionStartedAtMs = cleanInteger(
-            body.sessionStartedAtMs || body.startedAtMs
-        );
-
-        // Der Abschaltbefehl wird VOR dem erneuten Eintragen in presence geprüft.
-        // So bleibt die Website nach „ALLE SCRIPTS AUS“ sofort offline und ein
-        // alter Client kann sich nicht für einen einzelnen Heartbeat zurückmelden.
-        const pendingShutdown = selfUserId
-            ? getShutdownCommandForClient(
-                selfUserId,
-                selfSessionId,
-                selfSessionStartedAtMs
-            )
-            : { active: false };
-        if (pendingShutdown.active === true) {
-            sendJson(res, 200, {
-                success: true,
-                activePlayers: countActivePresenceUsers(),
-                activeSessions: presence.size,
-                receivedPlayers: 0,
-                blockedUserIds: [],
-                shutdown: pendingShutdown,
-                timestamp: new Date().toISOString(),
-            });
-            return;
-        }
-
-        // Presence ist absichtlich pro ausgeführter Script-Instanz. Batch-Listen
-        // dürfen niemals andere Spieler als online eintragen oder entfernen.
-        if (Array.isArray(body.players)) {
-            sendJson(res, 400, {
-                success: false,
-                error: "Batch-Heartbeats werden nicht unterstützt",
-            });
-            return;
-        }
-
         const normalized = normalizeHeartbeatPlayers(body);
 
         if (!jobId) {
@@ -4846,19 +3777,11 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 continue;
             }
 
-            const incomingSessionId = cleanText(rawPlayer.sessionId, 100) || sessionId;
-            if (!incomingSessionId) {
-                continue;
-            }
-
-            // Eine Session-ID entspricht genau einer laufenden Script-Ausführung.
-            // Dadurch kann eine alte oder parallele Instanz keine neue Instanz
-            // desselben Spielers überschreiben oder versehentlich abmelden.
-            const key = `${userId}:${incomingSessionId}`;
+            const effectiveSessionId = cleanText(rawPlayer.sessionId, 100) || sessionId || "legacy";
+            const key = `${jobId}:${userId}:${effectiveSessionId}`;
             currentKeys.add(key);
 
             const existing = presence.get(key);
-            const sameSession = Boolean(existing && existing.sessionId === incomingSessionId);
             const entry = {
                 userId,
                 username,
@@ -4866,38 +3789,33 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 gameName: cleanText(rawPlayer.gameName, 120) || gameName || (existing && existing.gameName) || `Place ${placeId || 0}`,
                 placeId,
                 jobId,
-                sessionId: incomingSessionId,
-                executionSource: cleanText(
-                    rawPlayer.executionSource || rawPlayer.executorName ||
-                    (rawPlayer.clientInfo && (rawPlayer.clientInfo.source || rawPlayer.clientInfo.executionSource)),
-                    80
-                ) || (existing && existing.executionSource) || "",
-                executionVersion: cleanText(
-                    rawPlayer.executionVersion || rawPlayer.executorVersion ||
-                    (rawPlayer.clientInfo && (rawPlayer.clientInfo.version || rawPlayer.clientInfo.executionVersion)),
-                    80
-                ) || (existing && existing.executionVersion) || "",
-                clientPlatform: cleanText(
-                    rawPlayer.clientPlatform || rawPlayer.platform ||
-                    (rawPlayer.clientInfo && (rawPlayer.clientInfo.platform || rawPlayer.clientInfo.clientPlatform)),
-                    40
-                ) || (existing && existing.clientPlatform) || "",
-                scriptBuild: cleanText(
-                    rawPlayer.scriptBuild || rawPlayer.buildId ||
-                    (rawPlayer.clientInfo && (rawPlayer.clientInfo.build || rawPlayer.clientInfo.scriptBuild)),
-                    120
-                ) || (existing && existing.scriptBuild) || "",
-                joinedAtMs: sameSession ? existing.joinedAtMs : now,
+                sessionId: effectiveSessionId,
+                joinedAtMs: existing ? existing.joinedAtMs : now,
                 lastSeenMs: now,
             };
+            const presenceChanged = !existing ||
+                existing.username !== entry.username ||
+                existing.displayName !== entry.displayName ||
+                existing.gameName !== entry.gameName ||
+                existing.placeId !== entry.placeId ||
+                existing.jobId !== entry.jobId ||
+                existing.sessionId !== entry.sessionId;
             presence.set(key, entry);
-            const playerChange = rememberKnownPlayer(entry, now);
-            if (playerChange) {
-                knownPlayersChanged = true;
-                if (playerChange === "important" && GITHUB_PLAYER_AUTOSAVE_ENABLED) {
-                    scheduleGitHubStorageSave("player-identity", 30_000);
+            if (presenceChanged) bumpPresenceRevision();
+            knownPlayersChanged = rememberKnownPlayer(entry, now) || knownPlayersChanged;
+        }
+
+        // Ein Batch enthält die vollständige Liste eines Roblox-Servers.
+        // Ein einzelner Client darf dagegen keine anderen Spieler entfernen.
+        if (normalized.batch) {
+            let batchRemoved = false;
+            for (const [key, entry] of presence) {
+                if (entry.jobId === jobId && !currentKeys.has(key)) {
+                    presence.delete(key);
+                    batchRemoved = true;
                 }
             }
+            if (batchRemoved) bumpPresenceRevision();
         }
 
         if (knownPlayersChanged) {
@@ -4905,7 +3823,6 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
         }
 
         prunePresence();
-        syncPresenceRevision(now);
 
         if (!normalized.batch && blockedUserIds.length > 0) {
             const userId = blockedUserIds[0];
@@ -4922,24 +3839,18 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
             return;
         }
 
-        const selfRole = selfUserId ? getNexuRoleInfo(selfUserId) : null;
-        const activePlayerCount = countActivePresenceUsers();
         console.log(
-            `[NEXU] Heartbeat: ${selfUserId || "unbekannt"}, ` +
-                `Session ${selfSessionId || "ohne-id"}, ` +
-                `${activePlayerCount} Spieler / ${presence.size} Sessions aktiv`
+            `[NEXU] Heartbeat: Job ${jobId}, ` +
+                `${currentKeys.size} aktiv, ` +
+                `${blockedUserIds.length} blockiert, ` +
+                `${presence.size} insgesamt`
         );
-        const shutdown = selfUserId
-            ? getShutdownCommandForClient(
-                selfUserId,
-                selfSessionId,
-                selfSessionStartedAtMs
-            )
-            : { active: false };
+
+        const selfUserId = normalized.batch ? "" : cleanNumericId(body.userId);
+        const selfRole = selfUserId ? getNexuRoleInfo(selfUserId) : null;
         sendJson(res, 200, {
             success: true,
-            activePlayers: activePlayerCount,
-            activeSessions: presence.size,
+            activePlayers: presence.size,
             receivedPlayers: currentKeys.size,
             blockedUserIds,
             roleKey: selfRole ? selfRole.key : "",
@@ -4948,7 +3859,6 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 bring: canUseNexuBringRole(selfUserId),
                 menuCreator: selfRole && selfRole.key === "creator",
             } : {},
-            shutdown,
             timestamp: new Date().toISOString(),
         });
     } catch (error) {
@@ -4992,81 +3902,13 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
             }
         }
 
-        if (markKnownPlayerOffline(userId, sessionId, now, { username, displayName })) {
-            saveKnownPlayers(false);
-        }
-        syncPresenceRevision(now);
+        if (removed > 0) bumpPresenceRevision();
 
-        sendJson(res, 200, { success: true, removed, snapshotToken: getPresenceSnapshotToken() });
+        sendJson(res, 200, { success: true, removed });
     } catch {
         sendJson(res, 400, {
             success: false,
             error: "Ungültiges JSON",
-        });
-    }
-    return;
-}
-
-if (req.method === "POST" && pathname === "/api/dm/broadcast") {
-    const broadcastSession = getDashboardSession(req);
-    if (
-        !broadcastSession ||
-        (broadcastSession.isOwner !== true &&
-            !hasDashboardPermission(broadcastSession.account, "dm"))
-    ) {
-        sendJson(res, 403, {
-            success:false,
-            error:dashboardPermissionError("dm"),
-            sessionActive:Boolean(broadcastSession),
-            ownerSession:Boolean(broadcastSession && broadcastSession.isOwner === true),
-        });
-        return;
-    }
-    if (!allowDirectMessageSend(req)) {
-        sendJson(res, 429, {success:false, error:"Zu viele Nachrichten. Bitte kurz warten."});
-        return;
-    }
-    try {
-        const body = await readJsonBody(req);
-        const message = cleanText(body.message, DM_MAX_LENGTH);
-        if (!message) {
-            sendJson(res, 400, {success:false, error:"Nachricht fehlt"});
-            return;
-        }
-
-        prunePresence();
-        const latestActiveByUserId = new Map();
-        for (const entry of presence.values()) {
-            const userId = cleanNumericId(entry && entry.userId);
-            if (!userId || bans.has(userId)) continue;
-            const current = latestActiveByUserId.get(userId);
-            if (!current || Number(entry.lastSeenMs || 0) > Number(current.lastSeenMs || 0)) {
-                latestActiveByUserId.set(userId, entry);
-            }
-        }
-
-        if (latestActiveByUserId.size === 0) {
-            sendJson(res, 409, {success:false, error:"Aktuell ist kein Spieler mit Nexu verbunden."});
-            return;
-        }
-
-        const queued = [];
-        for (const userId of latestActiveByUserId.keys()) {
-            const directMessage = queueDirectMessage(userId, message, "NEXU");
-            queued.push({userId, id:directMessage.id});
-        }
-        console.log(`[NEXU] RUNDSENDUNG an ${queued.length} aktive Spieler: ${message.slice(0, 60)}`);
-        sendJson(res, 200, {
-            success:true,
-            queued:true,
-            targetedPlayers:queued.length,
-            message,
-            sentAt:new Date().toISOString(),
-        });
-    } catch (error) {
-        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
-            success:false,
-            error:error.message === "BODY_TOO_LARGE" ? "Anfrage zu groß" : "Ungültiges JSON",
         });
     }
     return;
@@ -5238,8 +4080,7 @@ if (req.method === "POST" && pathname === "/api/admin/role") {
             roleKey,
         };
         knownPlayers.set(userId, next);
-        const persisted = saveKnownPlayers(false);
-        scheduleGitHubStorageSave("player-role", 2_500);
+        const persisted = saveKnownPlayers();
         const role = getNexuRoleInfo(userId);
 
         console.log(`[NEXU] RANG ${userId} -> ${role.key}`);
@@ -5412,56 +4253,6 @@ sendJson(res, 404, {
 
 });
 
-setInterval(() => {prunePresence();pruneDirectMessages();pruneDashboardAuth();pruneShutdownCommands();}, 20_000).unref();
+setInterval(() => {prunePresence();pruneDirectMessages();pruneDashboardAuth();}, 20_000).unref();
 
-async function flushGitHubStorageBeforeExit() {
-    if (!githubStorageReady || !githubStorageDirty || !isGitHubStorageConfigured()) return;
-    if (githubStorageTimer) {
-        clearTimeout(githubStorageTimer);
-        githubStorageTimer = null;
-        githubStorageDueAtMs = 0;
-    }
-    await writeGitHubStorageNow();
-}
-
-async function startNexuServer() {
-    await githubStorageStartupPromise;
-
-    server.listen(PORT, "0.0.0.0", () => {
-        console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V153 GESTARTET");
-        console.log("Port:", PORT);
-        console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
-        console.log("Ban-Datei:", BAN_FILE_PATH);
-        console.log("Spieler-Speicher:", KNOWN_PLAYERS_FILE_PATH);
-        console.log("GitHub-Speicher:", isGitHubStorageConfigured() ? "AKTIV" : "NICHT KONFIGURIERT");
-        console.log("GitHub-Datendatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_DATA_PATH}`);
-        console.log("Dashboard-Anmeldung: /");
-        console.log("Dashboard-Accounts:", dashboardAccounts.size);
-        console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V148 SIGNIERT UND NEUSTARTFEST");
-        console.log("Presence: /api/presence");
-        console.log("Aktive-Script-Timeout:", Math.round(ONLINE_TIMEOUT_MS / 1000), "Sekunden");
-        console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
-        console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");
-        console.log("Website Join: /api/join/send + /api/join/poll");
-        console.log("Access: /api/menu/access?userId=...");
-        console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
-        console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V153 LEASE + REVISION // NUR BEI ÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("Player-Autosave:", GITHUB_PLAYER_AUTOSAVE_ENABLED ? "AKTIV" : "DEAKTIVIERT AUF DEPLOY-BRANCH");
-        console.log("========================================");
-    });
-}
-
-startNexuServer().catch((error) => {
-    console.error("[NEXU] Serverstart fehlgeschlagen:", error);
-    process.exitCode = 1;
-});
-
-for (const signal of ["SIGINT", "SIGTERM"]) {
-    process.once(signal, () => {
-        Promise.race([
-            flushGitHubStorageBeforeExit(),
-            new Promise((resolve) => setTimeout(resolve, 4_000)),
-        ]).finally(() => process.exit(0));
-    });
-}
+server.listen(PORT, "0.0.0.0", () => {console.log("========================================");console.log("NEXU PRESENCE & MODERATION V154 GESTARTET");console.log("Port:", PORT);console.log("Heartbeat-Schutz:",HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");console.log("Ban-Datei:", BAN_FILE_PATH);console.log("Spieler-Speicher:", KNOWN_PLAYERS_FILE_PATH);console.log("Dashboard-Anmeldung: /");console.log("Dashboard-Accounts:", dashboardAccounts.size);console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Presence: /api/presence");console.log("Presence-Modell: V154 RAM-ONLY + CHANGE-ONLY");console.log("Aktiv-Fenster:", Math.round(ONLINE_TIMEOUT_MS / 1000), "Sekunden");console.log("Direct Messages: /api/dm/send + /api/dm/poll");console.log("Website Join: /api/join/send + /api/join/poll");console.log("Access: /api/menu/access?userId=...");console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");console.log("========================================");});
