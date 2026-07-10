@@ -745,7 +745,7 @@ function internalDashboardEmailForUsername(username) {
 
 const DASHBOARD_PERMISSION_DEFINITIONS = [
     { key: "menuServer", formName: "menuServerAccess", title: "Dashboard öffnen", description: "Darf den Menu Server ansehen." },
-    { key: "dm", formName: "dashboardDm", title: "DM senden", description: "Darf Nachrichten an Online-Spieler senden." },
+    { key: "dm", formName: "dashboardDm", title: "Nachrichten senden", description: "Darf DMs und Rundsendungen an aktive Nexu-Spieler senden." },
     { key: "bring", formName: "dashboardBring", title: "Bring benutzen", description: "Darf Spieler per Website zum Creator bringen." },
     { key: "serverJoin", formName: "dashboardJoin", title: "Server Join", description: "Darf den Creator zu einem Spieler-Server schicken." },
     { key: "managePlayerRoles", formName: "dashboardRole", title: "Ränge einstellen", description: "Darf PLAYERS/SUPPORTER für gespeicherte Spieler ändern." },
@@ -2080,6 +2080,7 @@ const initialUpdateText = initialMenuUpdate.active
 const dashboardNoticeHtml = notice
     ? `<div class="dashboard-notice" role="status">${escapeHtml(notice)}</div>`
     : "";
+const broadcastButtonHtml = permissionSnapshot.dm === true ? '<button id="broadcastDmButton" class="logout-button broadcast-button" type="button">NACHRICHT AN ALLE</button>' : "";
 const updateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="openUpdateButton" class="logout-button update-button" type="button">UPDATE SCRIPT</button>' : "";
 const shutdownButtonHtml = permissionSnapshot.shutdownScript === true ? '<button id="shutdownAllButton" class="logout-button shutdown-button" type="button">ALLE SCRIPTS AUS</button>' : "";
 const cancelUpdateButtonHtml = permissionSnapshot.updateScript === true
@@ -2325,6 +2326,8 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .action-button.join:hover { border-color:var(--green); }
 .action-button.bring { border-color:rgba(0,200,255,.48); color:#8cecff; background:rgba(3,28,42,.78); }
 .action-button.bring:hover { border-color:var(--cyan); }
+.broadcast-button { border-color:rgba(0,200,255,.46) !important; color:#bcefff !important; background:rgba(2,38,55,.62) !important; }
+.broadcast-button:hover { border-color:rgba(0,200,255,.8) !important; box-shadow:0 0 24px rgba(0,200,255,.16); }
 .update-button { border-color:rgba(255,190,70,.42) !important; color:#ffe5a8 !important; background:rgba(55,35,4,.56) !important; }
 .shutdown-button { border-color:rgba(255,77,120,.46) !important; color:#ffc0d0 !important; background:rgba(58,7,23,.62) !important; }
 .shutdown-button:hover { border-color:rgba(255,77,120,.78) !important; box-shadow:0 0 24px rgba(255,77,120,.16); }
@@ -2418,6 +2421,7 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
     </div>
     <div class="header-actions">
         <a class="logout-button" href="/" style="display:inline-flex;align-items:center;text-decoration:none;border-color:rgba(74,178,230,.32);color:var(--text);background:rgba(7,13,23,.72);">Startseite</a>
+        ${broadcastButtonHtml}
         ${updateButtonHtml}
         ${shutdownButtonHtml}
         <div class="live-pill"><span id="headerDot" class="dot"></span><span id="headerStatus">Verbindung wird geprüft</span></div>
@@ -2495,6 +2499,20 @@ ${dashboardNoticeHtml}
     </div>
 </div>
 
+<div id="broadcastModal" class="modal-backdrop hidden" aria-hidden="true">
+    <div class="modal-card dm-card" role="dialog" aria-modal="true" aria-labelledby="broadcastModalTitle">
+        <div class="eyebrow">NEXU // RUNDSENDUNG</div>
+        <h3 id="broadcastModalTitle">Nachricht an alle aktiven Spieler</h3>
+        <p id="broadcastModalUser" class="modal-user">Die Nachricht wird an alle Spieler mit einer aktuell aktiven Nexu-Sitzung gesendet.</p>
+        <textarea id="broadcastMessageInput" class="message-input" maxlength="240" placeholder="Nachricht an alle aktiven Spieler eingeben …"></textarea>
+        <div class="modal-actions">
+            <button id="cancelBroadcastButton" class="action-button">ABBRECHEN</button>
+            <button id="confirmBroadcastButton" class="action-button dm">AN ALLE SENDEN</button>
+        </div>
+        <div id="broadcastModalNotice" class="modal-notice"></div>
+    </div>
+</div>
+
 <div id="dmModal" class="modal-backdrop hidden" aria-hidden="true">
     <div class="modal-card dm-card" role="dialog" aria-modal="true" aria-labelledby="dmModalTitle">
         <div class="eyebrow">NEXU // DIREKTNACHRICHT</div>
@@ -2524,6 +2542,7 @@ const state = {
     updateSyncedAt:Date.now(),
     pendingBan:null,
     pendingDm:null,
+    broadcastTargetCount:0,
     permissions:DASHBOARD_PERMISSIONS || {},
     refreshFailures:0,
     lastSuccessfulRefreshAt:0,
@@ -2609,6 +2628,13 @@ const elements = {
     cancelDmButton:document.getElementById("cancelDmButton"),
     confirmDmButton:document.getElementById("confirmDmButton"),
     dmModalNotice:document.getElementById("dmModalNotice"),
+    broadcastDmButton:document.getElementById("broadcastDmButton"),
+    broadcastModal:document.getElementById("broadcastModal"),
+    broadcastModalUser:document.getElementById("broadcastModalUser"),
+    broadcastMessageInput:document.getElementById("broadcastMessageInput"),
+    cancelBroadcastButton:document.getElementById("cancelBroadcastButton"),
+    confirmBroadcastButton:document.getElementById("confirmBroadcastButton"),
+    broadcastModalNotice:document.getElementById("broadcastModalNotice"),
     openUpdateButton:document.getElementById("openUpdateButton"),
     shutdownAllButton:document.getElementById("shutdownAllButton"),
     updateStatusPanel:document.getElementById("updateStatusPanel"),
@@ -3001,6 +3027,44 @@ function closeDmModal() {
     elements.dmModalNotice.className = "modal-notice";
 }
 
+function openBroadcastModal() {
+    const onlineCount = state.players.filter(function (player) { return player.online === true; }).length;
+    state.broadcastTargetCount = onlineCount;
+    elements.broadcastModalUser.textContent = onlineCount === 1
+        ? "Die Nachricht wird an 1 aktuell aktiven Spieler gesendet."
+        : "Die Nachricht wird an " + onlineCount + " aktuell aktive Spieler gesendet.";
+    elements.broadcastMessageInput.value = "";
+    elements.broadcastModalNotice.textContent = "";
+    elements.broadcastModalNotice.className = "modal-notice";
+    elements.broadcastModal.classList.remove("hidden");
+    elements.broadcastModal.setAttribute("aria-hidden","false");
+    setTimeout(function () { elements.broadcastMessageInput.focus(); },30);
+}
+
+function closeBroadcastModal() {
+    state.broadcastTargetCount = 0;
+    elements.broadcastModal.classList.add("hidden");
+    elements.broadcastModal.setAttribute("aria-hidden","true");
+    elements.broadcastModalNotice.textContent = "";
+    elements.broadcastModalNotice.className = "modal-notice";
+}
+
+async function sendBroadcastMessage(message) {
+    const response = await fetch("/api/dm/broadcast", {
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+        },
+        body:JSON.stringify({ message:String(message || "").trim() }),
+    });
+    const data = await response.json().catch(function () { return {}; });
+    if (!response.ok || data.success !== true) {
+        throw new Error(data.error || ("HTTP " + response.status));
+    }
+    return data;
+}
+
 async function sendDirectMessage(target,message) {
     const response = await fetch("/api/dm/send", {
         method:"POST",
@@ -3131,6 +3195,7 @@ elements.directoryTabs.forEach(function (button) {
     button.addEventListener("click", function () { setDirectoryTab(button.dataset.directoryTab); });
 });
 
+if (elements.broadcastDmButton) elements.broadcastDmButton.addEventListener("click", openBroadcastModal);
 if (elements.openUpdateButton) elements.openUpdateButton.addEventListener("click", openUpdateModal);
 if (elements.shutdownAllButton) elements.shutdownAllButton.addEventListener("click", async function () {
     if (!window.confirm("Alle aktuell verbundenen Nexu-Scripts jetzt deaktivieren? Die Spieler können das Script danach sofort wieder neu starten.")) return;
@@ -3310,6 +3375,41 @@ elements.confirmBanButton.addEventListener("click",async function () {
     }
 });
 
+if (elements.cancelBroadcastButton) elements.cancelBroadcastButton.addEventListener("click",closeBroadcastModal);
+if (elements.broadcastModal) elements.broadcastModal.addEventListener("click",function (event) {
+    if (event.target === elements.broadcastModal) {
+        closeBroadcastModal();
+    }
+});
+if (elements.confirmBroadcastButton) elements.confirmBroadcastButton.addEventListener("click",async function () {
+    const message = elements.broadcastMessageInput.value.trim();
+    if (!message) {
+        elements.broadcastModalNotice.textContent = "Bitte eine Nachricht eingeben.";
+        elements.broadcastModalNotice.className = "modal-notice";
+        elements.broadcastMessageInput.focus();
+        return;
+    }
+    elements.confirmBroadcastButton.disabled = true;
+    elements.confirmBroadcastButton.textContent = "SENDE …";
+    elements.broadcastModalNotice.textContent = "";
+    elements.broadcastModalNotice.className = "modal-notice";
+    try {
+        const result = await sendBroadcastMessage(message);
+        const count = Number(result.targetedPlayers) || 0;
+        elements.broadcastModalNotice.textContent = count === 1
+            ? "Nachricht wurde an 1 aktiven Spieler gesendet."
+            : "Nachricht wurde an " + count + " aktive Spieler gesendet.";
+        elements.broadcastModalNotice.className = "modal-notice ok";
+        setTimeout(closeBroadcastModal,900);
+    } catch (error) {
+        elements.broadcastModalNotice.textContent = error.message || "Nachricht konnte nicht an alle gesendet werden.";
+        elements.broadcastModalNotice.className = "modal-notice";
+    } finally {
+        elements.confirmBroadcastButton.disabled = false;
+        elements.confirmBroadcastButton.textContent = "AN ALLE SENDEN";
+    }
+});
+
 elements.cancelDmButton.addEventListener("click",closeDmModal);
 
 elements.dmModal.addEventListener("click",function (event) {
@@ -3359,6 +3459,9 @@ document.addEventListener("keydown",function (event) {
     }
     if (!elements.dmModal.classList.contains("hidden")) {
         closeDmModal();
+    }
+    if (elements.broadcastModal && !elements.broadcastModal.classList.contains("hidden")) {
+        closeBroadcastModal();
     }
     if (elements.updateModal && !elements.updateModal.classList.contains("hidden")) {
         closeUpdateModal();
@@ -4564,6 +4667,61 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
     return;
 }
 
+if (req.method === "POST" && pathname === "/api/dm/broadcast") {
+    if (!isDashboardPermissionSession(req, "dm")) {
+        sendJson(res, 403, {success:false, error:dashboardPermissionError("dm")});
+        return;
+    }
+    if (!allowDirectMessageSend(req)) {
+        sendJson(res, 429, {success:false, error:"Zu viele Nachrichten. Bitte kurz warten."});
+        return;
+    }
+    try {
+        const body = await readJsonBody(req);
+        const message = cleanText(body.message, DM_MAX_LENGTH);
+        if (!message) {
+            sendJson(res, 400, {success:false, error:"Nachricht fehlt"});
+            return;
+        }
+
+        prunePresence();
+        const latestActiveByUserId = new Map();
+        for (const entry of presence.values()) {
+            const userId = cleanNumericId(entry && entry.userId);
+            if (!userId || bans.has(userId)) continue;
+            const current = latestActiveByUserId.get(userId);
+            if (!current || Number(entry.lastSeenMs || 0) > Number(current.lastSeenMs || 0)) {
+                latestActiveByUserId.set(userId, entry);
+            }
+        }
+
+        if (latestActiveByUserId.size === 0) {
+            sendJson(res, 409, {success:false, error:"Aktuell ist kein Spieler mit Nexu verbunden."});
+            return;
+        }
+
+        const queued = [];
+        for (const userId of latestActiveByUserId.keys()) {
+            const directMessage = queueDirectMessage(userId, message, "NEXU");
+            queued.push({userId, id:directMessage.id});
+        }
+        console.log(`[NEXU] RUNDSENDUNG an ${queued.length} aktive Spieler: ${message.slice(0, 60)}`);
+        sendJson(res, 200, {
+            success:true,
+            queued:true,
+            targetedPlayers:queued.length,
+            message,
+            sentAt:new Date().toISOString(),
+        });
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+            success:false,
+            error:error.message === "BODY_TOO_LARGE" ? "Anfrage zu groß" : "Ungültiges JSON",
+        });
+    }
+    return;
+}
+
 if (req.method === "POST" && pathname === "/api/dm/send") {
     if (!isDashboardPermissionSession(req, "dm")) {
         sendJson(res, 403, {success: false, error: dashboardPermissionError("dm")});
@@ -4921,7 +5079,7 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V144 GESTARTET");
+        console.log("NEXU PRESENCE & MODERATION V145 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
@@ -4934,7 +5092,7 @@ async function startNexuServer() {
         console.log("Presence: /api/presence");
         console.log("Aktive-Script-Timeout:", Math.round(ONLINE_TIMEOUT_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
-        console.log("Direct Messages: /api/dm/send + /api/dm/poll");
+        console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");
         console.log("Website Join: /api/join/send + /api/join/poll");
         console.log("Access: /api/menu/access?userId=...");
         console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
