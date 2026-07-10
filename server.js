@@ -1,8 +1,8 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = 75_000;const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};
 
 function sendJson(res, statusCode, data, extraHeaders = {}) {res.writeHead(statusCode, {"Content-Type": "application/json; charset=utf-8","Cache-Control": "no-store","X-Content-Type-Options": "nosniff",...extraHeaders,});res.end(JSON.stringify(data));}
 
@@ -158,6 +158,96 @@ function saveBans() {try {fs.mkdirSync(path.dirname(BAN_FILE_PATH), { recursive:
 
 }
 
+function normalizeMenuUpdateState(raw) {
+    const source = raw && typeof raw === "object" ? raw : {};
+    const startedAtMs = cleanInteger(source.startedAtMs);
+    const endsAtMs = cleanInteger(source.endsAtMs);
+    const durationMinutes = Math.min(MAX_MENU_UPDATE_MINUTES, Math.max(0, cleanInteger(source.durationMinutes)));
+    const active = source.active === true && endsAtMs > Date.now();
+    return {
+        active,
+        startedAtMs: active ? startedAtMs : 0,
+        endsAtMs: active ? endsAtMs : 0,
+        durationMinutes: active ? durationMinutes : 0,
+        startedBy: active ? cleanText(source.startedBy, 80) : "",
+        startedAt: active ? (cleanText(source.startedAt, 64) || new Date(startedAtMs || Date.now()).toISOString()) : "",
+        endsAt: active ? (cleanText(source.endsAt, 64) || new Date(endsAtMs).toISOString()) : "",
+    };
+}
+
+function saveMenuUpdateState() {
+    try {
+        fs.mkdirSync(path.dirname(MENU_UPDATE_FILE_PATH), { recursive: true });
+        const tempPath = `${MENU_UPDATE_FILE_PATH}.tmp`;
+        fs.writeFileSync(tempPath, JSON.stringify({ update: menuUpdateState }, null, 2), "utf8");
+        fs.renameSync(tempPath, MENU_UPDATE_FILE_PATH);
+        return true;
+    } catch (error) {
+        console.warn("[NEXU] Update-Status konnte nicht gespeichert werden:", error.message);
+        return false;
+    }
+}
+
+function loadMenuUpdateState() {
+    try {
+        if (!fs.existsSync(MENU_UPDATE_FILE_PATH)) return;
+        const parsed = JSON.parse(fs.readFileSync(MENU_UPDATE_FILE_PATH, "utf8"));
+        menuUpdateState = normalizeMenuUpdateState(parsed && (parsed.update || parsed));
+        if (!menuUpdateState.active) saveMenuUpdateState();
+        console.log(`[NEXU] Script-Update: ${menuUpdateState.active ? "AKTIV" : "INAKTIV"}`);
+    } catch (error) {
+        console.warn("[NEXU] Update-Status konnte nicht geladen werden:", error.message);
+        menuUpdateState = normalizeMenuUpdateState({});
+    }
+}
+
+function getMenuUpdateStatus() {
+    if (menuUpdateState.active && Date.now() >= menuUpdateState.endsAtMs) {
+        menuUpdateState = normalizeMenuUpdateState({});
+        saveMenuUpdateState();
+    }
+    const remainingSeconds = menuUpdateState.active
+        ? Math.max(0, Math.ceil((menuUpdateState.endsAtMs - Date.now()) / 1000))
+        : 0;
+    return {
+        active: menuUpdateState.active === true,
+        startedAt: menuUpdateState.startedAt || "",
+        endsAt: menuUpdateState.endsAt || "",
+        startedAtMs: menuUpdateState.startedAtMs || 0,
+        endsAtMs: menuUpdateState.endsAtMs || 0,
+        durationMinutes: menuUpdateState.durationMinutes || 0,
+        remainingSeconds,
+        startedBy: menuUpdateState.startedBy || "",
+    };
+}
+
+function startMenuUpdate(durationMinutes, startedBy) {
+    const normalizedMinutes = Math.floor(Number(durationMinutes));
+    if (!Number.isFinite(normalizedMinutes) || normalizedMinutes < 1 || normalizedMinutes > MAX_MENU_UPDATE_MINUTES) {
+        return { error: `Dauer muss zwischen 1 und ${MAX_MENU_UPDATE_MINUTES} Minuten liegen.` };
+    }
+    const now = Date.now();
+    const endsAtMs = now + normalizedMinutes * 60_000;
+    menuUpdateState = {
+        active: true,
+        startedAtMs: now,
+        endsAtMs,
+        durationMinutes: normalizedMinutes,
+        startedBy: cleanText(startedBy, 80) || "dashboard",
+        startedAt: new Date(now).toISOString(),
+        endsAt: new Date(endsAtMs).toISOString(),
+    };
+    saveMenuUpdateState();
+    return { status: getMenuUpdateStatus() };
+}
+
+function cancelMenuUpdate() {
+    const wasActive = getMenuUpdateStatus().active;
+    menuUpdateState = normalizeMenuUpdateState({});
+    saveMenuUpdateState();
+    return { wasActive, status: getMenuUpdateStatus() };
+}
+
 
 function normalizeKnownPlayer(raw, now = Date.now()) {const userId = cleanNumericId(raw && raw.userId);if (!userId) {return null;}const firstSeenMs = cleanInteger(raw && raw.firstSeenMs) || now;const lastSeenMs = cleanInteger(raw && raw.lastSeenMs) || now;const roleKey = cleanPlayerRoleAssignment(raw && (raw.roleKey || raw.role || raw.assignedRole));return {userId,username: cleanText(raw && raw.username, 40) || `User${userId}`,displayName: cleanText(raw && raw.displayName, 80) || cleanText(raw && raw.username, 40) || `User ${userId}`,gameName: cleanText(raw && raw.gameName, 120),placeId: cleanInteger(raw && raw.placeId),jobId: cleanText(raw && raw.jobId, 100),sessionId: cleanText(raw && raw.sessionId, 100),roleKey,firstSeen: cleanText(raw && raw.firstSeen, 64) || new Date(firstSeenMs).toISOString(),lastSeen: cleanText(raw && raw.lastSeen, 64) || new Date(lastSeenMs).toISOString(),firstSeenMs,lastSeenMs,};}
 
@@ -204,6 +294,7 @@ const DASHBOARD_PERMISSION_DEFINITIONS = [
     { key: "serverJoin", formName: "dashboardJoin", title: "Server Join", description: "Darf den Creator zu einem Spieler-Server schicken." },
     { key: "managePlayerRoles", formName: "dashboardRole", title: "Ränge einstellen", description: "Darf PLAYERS/SUPPORTER für gespeicherte Spieler ändern." },
     { key: "banPlayers", formName: "dashboardBan", title: "Bannen/Entbannen", description: "Darf Spieler bannen, entbannen und die Sperrliste sehen." },
+    { key: "updateScript", formName: "dashboardUpdateScript", title: "Script-Update", description: "Darf den zeitgesteuerten Wartungsmodus starten und vorzeitig beenden." },
 ];
 
 function normalizeDashboardAccess(raw, username = "") {
@@ -224,6 +315,7 @@ function normalizeDashboardAccess(raw, username = "") {
         serverJoin: isOwner || (dashboardAccess && (enabled(merged.serverJoin) || enabled(merged.dashboardJoin) || enabled(merged.join))),
         managePlayerRoles: isOwner || (dashboardAccess && (enabled(merged.managePlayerRoles) || enabled(merged.dashboardRole) || enabled(merged.roles))),
         banPlayers: isOwner || (dashboardAccess && (enabled(merged.banPlayers) || enabled(merged.dashboardBan) || enabled(merged.bans))),
+        updateScript: isOwner || (dashboardAccess && (enabled(merged.updateScript) || enabled(merged.dashboardUpdateScript) || enabled(merged.maintenance))),
         accountManager: isOwner,
     };
 }
@@ -1134,7 +1226,7 @@ button.ghost { background:rgba(255,255,255,.06); box-shadow:none; border:1px sol
 </body>
 </html>`;}
 
-function homeHtml(notice = "", error = "", account = null) {const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = isOwnerDashboardAccount(accountData);const canOpenMenuServer = canAccessMenuServer(accountData);const canManageAccounts = canManageDashboardAccounts(accountData);const usernameReadonly = isOwnerAccount ? "readonly" : "";const deleteAccountBlock = isOwnerAccount
+function homeHtml(notice = "", error = "", account = null) {const loaderCommandJson = JSON.stringify(NEXU_LOADER_COMMAND);const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = isOwnerDashboardAccount(accountData);const canOpenMenuServer = canAccessMenuServer(accountData);const canManageAccounts = canManageDashboardAccounts(accountData);const usernameReadonly = isOwnerAccount ? "readonly" : "";const deleteAccountBlock = isOwnerAccount
     ? '<section class="modal-card"><div class="danger-zone"><h3>OwnerAccount geschützt</h3><p>Der OwnerAccount kann hier nicht gelöscht werden, damit du den Hauptzugriff nicht verlierst.</p></div></section>'
     : '<form class="modal-card" method="post" action="/account/delete" autocomplete="off"><div class="danger-zone"><h3>Account löschen</h3><p>Dieser Account wird dauerhaft vom Dashboard entfernt. Danach wirst du abgemeldet.</p><div class="field"><label for="deletePassword">Passwort bestätigen</label><input id="deletePassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div><div class="modal-actions"><button type="submit">ACCOUNT LÖSCHEN</button></div></div></form>';const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = canOpenMenuServer
     ? '<a class="primary-tile menu-server" href="/menu-server"><span>MENU SERVER</span><strong>Spieler-Dashboard öffnen</strong><small>' + (isOwnerAccount ? 'OwnerAccount Zugriff' : 'Vom Owner freigegeben') + '</small></a>'
@@ -1185,6 +1277,11 @@ p { margin:0; color:var(--muted); line-height:1.65; }
 .primary-tile strong { font-size:24px; line-height:1.05; }
 .primary-tile small { color:var(--muted); font-size:12px; }
 .primary-tile.locked { opacity:.58; border-color:rgba(125,150,170,.22); background:rgba(7,13,23,.76); }
+button.primary-tile { width:100%; text-align:left; font:inherit; cursor:pointer; }
+.primary-tile.copy-script { border-color:rgba(45,255,165,.34); background:linear-gradient(135deg,rgba(45,255,165,.11),rgba(0,200,255,.08)); }
+.primary-tile.copy-script span { color:var(--green); }
+.copy-command { display:block; max-width:100%; overflow:hidden; color:#8fb3c8; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
+.copy-feedback { color:#9effd1 !important; }
 .quick-info { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .info-card { min-height:100px; padding:15px; border:1px solid rgba(74,178,230,.17); border-radius:18px; background:var(--panel2); }
 .info-label { color:var(--muted); font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
@@ -1229,6 +1326,7 @@ p { margin:0; color:var(--muted); line-height:1.65; }
         <div class="panel action-grid">
             ${menuServerButton}
             ${accountManagerButton}
+            <button id="copyScriptButton" class="primary-tile copy-script" type="button"><span>START SCRIPT</span><strong id="copyScriptTitle">Script kopieren</strong><small id="copyScriptHint">Kopiert den aktuellen Nexu-Loader in die Zwischenablage.</small><code class="copy-command">loadstring(game:HttpGet(&quot;…/Nexu%20Main&quot;))()</code></button>
             <div class="quick-info">
                 <article class="info-card"><div class="info-label">Account</div><div class="info-value">${escapeHtml(accountName)}</div><p>Benutzername-Login aktiv</p></article>
                 <article class="info-card"><div class="info-label">Menu Server Zugriff</div><div class="info-value">${canOpenMenuServer ? "Erlaubt" : "Gesperrt"}</div></article>
@@ -1255,6 +1353,39 @@ const accountButton = document.getElementById("accountButton");
 const settingsModal = document.getElementById("settingsModal");
 const openSettings = document.getElementById("openSettings");
 const closeSettings = document.getElementById("closeSettings");
+const copyScriptButton = document.getElementById("copyScriptButton");
+const copyScriptTitle = document.getElementById("copyScriptTitle");
+const copyScriptHint = document.getElementById("copyScriptHint");
+const NEXU_LOADER_COMMAND = ${loaderCommandJson};
+async function copyNexuLoader() {
+    let copied = false;
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(NEXU_LOADER_COMMAND);
+            copied = true;
+        }
+    } catch {}
+    if (!copied) {
+        const helper = document.createElement("textarea");
+        helper.value = NEXU_LOADER_COMMAND;
+        helper.setAttribute("readonly", "");
+        helper.style.position = "fixed";
+        helper.style.opacity = "0";
+        document.body.appendChild(helper);
+        helper.select();
+        copied = document.execCommand("copy");
+        helper.remove();
+    }
+    copyScriptTitle.textContent = copied ? "Kopiert" : "Kopieren fehlgeschlagen";
+    copyScriptHint.textContent = copied ? "Der Nexu-Loader ist jetzt in deiner Zwischenablage." : "Bitte Browser-Berechtigung für die Zwischenablage erlauben.";
+    copyScriptHint.classList.toggle("copy-feedback", copied);
+    setTimeout(function () {
+        copyScriptTitle.textContent = "Script kopieren";
+        copyScriptHint.textContent = "Kopiert den aktuellen Nexu-Loader in die Zwischenablage.";
+        copyScriptHint.classList.remove("copy-feedback");
+    }, 2200);
+}
+copyScriptButton.addEventListener("click", copyNexuLoader);
 accountButton.addEventListener("click", function () { account.classList.toggle("open"); accountButton.setAttribute("aria-expanded", account.classList.contains("open") ? "true" : "false"); });
 document.addEventListener("click", function (event) { if (!account.contains(event.target)) { account.classList.remove("open"); accountButton.setAttribute("aria-expanded", "false"); } });
 openSettings.addEventListener("click", function () { account.classList.remove("open"); settingsModal.classList.remove("hidden"); settingsModal.setAttribute("aria-hidden", "false"); document.getElementById("currentPassword").focus(); });
@@ -1409,7 +1540,7 @@ button.danger { margin-top:10px; border-color:rgba(255,77,120,.4); background:rg
 </html>`;
 }
 
-function dashboardHtml(account = null) {const permissionJson = JSON.stringify(getDashboardPermissionSnapshot(account || {}));return String.raw`<!doctype html>
+function dashboardHtml(account = null) {const permissionSnapshot = getDashboardPermissionSnapshot(account || {});const permissionJson = JSON.stringify(permissionSnapshot);const updateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="openUpdateButton" class="logout-button update-button" type="button">UPDATE SCRIPT</button>' : "";const cancelUpdateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="cancelUpdateButton" class="action-button update-cancel" type="button">UPDATE ABBRECHEN</button>' : "";return String.raw`<!doctype html>
 
 <html lang="de">
 <head>
@@ -1548,6 +1679,14 @@ header {
 }
 .hero { padding:29px; border-radius:28px; }
 .directory { margin-top:22px; padding:24px; border-radius:25px; }
+.directory-tabs { display:flex; gap:9px; flex-wrap:wrap; margin-bottom:18px; padding:7px; border:1px solid rgba(74,178,230,.16); border-radius:16px; background:rgba(3,8,15,.52); }
+.directory-tab { min-height:40px; display:inline-flex; align-items:center; gap:9px; border:1px solid rgba(74,178,230,.2); border-radius:12px; padding:0 14px; color:#8fa9ba; background:rgba(8,15,26,.72); font:inherit; font-size:11px; font-weight:850; letter-spacing:.09em; text-transform:uppercase; cursor:pointer; }
+.directory-tab b { min-width:24px; border-radius:999px; padding:3px 7px; color:#b9d4e4; background:rgba(255,255,255,.06); text-align:center; }
+.directory-tab.active { color:#e9f8ff; border-color:rgba(0,200,255,.55); background:linear-gradient(135deg,rgba(0,200,255,.16),rgba(111,70,255,.12)); box-shadow:0 0 20px rgba(0,200,255,.08) inset; }
+.directory-tab[data-directory-tab="online"].active b { color:#91ffd2; }
+.directory-tab[data-directory-tab="banned"].active { border-color:rgba(255,77,120,.48); background:rgba(50,8,20,.55); }
+.directory-tab[data-directory-tab="banned"].active b { color:#ff9bb1; }
+.directory-panel.hidden { display:none; }
 .offline-directory { border-color:rgba(125,150,170,.24); background:linear-gradient(135deg,rgba(125,150,170,.045),rgba(111,70,255,.025)),var(--panel); }
 .offline-directory .eyebrow { color:#8da8ba; }
 .eyebrow { color:var(--cyan); font-size:11px; letter-spacing:.19em; text-transform:uppercase; }
@@ -1641,6 +1780,21 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .action-button.join:hover { border-color:var(--green); }
 .action-button.bring { border-color:rgba(0,200,255,.48); color:#8cecff; background:rgba(3,28,42,.78); }
 .action-button.bring:hover { border-color:var(--cyan); }
+.update-button { border-color:rgba(255,190,70,.42) !important; color:#ffe5a8 !important; background:rgba(55,35,4,.56) !important; }
+.update-status { margin-top:22px; padding:20px 22px; border:1px solid rgba(255,190,70,.35); border-radius:22px; background:linear-gradient(135deg,rgba(255,190,70,.09),rgba(0,200,255,.05)),var(--panel); }
+.update-status.hidden { display:none; }
+.update-status-row { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+.update-status h2 { margin:5px 0 5px; font-size:22px; }
+.update-status p { margin:0; color:#9ab0bf; }
+.update-countdown { color:#ffe29a; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:24px; font-weight:900; letter-spacing:.06em; white-space:nowrap; }
+.action-button.update-cancel { border-color:rgba(255,190,70,.5); color:#ffe4a1; background:rgba(55,35,4,.72); }
+.modal-card.update-card { border-color:rgba(255,190,70,.42); background:linear-gradient(145deg,rgba(255,190,70,.07),rgba(0,200,255,.04)),rgba(7,13,23,.97); }
+.update-duration-grid { display:grid; grid-template-columns:1fr 150px; gap:10px; }
+.update-field { display:grid; gap:7px; margin-top:14px; }
+.update-field label { color:#a7bed0; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.12em; }
+.update-field input,.update-field select { width:100%; height:44px; border:1px solid rgba(255,190,70,.28); border-radius:13px; outline:none; padding:0 13px; color:var(--text); background:#07131f; font:inherit; }
+.update-presets { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.update-presets button { min-height:32px; border:1px solid rgba(255,190,70,.24); border-radius:10px; padding:0 10px; color:#d8c69b; background:rgba(40,28,7,.55); font:inherit; font-size:10px; font-weight:850; cursor:pointer; }
 .button-row { display:flex; align-items:center; justify-content:flex-end; gap:7px; flex-wrap:wrap; }
 .empty { grid-column:1/-1; padding:40px 20px; border:1px dashed rgba(74,178,230,.22); border-radius:17px; color:var(--muted); text-align:center; }
 .footer-note { margin-top:14px; color:#557084; font-size:12px; text-align:right; }
@@ -1699,6 +1853,8 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
     .directory { padding:18px; }
     .directory-head { align-items:stretch; flex-direction:column; }
     .search { width:100%; }
+    .update-status-row { align-items:flex-start; flex-direction:column; }
+    .update-duration-grid { grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -1712,6 +1868,7 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
     </div>
     <div class="header-actions">
         <a class="logout-button" href="/" style="display:inline-flex;align-items:center;text-decoration:none;border-color:rgba(74,178,230,.32);color:var(--text);background:rgba(7,13,23,.72);">Startseite</a>
+        ${updateButtonHtml}
         <div class="live-pill"><span id="headerDot" class="dot"></span><span id="headerStatus">Verbindung wird geprüft</span></div>
         <form class="logout-form" method="post" action="/logout"><button class="logout-button" type="submit">Abmelden</button></form>
     </div>
@@ -1729,30 +1886,48 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
     </div>
 </section>
 
-<section class="directory online-directory">
-    <div class="directory-head">
-        <div><div class="eyebrow">MENU SPIELER</div><h2>Online Spieler</h2></div>
-        <input id="search" class="search" type="search" autocomplete="off" placeholder="Spieler suchen …" aria-label="Spieler suchen">
+<section id="updateStatusPanel" class="update-status hidden" aria-live="polite">
+    <div class="update-status-row">
+        <div><div class="eyebrow">NEXU // SCRIPT UPDATE</div><h2>Wartungsmodus ist aktiv</h2><p id="updateStatusText">Das Lua-Menü ist vorübergehend gesperrt.</p></div>
+        <div><div id="updateCountdown" class="update-countdown">00:00</div>${cancelUpdateButtonHtml}</div>
     </div>
-    <div id="players" class="players"></div>
-    <div id="footerNote" class="footer-note"></div>
-</section>
-
-<section class="directory offline-directory">
-    <div class="directory-head">
-        <div><div class="eyebrow">OFFLINE ARCHIV</div><h2>Offline Spieler</h2></div>
-        <input id="offlineSearch" class="search" type="search" autocomplete="off" placeholder="Offline-Spieler suchen …" aria-label="Offline-Spieler suchen">
-    </div>
-    <div id="offlinePlayers" class="players"></div>
-    <div id="offlineFooter" class="footer-note"></div>
 </section>
 
 <section class="directory">
-    <div class="directory-head"><div><div class="eyebrow">MENÜ-SPERRLISTE</div><h2>Gebannte Nutzer</h2></div></div>
-    <div id="bannedPlayers" class="players"></div>
-    <div id="bannedFooter" class="footer-note"></div>
+    <div class="directory-tabs" role="tablist" aria-label="Spielerlisten">
+        <button class="directory-tab active" type="button" data-directory-tab="online" role="tab" aria-selected="true">Online <b id="onlineTabCount">0</b></button>
+        <button class="directory-tab" type="button" data-directory-tab="offline" role="tab" aria-selected="false">Offline <b id="offlineTabCount">0</b></button>
+        <button class="directory-tab" type="button" data-directory-tab="banned" role="tab" aria-selected="false">Gebannt <b id="bannedTabCount">0</b></button>
+    </div>
+    <div class="directory-panel" data-directory-panel="online" role="tabpanel">
+        <div class="directory-head"><div><div class="eyebrow">MENU SPIELER</div><h2>Online Spieler</h2></div><input id="search" class="search" type="search" autocomplete="off" placeholder="Online-Spieler suchen …" aria-label="Online-Spieler suchen"></div>
+        <div id="players" class="players"></div><div id="footerNote" class="footer-note"></div>
+    </div>
+    <div class="directory-panel hidden" data-directory-panel="offline" role="tabpanel">
+        <div class="directory-head"><div><div class="eyebrow">OFFLINE ARCHIV</div><h2>Offline Spieler</h2></div><input id="offlineSearch" class="search" type="search" autocomplete="off" placeholder="Offline-Spieler suchen …" aria-label="Offline-Spieler suchen"></div>
+        <div id="offlinePlayers" class="players"></div><div id="offlineFooter" class="footer-note"></div>
+    </div>
+    <div class="directory-panel hidden" data-directory-panel="banned" role="tabpanel">
+        <div class="directory-head"><div><div class="eyebrow">MENÜ-SPERRLISTE</div><h2>Gebannte Nutzer</h2></div><input id="bannedSearch" class="search" type="search" autocomplete="off" placeholder="Gebannte Spieler suchen …" aria-label="Gebannte Spieler suchen"></div>
+        <div id="bannedPlayers" class="players"></div><div id="bannedFooter" class="footer-note"></div>
+    </div>
 </section>
 </main>
+
+<div id="updateModal" class="modal-backdrop hidden" aria-hidden="true">
+    <div class="modal-card update-card" role="dialog" aria-modal="true" aria-labelledby="updateModalTitle">
+        <div class="eyebrow">NEXU // SCRIPT UPDATE</div>
+        <h3 id="updateModalTitle">Wartungsmodus starten</h3>
+        <p class="modal-user">Während dieser Zeit sehen alle Lua-Nutzer einen übersetzten Update-Bildschirm mit Countdown.</p>
+        <div class="update-duration-grid">
+            <div class="update-field"><label for="updateDuration">Dauer</label><input id="updateDuration" type="number" min="1" max="1440" step="1" value="30" inputmode="numeric"></div>
+            <div class="update-field"><label for="updateUnit">Einheit</label><select id="updateUnit"><option value="minutes">Minuten</option><option value="hours">Stunden</option></select></div>
+        </div>
+        <div class="update-presets"><button type="button" data-update-minutes="5">5 MIN</button><button type="button" data-update-minutes="15">15 MIN</button><button type="button" data-update-minutes="30">30 MIN</button><button type="button" data-update-minutes="60">1 STD</button><button type="button" data-update-minutes="120">2 STD</button></div>
+        <div class="modal-actions"><button id="closeUpdateButton" class="action-button" type="button">ABBRECHEN</button><button id="startUpdateButton" class="action-button update-cancel" type="button">UPDATE STARTEN</button></div>
+        <div id="updateModalNotice" class="modal-notice"></div>
+    </div>
+</div>
 
 <div id="banModal" class="modal-backdrop hidden" aria-hidden="true">
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="banModalTitle">
@@ -1791,6 +1966,10 @@ const state = {
     bannedPlayers:[],
     query:"",
     offlineQuery:"",
+    bannedQuery:"",
+    activeDirectory:"online",
+    menuUpdate:{active:false,remainingSeconds:0},
+    updateSyncedAt:Date.now(),
     pendingBan:null,
     pendingDm:null,
     permissions:DASHBOARD_PERMISSIONS || {},
@@ -1850,6 +2029,12 @@ const elements = {
     bannedCount:document.getElementById("bannedCount"),
     search:document.getElementById("search"),
     offlineSearch:document.getElementById("offlineSearch"),
+    bannedSearch:document.getElementById("bannedSearch"),
+    directoryTabs:Array.from(document.querySelectorAll("[data-directory-tab]")),
+    directoryPanels:Array.from(document.querySelectorAll("[data-directory-panel]")),
+    onlineTabCount:document.getElementById("onlineTabCount"),
+    offlineTabCount:document.getElementById("offlineTabCount"),
+    bannedTabCount:document.getElementById("bannedTabCount"),
     players:document.getElementById("players"),
     footerNote:document.getElementById("footerNote"),
     offlinePlayers:document.getElementById("offlinePlayers"),
@@ -1868,6 +2053,17 @@ const elements = {
     cancelDmButton:document.getElementById("cancelDmButton"),
     confirmDmButton:document.getElementById("confirmDmButton"),
     dmModalNotice:document.getElementById("dmModalNotice"),
+    openUpdateButton:document.getElementById("openUpdateButton"),
+    updateStatusPanel:document.getElementById("updateStatusPanel"),
+    updateStatusText:document.getElementById("updateStatusText"),
+    updateCountdown:document.getElementById("updateCountdown"),
+    cancelUpdateButton:document.getElementById("cancelUpdateButton"),
+    updateModal:document.getElementById("updateModal"),
+    updateDuration:document.getElementById("updateDuration"),
+    updateUnit:document.getElementById("updateUnit"),
+    closeUpdateButton:document.getElementById("closeUpdateButton"),
+    startUpdateButton:document.getElementById("startUpdateButton"),
+    updateModalNotice:document.getElementById("updateModalNotice"),
 };
 
 function escapeHtml(value) {
@@ -1894,6 +2090,73 @@ function formatDashboardDate(value) {
         hour:"2-digit",
         minute:"2-digit",
     });
+}
+
+function setDirectoryTab(name) {
+    state.activeDirectory = ["online","offline","banned"].includes(name) ? name : "online";
+    elements.directoryTabs.forEach(function (button) {
+        const selected = button.dataset.directoryTab === state.activeDirectory;
+        button.classList.toggle("active", selected);
+        button.setAttribute("aria-selected", selected ? "true" : "false");
+    });
+    elements.directoryPanels.forEach(function (panel) {
+        panel.classList.toggle("hidden", panel.dataset.directoryPanel !== state.activeDirectory);
+    });
+}
+
+function formatUpdateDuration(totalSeconds) {
+    const safe = Math.max(0, Math.floor(Number(totalSeconds) || 0));
+    const hours = Math.floor(safe / 3600);
+    const minutes = Math.floor((safe % 3600) / 60);
+    const seconds = safe % 60;
+    const pad = function (value) { return String(value).padStart(2,"0"); };
+    return hours > 0 ? (pad(hours) + ":" + pad(minutes) + ":" + pad(seconds)) : (pad(minutes) + ":" + pad(seconds));
+}
+
+function getDisplayedUpdateSeconds() {
+    if (!state.menuUpdate || state.menuUpdate.active !== true) return 0;
+    const elapsed = Math.max(0, Math.floor((Date.now() - state.updateSyncedAt) / 1000));
+    return Math.max(0, (Number(state.menuUpdate.remainingSeconds) || 0) - elapsed);
+}
+
+function renderUpdateStatus() {
+    const active = state.menuUpdate && state.menuUpdate.active === true;
+    elements.updateStatusPanel.classList.toggle("hidden", !active);
+    if (!active) return;
+    const remaining = getDisplayedUpdateSeconds();
+    elements.updateCountdown.textContent = formatUpdateDuration(remaining);
+    const endDate = state.menuUpdate.endsAt ? formatDashboardDate(state.menuUpdate.endsAt) : "-";
+    const starter = state.menuUpdate.startedBy ? (" · gestartet von " + state.menuUpdate.startedBy) : "";
+    elements.updateStatusText.textContent = "Zugriff bis ungefähr " + endDate + " gesperrt" + starter + ".";
+}
+
+async function updateScriptAction(action, durationMinutes) {
+    const response = await fetch("/api/admin/update/" + action, {
+        method:"POST",
+        headers:{Accept:"application/json","Content-Type":"application/json"},
+        body:JSON.stringify(action === "start" ? {durationMinutes:durationMinutes} : {}),
+    });
+    const data = await response.json().catch(function () { return {}; });
+    if (!response.ok || data.success !== true) throw new Error(data.error || ("HTTP " + response.status));
+    state.menuUpdate = data.menuUpdate || {active:false,remainingSeconds:0};
+    state.updateSyncedAt = Date.now();
+    renderUpdateStatus();
+    return data;
+}
+
+function openUpdateModal() {
+    if (!elements.updateModal) return;
+    elements.updateModalNotice.textContent = "";
+    elements.updateModal.classList.remove("hidden");
+    elements.updateModal.setAttribute("aria-hidden","false");
+    setTimeout(function () { elements.updateDuration.focus(); elements.updateDuration.select(); },30);
+}
+
+function closeUpdateModal() {
+    if (!elements.updateModal) return;
+    elements.updateModal.classList.add("hidden");
+    elements.updateModal.setAttribute("aria-hidden","true");
+    elements.updateModalNotice.textContent = "";
 }
 
 function renderPlayer(player,banned) {
@@ -1977,6 +2240,7 @@ function render() {
 
     const onlineQuery = state.query.trim().toLocaleLowerCase();
     const offlineQuery = state.offlineQuery.trim().toLocaleLowerCase();
+    const bannedQuery = state.bannedQuery.trim().toLocaleLowerCase();
     function matchesPlayerSearch(player, query) {
         return !query ||
             String(player.displayName || "").toLocaleLowerCase().includes(query) ||
@@ -1992,6 +2256,13 @@ function render() {
     const offlinePlayers = state.players
         .filter(function (player) { return player.online !== true; })
         .filter(function (player) { return matchesPlayerSearch(player, offlineQuery); });
+    const bannedPlayers = state.bannedPlayers.filter(function (player) { return matchesPlayerSearch(player, bannedQuery); });
+
+    elements.onlineTabCount.textContent = String(totalOnlineCount);
+    elements.offlineTabCount.textContent = String(totalOfflineCount);
+    elements.bannedTabCount.textContent = String(state.bannedPlayers.length);
+    setDirectoryTab(state.activeDirectory);
+    renderUpdateStatus();
 
     elements.players.innerHTML = onlinePlayers.length
         ? onlinePlayers.map(function (player) { return renderPlayer(player,false); }).join("")
@@ -2006,14 +2277,14 @@ function render() {
             : (offlineQuery ? 'Kein Offline-Spieler passt zu deiner Suche.' : 'Keine gespeicherten Offline-Spieler.')) + '</div>';
 
     elements.bannedPlayers.innerHTML = state.permissions.banPlayers === true
-        ? (state.bannedPlayers.length
-            ? state.bannedPlayers.map(function (player) { return renderPlayer(player,true); }).join("")
-            : '<div class="empty">Die Sperrliste ist leer.</div>')
+        ? (bannedPlayers.length
+            ? bannedPlayers.map(function (player) { return renderPlayer(player,true); }).join("")
+            : '<div class="empty">' + (bannedQuery ? 'Kein gebannter Spieler passt zu deiner Suche.' : 'Die Sperrliste ist leer.') + '</div>')
         : '<div class="empty">Für diesen Account ist Bannen/Entbannen nicht freigegeben.</div>';
 
     elements.footerNote.textContent = onlinePlayers.length + " von " + totalOnlineCount + " Online-Spielern angezeigt";
     elements.offlineFooter.textContent = offlinePlayers.length + " von " + totalOfflineCount + " Offline-Spielern angezeigt";
-    elements.bannedFooter.textContent = state.bannedPlayers.length + " gesperrte Nutzer";
+    elements.bannedFooter.textContent = bannedPlayers.length + " von " + state.bannedPlayers.length + " gesperrten Nutzern angezeigt";
 }
 
 async function refresh() {
@@ -2032,6 +2303,8 @@ async function refresh() {
         state.players = Array.isArray(data.players) ? data.players : [];
         state.activePlayers = Number(data.activePlayers) || state.players.filter(function (player) { return player.online === true; }).length;
         state.bannedPlayers = Array.isArray(data.bannedPlayers) ? data.bannedPlayers : [];
+        state.menuUpdate = data.menuUpdate && typeof data.menuUpdate === "object" ? data.menuUpdate : {active:false,remainingSeconds:0};
+        state.updateSyncedAt = Date.now();
     } catch (error) {
         console.error("Nexu refresh failed:",error);
         state.online = false;
@@ -2221,6 +2494,59 @@ elements.offlineSearch.addEventListener("input",function (event) {
     render();
 });
 
+elements.bannedSearch.addEventListener("input",function (event) {
+    state.bannedQuery = event.target.value || "";
+    render();
+});
+
+elements.directoryTabs.forEach(function (button) {
+    button.addEventListener("click", function () { setDirectoryTab(button.dataset.directoryTab); });
+});
+
+if (elements.openUpdateButton) elements.openUpdateButton.addEventListener("click", openUpdateModal);
+if (elements.closeUpdateButton) elements.closeUpdateButton.addEventListener("click", closeUpdateModal);
+if (elements.updateModal) elements.updateModal.addEventListener("click", function (event) { if (event.target === elements.updateModal) closeUpdateModal(); });
+document.querySelectorAll("[data-update-minutes]").forEach(function (button) {
+    button.addEventListener("click", function () {
+        elements.updateDuration.value = button.dataset.updateMinutes || "30";
+        elements.updateUnit.value = "minutes";
+    });
+});
+if (elements.startUpdateButton) elements.startUpdateButton.addEventListener("click", async function () {
+    const raw = Number(elements.updateDuration.value);
+    const durationMinutes = elements.updateUnit.value === "hours" ? Math.round(raw * 60) : Math.round(raw);
+    if (!Number.isFinite(durationMinutes) || durationMinutes < 1 || durationMinutes > 1440) {
+        elements.updateModalNotice.textContent = "Bitte eine Dauer zwischen 1 Minute und 24 Stunden eingeben.";
+        return;
+    }
+    elements.startUpdateButton.disabled = true;
+    elements.startUpdateButton.textContent = "STARTE …";
+    elements.updateModalNotice.textContent = "";
+    try {
+        await updateScriptAction("start", durationMinutes);
+        closeUpdateModal();
+    } catch (error) {
+        elements.updateModalNotice.textContent = error.message || "Update konnte nicht gestartet werden.";
+    } finally {
+        elements.startUpdateButton.disabled = false;
+        elements.startUpdateButton.textContent = "UPDATE STARTEN";
+    }
+});
+if (elements.cancelUpdateButton) elements.cancelUpdateButton.addEventListener("click", async function () {
+    if (!window.confirm("Script-Update jetzt vorzeitig beenden?")) return;
+    elements.cancelUpdateButton.disabled = true;
+    elements.cancelUpdateButton.textContent = "BEENDE …";
+    try {
+        await updateScriptAction("cancel", 0);
+        await refresh();
+    } catch (error) {
+        alert(error.message || "Update konnte nicht beendet werden.");
+    } finally {
+        elements.cancelUpdateButton.disabled = false;
+        elements.cancelUpdateButton.textContent = "UPDATE ABBRECHEN";
+    }
+});
+
 document.addEventListener("click",async function (event) {
     const button = event.target.closest("[data-action][data-user-id]");
     if (!button) {
@@ -2405,17 +2731,21 @@ document.addEventListener("keydown",function (event) {
     if (!elements.dmModal.classList.contains("hidden")) {
         closeDmModal();
     }
+    if (elements.updateModal && !elements.updateModal.classList.contains("hidden")) {
+        closeUpdateModal();
+    }
 });
 
 refresh();
 setInterval(refresh,5000);
+setInterval(renderUpdateStatus,250);
 </script>
 
 </body>
 </html>`;
 }
 
-loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();
+loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();
 
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
@@ -2533,6 +2863,7 @@ if (req.method === "POST" && pathname === "/accounts/update") {
                     serverJoin: dashboardAccessEnabled && (form.dashboardJoin === "1" || form.dashboardJoin === "on"),
                     managePlayerRoles: dashboardAccessEnabled && (form.dashboardRole === "1" || form.dashboardRole === "on"),
                     banPlayers: dashboardAccessEnabled && (form.dashboardBan === "1" || form.dashboardBan === "on"),
+                    updateScript: dashboardAccessEnabled && (form.dashboardUpdateScript === "1" || form.dashboardUpdateScript === "on"),
                 }, nextUsername),
             updatedAt: new Date().toISOString(),
         });
@@ -2902,6 +3233,7 @@ if (
         service: "Nexu Presence & Moderation",
         activePlayers: presence.size,
         bannedPlayers: bans.size,
+        menuUpdate: getMenuUpdateStatus(),
         timestamp: new Date().toISOString(),
     });
     return;
@@ -2920,10 +3252,13 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
 
     const ban = bans.get(userId);
     const role = getNexuRoleInfo(userId);
+    const menuUpdate = getMenuUpdateStatus();
     sendJson(res, 200, {
         success: true,
-        allowed: !ban,
+        allowed: !ban && !menuUpdate.active,
         banned: Boolean(ban),
+        updating: menuUpdate.active,
+        maintenance: menuUpdate,
         userId,
         roleKey: role.key,
         roleTitle: role.title,
@@ -2935,6 +3270,39 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
         bannedAt: ban ? ban.bannedAt : "",
         timestamp: new Date().toISOString(),
     });
+    return;
+}
+
+if (req.method === "POST" && pathname === "/api/admin/update/start") {
+    const session = getDashboardSession(req);
+    if (!session || !hasDashboardPermission(session.account, "updateScript")) {
+        sendJson(res, 403, {success:false,error:dashboardPermissionError("updateScript")});
+        return;
+    }
+    try {
+        const body = await readJsonBody(req);
+        const result = startMenuUpdate(body.durationMinutes, session.username);
+        if (result.error) {
+            sendJson(res, 400, {success:false,error:result.error});
+            return;
+        }
+        console.log(`[NEXU] Script-Update gestartet: ${result.status.durationMinutes} Minuten von ${session.username}`);
+        sendJson(res, 200, {success:true,menuUpdate:result.status});
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {success:false,error:"Update konnte nicht gestartet werden"});
+    }
+    return;
+}
+
+if (req.method === "POST" && pathname === "/api/admin/update/cancel") {
+    const session = getDashboardSession(req);
+    if (!session || !hasDashboardPermission(session.account, "updateScript")) {
+        sendJson(res, 403, {success:false,error:dashboardPermissionError("updateScript")});
+        return;
+    }
+    const result = cancelMenuUpdate();
+    console.log(`[NEXU] Script-Update ${result.wasActive ? "vorzeitig beendet" : "war bereits inaktiv"}: ${session.username}`);
+    sendJson(res, 200, {success:true,menuUpdate:result.status});
     return;
 }
 
@@ -3288,6 +3656,7 @@ if (req.method === "GET" && pathname === "/api/presence") {
         timeoutSeconds: ONLINE_TIMEOUT_MS / 1000,
         players: data.players,
         bannedPlayers: data.bannedPlayers,
+        menuUpdate: getMenuUpdateStatus(),
         timestamp: new Date().toISOString(),
     });
     return;
@@ -3811,4 +4180,4 @@ sendJson(res, 404, {
 
 setInterval(() => {prunePresence();pruneDirectMessages();pruneDashboardAuth();}, 20_000).unref();
 
-server.listen(PORT, "0.0.0.0", () => {console.log("========================================");console.log("NEXU PRESENCE & MODERATION GESTARTET");console.log("Port:", PORT);console.log("Heartbeat-Schutz:",HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");console.log("Ban-Datei:", BAN_FILE_PATH);console.log("Spieler-Speicher:", KNOWN_PLAYERS_FILE_PATH);console.log("Dashboard-Anmeldung: /");console.log("Dashboard-Accounts:", dashboardAccounts.size);console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Presence: /api/presence");console.log("Direct Messages: /api/dm/send + /api/dm/poll");console.log("Website Join: /api/join/send + /api/join/poll");console.log("Access: /api/menu/access?userId=...");console.log("========================================");});
+server.listen(PORT, "0.0.0.0", () => {console.log("========================================");console.log("NEXU PRESENCE & MODERATION GESTARTET");console.log("Port:", PORT);console.log("Heartbeat-Schutz:",HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");console.log("Ban-Datei:", BAN_FILE_PATH);console.log("Spieler-Speicher:", KNOWN_PLAYERS_FILE_PATH);console.log("Dashboard-Anmeldung: /");console.log("Dashboard-Accounts:", dashboardAccounts.size);console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Presence: /api/presence");console.log("Direct Messages: /api/dm/send + /api/dm/poll");console.log("Website Join: /api/join/send + /api/join/poll");console.log("Access: /api/menu/access?userId=...");console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");console.log("========================================");});
