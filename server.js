@@ -820,7 +820,10 @@ function getDashboardPermissionSnapshot(account) {
 
 function isDashboardPermissionSession(req, permissionKey) {
     const session = getDashboardSession(req);
-    return Boolean(session && hasDashboardPermission(session.account, permissionKey));
+    return Boolean(
+        session &&
+        (session.isOwner === true || hasDashboardPermission(session.account, permissionKey))
+    );
 }
 
 function dashboardPermissionError(permissionKey) {
@@ -1124,7 +1127,42 @@ return parts.join("; ");
 }
 
 
-function getDashboardSessionEntry(token) {const raw = dashboardSessions.get(token);if (!raw) {return null;}if (typeof raw === "number") {const owner = getOwnerDashboardAccount() || getFirstDashboardAccount();return owner ? {username: owner.username, email: owner.email, expiresAtMs: raw} : null;}const email = cleanDashboardEmail(raw.email);const username = cleanDashboardUsername(raw.username);const account = email ? getDashboardAccountByEmail(email) : getDashboardAccountByUsername(username);if (!account) {return null;}return {username: account.username, email: account.email, expiresAtMs: Number(raw.expiresAtMs) || 0};}
+function getDashboardSessionEntry(token) {
+    const raw = dashboardSessions.get(token);
+    if (!raw) return null;
+
+    if (typeof raw === "number") {
+        const owner = getOwnerDashboardAccount() || getFirstDashboardAccount();
+        return owner
+            ? {
+                username: owner.username,
+                email: owner.email,
+                isOwner: true,
+                expiresAtMs: raw,
+            }
+            : null;
+    }
+
+    const email = cleanDashboardEmail(raw.email);
+    const username = cleanDashboardUsername(raw.username);
+    const storedOwnerFlag = raw.isOwner === true;
+    const identityOwnerFlag = isOwnerDashboardIdentity(username, email, false);
+
+    // Bestehende Sitzungen dürfen bei einer geänderten Account-E-Mail nicht
+    // ungültig werden. Deshalb immer E-Mail und Benutzername probieren.
+    let account = getDashboardAccountByEmail(email) || getDashboardAccountByUsername(username);
+    if (!account && (storedOwnerFlag || identityOwnerFlag)) {
+        account = getOwnerDashboardAccount() || getFirstDashboardAccount();
+    }
+    if (!account) return null;
+
+    return {
+        username: account.username,
+        email: account.email,
+        isOwner: storedOwnerFlag || identityOwnerFlag || isOwnerDashboardAccount(account),
+        expiresAtMs: Number(raw.expiresAtMs) || 0,
+    };
+}
 
 function pruneDashboardAuth() {const now = Date.now();
 
@@ -1143,25 +1181,78 @@ for (const [ip, state] of loginRateLimits) {
 
 }
 
-function getDashboardSession(req) {pruneDashboardAuth();const token = parseCookies(req).get(DASHBOARD_SESSION_COOKIE) || "";const entry = getDashboardSessionEntry(token);
+function getDashboardSession(req) {
+    pruneDashboardAuth();
+    const token = parseCookies(req).get(DASHBOARD_SESSION_COOKIE) || "";
+    const entry = getDashboardSessionEntry(token);
 
-if (!token || !entry || entry.expiresAtMs <= Date.now()) {
-    if (token) dashboardSessions.delete(token);
-    return null;
-}
-const account = getDashboardAccountByEmail(entry.email) || getDashboardAccountByUsername(entry.username);
-if (!account) {dashboardSessions.delete(token);return null;}
+    if (!token || !entry || entry.expiresAtMs <= Date.now()) {
+        if (token) dashboardSessions.delete(token);
+        return null;
+    }
 
-return {token, username: account.username, email: account.email, account, expiresAtMs: entry.expiresAtMs};
+    let account =
+        getDashboardAccountByEmail(entry.email) ||
+        getDashboardAccountByUsername(entry.username);
 
+    if (!account && entry.isOwner === true) {
+        account = getOwnerDashboardAccount() || getFirstDashboardAccount();
+    }
+    if (!account) {
+        dashboardSessions.delete(token);
+        return null;
+    }
+
+    const isOwner = entry.isOwner === true || isOwnerDashboardAccount(account);
+    const effectiveAccount = isOwner
+        ? {
+            ...account,
+            isOwner: true,
+            access: normalizeDashboardAccess(
+                { ...account, isOwner: true },
+                account.username,
+                account.email
+            ),
+        }
+        : account;
+
+    return {
+        token,
+        username: effectiveAccount.username,
+        email: effectiveAccount.email,
+        account: effectiveAccount,
+        isOwner,
+        expiresAtMs: entry.expiresAtMs,
+    };
 }
 
 function isDashboardAuthenticated(req) {return Boolean(getDashboardSession(req));}
 
-function isOwnerAccountSession(req) {const session = getDashboardSession(req);return Boolean(session && canManageDashboardAccounts(session.account));}
-function isMenuServerAccountSession(req) {const session = getDashboardSession(req);return Boolean(session && canAccessMenuServer(session.account));}
+function isOwnerAccountSession(req) {
+    const session = getDashboardSession(req);
+    return Boolean(session && (session.isOwner === true || canManageDashboardAccounts(session.account)));
+}
+function isMenuServerAccountSession(req) {
+    const session = getDashboardSession(req);
+    return Boolean(session && (session.isOwner === true || canAccessMenuServer(session.account)));
+}
 
-function createDashboardSession(account = getOwnerDashboardAccount() || getFirstDashboardAccount()) {pruneDashboardAuth();const normalized = typeof account === "string" ? (getDashboardAccountByEmail(account) || getDashboardAccountByUsername(account)) : account;if (!normalized) {return "";}const token = crypto.randomBytes(32).toString("hex");dashboardSessions.set(token, {username: normalized.username,email: normalized.email,expiresAtMs: Date.now() + DASHBOARD_SESSION_TTL_MS});return token;}
+function createDashboardSession(account = getOwnerDashboardAccount() || getFirstDashboardAccount()) {
+    pruneDashboardAuth();
+    const normalized = typeof account === "string"
+        ? (getDashboardAccountByEmail(account) || getDashboardAccountByUsername(account))
+        : account;
+    if (!normalized) return "";
+
+    const token = crypto.randomBytes(32).toString("hex");
+    dashboardSessions.set(token, {
+        username: normalized.username,
+        email: normalized.email,
+        isOwner: isOwnerDashboardAccount(normalized),
+        expiresAtMs: Date.now() + DASHBOARD_SESSION_TTL_MS,
+    });
+    return token;
+}
 
 function removeDashboardSession(req) {const token = parseCookies(req).get(DASHBOARD_SESSION_COOKIE) || "";if (token) dashboardSessions.delete(token);}
 
@@ -4716,8 +4807,18 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
 }
 
 if (req.method === "POST" && pathname === "/api/dm/broadcast") {
-    if (!isDashboardPermissionSession(req, "dm")) {
-        sendJson(res, 403, {success:false, error:dashboardPermissionError("dm")});
+    const broadcastSession = getDashboardSession(req);
+    if (
+        !broadcastSession ||
+        (broadcastSession.isOwner !== true &&
+            !hasDashboardPermission(broadcastSession.account, "dm"))
+    ) {
+        sendJson(res, 403, {
+            success:false,
+            error:dashboardPermissionError("dm"),
+            sessionActive:Boolean(broadcastSession),
+            ownerSession:Boolean(broadcastSession && broadcastSession.isOwner === true),
+        });
         return;
     }
     if (!allowDirectMessageSend(req)) {
@@ -5127,7 +5228,7 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V146 GESTARTET");
+        console.log("NEXU PRESENCE & MODERATION V147 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
@@ -5136,7 +5237,7 @@ async function startNexuServer() {
         console.log("GitHub-Datendatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_DATA_PATH}`);
         console.log("Dashboard-Anmeldung: /");
         console.log("Dashboard-Accounts:", dashboardAccounts.size);
-        console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");
+        console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V147 AKTIV");
         console.log("Presence: /api/presence");
         console.log("Aktive-Script-Timeout:", Math.round(ONLINE_TIMEOUT_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
