@@ -1,5 +1,5 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
-// V146: Stabile Owner-Erkennung und garantierter Zugriff auf DM/Rundsendung.
+// V148: Neustartfeste, signierte Dashboard-Sitzungen und stabiler Owner-Rundsendungszugriff.
 
 const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 5 * 60_000);return Number.isFinite(configured) ? Math.min(15 * 60_000, Math.max(3 * 60_000, Math.floor(configured))) : 5 * 60_000;})();const SERVER_STARTED_AT_MS = Date.now();const PRESENCE_RESTART_GRACE_MS = 90_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(ONLINE_TIMEOUT_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
 
@@ -11,6 +11,17 @@ const GITHUB_DATA_PATH = String(process.env.GITHUB_DATA_PATH || "data/nexu-stora
 const GITHUB_STORAGE_API_VERSION = "2022-11-28";
 const GITHUB_STORAGE_USER_AGENT = "Nexu-Presence-Storage/1.0";
 const GITHUB_STORAGE_DEFAULT_DELAY_MS = 12_000;
+const DASHBOARD_SESSION_TOKEN_VERSION = "nxs2";
+const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SECRET || "").trim() || crypto
+    .createHash("sha256")
+    .update([
+        DASHBOARD_DEFAULT_PASSWORD_HASH,
+        HEARTBEAT_TOKEN,
+        GITHUB_DATA_TOKEN,
+        DASHBOARD_DEFAULT_EMAIL,
+        OWNER_ACCOUNT_USERNAME,
+    ].join("|"), "utf8")
+    .digest("hex");
 
 const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 
@@ -1127,7 +1138,72 @@ return parts.join("; ");
 }
 
 
+function encodeDashboardSessionPayload(payload) {
+    return Buffer.from(JSON.stringify(payload), "utf8").toString("base64url");
+}
+
+function decodeDashboardSessionPayload(encoded) {
+    try {
+        const parsed = JSON.parse(Buffer.from(String(encoded || ""), "base64url").toString("utf8"));
+        return parsed && typeof parsed === "object" ? parsed : null;
+    } catch {
+        return null;
+    }
+}
+
+function signDashboardSessionPayload(encodedPayload) {
+    return crypto
+        .createHmac("sha256", DASHBOARD_SESSION_SIGNING_SECRET)
+        .update(String(encodedPayload || ""), "utf8")
+        .digest("base64url");
+}
+
+function createSignedDashboardSessionToken(account) {
+    const now = Date.now();
+    const payload = {
+        version: DASHBOARD_SESSION_TOKEN_VERSION,
+        username: cleanDashboardUsername(account && account.username),
+        email: cleanDashboardEmail(account && account.email),
+        isOwner: isOwnerDashboardAccount(account),
+        issuedAtMs: now,
+        expiresAtMs: now + DASHBOARD_SESSION_TTL_MS,
+    };
+    const encodedPayload = encodeDashboardSessionPayload(payload);
+    return `${DASHBOARD_SESSION_TOKEN_VERSION}.${encodedPayload}.${signDashboardSessionPayload(encodedPayload)}`;
+}
+
+function readSignedDashboardSessionToken(token) {
+    const parts = String(token || "").split(".");
+    if (parts.length !== 3 || parts[0] !== DASHBOARD_SESSION_TOKEN_VERSION) return null;
+
+    const encodedPayload = parts[1];
+    const suppliedSignature = parts[2];
+    const expectedSignature = signDashboardSessionPayload(encodedPayload);
+    const suppliedBuffer = Buffer.from(suppliedSignature, "utf8");
+    const expectedBuffer = Buffer.from(expectedSignature, "utf8");
+    if (suppliedBuffer.length !== expectedBuffer.length) return null;
+    if (!crypto.timingSafeEqual(suppliedBuffer, expectedBuffer)) return null;
+
+    const payload = decodeDashboardSessionPayload(encodedPayload);
+    if (!payload || payload.version !== DASHBOARD_SESSION_TOKEN_VERSION) return null;
+
+    const username = cleanDashboardUsername(payload.username);
+    const email = cleanDashboardEmail(payload.email);
+    const expiresAtMs = Number(payload.expiresAtMs) || 0;
+    if ((!username && !email) || expiresAtMs <= Date.now()) return null;
+
+    return {
+        username,
+        email,
+        isOwner: payload.isOwner === true || isOwnerDashboardIdentity(username, email, false),
+        expiresAtMs,
+    };
+}
+
 function getDashboardSessionEntry(token) {
+    const signedEntry = readSignedDashboardSessionToken(token);
+    if (signedEntry) return signedEntry;
+
     const raw = dashboardSessions.get(token);
     if (!raw) return null;
 
@@ -1244,8 +1320,9 @@ function createDashboardSession(account = getOwnerDashboardAccount() || getFirst
         : account;
     if (!normalized) return "";
 
-    const token = crypto.randomBytes(32).toString("hex");
-    dashboardSessions.set(token, {
+    const token = createSignedDashboardSessionToken(normalized);
+    const signedEntry = readSignedDashboardSessionToken(token);
+    dashboardSessions.set(token, signedEntry || {
         username: normalized.username,
         email: normalized.email,
         isOwner: isOwnerDashboardAccount(normalized),
@@ -4697,7 +4774,7 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 if (playerChange === "important") {
                     scheduleGitHubStorageSave("player-metadata", 5_000);
                 } else if (playerChange === "timestamp") {
-                    scheduleGitHubStorageSave("player-last-seen", 90_000);
+                    scheduleGitHubStorageSave("player-last-seen", 10 * 60_000);
                 }
             }
         }
@@ -5246,7 +5323,7 @@ async function startNexuServer() {
         console.log("Access: /api/menu/access?userId=...");
         console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");
         console.log("========================================");
     });
 }
