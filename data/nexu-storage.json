@@ -1,42 +1,24 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-10T16:55:35.081Z",
+  "updatedAt": "2026-07-10T16:55:52.483Z",
   "players": [
     {
-      "userId": "10276671871",
-      "username": "sigma_dabahiaepic",
-      "displayName": "MADARA_HUMILDE",
-      "gameName": "MINI ATUALIZAÇÃO 🟣 Ninja Tycoon (v4.7.5)",
-      "placeId": 221718525,
-      "jobId": "36550291-c61a-42d8-9702-e4cb7b5aea36",
-      "sessionId": "3b693cca-6512-4caf-b678-7466b1cfb6cf",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "userId": "10199760908",
+      "username": "znxklas198",
+      "displayName": "znxklas198",
+      "gameName": "Deutsche Stimme",
+      "placeId": 136162036182779,
+      "jobId": "35c5db7e-36d3-467e-a8ca-384acc59c188",
+      "sessionId": "A95EC1E2-B437-4BF2-BC74-CFFDA95D312D",
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "2026-07-10_SERVER_JOIN_RESTART_FIX_V151",
       "roleKey": "",
-      "firstSeen": "2026-07-10T16:50:49.089Z",
-      "firstSeenMs": 1783702249089,
-      "lastSeen": "2026-07-10T16:55:34.682Z",
-      "lastSeenMs": 1783702534682
-    },
-    {
-      "userId": "2811493214",
-      "username": "Xxcarol_07",
-      "displayName": "requeijao",
-      "gameName": "Vovó",
-      "placeId": 6000468131,
-      "jobId": "902ed1bb-52f1-4cdc-b4a8-6b03819539a3",
-      "sessionId": "a73bc1ef-d220-48eb-bec3-029672cc14c6",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:18:00.947Z",
-      "firstSeenMs": 1783700280947,
-      "lastSeen": "2026-07-10T16:55:34.555Z",
-      "lastSeenMs": 1783702534555
+      "firstSeen": "2026-07-10T16:18:05.941Z",
+      "firstSeenMs": 1783700285941,
+      "lastSeen": "2026-07-10T16:55:52.228Z",
+      "lastSeenMs": 1783702552228
     },
     {
       "userId": "6143172338",
@@ -53,26 +35,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:51:31.298Z",
       "firstSeenMs": 1783702291298,
-      "lastSeen": "2026-07-10T16:55:34.551Z",
-      "lastSeenMs": 1783702534551
-    },
-    {
-      "userId": "5133851373",
-      "username": "19yFCo",
-      "displayName": "Idk",
-      "gameName": "เซิร์ฟเวอร์ Noob",
-      "placeId": 137378874406308,
-      "jobId": "b37369f3-007f-4884-bacc-68b62a471c6b",
-      "sessionId": "2a6f002e-4f8d-4e19-a4a6-fcb7baae0a76",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:47:27.379Z",
-      "firstSeenMs": 1783702047379,
-      "lastSeen": "2026-07-10T16:55:34.444Z",
-      "lastSeenMs": 1783702534444
+      "lastSeen": "2026-07-10T16:55:51.661Z",
+      "lastSeenMs": 1783702551661
     },
     {
       "userId": "10616328055",
@@ -89,8 +53,44 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:55:17.221Z",
       "firstSeenMs": 1783702517221,
-      "lastSeen": "2026-07-10T16:55:34.376Z",
-      "lastSeenMs": 1783702534376
+      "lastSeen": "2026-07-10T16:55:51.558Z",
+      "lastSeenMs": 1783702551558
+    },
+    {
+      "userId": "2811493214",
+      "username": "Xxcarol_07",
+      "displayName": "requeijao",
+      "gameName": "Vovó",
+      "placeId": 6000468131,
+      "jobId": "902ed1bb-52f1-4cdc-b4a8-6b03819539a3",
+      "sessionId": "a73bc1ef-d220-48eb-bec3-029672cc14c6",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:18:00.947Z",
+      "firstSeenMs": 1783700280947,
+      "lastSeen": "2026-07-10T16:55:51.550Z",
+      "lastSeenMs": 1783702551550
+    },
+    {
+      "userId": "6028498520",
+      "username": "ZOOOOO_122",
+      "displayName": "ZOOOOO_FORSAKEN",
+      "gameName": "+1 ключ к скорости побега на клавиатуре | конфеты и шоколад",
+      "placeId": 95082159892680,
+      "jobId": "3de7bb5c-86af-4a3d-a710-b9dd35267c56",
+      "sessionId": "4fb2f69b-8aaf-4d64-a226-fbc1b4cd4b75",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:51:27.102Z",
+      "firstSeenMs": 1783702287102,
+      "lastSeen": "2026-07-10T16:55:50.047Z",
+      "lastSeenMs": 1783702550047
     },
     {
       "userId": "11015160431",
@@ -107,8 +107,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:54:42.779Z",
       "firstSeenMs": 1783702482779,
-      "lastSeen": "2026-07-10T16:55:32.662Z",
-      "lastSeenMs": 1783702532662
+      "lastSeen": "2026-07-10T16:55:49.179Z",
+      "lastSeenMs": 1783702549179
     },
     {
       "userId": "7660247397",
@@ -125,8 +125,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:29:05.838Z",
       "firstSeenMs": 1783700945838,
-      "lastSeen": "2026-07-10T16:55:32.142Z",
-      "lastSeenMs": 1783702532142
+      "lastSeen": "2026-07-10T16:55:48.708Z",
+      "lastSeenMs": 1783702548708
     },
     {
       "userId": "5422342247",
@@ -143,8 +143,26 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:12:44.312Z",
       "firstSeenMs": 1783699964312,
-      "lastSeen": "2026-07-10T16:55:30.939Z",
-      "lastSeenMs": 1783702530939
+      "lastSeen": "2026-07-10T16:55:48.009Z",
+      "lastSeenMs": 1783702548009
+    },
+    {
+      "userId": "5133851373",
+      "username": "19yFCo",
+      "displayName": "Idk",
+      "gameName": "เซิร์ฟเวอร์ Noob",
+      "placeId": 137378874406308,
+      "jobId": "b37369f3-007f-4884-bacc-68b62a471c6b",
+      "sessionId": "2a6f002e-4f8d-4e19-a4a6-fcb7baae0a76",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:47:27.379Z",
+      "firstSeenMs": 1783702047379,
+      "lastSeen": "2026-07-10T16:55:47.983Z",
+      "lastSeenMs": 1783702547983
     },
     {
       "userId": "10157808433",
@@ -161,8 +179,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:50:53.088Z",
       "firstSeenMs": 1783702253088,
-      "lastSeen": "2026-07-10T16:55:30.798Z",
-      "lastSeenMs": 1783702530798
+      "lastSeen": "2026-07-10T16:55:47.888Z",
+      "lastSeenMs": 1783702547888
     },
     {
       "userId": "2596875527",
@@ -179,26 +197,26 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:48:56.156Z",
       "firstSeenMs": 1783702136156,
-      "lastSeen": "2026-07-10T16:55:30.498Z",
-      "lastSeenMs": 1783702530498
+      "lastSeen": "2026-07-10T16:55:47.840Z",
+      "lastSeenMs": 1783702547840
     },
     {
-      "userId": "11241056026",
-      "username": "kfhnjsfjsdkxcvh",
-      "displayName": "kfhnjsfjsdkxcvh",
-      "gameName": "[UP] Juste une plaque de base.",
-      "placeId": 123974602339071,
-      "jobId": "10d6796f-cc24-4622-b611-3bffe5972a16",
-      "sessionId": "ea4d2afb-1dc8-4421-8101-32fe5cbf4c76",
+      "userId": "7412812266",
+      "username": "king86615",
+      "displayName": "Rubaan",
+      "gameName": "[🚘235] Steal a Vehicle",
+      "placeId": 132195536417465,
+      "jobId": "69979292-8867-4a2f-acb0-17b2bf24947e",
+      "sessionId": "46fc1340-c282-426c-bc84-42d9ef9979ce",
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
       "roleKey": "",
-      "firstSeen": "2026-07-10T16:55:30.080Z",
-      "firstSeenMs": 1783702530080,
-      "lastSeen": "2026-07-10T16:55:30.080Z",
-      "lastSeenMs": 1783702530080
+      "firstSeen": "2026-07-10T16:55:47.482Z",
+      "firstSeenMs": 1783702547482,
+      "lastSeen": "2026-07-10T16:55:47.482Z",
+      "lastSeenMs": 1783702547482
     },
     {
       "userId": "9539008686",
@@ -215,44 +233,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:22:55.790Z",
       "firstSeenMs": 1783700575790,
-      "lastSeen": "2026-07-10T16:55:29.509Z",
-      "lastSeenMs": 1783702529509
-    },
-    {
-      "userId": "10199760908",
-      "username": "znxklas198",
-      "displayName": "znxklas198",
-      "gameName": "Deutsche Stimme",
-      "placeId": 136162036182779,
-      "jobId": "35c5db7e-36d3-467e-a8ca-384acc59c188",
-      "sessionId": "A95EC1E2-B437-4BF2-BC74-CFFDA95D312D",
-      "executionSource": "Xeno",
-      "executionVersion": "v1.3.55",
-      "clientPlatform": "Windows",
-      "scriptBuild": "2026-07-10_SERVER_JOIN_RESTART_FIX_V151",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:18:05.941Z",
-      "firstSeenMs": 1783700285941,
-      "lastSeen": "2026-07-10T16:55:29.124Z",
-      "lastSeenMs": 1783702529124
-    },
-    {
-      "userId": "3229334808",
-      "username": "khiel0327",
-      "displayName": "Kieruji",
-      "gameName": "[WE CALL HOME🌅] Mount Lonely",
-      "placeId": 76427490154192,
-      "jobId": "972df65a-58df-4b86-82e3-2ccc63bfad2c",
-      "sessionId": "004776a3-a6de-4634-b193-9d32391c2d16",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:12:44.016Z",
-      "firstSeenMs": 1783699964016,
-      "lastSeen": "2026-07-10T16:55:29.031Z",
-      "lastSeenMs": 1783702529031
+      "lastSeen": "2026-07-10T16:55:46.975Z",
+      "lastSeenMs": 1783702546975
     },
     {
       "userId": "3670027748",
@@ -269,8 +251,26 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:12:45.314Z",
       "firstSeenMs": 1783699965314,
-      "lastSeen": "2026-07-10T16:55:28.935Z",
-      "lastSeenMs": 1783702528935
+      "lastSeen": "2026-07-10T16:55:46.361Z",
+      "lastSeenMs": 1783702546361
+    },
+    {
+      "userId": "3229334808",
+      "username": "khiel0327",
+      "displayName": "Kieruji",
+      "gameName": "[WE CALL HOME🌅] Mount Lonely",
+      "placeId": 76427490154192,
+      "jobId": "972df65a-58df-4b86-82e3-2ccc63bfad2c",
+      "sessionId": "004776a3-a6de-4634-b193-9d32391c2d16",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:12:44.016Z",
+      "firstSeenMs": 1783699964016,
+      "lastSeen": "2026-07-10T16:55:46.323Z",
+      "lastSeenMs": 1783702546323
     },
     {
       "userId": "10563394921",
@@ -287,26 +287,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:54:55.263Z",
       "firstSeenMs": 1783702495263,
-      "lastSeen": "2026-07-10T16:55:28.927Z",
-      "lastSeenMs": 1783702528927
-    },
-    {
-      "userId": "7101058227",
-      "username": "zxV1L0",
-      "displayName": "V3N0M5H4RK",
-      "gameName": "Natural Disaster Survival",
-      "placeId": 189707,
-      "jobId": "ad9101d8-a206-4f86-bb32-241244f1b981",
-      "sessionId": "0930D50C-FA3E-4207-B806-A113A17BEE73",
-      "executionSource": "Xeno",
-      "executionVersion": "v1.3.55",
-      "clientPlatform": "Windows",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:51:35.226Z",
-      "firstSeenMs": 1783702295226,
-      "lastSeen": "2026-07-10T16:55:28.133Z",
-      "lastSeenMs": 1783702528133
+      "lastSeen": "2026-07-10T16:55:45.713Z",
+      "lastSeenMs": 1783702545713
     },
     {
       "userId": "11223388931",
@@ -323,8 +305,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:51:41.831Z",
       "firstSeenMs": 1783702301831,
-      "lastSeen": "2026-07-10T16:55:27.738Z",
-      "lastSeenMs": 1783702527738
+      "lastSeen": "2026-07-10T16:55:45.557Z",
+      "lastSeenMs": 1783702545557
     },
     {
       "userId": "1476618895",
@@ -341,8 +323,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:16:38.804Z",
       "firstSeenMs": 1783700198804,
-      "lastSeen": "2026-07-10T16:55:27.637Z",
-      "lastSeenMs": 1783702527637
+      "lastSeen": "2026-07-10T16:55:44.557Z",
+      "lastSeenMs": 1783702544557
     },
     {
       "userId": "8722514497",
@@ -359,8 +341,8 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:12:42.504Z",
       "firstSeenMs": 1783699962504,
-      "lastSeen": "2026-07-10T16:55:27.405Z",
-      "lastSeenMs": 1783702527405
+      "lastSeen": "2026-07-10T16:55:44.333Z",
+      "lastSeenMs": 1783702544333
     },
     {
       "userId": "3964643119",
@@ -377,8 +359,62 @@
       "roleKey": "",
       "firstSeen": "2026-07-10T16:23:00.681Z",
       "firstSeenMs": 1783700580681,
-      "lastSeen": "2026-07-10T16:55:27.226Z",
-      "lastSeenMs": 1783702527226
+      "lastSeen": "2026-07-10T16:55:44.280Z",
+      "lastSeenMs": 1783702544280
+    },
+    {
+      "userId": "10276671871",
+      "username": "sigma_dabahiaepic",
+      "displayName": "MADARA_HUMILDE",
+      "gameName": "MINI ATUALIZAÇÃO 🟣 Ninja Tycoon (v4.7.5)",
+      "placeId": 221718525,
+      "jobId": "36550291-c61a-42d8-9702-e4cb7b5aea36",
+      "sessionId": "3b693cca-6512-4caf-b678-7466b1cfb6cf",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:50:49.089Z",
+      "firstSeenMs": 1783702249089,
+      "lastSeen": "2026-07-10T16:55:43.508Z",
+      "lastSeenMs": 1783702543508
+    },
+    {
+      "userId": "11241056026",
+      "username": "kfhnjsfjsdkxcvh",
+      "displayName": "kfhnjsfjsdkxcvh",
+      "gameName": "[UP] Juste une plaque de base.",
+      "placeId": 123974602339071,
+      "jobId": "10d6796f-cc24-4622-b611-3bffe5972a16",
+      "sessionId": "ea4d2afb-1dc8-4421-8101-32fe5cbf4c76",
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:55:30.080Z",
+      "lastSeen": "2026-07-10T16:55:30.080Z",
+      "firstSeenMs": 1783702530080,
+      "lastSeenMs": 1783702530080
+    },
+    {
+      "userId": "7101058227",
+      "username": "zxV1L0",
+      "displayName": "V3N0M5H4RK",
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
+      "jobId": "ad9101d8-a206-4f86-bb32-241244f1b981",
+      "sessionId": "0930D50C-FA3E-4207-B806-A113A17BEE73",
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
+      "roleKey": "",
+      "firstSeen": "2026-07-10T16:51:35.226Z",
+      "lastSeen": "2026-07-10T16:55:28.133Z",
+      "firstSeenMs": 1783702295226,
+      "lastSeenMs": 1783702528133
     },
     {
       "userId": "7601059359",
@@ -394,8 +430,8 @@
       "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
       "roleKey": "",
       "firstSeen": "2026-07-10T16:54:40.137Z",
-      "firstSeenMs": 1783702480137,
       "lastSeen": "2026-07-10T16:55:19.250Z",
+      "firstSeenMs": 1783702480137,
       "lastSeenMs": 1783702519250
     },
     {
@@ -412,8 +448,8 @@
       "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
       "roleKey": "",
       "firstSeen": "2026-07-10T16:49:19.800Z",
-      "firstSeenMs": 1783702159800,
       "lastSeen": "2026-07-10T16:55:17.550Z",
+      "firstSeenMs": 1783702159800,
       "lastSeenMs": 1783702517550
     },
     {
@@ -613,24 +649,6 @@
       "lastSeen": "2026-07-10T16:53:28.516Z",
       "firstSeenMs": 1783702387882,
       "lastSeenMs": 1783702408516
-    },
-    {
-      "userId": "6028498520",
-      "username": "ZOOOOO_122",
-      "displayName": "ZOOOOO_FORSAKEN",
-      "gameName": "+1 ключ к скорости побега на клавиатуре | конфеты и шоколад",
-      "placeId": 95082159892680,
-      "jobId": "3de7bb5c-86af-4a3d-a710-b9dd35267c56",
-      "sessionId": "5a83b590-61bd-4b44-a0cf-1019d91910eb",
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "2026-07-10_GITHUB_STORAGE_SHUTDOWN_FIX_V142",
-      "roleKey": "",
-      "firstSeen": "2026-07-10T16:51:27.102Z",
-      "lastSeen": "2026-07-10T16:53:28.115Z",
-      "firstSeenMs": 1783702287102,
-      "lastSeenMs": 1783702408115
     },
     {
       "userId": "11224107401",
