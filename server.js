@@ -1,7 +1,8 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
 // V148: Neustartfeste, signierte Dashboard-Sitzungen und stabiler Owner-Rundsendungszugriff.
+// V150: Website und Lua-Menü verwenden dieselbe autoritative Active-Presence-Liste.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 5 * 60_000);return Number.isFinite(configured) ? Math.min(15 * 60_000, Math.max(3 * 60_000, Math.floor(configured))) : 5 * 60_000;})();const SERVER_STARTED_AT_MS = Date.now();const PRESENCE_RESTART_GRACE_MS = 90_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(ONLINE_TIMEOUT_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 5 * 60_000);return Number.isFinite(configured) ? Math.min(15 * 60_000, Math.max(3 * 60_000, Math.floor(configured))) : 5 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 35_000);return Number.isFinite(configured) ? Math.min(120_000, Math.max(20_000, Math.floor(configured))) : 35_000;})();const SERVER_STARTED_AT_MS = Date.now();const PRESENCE_RESTART_GRACE_MS = 90_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(ONLINE_TIMEOUT_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
 
 const GITHUB_DATA_TOKEN = String(process.env.GITHUB_DATA_TOKEN || "").trim();
 const GITHUB_DATA_OWNER = String(process.env.GITHUB_DATA_OWNER || "").trim();
@@ -24,6 +25,7 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
     .digest("hex");
 
 const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+let latestGlobalShutdownCommand = null;
 
 function sendJson(res, statusCode, data, extraHeaders = {}) {res.writeHead(statusCode, {"Content-Type": "application/json; charset=utf-8","Cache-Control": "no-store","X-Content-Type-Options": "nosniff",...extraHeaders,});res.end(JSON.stringify(data));}
 
@@ -330,6 +332,8 @@ return supplied === HEARTBEAT_TOKEN;
 
 }
 
+function isPresenceEntryActive(entry, now = Date.now()) {return Boolean(entry && entry.userId && !bans.has(entry.userId) && Number.isFinite(Number(entry.lastSeenMs)) && now - Number(entry.lastSeenMs) <= ACTIVE_PRESENCE_WINDOW_MS);}
+
 function prunePresence() {const now = Date.now();
 
 for (const [key, entry] of presence) {
@@ -356,11 +360,12 @@ return removed;
 
 }
 
-function findLatestPresenceForUser(userId) {let latest = null;
+function findLatestPresenceForUser(userId) {let latest = null;const now = Date.now();
 
 for (const entry of presence.values()) {
     if (
         entry.userId === userId &&
+        isPresenceEntryActive(entry, now) &&
         (!latest || entry.lastSeenMs > latest.lastSeenMs)
     ) {
         latest = entry;
@@ -398,9 +403,10 @@ function restoreRecentPresenceFromKnownPlayers() {
 
 function countActivePresenceUsers() {
     prunePresence();
+    const now = Date.now();
     const userIds = new Set();
     for (const entry of presence.values()) {
-        if (entry && entry.userId && !bans.has(entry.userId)) {
+        if (isPresenceEntryActive(entry, now)) {
             userIds.add(entry.userId);
         }
     }
@@ -593,6 +599,13 @@ function pruneShutdownCommands() {
             shutdownCommandsByUser.delete(userId);
         }
     }
+
+    if (
+        latestGlobalShutdownCommand &&
+        latestGlobalShutdownCommand.expiresAtMs <= now
+    ) {
+        latestGlobalShutdownCommand = null;
+    }
 }
 
 function queueGlobalScriptShutdown(startedBy) {
@@ -606,6 +619,7 @@ function queueGlobalScriptShutdown(startedBy) {
     const issuedBy = cleanText(startedBy, 80) || "dashboard";
 
     for (const entry of presence.values()) {
+        if (!isPresenceEntryActive(entry, now)) continue;
         const userId = cleanNumericId(entry && entry.userId);
         if (!userId) continue;
 
@@ -652,10 +666,26 @@ function queueGlobalScriptShutdown(startedBy) {
         });
     }
 
+    // Auch noch nicht vollständig registrierte V149-Clients können anhand ihrer
+    // Script-Startzeit erkennen, dass sie bereits vor dem Klick liefen. Eine neu
+    // gestartete Ausführung besitzt eine spätere Startzeit und bleibt erlaubt.
+    latestGlobalShutdownCommand = {
+        ...baseCommand,
+        targetedSessions: sessions.size,
+        targetedPlayers: users.size,
+    };
+
+    // Auf der Website gehen alle aktuell erkannten Script-Sitzungen sofort offline.
+    // Die Befehle bleiben separat erhalten und werden den alten Session-IDs beim
+    // nächsten Heartbeat bzw. Access-Poll weiterhin zugestellt.
+    const forcedOfflineSessions = presence.size;
+    presence.clear();
+
     return {
         id: commandId,
         targetedSessions: sessions.size,
         targetedPlayers: users.size,
+        forcedOfflineSessions,
         issuedAt: baseCommand.issuedAt,
         issuedBy,
     };
@@ -672,45 +702,59 @@ function serializeShutdownCommand(command) {
     };
 }
 
-function getShutdownCommandForClient(userId, sessionId) {
+function getShutdownCommandForClient(userId, sessionId, sessionStartedAtMs = 0) {
     pruneShutdownCommands();
 
     const cleanUserId = cleanNumericId(userId);
     const cleanSessionId = cleanText(sessionId, 100);
+    const cleanStartedAtMs = cleanInteger(sessionStartedAtMs);
 
     if (cleanSessionId) {
         const exact = shutdownCommandsBySession.get(cleanSessionId);
         if (exact) return serializeShutdownCommand(exact);
     }
 
-    if (!cleanUserId) return { active: false };
-    const userCommand = shutdownCommandsByUser.get(cleanUserId);
-    if (!userCommand) return { active: false };
+    if (cleanUserId) {
+        const userCommand = shutdownCommandsByUser.get(cleanUserId);
+        if (userCommand) {
+            if (
+                cleanSessionId &&
+                Array.isArray(userCommand.sessionIds) &&
+                userCommand.sessionIds.includes(cleanSessionId)
+            ) {
+                return serializeShutdownCommand(userCommand);
+            }
 
-    if (
-        cleanSessionId &&
-        Array.isArray(userCommand.sessionIds) &&
-        userCommand.sessionIds.includes(cleanSessionId)
-    ) {
-        return serializeShutdownCommand(userCommand);
+            // Kompatibilitäts-Fallback für ältere Clients, deren Session-ID erst
+            // mit einem verspäteten Heartbeat sichtbar wurde.
+            const currentPresence = [...presence.values()].find((entry) =>
+                entry &&
+                entry.userId === cleanUserId &&
+                (
+                    !cleanSessionId ||
+                    !entry.sessionId ||
+                    entry.sessionId === cleanSessionId
+                )
+            );
+            if (
+                currentPresence &&
+                (cleanInteger(currentPresence.joinedAtMs) || Date.now()) <= userCommand.issuedAtMs
+            ) {
+                return serializeShutdownCommand(userCommand);
+            }
+        }
     }
 
-    // Fallback für Sitzungen, die beim Klick zwar online waren, deren Session-ID
-    // aber erst mit dem nächsten Heartbeat sichtbar wurde.
-    const currentPresence = [...presence.values()].find((entry) =>
-        entry &&
-        entry.userId === cleanUserId &&
-        (
-            !cleanSessionId ||
-            !entry.sessionId ||
-            entry.sessionId === cleanSessionId
-        )
-    );
+    // V149-Fallback: Erfasst auch eine Script-Ausführung, die beim Klick gerade
+    // noch im Ladeaufbau war und deshalb noch nicht in presence stand. Eine danach
+    // manuell neu gestartete Ausführung hat eine spätere Startzeit und wird nicht
+    // erneut abgeschaltet.
     if (
-        currentPresence &&
-        (cleanInteger(currentPresence.joinedAtMs) || Date.now()) <= userCommand.issuedAtMs
+        latestGlobalShutdownCommand &&
+        cleanStartedAtMs > 0 &&
+        cleanStartedAtMs <= latestGlobalShutdownCommand.issuedAtMs
     ) {
-        return serializeShutdownCommand(userCommand);
+        return serializeShutdownCommand(latestGlobalShutdownCommand);
     }
 
     return { active: false };
@@ -1650,8 +1694,10 @@ return result;
 
 async function getPublicPresence() {prunePresence();
 
+const snapshotGeneratedAtMs = Date.now();
 const latestActiveByUserId = new Map();
 for (const row of presence.values()) {
+    if (!isPresenceEntryActive(row, snapshotGeneratedAtMs)) continue;
     const current = latestActiveByUserId.get(row.userId);
     if (!current || row.lastSeenMs > current.lastSeenMs) {
         latestActiveByUserId.set(row.userId, row);
@@ -1743,7 +1789,15 @@ const bannedPlayers = bannedRows.map((row) => {
     };
 });
 
-return { players, bannedPlayers, activeCount: latestActiveByUserId.size };
+const activeUserIds = [...latestActiveByUserId.keys()].sort((a, b) => String(a).localeCompare(String(b)));
+return {
+    players,
+    bannedPlayers,
+    activeCount: activeUserIds.length,
+    activeUserIds,
+    snapshotGeneratedAtMs,
+    activeWindowMs: ACTIVE_PRESENCE_WINDOW_MS,
+};
 
 }
 
@@ -3138,19 +3192,23 @@ async function refresh() {
 
         const data = await response.json();
         const incomingPlayers = Array.isArray(data.players) ? data.players : [];
-        const previousByUserId = new Map(state.players.map(function (player) {
-            return [String(player.userId || ""), player];
-        }));
-        const preservePreviousOnline = data.presenceWarmup === true && state.lastSuccessfulRefreshAt > 0;
+        const authoritativeActiveIds = new Set(
+            (Array.isArray(data.activeUserIds) ? data.activeUserIds : [])
+                .map(function (userId) { return String(userId || ""); })
+                .filter(Boolean)
+        );
+        const hasAuthoritativeActiveList = Array.isArray(data.activeUserIds);
         state.players = incomingPlayers.map(function (player) {
-            const previous = previousByUserId.get(String(player.userId || ""));
-            if (preservePreviousOnline && previous && previous.online === true && player.online !== true) {
-                return Object.assign({}, player, { online:true, reconnecting:true });
-            }
-            return player;
+            const userId = String(player.userId || "");
+            const isActive = hasAuthoritativeActiveList
+                ? authoritativeActiveIds.has(userId)
+                : player.online === true;
+            return Object.assign({}, player, { online:isActive, reconnecting:false });
         });
         state.online = data.online === true;
-        state.activePlayers = state.players.filter(function (player) { return player.online === true; }).length;
+        state.activePlayers = hasAuthoritativeActiveList
+            ? authoritativeActiveIds.size
+            : state.players.filter(function (player) { return player.online === true; }).length;
         state.bannedPlayers = Array.isArray(data.bannedPlayers) ? data.bannedPlayers : [];
         state.menuUpdate = data.menuUpdate && typeof data.menuUpdate === "object" ? data.menuUpdate : {active:false,remainingSeconds:0};
         state.updateSyncedAt = Date.now();
@@ -3163,20 +3221,14 @@ async function refresh() {
         state.refreshFailures += 1;
         state.stale = state.players.length > 0 || state.bannedPlayers.length > 0;
 
-        // Bei einem einzelnen fehlgeschlagenen Poll niemals alle Karten leeren.
-        // Erst nach 90 Sekunden ohne erfolgreiche Antwort werden bisherige
-        // Online-Spieler als offline markiert; gespeicherte Karten bleiben erhalten.
-        const staleForMs = state.lastSuccessfulRefreshAt > 0
-            ? Date.now() - state.lastSuccessfulRefreshAt
-            : Number.POSITIVE_INFINITY;
-        if (staleForMs > 90000) {
-            state.players = state.players.map(function (player) {
-                return player.online === true
-                    ? Object.assign({}, player, { online:false, reconnecting:false })
-                    : player;
-            });
-            state.activePlayers = 0;
-        }
+        // Alte Karten bleiben zur Orientierung sichtbar, zählen bei einem
+        // Verbindungsfehler aber nicht als aktuell online.
+        state.players = state.players.map(function (player) {
+            return player.online === true
+                ? Object.assign({}, player, { online:false, reconnecting:true })
+                : player;
+        });
+        state.activePlayers = 0;
     } finally {
         clearTimeout(requestTimeout);
         presenceRefreshInFlight = false;
@@ -3685,7 +3737,7 @@ document.addEventListener("keydown",function (event) {
 });
 
 refresh();
-setInterval(refresh,5000);
+setInterval(refresh,2000);
 setInterval(renderUpdateStatus,250);
 </script>
 
@@ -3694,7 +3746,7 @@ setInterval(renderUpdateStatus,250);
 }
 
 loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();
-const githubStorageStartupPromise = loadGitHubStorage().then(() => { restoreRecentPresenceFromKnownPlayers(); }).catch((error) => { console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); restoreRecentPresenceFromKnownPlayers(); });
+const githubStorageStartupPromise = loadGitHubStorage().then(() => { console.log("[NEXU] Gespeicherte Spieler geladen; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
 
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
@@ -4216,6 +4268,10 @@ if (
 if (req.method === "GET" && pathname === "/api/menu/access") {
     const userId = cleanNumericId(requestUrl.searchParams.get("userId"));
     const sessionId = cleanText(requestUrl.searchParams.get("sessionId"), 100);
+    const sessionStartedAtMs = cleanInteger(
+        requestUrl.searchParams.get("sessionStartedAtMs") ||
+        requestUrl.searchParams.get("startedAtMs")
+    );
 
     if (!userId) {
         sendJson(res, 400, {
@@ -4228,7 +4284,7 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
     const ban = bans.get(userId);
     const role = getNexuRoleInfo(userId);
     const menuUpdate = getMenuUpdateStatus();
-    const shutdown = getShutdownCommandForClient(userId, sessionId);
+    const shutdown = getShutdownCommandForClient(userId, sessionId, sessionStartedAtMs);
     sendJson(res, 200, {
         success: true,
         allowed: !ban && !menuUpdate.active && shutdown.active !== true,
@@ -4648,6 +4704,9 @@ if (req.method === "GET" && pathname === "/api/presence") {
         success: true,
         online: true,
         activePlayers: data.activeCount,
+        activeUserIds: data.activeUserIds,
+        snapshotGeneratedAtMs: data.snapshotGeneratedAtMs,
+        activeWindowSeconds: ACTIVE_PRESENCE_WINDOW_MS / 1000,
         bannedCount: data.bannedPlayers.length,
         timeoutSeconds: ONLINE_TIMEOUT_MS / 1000,
         heartbeatMode: "per-script-session",
@@ -4678,6 +4737,34 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
         const placeId = cleanInteger(body.placeId);
         const gameName = cleanText(body.gameName, 120) || `Place ${placeId || 0}`;
         const sessionId = cleanText(body.sessionId, 100);
+        const selfUserId = cleanNumericId(body.userId);
+        const selfSessionId = sessionId;
+        const selfSessionStartedAtMs = cleanInteger(
+            body.sessionStartedAtMs || body.startedAtMs
+        );
+
+        // Der Abschaltbefehl wird VOR dem erneuten Eintragen in presence geprüft.
+        // So bleibt die Website nach „ALLE SCRIPTS AUS“ sofort offline und ein
+        // alter Client kann sich nicht für einen einzelnen Heartbeat zurückmelden.
+        const pendingShutdown = selfUserId
+            ? getShutdownCommandForClient(
+                selfUserId,
+                selfSessionId,
+                selfSessionStartedAtMs
+            )
+            : { active: false };
+        if (pendingShutdown.active === true) {
+            sendJson(res, 200, {
+                success: true,
+                activePlayers: countActivePresenceUsers(),
+                activeSessions: presence.size,
+                receivedPlayers: 0,
+                blockedUserIds: [],
+                shutdown: pendingShutdown,
+                timestamp: new Date().toISOString(),
+            });
+            return;
+        }
 
         // Presence ist absichtlich pro ausgeführter Script-Instanz. Batch-Listen
         // dürfen niemals andere Spieler als online eintragen oder entfernen.
@@ -4800,9 +4887,7 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
             return;
         }
 
-        const selfUserId = cleanNumericId(body.userId);
         const selfRole = selfUserId ? getNexuRoleInfo(selfUserId) : null;
-        const selfSessionId = cleanText(body.sessionId, 100);
         const activePlayerCount = countActivePresenceUsers();
         console.log(
             `[NEXU] Heartbeat: ${selfUserId || "unbekannt"}, ` +
@@ -4810,7 +4895,11 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 `${activePlayerCount} Spieler / ${presence.size} Sessions aktiv`
         );
         const shutdown = selfUserId
-            ? getShutdownCommandForClient(selfUserId, selfSessionId)
+            ? getShutdownCommandForClient(
+                selfUserId,
+                selfSessionId,
+                selfSessionStartedAtMs
+            )
             : { active: false };
         sendJson(res, 200, {
             success: true,
@@ -5305,7 +5394,7 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V147 GESTARTET");
+        console.log("NEXU PRESENCE & MODERATION V150 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
@@ -5314,7 +5403,7 @@ async function startNexuServer() {
         console.log("GitHub-Datendatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_DATA_PATH}`);
         console.log("Dashboard-Anmeldung: /");
         console.log("Dashboard-Accounts:", dashboardAccounts.size);
-        console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V147 AKTIV");
+        console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V148 SIGNIERT UND NEUSTARTFEST");
         console.log("Presence: /api/presence");
         console.log("Aktive-Script-Timeout:", Math.round(ONLINE_TIMEOUT_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
@@ -5323,7 +5412,7 @@ async function startNexuServer() {
         console.log("Access: /api/menu/access?userId=...");
         console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V150 AUTORITATIVER SNAPSHOT // 2 SEKUNDEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");
         console.log("========================================");
     });
 }
