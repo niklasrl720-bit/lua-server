@@ -1121,6 +1121,11 @@ return {
             executionVersion: body.executionVersion,
             clientPlatform: body.clientPlatform,
             scriptBuild: body.scriptBuild,
+            executorName: body.executorName,
+            executorVersion: body.executorVersion,
+            platform: body.platform,
+            buildId: body.buildId,
+            clientInfo: body.clientInfo,
         },
     ],
 };
@@ -2302,10 +2307,10 @@ function renderPlayer(player,banned) {
     const gameName = player.gameName || (player.placeId ? ("Place " + player.placeId) : "Unbekannt");
     const placeId = String(player.placeId || "-");
     const jobId = String(player.jobId || "-");
-    const executionSource = String(player.executionSource || "Unbekannt");
+    const executionSource = String(player.executionSource || (player.online ? "WIRD GEMELDET…" : "NICHT GEMELDET"));
     const executionVersion = String(player.executionVersion || "");
-    const clientPlatform = String(player.clientPlatform || "Unbekannt");
-    const scriptBuild = String(player.scriptBuild || "Unbekannt");
+    const clientPlatform = String(player.clientPlatform || (player.online ? "WIRD GEMELDET…" : "NICHT GEMELDET"));
+    const scriptBuild = String(player.scriptBuild || (player.online ? "WIRD GEMELDET…" : "CLIENT VOR V138"));
     const executionDisplay = executionVersion ? (executionSource + " " + executionVersion) : executionSource;
     const lastSeenText = formatDashboardDate(player.lastSeen);
     const joinable = online && /^\d+$/.test(placeId) && placeId !== "0" && jobId !== "-" && !jobId.startsWith("LOCAL-");
@@ -3917,10 +3922,26 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 placeId,
                 jobId,
                 sessionId: cleanText(rawPlayer.sessionId, 100) || sessionId,
-                executionSource: cleanText(rawPlayer.executionSource, 80) || (existing && existing.executionSource) || "",
-                executionVersion: cleanText(rawPlayer.executionVersion, 80) || (existing && existing.executionVersion) || "",
-                clientPlatform: cleanText(rawPlayer.clientPlatform, 40) || (existing && existing.clientPlatform) || "",
-                scriptBuild: cleanText(rawPlayer.scriptBuild, 120) || (existing && existing.scriptBuild) || "",
+                executionSource: cleanText(
+                    rawPlayer.executionSource || rawPlayer.executorName ||
+                    (rawPlayer.clientInfo && (rawPlayer.clientInfo.source || rawPlayer.clientInfo.executionSource)),
+                    80
+                ) || (existing && existing.executionSource) || "",
+                executionVersion: cleanText(
+                    rawPlayer.executionVersion || rawPlayer.executorVersion ||
+                    (rawPlayer.clientInfo && (rawPlayer.clientInfo.version || rawPlayer.clientInfo.executionVersion)),
+                    80
+                ) || (existing && existing.executionVersion) || "",
+                clientPlatform: cleanText(
+                    rawPlayer.clientPlatform || rawPlayer.platform ||
+                    (rawPlayer.clientInfo && (rawPlayer.clientInfo.platform || rawPlayer.clientInfo.clientPlatform)),
+                    40
+                ) || (existing && existing.clientPlatform) || "",
+                scriptBuild: cleanText(
+                    rawPlayer.scriptBuild || rawPlayer.buildId ||
+                    (rawPlayer.clientInfo && (rawPlayer.clientInfo.build || rawPlayer.clientInfo.scriptBuild)),
+                    120
+                ) || (existing && existing.scriptBuild) || "",
                 joinedAtMs: existing ? existing.joinedAtMs : now,
                 lastSeenMs: now,
             };
