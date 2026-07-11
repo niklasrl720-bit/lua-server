@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "encrypted": true,
+  "algorithm": "aes-256-gcm",
+  "iv": "82U1tjbuOMb1sGpf",
+  "tag": "KvnUlHLM61Uo1homrCmmCQ==",
+  "data": "KKiD58DF0LKTQhj1z0ruaoU1czBlSOTWNFZhXNTHKzOMCpmocbFViIK014rr/9W/UEKXUTDBCrURzZvjZ0qhR11XAN5Bro2UTJXfOG/d8CcLa6gYhnwLEXTXAh/IYzXMJgz9dPL+DSMeGQjOV3rToUdLgGGm5UBx73oUnk9eiycW5FZq3ToeTIaAYzGQ9PhQOZ585y/zxKIIpGIe8Q0dLRjlA9jv9u4KVMy6KGUa05/sRTCMd+oRY71+Uy6+pZ5+WIUiAQ8Xx742v4+BqM3qELpcpPOVWVP7+O+RiMhGpIVQjmlyGh3G3yNVd5Si12UXzpj16XSo4mQ1rniYNqg1+dr+g/FwODgfMlBO3AJJzEpZIbz6MwigyxYFB5M1O7vLXV9oAN3xQ4We8gTo/pqQR02XxNT8a+tJrtPZANJZkcTUkmFE//dZJoW7eQuQpBqxwW0gtUMp/36cy10u4MwPVqTjiT+wouzFqxdwLuxlmnbGw04jCNPb5Et3IcRDHGrvP0W8aJc2VvT6rz5iiUoz7Cvn59+R9DhNZDMZLxWxhWTJNYqdM2Wg+LaV5A==",
+  "accountCount": 1,
+  "updatedAt": "2026-07-11T07:05:08.488Z"
+}
