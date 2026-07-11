@@ -2586,6 +2586,23 @@ button.ghost{background:rgba(255,255,255,.05);}
 button:active,.button-link:active{transform:translateY(0);}
 .remembered-account{border-color:rgba(108,223,255,.12);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));}
 
+
+/* V166 ULTRA DESIGN REFRESH */
+
+html,body{background:
+ radial-gradient(circle at 14% 10%,rgba(0,200,255,.18),transparent 26%),
+ radial-gradient(circle at 86% 18%,rgba(111,70,255,.16),transparent 30%),
+ radial-gradient(circle at 50% 120%,rgba(45,255,165,.08),transparent 32%),
+ #02050a;}
+.login-shell{gap:26px;}
+.brand-card,.auth-card{border-radius:30px;backdrop-filter:blur(18px);}
+.brand-card{padding:38px;background:linear-gradient(160deg,rgba(6,14,25,.92),rgba(4,10,19,.86));}
+.auth-card{padding:28px;background:linear-gradient(160deg,rgba(6,12,21,.9),rgba(8,15,27,.84));}
+.logo{width:84px;height:84px;border-radius:26px;font-size:34px;box-shadow:0 20px 50px rgba(0,200,255,.22),0 0 0 1px rgba(255,255,255,.08) inset;}
+.stat{border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.025));}
+.auth-panel,.remembered-list{border-radius:20px;padding:20px;}
+button,.button-link{border-radius:15px;}
+
 </style>
 </head>
 <body>
@@ -2720,6 +2737,23 @@ h1{background:linear-gradient(135deg,#fff,#98ebff 42%,#bbb6ff);-webkit-backgroun
 .account-button,.menu-item,.modal-actions button,.back{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;}
 .account-button:hover,.menu-item:hover,.modal-actions button:hover,.back:hover{transform:translateY(-1px);border-color:rgba(108,223,255,.4);box-shadow:0 12px 24px rgba(0,0,0,.18);}
 .modal-card{background:linear-gradient(180deg,rgba(8,14,25,.98),rgba(6,12,22,.96));}
+
+
+/* V166 ULTRA DESIGN REFRESH */
+
+html,body{background:
+ radial-gradient(circle at 10% 10%,rgba(0,200,255,.18),transparent 24%),
+ radial-gradient(circle at 90% 14%,rgba(111,70,255,.15),transparent 28%),
+ radial-gradient(circle at 50% 110%,rgba(45,255,165,.06),transparent 30%),
+ var(--bg);}
+.header{margin-bottom:26px;padding:16px 18px;border:1px solid rgba(108,223,255,.14);border-radius:26px;background:linear-gradient(180deg,rgba(7,13,23,.9),rgba(6,12,21,.78));box-shadow:0 18px 48px rgba(0,0,0,.28),0 0 0 1px rgba(255,255,255,.03) inset;backdrop-filter:blur(16px);}
+.logo{width:54px;height:54px;font-size:22px;box-shadow:0 18px 44px rgba(0,200,255,.22),0 0 0 1px rgba(255,255,255,.08) inset;}
+.brand strong{font-size:26px;background:linear-gradient(135deg,#fff,#a5efff 42%,#c0bbff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero{gap:24px;}
+.welcome,.action-grid{padding:30px;}
+.primary-tile{min-height:164px;border-radius:26px;}
+.quick-info{gap:14px;}
+.info-card{min-height:108px;border-radius:20px;}
 
 </style>
 </head>
@@ -2946,6 +2980,16 @@ button,a.back{transition:transform .18s ease,border-color .18s ease,box-shadow .
 button:hover,a.back:hover{transform:translateY(-1px);box-shadow:0 14px 28px rgba(0,0,0,.18);}
 label input{background:linear-gradient(180deg,#07101b,#081521);}
 .account-confirm-card{background:linear-gradient(180deg,rgba(10,16,27,.98),rgba(8,13,23,.96));}
+
+
+/* V166 ULTRA DESIGN REFRESH */
+
+.topbar{padding:16px 18px;border:1px solid rgba(108,223,255,.14);border-radius:26px;background:linear-gradient(180deg,rgba(7,13,23,.9),rgba(6,12,21,.78));box-shadow:0 18px 48px rgba(0,0,0,.28),0 0 0 1px rgba(255,255,255,.03) inset;backdrop-filter:blur(16px);}
+.logo{width:50px;height:50px;font-size:20px;}
+.brand h1{font-size:34px;}
+.intro{border-radius:24px;padding:22px;}
+.account-card{border-radius:24px;padding:20px;}
+button,a.back{border-radius:14px;}
 
 </style>
 </head>
@@ -3479,6 +3523,57 @@ h1{background:linear-gradient(135deg,#ffffff,#9feeff 40%,#b9b3ff);-webkit-backgr
 ::-webkit-scrollbar{width:12px;height:12px;}
 ::-webkit-scrollbar-track{background:rgba(5,10,18,.72);}
 ::-webkit-scrollbar-thumb{border:2px solid rgba(5,10,18,.72);border-radius:999px;background:linear-gradient(180deg,rgba(0,200,255,.55),rgba(111,70,255,.5));}
+
+
+/* V166 ULTRA DESIGN REFRESH */
+
+:root{--glass:rgba(8,14,24,.82);--glass-strong:rgba(6,12,22,.92);--line:rgba(255,255,255,.055);--shadow:0 30px 80px rgba(0,0,0,.34);} 
+html,body{background:
+ radial-gradient(circle at 8% 8%,rgba(0,200,255,.18),transparent 22%),
+ radial-gradient(circle at 92% 10%,rgba(111,70,255,.16),transparent 26%),
+ radial-gradient(circle at 50% 115%,rgba(45,255,165,.06),transparent 28%),
+ linear-gradient(180deg,#02050a 0%,#03070e 42%,#02050a 100%);} 
+body::before{opacity:.18;background-size:36px 36px;mask-image:radial-gradient(circle at top,black 10%,rgba(0,0,0,.75) 35%,transparent 88%);} 
+.scan{opacity:.7;filter:blur(.2px);} 
+.shell{width:min(1380px,calc(100% - 34px));padding:20px 0 56px;} 
+header{position:sticky;top:12px;z-index:50;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px;padding:18px 20px;border:1px solid rgba(108,223,255,.14);border-radius:30px;background:linear-gradient(180deg,rgba(7,13,23,.92),rgba(6,12,21,.82));box-shadow:0 22px 60px rgba(0,0,0,.30),0 0 0 1px rgba(255,255,255,.03) inset;backdrop-filter:blur(18px);margin-bottom:24px;} 
+header::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,rgba(0,200,255,.08),transparent 28%,transparent 72%,rgba(111,70,255,.08));pointer-events:none;} 
+.brand,.header-actions,.live-pill{position:relative;z-index:1;} 
+.brand{gap:16px;min-width:0;} 
+.logo{width:56px;height:56px;border-radius:18px;font-size:24px;box-shadow:0 18px 44px rgba(0,200,255,.22),0 0 0 1px rgba(255,255,255,.08) inset;} 
+.brand-copy strong{font-size:32px;line-height:1;background:linear-gradient(135deg,#fff,#a5efff 44%,#c3bfff);-webkit-background-clip:text;background-clip:text;color:transparent;} 
+.brand-copy span{font-size:13px;letter-spacing:.18em;color:#88a7bd;} 
+.header-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap;} 
+.logout-button,.action-button,.menu-status-toggle,.directory-tab,.role-button,.small-button,.player-action,.update-preset,.update-submit-button,.update-cancel,.broadcast-button,.shutdown-button{min-height:42px;padding:0 16px;border-radius:15px;border:1px solid rgba(108,223,255,.16);background:linear-gradient(180deg,rgba(14,22,36,.9),rgba(8,14,25,.78));box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 0 1px rgba(255,255,255,.02) inset;color:#dceef8;font-size:11px;font-weight:900;letter-spacing:.08em;} 
+.logout-button,.shutdown-button{border-color:rgba(255,77,120,.22);color:#ffb4c4;background:linear-gradient(180deg,rgba(55,10,23,.82),rgba(35,8,16,.72));} 
+.update-button,.update-submit-button{border-color:rgba(255,194,45,.24);color:#ffe7a0;background:linear-gradient(180deg,rgba(60,42,8,.85),rgba(37,26,7,.72));} 
+.broadcast-button{border-color:rgba(0,200,255,.24);color:#a9eeff;background:linear-gradient(180deg,rgba(6,52,72,.84),rgba(7,25,37,.76));} 
+.live-pill{justify-self:end;min-height:44px;padding:0 18px;border-radius:16px;border:1px solid rgba(108,223,255,.14);background:linear-gradient(180deg,rgba(11,18,31,.88),rgba(8,14,24,.76));box-shadow:0 10px 28px rgba(0,0,0,.18),0 0 0 1px rgba(255,255,255,.03) inset;} 
+.dot{width:10px;height:10px;} 
+.hero,.directory,.menu-status-panel,.menu-update-panel{border-radius:30px;border:1px solid rgba(108,223,255,.14);background:linear-gradient(180deg,rgba(8,15,26,.94),rgba(6,12,22,.88));box-shadow:var(--shadow),0 0 0 1px rgba(255,255,255,.03) inset;} 
+.hero{padding:34px;} 
+.directory{padding:28px;} 
+.directory-head{margin-bottom:20px;} 
+.directory h2{font-size:24px;} 
+.stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:26px;} 
+.stat{min-height:132px;padding:20px;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.025));border:1px solid rgba(108,223,255,.1);} 
+.stat-value{font-size:30px;} 
+.stat-mini{border-radius:16px;padding:12px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));}
+.directory-tabs{gap:10px;padding:8px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.02));border:1px solid rgba(108,223,255,.1);} 
+.directory-tab{min-height:44px;border-radius:14px;padding:0 16px;} 
+.search{height:48px;border-radius:15px;padding:0 16px;background:linear-gradient(180deg,#08111d,#091521);} 
+.players{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;} 
+.player{padding:15px;border-radius:20px;border:1px solid rgba(108,223,255,.1);background:linear-gradient(180deg,rgba(12,19,33,.88),rgba(8,14,24,.8));box-shadow:0 16px 38px rgba(0,0,0,.18),0 0 0 1px rgba(255,255,255,.02) inset;} 
+.player:hover{transform:translateY(-3px);border-color:rgba(108,223,255,.26);} 
+.avatar{width:64px;height:64px;flex-basis:64px;border-radius:18px;} 
+.display-name{font-size:16px;font-weight:820;} 
+.username{font-size:13px;} 
+.presence-details{margin-top:10px;padding:9px 11px;border-radius:14px;background:linear-gradient(180deg,rgba(2,8,14,.46),rgba(4,10,18,.26));border:1px solid rgba(108,223,255,.08);} 
+.player-actions{gap:10px;} 
+.role-controls{gap:7px;} 
+.dashboard-notice,.toast,.dialog-card,.account-menu,.update-card,.dm-card{border-radius:22px;} 
+@media (max-width:1180px){header{grid-template-columns:1fr;align-items:start;} .live-pill{justify-self:start;} .stats{grid-template-columns:repeat(2,minmax(0,1fr));} .players{grid-template-columns:1fr;}} 
+@media (max-width:760px){.shell{width:min(100% - 18px,1380px);} header{padding:16px;border-radius:24px;top:8px;} .brand-copy strong{font-size:26px;} .hero,.directory{padding:22px;} .stats{grid-template-columns:1fr;} .directory-head{flex-direction:column;align-items:stretch;} .search{width:100%;} .header-actions{justify-content:flex-start;}} 
 
 </style>
 </head>
@@ -6563,7 +6658,7 @@ async function startNexuServer() {
         console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
         console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
         console.log("========================================");
     });
 }
