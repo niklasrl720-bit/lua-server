@@ -1,5 +1,6 @@
+// V201: Vollständig deutsche Oberfläche, "Dashboard" wird zu "Übersicht", neue linke Serverzentrale mit Live-Metriken, Navigation und Laufzeitprüfung.
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
-// V200: NEXU AURORA EXPERIENCE — professionelles, responsives Designsystem für Login, Startseite, Accounts und Menu-Server.
+// V200: NEXU AURORA-ERLEBNIS — professionelles, responsives Designsystem für Login, Startseite, Accounts und Menu-Server.
 // V200: Cinematic Startsequenz, echte Landingpage-Sektionen, konsistente Oberflächen, Micro-Interactions und Reduced-Motion-Fallback.
 // V148: Neustartfeste, signierte Dashboard-Sitzungen und stabiler Owner-Rundsendungszugriff.
 // V150: Website und Lua-Menü verwenden dieselbe autoritative Active-Presence-Liste.
@@ -702,7 +703,7 @@ function loadMenuUpdateState() {
         const parsed = JSON.parse(fs.readFileSync(MENU_UPDATE_FILE_PATH, "utf8"));
         menuUpdateState = normalizeMenuUpdateState(parsed && (parsed.update || parsed));
         if (!menuUpdateState.active) saveMenuUpdateState();
-        console.log(`[NEXU] Script-Update: ${menuUpdateState.active ? "AKTIV" : "INAKTIV"}`);
+        console.log(`[NEXU] Skript-Aktualisierung: ${menuUpdateState.active ? "AKTIV" : "INAKTIV"}`);
     } catch (error) {
         console.warn("[NEXU] Update-Status konnte nicht geladen werden:", error.message);
         menuUpdateState = normalizeMenuUpdateState({});
@@ -1129,14 +1130,14 @@ function internalDashboardEmailForUsername(username) {
 }
 
 const DASHBOARD_PERMISSION_DEFINITIONS = [
-    { key: "menuServer", formName: "menuServerAccess", title: "Dashboard öffnen", description: "Darf den Menu Server ansehen." },
-    { key: "dm", formName: "dashboardDm", title: "Nachrichten senden", description: "Darf DMs und Rundsendungen an aktive Nexu-Spieler senden." },
-    { key: "bring", formName: "dashboardBring", title: "Bring benutzen", description: "Darf Spieler per Website zum Creator bringen." },
-    { key: "serverJoin", formName: "dashboardJoin", title: "Server Join", description: "Darf den Creator zu einem Spieler-Server schicken." },
-    { key: "managePlayerRoles", formName: "dashboardRole", title: "Ränge einstellen", description: "Darf PLAYERS/SUPPORTER für gespeicherte Spieler ändern." },
-    { key: "banPlayers", formName: "dashboardBan", title: "Bannen/Entbannen", description: "Darf Spieler bannen, entbannen und die Sperrliste sehen." },
-    { key: "updateScript", formName: "dashboardUpdateScript", title: "Script-Update", description: "Darf den zeitgesteuerten Wartungsmodus starten und vorzeitig beenden." },
-    { key: "shutdownScript", formName: "dashboardShutdownScript", title: "Scripts deaktivieren", description: "Darf alle aktuell verbundenen Lua-Sitzungen einmalig deaktivieren." },
+    { key: "menuServer", formName: "menuServerAccess", title: "Übersicht öffnen", description: "Darf die Serverübersicht ansehen." },
+    { key: "dm", formName: "dashboardDm", title: "Nachrichten senden", description: "Darf Direktnachrichten und Rundsendungen an aktive Nexu-Spieler senden." },
+    { key: "bring", formName: "dashboardBring", title: "Herbeiholen verwenden", description: "Darf Spieler über die Website zum Ersteller holen." },
+    { key: "serverJoin", formName: "dashboardJoin", title: "Serverbeitritt", description: "Darf den Ersteller zu einem Spieler-Server schicken." },
+    { key: "managePlayerRoles", formName: "dashboardRole", title: "Ränge einstellen", description: "Darf SPIELER/UNTERSTÜTZER für gespeicherte Spieler ändern." },
+    { key: "banPlayers", formName: "dashboardBan", title: "Sperren/Entsperren", description: "Darf Spieler sperren, entsperren und die Sperrliste sehen." },
+    { key: "updateScript", formName: "dashboardUpdateScript", title: "Skript-Aktualisierung", description: "Darf den zeitgesteuerten Wartungsmodus starten und vorzeitig beenden." },
+    { key: "shutdownScript", formName: "dashboardShutdownScript", title: "Skripte deaktivieren", description: "Darf alle aktuell verbundenen Lua-Sitzungen einmalig deaktivieren." },
     { key: "menuStatus", formName: "dashboardMenuStatus", title: "Menüstatus umschalten", description: "Darf das Lua-Menü global ONLINE oder OFFLINE schalten." },
 ];
 
@@ -1215,7 +1216,7 @@ function isDashboardPermissionSession(req, permissionKey) {
 
 function dashboardPermissionError(permissionKey) {
     const definition = DASHBOARD_PERMISSION_DEFINITIONS.find((entry) => entry.key === permissionKey);
-    return definition ? `${definition.title} Zugriff erforderlich` : "Dashboard-Zugriff erforderlich";
+    return definition ? `${definition.title}: Zugriff erforderlich` : "Übersichts-Zugriff erforderlich";
 }
 
 function safeSecretEquals(left, right) {
@@ -1352,7 +1353,7 @@ function loadDashboardAccount() {
             }
         }
     } catch (error) {
-        console.warn("[NEXU] Dashboard-Accounts konnten nicht geladen werden:", error.message);
+        console.warn("[NEXU] Übersichts-Konten konnten nicht geladen werden:", error.message);
     }
 
     if (dashboardAccounts.size === 0) {
@@ -1372,7 +1373,7 @@ function loadDashboardAccount() {
         saveDashboardAccount(false);
     }
     dashboardAccountsDiskFingerprint = storageFingerprint(buildDashboardAccountsCore());
-    console.log(`[NEXU] ${dashboardAccounts.size} Dashboard-Account(s) geladen`);
+    console.log(`[NEXU] ${dashboardAccounts.size} Übersichts-Konto/Konten geladen`);
 }
 
 function serializeDashboardAccountForStorage(raw) {
@@ -1422,7 +1423,7 @@ function saveDashboardAccount(syncGitHub = true) {
         if (syncGitHub) scheduleGitHubAccountsSave("account-change", 1_500);
         return true;
     } catch (error) {
-        console.warn("[NEXU] Dashboard-Accounts konnten nicht gespeichert werden:", error.message);
+        console.warn("[NEXU] Übersichts-Konten konnten nicht gespeichert werden:", error.message);
         return false;
     }
 }
@@ -2068,14 +2069,14 @@ function loadRememberedDashboardDevices() {try {if (!fs.existsSync(REMEMBER_FILE
     );
 } catch (error) {
     console.warn(
-        "[NEXU] Gespeicherte Dashboard-Accounts konnten nicht geladen werden:",
+        "[NEXU] Gespeicherte Übersichts-Konten konnten nicht geladen werden:",
         error.message
     );
 }
 
 }
 
-function saveRememberedDashboardDevices() {try {fs.mkdirSync(path.dirname(REMEMBER_FILE_PATH), { recursive: true });const tempPath = `${REMEMBER_FILE_PATH}.tmp`;fs.writeFileSync(tempPath,JSON.stringify({devices: [...rememberedDashboardDevices.entries()].map(([tokenHash, entry]) => ({tokenHash,username: entry.username,email: entry.email,expiresAtMs: entry.expiresAtMs,createdAt: entry.createdAt,})),},null,2),"utf8");fs.renameSync(tempPath, REMEMBER_FILE_PATH);return true;} catch (error) {console.warn("[NEXU] Gespeicherte Dashboard-Accounts konnten nicht gespeichert werden:",error.message);return false;}}
+function saveRememberedDashboardDevices() {try {fs.mkdirSync(path.dirname(REMEMBER_FILE_PATH), { recursive: true });const tempPath = `${REMEMBER_FILE_PATH}.tmp`;fs.writeFileSync(tempPath,JSON.stringify({devices: [...rememberedDashboardDevices.entries()].map(([tokenHash, entry]) => ({tokenHash,username: entry.username,email: entry.email,expiresAtMs: entry.expiresAtMs,createdAt: entry.createdAt,})),},null,2),"utf8");fs.renameSync(tempPath, REMEMBER_FILE_PATH);return true;} catch (error) {console.warn("[NEXU] Gespeicherte Übersichts-Konten konnten nicht gespeichert werden:",error.message);return false;}}
 
 function createRememberedDashboardDevice(account = getOwnerDashboardAccount() || getFirstDashboardAccount()) {pruneRememberedDashboardDevices(false);const normalized = typeof account === "string" ? (getDashboardAccountByEmail(account) || getDashboardAccountByUsername(account)) : account;if (!normalized) {return "";}
 
@@ -2556,12 +2557,12 @@ return { command };
 
 }
 
-function loginHtml(errorMessage = "", rememberedAccount = null, options = {}) {const errorBlock = errorMessage ? `<div class="login-error" role="alert">${escapeHtml(errorMessage)}</div>` : "";const noticeBlock = options.notice ? `<div class="login-notice" role="status">${escapeHtml(options.notice)}</div>` : "";const rememberedAccounts = Array.isArray(rememberedAccount) ? rememberedAccount : (rememberedAccount ? [rememberedAccount] : []);const rememberedBlock = rememberedAccounts.length ? `<section class="remembered-list" aria-label="Gespeicherte Accounts">
-            <h2>Gespeicherte Accounts</h2>
-            <p>Accounts, mit denen du auf diesem Browser angemeldet warst.</p>
+function loginHtml(errorMessage = "", rememberedAccount = null, options = {}) {const errorBlock = errorMessage ? `<div class="login-error" role="alert">${escapeHtml(errorMessage)}</div>` : "";const noticeBlock = options.notice ? `<div class="login-notice" role="status">${escapeHtml(options.notice)}</div>` : "";const rememberedAccounts = Array.isArray(rememberedAccount) ? rememberedAccount : (rememberedAccount ? [rememberedAccount] : []);const rememberedBlock = rememberedAccounts.length ? `<section class="remembered-list" aria-label="Gespeicherte Konten">
+            <h2>Gespeicherte Konten</h2>
+            <p>Konten, mit denen du auf diesem Browser angemeldet warst.</p>
             ${rememberedAccounts.map((remembered) => `<div class="remembered-account">
                 <div>
-                    <b>${escapeHtml(remembered.username || "Gespeicherter Account")}</b>
+                    <b>${escapeHtml(remembered.username || "Gespeichertes Konto")}</b>
                     <small>${escapeHtml(remembered.email || "")}</small>
                 </div>
                 <form method="post" action="/quick-login">
@@ -2579,7 +2580,7 @@ function loginHtml(errorMessage = "", rememberedAccount = null, options = {}) {c
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nexu Dashboard Login</title>
+<title>Nexu Anmeldung</title>
 <style>
 * { box-sizing:border-box; }
 html,body { margin:0; min-height:100%; font-family:Inter,Segoe UI,Arial,sans-serif; background:#02050a; color:#dceef8; }
@@ -2661,11 +2662,11 @@ button,.button-link{border-radius:15px;}
     <section class="brand-card">
         <div class="logo">N</div>
         <h1>Nexu</h1>
-        <p>Privates Dashboard für Menu Server, gespeicherte Spieler, Rollen, Bring, DM und Server-Join.</p>
+        <p>Private Serverübersicht für Menüserver, gespeicherte Spieler, Rollen, Herbeiholen, Direktnachrichten und Serverbeitritt.</p>
         <div class="statline">
-            <div class="stat"><b>Account Login</b><span>Benutzername + Passwort</span></div>
-            <div class="stat"><b>Menu Server</b><span>nur OwnerAccount</span></div>
-            <div class="stat"><b>Accounts</b><span>Registrieren, Einstellungen und Löschen</span></div>
+            <div class="stat"><b>Kontoanmeldung</b><span>Benutzername und Passwort</span></div>
+            <div class="stat"><b>Serverübersicht</b><span>nur OwnerAccount</span></div>
+            <div class="stat"><b>Konten</b><span>Registrieren, verwalten und löschen</span></div>
         </div>
     </section>
     <section class="auth-card">
@@ -2697,10 +2698,10 @@ button,.button-link{border-radius:15px;}
 
 function homeHtml(notice = "", error = "", account = null) {const loaderCommandJson = JSON.stringify(NEXU_LOADER_COMMAND);const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = isOwnerDashboardAccount(accountData);const canOpenMenuServer = canAccessMenuServer(accountData);const canManageAccounts = canManageDashboardAccounts(accountData);const usernameReadonly = isOwnerAccount ? "readonly" : "";const deleteAccountBlock = isOwnerAccount
     ? '<section class="modal-card"><div class="danger-zone"><h3>OwnerAccount geschützt</h3><p>Der OwnerAccount kann hier nicht gelöscht werden, damit du den Hauptzugriff nicht verlierst.</p></div></section>'
-    : '<form class="modal-card" method="post" action="/account/delete" autocomplete="off"><div class="danger-zone"><h3>Account löschen</h3><p>Dieser Account wird dauerhaft vom Dashboard entfernt. Danach wirst du abgemeldet.</p><div class="field"><label for="deletePassword">Passwort bestätigen</label><input id="deletePassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div><div class="modal-actions"><button type="submit">ACCOUNT LÖSCHEN</button></div></div></form>';const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = canOpenMenuServer
-    ? '<a class="primary-tile menu-server" href="/menu-server"><span>MENU SERVER</span><strong>Spieler-Dashboard öffnen</strong><small>' + (isOwnerAccount ? 'OwnerAccount Zugriff' : 'Vom Owner freigegeben') + '</small></a>'
-    : '<div class="primary-tile menu-server locked"><span>MENU SERVER</span><strong>Zugriff gesperrt</strong><small>Der OwnerAccount kann deinen Zugriff freigeben.</small></div>';const accountManagerButton = canManageAccounts
-    ? '<a class="primary-tile account-admin" href="/accounts"><span>ACCOUNTS</span><strong>Account-Verwaltung</strong><small>Benutzer, Passwörter und Zugriffe einstellen</small></a>'
+    : '<form class="modal-card" method="post" action="/account/delete" autocomplete="off"><div class="danger-zone"><h3>Konto löschen</h3><p>Dieses Konto wird dauerhaft aus der Übersicht entfernt. Danach wirst du abgemeldet.</p><div class="field"><label for="deletePassword">Passwort bestätigen</label><input id="deletePassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div><div class="modal-actions"><button type="submit">KONTO LÖSCHEN</button></div></div></form>';const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = canOpenMenuServer
+    ? '<a class="primary-tile menu-server" href="/uebersicht"><span>ÜBERSICHT</span><strong>Serverübersicht öffnen</strong><small>' + (isOwnerAccount ? 'OwnerAccount Zugriff' : 'Vom Owner freigegeben') + '</small></a>'
+    : '<div class="primary-tile menu-server locked"><span>ÜBERSICHT</span><strong>Zugriff gesperrt</strong><small>Der OwnerAccount kann deinen Zugriff freigeben.</small></div>';const accountManagerButton = canManageAccounts
+    ? '<a class="primary-tile account-admin" href="/accounts"><span>KONTEN</span><strong>Kontoverwaltung</strong><small>Benutzer, Passwörter und Zugriffe einstellen</small></a>'
     : '';
 return String.raw`<!doctype html>
 <html lang="de">
@@ -2812,11 +2813,11 @@ html,body{background:
 <div class="scan"></div>
 <main class="shell">
     <div class="header">
-        <div class="brand"><div class="logo">N</div><div><strong>Nexu</strong><span>Control Home</span></div></div>
+        <div class="brand"><div class="logo">N</div><div><strong>Nexu</strong><span>Steuerzentrale</span></div></div>
         <div id="account" class="account">
             <button id="accountButton" class="account-button" type="button" aria-haspopup="true" aria-expanded="false"><span class="account-avatar">N</span><span class="account-name">${escapeHtml(accountName)}</span></button>
             <div class="account-menu" role="menu">
-                <button id="openSettings" class="menu-item" type="button">Settings <span>›</span></button>
+                <button id="openSettings" class="menu-item" type="button">Einstellungen <span>›</span></button>
                 <form class="menu-item-form" method="post" action="/logout"><button class="menu-item danger" type="submit">Abmelden <span>×</span></button></form>
             </div>
         </div>
@@ -2826,14 +2827,14 @@ html,body{background:
         <div class="panel welcome">
             <div class="eyebrow">NEXU // STARTSEITE</div>
             <h1>Nexu</h1>
-            <p>Willkommen in der Startseite. Von hier aus öffnest du den geschützten Menu-Server-Bereich oder änderst oben rechts über dein Profil die Account-Daten.</p>
+            <p>Willkommen auf der Startseite. Von hier aus öffnest du die geschützte Serverübersicht oder änderst oben rechts über dein Profil deine Kontodaten.</p>
         </div>
         <div class="panel action-grid">
             ${menuServerButton}
             ${accountManagerButton}
-            <button id="copyScriptButton" class="primary-tile copy-script" type="button"><span>START SCRIPT</span><strong id="copyScriptTitle">Script kopieren</strong><small id="copyScriptHint">Kopiert den aktuellen Nexu-Loader in die Zwischenablage.</small><code class="copy-command">loadstring(game:HttpGet(&quot;…/Nexu%20Main&quot;))()</code></button>
+            <button id="copyScriptButton" class="primary-tile copy-script" type="button"><span>SKRIPT STARTEN</span><strong id="copyScriptTitle">Skript kopieren</strong><small id="copyScriptHint">Kopiert den aktuellen Nexu-Ladebefehl in die Zwischenablage.</small><code class="copy-command">loadstring(game:HttpGet(&quot;…/Nexu%20Main&quot;))()</code></button>
             <div class="quick-info">
-                <article class="info-card"><div class="info-label">Account</div><div class="info-value">${escapeHtml(accountName)}</div><p>Benutzername-Login aktiv</p></article>
+                <article class="info-card"><div class="info-label">Konto</div><div class="info-value">${escapeHtml(accountName)}</div><p>Benutzername-Login aktiv</p></article>
                 <article class="info-card"><div class="info-label">Menu Server Zugriff</div><div class="info-value">${canOpenMenuServer ? "Erlaubt" : "Gesperrt"}</div></article>
             </div>
         </div>
@@ -2841,9 +2842,9 @@ html,body{background:
 </main>
 <div id="settingsModal" class="modal-backdrop hidden" aria-hidden="true">
     <form class="modal-card" method="post" action="/account/settings" autocomplete="on">
-        <div class="eyebrow">ACCOUNT SETTINGS</div>
-        <h2>Account bearbeiten</h2>
-        <p>Benutzername und Passwort werden serverseitig gespeichert. Registrierung läuft ohne Bestätigungscode.${isOwnerAccount ? " Der OwnerAccount-Name ist geschützt." : ""}</p>
+        <div class="eyebrow">KONTOEINSTELLUNGEN</div>
+        <h2>Konto bearbeiten</h2>
+        <p>Benutzername und Passwort werden serverseitig gespeichert. Die Registrierung funktioniert ohne Bestätigungscode.${isOwnerAccount ? " Der OwnerAccount-Name ist geschützt." : ""}</p>
         <div class="field"><label for="newUsername">Benutzername</label><input id="newUsername" name="newUsername" type="text" maxlength="80" value="${escapeHtml(accountName)}" autocomplete="username" ${usernameReadonly} required></div>
         <div class="field"><label for="currentPassword">Aktuelles Passwort</label><input id="currentPassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div>
         <div class="field"><label for="newPassword">Neues Passwort</label><input id="newPassword" name="newPassword" type="password" maxlength="200" autocomplete="new-password" placeholder="Leer lassen, wenn gleich bleiben soll"></div>
@@ -2885,8 +2886,8 @@ async function copyNexuLoader() {
     copyScriptHint.textContent = copied ? "Der Nexu-Loader ist jetzt in deiner Zwischenablage." : "Bitte Browser-Berechtigung für die Zwischenablage erlauben.";
     copyScriptHint.classList.toggle("copy-feedback", copied);
     setTimeout(function () {
-        copyScriptTitle.textContent = "Script kopieren";
-        copyScriptHint.textContent = "Kopiert den aktuellen Nexu-Loader in die Zwischenablage.";
+        copyScriptTitle.textContent = "Skript kopieren";
+        copyScriptHint.textContent = "Kopiert den aktuellen Nexu-Ladebefehl in die Zwischenablage.";
         copyScriptHint.classList.remove("copy-feedback");
     }, 2200);
 }
@@ -2914,7 +2915,7 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
         const permissionSnapshot = getDashboardPermissionSnapshot(entry);
         const created = cleanText(entry.createdAt, 32) || "unbekannt";
         const updated = cleanText(entry.updatedAt, 32) || "nie";
-        const ownerBadge = owner ? '<span class="badge owner">OWNER LOCK</span>' : '';
+        const ownerBadge = owner ? '<span class="badge owner">OWNER-SCHUTZ</span>' : '';
         const dashboardEnabled = owner || permissionSnapshot.menuServer === true;
         const accessInput = '<div class="access-grid" data-dashboard-permissions="1">' + DASHBOARD_PERMISSION_DEFINITIONS.map((definition) => {
             const isDashboardRoot = definition.key === "menuServer";
@@ -2931,7 +2932,7 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
         const usernameReadonly = owner ? 'readonly' : '';
         const deleteForm = owner
             ? '<div class="owner-note">OwnerAccount kann nicht gelöscht oder vom Hauptzugriff getrennt werden.</div>'
-            : '<form class="delete-account-form" method="post" action="/accounts/delete"><input type="hidden" name="accountEmail" value="' + escapeHtml(entry.email) + '"><button class="danger" type="submit">Account löschen</button></form>';
+            : '<form class="delete-account-form" method="post" action="/accounts/delete"><input type="hidden" name="accountEmail" value="' + escapeHtml(entry.email) + '"><button class="danger" type="submit">Konto löschen</button></form>';
         return '<article class="account-card">'
             + '<div class="account-card-head"><div><strong>' + escapeHtml(entry.username) + '</strong><small>' + escapeHtml(entry.email) + '</small></div>' + ownerBadge + '</div>'
             + '<form method="post" action="/accounts/update" autocomplete="off">'
@@ -2941,7 +2942,7 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
             + '<label>Neues Passwort<input name="newPassword" type="password" maxlength="200" placeholder="Leer lassen = bleibt gleich"></label>'
             + '<label>Passwort bestätigen<input name="confirmPassword" type="password" maxlength="200"></label>'
             + '</div>'
-            + '<div class="access-box"><div><b>Dashboard-Rechte</b><p>Erst wenn <b>Dashboard öffnen</b> aktiviert ist, können die einzelnen Dashboard-Funktionen angeklickt und gespeichert werden. Startseite und eigene Settings bleiben immer erlaubt.</p></div>' + accessInput + '</div>'
+            + '<div class="access-box"><div><b>Übersichtsrechte</b><p>Erst wenn <b>Übersicht öffnen</b> aktiviert ist, können die einzelnen Funktionen der Übersicht angeklickt und gespeichert werden. Startseite und eigene Einstellungen bleiben immer erlaubt.</p></div>' + accessInput + '</div>'
             + '<div class="meta"><span>Erstellt: ' + escapeHtml(created) + '</span><span>Geändert: ' + escapeHtml(updated) + '</span></div>'
             + '<div class="actions"><button type="submit">Speichern</button></div>'
             + '</form>'
@@ -2954,7 +2955,7 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#03070e">
-<title>Nexu Account-Verwaltung</title>
+<title>Nexu Kontoverwaltung</title>
 <style>
 :root { --bg:#03070e; --panel:rgba(7,13,23,.86); --text:#dceef8; --muted:#7894a8; --cyan:#00c8ff; --violet:#6f46ff; --green:#2dffa5; --red:#ff4d78; --border:rgba(74,178,230,.28); }
 * { box-sizing:border-box; }
@@ -2995,7 +2996,7 @@ input[readonly] { opacity:.72; }
 .check small { display:block; margin-top:2px; color:#7894a8; font-size:10px; line-height:1.35; letter-spacing:0; text-transform:none; }
 .check.disabled { opacity:.68; }
 .check.locked-by-dashboard { opacity:.43; filter:saturate(.55); }
-.check.locked-by-dashboard small::after { content:" Erst Dashboard öffnen aktivieren."; color:#d7bd72; }
+.check.locked-by-dashboard small::after { content:" Erst Übersicht öffnen aktivieren."; color:#d7bd72; }
 .dashboard-root { border-color:rgba(0,200,255,.34); background:rgba(0,200,255,.08); }
 .meta { margin-top:10px; display:flex; flex-wrap:wrap; gap:8px 14px; color:var(--muted); font-size:11px; }
 .actions { margin-top:13px; }
@@ -3047,12 +3048,12 @@ button,a.back{border-radius:14px;}
 <body>
 <main class="shell">
     <div class="topbar">
-        <div class="brand"><div class="logo">N</div><div><h1>Account-Verwaltung</h1><p>Eingeloggt als ${escapeHtml(accountData.username || OWNER_ACCOUNT_USERNAME)}</p></div></div>
+        <div class="brand"><div class="logo">N</div><div><h1>Kontoverwaltung</h1><p>Eingeloggt als ${escapeHtml(accountData.username || OWNER_ACCOUNT_USERNAME)}</p></div></div>
         <a class="back" href="/">← STARTSEITE</a>
     </div>
     ${noticeBlock}${errorBlock}
     <section class="intro">
-        <p>Nur der feste <b>OwnerAccount</b> kann diese Seite öffnen. Hier stellst du Benutzername, Passwort und die einzelnen Dashboard-Rechte ein. Die Account-Verwaltung selbst bleibt immer nur für OwnerAccount.</p>
+        <p>Nur der feste <b>OwnerAccount</b> kann diese Seite öffnen. Hier stellst du Benutzername, Passwort und die einzelnen Übersichtsrechte ein. Die Kontoverwaltung selbst bleibt immer nur für OwnerAccount.</p>
     </section>
     <section class="account-list">
         ${cards}
@@ -3060,10 +3061,10 @@ button,a.back{border-radius:14px;}
 </main>
 <div id="accountDeleteConfirm" class="account-confirm-backdrop hidden" aria-hidden="true">
     <div class="account-confirm-card" role="dialog" aria-modal="true" aria-labelledby="accountDeleteTitle" aria-describedby="accountDeleteMessage">
-        <div class="eyebrow">NEXU // ACCOUNT SICHERHEIT</div>
-        <h2 id="accountDeleteTitle">Account wirklich löschen?</h2>
-        <p id="accountDeleteMessage">Der Dashboard-Account und seine Berechtigungen werden dauerhaft entfernt. Diese Aktion lässt sich nicht rückgängig machen.</p>
-        <div class="account-confirm-actions"><button id="accountDeleteCancel" type="button">ABBRECHEN</button><button id="accountDeleteSubmit" class="confirm-delete" type="button">ACCOUNT LÖSCHEN</button></div>
+        <div class="eyebrow">NEXU // KONTOSICHERHEIT</div>
+        <h2 id="accountDeleteTitle">Konto wirklich löschen?</h2>
+        <p id="accountDeleteMessage">Das Übersichtskonto und seine Berechtigungen werden dauerhaft entfernt. Diese Aktion lässt sich nicht rückgängig machen.</p>
+        <div class="account-confirm-actions"><button id="accountDeleteCancel" type="button">ABBRECHEN</button><button id="accountDeleteSubmit" class="confirm-delete" type="button">KONTO LÖSCHEN</button></div>
     </div>
 </div>
 <script>
@@ -3147,7 +3148,7 @@ const dashboardNoticeHtml = notice
 const broadcastButtonHtml = permissionSnapshot.dm === true ? '<button id="broadcastDmButton" class="logout-button broadcast-button" type="button">NACHRICHT AN ALLE</button>' : "";
 const updateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="openUpdateButton" class="logout-button update-button" type="button">UPDATE SCRIPT</button>' : "";
 const shutdownButtonAllowed = permissionSnapshot.shutdownScript === true || isOwnerDashboardAccount(account);
-const shutdownButtonHtml = shutdownButtonAllowed ? '<button id="shutdownAllButton" class="logout-button shutdown-button" type="button">ALLE SCRIPTS AUS</button>' : "";
+const shutdownButtonHtml = shutdownButtonAllowed ? '<button id="shutdownAllButton" class="logout-button shutdown-button" type="button">ALLE SKRIPTE AUS</button>' : "";
 const menuStatusButtonAllowed = permissionSnapshot.menuStatus === true || isOwnerDashboardAccount(account);
 const menuStatusButtonHtml = menuStatusButtonAllowed ? '<button id="menuStatusToggleButton" class="menu-status-toggle" type="button"></button>' : "";
 const cancelUpdateButtonHtml = permissionSnapshot.updateScript === true
@@ -3160,7 +3161,7 @@ return String.raw`<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#03070e">
-<title>Nexu</title>
+<title>Nexu Übersicht</title>
 <style>
 :root {
     --bg:#03070e;
@@ -3677,7 +3678,7 @@ header::before{content:"";position:absolute;inset:0;border-radius:inherit;backgr
 <header>
     <div class="brand">
         <div class="logo">N</div>
-        <div class="brand-copy"><strong>Nexu</strong><span>Presence Network</span></div>
+        <div class="brand-copy"><strong>Nexu</strong><span>Präsenznetzwerk</span></div>
     </div>
     <div class="header-actions">
         <a class="logout-button" href="/" style="display:inline-flex;align-items:center;text-decoration:none;border-color:rgba(74,178,230,.32);color:var(--text);background:rgba(7,13,23,.72);">Startseite</a>
@@ -3691,20 +3692,20 @@ header::before{content:"";position:absolute;inset:0;border-radius:inherit;backgr
 ${dashboardNoticeHtml}
 
 <section class="hero">
-    <div class="eyebrow">NEXU // LIVE SYSTEM</div>
-    <h1>Aktive Nutzer auf einen Blick.</h1>
-    <p>Das Dashboard speichert jeden Spieler nach dem ersten Nexu-Start und zeigt ihn danach weiter an. Aktive Spieler stehen oben im Online-Feld. Deaktivierte oder abgelaufene Sitzungen werden automatisch in das Offline-Feld darunter verschoben.</p>
+    <div class="eyebrow">NEXU // SERVERÜBERSICHT</div>
+    <h1>Dein gesamtes System. Live. Klar. Unter Kontrolle.</h1>
+    <p>Die Übersicht bündelt Serverzustand, aktive Sitzungen, bekannte Spieler, Rollen, Sperren und Laufzeitbefehle in einer zentralen Steueroberfläche. Alle Werte werden live aktualisiert und bleiben auch bei vielen Spielern klar lesbar.</p>
     <div class="stats">
         <article class="stat"><div class="stat-label">Serverstatus</div><div id="serverStatus" class="stat-value">Prüfe …</div><div class="stat-note">Render-Web-Service</div></article>
         <article class="stat"><div class="stat-label">Gespeicherte Spieler</div><div id="playerCount" class="stat-value">0</div><div class="stat-note">Alle Spieler, die Nexu einmal gestartet haben</div></article>
         <article class="stat"><div class="stat-label">Spieler Online / Offline</div><div class="stat-split"><div class="stat-mini"><div class="stat-mini-label">Online</div><div id="onlinePlayerCount" class="stat-mini-value online">0</div></div><div class="stat-mini"><div class="stat-mini-label">Offline</div><div id="offlinePlayerCount" class="stat-mini-value offline">0</div></div></div><div class="stat-note">Wird automatisch verschoben</div></article>
-        <article class="stat"><div class="stat-label">Gesperrte Spieler</div><div id="bannedCount" class="stat-value">0</div><div class="stat-note">Bleiben bis zum Entbannen gespeichert</div></article>
+        <article class="stat"><div class="stat-label">Gesperrte Spieler</div><div id="bannedCount" class="stat-value">0</div><div class="stat-note">Bleiben bis zum Entsperren gespeichert</div></article>
     </div>
 </section>
 
 <section id="menuStatusPanel" class="menu-status-panel${initialMenuStatus.online ? "" : " offline"}" aria-live="polite">
     <div class="menu-status-row">
-        <div class="menu-status-copy"><div class="eyebrow">NEXU // MENU STATUS</div><h2 id="menuStatusTitle">Lua-Menü ist ${initialMenuStatus.online ? "online" : "offline"}</h2><p id="menuStatusText">${initialMenuStatus.online ? "Jeder kann das Lua-Script normal starten und verwenden." : "Alle Lua-Starts sind blockiert. Bereits laufende Scripts werden vollständig beendet."}</p></div>
+        <div class="menu-status-copy"><div class="eyebrow">NEXU // MENÜSTATUS</div><h2 id="menuStatusTitle">Lua-Menü ist ${initialMenuStatus.online ? "online" : "offline"}</h2><p id="menuStatusText">${initialMenuStatus.online ? "Jeder kann das Lua-Skript normal starten und verwenden." : "Alle Lua-Starts sind blockiert. Bereits laufende Scripts werden vollständig beendet."}</p></div>
         <div class="menu-status-actions"><div id="menuStatusBadge" class="menu-status-badge${initialMenuStatus.online ? "" : " offline"}"><span class="menu-status-badge-dot"></span><span id="menuStatusBadgeText">${initialMenuStatus.online ? "ONLINE" : "OFFLINE"}</span></div>${menuStatusButtonHtml}</div>
     </div>
 </section>
@@ -3720,18 +3721,18 @@ ${dashboardNoticeHtml}
     <div class="directory-tabs" role="tablist" aria-label="Spielerlisten">
         <button class="directory-tab active" type="button" data-directory-tab="online" role="tab" aria-selected="true">Online <b id="onlineTabCount">0</b></button>
         <button class="directory-tab" type="button" data-directory-tab="offline" role="tab" aria-selected="false">Offline <b id="offlineTabCount">0</b></button>
-        <button class="directory-tab" type="button" data-directory-tab="banned" role="tab" aria-selected="false">Gebannt <b id="bannedTabCount">0</b></button>
+        <button class="directory-tab" type="button" data-directory-tab="banned" role="tab" aria-selected="false">Gesperrt <b id="bannedTabCount">0</b></button>
     </div>
     <div class="directory-panel" data-directory-panel="online" role="tabpanel">
-        <div class="directory-head"><div><div class="eyebrow">MENU SPIELER</div><h2>Online Spieler</h2></div><input id="search" class="search" type="search" autocomplete="off" placeholder="Online-Spieler suchen …" aria-label="Online-Spieler suchen"></div>
+        <div class="directory-head"><div><div class="eyebrow">MENÜ-SPIELER</div><h2>Online Spieler</h2></div><input id="search" class="search" type="search" autocomplete="off" placeholder="Online-Spieler suchen …" aria-label="Online-Spieler suchen"></div>
         <div id="players" class="players"></div><div id="footerNote" class="footer-note"></div>
     </div>
     <div class="directory-panel hidden" data-directory-panel="offline" role="tabpanel">
-        <div class="directory-head"><div><div class="eyebrow">OFFLINE ARCHIV</div><h2>Offline Spieler</h2></div><input id="offlineSearch" class="search" type="search" autocomplete="off" placeholder="Offline-Spieler suchen …" aria-label="Offline-Spieler suchen"></div>
+        <div class="directory-head"><div><div class="eyebrow">OFFLINE-ARCHIV</div><h2>Offline Spieler</h2></div><input id="offlineSearch" class="search" type="search" autocomplete="off" placeholder="Offline-Spieler suchen …" aria-label="Offline-Spieler suchen"></div>
         <div id="offlinePlayers" class="players"></div><div id="offlineFooter" class="footer-note"></div>
     </div>
     <div class="directory-panel hidden" data-directory-panel="banned" role="tabpanel">
-        <div class="directory-head"><div><div class="eyebrow">MENÜ-SPERRLISTE</div><h2>Gebannte Nutzer</h2></div><input id="bannedSearch" class="search" type="search" autocomplete="off" placeholder="Gebannte Spieler suchen …" aria-label="Gebannte Spieler suchen"></div>
+        <div class="directory-head"><div><div class="eyebrow">MENÜ-SPERRLISTE</div><h2>Gesperrte Nutzer</h2></div><input id="bannedSearch" class="search" type="search" autocomplete="off" placeholder="Gesperrte Spieler suchen …" aria-label="Gesperrte Spieler suchen"></div>
         <div id="bannedPlayers" class="players"></div><div id="bannedFooter" class="footer-note"></div>
     </div>
 </section>
@@ -3741,7 +3742,7 @@ ${dashboardNoticeHtml}
     <div class="modal-card update-card" role="dialog" aria-modal="true" aria-labelledby="updateModalTitle">
         <div class="eyebrow">NEXU // SCRIPT UPDATE</div>
         <h3 id="updateModalTitle">Wartungsmodus starten</h3>
-        <p class="modal-user">Während dieser Zeit sehen alle Lua-Nutzer einen übersetzten Update-Bildschirm mit Countdown.</p>
+        <p class="modal-user">Während dieser Zeit sehen alle Lua-Nutzer einen übersetzten Aktualisierungsbildschirm mit Zeitablauf.</p>
         <div class="update-duration-grid">
             <div class="update-field"><label for="updateDuration">Dauer</label><input id="updateDuration" type="number" min="1" max="1440" step="1" value="30" inputmode="numeric"></div>
             <div class="update-field"><label for="updateUnit">Einheit</label><select id="updateUnit"><option value="minutes">Minuten</option><option value="hours">Stunden</option></select></div>
@@ -3755,12 +3756,12 @@ ${dashboardNoticeHtml}
 <div id="banModal" class="modal-backdrop hidden" aria-hidden="true">
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="banModalTitle">
         <div class="eyebrow">MENÜ-SPERRE</div>
-        <h3 id="banModalTitle">Spieler bannen</h3>
+        <h3 id="banModalTitle">Spieler sperren</h3>
         <p id="banModalUser" class="modal-user"></p>
-        <textarea id="banReasonInput" class="reason-input" maxlength="240" placeholder="Grund für den Ban eingeben …"></textarea>
+        <textarea id="banReasonInput" class="reason-input" maxlength="240" placeholder="Grund für die Sperre eingeben …"></textarea>
         <div class="modal-actions">
             <button id="cancelBanButton" class="action-button">ABBRECHEN</button>
-            <button id="confirmBanButton" class="action-button ban">BAN BESTÄTIGEN</button>
+            <button id="confirmBanButton" class="action-button ban">SPERRE BESTÄTIGEN</button>
         </div>
         <div id="banModalNotice" class="modal-notice"></div>
     </div>
@@ -3788,7 +3789,7 @@ ${dashboardNoticeHtml}
         <textarea id="dmMessageInput" class="message-input" maxlength="240" placeholder="Nachricht an den Spieler eingeben …"></textarea>
         <div class="modal-actions">
             <button id="cancelDmButton" class="action-button">ABBRECHEN</button>
-            <button id="confirmDmButton" class="action-button dm">DM SENDEN</button>
+            <button id="confirmDmButton" class="action-button dm">DIREKTNACHRICHT SENDEN</button>
         </div>
         <div id="dmModalNotice" class="modal-notice"></div>
     </div>
@@ -3832,8 +3833,8 @@ const state = {
     roleSearchQuery:"",
 };
 const PLAYER_ROLE_OPTIONS = [
-    { key:"player", title:"PLAYERS", description:"Standardrang für normale Nutzer" },
-    { key:"supporter", title:"SUPPORTER", description:"Erweiterter Rang mit Bring-Zugriff" },
+    { key:"player", title:"SPIELER", description:"Standardrang für normale Nutzer" },
+    { key:"supporter", title:"UNTERSTÜTZER", description:"Erweiterter Rang mit Berechtigung zum Herbeiholen" },
 ];
 let presenceRefreshInFlight = false;
 
@@ -4100,7 +4101,7 @@ function renderMenuStatus() {
     elements.menuStatusPanel.classList.toggle("offline", !online);
     elements.menuStatusTitle.textContent = online ? "Lua-Menü ist online" : "Lua-Menü ist offline";
     elements.menuStatusText.textContent = online
-        ? "Jeder kann das Lua-Script normal starten und verwenden."
+        ? "Jeder kann das Lua-Skript normal starten und verwenden."
         : "Alle Lua-Starts sind blockiert. Bereits laufende Scripts werden vollständig beendet.";
     elements.menuStatusBadge.classList.toggle("offline", !online);
     elements.menuStatusBadgeText.textContent = online ? "ONLINE" : "OFFLINE";
@@ -4206,7 +4207,7 @@ function renderPlayer(player,banned) {
     const joinable = actionableOnline && /^\d+$/.test(placeId) && placeId !== "0" && jobId !== "-" && !jobId.startsWith("LOCAL-");
     const bringable = actionableOnline && String(player.userId || "") !== "${MENU_CREATOR_USER_ID}";
     const roleKey = String(player.roleKey || "player").replace(/[^a-z0-9_-]/gi,"").toLowerCase() || "player";
-    const roleTitle = player.roleTitle || "PLAYERS";
+    const roleTitle = player.roleTitle === "PLAYERS" ? "SPIELER" : player.roleTitle === "SUPPORTER" ? "UNTERSTÜTZER" : player.roleTitle === "MENU CREATOR" ? "MENÜ-ERSTELLER" : (player.roleTitle || "SPIELER");
     const stateClass = banned ? "banned" : (online ? "online" : "offline");
     const stateText = banned ? "Gesperrt" : (reconnecting ? "Letzter Stand" : (online ? "Online" : "Offline"));
     const canManageRole = !banned && roleKey !== "creator" && state.permissions.managePlayerRoles === true;
@@ -4256,7 +4257,7 @@ function renderPlayer(player,banned) {
         ? '<button class="action-button join" data-action="join" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">SERVER JOIN</button>'
         : "";
     const bringButton = bringable && state.permissions.bring === true
-        ? '<button class="action-button bring" data-action="bring" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BRING</button>'
+        ? '<button class="action-button bring" data-action="bring" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">HERBEIHOLEN</button>'
         : "";
     const dmButton = actionableOnline && state.permissions.dm === true
         ? '<button class="action-button dm" data-action="dm" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">DM</button>'
@@ -4345,8 +4346,8 @@ function render() {
     elements.bannedPlayers.innerHTML = state.permissions.banPlayers === true
         ? (bannedPlayers.length
             ? bannedPlayers.map(function (player) { return renderPlayer(player,true); }).join("")
-            : '<div class="empty">' + (bannedQuery ? 'Kein gebannter Spieler passt zu deiner Suche.' : 'Die Sperrliste ist leer.') + '</div>')
-        : '<div class="empty">Für diesen Account ist Bannen/Entbannen nicht freigegeben.</div>';
+            : '<div class="empty">' + (bannedQuery ? 'Kein gesperrter Spieler passt zu deiner Suche.' : 'Die Sperrliste ist leer.') + '</div>')
+        : '<div class="empty">Für dieses Konto ist Sperren und Entsperren nicht freigegeben.</div>';
 
     const staleSuffix = state.stale
         ? " // Letzte erfolgreiche Aktualisierung wird weiter angezeigt"
@@ -4714,7 +4715,7 @@ if (elements.menuStatusToggleButton) elements.menuStatusToggleButton.addEventLis
     if (currentlyOnline) {
         const approved = await openActionConfirm({
             tone:"danger",
-            eyebrow:"NEXU // MENU STATUS",
+            eyebrow:"NEXU // MENÜSTATUS",
             title:"Lua-Menü global offline schalten?",
             message:"Alle aktuell laufenden Scripts werden vollständig beendet. Neue Starts bleiben für jeden blockiert, bis du den Menüstatus wieder auf ONLINE stellst.",
             confirmText:"GLOBAL OFFLINE",
@@ -4744,7 +4745,7 @@ if (elements.shutdownAllButton) elements.shutdownAllButton.addEventListener("cli
     const approved = await openActionConfirm({
         tone:"danger",
         eyebrow:"NEXU // GLOBAL SHUTDOWN",
-        title:"Alle aktiven Scripts deaktivieren?",
+        title:"Alle aktiven Skripte deaktivieren?",
         message:"Alle aktuell verbundenen Nexu-Sitzungen erhalten sofort den Abschaltbefehl. Der Menüstatus bleibt ONLINE und die Spieler können das Script danach erneut starten.",
         confirmText:"ALLE DEAKTIVIEREN",
     });
@@ -4941,11 +4942,11 @@ document.addEventListener("click",async function (event) {
         button.textContent = "SENDE …";
         try {
             await queueBring(button.dataset.userId);
-            button.textContent = "BRING GESENDET";
-            showToast("Bring-Befehl wurde an den Spieler gesendet.", "success");
+            button.textContent = "GESENDET";
+            showToast("Der Befehl zum Herbeiholen wurde an den Spieler gesendet.", "success");
         } catch (error) {
-            showToast(error.message || "Bring konnte nicht gesendet werden.", "error");
-            button.textContent = "BRING FEHLER";
+            showToast(error.message || "Der Befehl zum Herbeiholen konnte nicht gesendet werden.", "error");
+            button.textContent = "FEHLER";
         }
         setTimeout(function () {
             if (button.isConnected) {
@@ -4979,9 +4980,9 @@ document.addEventListener("click",async function (event) {
 
     try {
         await moderate("unban",button.dataset.userId,"",null);
-        showToast("Spieler wurde entbannt.", "success");
+        showToast("Spieler wurde entsperrt.", "success");
     } catch (error) {
-        showToast(error.message || "Entbannen fehlgeschlagen.", "error");
+        showToast(error.message || "Entsperren fehlgeschlagen.", "error");
         button.disabled = false;
         button.textContent = "ENTBANNEN";
     }
@@ -5002,13 +5003,13 @@ elements.confirmBanButton.addEventListener("click",async function () {
 
     const reason = elements.banReasonInput.value.trim();
     if (!reason) {
-        elements.banModalNotice.textContent = "Bitte einen Ban-Grund eingeben.";
+        elements.banModalNotice.textContent = "Bitte einen Sperrgrund eingeben.";
         elements.banReasonInput.focus();
         return;
     }
 
     elements.confirmBanButton.disabled = true;
-    elements.confirmBanButton.textContent = "BANNE …";
+    elements.confirmBanButton.textContent = "SPERRE …";
     elements.banModalNotice.textContent = "";
 
     try {
@@ -5020,10 +5021,10 @@ elements.confirmBanButton.addEventListener("click",async function () {
         );
         closeBanModal();
     } catch (error) {
-        elements.banModalNotice.textContent = error.message || "Bannen fehlgeschlagen.";
+        elements.banModalNotice.textContent = error.message || "Sperren fehlgeschlagen.";
     } finally {
         elements.confirmBanButton.disabled = false;
-        elements.confirmBanButton.textContent = "BAN BESTÄTIGEN";
+        elements.confirmBanButton.textContent = "SPERRE BESTÄTIGEN";
     }
 });
 
@@ -5098,7 +5099,7 @@ elements.confirmDmButton.addEventListener("click",async function () {
         elements.dmModalNotice.className = "modal-notice";
     } finally {
         elements.confirmDmButton.disabled = false;
-        elements.confirmDmButton.textContent = "DM SENDEN";
+        elements.confirmDmButton.textContent = "DIREKTNACHRICHT SENDEN";
     }
 });
 
@@ -5132,7 +5133,7 @@ setInterval(renderUpdateStatus,250);
 
 
 /* --------------------------------------------------------------------------
- * NEXU V200 // AURORA EXPERIENCE LAYER
+ * NEXU V200 // AURORA-ERLEBNIS LAYER
  *
  * Die vorhandenen Server-, Login-, Account- und Dashboard-Funktionen bleiben
  * unverändert. Diese Schicht modernisiert ausschließlich das ausgegebene HTML,
@@ -5147,7 +5148,7 @@ const NEXU_V200_BASE_DASHBOARD_HTML = dashboardHtml;
 
 function nexuV200SharedCss() {
     return String.raw`
-/* NEXU V200 AURORA EXPERIENCE */
+/* NEXU V200 AURORA-ERLEBNIS */
 :root{
     --nx-bg-0:#020409;
     --nx-bg-1:#050a12;
@@ -5465,20 +5466,20 @@ function nexuV200HomeAddon() {
     <div class="nx-section-head"><div><div class="eyebrow">NEXU // PLATFORM</div><h2>Built like a real control platform.</h2></div><p>Jeder Bereich ist auf schnelle Entscheidungen ausgelegt: klare Zustände, sichere Aktionen und eine visuelle Hierarchie, die auch bei vielen Spielern übersichtlich bleibt.</p></div>
     <div class="nx-capability-grid">
         <article class="nx-capability" data-index="01"><div class="nx-capability-icon">PN</div><h3>Presence Network</h3><p>Live-Sitzungen, bekannte Spieler und Plattformdaten werden in einem einzigen autoritativen Snapshot zusammengeführt.</p></article>
-        <article class="nx-capability" data-index="02"><div class="nx-capability-icon">RC</div><h3>Runtime Control</h3><p>Direktnachrichten, Bring, Server Join, Update-Modus und globale Script-Steuerung ohne Umwege.</p></article>
+        <article class="nx-capability" data-index="02"><div class="nx-capability-icon">RC</div><h3>Runtime Control</h3><p>Direktnachrichten, Herbeiholen, Serverbeitritt, Aktualisierungsmodus und globale Skriptsteuerung ohne Umwege.</p></article>
         <article class="nx-capability" data-index="03"><div class="nx-capability-icon">AG</div><h3>Access Governance</h3><p>Granulare Rechte, geschützter OwnerAccount und getrennte Rollen für jede administrative Funktion.</p></article>
-        <article class="nx-capability" data-index="04"><div class="nx-capability-icon">SD</div><h3>Secure Delivery</h3><p>Signierte Sessions, serverseitige Validierung und persistente Zustände für einen belastbaren Betrieb.</p></article>
+        <article class="nx-capability" data-index="04"><div class="nx-capability-icon">SD</div><h3>Secure Delivery</h3><p>Signierte Sitzungen, serverseitige Validierung und persistente Zustände für einen belastbaren Betrieb.</p></article>
     </div>
 </section>
 <section class="nx-system-banner">
     <div><div class="eyebrow">SYSTEM READY</div><h2>${isOnline ? "Nexu ist bereit für den nächsten Einsatz." : "Nexu befindet sich aktuell im Offline-Modus."}</h2><p>${isOnline ? `Das Kontrollsystem ist erreichbar. ${knownCount} Spielerprofile sind registriert und ${banCount} Nutzer derzeit gesperrt.` : "Neue Lua-Starts werden blockiert, bis der Menüstatus im Menu Server wieder aktiviert wird."}</p></div>
     <div class="nx-status-orb${isOnline ? "" : " offline"}" aria-label="${isOnline ? "Online" : "Offline"}"><span></span></div>
 </section>
-<div class="nx-page-footer"><span><strong>NEXU</strong> · CONTROL NETWORK</span><span>SECURE SESSION · V200 AURORA EXPERIENCE</span></div>`;
+<div class="nx-page-footer"><span><strong>NEXU</strong> · CONTROL NETWORK</span><span>SECURE SESSION · V200 AURORA-ERLEBNIS</span></div>`;
 }
 
 function nexuV200StartupHtml() {
-    return String.raw`<div id="nxStartup" class="nx-startup" aria-hidden="true"><div class="nx-startup-grid"></div><div class="nx-startup-content"><div class="nx-startup-mark"><b>N</b></div><div class="nx-startup-kicker">NEXU CONTROL NETWORK</div><div class="nx-startup-title">Initializing workspace</div><div class="nx-startup-track"><span></span></div><div id="nxStartupStatus" class="nx-startup-status">SECURE CHANNEL // INITIALIZING</div></div></div>`;
+    return String.raw`<div id="nxStartup" class="nx-startup" aria-hidden="true"><div class="nx-startup-grid"></div><div class="nx-startup-content"><div class="nx-startup-mark"><b>N</b></div><div class="nx-startup-kicker">NEXU STEUERNETZWERK</div><div class="nx-startup-title">Arbeitsbereich wird vorbereitet</div><div class="nx-startup-track"><span></span></div><div id="nxStartupStatus" class="nx-startup-status">GESICHERTER KANAL // WIRD INITIALISIERT</div></div></div>`;
 }
 
 function nexuV200ClientScript(pageType) {
@@ -5507,7 +5508,7 @@ function nexuV200ClientScript(pageType) {
             if(splash) splash.remove();
         }else{
             var steps = [
-                [320,"AUTHENTICATING // DASHBOARD SESSION"],
+                [320,"AUTHENTICATING // ÜBERSICHTS-SITZUNG"],
                 [760,"SYNCING // PRESENCE NETWORK"],
                 [1220,"LOADING // CONTROL MODULES"],
                 [1660,"SYSTEM READY // WELCOME TO NEXU"]
@@ -5525,7 +5526,7 @@ function nexuV200ClientScript(pageType) {
 }
 
 function enhanceNexuV200Page(html, pageType) {
-    if (typeof html !== "string" || html.includes("NEXU V200 AURORA EXPERIENCE")) return html;
+    if (typeof html !== "string" || html.includes("NEXU V200 AURORA-ERLEBNIS")) return html;
 
     const bodyClasses = `nexu-v200 page-${pageType}${pageType === "home" ? " nx-booting" : ""}`;
     const ambient = `<div class="nx-ambient" aria-hidden="true"><span class="nx-ambient-orb a"></span><span class="nx-ambient-orb b"></span><span class="nx-ambient-orb c"></span></div><div class="nx-progress-line" aria-hidden="true"></div>`;
@@ -5553,7 +5554,7 @@ function enhanceNexuV200Page(html, pageType) {
         html = html.replace("</header>", "</header>" + strip);
         html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · MENU SERVER</span><span>LIVE CONTROL INTERFACE · V200</span></div></main>');
     } else if (pageType === "accounts") {
-        const accountOverview = `<section class="nx-account-overview"><article><span>Access Governance</span><strong>Account Control Center</strong><small>Zentrale Verwaltung für Identitäten, Passwörter und granulare Rechte.</small></article><article><span>Accounts</span><strong>${dashboardAccounts.size}</strong><small>Registrierte Dashboard-Zugänge</small></article><article><span>Permission Modules</span><strong>${DASHBOARD_PERMISSION_DEFINITIONS.length}</strong><small>Einzeln steuerbare Berechtigungen</small></article><article><span>Owner Protection</span><strong>Active</strong><small>OwnerAccount bleibt unveränderbar geschützt</small></article></section>`;
+        const accountOverview = `<section class="nx-account-overview"><article><span>Access Governance</span><strong>Kontrollzentrum für Konten</strong><small>Zentrale Verwaltung für Identitäten, Passwörter und granulare Rechte.</small></article><article><span>Accounts</span><strong>${dashboardAccounts.size}</strong><small>Registrierte Zugänge zur Übersicht</small></article><article><span>Permission Modules</span><strong>${DASHBOARD_PERMISSION_DEFINITIONS.length}</strong><small>Einzeln steuerbare Berechtigungen</small></article><article><span>Owner Protection</span><strong>Active</strong><small>OwnerAccount bleibt unveränderbar geschützt</small></article></section>`;
         html = html.replace('<section class="account-list">', accountOverview + '<section class="account-list">');
         html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · ACCOUNT GOVERNANCE</span><span>OWNER PROTECTED · V200</span></div></main>');
     }
@@ -5575,6 +5576,768 @@ dashboardHtml = function(...args) {
     return enhanceNexuV200Page(NEXU_V200_BASE_DASHBOARD_HTML(...args), "dashboard");
 };
 
+
+/* --------------------------------------------------------------------------
+ * NEXU V201 // DEUTSCHE SERVERÜBERSICHT
+ *
+ * V200 bleibt als visuelle Basis erhalten. V201 übersetzt die sichtbare
+ * Oberfläche vollständig ins Deutsche und erweitert die Übersicht um eine
+ * echte Serverzentrale mit Live-Metriken, Systemnavigation und Laufzeitdaten.
+ * Interne API-Schlüssel, Rollen-Keys und bestehende Formulare bleiben stabil.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V201_BASE_LOGIN_HTML = loginHtml;
+const NEXU_V201_BASE_HOME_HTML = homeHtml;
+const NEXU_V201_BASE_ACCOUNTS_HTML = dashboardAccountsHtml;
+const NEXU_V201_BASE_OVERVIEW_HTML = dashboardHtml;
+
+function buildNexuOverviewRuntimeSnapshot() {
+    const memory = process.memoryUsage();
+    const cpu = process.cpuUsage();
+    return {
+        success: true,
+        version: "V201",
+        serviceName: cleanText(process.env.RENDER_SERVICE_NAME || "Nexu Server", 100) || "Nexu Server",
+        instanceId: SERVER_INSTANCE_ID,
+        startedAtMs: SERVER_STARTED_AT_MS,
+        startedAt: new Date(SERVER_STARTED_AT_MS).toISOString(),
+        uptimeSeconds: Math.max(0, Math.floor(process.uptime())),
+        nodeVersion: process.version,
+        platform: `${process.platform}/${process.arch}`,
+        environment: cleanText(process.env.NODE_ENV || "production", 40) || "production",
+        port: PORT,
+        cpuUserMicros: Number(cpu.user) || 0,
+        cpuSystemMicros: Number(cpu.system) || 0,
+        rssBytes: Number(memory.rss) || 0,
+        heapUsedBytes: Number(memory.heapUsed) || 0,
+        heapTotalBytes: Number(memory.heapTotal) || 0,
+        externalBytes: Number(memory.external) || 0,
+        activePlayers: countActivePresenceUsers(),
+        activeSessions: presence.size,
+        knownPlayers: knownPlayers.size,
+        bannedPlayers: bans.size,
+        overviewAccounts: dashboardAccounts.size,
+        queuedDirectMessages: directMessages.size,
+        pendingCommands:
+            joinCommands.size +
+            bringCommands.size +
+            shutdownCommandsBySession.size +
+            shutdownCommandsByUser.size,
+        menuOnline: getMenuAvailabilityStatus().online === true,
+        maintenanceActive: getMenuUpdateStatus().active === true,
+        storageMode: isGitHubStorageConfigured()
+            ? "GitHub-Speicher mit lokalem Fallback"
+            : "Lokaler Dateispeicher",
+        activeWindowSeconds: Math.floor(ACTIVE_PRESENCE_WINDOW_MS / 1000),
+        retentionSeconds: Math.floor(PRESENCE_ENTRY_RETENTION_MS / 1000),
+        checkedAtMs: Date.now(),
+        checkedAt: new Date().toISOString(),
+    };
+}
+
+function nexuV201GermanizeHtml(html) {
+    if (typeof html !== "string") return html;
+    const translations = [
+        ["NEXU AURORA-ERLEBNIS", "NEXU AURORA-ERLEBNIS"],
+        ["Privates Dashboard", "Private Serverübersicht"],
+        ["DASHBOARD SESSION", "ÜBERSICHTS-SITZUNG"],
+        ["START SCRIPT", "SKRIPT STARTEN"],
+        ["Script kopieren", "Skript kopieren"],
+        ["ACCOUNT SETTINGS", "KONTOEINSTELLUNGEN"],
+        ["Account bearbeiten", "Konto bearbeiten"],
+        ["NEXU // ACCOUNT SICHERHEIT", "NEXU // KONTOSICHERHEIT"],
+        ["Account wirklich löschen?", "Konto wirklich löschen?"],
+        ["OWNER LOCK", "OWNER-SCHUTZ"],
+        ["Script-Update", "Skript-Aktualisierung"],
+        ["Scripts deaktivieren", "Skripte deaktivieren"],
+        ["Lua-Script", "Lua-Skript"],
+        ["NEXU // MENU STATUS", "NEXU // MENÜSTATUS"],
+        ["MENU SPIELER", "MENÜ-SPIELER"],
+        ["OFFLINE ARCHIV", "OFFLINE-ARCHIV"],
+        ["BAN BESTÄTIGEN", "SPERRE BESTÄTIGEN"],
+        ["ALLE SCRIPTS AUS", "ALLE SKRIPTE AUS"],
+        ["Gebannt", "Gesperrt"],
+        ["Gebannte Nutzer", "Gesperrte Nutzer"],
+        ["Spieler bannen", "Spieler sperren"],
+        ["Bannen/Entbannen", "Sperren/Entsperren"],
+        ["Entbannen", "Entsperren"],
+        ["Bring benutzen", "Herbeiholen verwenden"],
+        ["BRING", "HERBEIHOLEN"],
+        ["DM SENDEN", "DIREKTNACHRICHT SENDEN"],
+        ["Control Home", "Steuerzentrale"],
+        ["SECURE CHANNEL", "GESICHERTER KANAL"],
+        ["Settings", "Einstellungen"],
+        ["Dashboard-Rechte", "Übersichtsrechte"],
+        ["Dashboard-Funktionen", "Funktionen der Übersicht"],
+        ["NEXU STEUERNETZWERK", "NEXU STEUERNETZWERK"],
+        ["CONTROL NETWORK", "STEUERNETZWERK"],
+        ["CONTROL PLANE", "STEUERZENTRALE"],
+        ["Presence Network", "Präsenznetzwerk"],
+        ["PRESENCE NETWORK", "PRÄSENZNETZWERK"],
+        ["Presence, Rollen, Sessions und Runtime-Kommandos", "Präsenz, Rollen, Sitzungen und Laufzeitbefehle"],
+        ["ROLE GOVERNANCE", "ROLLENVERWALTUNG"],
+        ["RUNTIME COMMANDS", "LAUFZEITBEFEHLE"],
+        ["Runtime Control", "Laufzeitsteuerung"],
+        ["Access Governance", "Zugriffsverwaltung"],
+        ["ACCOUNT GOVERNANCE", "KONTOVERWALTUNG"],
+        ["Secure Delivery", "Sichere Bereitstellung"],
+        ["SECURE SESSION", "GESICHERTE SITZUNG"],
+        ["LIVE CONTROL INTERFACE", "LIVE-STEUEROBERFLÄCHE"],
+        ["Authenticated workspace", "Authentifizierter Arbeitsbereich"],
+        ["Live control", "Live-Steuerung"],
+        ["One interface. Full control.", "Eine Oberfläche. Volle Kontrolle."],
+        ["Menu Network", "Menü-Netzwerk"],
+        ["Known Players", "Bekannte Spieler"],
+        ["Dashboard Accounts", "Übersichts-Konten"],
+        ["Dashboard-Zugänge", "Übersichts-Zugänge"],
+        ["Übersicht öffnen", "Übersicht öffnen"],
+        ["Spieler-Übersicht öffnen", "Serverübersicht öffnen"],
+        ["Built like a real control platform.", "Gebaut wie eine echte Steuerplattform."],
+        ["Kontrollzentrum für Konten", "Kontrollzentrum für Konten"],
+        ["Permission Modules", "Berechtigungsmodule"],
+        ["Owner Protection", "Owner-Schutz"],
+        [">Active<", ">Aktiv<"],
+        ["OWNER PROTECTED", "OWNER GESCHÜTZT"],
+        ["SYSTEM READY", "SYSTEM BEREIT"],
+        ["Arbeitsbereich wird vorbereitet", "Arbeitsbereich wird vorbereitet"],
+        ["INITIALIZING", "WIRD INITIALISIERT"],
+        ["AUTHENTICATING", "ANMELDUNG WIRD GEPRÜFT"],
+        ["SYNCING", "DATEN WERDEN ABGEGLICHEN"],
+        ["LOADING", "MODULE WERDEN GELADEN"],
+        ["WELCOME TO NEXU", "WILLKOMMEN BEI NEXU"],
+        ["PLATFORM", "PLATTFORM"],
+        ["Menu Server", "Menüserver"],
+        ["MENU SERVER", "ÜBERSICHT"],
+        ["Server Join", "Serverbeitritt"],
+        ["SCRIPT UPDATE", "SKRIPT-AKTUALISIERUNG"],
+        ["UPDATE SCRIPT", "SKRIPT AKTUALISIEREN"],
+        ["UPDATE STARTEN", "AKTUALISIERUNG STARTEN"],
+        ["UPDATE ABBRECHEN", "AKTUALISIERUNG BEENDEN"],
+        ["LIVE SYSTEM", "LIVESYSTEM"],
+        ["OwnerAccount Zugriff", "OwnerAccount-Zugriff"],
+        ["Accounts", "Konten"],
+        ["Kontoverwaltung", "Kontoverwaltung"],
+        ["Account-Einstellungen", "Kontoeinstellungen"],
+        ["Konto löschen", "Konto löschen"],
+        ["Konto wurde gelöscht.", "Konto wurde gelöscht."],
+        ["Account konnte nicht gespeichert werden.", "Konto konnte nicht gespeichert werden."],
+        ["Registrierte Übersicht-Zugänge", "Registrierte Zugänge zur Übersicht"],
+        ["Render-Web-Service", "Render-Webdienst"],
+        ["PLAYERS", "SPIELER"],
+        ["SUPPORTER", "UNTERSTÜTZER"],
+        ["MENU CREATOR", "MENÜ-ERSTELLER"],
+        ["CONTROL MODULES", "STEUERMODULE"],
+    ];
+    for (const [source, target] of translations) {
+        html = html.split(source).join(target);
+    }
+    return html;
+}
+
+function nexuV201OverviewCss() {
+    return String.raw`
+/* NEXU V201 // DEUTSCHE SERVERÜBERSICHT */
+.page-dashboard .nx-overview-layout{
+    display:grid;
+    grid-template-columns:324px minmax(0,1fr);
+    gap:18px;
+    align-items:start;
+}
+.page-dashboard .nx-overview-content{min-width:0;display:grid;gap:0;}
+.page-dashboard .nx-overview-sidebar{
+    position:sticky;
+    top:104px;
+    max-height:calc(100vh - 120px);
+    overflow:auto;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(25,214,255,.34) transparent;
+    border:1px solid rgba(104,216,255,.16);
+    border-radius:28px;
+    padding:16px;
+    background:
+        radial-gradient(circle at 12% 0,rgba(25,214,255,.09),transparent 18rem),
+        linear-gradient(155deg,rgba(255,255,255,.042),rgba(255,255,255,.012)),
+        rgba(4,10,18,.91);
+    box-shadow:0 30px 80px rgba(0,0,0,.34),0 1px 0 rgba(255,255,255,.05) inset,0 0 50px rgba(25,214,255,.055);
+    backdrop-filter:blur(24px) saturate(135%);
+}
+.page-dashboard .nx-overview-sidebar::-webkit-scrollbar{width:6px;}
+.page-dashboard .nx-overview-sidebar::-webkit-scrollbar-thumb{border-radius:999px;background:rgba(25,214,255,.28);}
+.nx-server-head{
+    position:relative;
+    overflow:hidden;
+    display:grid;
+    grid-template-columns:58px minmax(0,1fr);
+    gap:13px;
+    align-items:center;
+    min-height:92px;
+    padding:14px;
+    border:1px solid rgba(104,216,255,.14);
+    border-radius:21px;
+    background:linear-gradient(145deg,rgba(25,214,255,.075),rgba(139,99,255,.04)),rgba(7,15,26,.76);
+}
+.nx-server-head::after{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    right:-90px;
+    top:-92px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(25,214,255,.14),transparent 68%);
+    pointer-events:none;
+}
+.nx-server-logo{
+    position:relative;
+    width:58px;
+    height:58px;
+    display:grid;
+    place-items:center;
+    border-radius:18px;
+    color:white;
+    font-size:24px;
+    font-weight:950;
+    background:linear-gradient(145deg,var(--nx-cyan),var(--nx-blue) 58%,var(--nx-violet));
+    box-shadow:0 15px 36px rgba(25,214,255,.22),0 0 0 1px rgba(255,255,255,.18) inset;
+}
+.nx-server-logo::after{
+    content:"";
+    position:absolute;
+    inset:-6px;
+    border:1px solid rgba(25,214,255,.18);
+    border-radius:23px;
+    animation:nxServerHalo 3.2s ease-in-out infinite;
+}
+@keyframes nxServerHalo{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:.9;transform:scale(1.04)}}
+.nx-server-copy{min-width:0;position:relative;z-index:1;}
+.nx-server-copy span{display:block;color:#6f8ea3;font-size:9px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;}
+.nx-server-copy strong{display:block;margin-top:5px;overflow:hidden;color:#f3fbff;font-size:17px;letter-spacing:-.025em;text-overflow:ellipsis;white-space:nowrap;}
+.nx-server-copy small{display:flex;align-items:center;gap:7px;margin-top:7px;color:#87a4b7;font-size:10px;}
+.nx-server-copy small i{width:7px;height:7px;border-radius:50%;background:var(--nx-green);box-shadow:0 0 12px rgba(69,255,176,.85);}
+.nx-server-copy small.offline i{background:var(--nx-red);box-shadow:0 0 12px rgba(255,91,130,.85);}
+.nx-sidebar-section{
+    margin-top:14px;
+    padding:14px;
+    border:1px solid rgba(104,216,255,.10);
+    border-radius:20px;
+    background:linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,.008));
+}
+.nx-sidebar-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:11px;
+    color:#68869a;
+    font-size:9px;
+    font-weight:950;
+    letter-spacing:.17em;
+    text-transform:uppercase;
+}
+.nx-sidebar-title b{color:#8eacbf;font-size:8px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;}
+.nx-overview-nav{display:grid;gap:7px;}
+.nx-overview-nav a{
+    position:relative;
+    min-height:47px;
+    display:grid;
+    grid-template-columns:30px minmax(0,1fr) 12px;
+    align-items:center;
+    gap:9px;
+    padding:0 11px;
+    border:1px solid rgba(104,216,255,.08);
+    border-radius:14px;
+    color:#91abba;
+    background:rgba(4,10,18,.40);
+    text-decoration:none;
+    font-size:11px;
+    font-weight:820;
+}
+.nx-overview-nav a::after{content:"›";color:#527187;font-size:16px;}
+.nx-overview-nav a:hover,.nx-overview-nav a.active{
+    color:#effaff;
+    border-color:rgba(25,214,255,.28);
+    background:linear-gradient(135deg,rgba(25,214,255,.10),rgba(139,99,255,.055));
+    box-shadow:0 12px 28px rgba(0,0,0,.16),0 0 22px rgba(25,214,255,.045) inset;
+    transform:translateX(2px);
+}
+.nx-nav-icon{
+    width:28px;
+    height:28px;
+    display:grid;
+    place-items:center;
+    border:1px solid rgba(104,216,255,.12);
+    border-radius:9px;
+    color:#75dfff;
+    background:rgba(4,12,21,.72);
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    font-size:9px;
+}
+.nx-live-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.nx-live-tile{
+    min-height:76px;
+    padding:11px;
+    border:1px solid rgba(104,216,255,.09);
+    border-radius:15px;
+    background:linear-gradient(155deg,rgba(255,255,255,.036),rgba(255,255,255,.01)),rgba(4,10,18,.38);
+}
+.nx-live-tile span{display:block;color:#607d91;font-size:8px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;}
+.nx-live-tile strong{display:block;margin-top:8px;color:#eaf9ff;font-size:21px;letter-spacing:-.04em;}
+.nx-live-tile strong.good{color:#69ffc0;}
+.nx-live-tile strong.warn{color:#ffc979;}
+.nx-live-tile strong.bad{color:#ff7898;}
+.nx-health-panel{display:grid;grid-template-columns:98px minmax(0,1fr);gap:13px;align-items:center;}
+.nx-health-ring{
+    --nx-health:100;
+    position:relative;
+    width:96px;
+    height:96px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:conic-gradient(var(--nx-green) calc(var(--nx-health)*1%),rgba(255,255,255,.055) 0);
+    box-shadow:0 0 32px rgba(69,255,176,.08);
+}
+.nx-health-ring::before{content:"";position:absolute;inset:8px;border-radius:50%;background:#07101b;border:1px solid rgba(255,255,255,.045);}
+.nx-health-ring b,.nx-health-ring small{position:relative;z-index:1;display:block;text-align:center;}
+.nx-health-ring b{font-size:22px;letter-spacing:-.05em;}
+.nx-health-ring small{margin-top:-3px;color:#648297;font-size:8px;letter-spacing:.12em;text-transform:uppercase;}
+.nx-health-copy strong{display:block;font-size:14px;}
+.nx-health-copy span{display:block;margin-top:5px;color:#6f8da1;font-size:10px;line-height:1.45;}
+.nx-meter{margin-top:10px;}
+.nx-meter-head{display:flex;justify-content:space-between;gap:12px;margin-bottom:6px;color:#7895a9;font-size:9px;}
+.nx-meter-track{height:6px;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.055);}
+.nx-meter-track i{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--nx-cyan),var(--nx-blue));box-shadow:0 0 10px rgba(25,214,255,.42);transition:width .55s cubic-bezier(.2,.8,.2,1);}
+.nx-meter.heap .nx-meter-track i{background:linear-gradient(90deg,var(--nx-violet),#c28dff);}
+.nx-runtime-chart{
+    width:100%;
+    height:92px;
+    display:block;
+    margin-top:10px;
+    border:1px solid rgba(104,216,255,.08);
+    border-radius:14px;
+    background:linear-gradient(180deg,rgba(3,9,16,.72),rgba(5,12,21,.46));
+}
+.nx-info-list{display:grid;gap:0;}
+.nx-info-row{
+    display:grid;
+    grid-template-columns:92px minmax(0,1fr);
+    gap:10px;
+    align-items:start;
+    padding:9px 0;
+    border-bottom:1px solid rgba(104,216,255,.065);
+}
+.nx-info-row:last-child{border-bottom:0;padding-bottom:0;}
+.nx-info-row span{color:#5f7d92;font-size:9px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;}
+.nx-info-row b{min-width:0;color:#aec7d7;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;font-weight:600;overflow-wrap:anywhere;}
+.nx-sidebar-foot{display:flex;align-items:center;gap:8px;margin-top:12px;padding:0 4px;color:#58758a;font-size:9px;line-height:1.45;}
+.nx-sidebar-foot i{width:6px;height:6px;border-radius:50%;background:var(--nx-green);box-shadow:0 0 10px rgba(69,255,176,.75);}
+.page-dashboard #uebersicht-status{scroll-margin-top:112px;}
+.page-dashboard #menuStatusPanel,.page-dashboard #updateStatusPanel,.page-dashboard #uebersicht-spieler{scroll-margin-top:112px;}
+.page-dashboard .nx-command-strip span:first-child{color:#b9efff;}
+.page-dashboard .hero{margin-top:0 !important;}
+.page-dashboard .nx-overview-content > section + section{margin-top:18px;}
+.page-dashboard .nx-page-footer{grid-column:1/-1;}
+@media(max-width:1180px){
+    .page-dashboard .nx-overview-layout{grid-template-columns:1fr;}
+    .page-dashboard .nx-overview-sidebar{position:relative;top:auto;max-height:none;}
+    .nx-overview-nav{grid-template-columns:repeat(4,minmax(0,1fr));}
+    .nx-overview-nav a{grid-template-columns:28px minmax(0,1fr);padding:0 9px;}
+    .nx-overview-nav a::after{display:none;}
+    .nx-sidebar-section.nx-server-details{display:none;}
+}
+@media(max-width:760px){
+    .page-dashboard .nx-overview-layout{gap:12px;}
+    .page-dashboard .nx-overview-sidebar{padding:12px;border-radius:23px;}
+    .nx-overview-nav{grid-template-columns:1fr 1fr;}
+    .nx-health-panel{grid-template-columns:86px minmax(0,1fr);}
+    .nx-health-ring{width:84px;height:84px;}
+    .nx-live-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:480px){
+    .nx-overview-nav{grid-template-columns:1fr;}
+    .nx-live-grid{grid-template-columns:1fr 1fr;}
+}
+@media(prefers-reduced-motion:reduce){
+    .nx-server-logo::after{animation:none;}
+    .nx-meter-track i{transition:none;}
+}
+`;
+}
+
+function nexuV201OverviewSidebarHtml() {
+    const startedAt = new Date(SERVER_STARTED_AT_MS).toLocaleString("de-DE");
+    const storageMode = isGitHubStorageConfigured()
+        ? "GitHub + lokaler Fallback"
+        : "Lokaler Speicher";
+    return String.raw`
+<aside class="nx-overview-sidebar" aria-label="Serverzentrale">
+    <div class="nx-server-head">
+        <div class="nx-server-logo">N</div>
+        <div class="nx-server-copy">
+            <span>Serverzentrale</span>
+            <strong>${escapeHtml(process.env.RENDER_SERVICE_NAME || "Nexu Server")}</strong>
+            <small id="nxServerState"><i></i><span>Verbindung wird geprüft</span></small>
+        </div>
+    </div>
+
+    <section class="nx-sidebar-section">
+        <div class="nx-sidebar-title"><span>Bereiche</span><b>01–04</b></div>
+        <nav class="nx-overview-nav" aria-label="Navigation der Übersicht">
+            <a class="active" href="#uebersicht-status" data-nx-nav="uebersicht-status"><span class="nx-nav-icon">01</span><span>Systemlage</span></a>
+            <a href="#menuStatusPanel" data-nx-nav="menuStatusPanel"><span class="nx-nav-icon">02</span><span>Menüstatus</span></a>
+            <a href="#updateStatusPanel" data-nx-nav="updateStatusPanel"><span class="nx-nav-icon">03</span><span>Wartung</span></a>
+            <a href="#uebersicht-spieler" data-nx-nav="uebersicht-spieler"><span class="nx-nav-icon">04</span><span>Spielerlisten</span></a>
+        </nav>
+    </section>
+
+    <section class="nx-sidebar-section">
+        <div class="nx-sidebar-title"><span>Live-Statistik</span><b id="nxLastCheck">JETZT</b></div>
+        <div class="nx-live-grid">
+            <article class="nx-live-tile"><span>Aktiv</span><strong id="nxSideOnline" class="good">0</strong></article>
+            <article class="nx-live-tile"><span>Offline</span><strong id="nxSideOffline">0</strong></article>
+            <article class="nx-live-tile"><span>Gespeichert</span><strong id="nxSideKnown">0</strong></article>
+            <article class="nx-live-tile"><span>Gesperrt</span><strong id="nxSideBanned" class="warn">0</strong></article>
+        </div>
+    </section>
+
+    <section class="nx-sidebar-section">
+        <div class="nx-sidebar-title"><span>Systemzustand</span><b>LIVE</b></div>
+        <div class="nx-health-panel">
+            <div id="nxHealthRing" class="nx-health-ring"><div><b id="nxHealthScore">100%</b><small>Zustand</small></div></div>
+            <div class="nx-health-copy"><strong id="nxHealthLabel">System stabil</strong><span id="nxHealthText">Laufzeitdaten werden geladen und automatisch bewertet.</span></div>
+        </div>
+        <div class="nx-meter">
+            <div class="nx-meter-head"><span>Prozessorauslastung</span><b id="nxCpuText">0%</b></div>
+            <div class="nx-meter-track"><i id="nxCpuBar"></i></div>
+        </div>
+        <div class="nx-meter heap">
+            <div class="nx-meter-head"><span>Arbeitsspeicher</span><b id="nxHeapText">0%</b></div>
+            <div class="nx-meter-track"><i id="nxHeapBar"></i></div>
+        </div>
+        <canvas id="nxRuntimeChart" class="nx-runtime-chart" width="270" height="92" aria-label="Leistungsverlauf"></canvas>
+    </section>
+
+    <section class="nx-sidebar-section nx-server-details">
+        <div class="nx-sidebar-title"><span>Serverinformationen</span><b>V201</b></div>
+        <div class="nx-info-list">
+            <div class="nx-info-row"><span>Instanz</span><b id="nxInstanceId" title="${escapeHtml(SERVER_INSTANCE_ID)}">${escapeHtml(SERVER_INSTANCE_ID.slice(0, 13))}…</b></div>
+            <div class="nx-info-row"><span>Gestartet</span><b>${escapeHtml(startedAt)}</b></div>
+            <div class="nx-info-row"><span>Laufzeit</span><b id="nxUptime">0 Sekunden</b></div>
+            <div class="nx-info-row"><span>Node.js</span><b id="nxNodeVersion">${escapeHtml(process.version)}</b></div>
+            <div class="nx-info-row"><span>Plattform</span><b id="nxPlatform">${escapeHtml(`${process.platform}/${process.arch}`)}</b></div>
+            <div class="nx-info-row"><span>Port</span><b id="nxPort">${PORT}</b></div>
+            <div class="nx-info-row"><span>Speicher</span><b id="nxStorageMode">${escapeHtml(storageMode)}</b></div>
+            <div class="nx-info-row"><span>Sitzungen</span><b id="nxSessions">0</b></div>
+            <div class="nx-info-row"><span>Befehle</span><b id="nxCommands">0 ausstehend</b></div>
+            <div class="nx-info-row"><span>RSS</span><b id="nxRss">0 MB</b></div>
+        </div>
+    </section>
+
+    <div class="nx-sidebar-foot"><i></i><span>Automatische Serverprüfung alle fünf Sekunden. Interne Schlüssel und sensible Zugangsdaten werden nicht angezeigt.</span></div>
+</aside>`;
+}
+
+function nexuV201OverviewClientScript() {
+    return String.raw`<script>
+(function(){
+    "use strict";
+    if(!document.body.classList.contains("page-dashboard")) return;
+
+    var byId=function(id){return document.getElementById(id);};
+    var cpuHistory=[];
+    var heapHistory=[];
+    var lastCpuTotal=null;
+    var lastCpuAt=null;
+
+    function numberText(id){
+        var node=byId(id);
+        return node ? String(node.textContent || "0").trim() : "0";
+    }
+
+    function syncVisibleStatistics(){
+        var pairs=[
+            ["onlinePlayerCount","nxSideOnline"],
+            ["offlinePlayerCount","nxSideOffline"],
+            ["playerCount","nxSideKnown"],
+            ["bannedCount","nxSideBanned"]
+        ];
+        pairs.forEach(function(pair){
+            var source=byId(pair[0]);
+            var target=byId(pair[1]);
+            if(source&&target&&target.textContent!==source.textContent) target.textContent=source.textContent;
+        });
+    }
+
+    function formatBytes(bytes){
+        var value=Number(bytes)||0;
+        if(value<1024) return value+" B";
+        var units=["KB","MB","GB","TB"];
+        var index=-1;
+        do{value/=1024;index+=1;}while(value>=1024&&index<units.length-1);
+        return value.toFixed(value>=100?0:value>=10?1:2)+" "+units[index];
+    }
+
+    function formatDuration(totalSeconds){
+        var seconds=Math.max(0,Math.floor(Number(totalSeconds)||0));
+        var days=Math.floor(seconds/86400);
+        var hours=Math.floor((seconds%86400)/3600);
+        var minutes=Math.floor((seconds%3600)/60);
+        var rest=seconds%60;
+        if(days>0) return days+" T "+hours+" Std";
+        if(hours>0) return hours+" Std "+minutes+" Min";
+        if(minutes>0) return minutes+" Min "+rest+" Sek";
+        return rest+" Sekunden";
+    }
+
+    function clamp(value,min,max){return Math.max(min,Math.min(max,value));}
+
+    function drawChart(){
+        var canvas=byId("nxRuntimeChart");
+        if(!canvas||!canvas.getContext) return;
+        var rect=canvas.getBoundingClientRect();
+        var ratio=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+        var width=Math.max(220,Math.floor(rect.width||270));
+        var height=92;
+        if(canvas.width!==Math.floor(width*ratio)||canvas.height!==Math.floor(height*ratio)){
+            canvas.width=Math.floor(width*ratio);
+            canvas.height=Math.floor(height*ratio);
+        }
+        var ctx=canvas.getContext("2d");
+        ctx.setTransform(ratio,0,0,ratio,0,0);
+        ctx.clearRect(0,0,width,height);
+
+        ctx.strokeStyle="rgba(120,210,255,.08)";
+        ctx.lineWidth=1;
+        for(var y=18;y<height;y+=18){
+            ctx.beginPath();ctx.moveTo(0,y+.5);ctx.lineTo(width,y+.5);ctx.stroke();
+        }
+
+        function line(values,color){
+            if(values.length<2) return;
+            ctx.beginPath();
+            values.forEach(function(value,index){
+                var x=(index/(Math.max(1,values.length-1)))*(width-12)+6;
+                var y=height-8-(clamp(value,0,100)/100)*(height-18);
+                if(index===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+            });
+            ctx.strokeStyle=color;
+            ctx.lineWidth=2;
+            ctx.shadowColor=color;
+            ctx.shadowBlur=8;
+            ctx.stroke();
+            ctx.shadowBlur=0;
+        }
+        line(cpuHistory,"rgba(25,214,255,.95)");
+        line(heapHistory,"rgba(154,112,255,.90)");
+    }
+
+    function updateHealth(cpuPercent,heapPercent,online){
+        var score=online ? 100 : 28;
+        score-=Math.max(0,cpuPercent-55)*.45;
+        score-=Math.max(0,heapPercent-68)*.42;
+        score=Math.round(clamp(score,5,100));
+
+        var ring=byId("nxHealthRing");
+        var scoreNode=byId("nxHealthScore");
+        var label=byId("nxHealthLabel");
+        var text=byId("nxHealthText");
+        if(ring){
+            ring.style.setProperty("--nx-health",score);
+            ring.style.background="conic-gradient("+(score>=82?"var(--nx-green)":score>=58?"var(--nx-gold)":"var(--nx-red)")+" "+score+"%,rgba(255,255,255,.055) 0)";
+        }
+        if(scoreNode) scoreNode.textContent=score+"%";
+        if(label) label.textContent=score>=82?"System stabil":score>=58?"System unter Last":"System prüfen";
+        if(text) text.textContent=!online
+            ?"Der Server meldet aktuell keine stabile Verbindung."
+            : score>=82
+                ?"Laufzeit, Speicher und Prozessorauslastung liegen im normalen Bereich."
+                : score>=58
+                    ?"Erhöhte Last wurde erkannt. Die Übersicht bleibt weiterhin erreichbar."
+                    :"Starke Last oder ein Verbindungsproblem wurde erkannt.";
+    }
+
+    function applyRuntime(data){
+        var runtime=data&&data.runtime?data.runtime:data;
+        if(!runtime||runtime.success===false) return;
+
+        var now=Number(runtime.checkedAtMs)||Date.now();
+        var cpuTotal=(Number(runtime.cpuUserMicros)||0)+(Number(runtime.cpuSystemMicros)||0);
+        var cpuPercent=0;
+        if(lastCpuTotal!==null&&lastCpuAt!==null&&now>lastCpuAt){
+            cpuPercent=clamp(((cpuTotal-lastCpuTotal)/((now-lastCpuAt)*1000))*100,0,100);
+        }
+        lastCpuTotal=cpuTotal;
+        lastCpuAt=now;
+
+        var heapUsed=Number(runtime.heapUsedBytes)||0;
+        var heapTotal=Math.max(1,Number(runtime.heapTotalBytes)||1);
+        var heapPercent=clamp((heapUsed/heapTotal)*100,0,100);
+        var online=runtime.menuOnline!==false;
+
+        var cpuText=byId("nxCpuText");
+        var heapText=byId("nxHeapText");
+        var cpuBar=byId("nxCpuBar");
+        var heapBar=byId("nxHeapBar");
+        if(cpuText) cpuText.textContent=cpuPercent.toFixed(cpuPercent>=10?0:1)+"%";
+        if(heapText) heapText.textContent=heapPercent.toFixed(0)+"% · "+formatBytes(heapUsed);
+        if(cpuBar) cpuBar.style.width=cpuPercent+"%";
+        if(heapBar) heapBar.style.width=heapPercent+"%";
+
+        cpuHistory.push(cpuPercent);
+        heapHistory.push(heapPercent);
+        if(cpuHistory.length>36) cpuHistory.shift();
+        if(heapHistory.length>36) heapHistory.shift();
+        drawChart();
+        updateHealth(cpuPercent,heapPercent,online);
+
+        var state=byId("nxServerState");
+        if(state){
+            state.classList.toggle("offline",!online);
+            var copy=state.querySelector("span");
+            if(copy) copy.textContent=online?"Server erreichbar":"Menü global offline";
+        }
+
+        var values={
+            nxSideOnline:runtime.activePlayers,
+            nxSideKnown:runtime.knownPlayers,
+            nxSideBanned:runtime.bannedPlayers,
+            nxInstanceId:runtime.instanceId,
+            nxUptime:formatDuration(runtime.uptimeSeconds),
+            nxNodeVersion:runtime.nodeVersion,
+            nxPlatform:runtime.platform,
+            nxPort:runtime.port,
+            nxStorageMode:runtime.storageMode,
+            nxSessions:(Number(runtime.activeSessions)||0)+" aktive Sitzungen",
+            nxCommands:(Number(runtime.pendingCommands)||0)+" ausstehend",
+            nxRss:formatBytes(runtime.rssBytes)
+        };
+        Object.keys(values).forEach(function(id){
+            var node=byId(id);
+            if(node&&values[id]!==undefined&&values[id]!==null) node.textContent=String(values[id]);
+        });
+        var instance=byId("nxInstanceId");
+        if(instance&&runtime.instanceId){
+            instance.title=String(runtime.instanceId);
+            instance.textContent=String(runtime.instanceId).slice(0,13)+"…";
+        }
+
+        var last=byId("nxLastCheck");
+        if(last) last.textContent=new Date(now).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+    }
+
+    async function refreshRuntime(){
+        try{
+            var response=await fetch("/api/uebersicht/runtime",{headers:{Accept:"application/json"},cache:"no-store"});
+            if(!response.ok) throw new Error("HTTP "+response.status);
+            applyRuntime(await response.json());
+        }catch(error){
+            var state=byId("nxServerState");
+            if(state){
+                state.classList.add("offline");
+                var copy=state.querySelector("span");
+                if(copy) copy.textContent="Serverprüfung fehlgeschlagen";
+            }
+            updateHealth(100,100,false);
+        }
+    }
+
+    var watched=["onlinePlayerCount","offlinePlayerCount","playerCount","bannedCount","serverStatus"];
+    watched.forEach(function(id){
+        var node=byId(id);
+        if(node&&window.MutationObserver){
+            new MutationObserver(syncVisibleStatistics).observe(node,{childList:true,subtree:true,characterData:true});
+        }
+    });
+    syncVisibleStatistics();
+
+    document.querySelectorAll(".nx-overview-nav a").forEach(function(link){
+        link.addEventListener("click",function(event){
+            var target=document.querySelector(link.getAttribute("href"));
+            if(!target) return;
+            event.preventDefault();
+            target.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+        });
+    });
+
+    if("IntersectionObserver" in window){
+        var links=Array.prototype.slice.call(document.querySelectorAll(".nx-overview-nav a"));
+        var sections=links.map(function(link){return document.querySelector(link.getAttribute("href"));}).filter(Boolean);
+        var observer=new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+                if(!entry.isIntersecting) return;
+                links.forEach(function(link){link.classList.toggle("active",link.getAttribute("href")==="#"+entry.target.id);});
+            });
+        },{rootMargin:"-18% 0px -68% 0px",threshold:.01});
+        sections.forEach(function(section){observer.observe(section);});
+    }
+
+    refreshRuntime();
+    setInterval(refreshRuntime,5000);
+    setInterval(syncVisibleStatistics,1500);
+    window.addEventListener("resize",drawChart,{passive:true});
+})();
+</script>`;
+}
+
+function enhanceNexuV201Page(html, pageType) {
+    html = nexuV201GermanizeHtml(html);
+    if (typeof html !== "string" || html.includes("NEXU V201 // DEUTSCHE SERVERÜBERSICHT")) return html;
+
+    html = html.replace("</style>", nexuV201OverviewCss() + "</style>");
+
+    if (pageType === "home") {
+        html = html.replace('href="/menu-server"', 'href="/uebersicht"');
+        html = html.replace(
+            '<span>ÜBERSICHT</span><strong>Spieler-Dashboard öffnen</strong>',
+            '<span>ÜBERSICHT</span><strong>Serverübersicht öffnen</strong>'
+        );
+    }
+
+    if (pageType === "overview") {
+        html = html.replace(/<body([^>]*)>/i, function(match, attributes) {
+            let next = attributes || "";
+            if (/\bclass\s*=\s*"[^"]*"/i.test(next)) {
+                next = next.replace(/\bclass\s*=\s*"([^"]*)"/i, function(_, current) {
+                    return `class="${current} page-overview"`;
+                });
+            } else {
+                next += ' class="page-overview"';
+            }
+            return `<body${next}>`;
+        });
+        html = html.replace("<title>Nexu Übersicht</title>", "<title>Nexu Serverübersicht</title>");
+        html = html.replace(
+            '<section class="hero">',
+            '<div class="nx-overview-layout">' +
+                nexuV201OverviewSidebarHtml() +
+                '<div class="nx-overview-content"><section id="uebersicht-status" class="hero">'
+        );
+        html = html.replace('<section class="directory">', '<section id="uebersicht-spieler" class="directory">');
+        html = html.replace(
+            '<div class="nx-page-footer">',
+            '</div></div><div class="nx-page-footer">'
+        );
+        html = html.replace("</body>", nexuV201OverviewClientScript() + "</body>");
+    }
+
+    return html;
+}
+
+loginHtml = function(...args) {
+    return enhanceNexuV201Page(NEXU_V201_BASE_LOGIN_HTML(...args), "login");
+};
+homeHtml = function(...args) {
+    return enhanceNexuV201Page(NEXU_V201_BASE_HOME_HTML(...args), "home");
+};
+dashboardAccountsHtml = function(...args) {
+    return enhanceNexuV201Page(NEXU_V201_BASE_ACCOUNTS_HTML(...args), "accounts");
+};
+dashboardHtml = function(...args) {
+    return enhanceNexuV201Page(NEXU_V201_BASE_OVERVIEW_HTML(...args), "overview");
+};
+
+
 loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();loadMenuAvailabilityState();
 const githubStorageStartupPromise = Promise.all([loadGitHubStorage(), loadGitHubAccounts()]).then(() => { syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler und Accounts geladen; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
 
@@ -5583,14 +6346,14 @@ const server = http.createServer(async (req, res) => {const requestUrl = new URL
 if (req.method === "GET" && pathname === "/") {
     if (isDashboardAuthenticated(req)) {
         const message = requestUrl.searchParams.get("settings") === "updated"
-            ? "Account-Einstellungen wurden gespeichert."
+            ? "Kontoeinstellungen wurden gespeichert."
             : requestUrl.searchParams.get("account") === "deleted"
-                ? "Account wurde gelöscht."
+                ? "Konto wurde gelöscht."
                 : "";
         const session = getDashboardSession(req);
         sendHtml(res, 200, homeHtml(message, "", session && session.account));
     } else {
-        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccounts(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Account wurde gelöscht." : ""}));
+        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccounts(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Konto wurde gelöscht." : ""}));
     }
     return;
 }
@@ -5599,26 +6362,26 @@ if (req.method === "GET" && pathname === "/login") {
     if (isDashboardAuthenticated(req)) {
         redirect(res, "/");
     } else {
-        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccounts(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Account wurde gelöscht." : ""}));
+        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccounts(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Konto wurde gelöscht." : ""}));
     }
     return;
 }
 
-if (req.method === "GET" && pathname === "/menu-server") {
+if (req.method === "GET" && (pathname === "/menu-server" || pathname === "/uebersicht")) {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
         redirect(res, "/login");
         return;
     }
     if (!canAccessMenuServer(session.account)) {
-        sendHtml(res, 403, homeHtml("", "Menu Server Zugriff ist für diesen Account nicht freigegeben.", session.account));
+        sendHtml(res, 403, homeHtml("", "Der Zugriff auf die Serverübersicht ist für dieses Konto nicht freigegeben.", session.account));
         return;
     }
-    console.log("[NEXU] Menu Server Dashboard aufgerufen");
+    console.log("[NEXU] Serverübersicht aufgerufen");
     const updateNotice = requestUrl.searchParams.get("update") === "cancelled"
-        ? "Das Script-Update wurde beendet. Alle Spieler können das Menü wieder starten."
+        ? "Das Skript-Aktualisierung wurde beendet. Alle Spieler können das Menü wieder starten."
         : requestUrl.searchParams.get("update") === "already-inactive"
-            ? "Der Update-Modus war bereits beendet."
+            ? "Der Aktualisierungsmodus war bereits beendet."
             : "";
     sendHtml(res, 200, dashboardHtml(session.account, updateNotice));
     return;
@@ -5635,8 +6398,8 @@ if (req.method === "POST" && pathname === "/menu-server/update/cancel") {
         return;
     }
     const result = cancelMenuUpdate();
-    console.log(`[NEXU] Script-Update ${result.wasActive ? "über Dashboard-Formular beendet" : "war bereits inaktiv"}: ${session.username}`);
-    redirect(res, result.wasActive ? "/menu-server?update=cancelled" : "/menu-server?update=already-inactive");
+    console.log(`[NEXU] Skript-Aktualisierung ${result.wasActive ? "über Dashboard-Formular beendet" : "war bereits inaktiv"}: ${session.username}`);
+    redirect(res, result.wasActive ? "/uebersicht?update=cancelled" : "/uebersicht?update=already-inactive");
     return;
 }
 
@@ -5647,13 +6410,13 @@ if (req.method === "GET" && pathname === "/accounts") {
         return;
     }
     if (!canManageDashboardAccounts(session.account)) {
-        sendHtml(res, 403, homeHtml("", "Account-Verwaltung ist nur für OwnerAccount freigegeben.", session.account));
+        sendHtml(res, 403, homeHtml("", "Kontoverwaltung ist nur für OwnerAccount freigegeben.", session.account));
         return;
     }
     const notice = requestUrl.searchParams.get("updated") === "1"
         ? "Account wurde gespeichert."
         : requestUrl.searchParams.get("deleted") === "1"
-            ? "Account wurde gelöscht."
+            ? "Konto wurde gelöscht."
             : "";
     sendHtml(res, 200, dashboardAccountsHtml(notice, "", session.account));
     return;
@@ -5666,7 +6429,7 @@ if (req.method === "POST" && pathname === "/accounts/update") {
         return;
     }
     if (!canManageDashboardAccounts(session.account)) {
-        sendHtml(res, 403, homeHtml("", "Account-Verwaltung ist nur für OwnerAccount freigegeben.", session.account));
+        sendHtml(res, 403, homeHtml("", "Kontoverwaltung ist nur für OwnerAccount freigegeben.", session.account));
         return;
     }
     try {
@@ -5753,7 +6516,7 @@ if (req.method === "POST" && pathname === "/accounts/delete") {
         return;
     }
     if (!canManageDashboardAccounts(session.account)) {
-        sendHtml(res, 403, homeHtml("", "Account-Verwaltung ist nur für OwnerAccount freigegeben.", session.account));
+        sendHtml(res, 403, homeHtml("", "Kontoverwaltung ist nur für OwnerAccount freigegeben.", session.account));
         return;
     }
     try {
@@ -6074,6 +6837,24 @@ if (req.method === "POST" && pathname === "/register/verify") {
 }
 
 
+
+if (req.method === "GET" && pathname === "/api/uebersicht/runtime") {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
+        sendJson(res, 401, { success: false, error: "Anmeldung erforderlich" });
+        return;
+    }
+    if (!canAccessMenuServer(session.account)) {
+        sendJson(res, 403, { success: false, error: "Zugriff auf die Übersicht nicht freigegeben" });
+        return;
+    }
+    sendJson(res, 200, {
+        success: true,
+        runtime: buildNexuOverviewRuntimeSnapshot(),
+    });
+    return;
+}
+
 if (
     req.method === "GET" &&
     (pathname === "/status" || pathname === "/api/status")
@@ -6189,7 +6970,7 @@ if (req.method === "POST" && pathname === "/api/admin/update/start") {
         const requestRevision = menuUpdateMutationRevision;
         const body = await readJsonBody(req);
         if (requestRevision !== menuUpdateMutationRevision) {
-            sendJson(res, 409, {success:false,error:"Der Update-Start wurde verworfen, weil der Update-Modus inzwischen beendet oder geändert wurde."});
+            sendJson(res, 409, {success:false,error:"Der Update-Start wurde verworfen, weil der Aktualisierungsmodus inzwischen beendet oder geändert wurde."});
             return;
         }
         const result = startMenuUpdate(body.durationMinutes, session.username);
@@ -6197,7 +6978,7 @@ if (req.method === "POST" && pathname === "/api/admin/update/start") {
             sendJson(res, 400, {success:false,error:result.error});
             return;
         }
-        console.log(`[NEXU] Script-Update gestartet: ${result.status.durationMinutes} Minuten von ${session.username}`);
+        console.log(`[NEXU] Skript-Aktualisierung gestartet: ${result.status.durationMinutes} Minuten von ${session.username}`);
         sendJson(res, 200, {success:true,menuUpdate:result.status});
     } catch (error) {
         sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {success:false,error:"Update konnte nicht gestartet werden"});
@@ -6212,7 +6993,7 @@ if (req.method === "POST" && pathname === "/api/admin/update/cancel") {
         return;
     }
     const result = cancelMenuUpdate();
-    console.log(`[NEXU] Script-Update ${result.wasActive ? "vorzeitig beendet" : "war bereits inaktiv"}: ${session.username}`);
+    console.log(`[NEXU] Skript-Aktualisierung ${result.wasActive ? "vorzeitig beendet" : "war bereits inaktiv"}: ${session.username}`);
     sendJson(res, 200, {success:true,persisted:result.persisted !== false,menuUpdate:result.status});
     return;
 }
@@ -6634,7 +7415,7 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
         );
 
         // Der Abschaltbefehl wird VOR dem erneuten Eintragen in presence geprüft.
-        // So bleibt die Website nach „ALLE SCRIPTS AUS“ sofort offline und ein
+        // So bleibt die Website nach „ALLE SKRIPTE AUS“ sofort offline und ein
         // alter Client kann sich nicht für einen einzelnen Heartbeat zurückmelden.
         const menuStatus = getMenuAvailabilityStatus();
         const pendingShutdown = menuStatus.online
@@ -7321,7 +8102,7 @@ async function startNexuServer() {
         console.log("GitHub-Accountdatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_ACCOUNTS_PATH}`);
         console.log("Accountdatei-Verschlüsselung:", "AES-256-GCM");
         console.log("Dashboard-Anmeldung: /");
-        console.log("Dashboard-Accounts:", dashboardAccounts.size);
+        console.log("Übersichts-Konten:", dashboardAccounts.size);
         console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V148 SIGNIERT UND NEUSTARTFEST");
         console.log("Presence: /api/presence");
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
@@ -7329,10 +8110,10 @@ async function startNexuServer() {
         console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");
         console.log("Website Join: /api/join/send + /api/join/poll");
         console.log("Access: /api/menu/access?userId=...");
-        console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
+        console.log("Skript-Aktualisierung-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
-        console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Ingame-Moderation: V172 AKTIVE CREATOR-SESSION + BAN/UNBAN");console.log("Rang-Banner-Sync: V168 LIVE SNAPSHOT INVALIDATION + INGAME COLOR REFRESH");console.log("Rang-Auswahl: V167 SUCHBARES DROPDOWN AM AKTUELLEN RANG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
+        console.log("Skript-Aktualisierung:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SKRIPTE AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Ingame-Moderation: V172 AKTIVE CREATOR-SESSION + BAN/UNBAN");console.log("Rang-Banner-Sync: V168 LIVE SNAPSHOT INVALIDATION + INGAME COLOR REFRESH");console.log("Rang-Auswahl: V167 SUCHBARES DROPDOWN AM AKTUELLEN RANG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
         console.log("========================================");
     });
 }
