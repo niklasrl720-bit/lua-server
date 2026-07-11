@@ -1,3 +1,4 @@
+// V206: Öffentliche Startseite ohne Login-Zwang, direkte Aufbauanimation, persistente Anmeldung und Owner-Verwaltung außerhalb der Startkacheln.
 // V205: Einheitliches Button- und Bedienelement-System mit festen Höhen, konsistenten Schriftgrößen und sauberem Aktionsraster.
 // V204: Vollständiger professioneller Neuaufbau aller Seiten mit klarer Informationsarchitektur, ruhigerem Design und unveränderten Funktionen.
 // V203: Spielerinformationen als ein gemeinsamer, kompakter Informationsblock statt einzelner voneinander getrennter Felder.
@@ -2704,9 +2705,7 @@ function homeHtml(notice = "", error = "", account = null) {const loaderCommandJ
     ? '<section class="modal-card"><div class="danger-zone"><h3>OwnerAccount geschützt</h3><p>Der OwnerAccount kann hier nicht gelöscht werden, damit du den Hauptzugriff nicht verlierst.</p></div></section>'
     : '<form class="modal-card" method="post" action="/account/delete" autocomplete="off"><div class="danger-zone"><h3>Konto löschen</h3><p>Dieses Konto wird dauerhaft aus der Übersicht entfernt. Danach wirst du abgemeldet.</p><div class="field"><label for="deletePassword">Passwort bestätigen</label><input id="deletePassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div><div class="modal-actions"><button type="submit">KONTO LÖSCHEN</button></div></div></form>';const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = canOpenMenuServer
     ? '<a class="primary-tile menu-server" href="/uebersicht"><span>ÜBERSICHT</span><strong>Serverübersicht öffnen</strong><small>' + (isOwnerAccount ? 'OwnerAccount Zugriff' : 'Vom Owner freigegeben') + '</small></a>'
-    : '<div class="primary-tile menu-server locked"><span>ÜBERSICHT</span><strong>Zugriff gesperrt</strong><small>Der OwnerAccount kann deinen Zugriff freigeben.</small></div>';const accountManagerButton = canManageAccounts
-    ? '<a class="primary-tile account-admin" href="/accounts"><span>KONTEN</span><strong>Kontoverwaltung</strong><small>Benutzer, Passwörter und Zugriffe einstellen</small></a>'
-    : '';
+    : '<div class="primary-tile menu-server locked"><span>ÜBERSICHT</span><strong>Zugriff gesperrt</strong><small>Der OwnerAccount kann deinen Zugriff freigeben.</small></div>';const accountManagerButton = '';
 return String.raw`<!doctype html>
 <html lang="de">
 <head>
@@ -5479,7 +5478,7 @@ function nexuV200HomeAddon() {
     <div><div class="eyebrow">SYSTEM READY</div><h2>${isOnline ? "Nexu ist bereit für den nächsten Einsatz." : "Nexu befindet sich aktuell im Offline-Modus."}</h2><p>${isOnline ? `Das Kontrollsystem ist erreichbar. ${knownCount} Spielerprofile sind registriert und ${banCount} Nutzer derzeit gesperrt.` : "Neue Lua-Starts werden blockiert, bis der Menüstatus im Menu Server wieder aktiviert wird."}</p></div>
     <div class="nx-status-orb${isOnline ? "" : " offline"}" aria-label="${isOnline ? "Online" : "Offline"}"><span></span></div>
 </section>
-<div class="nx-page-footer"><span><strong>NEXU</strong> · CONTROL NETWORK</span><span>GESICHERTE SITZUNG · V205</span></div>`;
+<div class="nx-page-footer"><span><strong>NEXU</strong> · CONTROL NETWORK</span><span>GESICHERTE SITZUNG · V206</span></div>`;
 }
 
 function nexuV200StartupHtml() {
@@ -5556,11 +5555,11 @@ function enhanceNexuV200Page(html, pageType) {
     } else if (pageType === "dashboard") {
         const strip = '<div class="nx-command-strip"><span>CONTROL PLANE</span><i></i><span>PRESENCE NETWORK</span><i></i><span>ROLE GOVERNANCE</span><i></i><span>RUNTIME COMMANDS</span><span class="nx-live">SECURE SESSION</span></div>';
         html = html.replace("</header>", "</header>" + strip);
-        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · MENU SERVER</span><span>PROFESSIONELLE SERVERÜBERSICHT · V205</span></div></main>');
+        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · MENU SERVER</span><span>PROFESSIONELLE SERVERÜBERSICHT · V206</span></div></main>');
     } else if (pageType === "accounts") {
         const accountOverview = `<section class="nx-account-overview"><article><span>Access Governance</span><strong>Kontrollzentrum für Konten</strong><small>Zentrale Verwaltung für Identitäten, Passwörter und granulare Rechte.</small></article><article><span>Accounts</span><strong>${dashboardAccounts.size}</strong><small>Registrierte Zugänge zur Übersicht</small></article><article><span>Permission Modules</span><strong>${DASHBOARD_PERMISSION_DEFINITIONS.length}</strong><small>Einzeln steuerbare Berechtigungen</small></article><article><span>Owner Protection</span><strong>Active</strong><small>OwnerAccount bleibt unveränderbar geschützt</small></article></section>`;
         html = html.replace('<section class="account-list">', accountOverview + '<section class="account-list">');
-        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · ACCOUNT GOVERNANCE</span><span>OWNER GESCHÜTZT · V205</span></div></main>');
+        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · ACCOUNT GOVERNANCE</span><span>OWNER GESCHÜTZT · V206</span></div></main>');
     }
 
     html = html.replace("</body>", nexuV200ClientScript(pageType) + "</body>");
@@ -5600,7 +5599,7 @@ function buildNexuOverviewRuntimeSnapshot() {
     const cpu = process.cpuUsage();
     return {
         success: true,
-        version: "V205",
+        version: "V206",
         serviceName: cleanText(process.env.RENDER_SERVICE_NAME || "Nexu Server", 100) || "Nexu Server",
         instanceId: SERVER_INSTANCE_ID,
         startedAtMs: SERVER_STARTED_AT_MS,
@@ -6415,7 +6414,7 @@ function nexuV201OverviewSidebarHtml() {
     </section>
 
     <section class="nx-sidebar-section nx-server-details">
-        <div class="nx-sidebar-title"><span>Serverinformationen</span><b>V205</b></div>
+        <div class="nx-sidebar-title"><span>Serverinformationen</span><b>V206</b></div>
         <div class="nx-info-list">
             <div class="nx-info-row"><span>Instanz</span><b id="nxInstanceId" title="${escapeHtml(SERVER_INSTANCE_ID)}">${escapeHtml(SERVER_INSTANCE_ID.slice(0, 13))}…</b></div>
             <div class="nx-info-row"><span>Gestartet</span><b>${escapeHtml(startedAt)}</b></div>
@@ -8767,39 +8766,294 @@ dashboardHtml=function(...args){
 };
 
 
+
+/* --------------------------------------------------------------------------
+ * NEXU V206 // PUBLIC START + PERSISTENT AUTH
+ *
+ * Die Startseite ist öffentlich. Ein Konto wird nur für geschützte Bereiche
+ * benötigt. Der 30-Tage-Erinnerungs-Cookie dient gleichzeitig als sichere,
+ * persistente Anmeldung, bis der Nutzer sich ausdrücklich abmeldet.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V206_BASE_HOME_HTML = homeHtml;
+const NEXU_V206_BASE_GET_DASHBOARD_SESSION = getDashboardSession;
+
+function nexuV206GuestAccount() {
+    return {
+        username: "Gast",
+        email: "",
+        isOwner: false,
+        access: normalizeDashboardAccess({}, "Gast", ""),
+        createdAt: "",
+        updatedAt: "",
+    };
+}
+
+// Eine gültige Erinnerungskennung stellt die Anmeldung nach Browser-Neustart,
+// abgelaufener Kurzzeitsitzung oder Seitenaktualisierung automatisch wieder her.
+getDashboardSession = function(req) {
+    const activeSession = NEXU_V206_BASE_GET_DASHBOARD_SESSION(req);
+    if (activeSession) return activeSession;
+
+    const remembered = getRememberedDashboardAccount(req);
+    if (!remembered) return null;
+    const account =
+        getDashboardAccountByEmail(remembered.email) ||
+        getDashboardAccountByUsername(remembered.username);
+    if (!account) return null;
+
+    const isOwner = isOwnerDashboardAccount(account);
+    const effectiveAccount = isOwner
+        ? {
+            ...account,
+            isOwner: true,
+            access: normalizeDashboardAccess(
+                { ...account, isOwner: true },
+                account.username,
+                account.email
+            ),
+        }
+        : account;
+
+    return {
+        token: `remembered:${rememberTokenHash(remembered.rememberToken).slice(0, 24)}`,
+        username: effectiveAccount.username,
+        email: effectiveAccount.email,
+        account: effectiveAccount,
+        isOwner,
+        remembered: true,
+        expiresAtMs: remembered.expiresAtMs,
+    };
+};
+
+function nexuV206HomeCss() {
+    return String.raw`
+/* NEXU V206 // DIREKTER SEITENAUFBAU OHNE LADESCHEIBE */
+body.page-home.nx-v206-direct{overflow-x:hidden !important;}
+body.page-home.nx-v206-direct .nx-startup{display:none !important;}
+body.page-home.nx-v206-direct.nx-booting > *{opacity:1 !important;}
+body.page-home.nx-v206-direct .header,
+body.page-home.nx-v206-direct .welcome,
+body.page-home.nx-v206-direct .action-grid,
+body.page-home.nx-v206-direct .nx-trust-grid,
+body.page-home.nx-v206-direct .nx-capability-grid{
+    animation:nxV206Build .42s cubic-bezier(.2,.82,.25,1) both;
+}
+body.page-home.nx-v206-direct .welcome{animation-delay:.035s;}
+body.page-home.nx-v206-direct .action-grid{animation-delay:.075s;}
+body.page-home.nx-v206-direct .nx-trust-grid{animation-delay:.11s;}
+body.page-home.nx-v206-direct .nx-capability-grid{animation-delay:.145s;}
+body.page-home.nx-v206-direct .primary-tile,
+body.page-home.nx-v206-direct .info-card{animation:nxV206Card .34s cubic-bezier(.2,.82,.25,1) both;}
+body.page-home.nx-v206-direct .primary-tile:nth-child(1){animation-delay:.10s;}
+body.page-home.nx-v206-direct .primary-tile:nth-child(2){animation-delay:.135s;}
+body.page-home.nx-v206-direct .primary-tile:nth-child(3){animation-delay:.17s;}
+body.page-home.nx-v206-direct .quick-info{animation-delay:.20s;}
+@keyframes nxV206Build{from{opacity:0;transform:translateY(12px) scale(.994);filter:blur(3px);}to{opacity:1;transform:none;filter:none;}}
+@keyframes nxV206Card{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+.nx-v206-guest #account{display:none !important;}
+.nx-v206-auth-actions{display:flex;align-items:center;gap:7px;}
+.nx-v206-auth-button{
+    min-height:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;padding:0 14px;
+    border:1px solid rgba(151,190,216,.14);border-radius:10px;color:#a9bdca;background:#09111a;
+    font:inherit;font-size:9px;font-weight:880;letter-spacing:.05em;cursor:pointer;
+}
+.nx-v206-auth-button.primary{
+    color:#ecfbff;border-color:rgba(37,214,255,.28);
+    background:linear-gradient(135deg,rgba(37,214,255,.17),rgba(67,136,255,.12)),#0a1520;
+    box-shadow:0 10px 26px rgba(25,163,226,.10);
+}
+.nx-v206-auth-button:hover{transform:translateY(-1px);border-color:rgba(37,214,255,.36);}
+.page-home.nexu-v204 .primary-tile.menu-server.locked{cursor:pointer;opacity:.76 !important;}
+.page-home.nexu-v204 .primary-tile.menu-server.locked:hover{opacity:1 !important;border-color:rgba(37,214,255,.22) !important;}
+.page-home.nexu-v204 .primary-tile.menu-server.locked::after{
+    content:"ANMELDUNG ERFORDERLICH";position:absolute;top:13px;right:13px;padding:5px 7px;
+    border:1px solid rgba(255,201,107,.18);border-radius:7px;color:#f2c97f;background:rgba(39,28,10,.72);
+    font-size:6px;font-weight:900;letter-spacing:.10em;
+}
+
+.nx-v206-auth-modal{
+    position:fixed;z-index:60000;inset:0;display:grid;place-items:center;padding:16px;background:rgba(1,4,8,.78);
+    backdrop-filter:blur(13px) saturate(90%);opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease;
+}
+.nx-v206-auth-modal.open{opacity:1;visibility:visible;}
+.nx-v206-auth-dialog{
+    width:min(920px,100%);max-height:min(760px,calc(100vh - 32px));overflow:auto;display:grid;
+    grid-template-columns:minmax(260px,.78fr) minmax(360px,1.22fr);border:1px solid rgba(113,207,246,.18);
+    border-radius:22px;background:#08101a;box-shadow:0 45px 130px rgba(0,0,0,.64),0 1px 0 rgba(255,255,255,.035) inset;
+    transform:translateY(10px) scale(.988);transition:transform .22s cubic-bezier(.2,.82,.25,1);
+}
+.nx-v206-auth-modal.open .nx-v206-auth-dialog{transform:none;}
+.nx-v206-auth-side{
+    position:relative;overflow:hidden;min-height:470px;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;
+    border-right:1px solid rgba(151,190,216,.09);
+    background:radial-gradient(circle at 18% 6%,rgba(37,214,255,.15),transparent 22rem),linear-gradient(145deg,#0a1520,#08101a 66%);
+}
+.nx-v206-auth-side::after{content:"N";position:absolute;right:-28px;top:-72px;color:rgba(37,214,255,.035);font-size:260px;font-weight:950;line-height:1;}
+.nx-v206-auth-mark{position:absolute;top:26px;left:26px;width:48px;height:48px;display:grid;place-items:center;border-radius:14px;color:white;background:linear-gradient(145deg,#25d6ff,#4388ff 58%,#8b63ff);font-size:19px;font-weight:950;}
+.nx-v206-auth-side span{position:relative;z-index:1;color:#66dfff;font-size:8px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;}
+.nx-v206-auth-side h2{position:relative;z-index:1;margin:9px 0 10px;color:#effaff;font-size:30px;line-height:1.02;letter-spacing:-.045em;}
+.nx-v206-auth-side p{position:relative;z-index:1;color:#7992a3;font-size:10px;line-height:1.65;}
+.nx-v206-auth-main{position:relative;padding:22px;}
+.nx-v206-auth-close{position:absolute;z-index:2;top:13px;right:13px;width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(151,190,216,.11);border-radius:10px;color:#7e96a6;background:#0a131d;font-size:17px;cursor:pointer;}
+.nx-v206-auth-tabs{width:calc(100% - 44px);display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border:1px solid rgba(151,190,216,.09);border-radius:12px;background:#060c13;}
+.nx-v206-auth-tab{min-height:36px;border:0;border-radius:9px;color:#708898;background:transparent;font:inherit;font-size:9px;font-weight:900;letter-spacing:.06em;cursor:pointer;}
+.nx-v206-auth-tab.active{color:#e7f8ff;background:#101d29;box-shadow:0 1px 0 rgba(255,255,255,.035) inset;}
+.nx-v206-auth-form{display:none;margin-top:17px;}
+.nx-v206-auth-form.active{display:block;}
+.nx-v206-auth-form h3{margin:0 0 5px;font-size:19px;letter-spacing:-.025em;}
+.nx-v206-auth-form > p{color:#6d8596;font-size:9px;line-height:1.5;}
+.nx-v206-auth-field{margin-top:12px;}
+.nx-v206-auth-field label{display:block;margin-bottom:6px;color:#748b9b;font-size:8px;font-weight:850;letter-spacing:.09em;text-transform:uppercase;}
+.nx-v206-auth-field input{width:100%;min-height:42px;padding:0 12px;border:1px solid rgba(151,190,216,.13);border-radius:10px;outline:none;color:#edf8fc;background:#060c13;font:inherit;font-size:10px;}
+.nx-v206-auth-field input:focus{border-color:rgba(37,214,255,.52);box-shadow:0 0 0 3px rgba(37,214,255,.08);}
+.nx-v206-auth-submit{width:100%;min-height:42px;margin-top:16px;border:1px solid rgba(37,214,255,.26);border-radius:10px;color:#effbff;background:linear-gradient(135deg,rgba(37,214,255,.18),rgba(67,136,255,.14)),#0a1520;font:inherit;font-size:9px;font-weight:900;letter-spacing:.06em;cursor:pointer;}
+.nx-v206-auth-foot{display:flex;align-items:center;gap:7px;margin-top:12px;color:#60798a;font-size:8px;line-height:1.45;}
+.nx-v206-auth-foot i{width:6px;height:6px;flex:0 0 auto;border-radius:50%;background:#45ffb0;box-shadow:0 0 10px rgba(69,255,176,.7);}
+.nx-v206-owner-link{color:#d9d1ff !important;border-color:rgba(139,99,255,.18) !important;}
+@media(max-width:760px){.nx-v206-auth-dialog{grid-template-columns:1fr;}.nx-v206-auth-side{display:none;}.nx-v206-auth-main{padding:18px;}}
+@media(max-width:520px){.nx-v206-auth-actions{gap:5px;}.nx-v206-auth-button{padding:0 10px;font-size:8px;}.nx-v206-auth-button:first-child{display:none;}}
+@media(prefers-reduced-motion:reduce){
+    body.page-home.nx-v206-direct .header,body.page-home.nx-v206-direct .welcome,body.page-home.nx-v206-direct .action-grid,
+    body.page-home.nx-v206-direct .nx-trust-grid,body.page-home.nx-v206-direct .nx-capability-grid,
+    body.page-home.nx-v206-direct .primary-tile,body.page-home.nx-v206-direct .info-card{animation:none !important;}
+}
+`;
+}
+
+function nexuV206HomeScript(isGuest, isOwner, initialAuthMode) {
+    return String.raw`<script>
+(function(){
+    "use strict";
+    var isGuest=${JSON.stringify(isGuest)};
+    var isOwner=${JSON.stringify(isOwner)};
+    var initialMode=${JSON.stringify(initialAuthMode || "")};
+    var body=document.body;
+    body.classList.remove("nx-booting");
+    var splash=document.getElementById("nxStartup");
+    if(splash) splash.remove();
+
+    function create(tag,className,text){var node=document.createElement(tag);if(className) node.className=className;if(text!==undefined) node.textContent=text;return node;}
+    var accountManagerTile=document.querySelector(".primary-tile.account-admin");
+    if(accountManagerTile) accountManagerTile.remove();
+
+    var modal=null;
+    function ensureAuthModal(){
+        if(modal) return modal;
+        modal=create("div","nx-v206-auth-modal");
+        modal.id="nxV206AuthModal";
+        modal.setAttribute("aria-hidden","true");
+        modal.innerHTML=
+            '<div class="nx-v206-auth-dialog" role="dialog" aria-modal="true" aria-labelledby="nxV206AuthTitle">'+
+                '<aside class="nx-v206-auth-side"><div class="nx-v206-auth-mark">N</div><span>Nexu Konto</span><h2 id="nxV206AuthTitle">Geschützte Bereiche freischalten.</h2><p>Die Startseite bleibt öffentlich. Nach der Anmeldung werden Übersicht und freigegebene Steuerfunktionen verfügbar. Deine Anmeldung bleibt auf diesem Gerät gespeichert, bis du dich abmeldest.</p></aside>'+
+                '<main class="nx-v206-auth-main"><button class="nx-v206-auth-close" type="button" aria-label="Schließen">×</button>'+
+                    '<div class="nx-v206-auth-tabs" role="tablist"><button class="nx-v206-auth-tab active" type="button" data-mode="login">ANMELDEN</button><button class="nx-v206-auth-tab" type="button" data-mode="register">REGISTRIEREN</button></div>'+
+                    '<form class="nx-v206-auth-form active" data-form="login" method="post" action="/login" autocomplete="on"><h3>Willkommen zurück</h3><p>Melde dich mit deinem Nexu-Konto an.</p><div class="nx-v206-auth-field"><label for="nxV206LoginUsername">Benutzername</label><input id="nxV206LoginUsername" name="username" type="text" maxlength="80" autocomplete="username" required></div><div class="nx-v206-auth-field"><label for="nxV206LoginPassword">Passwort</label><input id="nxV206LoginPassword" name="password" type="password" maxlength="200" autocomplete="current-password" required></div><button class="nx-v206-auth-submit" type="submit">ANMELDEN</button><div class="nx-v206-auth-foot"><i></i><span>Die Anmeldung wird automatisch für dieses Gerät gespeichert.</span></div></form>'+
+                    '<form class="nx-v206-auth-form" data-form="register" method="post" action="/register/request" autocomplete="on"><h3>Konto erstellen</h3><p>Erstelle direkt dein persönliches Nexu-Konto.</p><div class="nx-v206-auth-field"><label for="nxV206RegisterUsername">Benutzername</label><input id="nxV206RegisterUsername" name="username" type="text" maxlength="80" autocomplete="username" required></div><div class="nx-v206-auth-field"><label for="nxV206RegisterPassword">Passwort</label><input id="nxV206RegisterPassword" name="password" type="password" minlength="8" maxlength="200" autocomplete="new-password" required></div><div class="nx-v206-auth-field"><label for="nxV206RegisterConfirm">Passwort bestätigen</label><input id="nxV206RegisterConfirm" name="confirmPassword" type="password" minlength="8" maxlength="200" autocomplete="new-password" required></div><button class="nx-v206-auth-submit" type="submit">KONTO ERSTELLEN</button><div class="nx-v206-auth-foot"><i></i><span>Keine E-Mail und kein Bestätigungscode erforderlich.</span></div></form>'+
+                '</main></div>';
+        document.body.appendChild(modal);
+        var tabs=Array.prototype.slice.call(modal.querySelectorAll(".nx-v206-auth-tab"));
+        var forms=Array.prototype.slice.call(modal.querySelectorAll(".nx-v206-auth-form"));
+        function setMode(mode){
+            mode=mode==="register"?"register":"login";
+            tabs.forEach(function(tab){tab.classList.toggle("active",tab.dataset.mode===mode);});
+            forms.forEach(function(form){form.classList.toggle("active",form.dataset.form===mode);});
+            var input=modal.querySelector(mode==="register"?"#nxV206RegisterUsername":"#nxV206LoginUsername");
+            setTimeout(function(){if(input) input.focus();},40);
+        }
+        modal.setMode=setMode;
+        tabs.forEach(function(tab){tab.addEventListener("click",function(){setMode(tab.dataset.mode);});});
+        modal.querySelector(".nx-v206-auth-close").addEventListener("click",closeAuth);
+        modal.addEventListener("click",function(event){if(event.target===modal) closeAuth();});
+        return modal;
+    }
+    function openAuth(mode){var dialog=ensureAuthModal();dialog.setMode(mode||"login");dialog.classList.add("open");dialog.setAttribute("aria-hidden","false");document.documentElement.style.overflow="hidden";}
+    function closeAuth(){if(!modal) return;modal.classList.remove("open");modal.setAttribute("aria-hidden","true");document.documentElement.style.overflow="";}
+
+    if(isGuest){
+        var account=document.getElementById("account");
+        var header=account&&account.parentNode;
+        var actions=create("div","nx-v206-auth-actions");
+        actions.innerHTML='<button class="nx-v206-auth-button" type="button" data-auth="login">ANMELDEN</button><button class="nx-v206-auth-button primary" type="button" data-auth="register">REGISTRIEREN</button>';
+        if(header){header.insertBefore(actions,account);account.remove();}
+        actions.querySelectorAll("[data-auth]").forEach(function(button){button.addEventListener("click",function(){openAuth(button.dataset.auth);});});
+        var locked=document.querySelector(".primary-tile.menu-server.locked");
+        if(locked){
+            locked.setAttribute("role","button");locked.setAttribute("tabindex","0");locked.setAttribute("aria-label","Anmelden, um die Serverübersicht zu öffnen");
+            locked.addEventListener("click",function(){openAuth("login");});
+            locked.addEventListener("keydown",function(event){if(event.key==="Enter"||event.key===" "){event.preventDefault();openAuth("login");}});
+        }
+    }else if(isOwner){
+        var menu=document.querySelector("#account .account-menu");
+        var logoutForm=menu&&menu.querySelector(".menu-item-form");
+        if(menu&&!menu.querySelector(".nx-v206-owner-link")){
+            var ownerLink=create("a","menu-item nx-v206-owner-link");ownerLink.href="/accounts";ownerLink.innerHTML='Owner-Verwaltung <span>›</span>';menu.insertBefore(ownerLink,logoutForm||null);
+        }
+    }
+    if(initialMode==="login"||initialMode==="register") openAuth(initialMode);
+    document.addEventListener("keydown",function(event){if(event.key==="Escape") closeAuth();});
+})();
+</script>`;
+}
+
+homeHtml = function(notice = "", error = "", account = null, options = {}) {
+    const isGuest = !account || !cleanDashboardUsername(account.username);
+    const effectiveAccount = isGuest ? nexuV206GuestAccount() : account;
+    const isOwner = !isGuest && isOwnerDashboardAccount(effectiveAccount);
+    const authMode = options && (options.authMode === "register" ? "register" : options.authMode === "login" ? "login" : "");
+    let html = NEXU_V206_BASE_HOME_HTML(notice, error, effectiveAccount);
+    html = html.replace(nexuV200StartupHtml(), "");
+    html = html.replace(/\bnx-booting\b/g, "");
+    html = html.replace(/<a class="primary-tile account-admin"[\s\S]*?<\/a>/i, "");
+    html = html.replace(/<body([^>]*)>/i, function(match, attributes) {
+        let next = attributes || "";
+        const classes = `nx-v206-direct${isGuest ? " nx-v206-guest" : " nx-v206-authenticated"}`;
+        if (/\bclass\s*=\s*"[^"]*"/i.test(next)) {
+            next = next.replace(/\bclass\s*=\s*"([^"]*)"/i, function(_, current) {return `class="${current} ${classes}"`;});
+        } else next += ` class="${classes}"`;
+        return `<body${next}>`;
+    });
+    html = html.replace("</style>", nexuV206HomeCss() + "</style>");
+    html = html.replace("</body>", nexuV206HomeScript(isGuest, isOwner, authMode) + "</body>");
+    return html;
+};
+
+
 loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();loadMenuAvailabilityState();
 const githubStorageStartupPromise = Promise.all([loadGitHubStorage(), loadGitHubAccounts()]).then(() => { syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler und Accounts geladen; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
 
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
 if (req.method === "GET" && pathname === "/") {
-    if (isDashboardAuthenticated(req)) {
-        const message = requestUrl.searchParams.get("settings") === "updated"
-            ? "Kontoeinstellungen wurden gespeichert."
-            : requestUrl.searchParams.get("account") === "deleted"
-                ? "Konto wurde gelöscht."
+    const session = getDashboardSession(req);
+    const message = requestUrl.searchParams.get("settings") === "updated"
+        ? "Kontoeinstellungen wurden gespeichert."
+        : requestUrl.searchParams.get("account") === "deleted"
+            ? "Konto wurde gelöscht."
+            : requestUrl.searchParams.get("logout") === "1"
+                ? "Du wurdest erfolgreich abgemeldet."
                 : "";
-        const session = getDashboardSession(req);
-        sendHtml(res, 200, homeHtml(message, "", session && session.account));
-    } else {
-        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccounts(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Konto wurde gelöscht." : ""}));
-    }
+    const authMode = requestUrl.searchParams.get("auth") === "register" ? "register"
+        : requestUrl.searchParams.get("auth") === "login" ? "login" : "";
+    sendHtml(res, 200, homeHtml(message, "", session && session.account, { authMode }));
     return;
 }
 
 if (req.method === "GET" && pathname === "/login") {
-    if (isDashboardAuthenticated(req)) {
-        redirect(res, "/");
-    } else {
-        sendHtml(res, 200, loginHtml(requestUrl.searchParams.get("account") === "deleted" ? "" : "", getRememberedDashboardAccounts(req), {notice: requestUrl.searchParams.get("account") === "deleted" ? "Konto wurde gelöscht." : ""}));
-    }
+    redirect(res, isDashboardAuthenticated(req) ? "/" : "/?auth=login");
+    return;
+}
+
+if (req.method === "GET" && pathname === "/register") {
+    redirect(res, isDashboardAuthenticated(req) ? "/" : "/?auth=register");
     return;
 }
 
 if (req.method === "GET" && (pathname === "/menu-server" || pathname === "/uebersicht")) {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
-        redirect(res, "/login");
+        redirect(res, "/?auth=login");
         return;
     }
     if (!canAccessMenuServer(session.account)) {
@@ -8819,7 +9073,7 @@ if (req.method === "GET" && (pathname === "/menu-server" || pathname === "/ueber
 if (req.method === "POST" && pathname === "/menu-server/update/cancel") {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
-        redirect(res, "/login");
+        redirect(res, "/?auth=login");
         return;
     }
     if (!hasDashboardPermission(session.account, "updateScript")) {
@@ -8835,7 +9089,7 @@ if (req.method === "POST" && pathname === "/menu-server/update/cancel") {
 if (req.method === "GET" && pathname === "/accounts") {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
-        redirect(res, "/login");
+        redirect(res, "/?auth=login");
         return;
     }
     if (!canManageDashboardAccounts(session.account)) {
@@ -8854,7 +9108,7 @@ if (req.method === "GET" && pathname === "/accounts") {
 if (req.method === "POST" && pathname === "/accounts/update") {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
-        redirect(res, "/login");
+        redirect(res, "/?auth=login");
         return;
     }
     if (!canManageDashboardAccounts(session.account)) {
@@ -8941,7 +9195,7 @@ if (req.method === "POST" && pathname === "/accounts/update") {
 if (req.method === "POST" && pathname === "/accounts/delete") {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
-        redirect(res, "/login");
+        redirect(res, "/?auth=login");
         return;
     }
     if (!canManageDashboardAccounts(session.account)) {
@@ -8978,59 +9232,30 @@ if (req.method === "POST" && pathname === "/accounts/delete") {
 if (req.method === "POST" && pathname === "/login") {
     try {
         if (!allowLoginAttempt(req)) {
-            sendHtml(
-                res,
-                429,
-                loginHtml("Zu viele Anmeldeversuche. Bitte später erneut versuchen.", getRememberedDashboardAccounts(req))
-            );
+            sendHtml(res, 429, homeHtml("", "Zu viele Anmeldeversuche. Bitte später erneut versuchen.", null, { authMode: "login" }));
             return;
         }
-
         const form = await readFormBody(req);
         const username = cleanDashboardUsername(form.username || form.email);
         const password = String(form.password || "");
         const account = getDashboardAccountByUsername(username);
         const validLogin = Boolean(account && validDashboardAccountPassword(account, password));
-
         if (!validLogin) {
-            console.warn("[NEXU] Fehlgeschlagene Dashboard-Anmeldung von", getClientIp(req));
-            sendHtml(
-                res,
-                401,
-                loginHtml("Benutzername oder Passwort ist falsch.", getRememberedDashboardAccounts(req))
-            );
+            console.warn("[NEXU] Fehlgeschlagene Anmeldung von", getClientIp(req));
+            sendHtml(res, 401, homeHtml("", "Benutzername oder Passwort ist falsch.", null, { authMode: "login" }));
             return;
         }
-
         clearLoginAttempts(req);
         const token = createDashboardSession(account);
         const rememberToken = createRememberedDashboardDevice(account);
-        console.log("[NEXU] Owner-Dashboard erfolgreich angemeldet");
-        redirect(res, "/", {
-            "Set-Cookie": [
-                dashboardCookie(
-                    req,
-                    token,
-                    DASHBOARD_SESSION_TTL_MS / 1000
-                ),
-                dashboardRememberCookie(
-                    req,
-                    rememberCookieValueWithNewToken(req, rememberToken),
-                    DASHBOARD_REMEMBER_TTL_MS / 1000
-                ),
-            ],
-        });
+        console.log("[NEXU] Konto erfolgreich angemeldet");
+        redirect(res, "/", {"Set-Cookie": [
+            dashboardCookie(req, token, DASHBOARD_SESSION_TTL_MS / 1000),
+            dashboardRememberCookie(req, rememberCookieValueWithNewToken(req, rememberToken), DASHBOARD_REMEMBER_TTL_MS / 1000),
+        ]});
     } catch (error) {
-        sendHtml(
-            res,
-            error.message === "BODY_TOO_LARGE" ? 413 : 400,
-            loginHtml(
-                error.message === "BODY_TOO_LARGE"
-                    ? "Anmeldedaten sind zu groß."
-                    : "Anmeldung konnte nicht verarbeitet werden.",
-                getRememberedDashboardAccounts(req)
-            )
-        );
+        const message = error.message === "BODY_TOO_LARGE" ? "Anmeldedaten sind zu groß." : "Anmeldung konnte nicht verarbeitet werden.";
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, homeHtml("", message, null, { authMode: "login" }));
     }
     return;
 }
@@ -9056,7 +9281,7 @@ if (req.method === "POST" && pathname === "/quick-login") {
     if (!rememberedAccount || !rememberedLoginAccount) {
         const nextRememberValue = rememberCookieValueWithoutToken(req, requestedRememberToken);
         if (requestedRememberToken) removeRememberedDashboardDevice(req, requestedRememberToken);
-        redirect(res, "/login", {
+        redirect(res, "/?auth=login", {
             "Set-Cookie": dashboardRememberCookie(req, nextRememberValue, nextRememberValue ? DASHBOARD_REMEMBER_TTL_MS / 1000 : 0),
         });
         return;
@@ -9083,7 +9308,7 @@ if (req.method === "POST" && pathname === "/forget-account") {
         removeRememberedDashboardDevice(req, requestedRememberToken);
     }
     removeDashboardSession(req);
-    redirect(res, "/login", {
+    redirect(res, "/?auth=login", {
         "Set-Cookie": [
             dashboardCookie(req, "", 0),
             dashboardRememberCookie(req, nextRememberValue, nextRememberValue ? DASHBOARD_REMEMBER_TTL_MS / 1000 : 0),
@@ -9094,11 +9319,11 @@ if (req.method === "POST" && pathname === "/forget-account") {
 
 if (req.method === "POST" && pathname === "/logout") {
     removeDashboardSession(req);
-    redirect(res, "/", {
-        // Der Remember-Cookie bleibt absichtlich bestehen, damit der Account
-        // nach dem Abmelden als Schnell-Login-Karte angezeigt wird.
-        "Set-Cookie": dashboardCookie(req, "", 0),
-    });
+    removeRememberedDashboardDevice(req);
+    redirect(res, "/?logout=1", {"Set-Cookie": [
+        dashboardCookie(req, "", 0),
+        dashboardRememberCookie(req, "", 0),
+    ]});
     return;
 }
 
@@ -9106,7 +9331,7 @@ if (req.method === "POST" && pathname === "/logout") {
 if (req.method === "POST" && pathname === "/account/settings") {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
-        redirect(res, "/login");
+        redirect(res, "/?auth=login");
         return;
     }
     try {
@@ -9178,7 +9403,7 @@ if (req.method === "POST" && pathname === "/account/settings") {
 if (req.method === "POST" && pathname === "/account/delete") {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
-        redirect(res, "/login");
+        redirect(res, "/?auth=login");
         return;
     }
     try {
@@ -9201,7 +9426,7 @@ if (req.method === "POST" && pathname === "/account/delete") {
             if (entry && entry.email === deletedEmail) rememberedDashboardDevices.delete(tokenHash);
         }
         saveRememberedDashboardDevices();
-        redirect(res, "/login?account=deleted", {
+        redirect(res, "/?account=deleted", {
             "Set-Cookie": [dashboardCookie(req, "", 0), dashboardRememberCookie(req, "", 0)],
         });
     } catch (error) {
@@ -9213,55 +9438,35 @@ if (req.method === "POST" && pathname === "/account/delete") {
 if (req.method === "POST" && pathname === "/register/request") {
     try {
         if (!allowLoginAttempt(req)) {
-            sendHtml(res, 429, loginHtml("Zu viele Registrierungsversuche. Bitte später erneut versuchen.", getRememberedDashboardAccounts(req)));
+            sendHtml(res, 429, homeHtml("", "Zu viele Registrierungsversuche. Bitte später erneut versuchen.", null, { authMode: "register" }));
             return;
         }
         const form = await readFormBody(req);
         const username = cleanDashboardUsername(form.username);
         const password = String(form.password || "");
         const confirmPassword = String(form.confirmPassword || "");
-        if (!username) {
-            sendHtml(res, 400, loginHtml("Benutzername ungültig. Erlaubt sind 3-80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", getRememberedDashboardAccounts(req)));
-            return;
-        }
-        if (dashboardUsernameExists(username)) {
-            sendHtml(res, 409, loginHtml("Dieser Benutzername ist bereits vergeben.", getRememberedDashboardAccounts(req)));
-            return;
-        }
-        if (password.length < 8) {
-            sendHtml(res, 400, loginHtml("Das Passwort muss mindestens 8 Zeichen haben.", getRememberedDashboardAccounts(req)));
-            return;
-        }
-        if (password !== confirmPassword) {
-            sendHtml(res, 400, loginHtml("Passwörter stimmen nicht überein.", getRememberedDashboardAccounts(req)));
-            return;
-        }
-        const account = putDashboardAccount({
-            username,
-            email: internalDashboardEmailForUsername(username),
-            passwordHash: sha256Hex(password),
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-        });
-        if (!account || !saveDashboardAccount()) {
-            sendHtml(res, 500, loginHtml("Account konnte nicht gespeichert werden.", getRememberedDashboardAccounts(req)));
-            return;
-        }
+        if (!username) {sendHtml(res, 400, homeHtml("", "Benutzername ungültig. Erlaubt sind 3–80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", null, { authMode: "register" }));return;}
+        if (dashboardUsernameExists(username)) {sendHtml(res, 409, homeHtml("", "Dieser Benutzername ist bereits vergeben.", null, { authMode: "register" }));return;}
+        if (password.length < 8) {sendHtml(res, 400, homeHtml("", "Das Passwort muss mindestens 8 Zeichen haben.", null, { authMode: "register" }));return;}
+        if (password !== confirmPassword) {sendHtml(res, 400, homeHtml("", "Passwörter stimmen nicht überein.", null, { authMode: "register" }));return;}
+        const account = putDashboardAccount({username,email: internalDashboardEmailForUsername(username),passwordHash: sha256Hex(password),createdAt: new Date().toISOString(),updatedAt: new Date().toISOString()});
+        if (!account || !saveDashboardAccount()) {sendHtml(res, 500, homeHtml("", "Konto konnte nicht gespeichert werden.", null, { authMode: "register" }));return;}
         clearLoginAttempts(req);
         const token = createDashboardSession(account);
         const rememberToken = createRememberedDashboardDevice(account);
-        redirect(res, "/", {"Set-Cookie": [dashboardCookie(req, token, DASHBOARD_SESSION_TTL_MS / 1000), dashboardRememberCookie(req, rememberCookieValueWithNewToken(req, rememberToken), DASHBOARD_REMEMBER_TTL_MS / 1000)]});
+        redirect(res, "/", {"Set-Cookie": [
+            dashboardCookie(req, token, DASHBOARD_SESSION_TTL_MS / 1000),
+            dashboardRememberCookie(req, rememberCookieValueWithNewToken(req, rememberToken), DASHBOARD_REMEMBER_TTL_MS / 1000),
+        ]});
     } catch (error) {
-        const message = error.message === "BODY_TOO_LARGE"
-            ? "Registrierungsdaten sind zu groß."
-            : "Registrierung konnte nicht verarbeitet werden.";
-        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, loginHtml(message, getRememberedDashboardAccounts(req)));
+        const message = error.message === "BODY_TOO_LARGE" ? "Registrierungsdaten sind zu groß." : "Registrierung konnte nicht verarbeitet werden.";
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, homeHtml("", message, null, { authMode: "register" }));
     }
     return;
 }
 
 if (req.method === "POST" && pathname === "/register/verify") {
-    redirect(res, "/login");
+    redirect(res, "/?auth=login");
     return;
 }
 
