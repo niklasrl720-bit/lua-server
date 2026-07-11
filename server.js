@@ -4,8 +4,9 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 // V152: Stabile Online-Anzeige mit Heartbeat-Toleranz und ohne falschen Nullstand bei einzelnen Dashboard-Fehlern.
 // V153: Autoritative Lease-Presence, revisionsbasierte Aktualisierung und keine nutzlosen Player-Speichercommits.
 // V154: Live-Presence vollständig vom persistenten Speicher getrennt; GitHub-Schreibschutz und Inhalts-Deduplizierung.
+// V162: Persistenter globaler Menüstatus ONLINE/OFFLINE mit sofortiger Sperre aller Lua-Clients.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
 
 const GITHUB_DATA_TOKEN = String(process.env.GITHUB_DATA_TOKEN || "").trim();
 const GITHUB_DATA_OWNER = String(process.env.GITHUB_DATA_OWNER || "").trim();
@@ -30,7 +31,7 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
     ].join("|"), "utf8")
     .digest("hex");
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 let latestGlobalShutdownCommand = null;
 let presenceRevision = 1;
 let presenceSnapshotSignature = "";
@@ -129,6 +130,28 @@ function buildPersistentMenuUpdateState(raw = menuUpdateState) {
     };
 }
 
+function normalizeMenuAvailabilityState(raw) {
+    const source = raw && typeof raw === "object" ? raw : {};
+    const online = source.online !== false;
+    const changedAtMs = cleanInteger(source.changedAtMs);
+    return {
+        online,
+        changedAtMs,
+        changedAt: cleanText(source.changedAt, 64) || (changedAtMs ? new Date(changedAtMs).toISOString() : ""),
+        changedBy: cleanText(source.changedBy, 80),
+    };
+}
+
+function buildPersistentMenuAvailabilityState(raw = menuAvailabilityState) {
+    const normalized = normalizeMenuAvailabilityState(raw || {});
+    return {
+        online: normalized.online === true,
+        changedAtMs: cleanInteger(normalized.changedAtMs),
+        changedAt: cleanText(normalized.changedAt, 64),
+        changedBy: cleanText(normalized.changedBy, 80),
+    };
+}
+
 function normalizeGitHubStorageCore(payload) {
     const source = payload && typeof payload === "object" ? payload : {};
     const players = [];
@@ -146,10 +169,11 @@ function normalizeGitHubStorageCore(payload) {
     normalizedBans.sort((a, b) => String(a.userId).localeCompare(String(b.userId)));
 
     return {
-        version: 2,
+        version: 3,
         players,
         bans: normalizedBans,
         updateState: buildPersistentMenuUpdateState(source.updateState || source.update || {}),
+        menuStatus: buildPersistentMenuAvailabilityState(source.menuStatus || source.menuAvailability || {}),
     };
 }
 
@@ -158,6 +182,7 @@ function buildGitHubStorageCore() {
         players: [...knownPlayers.values()],
         bans: [...bans.values()],
         updateState: menuUpdateState,
+        menuStatus: menuAvailabilityState,
     });
 }
 
@@ -198,6 +223,10 @@ function applyGitHubStorageSnapshot(payload) {
 
     if (payload && typeof (payload.updateState || payload.update) === "object") {
         menuUpdateState = normalizeMenuUpdateState(payload.updateState || payload.update || {});
+    }
+
+    if (payload && typeof (payload.menuStatus || payload.menuAvailability) === "object") {
+        menuAvailabilityState = normalizeMenuAvailabilityState(payload.menuStatus || payload.menuAvailability || {});
     }
 
     return core;
@@ -252,6 +281,7 @@ async function loadGitHubStorage() {
         saveKnownPlayers(false);
         saveBans(false);
         saveMenuUpdateState(false);
+        saveMenuAvailabilityState(false);
 
         const currentCore = buildGitHubStorageCore();
         const currentFingerprint = storageFingerprint(currentCore);
@@ -259,7 +289,7 @@ async function loadGitHubStorage() {
 
         console.log(
             `[NEXU] GitHub-Speicher geladen: ${knownPlayers.size} Spieler, ` +
-            `${bans.size} Bans, Update ${menuUpdateState.active ? "AKTIV" : "INAKTIV"}`
+            `${bans.size} Bans, Update ${menuUpdateState.active ? "AKTIV" : "INAKTIV"}, Menü ${menuAvailabilityState.online ? "ONLINE" : "OFFLINE"}`
         );
 
         if (!remote.exists) {
@@ -694,6 +724,102 @@ function cancelMenuUpdate() {
     return { wasActive, persisted, status: getMenuUpdateStatus() };
 }
 
+function saveMenuAvailabilityState(syncGitHub = true) {
+    try {
+        fs.mkdirSync(path.dirname(MENU_STATUS_FILE_PATH), { recursive: true });
+        const normalized = buildPersistentMenuAvailabilityState(menuAvailabilityState);
+        const tempPath = `${MENU_STATUS_FILE_PATH}.tmp`;
+        fs.writeFileSync(tempPath, JSON.stringify({ menuStatus: normalized }, null, 2), "utf8");
+        fs.renameSync(tempPath, MENU_STATUS_FILE_PATH);
+        if (syncGitHub) scheduleGitHubStorageSave("menu-status", 1_000);
+        return true;
+    } catch (error) {
+        console.warn("[NEXU] Menüstatus konnte nicht gespeichert werden:", error.message);
+        return false;
+    }
+}
+
+function loadMenuAvailabilityState() {
+    try {
+        if (!fs.existsSync(MENU_STATUS_FILE_PATH)) {
+            menuAvailabilityState = normalizeMenuAvailabilityState({ online: true });
+            saveMenuAvailabilityState(false);
+            return;
+        }
+        const parsed = JSON.parse(fs.readFileSync(MENU_STATUS_FILE_PATH, "utf8"));
+        menuAvailabilityState = normalizeMenuAvailabilityState(parsed && (parsed.menuStatus || parsed));
+        console.log(`[NEXU] Menüstatus: ${menuAvailabilityState.online ? "ONLINE" : "OFFLINE"}`);
+    } catch (error) {
+        console.warn("[NEXU] Menüstatus konnte nicht geladen werden:", error.message);
+        menuAvailabilityState = normalizeMenuAvailabilityState({ online: true });
+    }
+}
+
+function getMenuAvailabilityStatus() {
+    const normalized = normalizeMenuAvailabilityState(menuAvailabilityState);
+    return {
+        online: normalized.online === true,
+        changedAtMs: normalized.changedAtMs || 0,
+        changedAt: normalized.changedAt || "",
+        changedBy: normalized.changedBy || "",
+    };
+}
+
+function getMenuOfflineShutdownStatus() {
+    const status = getMenuAvailabilityStatus();
+    if (status.online) return { active: false };
+    return {
+        active: true,
+        id: `menu-offline-${status.changedAtMs || 0}`,
+        mode: "menu_offline",
+        global: true,
+        issuedAtMs: status.changedAtMs || Date.now(),
+        issuedAt: status.changedAt || new Date().toISOString(),
+        issuedBy: status.changedBy || "dashboard",
+        reason: "menu_offline",
+    };
+}
+
+function setMenuAvailability(online, changedBy) {
+    const nextOnline = online === true;
+    const current = getMenuAvailabilityStatus();
+    if (current.online === nextOnline) {
+        return {
+            changed: false,
+            persisted: true,
+            menuStatus: current,
+            targetedPlayers: 0,
+            targetedSessions: 0,
+        };
+    }
+
+    const now = Date.now();
+    menuAvailabilityState = {
+        online: nextOnline,
+        changedAtMs: now,
+        changedAt: new Date(now).toISOString(),
+        changedBy: cleanText(changedBy, 80) || "dashboard",
+    };
+
+    let shutdownResult = { targetedPlayers: 0, targetedSessions: 0 };
+    if (!nextOnline) {
+        shutdownResult = queueGlobalScriptShutdown(menuAvailabilityState.changedBy);
+        if (presence.size > 0) {
+            presence.clear();
+            syncPresenceRevision(now);
+        }
+    }
+
+    const persisted = saveMenuAvailabilityState();
+    return {
+        changed: true,
+        persisted,
+        menuStatus: getMenuAvailabilityStatus(),
+        targetedPlayers: Number(shutdownResult.targetedPlayers) || 0,
+        targetedSessions: Number(shutdownResult.targetedSessions) || 0,
+    };
+}
+
 function formatMenuUpdateDuration(totalSeconds) {
     const safe = Math.max(0, Math.floor(Number(totalSeconds) || 0));
     const hours = Math.floor(safe / 3600);
@@ -969,6 +1095,7 @@ const DASHBOARD_PERMISSION_DEFINITIONS = [
     { key: "banPlayers", formName: "dashboardBan", title: "Bannen/Entbannen", description: "Darf Spieler bannen, entbannen und die Sperrliste sehen." },
     { key: "updateScript", formName: "dashboardUpdateScript", title: "Script-Update", description: "Darf den zeitgesteuerten Wartungsmodus starten und vorzeitig beenden." },
     { key: "shutdownScript", formName: "dashboardShutdownScript", title: "Scripts deaktivieren", description: "Darf alle aktuell verbundenen Lua-Sitzungen einmalig deaktivieren." },
+    { key: "menuStatus", formName: "dashboardMenuStatus", title: "Menüstatus umschalten", description: "Darf das Lua-Menü global ONLINE oder OFFLINE schalten." },
 ];
 
 function isOwnerDashboardIdentity(username = "", email = "", explicitOwner = false) {
@@ -1001,6 +1128,7 @@ function normalizeDashboardAccess(raw, username = "", email = "") {
         banPlayers: isOwner || (dashboardAccess && (enabled(merged.banPlayers) || enabled(merged.dashboardBan) || enabled(merged.bans))),
         updateScript: isOwner || (dashboardAccess && (enabled(merged.updateScript) || enabled(merged.dashboardUpdateScript) || enabled(merged.maintenance))),
         shutdownScript: isOwner || (dashboardAccess && (enabled(merged.shutdownScript) || enabled(merged.dashboardShutdownScript) || enabled(merged.shutdownAll))),
+        menuStatus: isOwner || (dashboardAccess && (enabled(merged.menuStatus) || enabled(merged.dashboardMenuStatus) || enabled(merged.toggleMenuStatus))),
         accountManager: isOwner,
     };
 }
@@ -2492,6 +2620,8 @@ const permissionSnapshot = getDashboardPermissionSnapshot(account || {});
 const permissionJson = JSON.stringify(permissionSnapshot);
 const initialMenuUpdate = getMenuUpdateStatus();
 const initialMenuUpdateJson = JSON.stringify(initialMenuUpdate).replace(/</g, "\\u003c");
+const initialMenuStatus = getMenuAvailabilityStatus();
+const initialMenuStatusJson = JSON.stringify(initialMenuStatus).replace(/</g, "\\u003c");
 const initialUpdateHiddenClass = initialMenuUpdate.active ? "" : " hidden";
 const initialUpdateCountdown = formatMenuUpdateDuration(initialMenuUpdate.remainingSeconds);
 const initialUpdateEnd = initialMenuUpdate.endsAtMs ? new Date(initialMenuUpdate.endsAtMs).toLocaleString("de-DE") : "-";
@@ -2506,6 +2636,8 @@ const broadcastButtonHtml = permissionSnapshot.dm === true ? '<button id="broadc
 const updateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="openUpdateButton" class="logout-button update-button" type="button">UPDATE SCRIPT</button>' : "";
 const shutdownButtonAllowed = permissionSnapshot.shutdownScript === true || isOwnerDashboardAccount(account);
 const shutdownButtonHtml = shutdownButtonAllowed ? '<button id="shutdownAllButton" class="logout-button shutdown-button" type="button">ALLE SCRIPTS AUS</button>' : "";
+const menuStatusButtonAllowed = permissionSnapshot.menuStatus === true || isOwnerDashboardAccount(account);
+const menuStatusButtonHtml = menuStatusButtonAllowed ? '<button id="menuStatusToggleButton" class="menu-status-toggle" type="button"></button>' : "";
 const cancelUpdateButtonHtml = permissionSnapshot.updateScript === true
     ? '<form id="cancelUpdateForm" class="update-cancel-form" method="post" action="/menu-server/update/cancel"><button id="cancelUpdateButton" class="action-button update-cancel" type="submit">UPDATE ABBRECHEN</button></form>'
     : "";
@@ -2754,6 +2886,19 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .update-button { border-color:rgba(255,190,70,.42) !important; color:#ffe5a8 !important; background:rgba(55,35,4,.56) !important; }
 .shutdown-button { border-color:rgba(255,77,120,.46) !important; color:#ffc0d0 !important; background:rgba(58,7,23,.62) !important; }
 .shutdown-button:hover { border-color:rgba(255,77,120,.78) !important; box-shadow:0 0 24px rgba(255,77,120,.16); }
+.menu-status-panel { margin-top:22px; padding:20px 22px; border:1px solid rgba(45,255,165,.34); border-radius:22px; background:linear-gradient(135deg,rgba(45,255,165,.08),rgba(0,200,255,.04)),var(--panel); transition:border-color .18s ease,background .18s ease; }
+.menu-status-panel.offline { border-color:rgba(255,77,120,.48); background:linear-gradient(135deg,rgba(255,77,120,.11),rgba(111,70,255,.045)),var(--panel); }
+.menu-status-row { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+.menu-status-copy { min-width:0; }
+.menu-status-copy h2 { margin:5px 0 5px; font-size:22px; }
+.menu-status-copy p { margin:0; color:#9ab0bf; line-height:1.55; }
+.menu-status-actions { display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end; }
+.menu-status-badge { min-width:112px; min-height:42px; display:inline-flex; align-items:center; justify-content:center; gap:9px; padding:0 15px; border:1px solid rgba(45,255,165,.4); border-radius:999px; color:#91ffd2; background:rgba(5,38,26,.6); font-size:12px; font-weight:900; letter-spacing:.12em; }
+.menu-status-badge.offline { border-color:rgba(255,77,120,.5); color:#ffafc0; background:rgba(45,7,18,.68); }
+.menu-status-badge-dot { width:9px; height:9px; border-radius:50%; background:currentColor; box-shadow:0 0 14px currentColor; }
+.menu-status-toggle { min-height:42px; padding:0 16px; border:1px solid rgba(255,77,120,.48); border-radius:13px; color:#ffafc0; background:rgba(45,7,18,.68); font:inherit; font-size:11px; font-weight:900; letter-spacing:.08em; cursor:pointer; }
+.menu-status-toggle.enable { border-color:rgba(45,255,165,.46); color:#91ffd2; background:rgba(5,38,26,.62); }
+.menu-status-toggle:disabled { opacity:.55; cursor:wait; }
 .update-status { margin-top:22px; padding:20px 22px; border:1px solid rgba(255,190,70,.35); border-radius:22px; background:linear-gradient(135deg,rgba(255,190,70,.09),rgba(0,200,255,.05)),var(--panel); }
 .update-status.hidden { display:none; }
 .update-status-row { display:flex; align-items:center; justify-content:space-between; gap:18px; }
@@ -2829,7 +2974,8 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
     .directory { padding:18px; }
     .directory-head { align-items:stretch; flex-direction:column; }
     .search { width:100%; }
-    .update-status-row { align-items:flex-start; flex-direction:column; }
+    .menu-status-row,.update-status-row { align-items:flex-start; flex-direction:column; }
+    .menu-status-actions { justify-content:flex-start; }
     .update-duration-grid { grid-template-columns:1fr; }
 }
 </style>
@@ -2862,6 +3008,13 @@ ${dashboardNoticeHtml}
         <article class="stat"><div class="stat-label">Gespeicherte Spieler</div><div id="playerCount" class="stat-value">0</div><div class="stat-note">Alle Spieler, die Nexu einmal gestartet haben</div></article>
         <article class="stat"><div class="stat-label">Spieler Online / Offline</div><div class="stat-split"><div class="stat-mini"><div class="stat-mini-label">Online</div><div id="onlinePlayerCount" class="stat-mini-value online">0</div></div><div class="stat-mini"><div class="stat-mini-label">Offline</div><div id="offlinePlayerCount" class="stat-mini-value offline">0</div></div></div><div class="stat-note">Wird automatisch verschoben</div></article>
         <article class="stat"><div class="stat-label">Gesperrte Spieler</div><div id="bannedCount" class="stat-value">0</div><div class="stat-note">Bleiben bis zum Entbannen gespeichert</div></article>
+    </div>
+</section>
+
+<section id="menuStatusPanel" class="menu-status-panel${initialMenuStatus.online ? "" : " offline"}" aria-live="polite">
+    <div class="menu-status-row">
+        <div class="menu-status-copy"><div class="eyebrow">NEXU // MENU STATUS</div><h2 id="menuStatusTitle">Lua-Menü ist ${initialMenuStatus.online ? "online" : "offline"}</h2><p id="menuStatusText">${initialMenuStatus.online ? "Jeder kann das Lua-Script normal starten und verwenden." : "Alle Lua-Starts sind blockiert. Bereits laufende Scripts werden vollständig beendet."}</p></div>
+        <div class="menu-status-actions"><div id="menuStatusBadge" class="menu-status-badge${initialMenuStatus.online ? "" : " offline"}"><span class="menu-status-badge-dot"></span><span id="menuStatusBadgeText">${initialMenuStatus.online ? "ONLINE" : "OFFLINE"}</span></div>${menuStatusButtonHtml}</div>
     </div>
 </section>
 
@@ -2962,6 +3115,7 @@ const state = {
     bannedQuery:"",
     activeDirectory:"online",
     menuUpdate:${initialMenuUpdateJson},
+    menuStatus:${initialMenuStatusJson},
     updateSyncedAt:Date.now(),
     pendingBan:null,
     pendingDm:null,
@@ -3063,6 +3217,12 @@ const elements = {
     broadcastModalNotice:document.getElementById("broadcastModalNotice"),
     openUpdateButton:document.getElementById("openUpdateButton"),
     shutdownAllButton:document.getElementById("shutdownAllButton"),
+    menuStatusPanel:document.getElementById("menuStatusPanel"),
+    menuStatusTitle:document.getElementById("menuStatusTitle"),
+    menuStatusText:document.getElementById("menuStatusText"),
+    menuStatusBadge:document.getElementById("menuStatusBadge"),
+    menuStatusBadgeText:document.getElementById("menuStatusBadgeText"),
+    menuStatusToggleButton:document.getElementById("menuStatusToggleButton"),
     updateStatusPanel:document.getElementById("updateStatusPanel"),
     updateStatusText:document.getElementById("updateStatusText"),
     updateCountdown:document.getElementById("updateCountdown"),
@@ -3120,6 +3280,37 @@ function formatUpdateDuration(totalSeconds) {
     const seconds = safe % 60;
     const pad = function (value) { return String(value).padStart(2,"0"); };
     return hours > 0 ? (pad(hours) + ":" + pad(minutes) + ":" + pad(seconds)) : (pad(minutes) + ":" + pad(seconds));
+}
+
+function renderMenuStatus() {
+    const online = !state.menuStatus || state.menuStatus.online !== false;
+    elements.menuStatusPanel.classList.toggle("offline", !online);
+    elements.menuStatusTitle.textContent = online ? "Lua-Menü ist online" : "Lua-Menü ist offline";
+    elements.menuStatusText.textContent = online
+        ? "Jeder kann das Lua-Script normal starten und verwenden."
+        : "Alle Lua-Starts sind blockiert. Bereits laufende Scripts werden vollständig beendet.";
+    elements.menuStatusBadge.classList.toggle("offline", !online);
+    elements.menuStatusBadgeText.textContent = online ? "ONLINE" : "OFFLINE";
+    if (elements.menuStatusToggleButton) {
+        elements.menuStatusToggleButton.classList.toggle("enable", !online);
+        elements.menuStatusToggleButton.textContent = online ? "MENÜ OFFLINE SCHALTEN" : "MENÜ ONLINE SCHALTEN";
+        elements.menuStatusToggleButton.title = online
+            ? "Blockiert alle neuen Lua-Starts und beendet aktive Scripts"
+            : "Erlaubt neue Lua-Starts wieder";
+    }
+}
+
+async function updateMenuStatus(online) {
+    const response = await fetch("/api/admin/menu/status", {
+        method:"POST",
+        headers:{Accept:"application/json","Content-Type":"application/json"},
+        body:JSON.stringify({online:online === true}),
+    });
+    const data = await response.json().catch(function () { return {}; });
+    if (!response.ok || data.success !== true) throw new Error(data.error || ("HTTP " + response.status));
+    state.menuStatus = data.menuStatus || {online:online === true};
+    renderMenuStatus();
+    return data;
 }
 
 function getDisplayedUpdateSeconds() {
@@ -3186,7 +3377,8 @@ function closeUpdateModal() {
 function renderPlayer(player,banned) {
     const online = !banned && player.online === true;
     const reconnecting = online && player.reconnecting === true;
-    const actionableOnline = online && !reconnecting;
+    const menuOperational = !state.menuStatus || state.menuStatus.online !== false;
+    const actionableOnline = online && !reconnecting && menuOperational;
     const name = player.displayName || player.username || player.userId;
     const username = player.username || ("User" + player.userId);
     const gameName = player.gameName || (player.placeId ? ("Place " + player.placeId) : "Unbekannt");
@@ -3301,6 +3493,7 @@ function render() {
     elements.offlineTabCount.textContent = String(totalOfflineCount);
     elements.bannedTabCount.textContent = String(state.bannedPlayers.length);
     setDirectoryTab(state.activeDirectory);
+    renderMenuStatus();
     renderUpdateStatus();
 
     elements.players.innerHTML = onlinePlayers.length
@@ -3363,7 +3556,16 @@ async function refresh() {
             state.snapshotToken = String(data.snapshotToken || state.snapshotToken || "");
             state.serverInstanceId = String(data.serverInstanceId || state.serverInstanceId || "");
             state.activePlayers = Number(data.activePlayers) || state.activePlayers;
-            shouldRender = wasStale;
+            let menuStatusChanged = false;
+            if (data.menuStatus && typeof data.menuStatus === "object") {
+                const previousMenuOnline = !state.menuStatus || state.menuStatus.online !== false;
+                const nextMenuOnline = data.menuStatus.online !== false;
+                const previousMenuChangedAt = Number(state.menuStatus && state.menuStatus.changedAtMs) || 0;
+                const nextMenuChangedAt = Number(data.menuStatus.changedAtMs) || 0;
+                menuStatusChanged = previousMenuOnline !== nextMenuOnline || previousMenuChangedAt !== nextMenuChangedAt;
+                state.menuStatus = data.menuStatus;
+            }
+            shouldRender = wasStale || menuStatusChanged;
         } else {
             const incomingPlayers = Array.isArray(data.players) ? data.players : [];
             const authoritativeActiveIds = new Set(
@@ -3418,6 +3620,7 @@ async function refresh() {
 
             state.bannedPlayers = Array.isArray(data.bannedPlayers) ? data.bannedPlayers : [];
             state.menuUpdate = data.menuUpdate && typeof data.menuUpdate === "object" ? data.menuUpdate : {active:false,remainingSeconds:0};
+            state.menuStatus = data.menuStatus && typeof data.menuStatus === "object" ? data.menuStatus : (state.menuStatus || {online:true});
             state.updateSyncedAt = Date.now();
             state.snapshotToken = String(data.snapshotToken || "");
             state.serverInstanceId = incomingServerInstanceId;
@@ -3672,6 +3875,26 @@ elements.directoryTabs.forEach(function (button) {
 
 if (elements.broadcastDmButton) elements.broadcastDmButton.addEventListener("click", openBroadcastModal);
 if (elements.openUpdateButton) elements.openUpdateButton.addEventListener("click", openUpdateModal);
+if (elements.menuStatusToggleButton) elements.menuStatusToggleButton.addEventListener("click", async function () {
+    const currentlyOnline = !state.menuStatus || state.menuStatus.online !== false;
+    if (currentlyOnline && !window.confirm("Das Lua-Menü global OFFLINE schalten? Alle aktuell laufenden Scripts werden beendet und neue Starts vollständig blockiert.")) return;
+    const originalText = elements.menuStatusToggleButton.textContent;
+    elements.menuStatusToggleButton.disabled = true;
+    elements.menuStatusToggleButton.textContent = currentlyOnline ? "SCHALTE OFFLINE …" : "SCHALTE ONLINE …";
+    try {
+        const result = await updateMenuStatus(!currentlyOnline);
+        if (currentlyOnline) {
+            alert("Menü ist jetzt OFFLINE. " + (result.targetedPlayers || 0) + " Spieler / " + (result.targetedSessions || 0) + " Sitzung(en) wurden beendet.");
+        }
+        await refresh();
+    } catch (error) {
+        alert(error.message || "Menüstatus konnte nicht geändert werden.");
+    } finally {
+        elements.menuStatusToggleButton.disabled = false;
+        if (elements.menuStatusToggleButton.textContent.includes("…")) elements.menuStatusToggleButton.textContent = originalText;
+        renderMenuStatus();
+    }
+});
 if (elements.shutdownAllButton) elements.shutdownAllButton.addEventListener("click", async function () {
     if (!window.confirm("Alle aktuell verbundenen Nexu-Scripts jetzt deaktivieren? Die Spieler können das Script danach sofort wieder neu starten.")) return;
     const originalText = elements.shutdownAllButton.textContent;
@@ -3952,7 +4175,7 @@ setInterval(renderUpdateStatus,250);
 </html>`;
 }
 
-loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();
+loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();loadMenuAvailabilityState();
 const githubStorageStartupPromise = loadGitHubStorage().then(() => { syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler geladen; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
 
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
@@ -4464,6 +4687,7 @@ if (
         activeSessions: presence.size,
         bannedPlayers: bans.size,
         menuUpdate: getMenuUpdateStatus(),
+        menuStatus: getMenuAvailabilityStatus(),
         pendingShutdownSessions: shutdownCommandsBySession.size,
         serverStartedAtMs: SERVER_STARTED_AT_MS,
         presenceWarmup: Date.now() - SERVER_STARTED_AT_MS < PRESENCE_RESTART_GRACE_MS,
@@ -4492,10 +4716,16 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
     const ban = bans.get(userId);
     const role = getNexuRoleInfo(userId);
     const menuUpdate = getMenuUpdateStatus();
-    const shutdown = getShutdownCommandForClient(userId, sessionId, sessionStartedAtMs);
+    const menuStatus = getMenuAvailabilityStatus();
+    const shutdown = menuStatus.online
+        ? getShutdownCommandForClient(userId, sessionId, sessionStartedAtMs)
+        : getMenuOfflineShutdownStatus();
     sendJson(res, 200, {
         success: true,
-        allowed: !ban && !menuUpdate.active && shutdown.active !== true,
+        allowed: menuStatus.online && !ban && !menuUpdate.active && shutdown.active !== true,
+        menuOnline: menuStatus.online,
+        menuOffline: menuStatus.online !== true,
+        menuStatus,
         banned: Boolean(ban),
         updating: menuUpdate.active,
         maintenance: menuUpdate,
@@ -4507,7 +4737,7 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
             bring: canUseNexuBringRole(userId),
             menuCreator: role.key === "creator",
         },
-        reason: ban ? ban.reason : "",
+        reason: ban ? ban.reason : (menuStatus.online ? "" : "Das Nexu-Menü ist derzeit offline."),
         bannedAt: ban ? ban.bannedAt : "",
         timestamp: new Date().toISOString(),
     });
@@ -4515,6 +4745,27 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
 }
 
 
+
+if (req.method === "POST" && pathname === "/api/admin/menu/status") {
+    const session = getDashboardSession(req);
+    if (!session || !(session.isOwner === true || hasDashboardPermission(session.account, "menuStatus"))) {
+        sendJson(res, 403, {success:false,error:dashboardPermissionError("menuStatus")});
+        return;
+    }
+    try {
+        const body = await readJsonBody(req);
+        if (typeof body.online !== "boolean") {
+            sendJson(res, 400, {success:false,error:"online muss true oder false sein"});
+            return;
+        }
+        const result = setMenuAvailability(body.online, session.username);
+        console.log(`[NEXU] Menüstatus ${result.menuStatus.online ? "ONLINE" : "OFFLINE"} durch ${session.username}`);
+        sendJson(res, 200, {success:true,...result});
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {success:false,error:"Menüstatus konnte nicht geändert werden"});
+    }
+    return;
+}
 
 if (req.method === "POST" && pathname === "/api/admin/shutdown/all") {
     const session = getDashboardSession(req);
@@ -4916,6 +5167,7 @@ if (req.method === "GET" && pathname === "/api/presence") {
             online: true,
             unchanged: true,
             activePlayers: countActivePresenceUsers(),
+            menuStatus: getMenuAvailabilityStatus(),
             revision: presenceRevision,
             snapshotToken: currentToken,
             serverInstanceId: SERVER_INSTANCE_ID,
@@ -4945,6 +5197,7 @@ if (req.method === "GET" && pathname === "/api/presence") {
         players: data.players,
         bannedPlayers: data.bannedPlayers,
         menuUpdate: getMenuUpdateStatus(),
+        menuStatus: getMenuAvailabilityStatus(),
         pendingShutdownSessions: shutdownCommandsBySession.size,
         serverStartedAtMs: SERVER_STARTED_AT_MS,
         presenceWarmup: Date.now() - SERVER_STARTED_AT_MS < PRESENCE_RESTART_GRACE_MS,
@@ -4979,13 +5232,16 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
         // Der Abschaltbefehl wird VOR dem erneuten Eintragen in presence geprüft.
         // So bleibt die Website nach „ALLE SCRIPTS AUS“ sofort offline und ein
         // alter Client kann sich nicht für einen einzelnen Heartbeat zurückmelden.
-        const pendingShutdown = selfUserId
-            ? getShutdownCommandForClient(
-                selfUserId,
-                selfSessionId,
-                selfSessionStartedAtMs
-            )
-            : { active: false };
+        const menuStatus = getMenuAvailabilityStatus();
+        const pendingShutdown = menuStatus.online
+            ? (selfUserId
+                ? getShutdownCommandForClient(
+                    selfUserId,
+                    selfSessionId,
+                    selfSessionStartedAtMs
+                )
+                : { active: false })
+            : getMenuOfflineShutdownStatus();
         if (pendingShutdown.active === true) {
             sendJson(res, 200, {
                 success: true,
@@ -4993,6 +5249,9 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 activeSessions: presence.size,
                 receivedPlayers: 0,
                 blockedUserIds: [],
+                menuOnline: menuStatus.online,
+                menuOffline: menuStatus.online !== true,
+                menuStatus,
                 shutdown: pendingShutdown,
                 timestamp: new Date().toISOString(),
             });
@@ -5126,13 +5385,16 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 `Session ${selfSessionId || "ohne-id"}, ` +
                 `${activePlayerCount} Spieler / ${presence.size} Sessions aktiv`
         );
-        const shutdown = selfUserId
-            ? getShutdownCommandForClient(
-                selfUserId,
-                selfSessionId,
-                selfSessionStartedAtMs
-            )
-            : { active: false };
+        const finalMenuStatus = getMenuAvailabilityStatus();
+        const shutdown = finalMenuStatus.online
+            ? (selfUserId
+                ? getShutdownCommandForClient(
+                    selfUserId,
+                    selfSessionId,
+                    selfSessionStartedAtMs
+                )
+                : { active: false })
+            : getMenuOfflineShutdownStatus();
         sendJson(res, 200, {
             success: true,
             activePlayers: activePlayerCount,
@@ -5145,6 +5407,9 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                 bring: canUseNexuBringRole(selfUserId),
                 menuCreator: selfRole && selfRole.key === "creator",
             } : {},
+            menuOnline: finalMenuStatus.online,
+            menuOffline: finalMenuStatus.online !== true,
+            menuStatus: finalMenuStatus,
             shutdown,
             timestamp: new Date().toISOString(),
         });
@@ -5626,7 +5891,7 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V156 GESTARTET");
+        console.log("NEXU PRESENCE & MODERATION V162 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
@@ -5643,8 +5908,9 @@ async function startNexuServer() {
         console.log("Website Join: /api/join/send + /api/join/poll");
         console.log("Access: /api/menu/access?userId=...");
         console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
+        console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
         console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
         console.log("========================================");
     });
 }
