@@ -1,3 +1,4 @@
+// V202: Kompakte Spielerkarten, kleinere Aktionsschaltflächen, lesbare Serverinformationen und zuverlässige Rang-Auswahl.
 // V201: Vollständig deutsche Oberfläche, "Dashboard" wird zu "Übersicht", neue linke Serverzentrale mit Live-Metriken, Navigation und Laufzeitprüfung.
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
 // V200: NEXU AURORA-ERLEBNIS — professionelles, responsives Designsystem für Login, Startseite, Accounts und Menu-Server.
@@ -4254,21 +4255,21 @@ function renderPlayer(player,banned) {
             '<div class="presence-line"><span class="presence-key">ZULETZT</span><span class="presence-value">' + escapeHtml(lastSeenText) + '</span></div>' +
         '</div>';
     const joinButton = joinable && state.permissions.serverJoin === true
-        ? '<button class="action-button join" data-action="join" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">SERVER JOIN</button>'
+        ? '<button class="action-button join" data-action="join" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">SERVER</button>'
         : "";
     const bringButton = bringable && state.permissions.bring === true
-        ? '<button class="action-button bring" data-action="bring" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">HERBEIHOLEN</button>'
+        ? '<button class="action-button bring" data-action="bring" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">HOLEN</button>'
         : "";
     const dmButton = actionableOnline && state.permissions.dm === true
-        ? '<button class="action-button dm" data-action="dm" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">DM</button>'
+        ? '<button class="action-button dm" data-action="dm" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">NACHRICHT</button>'
         : "";
     const actionButtons = banned
-        ? (state.permissions.banPlayers === true ? '<button class="action-button unban" data-action="unban" data-user-id="' + escapeHtml(player.userId) + '">ENTBANNEN</button>' : '')
+        ? (state.permissions.banPlayers === true ? '<button class="action-button unban" data-action="unban" data-user-id="' + escapeHtml(player.userId) + '">ENTSPERREN</button>' : '')
         : '<div class="button-row">' +
             joinButton +
             bringButton +
             dmButton +
-            (state.permissions.banPlayers === true ? '<button class="action-button ban" data-action="ban" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BANNEN</button>' : '') +
+            (state.permissions.banPlayers === true ? '<button class="action-button ban" data-action="ban" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">SPERREN</button>' : '') +
         '</div>';
 
     return '<article class="player ' + (banned ? 'banned' : (online ? 'online' : 'offline')) + (roleMenuOpen ? ' role-menu-open' : '') + '">' +
@@ -4984,7 +4985,7 @@ document.addEventListener("click",async function (event) {
     } catch (error) {
         showToast(error.message || "Entsperren fehlgeschlagen.", "error");
         button.disabled = false;
-        button.textContent = "ENTBANNEN";
+        button.textContent = "ENTSPERREN";
     }
 });
 
@@ -5958,6 +5959,302 @@ function nexuV201OverviewCss() {
     .nx-overview-nav{grid-template-columns:1fr;}
     .nx-live-grid{grid-template-columns:1fr 1fr;}
 }
+
+/* NEXU V202 // SPIELERKARTEN UND RANG-AUSWAHL */
+.page-dashboard .directory{
+    overflow:visible;
+}
+.page-dashboard .directory::before{
+    border-radius:inherit;
+}
+.page-dashboard .directory-panel,
+.page-dashboard .players{
+    overflow:visible;
+}
+.page-dashboard .players{
+    align-items:start;
+}
+.page-dashboard .player{
+    position:relative;
+    display:grid;
+    grid-template-columns:58px minmax(0,1fr);
+    grid-template-areas:
+        "avatar identity"
+        "actions actions";
+    align-items:start;
+    gap:12px 13px;
+    min-width:0;
+    padding:14px;
+    overflow:visible;
+}
+.page-dashboard .player .avatar{
+    grid-area:avatar;
+    width:58px;
+    height:58px;
+    flex:none;
+    border-radius:16px;
+}
+.page-dashboard .player .identity{
+    grid-area:identity;
+    width:100%;
+    min-width:0;
+}
+.page-dashboard .player .display-name{
+    max-width:100%;
+    font-size:15px;
+    line-height:1.25;
+}
+.page-dashboard .player .username{
+    max-width:100%;
+    font-size:11px;
+    line-height:1.35;
+}
+.page-dashboard .player-actions{
+    grid-area:actions;
+    width:100%;
+    min-width:0;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding-top:10px;
+    border-top:1px solid rgba(108,223,255,.08);
+}
+.page-dashboard .player-state{
+    flex:0 0 auto;
+    min-width:max-content;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:.12em;
+}
+.page-dashboard .player .button-row{
+    min-width:0;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:6px;
+    flex-wrap:wrap;
+}
+.page-dashboard .player .action-button{
+    min-height:30px !important;
+    height:30px;
+    min-width:0;
+    padding:0 9px !important;
+    border-radius:10px !important;
+    font-size:8px !important;
+    font-weight:900;
+    letter-spacing:.055em !important;
+    line-height:1;
+    white-space:nowrap;
+    box-shadow:0 6px 14px rgba(0,0,0,.16),0 0 0 1px rgba(255,255,255,.015) inset;
+}
+.page-dashboard .player .action-button:hover{
+    transform:translateY(-1px);
+}
+.page-dashboard .player .role-picker{
+    max-width:100%;
+    margin-top:7px;
+}
+.page-dashboard .player .role-trigger.role-badge{
+    min-height:28px !important;
+    max-width:100%;
+    padding:0 10px !important;
+    border-radius:10px;
+    font-size:8px !important;
+    letter-spacing:.09em !important;
+}
+.page-dashboard .player .role-trigger.role-badge > span:first-child{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.page-dashboard .player .role-trigger-chevron{
+    flex:0 0 auto;
+    font-size:11px;
+}
+.page-dashboard .player.role-menu-open{
+    z-index:80;
+}
+.page-dashboard .role-dropdown{
+    z-index:120;
+    width:min(272px,calc(100vw - 34px));
+    max-height:min(360px,calc(100vh - 150px));
+    overflow:auto;
+    padding:10px;
+    border-radius:16px;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(25,214,255,.32) transparent;
+}
+.page-dashboard .role-dropdown::-webkit-scrollbar{
+    width:6px;
+}
+.page-dashboard .role-dropdown::-webkit-scrollbar-thumb{
+    border-radius:999px;
+    background:rgba(25,214,255,.3);
+}
+.page-dashboard .role-dropdown-head{
+    padding:2px 3px 9px;
+}
+.page-dashboard .role-dropdown-head strong{
+    font-size:12px;
+}
+.page-dashboard .role-dropdown-head .role-dropdown-badge{
+    max-width:104px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.page-dashboard .role-search{
+    height:36px;
+    border-radius:11px;
+    font-size:10px;
+}
+.page-dashboard .role-option-list{
+    gap:6px;
+}
+.page-dashboard .role-option{
+    min-height:46px;
+    grid-template-columns:24px minmax(0,1fr);
+    gap:8px;
+    padding:7px 8px;
+    border-radius:12px;
+}
+.page-dashboard .role-option-icon{
+    width:23px;
+    height:23px;
+    border-radius:8px;
+    font-size:10px;
+}
+.page-dashboard .role-option-copy strong{
+    font-size:10px;
+}
+.page-dashboard .role-option-copy small{
+    margin-top:2px;
+    font-size:9px;
+    line-height:1.25;
+}
+.page-dashboard .presence-details{
+    width:100%;
+    min-width:0;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+    margin-top:10px;
+    padding:0;
+    border:0;
+    background:transparent;
+}
+.page-dashboard .presence-line{
+    min-width:0;
+    display:block;
+    padding:8px 9px;
+    border:1px solid rgba(108,223,255,.075);
+    border-radius:11px;
+    background:linear-gradient(180deg,rgba(2,8,14,.46),rgba(4,10,18,.28));
+    font-size:9px;
+    line-height:1.3;
+}
+.page-dashboard .presence-line:nth-child(1),
+.page-dashboard .presence-line:nth-child(3),
+.page-dashboard .presence-line:nth-child(4),
+.page-dashboard .presence-line:nth-child(6){
+    grid-column:1/-1;
+}
+.page-dashboard .presence-key{
+    display:block;
+    margin-bottom:4px;
+    color:#628196;
+    font-size:7px;
+    font-weight:900;
+    letter-spacing:.13em;
+}
+.page-dashboard .presence-value{
+    display:-webkit-box;
+    min-width:0;
+    max-width:100%;
+    overflow:hidden;
+    color:#c5dbe8;
+    font-size:9px;
+    line-height:1.35;
+    overflow-wrap:normal;
+    word-break:normal;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+}
+.page-dashboard .presence-value.server-id{
+    display:block;
+    overflow:hidden;
+    color:#7fc5e5;
+    font-size:8px;
+    line-height:1.35;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-break:normal;
+}
+.page-dashboard .reason{
+    max-height:3.1em;
+    overflow:hidden;
+    font-size:10px;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+}
+@media(max-width:1320px){
+    .page-dashboard .players{
+        grid-template-columns:1fr;
+    }
+}
+@media(max-width:760px){
+    .page-dashboard .player{
+        grid-template-columns:50px minmax(0,1fr);
+        gap:10px;
+        padding:12px;
+    }
+    .page-dashboard .player .avatar{
+        width:50px;
+        height:50px;
+        border-radius:14px;
+    }
+    .page-dashboard .player-actions{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+    .page-dashboard .player .button-row{
+        width:100%;
+        justify-content:flex-start;
+    }
+    .page-dashboard .player .action-button{
+        flex:1 1 auto;
+    }
+    .page-dashboard .presence-details{
+        grid-template-columns:1fr;
+    }
+    .page-dashboard .presence-line,
+    .page-dashboard .presence-line:nth-child(n){
+        grid-column:1;
+    }
+}
+@media(max-width:430px){
+    .page-dashboard .player{
+        grid-template-columns:42px minmax(0,1fr);
+    }
+    .page-dashboard .player .avatar{
+        width:42px;
+        height:42px;
+        border-radius:12px;
+    }
+    .page-dashboard .player .action-button{
+        flex:1 1 calc(50% - 4px);
+    }
+}
+@media(prefers-reduced-motion:reduce){
+    .page-dashboard .player .action-button,
+    .page-dashboard .role-option{
+        transition:none;
+    }
+}
+
 @media(prefers-reduced-motion:reduce){
     .nx-server-logo::after{animation:none;}
     .nx-meter-track i{transition:none;}
