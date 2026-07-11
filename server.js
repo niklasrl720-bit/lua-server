@@ -1,3 +1,4 @@
+// V203: Spielerinformationen als ein gemeinsamer, kompakter Informationsblock statt einzelner voneinander getrennter Felder.
 // V202: Kompakte Spielerkarten, kleinere Aktionsschaltflächen, lesbare Serverinformationen und zuverlässige Rang-Auswahl.
 // V201: Vollständig deutsche Oberfläche, "Dashboard" wird zu "Übersicht", neue linke Serverzentrale mit Live-Metriken, Navigation und Laufzeitprüfung.
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
@@ -6248,6 +6249,102 @@ function nexuV201OverviewCss() {
         flex:1 1 calc(50% - 4px);
     }
 }
+
+/* NEXU V203 // GEMEINSAMER SPIELER-INFORMATIONSBLOCK */
+.page-dashboard .presence-details{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:0 !important;
+    width:100%;
+    margin-top:10px;
+    padding:0 !important;
+    overflow:hidden;
+    border:1px solid rgba(108,223,255,.10) !important;
+    border-radius:14px;
+    background:
+        linear-gradient(180deg,rgba(7,15,26,.78),rgba(3,9,16,.70)),
+        rgba(3,9,16,.82) !important;
+    box-shadow:
+        0 10px 28px rgba(0,0,0,.15),
+        0 1px 0 rgba(255,255,255,.025) inset;
+}
+.page-dashboard .presence-line,
+.page-dashboard .presence-line:nth-child(n){
+    grid-column:1 !important;
+    display:grid !important;
+    grid-template-columns:92px minmax(0,1fr);
+    align-items:center;
+    gap:12px;
+    min-width:0;
+    min-height:42px;
+    margin:0 !important;
+    padding:9px 12px !important;
+    border:0 !important;
+    border-bottom:1px solid rgba(108,223,255,.065) !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+}
+.page-dashboard .presence-line:nth-child(even){
+    background:rgba(255,255,255,.008) !important;
+}
+.page-dashboard .presence-line:last-child{
+    border-bottom:0 !important;
+}
+.page-dashboard .presence-key{
+    display:block;
+    margin:0 !important;
+    color:#638297;
+    font-size:7px;
+    font-weight:950;
+    letter-spacing:.13em;
+    line-height:1.2;
+    text-transform:uppercase;
+}
+.page-dashboard .presence-value{
+    display:block !important;
+    min-width:0;
+    max-width:100%;
+    overflow:hidden;
+    color:#c9deea;
+    font-size:9px;
+    line-height:1.4;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+    text-overflow:ellipsis;
+    white-space:normal;
+    -webkit-line-clamp:unset !important;
+}
+.page-dashboard .presence-value.server-id{
+    display:block !important;
+    overflow:hidden;
+    color:#7fcce9;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    font-size:8px;
+    line-height:1.35;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow-wrap:normal;
+    word-break:normal;
+}
+@media(max-width:760px){
+    .page-dashboard .presence-line,
+    .page-dashboard .presence-line:nth-child(n){
+        grid-template-columns:78px minmax(0,1fr);
+        gap:9px;
+        min-height:40px;
+        padding:8px 10px !important;
+    }
+}
+@media(max-width:430px){
+    .page-dashboard .presence-line,
+    .page-dashboard .presence-line:nth-child(n){
+        grid-template-columns:1fr;
+        gap:3px;
+        align-items:start;
+    }
+}
+
 @media(prefers-reduced-motion:reduce){
     .page-dashboard .player .action-button,
     .page-dashboard .role-option{
