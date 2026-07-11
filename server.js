@@ -1,3 +1,4 @@
+// V205: Einheitliches Button- und Bedienelement-System mit festen Höhen, konsistenten Schriftgrößen und sauberem Aktionsraster.
 // V204: Vollständiger professioneller Neuaufbau aller Seiten mit klarer Informationsarchitektur, ruhigerem Design und unveränderten Funktionen.
 // V203: Spielerinformationen als ein gemeinsamer, kompakter Informationsblock statt einzelner voneinander getrennter Felder.
 // V202: Kompakte Spielerkarten, kleinere Aktionsschaltflächen, lesbare Serverinformationen und zuverlässige Rang-Auswahl.
@@ -5478,7 +5479,7 @@ function nexuV200HomeAddon() {
     <div><div class="eyebrow">SYSTEM READY</div><h2>${isOnline ? "Nexu ist bereit für den nächsten Einsatz." : "Nexu befindet sich aktuell im Offline-Modus."}</h2><p>${isOnline ? `Das Kontrollsystem ist erreichbar. ${knownCount} Spielerprofile sind registriert und ${banCount} Nutzer derzeit gesperrt.` : "Neue Lua-Starts werden blockiert, bis der Menüstatus im Menu Server wieder aktiviert wird."}</p></div>
     <div class="nx-status-orb${isOnline ? "" : " offline"}" aria-label="${isOnline ? "Online" : "Offline"}"><span></span></div>
 </section>
-<div class="nx-page-footer"><span><strong>NEXU</strong> · CONTROL NETWORK</span><span>GESICHERTE SITZUNG · V204</span></div>`;
+<div class="nx-page-footer"><span><strong>NEXU</strong> · CONTROL NETWORK</span><span>GESICHERTE SITZUNG · V205</span></div>`;
 }
 
 function nexuV200StartupHtml() {
@@ -5555,11 +5556,11 @@ function enhanceNexuV200Page(html, pageType) {
     } else if (pageType === "dashboard") {
         const strip = '<div class="nx-command-strip"><span>CONTROL PLANE</span><i></i><span>PRESENCE NETWORK</span><i></i><span>ROLE GOVERNANCE</span><i></i><span>RUNTIME COMMANDS</span><span class="nx-live">SECURE SESSION</span></div>';
         html = html.replace("</header>", "</header>" + strip);
-        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · MENU SERVER</span><span>PROFESSIONELLE SERVERÜBERSICHT · V204</span></div></main>');
+        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · MENU SERVER</span><span>PROFESSIONELLE SERVERÜBERSICHT · V205</span></div></main>');
     } else if (pageType === "accounts") {
         const accountOverview = `<section class="nx-account-overview"><article><span>Access Governance</span><strong>Kontrollzentrum für Konten</strong><small>Zentrale Verwaltung für Identitäten, Passwörter und granulare Rechte.</small></article><article><span>Accounts</span><strong>${dashboardAccounts.size}</strong><small>Registrierte Zugänge zur Übersicht</small></article><article><span>Permission Modules</span><strong>${DASHBOARD_PERMISSION_DEFINITIONS.length}</strong><small>Einzeln steuerbare Berechtigungen</small></article><article><span>Owner Protection</span><strong>Active</strong><small>OwnerAccount bleibt unveränderbar geschützt</small></article></section>`;
         html = html.replace('<section class="account-list">', accountOverview + '<section class="account-list">');
-        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · ACCOUNT GOVERNANCE</span><span>OWNER GESCHÜTZT · V204</span></div></main>');
+        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · ACCOUNT GOVERNANCE</span><span>OWNER GESCHÜTZT · V205</span></div></main>');
     }
 
     html = html.replace("</body>", nexuV200ClientScript(pageType) + "</body>");
@@ -5599,7 +5600,7 @@ function buildNexuOverviewRuntimeSnapshot() {
     const cpu = process.cpuUsage();
     return {
         success: true,
-        version: "V204",
+        version: "V205",
         serviceName: cleanText(process.env.RENDER_SERVICE_NAME || "Nexu Server", 100) || "Nexu Server",
         instanceId: SERVER_INSTANCE_ID,
         startedAtMs: SERVER_STARTED_AT_MS,
@@ -6414,7 +6415,7 @@ function nexuV201OverviewSidebarHtml() {
     </section>
 
     <section class="nx-sidebar-section nx-server-details">
-        <div class="nx-sidebar-title"><span>Serverinformationen</span><b>V204</b></div>
+        <div class="nx-sidebar-title"><span>Serverinformationen</span><b>V205</b></div>
         <div class="nx-info-list">
             <div class="nx-info-row"><span>Instanz</span><b id="nxInstanceId" title="${escapeHtml(SERVER_INSTANCE_ID)}">${escapeHtml(SERVER_INSTANCE_ID.slice(0, 13))}…</b></div>
             <div class="nx-info-row"><span>Gestartet</span><b>${escapeHtml(startedAt)}</b></div>
@@ -8135,6 +8136,420 @@ body.nexu-v204 [data-v204-enter].is-visible{
         transition:none !important;
     }
 }
+/* ========================================================================
+   NEXU V205 // EINHEITLICHES BEDIENELEMENT-SYSTEM
+   ======================================================================== */
+
+body.nexu-v204{
+    --v205-control-height:40px;
+    --v205-control-height-compact:32px;
+    --v205-control-radius:10px;
+    --v205-control-font:10px;
+    --v205-control-font-compact:8.5px;
+    --v205-control-padding:0 13px;
+    --v205-control-gap:7px;
+}
+
+/* Gemeinsame Typografie und Ausrichtung */
+body.nexu-v204 button,
+body.nexu-v204 .logout-button,
+body.nexu-v204 .button-link,
+body.nexu-v204 .back{
+    font-family:inherit;
+    font-weight:850;
+    letter-spacing:.055em;
+    line-height:1.15;
+    text-align:center;
+    text-decoration:none;
+    -webkit-font-smoothing:antialiased;
+}
+body.nexu-v204 button:not(.primary-tile):not(.account-button):not(.role-option),
+body.nexu-v204 .logout-button,
+body.nexu-v204 .button-link,
+body.nexu-v204 .back{
+    border-radius:var(--v205-control-radius) !important;
+}
+
+/* Anmeldung: alle Hauptaktionen exakt gleich */
+.page-login.nexu-v204 .auth-panel button,
+.page-login.nexu-v204 .remembered-list button,
+.page-login.nexu-v204 .button-link{
+    width:100%;
+    min-height:var(--v205-control-height) !important;
+    height:var(--v205-control-height);
+    padding:var(--v205-control-padding) !important;
+    border-radius:var(--v205-control-radius) !important;
+    font-size:var(--v205-control-font) !important;
+    letter-spacing:.055em !important;
+    line-height:1 !important;
+    white-space:nowrap;
+}
+.page-login.nexu-v204 .remembered-account{
+    align-items:center;
+    gap:8px;
+}
+.page-login.nexu-v204 .remembered-account form{
+    flex:0 0 auto;
+}
+.page-login.nexu-v204 .remembered-account button{
+    width:auto;
+    min-width:112px;
+}
+
+/* Startseite: Profil- und Menüaktionen vereinheitlichen */
+.page-home.nexu-v204 .account-button{
+    min-height:38px !important;
+    height:38px;
+    padding:0 12px 0 7px !important;
+    border-radius:10px !important;
+    font-size:9px !important;
+}
+.page-home.nexu-v204 .account-avatar{
+    width:27px;
+    height:27px;
+    font-size:10px;
+}
+.page-home.nexu-v204 .menu-item{
+    min-height:38px !important;
+    height:38px;
+    display:flex;
+    align-items:center;
+    padding:0 12px !important;
+    border-radius:9px !important;
+    font-size:9px !important;
+    letter-spacing:.035em !important;
+}
+.page-home.nexu-v204 .primary-tile{
+    font-size:inherit !important;
+}
+
+/* Kontoverwaltung: Speichern, Löschen und Zurück einheitlich */
+.page-accounts.nexu-v204 .back,
+.page-accounts.nexu-v204 .save,
+.page-accounts.nexu-v204 .danger,
+.page-accounts.nexu-v204 .confirm-delete,
+.page-accounts.nexu-v204 .account-confirm-actions button{
+    min-height:var(--v205-control-height) !important;
+    height:var(--v205-control-height);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:var(--v205-control-padding) !important;
+    border-radius:var(--v205-control-radius) !important;
+    font-size:var(--v205-control-font) !important;
+    letter-spacing:.055em !important;
+    line-height:1 !important;
+    white-space:nowrap;
+}
+.page-accounts.nexu-v204 .actions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:var(--v205-control-gap);
+    flex-wrap:wrap;
+}
+.page-accounts.nexu-v204 .actions button{
+    min-width:132px;
+}
+.page-accounts.nexu-v204 .delete-account-form button{
+    min-width:132px;
+}
+
+/* Kopfzeile der Übersicht */
+.page-dashboard.nexu-v204 .header-actions{
+    display:flex;
+    align-items:center;
+    gap:var(--v205-control-gap) !important;
+    flex-wrap:wrap;
+}
+.page-dashboard.nexu-v204 .header-actions > .logout-button,
+.page-dashboard.nexu-v204 .header-actions > a.logout-button,
+.page-dashboard.nexu-v204 .header-actions .logout-form .logout-button{
+    min-height:38px !important;
+    height:38px;
+    min-width:110px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 12px !important;
+    border-radius:10px !important;
+    font-size:9px !important;
+    letter-spacing:.05em !important;
+    line-height:1 !important;
+    white-space:nowrap;
+}
+.page-dashboard.nexu-v204 .header-actions .logout-form{
+    display:flex;
+    margin:0;
+}
+
+/* Steuerzentrale: keine übergroßen Flächen mit winziger Schrift */
+.page-dashboard.nexu-v204 .nx-v204-command-actions{
+    align-content:center;
+    grid-template-columns:repeat(3,minmax(118px,1fr));
+    gap:var(--v205-control-gap);
+}
+.page-dashboard.nexu-v204 .nx-v204-command-actions .logout-button{
+    width:100%;
+    min-width:0;
+    min-height:42px !important;
+    height:42px;
+    padding:0 12px !important;
+    border-radius:10px !important;
+    font-size:9.5px !important;
+    font-weight:900 !important;
+    letter-spacing:.045em !important;
+    line-height:1.15 !important;
+    white-space:normal;
+    overflow-wrap:normal;
+    word-break:normal;
+}
+
+/* Status- und Wartungsschaltflächen */
+.page-dashboard.nexu-v204 .menu-status-toggle,
+.page-dashboard.nexu-v204 .update-cancel{
+    min-height:var(--v205-control-height) !important;
+    height:var(--v205-control-height);
+    min-width:138px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:var(--v205-control-padding) !important;
+    border-radius:var(--v205-control-radius) !important;
+    font-size:var(--v205-control-font) !important;
+    font-weight:900 !important;
+    letter-spacing:.05em !important;
+    line-height:1 !important;
+    white-space:nowrap;
+}
+.page-dashboard.nexu-v204 .menu-status-actions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:var(--v205-control-gap);
+    flex-wrap:wrap;
+}
+
+/* Tabs: gleiche Höhe, gleiche Typografie */
+.page-dashboard.nexu-v204 .directory-tab{
+    min-height:38px !important;
+    height:38px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    padding:0 12px !important;
+    border-radius:9px !important;
+    font-size:9px !important;
+    font-weight:850 !important;
+    letter-spacing:.045em !important;
+    line-height:1 !important;
+    white-space:nowrap;
+}
+.page-dashboard.nexu-v204 .directory-tab b{
+    min-width:20px;
+    height:18px;
+    display:inline-grid;
+    place-items:center;
+    padding:0 5px !important;
+    border-radius:6px;
+    font-size:7px !important;
+    line-height:1 !important;
+}
+
+/* Spieleraktionen als gleichmäßiges Raster */
+.page-dashboard.nexu-v204 .player-actions{
+    display:grid !important;
+    grid-template-columns:auto minmax(0,1fr);
+    align-items:center !important;
+    gap:10px !important;
+}
+.page-dashboard.nexu-v204 .player .button-row{
+    width:100%;
+    min-width:0;
+    display:grid !important;
+    grid-template-columns:repeat(auto-fit,minmax(82px,1fr));
+    align-items:center;
+    gap:6px !important;
+}
+.page-dashboard.nexu-v204 .player .action-button{
+    width:100%;
+    min-width:0;
+    min-height:var(--v205-control-height-compact) !important;
+    height:var(--v205-control-height-compact) !important;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 9px !important;
+    border-radius:9px !important;
+    font-size:var(--v205-control-font-compact) !important;
+    font-weight:900 !important;
+    letter-spacing:.045em !important;
+    line-height:1 !important;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.page-dashboard.nexu-v204 .player .action-button:hover{
+    transform:translateY(-1px);
+}
+.page-dashboard.nexu-v204 .player-state{
+    min-width:64px;
+    font-size:8px !important;
+    letter-spacing:.10em !important;
+}
+
+/* Rangwahl exakt so groß wie die Spieleraktionen */
+.page-dashboard.nexu-v204 .player .role-picker{
+    width:min(100%,230px);
+}
+.page-dashboard.nexu-v204 .player .role-trigger.role-badge{
+    width:100%;
+    min-height:var(--v205-control-height-compact) !important;
+    height:var(--v205-control-height-compact);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:0 10px !important;
+    border-radius:9px !important;
+    font-size:var(--v205-control-font-compact) !important;
+    font-weight:900 !important;
+    letter-spacing:.055em !important;
+    line-height:1 !important;
+}
+.page-dashboard.nexu-v204 .role-option{
+    min-height:44px !important;
+    padding:7px 9px !important;
+    border-radius:10px !important;
+}
+.page-dashboard.nexu-v204 .role-option-copy strong{
+    font-size:9.5px !important;
+    line-height:1.15;
+}
+.page-dashboard.nexu-v204 .role-option-copy small{
+    font-size:8px !important;
+    line-height:1.35;
+}
+
+/* Dialoge: identische Aktionsgrößen */
+.page-dashboard.nexu-v204 .modal-actions,
+.page-dashboard.nexu-v204 .account-confirm-actions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:var(--v205-control-gap);
+    flex-wrap:wrap;
+}
+.page-dashboard.nexu-v204 .modal-actions button,
+.page-dashboard.nexu-v204 .account-confirm-actions button,
+.page-dashboard.nexu-v204 .action-confirm-submit{
+    min-height:var(--v205-control-height) !important;
+    height:var(--v205-control-height);
+    min-width:124px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:var(--v205-control-padding) !important;
+    border-radius:var(--v205-control-radius) !important;
+    font-size:var(--v205-control-font) !important;
+    font-weight:900 !important;
+    letter-spacing:.05em !important;
+    line-height:1 !important;
+    white-space:nowrap;
+}
+
+/* Eingabefelder folgen derselben vertikalen Skala */
+.page-login.nexu-v204 input,
+.page-home.nexu-v204 input,
+.page-accounts.nexu-v204 input:not([type="checkbox"]),
+.page-dashboard.nexu-v204 input:not([type="checkbox"]),
+.page-dashboard.nexu-v204 textarea,
+.page-dashboard.nexu-v204 select{
+    min-height:var(--v205-control-height) !important;
+    border-radius:var(--v205-control-radius) !important;
+    font-size:10px !important;
+}
+.page-dashboard.nexu-v204 textarea{
+    min-height:92px !important;
+    padding:11px 12px !important;
+    line-height:1.5;
+}
+
+/* Verhindert ungewolltes Aufblasen durch alte width/min-width-Regeln */
+body.nexu-v204 button[hidden],
+body.nexu-v204 .hidden{
+    display:none !important;
+}
+body.nexu-v204 button:disabled{
+    opacity:.48;
+    cursor:not-allowed;
+    transform:none !important;
+}
+
+/* Responsive Kontrollraster */
+@media(max-width:1180px){
+    .page-dashboard.nexu-v204 .nx-v204-command-actions{
+        grid-template-columns:repeat(3,minmax(100px,1fr));
+    }
+}
+@media(max-width:760px){
+    .page-dashboard.nexu-v204 .header-actions > .logout-button,
+    .page-dashboard.nexu-v204 .header-actions > a.logout-button,
+    .page-dashboard.nexu-v204 .header-actions .logout-form .logout-button{
+        min-width:0;
+        flex:1 1 120px;
+    }
+    .page-dashboard.nexu-v204 .nx-v204-command-actions{
+        grid-template-columns:1fr !important;
+    }
+    .page-dashboard.nexu-v204 .nx-v204-command-actions .logout-button{
+        min-height:40px !important;
+        height:40px;
+    }
+    .page-dashboard.nexu-v204 .player-actions{
+        grid-template-columns:1fr !important;
+        align-items:stretch !important;
+    }
+    .page-dashboard.nexu-v204 .player .button-row{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .page-dashboard.nexu-v204 .player-state{
+        min-width:0;
+    }
+    .page-dashboard.nexu-v204 .player .role-picker{
+        width:100%;
+    }
+    .page-dashboard.nexu-v204 .menu-status-toggle,
+    .page-dashboard.nexu-v204 .update-cancel{
+        width:100%;
+        min-width:0;
+    }
+}
+@media(max-width:430px){
+    .page-login.nexu-v204 .remembered-account{
+        align-items:stretch;
+        flex-direction:column;
+    }
+    .page-login.nexu-v204 .remembered-account form,
+    .page-login.nexu-v204 .remembered-account button{
+        width:100%;
+    }
+    .page-accounts.nexu-v204 .actions button,
+    .page-accounts.nexu-v204 .delete-account-form button{
+        width:100%;
+        min-width:0;
+    }
+    .page-dashboard.nexu-v204 .player .button-row{
+        grid-template-columns:1fr 1fr;
+    }
+    .page-dashboard.nexu-v204 .modal-actions button,
+    .page-dashboard.nexu-v204 .account-confirm-actions button{
+        width:100%;
+        min-width:0;
+    }
+}
+
 `;
 }
 
