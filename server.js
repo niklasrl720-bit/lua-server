@@ -1,4 +1,6 @@
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
+// V200: NEXU AURORA EXPERIENCE — professionelles, responsives Designsystem für Login, Startseite, Accounts und Menu-Server.
+// V200: Cinematic Startsequenz, echte Landingpage-Sektionen, konsistente Oberflächen, Micro-Interactions und Reduced-Motion-Fallback.
 // V148: Neustartfeste, signierte Dashboard-Sitzungen und stabiler Owner-Rundsendungszugriff.
 // V150: Website und Lua-Menü verwenden dieselbe autoritative Active-Presence-Liste.
 // V152: Stabile Online-Anzeige mit Heartbeat-Toleranz und ohne falschen Nullstand bei einzelnen Dashboard-Fehlern.
@@ -5126,6 +5128,452 @@ setInterval(renderUpdateStatus,250);
 </body>
 </html>`;
 }
+
+
+
+/* --------------------------------------------------------------------------
+ * NEXU V200 // AURORA EXPERIENCE LAYER
+ *
+ * Die vorhandenen Server-, Login-, Account- und Dashboard-Funktionen bleiben
+ * unverändert. Diese Schicht modernisiert ausschließlich das ausgegebene HTML,
+ * damit sämtliche Routen dieselbe visuelle Sprache und Interaktionsqualität
+ * verwenden, ohne die bestehenden Formulare, IDs oder API-Handler zu brechen.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V200_BASE_LOGIN_HTML = loginHtml;
+const NEXU_V200_BASE_HOME_HTML = homeHtml;
+const NEXU_V200_BASE_ACCOUNTS_HTML = dashboardAccountsHtml;
+const NEXU_V200_BASE_DASHBOARD_HTML = dashboardHtml;
+
+function nexuV200SharedCss() {
+    return String.raw`
+/* NEXU V200 AURORA EXPERIENCE */
+:root{
+    --nx-bg-0:#020409;
+    --nx-bg-1:#050a12;
+    --nx-bg-2:#08111d;
+    --nx-surface:rgba(8,15,27,.82);
+    --nx-surface-strong:rgba(7,13,23,.95);
+    --nx-surface-soft:rgba(255,255,255,.035);
+    --nx-line:rgba(128,216,255,.16);
+    --nx-line-strong:rgba(93,217,255,.34);
+    --nx-text:#eefaff;
+    --nx-muted:#84a0b4;
+    --nx-cyan:#19d6ff;
+    --nx-blue:#3988ff;
+    --nx-violet:#8b63ff;
+    --nx-green:#45ffb0;
+    --nx-red:#ff5b82;
+    --nx-gold:#ffc766;
+    --nx-radius-xl:32px;
+    --nx-radius-lg:24px;
+    --nx-radius-md:16px;
+    --nx-shadow:0 30px 90px rgba(0,0,0,.42);
+    --nx-glow:0 0 60px rgba(25,214,255,.10);
+}
+html{scroll-behavior:smooth;background:var(--nx-bg-0);}
+body.nexu-v200{
+    position:relative;
+    isolation:isolate;
+    overflow-x:hidden;
+    background:
+        radial-gradient(circle at 12% -8%,rgba(25,214,255,.16),transparent 32rem),
+        radial-gradient(circle at 92% 6%,rgba(139,99,255,.15),transparent 34rem),
+        radial-gradient(circle at 50% 112%,rgba(69,255,176,.07),transparent 35rem),
+        linear-gradient(155deg,var(--nx-bg-0),var(--nx-bg-1) 44%,#030710 100%) !important;
+    color:var(--nx-text);
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    letter-spacing:-.006em;
+}
+body.nexu-v200::before{
+    opacity:.32 !important;
+    background-image:
+        linear-gradient(rgba(109,219,255,.055) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(109,219,255,.055) 1px,transparent 1px) !important;
+    background-size:44px 44px !important;
+    mask-image:linear-gradient(to bottom,black 0%,rgba(0,0,0,.75) 42%,transparent 92%) !important;
+}
+body.nexu-v200::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-3;
+    pointer-events:none;
+    background:linear-gradient(110deg,transparent 0 45%,rgba(255,255,255,.015) 50%,transparent 55% 100%);
+    background-size:260% 100%;
+    animation:nxAmbientSweep 18s ease-in-out infinite;
+}
+@keyframes nxAmbientSweep{0%,100%{background-position:120% 0}50%{background-position:-20% 0}}
+::selection{background:rgba(25,214,255,.25);color:white;}
+.nx-ambient{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;}
+.nx-ambient-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.26;will-change:transform;}
+.nx-ambient-orb.a{width:420px;height:420px;left:-180px;top:12%;background:var(--nx-cyan);animation:nxFloatA 16s ease-in-out infinite;}
+.nx-ambient-orb.b{width:460px;height:460px;right:-210px;top:28%;background:var(--nx-violet);animation:nxFloatB 20s ease-in-out infinite;}
+.nx-ambient-orb.c{width:330px;height:330px;left:43%;bottom:-210px;background:var(--nx-green);opacity:.10;animation:nxFloatA 22s ease-in-out infinite reverse;}
+@keyframes nxFloatA{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(42px,-34px,0) scale(1.08)}}
+@keyframes nxFloatB{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-46px,38px,0) scale(.94)}}
+.nx-progress-line{position:fixed;z-index:50000;left:0;top:0;width:100%;height:2px;transform-origin:left;background:linear-gradient(90deg,var(--nx-cyan),var(--nx-blue),var(--nx-violet));box-shadow:0 0 18px rgba(25,214,255,.8);animation:nxProgress 1.1s cubic-bezier(.2,.8,.2,1) both;pointer-events:none;}
+@keyframes nxProgress{0%{transform:scaleX(0);opacity:1}70%{transform:scaleX(.82)}100%{transform:scaleX(1);opacity:0}}
+body.nexu-v200 .shell,body.nexu-v200 .login-shell{position:relative;z-index:2;}
+body.nexu-v200 .scan{opacity:.34;mix-blend-mode:screen;}
+body.nexu-v200 a,body.nexu-v200 button,body.nexu-v200 input,body.nexu-v200 select,body.nexu-v200 textarea{font:inherit;}
+body.nexu-v200 a,body.nexu-v200 button{transition:transform .22s cubic-bezier(.2,.8,.2,1),border-color .22s ease,background .22s ease,box-shadow .22s ease,filter .22s ease;}
+body.nexu-v200 a:hover,body.nexu-v200 button:hover{filter:brightness(1.06);}
+body.nexu-v200 a:active,body.nexu-v200 button:active{transform:translateY(1px) scale(.992);}
+body.nexu-v200 :focus-visible{outline:2px solid rgba(25,214,255,.95) !important;outline-offset:3px;box-shadow:0 0 0 6px rgba(25,214,255,.12) !important;}
+body.nexu-v200 input,body.nexu-v200 textarea,body.nexu-v200 select{
+    border-color:rgba(110,205,255,.20) !important;
+    background:linear-gradient(180deg,rgba(4,10,18,.94),rgba(7,16,27,.90)) !important;
+    box-shadow:0 1px 0 rgba(255,255,255,.025) inset;
+}
+body.nexu-v200 input:hover,body.nexu-v200 textarea:hover,body.nexu-v200 select:hover{border-color:rgba(110,205,255,.34) !important;}
+body.nexu-v200 input:focus,body.nexu-v200 textarea:focus,body.nexu-v200 select:focus{border-color:rgba(25,214,255,.72) !important;box-shadow:0 0 0 4px rgba(25,214,255,.09),0 16px 32px rgba(0,0,0,.18) !important;}
+.nx-glass{
+    border:1px solid var(--nx-line);
+    background:linear-gradient(145deg,rgba(255,255,255,.042),rgba(255,255,255,.012)),var(--nx-surface);
+    box-shadow:var(--nx-shadow),0 1px 0 rgba(255,255,255,.05) inset,var(--nx-glow);
+    backdrop-filter:blur(18px) saturate(130%);
+}
+.nx-command-strip{
+    display:flex;align-items:center;gap:12px;min-height:42px;margin:0 0 18px;padding:0 15px;border:1px solid rgba(113,216,255,.14);border-radius:15px;
+    background:linear-gradient(90deg,rgba(25,214,255,.055),rgba(139,99,255,.035),rgba(69,255,176,.035));
+    color:#7695aa;font-size:10px;font-weight:850;letter-spacing:.16em;text-transform:uppercase;overflow:hidden;
+}
+.nx-command-strip i{width:4px;height:4px;border-radius:50%;background:var(--nx-cyan);box-shadow:0 0 10px var(--nx-cyan);}
+.nx-command-strip .nx-live{margin-left:auto;color:#93ffd0;}
+.nx-command-strip .nx-live::before{content:"";display:inline-block;width:6px;height:6px;margin-right:7px;border-radius:50%;background:var(--nx-green);box-shadow:0 0 12px rgba(69,255,176,.8);}
+.nx-page-footer{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-top:24px;padding:18px 4px;color:#587287;font-size:11px;letter-spacing:.08em;text-transform:uppercase;}
+.nx-page-footer strong{color:#8db0c5;}
+
+/* LOGIN */
+.page-login{display:grid !important;place-items:center !important;padding:28px !important;}
+.page-login .login-shell{width:min(1160px,100%) !important;grid-template-columns:1.08fr .92fr !important;gap:18px !important;animation:nxPageIn .75s cubic-bezier(.18,.8,.2,1) both;}
+.page-login .brand-card,.page-login .auth-card{
+    position:relative;overflow:hidden;border-radius:30px !important;border-color:rgba(103,214,255,.18) !important;
+    background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),rgba(5,11,20,.90) !important;
+    box-shadow:0 34px 100px rgba(0,0,0,.48),0 1px 0 rgba(255,255,255,.05) inset !important;
+}
+.page-login .brand-card{padding:46px !important;min-height:650px;display:flex;flex-direction:column;justify-content:center;}
+.page-login .brand-card::after{content:"N";position:absolute;right:-34px;bottom:-108px;font-size:420px;font-weight:1000;line-height:1;color:rgba(25,214,255,.035);letter-spacing:-.15em;pointer-events:none;}
+.page-login .brand-card .logo{width:88px !important;height:88px !important;border-radius:26px !important;font-size:36px !important;box-shadow:0 22px 70px rgba(25,214,255,.25),0 0 0 1px rgba(255,255,255,.16) inset !important;}
+.page-login .brand-card h1{max-width:520px;font-size:clamp(48px,6vw,78px) !important;line-height:.92 !important;letter-spacing:-.065em !important;background:linear-gradient(135deg,#fff 8%,#a8efff 48%,#c7bcff 90%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.page-login .statline{grid-template-columns:repeat(3,1fr);gap:10px !important;}
+.page-login .stat{min-height:92px;padding:16px !important;border-radius:18px !important;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018)) !important;}
+.page-login .auth-card{padding:18px !important;display:flex;align-items:center;}
+.page-login .auth-grid{width:100%;gap:12px !important;}
+.page-login .auth-panel,.page-login .remembered-list{border-radius:22px !important;padding:22px !important;background:rgba(6,13,23,.74) !important;border-color:rgba(103,214,255,.14) !important;}
+.page-login input{min-height:48px;border-radius:14px !important;}
+.page-login button,.page-login .button-link{min-height:46px;border-radius:14px !important;background:linear-gradient(135deg,var(--nx-cyan),var(--nx-blue) 58%,var(--nx-violet)) !important;box-shadow:0 16px 34px rgba(42,132,255,.21) !important;}
+.page-login button:hover,.page-login .button-link:hover{transform:translateY(-2px);box-shadow:0 22px 44px rgba(42,132,255,.29) !important;}
+
+/* HOME / LANDING */
+.page-home .shell{width:min(1320px,calc(100% - 34px)) !important;padding:18px 0 54px !important;}
+.page-home .header{position:sticky !important;top:14px;z-index:12000;margin-bottom:22px !important;padding:13px 15px !important;border-radius:22px !important;border:1px solid rgba(107,216,255,.16) !important;background:rgba(4,10,18,.74) !important;box-shadow:0 20px 54px rgba(0,0,0,.30),0 1px 0 rgba(255,255,255,.045) inset !important;backdrop-filter:blur(22px) saturate(130%) !important;}
+.page-home .hero{min-height:650px !important;grid-template-columns:minmax(0,1.07fr) minmax(440px,.93fr) !important;gap:18px !important;}
+.page-home .panel{position:relative;overflow:hidden;border-radius:32px !important;border-color:rgba(107,216,255,.17) !important;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),rgba(5,12,21,.86) !important;box-shadow:0 34px 90px rgba(0,0,0,.38),0 1px 0 rgba(255,255,255,.05) inset,0 0 70px rgba(25,214,255,.04) !important;}
+.page-home .welcome{padding:54px !important;justify-content:flex-start !important;}
+.page-home .welcome::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(25,214,255,.08),transparent 40%),radial-gradient(circle at 84% 74%,rgba(139,99,255,.18),transparent 36%);pointer-events:none;}
+.page-home .welcome .eyebrow{margin-top:78px;}
+.page-home h1{position:relative;z-index:2;margin:16px 0 18px !important;font-size:clamp(70px,9vw,126px) !important;line-height:.78 !important;letter-spacing:-.085em !important;background:linear-gradient(135deg,#fff 8%,#a7efff 45%,#c4b7ff 82%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 18px 45px rgba(25,214,255,.08));}
+.page-home .welcome p{position:relative;z-index:2;max-width:570px;font-size:16px;line-height:1.8 !important;color:#91adbf !important;}
+.page-home .action-grid{padding:18px !important;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px !important;align-content:stretch !important;}
+.page-home .primary-tile{min-height:194px !important;padding:22px !important;border-radius:24px !important;border-color:rgba(104,216,255,.18) !important;background:linear-gradient(150deg,rgba(25,214,255,.10),rgba(139,99,255,.045) 60%,rgba(255,255,255,.015)) !important;box-shadow:0 1px 0 rgba(255,255,255,.045) inset !important;}
+.page-home .primary-tile:hover{transform:translateY(-5px) !important;border-color:rgba(25,214,255,.46) !important;box-shadow:0 28px 55px rgba(0,0,0,.28),0 0 42px rgba(25,214,255,.08) inset !important;}
+.page-home .primary-tile strong{font-size:25px !important;letter-spacing:-.035em;}
+.page-home .primary-tile small{line-height:1.55;}
+.page-home .primary-tile.copy-script{grid-column:span 2;min-height:168px !important;background:linear-gradient(135deg,rgba(69,255,176,.10),rgba(25,214,255,.07),rgba(139,99,255,.04)) !important;}
+.page-home .quick-info{grid-column:span 2;gap:12px !important;}
+.page-home .info-card{min-height:118px !important;padding:18px !important;border-radius:20px !important;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)) !important;}
+.nx-hero-orbit{position:absolute;right:36px;bottom:34px;width:258px;aspect-ratio:1;z-index:1;pointer-events:none;filter:drop-shadow(0 0 28px rgba(25,214,255,.13));}
+.nx-hero-orbit .ring{position:absolute;inset:0;border:1px solid rgba(94,221,255,.22);border-radius:50%;animation:nxOrbit 16s linear infinite;}
+.nx-hero-orbit .ring.r2{inset:28px;border-color:rgba(139,99,255,.28);animation-direction:reverse;animation-duration:11s;}
+.nx-hero-orbit .ring.r3{inset:66px;border-color:rgba(69,255,176,.24);animation-duration:8s;}
+.nx-hero-orbit .ring::before{content:"";position:absolute;left:50%;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--nx-cyan);box-shadow:0 0 16px var(--nx-cyan);}
+.nx-hero-orbit .ring.r2::before{background:var(--nx-violet);box-shadow:0 0 16px var(--nx-violet);}
+.nx-hero-orbit .ring.r3::before{background:var(--nx-green);box-shadow:0 0 16px var(--nx-green);}
+.nx-hero-orbit .core{position:absolute;inset:91px;display:grid;place-items:center;border-radius:24px;transform:rotate(45deg);background:linear-gradient(135deg,rgba(25,214,255,.22),rgba(139,99,255,.20));border:1px solid rgba(255,255,255,.14);box-shadow:0 0 36px rgba(25,214,255,.15) inset;}
+.nx-hero-orbit .core b{transform:rotate(-45deg);font-size:38px;letter-spacing:-.1em;}
+@keyframes nxOrbit{to{transform:rotate(360deg)}}
+.nx-home-introline{position:absolute;left:54px;top:40px;display:flex;align-items:center;gap:10px;color:#6e8ba0;font-size:10px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;}
+.nx-home-introline i{width:36px;height:1px;background:linear-gradient(90deg,var(--nx-cyan),transparent);}
+.nx-trust-rail{display:grid;grid-template-columns:1.25fr repeat(3,1fr);gap:12px;margin-top:18px;}
+.nx-trust-card{min-height:134px;padding:20px;border:1px solid rgba(106,216,255,.13);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.012)),rgba(5,12,21,.78);box-shadow:0 20px 50px rgba(0,0,0,.20);}
+.nx-trust-card.lead{display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(135deg,rgba(25,214,255,.09),rgba(139,99,255,.055)),rgba(5,12,21,.86);}
+.nx-trust-label{color:#668297;font-size:10px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;}
+.nx-trust-value{margin-top:10px;color:#f4fcff;font-size:28px;font-weight:950;letter-spacing:-.045em;}
+.nx-trust-note{margin-top:6px;color:#7794a8;font-size:12px;line-height:1.5;}
+.nx-capabilities{margin-top:18px;padding:30px;border:1px solid rgba(106,216,255,.14);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.01)),rgba(5,11,20,.78);box-shadow:0 28px 74px rgba(0,0,0,.26);}
+.nx-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px;}
+.nx-section-head h2{margin:8px 0 0;font-size:clamp(30px,4vw,48px);letter-spacing:-.055em;line-height:1;}
+.nx-section-head p{max-width:520px;color:#7996aa;line-height:1.6;}
+.nx-capability-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+.nx-capability{position:relative;min-height:240px;padding:22px;border:1px solid rgba(112,214,255,.13);border-radius:22px;background:linear-gradient(155deg,rgba(25,214,255,.05),rgba(255,255,255,.014) 55%,rgba(139,99,255,.035));overflow:hidden;}
+.nx-capability::after{content:attr(data-index);position:absolute;right:12px;bottom:-20px;color:rgba(255,255,255,.025);font-size:108px;font-weight:1000;letter-spacing:-.12em;}
+.nx-capability-icon{width:44px;height:44px;display:grid;place-items:center;border:1px solid rgba(111,220,255,.22);border-radius:14px;color:var(--nx-cyan);background:rgba(25,214,255,.06);font-weight:950;}
+.nx-capability h3{margin:42px 0 10px;font-size:20px;letter-spacing:-.03em;}
+.nx-capability p{color:#7592a7;font-size:13px;line-height:1.65;}
+.nx-system-banner{display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;margin-top:18px;padding:28px 30px;border:1px solid rgba(69,255,176,.18);border-radius:28px;background:linear-gradient(120deg,rgba(69,255,176,.075),rgba(25,214,255,.05),rgba(139,99,255,.04)),rgba(5,12,21,.82);box-shadow:0 28px 70px rgba(0,0,0,.24);}
+.nx-system-banner h2{margin:7px 0 7px;font-size:30px;letter-spacing:-.045em;}
+.nx-system-banner p{color:#7b98ab;}
+.nx-status-orb{width:92px;height:92px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(69,255,176,.24);background:radial-gradient(circle,rgba(69,255,176,.16),rgba(69,255,176,.03) 56%,transparent 57%);box-shadow:0 0 50px rgba(69,255,176,.10);}
+.nx-status-orb span{width:14px;height:14px;border-radius:50%;background:var(--nx-green);box-shadow:0 0 0 9px rgba(69,255,176,.08),0 0 26px rgba(69,255,176,.85);}
+.nx-status-orb.offline{border-color:rgba(255,91,130,.30);background:radial-gradient(circle,rgba(255,91,130,.16),rgba(255,91,130,.03) 56%,transparent 57%);}
+.nx-status-orb.offline span{background:var(--nx-red);box-shadow:0 0 0 9px rgba(255,91,130,.08),0 0 26px rgba(255,91,130,.85);}
+
+/* HOME STARTUP CINEMATIC */
+.nx-startup{position:fixed;inset:0;z-index:60000;display:grid;place-items:center;background:#020409;overflow:hidden;transition:opacity .55s ease,visibility .55s ease;}
+.nx-startup::before{content:"";position:absolute;inset:-30%;background:conic-gradient(from 0deg,transparent,rgba(25,214,255,.12),transparent 32%,rgba(139,99,255,.10),transparent 64%,rgba(69,255,176,.06),transparent);animation:nxStartupSpin 8s linear infinite;filter:blur(42px);}
+.nx-startup-grid{position:absolute;inset:0;opacity:.35;background-image:linear-gradient(rgba(25,214,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(25,214,255,.08) 1px,transparent 1px);background-size:54px 54px;perspective:700px;mask-image:radial-gradient(circle at center,black,transparent 74%);}
+.nx-startup-grid::after{content:"";position:absolute;left:0;right:0;top:-2px;height:2px;background:linear-gradient(90deg,transparent,var(--nx-cyan),transparent);box-shadow:0 0 28px var(--nx-cyan);animation:nxStartupScan 1.7s ease-in-out infinite;}
+.nx-startup-content{position:relative;z-index:2;width:min(430px,calc(100% - 44px));text-align:center;}
+.nx-startup-mark{position:relative;width:112px;height:112px;margin:0 auto 28px;display:grid;place-items:center;border-radius:32px;background:linear-gradient(145deg,rgba(25,214,255,.18),rgba(139,99,255,.18));border:1px solid rgba(255,255,255,.14);box-shadow:0 0 0 10px rgba(25,214,255,.025),0 0 70px rgba(25,214,255,.19);animation:nxStartupMark .8s cubic-bezier(.18,.9,.2,1) both;}
+.nx-startup-mark::before,.nx-startup-mark::after{content:"";position:absolute;inset:-18px;border:1px solid rgba(25,214,255,.20);border-radius:42px;animation:nxStartupRing 2.4s linear infinite;}
+.nx-startup-mark::after{inset:-34px;border-color:rgba(139,99,255,.14);animation-direction:reverse;animation-duration:3.2s;}
+.nx-startup-mark b{font-size:48px;letter-spacing:-.13em;}
+.nx-startup-kicker{color:#718ca1;font-size:10px;font-weight:900;letter-spacing:.28em;text-transform:uppercase;}
+.nx-startup-title{margin:10px 0 20px;font-size:34px;font-weight:950;letter-spacing:-.055em;background:linear-gradient(135deg,#fff,#9eeeff 48%,#c0b3ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.nx-startup-track{height:3px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;}
+.nx-startup-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--nx-cyan),var(--nx-blue),var(--nx-violet));box-shadow:0 0 18px rgba(25,214,255,.75);animation:nxStartupLoad 1.95s cubic-bezier(.2,.8,.2,1) forwards;}
+.nx-startup-status{min-height:18px;margin-top:13px;color:#6f8da2;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;}
+.nx-startup.done{opacity:0;visibility:hidden;}
+@keyframes nxStartupSpin{to{transform:rotate(360deg)}}
+@keyframes nxStartupScan{0%{transform:translateY(0);opacity:0}15%,85%{opacity:.9}100%{transform:translateY(100vh);opacity:0}}
+@keyframes nxStartupMark{from{opacity:0;transform:scale(.55) rotate(-12deg);filter:blur(12px)}to{opacity:1;transform:scale(1) rotate(0);filter:blur(0)}}
+@keyframes nxStartupRing{to{transform:rotate(360deg)}}
+@keyframes nxStartupLoad{0%{width:0}22%{width:18%}52%{width:58%}78%{width:82%}100%{width:100%}}
+body.page-home.nx-booting{overflow:hidden;}
+body.page-home.nx-booting > *:not(.nx-startup):not(.nx-ambient):not(.nx-progress-line){opacity:0;}
+body.page-home:not(.nx-booting) > main{animation:nxLandingReveal .9s cubic-bezier(.18,.82,.2,1) both;}
+@keyframes nxLandingReveal{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+
+/* ACCOUNT MANAGEMENT */
+.page-accounts .shell{width:min(1320px,calc(100% - 34px)) !important;padding:18px 0 54px !important;}
+.page-accounts .topbar{position:sticky;top:14px;z-index:1000;border-radius:22px !important;background:rgba(4,10,18,.78) !important;backdrop-filter:blur(22px) saturate(130%) !important;}
+.page-accounts .intro{border:1px solid rgba(104,216,255,.14) !important;background:linear-gradient(135deg,rgba(25,214,255,.055),rgba(139,99,255,.035)),rgba(5,12,21,.78) !important;box-shadow:0 24px 60px rgba(0,0,0,.22);}
+.nx-account-overview{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:12px;margin:18px 0;}
+.nx-account-overview article{min-height:118px;padding:18px;border:1px solid rgba(104,216,255,.13);border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.038),rgba(255,255,255,.012)),rgba(5,12,21,.76);}
+.nx-account-overview article:first-child{background:linear-gradient(135deg,rgba(25,214,255,.08),rgba(139,99,255,.05)),rgba(5,12,21,.80);}
+.nx-account-overview span{color:#68869a;font-size:10px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;}
+.nx-account-overview strong{display:block;margin-top:12px;font-size:25px;letter-spacing:-.04em;}
+.nx-account-overview small{display:block;margin-top:5px;color:#7592a6;line-height:1.45;}
+.page-accounts .account-list{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px !important;}
+.page-accounts .account-card{position:relative;overflow:hidden;border-radius:26px !important;border-color:rgba(104,216,255,.14) !important;background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.012)),rgba(5,12,21,.82) !important;box-shadow:0 24px 64px rgba(0,0,0,.25) !important;}
+.page-accounts .account-card::after{content:"";position:absolute;width:200px;height:200px;right:-110px;top:-110px;border-radius:50%;background:radial-gradient(circle,rgba(25,214,255,.10),transparent 68%);pointer-events:none;}
+.page-accounts .account-card:hover{transform:translateY(-3px);border-color:rgba(25,214,255,.30) !important;box-shadow:0 30px 76px rgba(0,0,0,.32) !important;}
+.page-accounts .access-box{border-radius:18px !important;}
+
+/* MENU SERVER / DASHBOARD */
+.page-dashboard .shell{width:min(1500px,calc(100% - 30px)) !important;padding:16px 0 52px !important;}
+.page-dashboard header{position:sticky !important;top:12px;z-index:12000;padding:14px 16px !important;border:1px solid rgba(104,216,255,.15);border-radius:22px;background:rgba(4,10,18,.78);box-shadow:0 20px 54px rgba(0,0,0,.28),0 1px 0 rgba(255,255,255,.04) inset;backdrop-filter:blur(22px) saturate(130%);}
+.page-dashboard header .logo{width:50px !important;height:50px !important;border-radius:16px !important;}
+.page-dashboard .hero{position:relative;overflow:hidden;padding:38px !important;border:1px solid rgba(104,216,255,.15) !important;border-radius:30px !important;background:linear-gradient(135deg,rgba(25,214,255,.07),rgba(139,99,255,.045) 62%,rgba(69,255,176,.025)),rgba(5,12,21,.82) !important;box-shadow:0 30px 80px rgba(0,0,0,.30),0 1px 0 rgba(255,255,255,.04) inset !important;}
+.page-dashboard .hero::after{content:"";position:absolute;right:-100px;top:-190px;width:520px;height:520px;border-radius:50%;border:1px solid rgba(25,214,255,.08);box-shadow:0 0 0 45px rgba(25,214,255,.018),0 0 0 90px rgba(139,99,255,.015);pointer-events:none;}
+.page-dashboard .hero h1{max-width:820px;font-size:clamp(48px,6vw,84px) !important;line-height:.92 !important;letter-spacing:-.065em !important;background:linear-gradient(135deg,#fff,#a7efff 50%,#c5b8ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.page-dashboard .hero > p{max-width:800px;color:#829fb2 !important;font-size:15px;line-height:1.75 !important;}
+.page-dashboard .stats{grid-template-columns:1.15fr repeat(3,1fr) !important;gap:12px !important;margin-top:28px !important;}
+.page-dashboard .stat{min-height:140px;padding:20px !important;border-radius:21px !important;border-color:rgba(104,216,255,.13) !important;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.014)) !important;}
+.page-dashboard .stat-value{font-size:34px !important;letter-spacing:-.05em;}
+.page-dashboard .menu-status-panel,.page-dashboard .update-status,.page-dashboard .directory{border-radius:26px !important;border-color:rgba(104,216,255,.14) !important;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.01)),rgba(5,12,21,.82) !important;box-shadow:0 26px 70px rgba(0,0,0,.25),0 1px 0 rgba(255,255,255,.035) inset !important;}
+.page-dashboard .menu-status-panel{position:relative;overflow:hidden;}
+.page-dashboard .menu-status-panel::after{content:"";position:absolute;right:-70px;top:-90px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(69,255,176,.10),transparent 68%);pointer-events:none;}
+.page-dashboard .menu-status-panel.offline::after{background:radial-gradient(circle,rgba(255,91,130,.12),transparent 68%);}
+.page-dashboard .directory-tabs{padding:8px !important;gap:7px !important;border-radius:18px !important;background:rgba(2,7,13,.48) !important;}
+.page-dashboard .directory-tab{min-height:46px;border-radius:13px !important;}
+.page-dashboard .directory-tab.active{background:linear-gradient(135deg,rgba(25,214,255,.15),rgba(139,99,255,.10)) !important;border-color:rgba(25,214,255,.30) !important;box-shadow:0 10px 28px rgba(0,0,0,.18),0 0 24px rgba(25,214,255,.06) inset;}
+.page-dashboard .directory-panel{padding:28px !important;}
+.page-dashboard .search{min-width:270px;min-height:45px;border-radius:14px !important;}
+.page-dashboard .players{gap:12px !important;}
+.page-dashboard .player-card,.page-dashboard .player,.page-dashboard .banned-card{border-radius:20px !important;border-color:rgba(104,216,255,.12) !important;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.01)),rgba(5,12,21,.76) !important;box-shadow:0 16px 42px rgba(0,0,0,.16);}
+.page-dashboard .modal-card{border-radius:26px !important;background:linear-gradient(150deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),rgba(5,11,20,.97) !important;box-shadow:0 36px 110px rgba(0,0,0,.56),0 1px 0 rgba(255,255,255,.05) inset !important;}
+.page-dashboard .toast{border-radius:18px !important;background:rgba(6,13,23,.96) !important;backdrop-filter:blur(18px);}
+
+@keyframes nxPageIn{from{opacity:0;transform:translateY(16px);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+.page-accounts .shell,.page-dashboard .shell{animation:nxPageIn .72s cubic-bezier(.18,.8,.2,1) both;}
+
+@media(max-width:1120px){
+    .page-home .hero{grid-template-columns:1fr !important;}
+    .page-home .welcome{min-height:560px;}
+    .page-home .action-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .nx-capability-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .nx-trust-rail,.nx-account-overview{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .page-dashboard .stats{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+}
+@media(max-width:860px){
+    .page-login{align-items:start !important;padding:14px !important;}
+    .page-login .login-shell{grid-template-columns:1fr !important;}
+    .page-login .brand-card{min-height:440px;padding:30px !important;}
+    .page-login .brand-card::after{font-size:280px;}
+    .page-home .header,.page-dashboard header,.page-accounts .topbar{position:relative !important;top:auto;}
+    .page-home .welcome{padding:34px !important;min-height:520px;}
+    .page-home .welcome .eyebrow{margin-top:62px;}
+    .nx-home-introline{left:34px;top:30px;}
+    .nx-hero-orbit{width:210px;right:20px;bottom:22px;opacity:.72;}
+    .page-accounts .account-list{grid-template-columns:1fr !important;}
+    .nx-section-head{align-items:flex-start;flex-direction:column;}
+    .page-dashboard .header-actions{flex-wrap:wrap;}
+}
+@media(max-width:620px){
+    .page-home .shell,.page-accounts .shell,.page-dashboard .shell{width:min(100% - 18px,1500px) !important;}
+    .page-home .header{padding:10px !important;border-radius:18px !important;}
+    .page-home .brand span{display:none;}
+    .page-home .account-name{max-width:104px;}
+    .page-home .action-grid{grid-template-columns:1fr !important;}
+    .page-home .primary-tile.copy-script,.page-home .quick-info{grid-column:auto;}
+    .page-home .quick-info{grid-template-columns:1fr;}
+    .nx-hero-orbit{display:none;}
+    .page-home .welcome{min-height:470px;padding:28px !important;}
+    .page-home h1{font-size:72px !important;}
+    .nx-home-introline{left:28px;}
+    .nx-trust-rail,.nx-account-overview,.nx-capability-grid{grid-template-columns:1fr;}
+    .nx-capabilities{padding:22px;}
+    .nx-system-banner{grid-template-columns:1fr;padding:22px;}
+    .nx-status-orb{width:72px;height:72px;}
+    .page-login .statline{grid-template-columns:1fr;}
+    .page-dashboard .stats{grid-template-columns:1fr !important;}
+    .page-dashboard .hero{padding:25px !important;}
+    .page-dashboard .directory-panel{padding:17px !important;}
+    .page-dashboard .directory-head{align-items:stretch !important;flex-direction:column;}
+    .page-dashboard .search{min-width:0;width:100%;}
+    .nx-command-strip{white-space:nowrap;overflow:auto;scrollbar-width:none;}
+    .nx-command-strip::-webkit-scrollbar{display:none;}
+    .nx-page-footer{align-items:flex-start;flex-direction:column;}
+}
+@media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+    .nx-startup{display:none !important;}
+    body.page-home.nx-booting{overflow:auto;}
+    body.page-home.nx-booting > *{opacity:1 !important;}
+}
+`;
+}
+
+function nexuV200HomeAddon() {
+    const status = getMenuAvailabilityStatus();
+    const isOnline = status.online === true;
+    const knownCount = knownPlayers.size;
+    const accountCount = dashboardAccounts.size;
+    const banCount = bans.size;
+    return String.raw`
+<section class="nx-trust-rail" aria-label="Nexu Systemübersicht">
+    <article class="nx-trust-card lead"><div><div class="nx-trust-label">NEXU CONTROL PLANE</div><div class="nx-trust-value">One interface. Full control.</div></div><div class="nx-trust-note">Presence, Rollen, Sessions und Runtime-Kommandos in einer zentralen, geschützten Oberfläche.</div></article>
+    <article class="nx-trust-card"><div class="nx-trust-label">Menu Network</div><div class="nx-trust-value">${isOnline ? "Online" : "Offline"}</div><div class="nx-trust-note">Globaler Lua-Menüstatus</div></article>
+    <article class="nx-trust-card"><div class="nx-trust-label">Known Players</div><div class="nx-trust-value">${knownCount}</div><div class="nx-trust-note">Persistente Nutzerprofile</div></article>
+    <article class="nx-trust-card"><div class="nx-trust-label">Dashboard Accounts</div><div class="nx-trust-value">${accountCount}</div><div class="nx-trust-note">Berechtigungsbasierte Zugänge</div></article>
+</section>
+<section class="nx-capabilities">
+    <div class="nx-section-head"><div><div class="eyebrow">NEXU // PLATFORM</div><h2>Built like a real control platform.</h2></div><p>Jeder Bereich ist auf schnelle Entscheidungen ausgelegt: klare Zustände, sichere Aktionen und eine visuelle Hierarchie, die auch bei vielen Spielern übersichtlich bleibt.</p></div>
+    <div class="nx-capability-grid">
+        <article class="nx-capability" data-index="01"><div class="nx-capability-icon">PN</div><h3>Presence Network</h3><p>Live-Sitzungen, bekannte Spieler und Plattformdaten werden in einem einzigen autoritativen Snapshot zusammengeführt.</p></article>
+        <article class="nx-capability" data-index="02"><div class="nx-capability-icon">RC</div><h3>Runtime Control</h3><p>Direktnachrichten, Bring, Server Join, Update-Modus und globale Script-Steuerung ohne Umwege.</p></article>
+        <article class="nx-capability" data-index="03"><div class="nx-capability-icon">AG</div><h3>Access Governance</h3><p>Granulare Rechte, geschützter OwnerAccount und getrennte Rollen für jede administrative Funktion.</p></article>
+        <article class="nx-capability" data-index="04"><div class="nx-capability-icon">SD</div><h3>Secure Delivery</h3><p>Signierte Sessions, serverseitige Validierung und persistente Zustände für einen belastbaren Betrieb.</p></article>
+    </div>
+</section>
+<section class="nx-system-banner">
+    <div><div class="eyebrow">SYSTEM READY</div><h2>${isOnline ? "Nexu ist bereit für den nächsten Einsatz." : "Nexu befindet sich aktuell im Offline-Modus."}</h2><p>${isOnline ? `Das Kontrollsystem ist erreichbar. ${knownCount} Spielerprofile sind registriert und ${banCount} Nutzer derzeit gesperrt.` : "Neue Lua-Starts werden blockiert, bis der Menüstatus im Menu Server wieder aktiviert wird."}</p></div>
+    <div class="nx-status-orb${isOnline ? "" : " offline"}" aria-label="${isOnline ? "Online" : "Offline"}"><span></span></div>
+</section>
+<div class="nx-page-footer"><span><strong>NEXU</strong> · CONTROL NETWORK</span><span>SECURE SESSION · V200 AURORA EXPERIENCE</span></div>`;
+}
+
+function nexuV200StartupHtml() {
+    return String.raw`<div id="nxStartup" class="nx-startup" aria-hidden="true"><div class="nx-startup-grid"></div><div class="nx-startup-content"><div class="nx-startup-mark"><b>N</b></div><div class="nx-startup-kicker">NEXU CONTROL NETWORK</div><div class="nx-startup-title">Initializing workspace</div><div class="nx-startup-track"><span></span></div><div id="nxStartupStatus" class="nx-startup-status">SECURE CHANNEL // INITIALIZING</div></div></div>`;
+}
+
+function nexuV200ClientScript(pageType) {
+    return String.raw`<script>
+(function(){
+    "use strict";
+    var pageType = ${JSON.stringify(pageType)};
+    var body = document.body;
+    requestAnimationFrame(function(){ body.classList.add("nx-page-ready"); });
+
+    var spotlightTargets = Array.prototype.slice.call(document.querySelectorAll(".panel,.primary-tile,.stat,.account-card,.auth-panel,.remembered-list,.directory,.menu-status-panel,.update-status,.nx-trust-card,.nx-capability"));
+    spotlightTargets.forEach(function(card){
+        card.addEventListener("pointermove",function(event){
+            var rect = card.getBoundingClientRect();
+            card.style.setProperty("--nx-pointer-x",(event.clientX-rect.left)+"px");
+            card.style.setProperty("--nx-pointer-y",(event.clientY-rect.top)+"px");
+        },{passive:true});
+    });
+
+    if(pageType === "home"){
+        var splash = document.getElementById("nxStartup");
+        var status = document.getElementById("nxStartupStatus");
+        var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if(reduced || !splash){
+            body.classList.remove("nx-booting");
+            if(splash) splash.remove();
+        }else{
+            var steps = [
+                [320,"AUTHENTICATING // DASHBOARD SESSION"],
+                [760,"SYNCING // PRESENCE NETWORK"],
+                [1220,"LOADING // CONTROL MODULES"],
+                [1660,"SYSTEM READY // WELCOME TO NEXU"]
+            ];
+            steps.forEach(function(step){ setTimeout(function(){ if(status) status.textContent=step[1]; },step[0]); });
+            setTimeout(function(){
+                splash.classList.add("done");
+                body.classList.remove("nx-booting");
+                setTimeout(function(){ if(splash && splash.parentNode) splash.parentNode.removeChild(splash); },650);
+            },2050);
+        }
+    }
+})();
+</script>`;
+}
+
+function enhanceNexuV200Page(html, pageType) {
+    if (typeof html !== "string" || html.includes("NEXU V200 AURORA EXPERIENCE")) return html;
+
+    const bodyClasses = `nexu-v200 page-${pageType}${pageType === "home" ? " nx-booting" : ""}`;
+    const ambient = `<div class="nx-ambient" aria-hidden="true"><span class="nx-ambient-orb a"></span><span class="nx-ambient-orb b"></span><span class="nx-ambient-orb c"></span></div><div class="nx-progress-line" aria-hidden="true"></div>`;
+    const startup = pageType === "home" ? nexuV200StartupHtml() : "";
+
+    html = html.replace(/<body([^>]*)>/i, function(match, attributes) {
+        let nextAttributes = attributes || "";
+        if (/\bclass\s*=\s*"[^"]*"/i.test(nextAttributes)) {
+            nextAttributes = nextAttributes.replace(/\bclass\s*=\s*"([^"]*)"/i, function(_, current) {
+                return `class="${current} ${bodyClasses}"`;
+            });
+        } else {
+            nextAttributes += ` class="${bodyClasses}"`;
+        }
+        return `<body${nextAttributes}>${ambient}${startup}`;
+    });
+
+    html = html.replace("</style>", nexuV200SharedCss() + "</style>");
+
+    if (pageType === "home") {
+        html = html.replace('<div class="panel welcome">', '<div class="panel welcome"><div class="nx-home-introline"><span>Authenticated workspace</span><i></i><span>Live control</span></div><div class="nx-hero-orbit" aria-hidden="true"><span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span><span class="core"><b>N</b></span></div>');
+        html = html.replace("</main>", nexuV200HomeAddon() + "</main>");
+    } else if (pageType === "dashboard") {
+        const strip = '<div class="nx-command-strip"><span>CONTROL PLANE</span><i></i><span>PRESENCE NETWORK</span><i></i><span>ROLE GOVERNANCE</span><i></i><span>RUNTIME COMMANDS</span><span class="nx-live">SECURE SESSION</span></div>';
+        html = html.replace("</header>", "</header>" + strip);
+        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · MENU SERVER</span><span>LIVE CONTROL INTERFACE · V200</span></div></main>');
+    } else if (pageType === "accounts") {
+        const accountOverview = `<section class="nx-account-overview"><article><span>Access Governance</span><strong>Account Control Center</strong><small>Zentrale Verwaltung für Identitäten, Passwörter und granulare Rechte.</small></article><article><span>Accounts</span><strong>${dashboardAccounts.size}</strong><small>Registrierte Dashboard-Zugänge</small></article><article><span>Permission Modules</span><strong>${DASHBOARD_PERMISSION_DEFINITIONS.length}</strong><small>Einzeln steuerbare Berechtigungen</small></article><article><span>Owner Protection</span><strong>Active</strong><small>OwnerAccount bleibt unveränderbar geschützt</small></article></section>`;
+        html = html.replace('<section class="account-list">', accountOverview + '<section class="account-list">');
+        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · ACCOUNT GOVERNANCE</span><span>OWNER PROTECTED · V200</span></div></main>');
+    }
+
+    html = html.replace("</body>", nexuV200ClientScript(pageType) + "</body>");
+    return html;
+}
+
+loginHtml = function(...args) {
+    return enhanceNexuV200Page(NEXU_V200_BASE_LOGIN_HTML(...args), "login");
+};
+homeHtml = function(...args) {
+    return enhanceNexuV200Page(NEXU_V200_BASE_HOME_HTML(...args), "home");
+};
+dashboardAccountsHtml = function(...args) {
+    return enhanceNexuV200Page(NEXU_V200_BASE_ACCOUNTS_HTML(...args), "accounts");
+};
+dashboardHtml = function(...args) {
+    return enhanceNexuV200Page(NEXU_V200_BASE_DASHBOARD_HTML(...args), "dashboard");
+};
 
 loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();loadMenuAvailabilityState();
 const githubStorageStartupPromise = Promise.all([loadGitHubStorage(), loadGitHubAccounts()]).then(() => { syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler und Accounts geladen; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
