@@ -5,6 +5,7 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 // V153: Autoritative Lease-Presence, revisionsbasierte Aktualisierung und keine nutzlosen Player-Speichercommits.
 // V154: Live-Presence vollständig vom persistenten Speicher getrennt; GitHub-Schreibschutz und Inhalts-Deduplizierung.
 // V162: Persistenter globaler Menüstatus ONLINE/OFFLINE mit sofortiger Sperre aller Lua-Clients.
+// V163: Eigene Nexu-Bestätigungsdialoge und Toast-Benachrichtigungen statt Browser-Popups.
 
 const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
 
@@ -2501,7 +2502,7 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
         const usernameReadonly = owner ? 'readonly' : '';
         const deleteForm = owner
             ? '<div class="owner-note">OwnerAccount kann nicht gelöscht oder vom Hauptzugriff getrennt werden.</div>'
-            : '<form method="post" action="/accounts/delete" onsubmit="return confirm(\'Diesen Account wirklich löschen?\');"><input type="hidden" name="accountEmail" value="' + escapeHtml(entry.email) + '"><button class="danger" type="submit">Account löschen</button></form>';
+            : '<form class="delete-account-form" method="post" action="/accounts/delete"><input type="hidden" name="accountEmail" value="' + escapeHtml(entry.email) + '"><button class="danger" type="submit">Account löschen</button></form>';
         return '<article class="account-card">'
             + '<div class="account-card-head"><div><strong>' + escapeHtml(entry.username) + '</strong><small>' + escapeHtml(entry.email) + '</small></div>' + ownerBadge + '</div>'
             + '<form method="post" action="/accounts/update" autocomplete="off">'
@@ -2573,6 +2574,15 @@ button { min-height:40px; padding:0 13px; border:1px solid rgba(0,200,255,.4); b
 button.danger { margin-top:10px; border-color:rgba(255,77,120,.4); background:rgba(55,7,20,.62); color:#ffd6df; }
 .owner-note { margin-top:10px; color:#d7bd72; font-size:12px; }
 .empty { padding:22px; border:1px dashed rgba(74,178,230,.28); border-radius:18px; color:var(--muted); }
+.account-confirm-backdrop { position:fixed; z-index:25000; inset:0; display:grid; place-items:center; padding:18px; background:rgba(0,3,8,.74); backdrop-filter:blur(10px); opacity:1; transition:opacity .18s ease; }
+.account-confirm-backdrop.hidden { opacity:0; pointer-events:none; }
+.account-confirm-card { width:min(450px,100%); padding:23px; border:1px solid rgba(255,77,120,.48); border-radius:22px; background:linear-gradient(145deg,rgba(255,77,120,.09),rgba(111,70,255,.045)),rgba(7,13,23,.98); box-shadow:0 30px 100px rgba(0,0,0,.62),0 0 36px rgba(255,77,120,.11); transform:none; transition:transform .18s ease; }
+.account-confirm-backdrop.hidden .account-confirm-card { transform:translateY(10px) scale(.985); }
+.account-confirm-card h2 { margin:8px 0 8px; }
+.account-confirm-card p { color:#9ab0bf; }
+.account-confirm-actions { display:flex; justify-content:flex-end; gap:9px; margin-top:18px; }
+.account-confirm-actions button { min-width:120px; }
+.account-confirm-actions .confirm-delete { border-color:rgba(255,77,120,.52); background:rgba(58,7,23,.72); color:#ffd0da; }
 @media (max-width:820px) { .grid { grid-template-columns:1fr; } .access-box { align-items:flex-start; flex-direction:column; } .topbar { align-items:flex-start; flex-direction:column; } }
 </style>
 </head>
@@ -2590,6 +2600,14 @@ button.danger { margin-top:10px; border-color:rgba(255,77,120,.4); background:rg
         ${cards}
     </section>
 </main>
+<div id="accountDeleteConfirm" class="account-confirm-backdrop hidden" aria-hidden="true">
+    <div class="account-confirm-card" role="dialog" aria-modal="true" aria-labelledby="accountDeleteTitle" aria-describedby="accountDeleteMessage">
+        <div class="eyebrow">NEXU // ACCOUNT SICHERHEIT</div>
+        <h2 id="accountDeleteTitle">Account wirklich löschen?</h2>
+        <p id="accountDeleteMessage">Der Dashboard-Account und seine Berechtigungen werden dauerhaft entfernt. Diese Aktion lässt sich nicht rückgängig machen.</p>
+        <div class="account-confirm-actions"><button id="accountDeleteCancel" type="button">ABBRECHEN</button><button id="accountDeleteSubmit" class="confirm-delete" type="button">ACCOUNT LÖSCHEN</button></div>
+    </div>
+</div>
 <script>
 (function(){
     function syncPermissionGroup(grid) {
@@ -2609,6 +2627,42 @@ button.danger { margin-top:10px; border-color:rgba(255,77,120,.4); background:rg
         sync();
     }
     Array.prototype.slice.call(document.querySelectorAll('[data-dashboard-permissions="1"]')).forEach(syncPermissionGroup);
+
+    var deleteModal = document.getElementById('accountDeleteConfirm');
+    var deleteCancel = document.getElementById('accountDeleteCancel');
+    var deleteSubmit = document.getElementById('accountDeleteSubmit');
+    var pendingDeleteForm = null;
+    function closeDeleteConfirm() {
+        if (deleteModal) {
+            deleteModal.classList.add('hidden');
+            deleteModal.setAttribute('aria-hidden','true');
+        }
+        pendingDeleteForm = null;
+    }
+    Array.prototype.slice.call(document.querySelectorAll('.delete-account-form')).forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            pendingDeleteForm = form;
+            if (deleteModal) {
+                deleteModal.classList.remove('hidden');
+                deleteModal.setAttribute('aria-hidden','false');
+                if (deleteSubmit) deleteSubmit.focus();
+            }
+        });
+    });
+    if (deleteCancel) deleteCancel.addEventListener('click', closeDeleteConfirm);
+    if (deleteModal) deleteModal.addEventListener('click', function(event) { if (event.target === deleteModal) closeDeleteConfirm(); });
+    if (deleteSubmit) deleteSubmit.addEventListener('click', function() {
+        var form = pendingDeleteForm;
+        closeDeleteConfirm();
+        if (form) HTMLFormElement.prototype.submit.call(form);
+    });
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && deleteModal && !deleteModal.classList.contains('hidden')) {
+            event.preventDefault();
+            closeDeleteConfirm();
+        }
+    });
 })();
 </script>
 </body>
@@ -2965,6 +3019,50 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .modal-actions { display:flex; justify-content:flex-end; gap:9px; margin-top:13px; }
 .modal-actions .action-button { min-height:42px; padding:0 14px; font-size:12px; }
 .modal-notice { min-height:18px; margin-top:10px; color:#ff9bb1; font-size:12px; }
+/* V163: Eigene Nexu-Aktionsdialoge und Statusmeldungen. */
+.action-confirm-card {
+    width:min(470px,100%);
+    border-color:rgba(0,200,255,.42);
+    background:linear-gradient(145deg,rgba(0,200,255,.075),rgba(111,70,255,.05)),rgba(7,13,23,.98);
+    box-shadow:0 30px 100px rgba(0,0,0,.62),0 0 38px rgba(0,200,255,.11);
+}
+.action-confirm-card.danger { border-color:rgba(255,77,120,.5); background:linear-gradient(145deg,rgba(255,77,120,.09),rgba(111,70,255,.045)),rgba(7,13,23,.98); box-shadow:0 30px 100px rgba(0,0,0,.62),0 0 38px rgba(255,77,120,.12); }
+.action-confirm-card.warning { border-color:rgba(255,190,70,.5); background:linear-gradient(145deg,rgba(255,190,70,.09),rgba(111,70,255,.04)),rgba(7,13,23,.98); box-shadow:0 30px 100px rgba(0,0,0,.62),0 0 38px rgba(255,190,70,.11); }
+.action-confirm-card.success { border-color:rgba(45,255,165,.45); background:linear-gradient(145deg,rgba(45,255,165,.075),rgba(0,200,255,.04)),rgba(7,13,23,.98); box-shadow:0 30px 100px rgba(0,0,0,.62),0 0 38px rgba(45,255,165,.1); }
+.action-confirm-heading { display:flex; align-items:center; gap:13px; margin-top:8px; }
+.action-confirm-heading h3 { margin:0; }
+.action-confirm-icon { width:42px; height:42px; flex:0 0 42px; display:grid; place-items:center; border:1px solid rgba(0,200,255,.42); border-radius:14px; color:#bcefff; background:rgba(0,200,255,.1); font-size:20px; font-weight:950; box-shadow:0 0 22px rgba(0,200,255,.09) inset; }
+.action-confirm-card.danger .action-confirm-icon { border-color:rgba(255,77,120,.52); color:#ffc0d0; background:rgba(255,77,120,.11); }
+.action-confirm-card.warning .action-confirm-icon { border-color:rgba(255,190,70,.52); color:#ffe5a8; background:rgba(255,190,70,.1); }
+.action-confirm-card.success .action-confirm-icon { border-color:rgba(45,255,165,.48); color:#aaffdc; background:rgba(45,255,165,.09); }
+.action-confirm-message { margin:15px 0 0; color:#9ab0bf; line-height:1.62; white-space:pre-line; }
+.action-confirm-submit { min-width:145px; }
+.action-confirm-card.danger .action-confirm-submit { border-color:rgba(255,77,120,.55); color:#ffd0da; background:rgba(58,7,23,.74); }
+.action-confirm-card.warning .action-confirm-submit { border-color:rgba(255,190,70,.52); color:#ffe6ad; background:rgba(55,35,4,.72); }
+.action-confirm-card.success .action-confirm-submit { border-color:rgba(45,255,165,.48); color:#aaffdc; background:rgba(5,38,26,.68); }
+.toast-stack { position:fixed; z-index:1400; top:18px; right:18px; width:min(390px,calc(100% - 36px)); display:grid; gap:10px; pointer-events:none; }
+.nexu-toast { --toast-duration:4200ms; position:relative; overflow:hidden; display:grid; grid-template-columns:38px minmax(0,1fr) 30px; align-items:center; gap:11px; min-height:68px; padding:12px 11px 12px 12px; border:1px solid rgba(0,200,255,.36); border-radius:17px; color:#dff7ff; background:linear-gradient(135deg,rgba(0,200,255,.095),rgba(111,70,255,.055)),rgba(5,12,21,.96); box-shadow:0 18px 55px rgba(0,0,0,.48),0 0 28px rgba(0,200,255,.08); backdrop-filter:blur(16px); pointer-events:auto; animation:nexuToastIn .22s ease both; }
+.nexu-toast.success { border-color:rgba(45,255,165,.42); background:linear-gradient(135deg,rgba(45,255,165,.095),rgba(0,200,255,.045)),rgba(5,15,18,.96); }
+.nexu-toast.error { border-color:rgba(255,77,120,.46); background:linear-gradient(135deg,rgba(255,77,120,.11),rgba(111,70,255,.04)),rgba(18,6,13,.97); }
+.nexu-toast.warning { border-color:rgba(255,190,70,.44); background:linear-gradient(135deg,rgba(255,190,70,.1),rgba(111,70,255,.04)),rgba(17,13,5,.97); }
+.nexu-toast-icon { width:38px; height:38px; display:grid; place-items:center; border:1px solid currentColor; border-radius:12px; color:#8cecff; background:rgba(0,200,255,.08); font-weight:950; }
+.nexu-toast.success .nexu-toast-icon { color:#91ffd2; background:rgba(45,255,165,.075); }
+.nexu-toast.error .nexu-toast-icon { color:#ffafc0; background:rgba(255,77,120,.085); }
+.nexu-toast.warning .nexu-toast-icon { color:#ffe29a; background:rgba(255,190,70,.075); }
+.nexu-toast-copy { min-width:0; }
+.nexu-toast-title { display:block; margin-bottom:3px; color:#f3fbff; font-size:11px; font-weight:950; letter-spacing:.1em; text-transform:uppercase; }
+.nexu-toast-message { color:#a8bfce; font-size:12px; line-height:1.45; overflow-wrap:anywhere; }
+.nexu-toast-close { width:30px; height:30px; display:grid; place-items:center; border:0; border-radius:9px; color:#88a2b4; background:rgba(255,255,255,.04); font:inherit; font-size:17px; cursor:pointer; }
+.nexu-toast-close:hover { color:#fff; background:rgba(255,255,255,.08); }
+.nexu-toast-progress { position:absolute; left:0; right:0; bottom:0; height:2px; transform-origin:left center; background:currentColor; color:#00c8ff; opacity:.72; animation:nexuToastProgress var(--toast-duration) linear both; }
+.nexu-toast.success .nexu-toast-progress { color:#2dffa5; }
+.nexu-toast.error .nexu-toast-progress { color:#ff4d78; }
+.nexu-toast.warning .nexu-toast-progress { color:#ffbe46; }
+.nexu-toast.leaving { animation:nexuToastOut .18s ease both; }
+@keyframes nexuToastIn { from { opacity:0; transform:translateX(18px) scale(.98); } to { opacity:1; transform:none; } }
+@keyframes nexuToastOut { to { opacity:0; transform:translateX(18px) scale(.98); } }
+@keyframes nexuToastProgress { from { transform:scaleX(1); } to { transform:scaleX(0); } }
+@media (prefers-reduced-motion:reduce) { .nexu-toast,.nexu-toast.leaving,.nexu-toast-progress { animation:none; } }
 @media (max-width:760px) {
     .shell { width:min(100% - 20px,1180px); padding-top:16px; }
     header { align-items:flex-start; }
@@ -3103,6 +3201,16 @@ ${dashboardNoticeHtml}
     </div>
 </div>
 
+<div id="actionConfirmModal" class="modal-backdrop hidden" aria-hidden="true">
+    <div id="actionConfirmCard" class="modal-card action-confirm-card" role="dialog" aria-modal="true" aria-labelledby="actionConfirmTitle" aria-describedby="actionConfirmMessage">
+        <div id="actionConfirmEyebrow" class="eyebrow">NEXU // BESTÄTIGUNG</div>
+        <div class="action-confirm-heading"><span id="actionConfirmIcon" class="action-confirm-icon">!</span><h3 id="actionConfirmTitle">Aktion bestätigen</h3></div>
+        <p id="actionConfirmMessage" class="action-confirm-message"></p>
+        <div class="modal-actions"><button id="actionConfirmCancel" class="action-button" type="button">ABBRECHEN</button><button id="actionConfirmSubmit" class="action-button action-confirm-submit" type="button">BESTÄTIGEN</button></div>
+    </div>
+</div>
+<div id="toastStack" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
 <script>
 const DASHBOARD_PERMISSIONS = ${permissionJson};
 const state = {
@@ -3233,6 +3341,15 @@ const elements = {
     closeUpdateButton:document.getElementById("closeUpdateButton"),
     startUpdateButton:document.getElementById("startUpdateButton"),
     updateModalNotice:document.getElementById("updateModalNotice"),
+    actionConfirmModal:document.getElementById("actionConfirmModal"),
+    actionConfirmCard:document.getElementById("actionConfirmCard"),
+    actionConfirmEyebrow:document.getElementById("actionConfirmEyebrow"),
+    actionConfirmIcon:document.getElementById("actionConfirmIcon"),
+    actionConfirmTitle:document.getElementById("actionConfirmTitle"),
+    actionConfirmMessage:document.getElementById("actionConfirmMessage"),
+    actionConfirmCancel:document.getElementById("actionConfirmCancel"),
+    actionConfirmSubmit:document.getElementById("actionConfirmSubmit"),
+    toastStack:document.getElementById("toastStack"),
 };
 
 function escapeHtml(value) {
@@ -3243,6 +3360,103 @@ function escapeHtml(value) {
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
 }
+
+let actionConfirmResolver = null;
+let actionConfirmReturnFocus = null;
+
+function getActionToneMeta(tone) {
+    const normalized = ["danger","warning","success","info"].includes(tone) ? tone : "info";
+    if (normalized === "danger") return { tone:normalized, icon:"!", eyebrow:"NEXU // SICHERHEIT", title:"Sicherheitsabfrage" };
+    if (normalized === "warning") return { tone:normalized, icon:"!", eyebrow:"NEXU // HINWEIS", title:"Aktion bestätigen" };
+    if (normalized === "success") return { tone:normalized, icon:"✓", eyebrow:"NEXU // STATUS", title:"Aktion bestätigen" };
+    return { tone:normalized, icon:"i", eyebrow:"NEXU // BESTÄTIGUNG", title:"Aktion bestätigen" };
+}
+
+function openActionConfirm(options) {
+    const settings = options && typeof options === "object" ? options : {};
+    if (!elements.actionConfirmModal || !elements.actionConfirmCard) return Promise.resolve(false);
+    if (typeof actionConfirmResolver === "function") actionConfirmResolver(false);
+    const meta = getActionToneMeta(String(settings.tone || "info"));
+    actionConfirmReturnFocus = document.activeElement;
+    elements.actionConfirmCard.classList.remove("danger","warning","success","info");
+    elements.actionConfirmCard.classList.add(meta.tone);
+    elements.actionConfirmEyebrow.textContent = String(settings.eyebrow || meta.eyebrow);
+    elements.actionConfirmIcon.textContent = String(settings.icon || meta.icon);
+    elements.actionConfirmTitle.textContent = String(settings.title || meta.title);
+    elements.actionConfirmMessage.textContent = String(settings.message || "Diese Aktion wirklich ausführen?");
+    elements.actionConfirmCancel.textContent = String(settings.cancelText || "ABBRECHEN");
+    elements.actionConfirmSubmit.textContent = String(settings.confirmText || "BESTÄTIGEN");
+    elements.actionConfirmModal.classList.remove("hidden");
+    elements.actionConfirmModal.setAttribute("aria-hidden","false");
+    requestAnimationFrame(function () { elements.actionConfirmSubmit.focus(); });
+    return new Promise(function (resolve) { actionConfirmResolver = resolve; });
+}
+
+function closeActionConfirm(approved) {
+    if (!elements.actionConfirmModal) return;
+    elements.actionConfirmModal.classList.add("hidden");
+    elements.actionConfirmModal.setAttribute("aria-hidden","true");
+    const resolver = actionConfirmResolver;
+    actionConfirmResolver = null;
+    if (actionConfirmReturnFocus && typeof actionConfirmReturnFocus.focus === "function" && actionConfirmReturnFocus.isConnected) actionConfirmReturnFocus.focus();
+    actionConfirmReturnFocus = null;
+    if (typeof resolver === "function") resolver(approved === true);
+}
+
+function showToast(message, type, duration) {
+    if (!elements.toastStack) return null;
+    const normalizedType = ["success","error","warning","info"].includes(type) ? type : "info";
+    const displayDuration = Math.max(1800, Math.min(12000, Number(duration) || (normalizedType === "error" ? 6200 : 4400)));
+    const titles = { success:"ERFOLGREICH", error:"FEHLER", warning:"HINWEIS", info:"NEXU STATUS" };
+    const icons = { success:"✓", error:"!", warning:"!", info:"i" };
+    const toast = document.createElement("div");
+    toast.className = "nexu-toast " + normalizedType;
+    toast.setAttribute("role", normalizedType === "error" ? "alert" : "status");
+    toast.style.setProperty("--toast-duration", displayDuration + "ms");
+    const icon = document.createElement("div");
+    icon.className = "nexu-toast-icon";
+    icon.textContent = icons[normalizedType];
+    const copy = document.createElement("div");
+    copy.className = "nexu-toast-copy";
+    const title = document.createElement("strong");
+    title.className = "nexu-toast-title";
+    title.textContent = titles[normalizedType];
+    const text = document.createElement("div");
+    text.className = "nexu-toast-message";
+    text.textContent = String(message || "Aktion abgeschlossen.");
+    copy.append(title,text);
+    const close = document.createElement("button");
+    close.className = "nexu-toast-close";
+    close.type = "button";
+    close.setAttribute("aria-label","Benachrichtigung schließen");
+    close.textContent = "×";
+    const progress = document.createElement("div");
+    progress.className = "nexu-toast-progress";
+    toast.append(icon,copy,close,progress);
+    elements.toastStack.prepend(toast);
+    let removed = false;
+    let timer = null;
+    function removeToast() {
+        if (removed) return;
+        removed = true;
+        if (timer) clearTimeout(timer);
+        toast.classList.add("leaving");
+        setTimeout(function () { toast.remove(); }, 190);
+    }
+    close.addEventListener("click", removeToast);
+    timer = setTimeout(removeToast, displayDuration);
+    return toast;
+}
+
+if (elements.actionConfirmCancel) elements.actionConfirmCancel.addEventListener("click", function () { closeActionConfirm(false); });
+if (elements.actionConfirmSubmit) elements.actionConfirmSubmit.addEventListener("click", function () { closeActionConfirm(true); });
+if (elements.actionConfirmModal) elements.actionConfirmModal.addEventListener("click", function (event) { if (event.target === elements.actionConfirmModal) closeActionConfirm(false); });
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && elements.actionConfirmModal && !elements.actionConfirmModal.classList.contains("hidden")) {
+        event.preventDefault();
+        closeActionConfirm(false);
+    }
+});
 
 function formatDashboardDate(value) {
     if (!value) {
@@ -3877,18 +4091,29 @@ if (elements.broadcastDmButton) elements.broadcastDmButton.addEventListener("cli
 if (elements.openUpdateButton) elements.openUpdateButton.addEventListener("click", openUpdateModal);
 if (elements.menuStatusToggleButton) elements.menuStatusToggleButton.addEventListener("click", async function () {
     const currentlyOnline = !state.menuStatus || state.menuStatus.online !== false;
-    if (currentlyOnline && !window.confirm("Das Lua-Menü global OFFLINE schalten? Alle aktuell laufenden Scripts werden beendet und neue Starts vollständig blockiert.")) return;
+    if (currentlyOnline) {
+        const approved = await openActionConfirm({
+            tone:"danger",
+            eyebrow:"NEXU // MENU STATUS",
+            title:"Lua-Menü global offline schalten?",
+            message:"Alle aktuell laufenden Scripts werden vollständig beendet. Neue Starts bleiben für jeden blockiert, bis du den Menüstatus wieder auf ONLINE stellst.",
+            confirmText:"GLOBAL OFFLINE",
+        });
+        if (!approved) return;
+    }
     const originalText = elements.menuStatusToggleButton.textContent;
     elements.menuStatusToggleButton.disabled = true;
     elements.menuStatusToggleButton.textContent = currentlyOnline ? "SCHALTE OFFLINE …" : "SCHALTE ONLINE …";
     try {
         const result = await updateMenuStatus(!currentlyOnline);
         if (currentlyOnline) {
-            alert("Menü ist jetzt OFFLINE. " + (result.targetedPlayers || 0) + " Spieler / " + (result.targetedSessions || 0) + " Sitzung(en) wurden beendet.");
+            showToast("Menü ist jetzt OFFLINE. " + (result.targetedPlayers || 0) + " Spieler / " + (result.targetedSessions || 0) + " Sitzung(en) wurden beendet.", "warning", 6200);
+        } else {
+            showToast("Menü ist wieder ONLINE. Neue Lua-Starts sind ab sofort erlaubt.", "success");
         }
         await refresh();
     } catch (error) {
-        alert(error.message || "Menüstatus konnte nicht geändert werden.");
+        showToast(error.message || "Menüstatus konnte nicht geändert werden.", "error");
     } finally {
         elements.menuStatusToggleButton.disabled = false;
         if (elements.menuStatusToggleButton.textContent.includes("…")) elements.menuStatusToggleButton.textContent = originalText;
@@ -3896,16 +4121,23 @@ if (elements.menuStatusToggleButton) elements.menuStatusToggleButton.addEventLis
     }
 });
 if (elements.shutdownAllButton) elements.shutdownAllButton.addEventListener("click", async function () {
-    if (!window.confirm("Alle aktuell verbundenen Nexu-Scripts jetzt deaktivieren? Die Spieler können das Script danach sofort wieder neu starten.")) return;
+    const approved = await openActionConfirm({
+        tone:"danger",
+        eyebrow:"NEXU // GLOBAL SHUTDOWN",
+        title:"Alle aktiven Scripts deaktivieren?",
+        message:"Alle aktuell verbundenen Nexu-Sitzungen erhalten sofort den Abschaltbefehl. Der Menüstatus bleibt ONLINE und die Spieler können das Script danach erneut starten.",
+        confirmText:"ALLE DEAKTIVIEREN",
+    });
+    if (!approved) return;
     const originalText = elements.shutdownAllButton.textContent;
     elements.shutdownAllButton.disabled = true;
     elements.shutdownAllButton.textContent = "DEAKTIVIERE …";
     try {
         const result = await shutdownAllActiveScripts();
-        alert((result.targetedPlayers || 0) + " Spieler / " + (result.targetedSessions || 0) + " aktive Sitzung(en) wurden zum Deaktivieren markiert.");
+        showToast((result.targetedPlayers || 0) + " Spieler / " + (result.targetedSessions || 0) + " aktive Sitzung(en) wurden zum Deaktivieren markiert.", "success", 5600);
         await refresh();
     } catch (error) {
-        alert(error.message || "Scripts konnten nicht deaktiviert werden.");
+        showToast(error.message || "Scripts konnten nicht deaktiviert werden.", "error");
     } finally {
         elements.shutdownAllButton.disabled = false;
         elements.shutdownAllButton.textContent = originalText;
@@ -3952,9 +4184,10 @@ document.addEventListener("click",async function (event) {
         button.textContent = "SETZE …";
         try {
             await setPlayerRole(button.dataset.userId,roleKey);
+            showToast("Spielerrang wurde gespeichert.", "success");
             await refresh();
         } catch (error) {
-            alert(error.message || "Rang konnte nicht gespeichert werden.");
+            showToast(error.message || "Rang konnte nicht gespeichert werden.", "error");
             if (button.isConnected) {
                 button.disabled = false;
                 button.textContent = originalText;
@@ -3970,8 +4203,9 @@ document.addEventListener("click",async function (event) {
         try {
             const result = await queueServerJoin(button.dataset.userId);
             button.textContent = result.ownerOnline ? "JOIN GESENDET" : "WARTET AUF SPIEL";
+            showToast(result.ownerOnline ? "Server-Join wurde gesendet." : "Join-Befehl wartet, bis dein Script aktiv ist.", "success");
         } catch (error) {
-            alert(error.message || "Server-Join konnte nicht gesendet werden.");
+            showToast(error.message || "Server-Join konnte nicht gesendet werden.", "error");
             button.textContent = "JOIN FEHLER";
         }
         setTimeout(function () {
@@ -3990,8 +4224,9 @@ document.addEventListener("click",async function (event) {
         try {
             await queueBring(button.dataset.userId);
             button.textContent = "BRING GESENDET";
+            showToast("Bring-Befehl wurde an den Spieler gesendet.", "success");
         } catch (error) {
-            alert(error.message || "Bring konnte nicht gesendet werden.");
+            showToast(error.message || "Bring konnte nicht gesendet werden.", "error");
             button.textContent = "BRING FEHLER";
         }
         setTimeout(function () {
@@ -4026,8 +4261,9 @@ document.addEventListener("click",async function (event) {
 
     try {
         await moderate("unban",button.dataset.userId,"",null);
+        showToast("Spieler wurde entbannt.", "success");
     } catch (error) {
-        alert(error.message || "Entbannen fehlgeschlagen.");
+        showToast(error.message || "Entbannen fehlgeschlagen.", "error");
         button.disabled = false;
         button.textContent = "ENTBANNEN";
     }
@@ -5891,7 +6127,7 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V162 GESTARTET");
+        console.log("NEXU PRESENCE & MODERATION V163 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
@@ -5910,7 +6146,7 @@ async function startNexuServer() {
         console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
         console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
         console.log("========================================");
     });
 }
