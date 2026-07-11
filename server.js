@@ -2,6 +2,7 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 // V148: Neustartfeste, signierte Dashboard-Sitzungen und stabiler Owner-Rundsendungszugriff.
 // V150: Website und Lua-Menü verwenden dieselbe autoritative Active-Presence-Liste.
 // V152: Stabile Online-Anzeige mit Heartbeat-Toleranz und ohne falschen Nullstand bei einzelnen Dashboard-Fehlern.
+// V168: Rollenänderungen invalidieren Presence-Snapshots sofort, damit Ingame-Banner Rangfarben live übernehmen.
 // V153: Autoritative Lease-Presence, revisionsbasierte Aktualisierung und keine nutzlosen Player-Speichercommits.
 // V154: Live-Presence vollständig vom persistenten Speicher getrennt; GitHub-Schreibschutz und Inhalts-Deduplizierung.
 // V162: Persistenter globaler Menüstatus ONLINE/OFFLINE mit sofortiger Sperre aller Lua-Clients.
@@ -6062,6 +6063,10 @@ if (req.method === "POST" && pathname === "/api/bring/poll") {
 
 if (req.method === "GET" && pathname === "/api/presence") {
     prunePresence();
+    // V168: Vor dem Unchanged-Vergleich immer die sichtbaren Presence-Metadaten
+    // (insbesondere Rang/Rangfarbe) in die Revision einbeziehen. Ohne diesen Schritt
+    // konnten Clients denselben Snapshot-Token behalten und Rangänderungen nie laden.
+    syncPresenceRevision();
     const requestedToken = cleanText(requestUrl.searchParams.get("snapshotToken"), 200);
     const currentToken = getPresenceSnapshotToken();
     if (requestedToken && requestedToken === currentToken) {
@@ -6605,6 +6610,9 @@ if (req.method === "POST" && pathname === "/api/admin/role") {
         knownPlayers.set(userId, next);
         const persisted = saveKnownPlayers(false);
         scheduleGitHubStorageSave("player-role", 2_500);
+        // V168: Aktive Lua-Clients müssen sofort einen neuen Snapshot-Token sehen.
+        // Die Rangfarbe des Ingame-Banners wird dadurch ohne Script-Neustart aktualisiert.
+        syncPresenceRevision();
         const role = getNexuRoleInfo(userId);
 
         console.log(`[NEXU] RANG ${userId} -> ${role.key}`);
@@ -6615,6 +6623,8 @@ if (req.method === "POST" && pathname === "/api/admin/role") {
             userId,
             roleKey: role.key,
             roleTitle: role.title,
+            revision: presenceRevision,
+            snapshotToken: getPresenceSnapshotToken(),
             permissions: {
                 bring: canUseNexuBringRole(userId),
                 menuCreator: role.key === "creator",
@@ -6826,7 +6836,7 @@ async function startNexuServer() {
         console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
         console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Rang-Auswahl: V167 SUCHBARES DROPDOWN AM AKTUELLEN RANG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Rang-Banner-Sync: V168 LIVE SNAPSHOT INVALIDATION + INGAME COLOR REFRESH");console.log("Rang-Auswahl: V167 SUCHBARES DROPDOWN AM AKTUELLEN RANG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
         console.log("========================================");
     });
 }
