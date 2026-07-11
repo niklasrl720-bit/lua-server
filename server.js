@@ -6,6 +6,7 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 // V154: Live-Presence vollständig vom persistenten Speicher getrennt; GitHub-Schreibschutz und Inhalts-Deduplizierung.
 // V162: Persistenter globaler Menüstatus ONLINE/OFFLINE mit sofortiger Sperre aller Lua-Clients.
 // V163: Eigene Nexu-Bestätigungsdialoge und Toast-Benachrichtigungen statt Browser-Popups.
+// V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
 
 const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
 
@@ -14,11 +15,14 @@ const GITHUB_DATA_OWNER = String(process.env.GITHUB_DATA_OWNER || "").trim();
 const GITHUB_DATA_REPO = String(process.env.GITHUB_DATA_REPO || "").trim();
 const GITHUB_DATA_BRANCH = String(process.env.GITHUB_DATA_BRANCH || "main").trim() || "main";
 const GITHUB_DATA_PATH = String(process.env.GITHUB_DATA_PATH || "data/nexu-storage.json").trim() || "data/nexu-storage.json";
+const GITHUB_ACCOUNTS_PATH = String(process.env.GITHUB_ACCOUNTS_PATH || "data/nexu-accounts.json").trim() || "data/nexu-accounts.json";
 const GITHUB_STORAGE_API_VERSION = "2022-11-28";
 const GITHUB_STORAGE_USER_AGENT = "Nexu-Presence-Storage/1.0";
 const GITHUB_STORAGE_DEFAULT_DELAY_MS = 12_000;
 const GITHUB_DATA_IS_DEPLOY_BRANCH = /^(main|master)$/i.test(GITHUB_DATA_BRANCH);
 const GITHUB_STORAGE_WRITES_ALLOWED = !GITHUB_DATA_IS_DEPLOY_BRANCH;
+const GITHUB_ACCOUNT_WRITES_ON_DEPLOY_BRANCH = String(process.env.GITHUB_ACCOUNT_WRITES_ON_DEPLOY_BRANCH || "true").trim().toLowerCase() !== "false";
+const GITHUB_ACCOUNTS_WRITES_ALLOWED = !GITHUB_DATA_IS_DEPLOY_BRANCH || GITHUB_ACCOUNT_WRITES_ON_DEPLOY_BRANCH;
 const GITHUB_PLAYER_AUTOSAVE_ENABLED = GITHUB_STORAGE_WRITES_ALLOWED;
 const DASHBOARD_SESSION_TOKEN_VERSION = "nxs2";
 const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SECRET || "").trim() || crypto
@@ -31,6 +35,7 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
         OWNER_ACCOUNT_USERNAME,
     ].join("|"), "utf8")
     .digest("hex");
+const DASHBOARD_ACCOUNT_STORAGE_SECRET = String(process.env.DASHBOARD_ACCOUNT_STORAGE_SECRET || "").trim() || DASHBOARD_SESSION_SIGNING_SECRET;
 
 const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 let latestGlobalShutdownCommand = null;
@@ -39,6 +44,16 @@ let presenceSnapshotSignature = "";
 let githubStorageContentFingerprint = "";
 let githubDeployBranchWarningShown = false;
 let knownPlayersDiskFingerprint = "";
+let dashboardAccountsDiskFingerprint = "";
+let githubAccountsSha = "";
+let githubAccountsReady = false;
+let githubAccountsDirty = false;
+let githubAccountsTimer = null;
+let githubAccountsDueAtMs = 0;
+let githubAccountsWriteChain = Promise.resolve();
+let githubAccountsContentFingerprint = "";
+let githubAccountsBranchWarningShown = false;
+const githubAccountsReasons = new Set();
 
 function sendJson(res, statusCode, data, extraHeaders = {}) {res.writeHead(statusCode, {"Content-Type": "application/json; charset=utf-8","Cache-Control": "no-store","X-Content-Type-Options": "nosniff",...extraHeaders,});res.end(JSON.stringify(data));}
 
@@ -62,6 +77,28 @@ function isGitHubStorageConfigured() {
         GITHUB_DATA_BRANCH &&
         GITHUB_DATA_PATH
     );
+}
+
+function isGitHubAccountsConfigured() {
+    return Boolean(
+        GITHUB_DATA_TOKEN &&
+        GITHUB_DATA_OWNER &&
+        GITHUB_DATA_REPO &&
+        GITHUB_DATA_BRANCH &&
+        GITHUB_ACCOUNTS_PATH
+    );
+}
+
+function githubFileEndpoint(storagePath) {
+    const encodedPath = String(storagePath || "")
+        .split("/")
+        .map((part) => encodeURIComponent(part))
+        .join("/");
+    return `https://api.github.com/repos/${encodeURIComponent(GITHUB_DATA_OWNER)}/${encodeURIComponent(GITHUB_DATA_REPO)}/contents/${encodedPath}`;
+}
+
+function githubAccountsEndpoint() {
+    return githubFileEndpoint(GITHUB_ACCOUNTS_PATH);
 }
 
 function githubStorageEndpoint() {
@@ -1279,53 +1316,320 @@ function loadDashboardAccount() {
         saveDashboardAccount();
     }
 
-    // Migration für ältere Account-Dateien: Falls durch eine frühere Umbenennung
-    // kein Owner mehr erkannt wird, wird der konfigurierte bzw. älteste Account
-    // einmalig als Owner markiert. Dadurch gehen Owner-Rechte nie verloren.
-    if (!getOwnerDashboardAccount() && dashboardAccounts.size > 0) {
-        const configuredEmail = cleanDashboardEmail(DASHBOARD_DEFAULT_EMAIL);
-        const configuredUsername = cleanDashboardUsername(DASHBOARD_DEFAULT_USERNAME).toLowerCase();
-        let ownerCandidate = configuredEmail ? getDashboardAccountByEmail(configuredEmail) : null;
-        if (!ownerCandidate && configuredUsername) {
-            ownerCandidate = [...dashboardAccounts.values()].find(
-                (account) => String(account.username || "").toLowerCase() === configuredUsername
-            ) || null;
-        }
-        if (!ownerCandidate) {
-            ownerCandidate = [...dashboardAccounts.values()].sort((left, right) =>
-                String(left.createdAt || "").localeCompare(String(right.createdAt || ""))
-            )[0] || null;
-        }
-        if (ownerCandidate) {
-            const promotedOwner = normalizeDashboardAccount({
-                ...ownerCandidate,
-                isOwner: true,
-                access: normalizeDashboardAccess({ ...ownerCandidate, isOwner: true }, ownerCandidate.username, ownerCandidate.email),
-                updatedAt: new Date().toISOString(),
-            });
-            if (promotedOwner) {
-                dashboardAccounts.set(promotedOwner.email, promotedOwner);
-                saveDashboardAccount();
-                console.warn(`[NEXU] Owner-Rechte für ${promotedOwner.username} automatisch wiederhergestellt`);
-            }
-        }
+    // Migration für ältere Account-Dateien: Owner-Rechte bleiben garantiert erhalten.
+    if (ensureDashboardOwnerInMemory()) {
+        saveDashboardAccount(false);
     }
-
+    dashboardAccountsDiskFingerprint = storageFingerprint(buildDashboardAccountsCore());
     console.log(`[NEXU] ${dashboardAccounts.size} Dashboard-Account(s) geladen`);
 }
 
-function saveDashboardAccount() {
+function serializeDashboardAccountForStorage(raw) {
+    const account = normalizeDashboardAccount(raw || {});
+    if (!account) return null;
+    const access = {};
+    for (const definition of DASHBOARD_PERMISSION_DEFINITIONS) {
+        access[definition.key] = account.isOwner === true || account.access[definition.key] === true;
+    }
+    access.accountManager = account.isOwner === true;
+    return {
+        username: account.username,
+        email: account.email,
+        passwordHash: account.passwordHash,
+        isOwner: account.isOwner === true,
+        access,
+        createdAt: account.createdAt,
+        updatedAt: account.updatedAt,
+    };
+}
+
+function buildDashboardAccountsCore() {
+    const accounts = [];
+    for (const raw of dashboardAccounts.values()) {
+        const account = serializeDashboardAccountForStorage(raw);
+        if (account) accounts.push(account);
+    }
+    accounts.sort((left, right) => {
+        const ownerOrder = Number(right.isOwner === true) - Number(left.isOwner === true);
+        if (ownerOrder !== 0) return ownerOrder;
+        return String(left.username).localeCompare(String(right.username));
+    });
+    return { version: 1, accounts };
+}
+
+function saveDashboardAccount(syncGitHub = true) {
     try {
-        fs.mkdirSync(path.dirname(DASHBOARD_ACCOUNT_FILE_PATH), { recursive: true });
-        const tempPath = `${DASHBOARD_ACCOUNT_FILE_PATH}.tmp`;
-        const accounts = [...dashboardAccounts.values()].sort((a, b) => String(a.username).localeCompare(String(b.username)));
-        fs.writeFileSync(tempPath, JSON.stringify({ accounts }, null, 2), "utf8");
-        fs.renameSync(tempPath, DASHBOARD_ACCOUNT_FILE_PATH);
+        const core = buildDashboardAccountsCore();
+        const nextFingerprint = storageFingerprint(core);
+        if (nextFingerprint !== dashboardAccountsDiskFingerprint) {
+            fs.mkdirSync(path.dirname(DASHBOARD_ACCOUNT_FILE_PATH), { recursive: true });
+            const tempPath = `${DASHBOARD_ACCOUNT_FILE_PATH}.tmp`;
+            fs.writeFileSync(tempPath, JSON.stringify(core, null, 2), "utf8");
+            fs.renameSync(tempPath, DASHBOARD_ACCOUNT_FILE_PATH);
+            dashboardAccountsDiskFingerprint = nextFingerprint;
+        }
+        if (syncGitHub) scheduleGitHubAccountsSave("account-change", 1_500);
         return true;
     } catch (error) {
         console.warn("[NEXU] Dashboard-Accounts konnten nicht gespeichert werden:", error.message);
         return false;
     }
+}
+
+function getDashboardAccountsEncryptionKey() {
+    return crypto.createHash("sha256").update(DASHBOARD_ACCOUNT_STORAGE_SECRET, "utf8").digest();
+}
+
+function encryptDashboardAccountsCore(core) {
+    const iv = crypto.randomBytes(12);
+    const cipher = crypto.createCipheriv("aes-256-gcm", getDashboardAccountsEncryptionKey(), iv);
+    const plaintext = Buffer.from(JSON.stringify(core), "utf8");
+    const ciphertext = Buffer.concat([cipher.update(plaintext), cipher.final()]);
+    const tag = cipher.getAuthTag();
+    return {
+        version: 1,
+        encrypted: true,
+        algorithm: "aes-256-gcm",
+        iv: iv.toString("base64"),
+        tag: tag.toString("base64"),
+        data: ciphertext.toString("base64"),
+        accountCount: Array.isArray(core && core.accounts) ? core.accounts.length : 0,
+        updatedAt: new Date().toISOString(),
+    };
+}
+
+function decodeDashboardAccountsPayload(payload) {
+    if (Array.isArray(payload)) return { version: 1, accounts: payload };
+    if (!payload || typeof payload !== "object") return null;
+    if (payload.encrypted === true) {
+        if (payload.algorithm !== "aes-256-gcm") {
+            throw new Error("Unbekannter Account-Speicher-Algorithmus");
+        }
+        const iv = Buffer.from(String(payload.iv || ""), "base64");
+        const tag = Buffer.from(String(payload.tag || ""), "base64");
+        const ciphertext = Buffer.from(String(payload.data || ""), "base64");
+        if (iv.length !== 12 || tag.length !== 16 || ciphertext.length === 0) {
+            throw new Error("Verschlüsselte Account-Datei ist unvollständig");
+        }
+        const decipher = crypto.createDecipheriv("aes-256-gcm", getDashboardAccountsEncryptionKey(), iv);
+        decipher.setAuthTag(tag);
+        const plaintext = Buffer.concat([decipher.update(ciphertext), decipher.final()]).toString("utf8");
+        return JSON.parse(plaintext);
+    }
+    if (Array.isArray(payload.accounts)) return { version: 1, accounts: payload.accounts };
+    return null;
+}
+
+function normalizeDashboardAccountsCore(payload) {
+    const decoded = decodeDashboardAccountsPayload(payload);
+    if (!decoded || !Array.isArray(decoded.accounts)) return null;
+    const accounts = [];
+    const seenEmails = new Set();
+    const seenUsernames = new Set();
+    for (const raw of decoded.accounts) {
+        const account = serializeDashboardAccountForStorage(raw);
+        if (!account) continue;
+        const emailKey = account.email.toLowerCase();
+        const usernameKey = account.username.toLowerCase();
+        if (seenEmails.has(emailKey) || seenUsernames.has(usernameKey)) continue;
+        seenEmails.add(emailKey);
+        seenUsernames.add(usernameKey);
+        accounts.push(account);
+    }
+    if (accounts.length === 0) return null;
+    accounts.sort((left, right) => String(left.username).localeCompare(String(right.username)));
+    return { version: 1, accounts };
+}
+
+function ensureDashboardOwnerInMemory() {
+    if (getOwnerDashboardAccount() || dashboardAccounts.size === 0) return false;
+    const configuredEmail = cleanDashboardEmail(DASHBOARD_DEFAULT_EMAIL);
+    const configuredUsername = cleanDashboardUsername(DASHBOARD_DEFAULT_USERNAME).toLowerCase();
+    let ownerCandidate = configuredEmail ? getDashboardAccountByEmail(configuredEmail) : null;
+    if (!ownerCandidate && configuredUsername) {
+        ownerCandidate = [...dashboardAccounts.values()].find(
+            (account) => String(account.username || "").toLowerCase() === configuredUsername
+        ) || null;
+    }
+    if (!ownerCandidate) {
+        ownerCandidate = [...dashboardAccounts.values()].sort((left, right) =>
+            String(left.createdAt || "").localeCompare(String(right.createdAt || ""))
+        )[0] || null;
+    }
+    if (!ownerCandidate) return false;
+    const promotedOwner = normalizeDashboardAccount({
+        ...ownerCandidate,
+        isOwner: true,
+        access: normalizeDashboardAccess({ ...ownerCandidate, isOwner: true }, ownerCandidate.username, ownerCandidate.email),
+        updatedAt: new Date().toISOString(),
+    });
+    if (!promotedOwner) return false;
+    dashboardAccounts.set(promotedOwner.email, promotedOwner);
+    console.warn(`[NEXU] Owner-Rechte für ${promotedOwner.username} automatisch wiederhergestellt`);
+    return true;
+}
+
+function applyDashboardAccountsCore(payload) {
+    const core = normalizeDashboardAccountsCore(payload);
+    if (!core) return null;
+    dashboardAccounts.clear();
+    for (const account of core.accounts) {
+        dashboardAccounts.set(account.email, account);
+    }
+    ensureDashboardOwnerInMemory();
+    return buildDashboardAccountsCore();
+}
+
+async function fetchGitHubAccountsFile() {
+    const endpoint = `${githubAccountsEndpoint()}?ref=${encodeURIComponent(GITHUB_DATA_BRANCH)}`;
+    const response = await fetch(endpoint, { method: "GET", headers: githubStorageHeaders() });
+    if (response.status === 404) return { exists: false, sha: "", payload: null };
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok) {
+        throw new Error(
+            `GitHub-Accountdatei konnte nicht gelesen werden: HTTP ${response.status}` +
+            (body && body.message ? ` // ${body.message}` : "")
+        );
+    }
+    const rawText = decodeGitHubBase64(body.content || "");
+    return {
+        exists: true,
+        sha: cleanText(body.sha, 100),
+        payload: rawText ? JSON.parse(rawText) : {},
+    };
+}
+
+async function loadGitHubAccounts() {
+    if (!isGitHubAccountsConfigured()) {
+        githubAccountsReady = true;
+        githubAccountsContentFingerprint = storageFingerprint(buildDashboardAccountsCore());
+        console.warn("[NEXU] Separate GitHub-Accountdatei ist nicht vollständig konfiguriert; lokale Accountdatei bleibt aktiv.");
+        return false;
+    }
+    try {
+        const remote = await fetchGitHubAccountsFile();
+        githubAccountsSha = remote.sha || "";
+        let remoteCore = null;
+        if (remote.exists && remote.payload) {
+            remoteCore = applyDashboardAccountsCore(remote.payload);
+            if (!remoteCore) throw new Error("GitHub-Accountdatei enthält keine gültigen Accounts");
+        }
+        githubAccountsReady = true;
+        saveDashboardAccount(false);
+        const currentCore = buildDashboardAccountsCore();
+        const currentFingerprint = storageFingerprint(currentCore);
+        githubAccountsContentFingerprint = remoteCore ? storageFingerprint(remoteCore) : "";
+        console.log(`[NEXU] GitHub-Accountdatei geladen: ${dashboardAccounts.size} Account(s), verschlüsselt.`);
+        if (!remote.exists) {
+            if (GITHUB_ACCOUNTS_WRITES_ALLOWED) scheduleGitHubAccountsSave("initial-create", 1_000);
+        } else if (GITHUB_ACCOUNTS_WRITES_ALLOWED && githubAccountsContentFingerprint !== currentFingerprint) {
+            scheduleGitHubAccountsSave("startup-merge", 2_500);
+        }
+        return true;
+    } catch (error) {
+        githubAccountsReady = true;
+        githubAccountsContentFingerprint = storageFingerprint(buildDashboardAccountsCore());
+        console.warn("[NEXU] GitHub-Accountdatei konnte nicht geladen werden; lokale Accounts bleiben erhalten:", error.message);
+        return false;
+    }
+}
+
+async function writeGitHubAccountsNow() {
+    if (!githubAccountsReady || !isGitHubAccountsConfigured() || !GITHUB_ACCOUNTS_WRITES_ALLOWED || !githubAccountsDirty) {
+        return false;
+    }
+    const core = buildDashboardAccountsCore();
+    const nextFingerprint = storageFingerprint(core);
+    if (nextFingerprint === githubAccountsContentFingerprint) {
+        githubAccountsReasons.clear();
+        githubAccountsDirty = false;
+        return false;
+    }
+    const encryptedSnapshot = encryptDashboardAccountsCore(core);
+    const content = encodeGitHubBase64(JSON.stringify(encryptedSnapshot, null, 2));
+    const reasons = [...githubAccountsReasons];
+    githubAccountsReasons.clear();
+    githubAccountsDirty = false;
+
+    const writeAttempt = async (refreshSha) => {
+        if (refreshSha || !githubAccountsSha) {
+            const remote = await fetchGitHubAccountsFile();
+            githubAccountsSha = remote.sha || "";
+        }
+        const body = {
+            message: `Nexu accounts update${reasons.length ? `: ${reasons.slice(0, 4).join(", ")}` : ""}`,
+            content,
+            branch: GITHUB_DATA_BRANCH,
+        };
+        if (githubAccountsSha) body.sha = githubAccountsSha;
+        const response = await fetch(githubAccountsEndpoint(), {
+            method: "PUT",
+            headers: githubStorageHeaders({ "Content-Type": "application/json" }),
+            body: JSON.stringify(body),
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+            const error = new Error(
+                `GitHub-Accountdatei konnte nicht geschrieben werden: HTTP ${response.status}` +
+                (payload && payload.message ? ` // ${payload.message}` : "")
+            );
+            error.statusCode = response.status;
+            throw error;
+        }
+        githubAccountsSha = cleanText(payload && payload.content && payload.content.sha, 100) || githubAccountsSha;
+        githubAccountsContentFingerprint = nextFingerprint;
+        console.log(`[NEXU] GitHub-Accountdatei geändert (${dashboardAccounts.size} Account(s)).`);
+        return true;
+    };
+
+    try {
+        return await writeAttempt(false);
+    } catch (error) {
+        if (error && (error.statusCode === 409 || error.statusCode === 422)) {
+            try {
+                return await writeAttempt(true);
+            } catch (retryError) {
+                githubAccountsDirty = true;
+                for (const reason of reasons) githubAccountsReasons.add(reason);
+                console.warn("[NEXU] GitHub-Accountdatei Retry fehlgeschlagen:", retryError.message);
+                return false;
+            }
+        }
+        githubAccountsDirty = true;
+        for (const reason of reasons) githubAccountsReasons.add(reason);
+        console.warn("[NEXU] GitHub-Accountdatei fehlgeschlagen:", error.message);
+        return false;
+    }
+}
+
+function scheduleGitHubAccountsSave(reason = "account-change", delayMs = 1_500) {
+    if (!githubAccountsReady || !isGitHubAccountsConfigured()) return false;
+    if (!GITHUB_ACCOUNTS_WRITES_ALLOWED) {
+        if (!githubAccountsBranchWarningShown) {
+            githubAccountsBranchWarningShown = true;
+            console.warn(`[NEXU] GitHub-Accountdatei darf auf Branch "${GITHUB_DATA_BRANCH}" nicht geschrieben werden.`);
+        }
+        return false;
+    }
+    githubAccountsDirty = true;
+    githubAccountsReasons.add(cleanText(reason, 80) || "account-change");
+    const safeDelay = Math.max(500, Math.min(60_000, Number(delayMs) || 1_500));
+    const desiredDueAt = Date.now() + safeDelay;
+    if (githubAccountsTimer && githubAccountsDueAtMs <= desiredDueAt) return true;
+    if (githubAccountsTimer) clearTimeout(githubAccountsTimer);
+    githubAccountsDueAtMs = desiredDueAt;
+    githubAccountsTimer = setTimeout(() => {
+        githubAccountsTimer = null;
+        githubAccountsDueAtMs = 0;
+        githubAccountsWriteChain = githubAccountsWriteChain
+            .then(() => writeGitHubAccountsNow())
+            .catch((error) => {
+                githubAccountsDirty = true;
+                console.warn("[NEXU] GitHub-Accountwarteschlange:", error.message);
+            });
+    }, safeDelay);
+    if (typeof githubAccountsTimer.unref === "function") githubAccountsTimer.unref();
+    return true;
 }
 
 function updateDashboardAccount(username, passwordHash, email = "") {
@@ -4412,7 +4716,7 @@ setInterval(renderUpdateStatus,250);
 }
 
 loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();loadMenuAvailabilityState();
-const githubStorageStartupPromise = loadGitHubStorage().then(() => { syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler geladen; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
+const githubStorageStartupPromise = Promise.all([loadGitHubStorage(), loadGitHubAccounts()]).then(() => { syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler und Accounts geladen; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
 
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
@@ -6113,13 +6417,24 @@ sendJson(res, 404, {
 setInterval(() => {prunePresence();pruneDirectMessages();pruneDashboardAuth();pruneShutdownCommands();}, 20_000).unref();
 
 async function flushGitHubStorageBeforeExit() {
-    if (!githubStorageReady || !githubStorageDirty || !isGitHubStorageConfigured() || !GITHUB_STORAGE_WRITES_ALLOWED) return;
-    if (githubStorageTimer) {
-        clearTimeout(githubStorageTimer);
-        githubStorageTimer = null;
-        githubStorageDueAtMs = 0;
+    const pending = [];
+    if (githubStorageReady && githubStorageDirty && isGitHubStorageConfigured() && GITHUB_STORAGE_WRITES_ALLOWED) {
+        if (githubStorageTimer) {
+            clearTimeout(githubStorageTimer);
+            githubStorageTimer = null;
+            githubStorageDueAtMs = 0;
+        }
+        pending.push(writeGitHubStorageNow());
     }
-    await writeGitHubStorageNow();
+    if (githubAccountsReady && githubAccountsDirty && isGitHubAccountsConfigured() && GITHUB_ACCOUNTS_WRITES_ALLOWED) {
+        if (githubAccountsTimer) {
+            clearTimeout(githubAccountsTimer);
+            githubAccountsTimer = null;
+            githubAccountsDueAtMs = 0;
+        }
+        pending.push(writeGitHubAccountsNow());
+    }
+    if (pending.length > 0) await Promise.allSettled(pending);
 }
 
 async function startNexuServer() {
@@ -6127,13 +6442,15 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V163 GESTARTET");
+        console.log("NEXU PRESENCE & MODERATION V164 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
         console.log("Spieler-Speicher:", KNOWN_PLAYERS_FILE_PATH);
         console.log("GitHub-Speicher:", isGitHubStorageConfigured() ? "AKTIV" : "NICHT KONFIGURIERT");
         console.log("GitHub-Datendatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_DATA_PATH}`);
+        console.log("GitHub-Accountdatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_ACCOUNTS_PATH}`);
+        console.log("Accountdatei-Verschlüsselung:", "AES-256-GCM");
         console.log("Dashboard-Anmeldung: /");
         console.log("Dashboard-Accounts:", dashboardAccounts.size);
         console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V148 SIGNIERT UND NEUSTARTFEST");
@@ -6146,7 +6463,7 @@ async function startNexuServer() {
         console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
         console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
         console.log("========================================");
     });
 }
