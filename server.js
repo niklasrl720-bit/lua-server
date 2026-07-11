@@ -1,3 +1,4 @@
+// V207: Rundsendungen unterstützen frei wählbare Anzeigedauer in Sekunden oder Minuten.
 // V206: Öffentliche Startseite ohne Login-Zwang, direkte Aufbauanimation, persistente Anmeldung und Owner-Verwaltung außerhalb der Startkacheln.
 // V205: Einheitliches Button- und Bedienelement-System mit festen Höhen, konsistenten Schriftgrößen und sauberem Aktionsraster.
 // V204: Vollständiger professioneller Neuaufbau aller Seiten mit klarer Informationsarchitektur, ruhigerem Design und unveränderten Funktionen.
@@ -19,6 +20,10 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 // V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
 
 const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
+
+const DM_DISPLAY_MIN_SECONDS = 1;
+const DM_DISPLAY_MAX_SECONDS = 10 * 60;
+const DM_DISPLAY_DEFAULT_SECONDS = 8;
 
 const GITHUB_DATA_TOKEN = String(process.env.GITHUB_DATA_TOKEN || "").trim();
 const GITHUB_DATA_OWNER = String(process.env.GITHUB_DATA_OWNER || "").trim();
@@ -2195,6 +2200,16 @@ return state.count <= LOGIN_RATE_LIMIT;
 
 function clearLoginAttempts(req) {loginRateLimits.delete(getClientIp(req));}
 
+function normalizeDirectMessageDisplaySeconds(value, fallback = DM_DISPLAY_DEFAULT_SECONDS) {
+    if (value === undefined || value === null || value === "") {
+        return fallback;
+    }
+    const seconds = Math.round(Number(value));
+    if (!Number.isFinite(seconds)) return null;
+    if (seconds < DM_DISPLAY_MIN_SECONDS || seconds > DM_DISPLAY_MAX_SECONDS) return null;
+    return seconds;
+}
+
 function pruneDirectMessages() {const now = Date.now();
 
 for (const [userId, queue] of directMessages) {
@@ -2233,14 +2248,18 @@ return state.count <= DM_RATE_LIMIT;
 
 }
 
-function queueDirectMessage(userId, message, sender = "NEXU") {pruneDirectMessages();
+function queueDirectMessage(userId, message, sender = "NEXU", displaySeconds = DM_DISPLAY_DEFAULT_SECONDS) {pruneDirectMessages();
 
 const now = Date.now();
+const normalizedDisplaySeconds =
+    normalizeDirectMessageDisplaySeconds(displaySeconds, DM_DISPLAY_DEFAULT_SECONDS) ||
+    DM_DISPLAY_DEFAULT_SECONDS;
 const entry = {
     id: `${now}-${nextDirectMessageId++}`,
     userId,
     sender: cleanText(sender, 40) || "NEXU",
     message: cleanText(message, DM_MAX_LENGTH),
+    displaySeconds: normalizedDisplaySeconds,
     sentAt: new Date(now).toISOString(),
     sentAtMs: now,
 };
@@ -2266,6 +2285,9 @@ return queue.map((entry) => ({
     id: entry.id,
     sender: entry.sender,
     message: entry.message,
+    displaySeconds:
+        normalizeDirectMessageDisplaySeconds(entry.displaySeconds, DM_DISPLAY_DEFAULT_SECONDS) ||
+        DM_DISPLAY_DEFAULT_SECONDS,
     sentAt: entry.sentAt,
 }));
 
@@ -3776,6 +3798,24 @@ ${dashboardNoticeHtml}
         <h3 id="broadcastModalTitle">Nachricht an alle aktiven Spieler</h3>
         <p id="broadcastModalUser" class="modal-user">Die Nachricht wird an alle Spieler mit einer aktuell aktiven Nexu-Sitzung gesendet.</p>
         <textarea id="broadcastMessageInput" class="message-input" maxlength="240" placeholder="Nachricht an alle aktiven Spieler eingeben …"></textarea>
+        <section class="broadcast-duration-panel" aria-labelledby="broadcastDurationTitle">
+            <div class="broadcast-duration-head">
+                <div><span>ANZEIGEDAUER</span><strong id="broadcastDurationTitle">Wie lange soll die Nachricht sichtbar bleiben?</strong></div>
+                <b id="broadcastDurationPreview">8 Sekunden</b>
+            </div>
+            <div class="broadcast-duration-grid">
+                <div class="update-field"><label for="broadcastDuration">Dauer</label><input id="broadcastDuration" type="number" min="1" max="600" step="1" value="8" inputmode="numeric"></div>
+                <div class="update-field"><label for="broadcastDurationUnit">Einheit</label><select id="broadcastDurationUnit"><option value="seconds">Sekunden</option><option value="minutes">Minuten</option></select></div>
+            </div>
+            <div class="broadcast-duration-presets" aria-label="Schnellauswahl">
+                <button type="button" data-broadcast-seconds="5">5 SEK</button>
+                <button type="button" data-broadcast-seconds="10">10 SEK</button>
+                <button type="button" data-broadcast-seconds="20">20 SEK</button>
+                <button type="button" data-broadcast-seconds="30">30 SEK</button>
+                <button type="button" data-broadcast-seconds="60">1 MIN</button>
+                <button type="button" data-broadcast-seconds="120">2 MIN</button>
+            </div>
+        </section>
         <div class="modal-actions">
             <button id="cancelBroadcastButton" class="action-button">ABBRECHEN</button>
             <button id="confirmBroadcastButton" class="action-button dm">AN ALLE SENDEN</button>
@@ -3923,6 +3963,10 @@ const elements = {
     broadcastModal:document.getElementById("broadcastModal"),
     broadcastModalUser:document.getElementById("broadcastModalUser"),
     broadcastMessageInput:document.getElementById("broadcastMessageInput"),
+    broadcastDuration:document.getElementById("broadcastDuration"),
+    broadcastDurationUnit:document.getElementById("broadcastDurationUnit"),
+    broadcastDurationPreview:document.getElementById("broadcastDurationPreview"),
+    broadcastDurationPresets:Array.from(document.querySelectorAll("[data-broadcast-seconds]")),
     cancelBroadcastButton:document.getElementById("cancelBroadcastButton"),
     confirmBroadcastButton:document.getElementById("confirmBroadcastButton"),
     broadcastModalNotice:document.getElementById("broadcastModalNotice"),
@@ -4543,6 +4587,48 @@ function closeDmModal() {
     elements.dmModalNotice.className = "modal-notice";
 }
 
+function getBroadcastDisplaySeconds() {
+    const raw = Number(elements.broadcastDuration && elements.broadcastDuration.value);
+    const unit = elements.broadcastDurationUnit && elements.broadcastDurationUnit.value === "minutes"
+        ? "minutes"
+        : "seconds";
+    if (!Number.isFinite(raw)) return NaN;
+    return Math.round(unit === "minutes" ? raw * 60 : raw);
+}
+
+function formatBroadcastDuration(seconds) {
+    const safe = Math.max(1, Math.round(Number(seconds) || 1));
+    if (safe >= 60 && safe % 60 === 0) {
+        const minutes = safe / 60;
+        return minutes === 1 ? "1 Minute" : minutes + " Minuten";
+    }
+    if (safe >= 60) {
+        const minutes = Math.floor(safe / 60);
+        const rest = safe % 60;
+        return minutes + " Min " + rest + " Sek";
+    }
+    return safe === 1 ? "1 Sekunde" : safe + " Sekunden";
+}
+
+function updateBroadcastDurationUi() {
+    if (!elements.broadcastDuration || !elements.broadcastDurationUnit) return;
+    const minutes = elements.broadcastDurationUnit.value === "minutes";
+    elements.broadcastDuration.min = "1";
+    elements.broadcastDuration.max = minutes ? "10" : "600";
+    const seconds = getBroadcastDisplaySeconds();
+    if (elements.broadcastDurationPreview) {
+        elements.broadcastDurationPreview.textContent =
+            Number.isFinite(seconds) && seconds >= 1 && seconds <= 600
+                ? formatBroadcastDuration(seconds)
+                : "Ungültige Dauer";
+    }
+    if (Array.isArray(elements.broadcastDurationPresets)) {
+        elements.broadcastDurationPresets.forEach(function (button) {
+            button.classList.toggle("active", Number(button.dataset.broadcastSeconds) === seconds);
+        });
+    }
+}
+
 function openBroadcastModal() {
     const onlineCount = state.players.filter(function (player) { return player.online === true; }).length;
     state.broadcastTargetCount = onlineCount;
@@ -4550,6 +4636,9 @@ function openBroadcastModal() {
         ? "Die Nachricht wird an 1 aktuell aktiven Spieler gesendet."
         : "Die Nachricht wird an " + onlineCount + " aktuell aktive Spieler gesendet.";
     elements.broadcastMessageInput.value = "";
+    if (elements.broadcastDuration) elements.broadcastDuration.value = "8";
+    if (elements.broadcastDurationUnit) elements.broadcastDurationUnit.value = "seconds";
+    updateBroadcastDurationUi();
     elements.broadcastModalNotice.textContent = "";
     elements.broadcastModalNotice.className = "modal-notice";
     elements.broadcastModal.classList.remove("hidden");
@@ -4565,14 +4654,17 @@ function closeBroadcastModal() {
     elements.broadcastModalNotice.className = "modal-notice";
 }
 
-async function sendBroadcastMessage(message) {
+async function sendBroadcastMessage(message, displaySeconds) {
     const response = await fetch("/api/dm/broadcast", {
         method:"POST",
         headers:{
             Accept:"application/json",
             "Content-Type":"application/json",
         },
-        body:JSON.stringify({ message:String(message || "").trim() }),
+        body:JSON.stringify({
+            message:String(message || "").trim(),
+            displaySeconds:Number(displaySeconds),
+        }),
     });
     const data = await response.json().catch(function () { return {}; });
     if (!response.ok || data.success !== true) {
@@ -5031,6 +5123,38 @@ elements.confirmBanButton.addEventListener("click",async function () {
     }
 });
 
+if (elements.broadcastDuration) {
+    elements.broadcastDuration.addEventListener("input", updateBroadcastDurationUi);
+    elements.broadcastDuration.addEventListener("change", updateBroadcastDurationUi);
+}
+if (elements.broadcastDurationUnit) {
+    elements.broadcastDurationUnit.addEventListener("change", function () {
+        const currentSeconds = getBroadcastDisplaySeconds();
+        const nextUnit = elements.broadcastDurationUnit.value === "minutes" ? "minutes" : "seconds";
+        if (Number.isFinite(currentSeconds)) {
+            elements.broadcastDuration.value = nextUnit === "minutes"
+                ? String(Math.max(1, Math.min(10, Math.round(currentSeconds / 60))))
+                : String(Math.max(1, Math.min(600, Math.round(currentSeconds))));
+        }
+        updateBroadcastDurationUi();
+    });
+}
+if (Array.isArray(elements.broadcastDurationPresets)) {
+    elements.broadcastDurationPresets.forEach(function (button) {
+        button.addEventListener("click", function () {
+            const seconds = Math.max(1, Math.min(600, Number(button.dataset.broadcastSeconds) || 8));
+            if (seconds >= 60 && seconds % 60 === 0) {
+                elements.broadcastDurationUnit.value = "minutes";
+                elements.broadcastDuration.value = String(seconds / 60);
+            } else {
+                elements.broadcastDurationUnit.value = "seconds";
+                elements.broadcastDuration.value = String(seconds);
+            }
+            updateBroadcastDurationUi();
+        });
+    });
+}
+
 if (elements.cancelBroadcastButton) elements.cancelBroadcastButton.addEventListener("click",closeBroadcastModal);
 if (elements.broadcastModal) elements.broadcastModal.addEventListener("click",function (event) {
     if (event.target === elements.broadcastModal) {
@@ -5045,16 +5169,24 @@ if (elements.confirmBroadcastButton) elements.confirmBroadcastButton.addEventLis
         elements.broadcastMessageInput.focus();
         return;
     }
+    const displaySeconds = getBroadcastDisplaySeconds();
+    if (!Number.isFinite(displaySeconds) || displaySeconds < 1 || displaySeconds > 600) {
+        elements.broadcastModalNotice.textContent = "Bitte eine Anzeigedauer zwischen 1 Sekunde und 10 Minuten wählen.";
+        elements.broadcastModalNotice.className = "modal-notice";
+        if (elements.broadcastDuration) elements.broadcastDuration.focus();
+        return;
+    }
     elements.confirmBroadcastButton.disabled = true;
     elements.confirmBroadcastButton.textContent = "SENDE …";
     elements.broadcastModalNotice.textContent = "";
     elements.broadcastModalNotice.className = "modal-notice";
     try {
-        const result = await sendBroadcastMessage(message);
+        const result = await sendBroadcastMessage(message, displaySeconds);
         const count = Number(result.targetedPlayers) || 0;
+        const durationLabel = formatBroadcastDuration(Number(result.displaySeconds) || displaySeconds);
         elements.broadcastModalNotice.textContent = count === 1
-            ? "Nachricht wurde an 1 aktiven Spieler gesendet."
-            : "Nachricht wurde an " + count + " aktive Spieler gesendet.";
+            ? "Nachricht wurde an 1 aktiven Spieler gesendet und bleibt " + durationLabel + " sichtbar."
+            : "Nachricht wurde an " + count + " aktive Spieler gesendet und bleibt " + durationLabel + " sichtbar.";
         elements.broadcastModalNotice.className = "modal-notice ok";
         setTimeout(closeBroadcastModal,900);
     } catch (error) {
@@ -5478,7 +5610,7 @@ function nexuV200HomeAddon() {
     <div><div class="eyebrow">SYSTEM READY</div><h2>${isOnline ? "Nexu ist bereit für den nächsten Einsatz." : "Nexu befindet sich aktuell im Offline-Modus."}</h2><p>${isOnline ? `Das Kontrollsystem ist erreichbar. ${knownCount} Spielerprofile sind registriert und ${banCount} Nutzer derzeit gesperrt.` : "Neue Lua-Starts werden blockiert, bis der Menüstatus im Menu Server wieder aktiviert wird."}</p></div>
     <div class="nx-status-orb${isOnline ? "" : " offline"}" aria-label="${isOnline ? "Online" : "Offline"}"><span></span></div>
 </section>
-<div class="nx-page-footer"><span><strong>NEXU</strong> · CONTROL NETWORK</span><span>GESICHERTE SITZUNG · V206</span></div>`;
+<div class="nx-page-footer"><span><strong>NEXU</strong> · CONTROL NETWORK</span><span>GESICHERTE SITZUNG · V207</span></div>`;
 }
 
 function nexuV200StartupHtml() {
@@ -5555,11 +5687,11 @@ function enhanceNexuV200Page(html, pageType) {
     } else if (pageType === "dashboard") {
         const strip = '<div class="nx-command-strip"><span>CONTROL PLANE</span><i></i><span>PRESENCE NETWORK</span><i></i><span>ROLE GOVERNANCE</span><i></i><span>RUNTIME COMMANDS</span><span class="nx-live">SECURE SESSION</span></div>';
         html = html.replace("</header>", "</header>" + strip);
-        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · MENU SERVER</span><span>PROFESSIONELLE SERVERÜBERSICHT · V206</span></div></main>');
+        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · MENU SERVER</span><span>PROFESSIONELLE SERVERÜBERSICHT · V207</span></div></main>');
     } else if (pageType === "accounts") {
         const accountOverview = `<section class="nx-account-overview"><article><span>Access Governance</span><strong>Kontrollzentrum für Konten</strong><small>Zentrale Verwaltung für Identitäten, Passwörter und granulare Rechte.</small></article><article><span>Accounts</span><strong>${dashboardAccounts.size}</strong><small>Registrierte Zugänge zur Übersicht</small></article><article><span>Permission Modules</span><strong>${DASHBOARD_PERMISSION_DEFINITIONS.length}</strong><small>Einzeln steuerbare Berechtigungen</small></article><article><span>Owner Protection</span><strong>Active</strong><small>OwnerAccount bleibt unveränderbar geschützt</small></article></section>`;
         html = html.replace('<section class="account-list">', accountOverview + '<section class="account-list">');
-        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · ACCOUNT GOVERNANCE</span><span>OWNER GESCHÜTZT · V206</span></div></main>');
+        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · ACCOUNT GOVERNANCE</span><span>OWNER GESCHÜTZT · V207</span></div></main>');
     }
 
     html = html.replace("</body>", nexuV200ClientScript(pageType) + "</body>");
@@ -5599,7 +5731,7 @@ function buildNexuOverviewRuntimeSnapshot() {
     const cpu = process.cpuUsage();
     return {
         success: true,
-        version: "V206",
+        version: "V207",
         serviceName: cleanText(process.env.RENDER_SERVICE_NAME || "Nexu Server", 100) || "Nexu Server",
         instanceId: SERVER_INSTANCE_ID,
         startedAtMs: SERVER_STARTED_AT_MS,
@@ -6414,7 +6546,7 @@ function nexuV201OverviewSidebarHtml() {
     </section>
 
     <section class="nx-sidebar-section nx-server-details">
-        <div class="nx-sidebar-title"><span>Serverinformationen</span><b>V206</b></div>
+        <div class="nx-sidebar-title"><span>Serverinformationen</span><b>V207</b></div>
         <div class="nx-info-list">
             <div class="nx-info-row"><span>Instanz</span><b id="nxInstanceId" title="${escapeHtml(SERVER_INSTANCE_ID)}">${escapeHtml(SERVER_INSTANCE_ID.slice(0, 13))}…</b></div>
             <div class="nx-info-row"><span>Gestartet</span><b>${escapeHtml(startedAt)}</b></div>
@@ -8549,6 +8681,88 @@ body.nexu-v204 button:disabled{
     }
 }
 
+/* NEXU V207 // RUNDSENDUNGSDAUER */
+.page-dashboard.nexu-v204 .broadcast-duration-panel{
+    margin-top:12px;
+    padding:13px;
+    border:1px solid rgba(151,190,216,.10);
+    border-radius:13px;
+    background:#07101a;
+}
+.page-dashboard.nexu-v204 .broadcast-duration-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:14px;
+}
+.page-dashboard.nexu-v204 .broadcast-duration-head span{
+    display:block;
+    color:#5d7789;
+    font-size:7px;
+    font-weight:900;
+    letter-spacing:.14em;
+}
+.page-dashboard.nexu-v204 .broadcast-duration-head strong{
+    display:block;
+    margin-top:5px;
+    color:#d7e7ef;
+    font-size:10px;
+    line-height:1.35;
+}
+.page-dashboard.nexu-v204 .broadcast-duration-head > b{
+    flex:0 0 auto;
+    min-height:28px;
+    display:inline-flex;
+    align-items:center;
+    padding:0 9px;
+    border:1px solid rgba(37,214,255,.18);
+    border-radius:8px;
+    color:#9cecff;
+    background:rgba(37,214,255,.06);
+    font-size:8px;
+    font-weight:900;
+    letter-spacing:.055em;
+}
+.page-dashboard.nexu-v204 .broadcast-duration-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 150px;
+    gap:8px;
+    margin-top:11px;
+}
+.page-dashboard.nexu-v204 .broadcast-duration-presets{
+    display:grid;
+    grid-template-columns:repeat(6,minmax(0,1fr));
+    gap:5px;
+    margin-top:8px;
+}
+.page-dashboard.nexu-v204 .broadcast-duration-presets button{
+    min-height:30px !important;
+    height:30px;
+    padding:0 7px !important;
+    border:1px solid rgba(151,190,216,.10);
+    border-radius:8px !important;
+    color:#859dac;
+    background:#0a141e;
+    font-size:7px !important;
+    font-weight:900;
+    letter-spacing:.045em;
+    cursor:pointer;
+}
+.page-dashboard.nexu-v204 .broadcast-duration-presets button:hover,
+.page-dashboard.nexu-v204 .broadcast-duration-presets button.active{
+    color:#ddf8ff;
+    border-color:rgba(37,214,255,.26);
+    background:rgba(37,214,255,.075);
+}
+@media(max-width:620px){
+    .page-dashboard.nexu-v204 .broadcast-duration-grid{
+        grid-template-columns:1fr;
+    }
+    .page-dashboard.nexu-v204 .broadcast-duration-presets{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+}
+
 `;
 }
 
@@ -10310,8 +10524,16 @@ if (req.method === "POST" && pathname === "/api/dm/broadcast") {
     try {
         const body = await readJsonBody(req);
         const message = cleanText(body.message, DM_MAX_LENGTH);
+        const displaySeconds = normalizeDirectMessageDisplaySeconds(body.displaySeconds, null);
         if (!message) {
             sendJson(res, 400, {success:false, error:"Nachricht fehlt"});
+            return;
+        }
+        if (displaySeconds === null) {
+            sendJson(res, 400, {
+                success:false,
+                error:"Anzeigedauer muss zwischen 1 Sekunde und 10 Minuten liegen.",
+            });
             return;
         }
 
@@ -10333,15 +10555,16 @@ if (req.method === "POST" && pathname === "/api/dm/broadcast") {
 
         const queued = [];
         for (const userId of latestActiveByUserId.keys()) {
-            const directMessage = queueDirectMessage(userId, message, "NEXU");
+            const directMessage = queueDirectMessage(userId, message, "NEXU", displaySeconds);
             queued.push({userId, id:directMessage.id});
         }
-        console.log(`[NEXU] RUNDSENDUNG an ${queued.length} aktive Spieler: ${message.slice(0, 60)}`);
+        console.log(`[NEXU] RUNDSENDUNG an ${queued.length} aktive Spieler (${displaySeconds}s): ${message.slice(0, 60)}`);
         sendJson(res, 200, {
             success:true,
             queued:true,
             targetedPlayers:queued.length,
             message,
+            displaySeconds,
             sentAt:new Date().toISOString(),
         });
     } catch (error) {
@@ -10414,6 +10637,7 @@ if (req.method === "POST" && pathname === "/api/dm/send") {
                 id: directMessage.id,
                 userId: directMessage.userId,
                 message: directMessage.message,
+                displaySeconds: directMessage.displaySeconds,
                 sentAt: directMessage.sentAt,
             },
         });
