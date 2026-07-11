@@ -1,3 +1,4 @@
+// V204: Vollständiger professioneller Neuaufbau aller Seiten mit klarer Informationsarchitektur, ruhigerem Design und unveränderten Funktionen.
 // V203: Spielerinformationen als ein gemeinsamer, kompakter Informationsblock statt einzelner voneinander getrennter Felder.
 // V202: Kompakte Spielerkarten, kleinere Aktionsschaltflächen, lesbare Serverinformationen und zuverlässige Rang-Auswahl.
 // V201: Vollständig deutsche Oberfläche, "Dashboard" wird zu "Übersicht", neue linke Serverzentrale mit Live-Metriken, Navigation und Laufzeitprüfung.
@@ -5477,7 +5478,7 @@ function nexuV200HomeAddon() {
     <div><div class="eyebrow">SYSTEM READY</div><h2>${isOnline ? "Nexu ist bereit für den nächsten Einsatz." : "Nexu befindet sich aktuell im Offline-Modus."}</h2><p>${isOnline ? `Das Kontrollsystem ist erreichbar. ${knownCount} Spielerprofile sind registriert und ${banCount} Nutzer derzeit gesperrt.` : "Neue Lua-Starts werden blockiert, bis der Menüstatus im Menu Server wieder aktiviert wird."}</p></div>
     <div class="nx-status-orb${isOnline ? "" : " offline"}" aria-label="${isOnline ? "Online" : "Offline"}"><span></span></div>
 </section>
-<div class="nx-page-footer"><span><strong>NEXU</strong> · CONTROL NETWORK</span><span>SECURE SESSION · V200 AURORA-ERLEBNIS</span></div>`;
+<div class="nx-page-footer"><span><strong>NEXU</strong> · CONTROL NETWORK</span><span>GESICHERTE SITZUNG · V204</span></div>`;
 }
 
 function nexuV200StartupHtml() {
@@ -5554,11 +5555,11 @@ function enhanceNexuV200Page(html, pageType) {
     } else if (pageType === "dashboard") {
         const strip = '<div class="nx-command-strip"><span>CONTROL PLANE</span><i></i><span>PRESENCE NETWORK</span><i></i><span>ROLE GOVERNANCE</span><i></i><span>RUNTIME COMMANDS</span><span class="nx-live">SECURE SESSION</span></div>';
         html = html.replace("</header>", "</header>" + strip);
-        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · MENU SERVER</span><span>LIVE CONTROL INTERFACE · V200</span></div></main>');
+        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · MENU SERVER</span><span>PROFESSIONELLE SERVERÜBERSICHT · V204</span></div></main>');
     } else if (pageType === "accounts") {
         const accountOverview = `<section class="nx-account-overview"><article><span>Access Governance</span><strong>Kontrollzentrum für Konten</strong><small>Zentrale Verwaltung für Identitäten, Passwörter und granulare Rechte.</small></article><article><span>Accounts</span><strong>${dashboardAccounts.size}</strong><small>Registrierte Zugänge zur Übersicht</small></article><article><span>Permission Modules</span><strong>${DASHBOARD_PERMISSION_DEFINITIONS.length}</strong><small>Einzeln steuerbare Berechtigungen</small></article><article><span>Owner Protection</span><strong>Active</strong><small>OwnerAccount bleibt unveränderbar geschützt</small></article></section>`;
         html = html.replace('<section class="account-list">', accountOverview + '<section class="account-list">');
-        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · ACCOUNT GOVERNANCE</span><span>OWNER PROTECTED · V200</span></div></main>');
+        html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · ACCOUNT GOVERNANCE</span><span>OWNER GESCHÜTZT · V204</span></div></main>');
     }
 
     html = html.replace("</body>", nexuV200ClientScript(pageType) + "</body>");
@@ -5598,7 +5599,7 @@ function buildNexuOverviewRuntimeSnapshot() {
     const cpu = process.cpuUsage();
     return {
         success: true,
-        version: "V201",
+        version: "V204",
         serviceName: cleanText(process.env.RENDER_SERVICE_NAME || "Nexu Server", 100) || "Nexu Server",
         instanceId: SERVER_INSTANCE_ID,
         startedAtMs: SERVER_STARTED_AT_MS,
@@ -6413,7 +6414,7 @@ function nexuV201OverviewSidebarHtml() {
     </section>
 
     <section class="nx-sidebar-section nx-server-details">
-        <div class="nx-sidebar-title"><span>Serverinformationen</span><b>V201</b></div>
+        <div class="nx-sidebar-title"><span>Serverinformationen</span><b>V204</b></div>
         <div class="nx-info-list">
             <div class="nx-info-row"><span>Instanz</span><b id="nxInstanceId" title="${escapeHtml(SERVER_INSTANCE_ID)}">${escapeHtml(SERVER_INSTANCE_ID.slice(0, 13))}…</b></div>
             <div class="nx-info-row"><span>Gestartet</span><b>${escapeHtml(startedAt)}</b></div>
@@ -6729,6 +6730,1625 @@ dashboardAccountsHtml = function(...args) {
 };
 dashboardHtml = function(...args) {
     return enhanceNexuV201Page(NEXU_V201_BASE_OVERVIEW_HTML(...args), "overview");
+};
+
+
+
+/* --------------------------------------------------------------------------
+ * NEXU V204 // PROFESSIONAL CLEAN SYSTEM
+ *
+ * Dieser Layer verändert ausschließlich Aufbau, Darstellung und clientseitige
+ * Anordnung. Bestehende IDs, Formulare, API-Routen, Berechtigungen und Server-
+ * Aktionen bleiben erhalten. Bereits gebundene Elemente werden verschoben,
+ * niemals geklont oder ersetzt.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V204_BASE_LOGIN_HTML = loginHtml;
+const NEXU_V204_BASE_HOME_HTML = homeHtml;
+const NEXU_V204_BASE_ACCOUNTS_HTML = dashboardAccountsHtml;
+const NEXU_V204_BASE_OVERVIEW_HTML = dashboardHtml;
+
+function nexuV204Css() {
+    return String.raw`
+/* ========================================================================
+   NEXU V204 // PROFESSIONAL CLEAN SYSTEM
+   ======================================================================== */
+
+:root{
+    --v204-bg:#05080d;
+    --v204-bg-soft:#080d14;
+    --v204-panel:#0b121c;
+    --v204-panel-2:#0e1723;
+    --v204-panel-3:#111c29;
+    --v204-line:rgba(151,190,216,.115);
+    --v204-line-strong:rgba(91,208,255,.24);
+    --v204-text:#eef7fb;
+    --v204-muted:#8298a8;
+    --v204-soft:#a8bbc7;
+    --v204-cyan:#25d6ff;
+    --v204-blue:#4388ff;
+    --v204-violet:#8b63ff;
+    --v204-green:#45ffb0;
+    --v204-yellow:#ffc96b;
+    --v204-red:#ff668c;
+    --v204-radius:18px;
+    --v204-radius-lg:24px;
+    --v204-shadow:0 20px 55px rgba(0,0,0,.24);
+    --v204-shadow-lg:0 34px 95px rgba(0,0,0,.34);
+    --v204-ease:cubic-bezier(.2,.75,.25,1);
+}
+
+html{
+    scroll-behavior:smooth;
+    background:var(--v204-bg);
+}
+body.nexu-v204{
+    color:var(--v204-text);
+    background:
+        radial-gradient(circle at 12% -10%,rgba(37,214,255,.095),transparent 34rem),
+        radial-gradient(circle at 90% 4%,rgba(139,99,255,.075),transparent 31rem),
+        linear-gradient(180deg,#05080d,#060b12 42%,#05080d);
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    letter-spacing:-.006em;
+}
+body.nexu-v204::before{
+    opacity:.075 !important;
+    background-size:48px 48px !important;
+    mask-image:linear-gradient(to bottom,black,transparent 72%) !important;
+}
+body.nexu-v204 .scan{
+    opacity:.28;
+    animation-duration:12s;
+}
+body.nexu-v204 .nx-ambient{
+    opacity:.44;
+    filter:saturate(.75);
+}
+body.nexu-v204 button,
+body.nexu-v204 a,
+body.nexu-v204 input,
+body.nexu-v204 textarea,
+body.nexu-v204 select{
+    transition:
+        color .18s ease,
+        border-color .18s ease,
+        background-color .18s ease,
+        box-shadow .18s ease,
+        transform .18s var(--v204-ease),
+        opacity .18s ease;
+}
+body.nexu-v204 button:focus-visible,
+body.nexu-v204 a:focus-visible,
+body.nexu-v204 input:focus-visible,
+body.nexu-v204 textarea:focus-visible,
+body.nexu-v204 select:focus-visible{
+    outline:none;
+    box-shadow:0 0 0 3px rgba(37,214,255,.14),0 0 0 1px rgba(37,214,255,.48) inset !important;
+}
+body.nexu-v204 .eyebrow{
+    color:#6edfff;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:.18em;
+}
+body.nexu-v204 .nx-command-strip{
+    display:none !important;
+}
+body.nexu-v204 .nx-page-footer{
+    margin-top:18px;
+    padding:14px 4px;
+    border:0;
+    color:#526a7a;
+    font-size:9px;
+}
+body.nexu-v204 .nx-page-footer strong{
+    color:#9eb5c3;
+}
+
+/* Gemeinsame Oberflächen */
+body.nexu-v204 .panel,
+body.nexu-v204 .hero,
+body.nexu-v204 .directory,
+body.nexu-v204 .menu-status-panel,
+body.nexu-v204 .update-status,
+body.nexu-v204 .intro,
+body.nexu-v204 .account-card,
+body.nexu-v204 .auth-panel,
+body.nexu-v204 .remembered-list,
+body.nexu-v204 .brand-card,
+body.nexu-v204 .auth-card{
+    border:1px solid var(--v204-line) !important;
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.022),rgba(255,255,255,.006)),
+        rgba(9,15,23,.90) !important;
+    box-shadow:var(--v204-shadow),0 1px 0 rgba(255,255,255,.025) inset !important;
+    backdrop-filter:blur(18px) saturate(112%);
+}
+body.nexu-v204 .stat,
+body.nexu-v204 .info-card,
+body.nexu-v204 .primary-tile,
+body.nexu-v204 .access-box,
+body.nexu-v204 .nx-sidebar-section,
+body.nexu-v204 .nx-live-tile{
+    border:1px solid rgba(151,190,216,.095) !important;
+    background:rgba(255,255,255,.018) !important;
+    box-shadow:none !important;
+}
+body.nexu-v204 .modal-backdrop,
+body.nexu-v204 .account-confirm-backdrop{
+    background:rgba(1,4,8,.78) !important;
+    backdrop-filter:blur(12px) saturate(90%);
+}
+body.nexu-v204 .modal-card,
+body.nexu-v204 .account-confirm-card{
+    border:1px solid rgba(113,207,246,.19) !important;
+    border-radius:22px !important;
+    background:#0a111b !important;
+    box-shadow:0 45px 130px rgba(0,0,0,.62),0 1px 0 rgba(255,255,255,.035) inset !important;
+}
+
+/* ------------------------------------------------------------------------
+   Anmeldung
+   ------------------------------------------------------------------------ */
+.page-login.nexu-v204{
+    min-height:100vh;
+    padding:22px !important;
+}
+.page-login.nexu-v204 .login-shell{
+    width:min(1120px,100%) !important;
+    grid-template-columns:minmax(350px,.82fr) minmax(520px,1.18fr) !important;
+    gap:12px !important;
+}
+.page-login.nexu-v204 .brand-card{
+    min-height:620px !important;
+    padding:42px !important;
+    border-radius:24px !important;
+    justify-content:flex-end !important;
+    overflow:hidden;
+}
+.page-login.nexu-v204 .brand-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(180deg,transparent 34%,rgba(5,11,18,.85)),
+        radial-gradient(circle at 20% 10%,rgba(37,214,255,.14),transparent 28rem);
+    pointer-events:none;
+}
+.page-login.nexu-v204 .brand-card::after{
+    right:-45px !important;
+    bottom:-86px !important;
+    font-size:330px !important;
+    color:rgba(37,214,255,.025) !important;
+}
+.page-login.nexu-v204 .brand-card > *{
+    position:relative;
+    z-index:1;
+}
+.page-login.nexu-v204 .brand-card .logo{
+    position:absolute;
+    top:32px;
+    left:32px;
+    width:62px !important;
+    height:62px !important;
+    border-radius:18px !important;
+    font-size:25px !important;
+    box-shadow:0 18px 45px rgba(37,214,255,.18),0 0 0 1px rgba(255,255,255,.13) inset !important;
+}
+.page-login.nexu-v204 .brand-card h1{
+    max-width:520px;
+    margin-bottom:18px !important;
+    font-size:clamp(46px,5.8vw,72px) !important;
+    line-height:.94 !important;
+    letter-spacing:-.065em !important;
+}
+.page-login.nexu-v204 .brand-card p{
+    max-width:530px;
+    color:#8ea4b3 !important;
+    line-height:1.72 !important;
+}
+.page-login.nexu-v204 .statline{
+    grid-template-columns:1fr !important;
+    gap:7px !important;
+    margin-top:30px !important;
+}
+.page-login.nexu-v204 .statline .stat{
+    min-height:62px !important;
+    display:grid;
+    grid-template-columns:150px minmax(0,1fr);
+    align-items:center;
+    gap:12px;
+    padding:12px 14px !important;
+    border-radius:13px !important;
+}
+.page-login.nexu-v204 .statline .stat b{
+    font-size:10px;
+}
+.page-login.nexu-v204 .statline .stat span{
+    font-size:10px;
+    text-align:right;
+}
+.page-login.nexu-v204 .auth-card{
+    min-height:620px;
+    padding:12px !important;
+    border-radius:24px !important;
+}
+.page-login.nexu-v204 .auth-grid{
+    align-content:center;
+    gap:9px !important;
+}
+.page-login.nexu-v204 .auth-panel,
+.page-login.nexu-v204 .remembered-list{
+    padding:22px !important;
+    border-radius:17px !important;
+}
+.page-login.nexu-v204 .auth-panel h2,
+.page-login.nexu-v204 .remembered-list h2{
+    font-size:18px;
+    letter-spacing:-.025em;
+}
+.page-login.nexu-v204 .field{
+    gap:7px;
+}
+.page-login.nexu-v204 label{
+    color:#718797;
+    font-size:9px;
+    font-weight:850;
+    letter-spacing:.08em;
+}
+.page-login.nexu-v204 input{
+    min-height:44px !important;
+    border:1px solid rgba(151,190,216,.13) !important;
+    border-radius:11px !important;
+    background:#070d14 !important;
+}
+.page-login.nexu-v204 button,
+.page-login.nexu-v204 .button-link{
+    min-height:43px !important;
+    border-radius:11px !important;
+    box-shadow:none !important;
+}
+.page-login.nexu-v204 button:hover,
+.page-login.nexu-v204 .button-link:hover{
+    transform:translateY(-1px);
+    box-shadow:0 12px 25px rgba(32,132,214,.16) !important;
+}
+.page-login.nexu-v204 .remembered-account{
+    border-radius:12px !important;
+    background:#080f18 !important;
+}
+
+/* ------------------------------------------------------------------------
+   Startseite
+   ------------------------------------------------------------------------ */
+.page-home.nexu-v204 .shell{
+    width:min(1240px,calc(100% - 30px)) !important;
+    padding:14px 0 44px !important;
+}
+.page-home.nexu-v204 .header{
+    top:10px !important;
+    min-height:62px;
+    margin-bottom:14px !important;
+    padding:9px 10px 9px 13px !important;
+    border:1px solid var(--v204-line) !important;
+    border-radius:16px !important;
+    background:rgba(7,12,19,.88) !important;
+    box-shadow:0 15px 40px rgba(0,0,0,.22) !important;
+}
+.page-home.nexu-v204 .header .logo{
+    width:38px !important;
+    height:38px !important;
+    border-radius:11px !important;
+    font-size:16px !important;
+}
+.page-home.nexu-v204 .brand strong{
+    font-size:16px !important;
+}
+.page-home.nexu-v204 .brand span{
+    font-size:9px !important;
+}
+.page-home.nexu-v204 .account-button{
+    min-height:39px;
+    border-radius:12px;
+    background:#0a111a;
+}
+.page-home.nexu-v204 .hero{
+    min-height:0 !important;
+    display:grid !important;
+    grid-template-columns:minmax(0,1.08fr) minmax(380px,.92fr) !important;
+    gap:12px !important;
+}
+.page-home.nexu-v204 .panel{
+    border-radius:22px !important;
+}
+.page-home.nexu-v204 .welcome{
+    min-height:570px !important;
+    padding:44px !important;
+    justify-content:center !important;
+}
+.page-home.nexu-v204 .welcome::before{
+    background:
+        linear-gradient(115deg,rgba(37,214,255,.075),transparent 44%),
+        radial-gradient(circle at 86% 76%,rgba(139,99,255,.11),transparent 34%) !important;
+}
+.page-home.nexu-v204 .welcome .eyebrow{
+    margin-top:0 !important;
+}
+.page-home.nexu-v204 .nx-home-introline{
+    top:28px !important;
+    left:34px !important;
+    right:34px !important;
+    color:#607989;
+    font-size:8px;
+}
+.page-home.nexu-v204 h1{
+    max-width:700px;
+    margin:14px 0 18px !important;
+    font-size:clamp(62px,7.5vw,94px) !important;
+    line-height:.84 !important;
+}
+.page-home.nexu-v204 .welcome p{
+    max-width:590px;
+    font-size:14px;
+    line-height:1.75 !important;
+}
+.page-home.nexu-v204 .nx-hero-orbit{
+    right:-40px !important;
+    bottom:-75px !important;
+    opacity:.68;
+    transform:scale(.8);
+}
+.page-home.nexu-v204 .action-grid{
+    padding:12px !important;
+    grid-template-columns:1fr !important;
+    gap:8px !important;
+    align-content:stretch !important;
+}
+.page-home.nexu-v204 .primary-tile{
+    position:relative;
+    min-height:118px !important;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:19px 20px 19px 66px !important;
+    border-radius:16px !important;
+    background:#0b131e !important;
+}
+.page-home.nexu-v204 .primary-tile::before{
+    position:absolute;
+    left:18px;
+    top:50%;
+    width:34px;
+    height:34px;
+    display:grid;
+    place-items:center;
+    border:1px solid rgba(37,214,255,.15);
+    border-radius:11px;
+    color:#80e8ff;
+    background:#07111a;
+    font-size:12px;
+    font-weight:900;
+    transform:translateY(-50%);
+}
+.page-home.nexu-v204 .primary-tile.menu-server::before{content:"01";}
+.page-home.nexu-v204 .primary-tile.account-admin::before{content:"02";}
+.page-home.nexu-v204 .primary-tile.copy-script::before{content:"03";}
+.page-home.nexu-v204 .primary-tile:hover{
+    transform:translateY(-2px) !important;
+    border-color:rgba(37,214,255,.25) !important;
+    background:#0d1723 !important;
+    box-shadow:0 18px 38px rgba(0,0,0,.20) !important;
+}
+.page-home.nexu-v204 .primary-tile span{
+    font-size:8px;
+}
+.page-home.nexu-v204 .primary-tile strong{
+    margin-top:5px;
+    font-size:18px !important;
+}
+.page-home.nexu-v204 .primary-tile small{
+    margin-top:5px;
+    color:#71899a;
+    line-height:1.45;
+}
+.page-home.nexu-v204 .primary-tile.copy-script{
+    grid-column:auto !important;
+    min-height:136px !important;
+}
+.page-home.nexu-v204 .copy-command{
+    max-width:100%;
+    margin-top:9px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.page-home.nexu-v204 .quick-info{
+    grid-column:auto !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:8px !important;
+}
+.page-home.nexu-v204 .info-card{
+    min-height:88px !important;
+    padding:14px !important;
+    border-radius:14px !important;
+}
+.page-home.nexu-v204 .info-label{
+    font-size:8px;
+}
+.page-home.nexu-v204 .info-value{
+    margin-top:7px;
+    font-size:15px;
+}
+.page-home.nexu-v204 .nx-trust-grid,
+.page-home.nexu-v204 .nx-capability-grid{
+    gap:10px !important;
+}
+.page-home.nexu-v204 .nx-trust-card,
+.page-home.nexu-v204 .nx-capability{
+    border-radius:17px !important;
+    background:#0a111a !important;
+}
+
+/* ------------------------------------------------------------------------
+   Kontoverwaltung
+   ------------------------------------------------------------------------ */
+.page-accounts.nexu-v204 .shell{
+    width:min(1260px,calc(100% - 30px)) !important;
+    padding:14px 0 46px !important;
+}
+.page-accounts.nexu-v204 .topbar{
+    top:10px;
+    min-height:66px;
+    padding:11px 14px !important;
+    border:1px solid var(--v204-line) !important;
+    border-radius:16px !important;
+    background:rgba(7,12,19,.88) !important;
+    box-shadow:0 15px 40px rgba(0,0,0,.22) !important;
+}
+.page-accounts.nexu-v204 .topbar .logo{
+    width:40px !important;
+    height:40px !important;
+    border-radius:12px !important;
+}
+.page-accounts.nexu-v204 .topbar h1{
+    font-size:17px !important;
+}
+.page-accounts.nexu-v204 .topbar p{
+    margin-top:2px !important;
+    font-size:9px !important;
+}
+.page-accounts.nexu-v204 .back{
+    min-height:38px;
+    display:inline-flex;
+    align-items:center;
+    padding:0 13px;
+    border:1px solid var(--v204-line);
+    border-radius:11px;
+    color:#a5bac7;
+    text-decoration:none;
+    background:#0a111a;
+}
+.page-accounts.nexu-v204 .intro{
+    margin-top:14px !important;
+    padding:25px !important;
+    border-radius:20px !important;
+}
+.page-accounts.nexu-v204 .intro h2{
+    margin:6px 0 7px !important;
+    font-size:28px !important;
+    letter-spacing:-.04em;
+}
+.page-accounts.nexu-v204 .nx-account-overview{
+    grid-template-columns:2fr repeat(3,1fr) !important;
+    gap:9px !important;
+    margin-top:12px !important;
+}
+.page-accounts.nexu-v204 .nx-account-overview article{
+    min-height:112px !important;
+    padding:16px !important;
+    border:1px solid var(--v204-line) !important;
+    border-radius:15px !important;
+    background:#0a111a !important;
+}
+.page-accounts.nexu-v204 .nx-v204-account-tools{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    margin:14px 0 10px;
+    padding:12px 14px;
+    border:1px solid var(--v204-line);
+    border-radius:15px;
+    background:#09111a;
+}
+.page-accounts.nexu-v204 .nx-v204-account-tools-copy strong{
+    display:block;
+    font-size:13px;
+}
+.page-accounts.nexu-v204 .nx-v204-account-tools-copy span{
+    display:block;
+    margin-top:3px;
+    color:#6d8596;
+    font-size:9px;
+}
+.page-accounts.nexu-v204 .nx-v204-account-search{
+    width:min(330px,100%);
+    min-height:39px;
+    padding:0 12px;
+    border:1px solid var(--v204-line);
+    border-radius:10px;
+    color:var(--v204-text);
+    background:#060c13;
+}
+.page-accounts.nexu-v204 .account-list{
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+}
+.page-accounts.nexu-v204 .account-card{
+    padding:20px !important;
+    border-radius:18px !important;
+    overflow:visible !important;
+}
+.page-accounts.nexu-v204 .account-card:hover{
+    transform:none !important;
+    border-color:rgba(37,214,255,.19) !important;
+    box-shadow:var(--v204-shadow) !important;
+}
+.page-accounts.nexu-v204 .account-card-head{
+    align-items:center;
+    padding-bottom:14px;
+    border-bottom:1px solid rgba(151,190,216,.08);
+}
+.page-accounts.nexu-v204 .account-card-head strong{
+    font-size:17px;
+}
+.page-accounts.nexu-v204 .account-card form > .grid{
+    grid-template-columns:minmax(250px,.68fr) minmax(520px,1.32fr) !important;
+    gap:12px !important;
+    margin-top:14px;
+}
+.page-accounts.nexu-v204 .account-card .field,
+.page-accounts.nexu-v204 .access-box{
+    border-radius:14px !important;
+}
+.page-accounts.nexu-v204 .access-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:7px !important;
+}
+.page-accounts.nexu-v204 .access-item{
+    min-height:68px;
+    padding:10px !important;
+    border-radius:11px !important;
+}
+.page-accounts.nexu-v204 .access-item b{
+    font-size:10px;
+}
+.page-accounts.nexu-v204 .access-item small{
+    font-size:8px;
+    line-height:1.35;
+}
+.page-accounts.nexu-v204 .actions button,
+.page-accounts.nexu-v204 .delete-account-form button{
+    min-height:38px !important;
+    border-radius:10px !important;
+}
+
+/* ------------------------------------------------------------------------
+   Serverübersicht / App-Shell
+   ------------------------------------------------------------------------ */
+.page-dashboard.nexu-v204 .shell{
+    width:min(1580px,calc(100% - 24px)) !important;
+    padding:10px 0 36px !important;
+}
+.page-dashboard.nexu-v204 header{
+    top:8px !important;
+    min-height:64px;
+    margin-bottom:10px !important;
+    padding:9px 10px 9px 13px !important;
+    border:1px solid var(--v204-line) !important;
+    border-radius:15px !important;
+    background:rgba(7,12,19,.91) !important;
+    box-shadow:0 15px 42px rgba(0,0,0,.24) !important;
+    backdrop-filter:blur(18px) saturate(110%) !important;
+}
+.page-dashboard.nexu-v204 header .logo{
+    width:40px !important;
+    height:40px !important;
+    border-radius:12px !important;
+    font-size:17px !important;
+}
+.page-dashboard.nexu-v204 header .brand-copy strong{
+    font-size:16px;
+}
+.page-dashboard.nexu-v204 header .brand-copy span{
+    font-size:8px;
+}
+.page-dashboard.nexu-v204 .header-actions{
+    gap:7px !important;
+}
+.page-dashboard.nexu-v204 .header-actions > .logout-button,
+.page-dashboard.nexu-v204 .header-actions > a.logout-button,
+.page-dashboard.nexu-v204 .header-actions .logout-form .logout-button{
+    min-height:36px;
+    padding:0 12px;
+    border:1px solid var(--v204-line) !important;
+    border-radius:10px !important;
+    color:#9db2c0 !important;
+    background:#09111a !important;
+    font-size:9px;
+}
+.page-dashboard.nexu-v204 .header-actions .logout-form .logout-button{
+    color:#ff9bb2 !important;
+    border-color:rgba(255,102,140,.18) !important;
+}
+.page-dashboard.nexu-v204 .live-pill{
+    min-height:36px;
+    padding:0 11px;
+    border:1px solid var(--v204-line);
+    border-radius:10px;
+    background:#09111a;
+    font-size:10px;
+}
+.page-dashboard.nexu-v204 .nx-overview-layout{
+    grid-template-columns:274px minmax(0,1fr) !important;
+    gap:10px !important;
+}
+.page-dashboard.nexu-v204 .nx-overview-sidebar{
+    top:82px !important;
+    max-height:calc(100vh - 94px) !important;
+    padding:10px !important;
+    border:1px solid var(--v204-line) !important;
+    border-radius:17px !important;
+    background:rgba(7,12,19,.92) !important;
+    box-shadow:0 18px 55px rgba(0,0,0,.25) !important;
+    backdrop-filter:blur(18px) saturate(108%);
+}
+.page-dashboard.nexu-v204 .nx-server-head{
+    min-height:76px;
+    grid-template-columns:44px minmax(0,1fr);
+    gap:10px;
+    padding:11px;
+    border:0;
+    border-radius:12px;
+    background:#0a121c;
+}
+.page-dashboard.nexu-v204 .nx-server-logo{
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    font-size:18px;
+    box-shadow:none;
+}
+.page-dashboard.nexu-v204 .nx-server-logo::after{
+    display:none;
+}
+.page-dashboard.nexu-v204 .nx-server-copy span{
+    font-size:7px;
+}
+.page-dashboard.nexu-v204 .nx-server-copy strong{
+    font-size:13px;
+}
+.page-dashboard.nexu-v204 .nx-server-copy small{
+    margin-top:5px;
+    font-size:8px;
+}
+.page-dashboard.nexu-v204 .nx-sidebar-section{
+    margin-top:7px;
+    padding:10px;
+    border-radius:12px;
+    background:#09111a !important;
+}
+.page-dashboard.nexu-v204 .nx-sidebar-title{
+    margin-bottom:8px;
+    font-size:7px;
+}
+.page-dashboard.nexu-v204 .nx-overview-nav{
+    gap:4px;
+}
+.page-dashboard.nexu-v204 .nx-overview-nav a{
+    min-height:38px;
+    grid-template-columns:25px minmax(0,1fr) 9px;
+    gap:7px;
+    padding:0 8px;
+    border:0;
+    border-radius:9px;
+    background:transparent;
+    font-size:9px;
+}
+.page-dashboard.nexu-v204 .nx-overview-nav a:hover,
+.page-dashboard.nexu-v204 .nx-overview-nav a.active{
+    transform:none;
+    border:0;
+    background:rgba(37,214,255,.075);
+    box-shadow:none;
+}
+.page-dashboard.nexu-v204 .nx-nav-icon{
+    width:24px;
+    height:24px;
+    border:0;
+    border-radius:7px;
+    background:#0e1925;
+    font-size:7px;
+}
+.page-dashboard.nexu-v204 .nx-live-grid{
+    gap:5px;
+}
+.page-dashboard.nexu-v204 .nx-live-tile{
+    min-height:58px;
+    padding:8px;
+    border-radius:9px;
+}
+.page-dashboard.nexu-v204 .nx-live-tile span{
+    font-size:6px;
+}
+.page-dashboard.nexu-v204 .nx-live-tile strong{
+    margin-top:5px;
+    font-size:17px;
+}
+.page-dashboard.nexu-v204 .nx-health-panel{
+    grid-template-columns:62px minmax(0,1fr);
+    gap:9px;
+}
+.page-dashboard.nexu-v204 .nx-health-ring{
+    width:61px;
+    height:61px;
+    box-shadow:none;
+}
+.page-dashboard.nexu-v204 .nx-health-ring::before{
+    inset:6px;
+}
+.page-dashboard.nexu-v204 .nx-health-ring b{
+    font-size:15px;
+}
+.page-dashboard.nexu-v204 .nx-health-ring small{
+    font-size:6px;
+}
+.page-dashboard.nexu-v204 .nx-health-copy strong{
+    font-size:10px;
+}
+.page-dashboard.nexu-v204 .nx-health-copy span{
+    font-size:7px;
+}
+.page-dashboard.nexu-v204 .nx-meter{
+    margin-top:7px;
+}
+.page-dashboard.nexu-v204 .nx-meter-head{
+    font-size:7px;
+}
+.page-dashboard.nexu-v204 .nx-runtime-chart{
+    height:68px;
+    margin-top:8px;
+    border-radius:9px;
+}
+.page-dashboard.nexu-v204 .nx-info-row{
+    grid-template-columns:70px minmax(0,1fr);
+    padding:6px 0;
+}
+.page-dashboard.nexu-v204 .nx-info-row span,
+.page-dashboard.nexu-v204 .nx-info-row b{
+    font-size:7px;
+}
+.page-dashboard.nexu-v204 .nx-sidebar-foot{
+    font-size:7px;
+}
+.page-dashboard.nexu-v204 .nx-overview-content{
+    gap:10px !important;
+}
+.page-dashboard.nexu-v204 .hero{
+    min-height:300px;
+    display:grid !important;
+    grid-template-columns:minmax(0,1.08fr) minmax(430px,.92fr);
+    grid-template-rows:auto auto 1fr;
+    gap:7px 26px;
+    padding:30px !important;
+    border-radius:19px !important;
+    overflow:hidden;
+}
+.page-dashboard.nexu-v204 .hero::after{
+    right:-160px !important;
+    top:-280px !important;
+    opacity:.34;
+}
+.page-dashboard.nexu-v204 .hero > .eyebrow{
+    grid-column:1;
+    align-self:end;
+}
+.page-dashboard.nexu-v204 .hero > h1{
+    grid-column:1;
+    max-width:720px;
+    margin:5px 0 6px !important;
+    font-size:clamp(38px,4vw,61px) !important;
+    line-height:.96 !important;
+    letter-spacing:-.055em !important;
+}
+.page-dashboard.nexu-v204 .hero > p{
+    grid-column:1;
+    max-width:680px;
+    font-size:12px !important;
+    line-height:1.65 !important;
+}
+.page-dashboard.nexu-v204 .hero > .stats{
+    grid-column:2;
+    grid-row:1/4;
+    align-self:stretch;
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:7px !important;
+    margin:0 !important;
+}
+.page-dashboard.nexu-v204 .stat{
+    min-height:0 !important;
+    padding:14px !important;
+    border-radius:12px !important;
+    background:#0a121c !important;
+}
+.page-dashboard.nexu-v204 .stat-label{
+    color:#6c8394;
+    font-size:7px;
+    font-weight:850;
+}
+.page-dashboard.nexu-v204 .stat-value{
+    margin-top:8px;
+    font-size:22px !important;
+}
+.page-dashboard.nexu-v204 .stat-note{
+    margin-top:6px;
+    color:#577183;
+    font-size:8px;
+    line-height:1.35;
+}
+.page-dashboard.nexu-v204 .stat-split{
+    gap:6px;
+    margin-top:8px;
+}
+.page-dashboard.nexu-v204 .stat-mini{
+    padding:7px;
+    border:0;
+    border-radius:8px;
+    background:#07101a;
+}
+.page-dashboard.nexu-v204 .stat-mini-label{
+    font-size:6px;
+}
+.page-dashboard.nexu-v204 .stat-mini-value{
+    margin-top:4px;
+    font-size:17px;
+}
+
+/* Neue Kommandozentrale */
+.page-dashboard.nexu-v204 .nx-v204-command-center{
+    display:grid;
+    grid-template-columns:minmax(260px,.9fr) minmax(420px,1.5fr) minmax(210px,.7fr);
+    gap:10px;
+    align-items:stretch;
+    padding:14px;
+    border:1px solid var(--v204-line);
+    border-radius:17px;
+    background:#09111a;
+    box-shadow:0 18px 50px rgba(0,0,0,.20);
+}
+.page-dashboard.nexu-v204 .nx-v204-command-copy{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    min-width:0;
+    padding:5px 7px;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-copy span{
+    color:#5f7889;
+    font-size:7px;
+    font-weight:900;
+    letter-spacing:.17em;
+    text-transform:uppercase;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-copy strong{
+    margin-top:6px;
+    font-size:16px;
+    letter-spacing:-.025em;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-copy small{
+    margin-top:5px;
+    color:#6f8797;
+    font-size:9px;
+    line-height:1.45;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-actions{
+    min-width:0;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:7px;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-actions:empty::before{
+    content:"Für dieses Konto sind keine erweiterten Aktionen freigegeben.";
+    grid-column:1/-1;
+    display:grid;
+    place-items:center;
+    min-height:70px;
+    padding:12px;
+    border:1px dashed rgba(151,190,216,.13);
+    border-radius:11px;
+    color:#60798a;
+    font-size:9px;
+    text-align:center;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-actions .logout-button{
+    width:100%;
+    min-height:54px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 11px;
+    border:1px solid rgba(37,214,255,.14) !important;
+    border-radius:11px !important;
+    color:#bcefff !important;
+    background:#0b1621 !important;
+    font-size:8px;
+    line-height:1.25;
+    text-align:center;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-actions .logout-button:hover{
+    transform:translateY(-1px);
+    border-color:rgba(37,214,255,.30) !important;
+    background:#0e1b27 !important;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-actions .broadcast-button{
+    color:#b8f5ff !important;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-actions .update-button{
+    color:#d1c6ff !important;
+    border-color:rgba(139,99,255,.19) !important;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-actions .shutdown-button{
+    color:#ff9eb5 !important;
+    border-color:rgba(255,102,140,.20) !important;
+    background:#170c13 !important;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-meta{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-meta article{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:9px;
+    border:1px solid rgba(151,190,216,.08);
+    border-radius:10px;
+    background:#07101a;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-meta span{
+    color:#587183;
+    font-size:6px;
+    font-weight:900;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+.page-dashboard.nexu-v204 .nx-v204-command-meta b{
+    margin-top:5px;
+    overflow:hidden;
+    color:#c7dbe7;
+    font-size:9px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+/* Statusmodule */
+.page-dashboard.nexu-v204 .nx-v204-control-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+.page-dashboard.nexu-v204 .nx-v204-control-grid.is-single{
+    grid-template-columns:1fr;
+}
+.page-dashboard.nexu-v204 .menu-status-panel,
+.page-dashboard.nexu-v204 .update-status{
+    min-height:145px;
+    margin:0 !important;
+    padding:20px !important;
+    border-radius:17px !important;
+}
+.page-dashboard.nexu-v204 .menu-status-panel::after{
+    opacity:.35;
+}
+.page-dashboard.nexu-v204 .menu-status-row,
+.page-dashboard.nexu-v204 .update-status-row{
+    height:100%;
+    align-items:center;
+}
+.page-dashboard.nexu-v204 .menu-status-copy h2,
+.page-dashboard.nexu-v204 .update-status h2{
+    margin:6px 0 !important;
+    font-size:20px !important;
+}
+.page-dashboard.nexu-v204 .menu-status-copy p,
+.page-dashboard.nexu-v204 .update-status p{
+    max-width:660px;
+    color:#71899a !important;
+    font-size:10px;
+    line-height:1.5;
+}
+.page-dashboard.nexu-v204 .menu-status-badge,
+.page-dashboard.nexu-v204 .menu-status-toggle,
+.page-dashboard.nexu-v204 .update-cancel{
+    border-radius:10px !important;
+}
+.page-dashboard.nexu-v204 .update-countdown{
+    font-size:29px !important;
+}
+
+/* Spieler-Verzeichnis */
+.page-dashboard.nexu-v204 .directory{
+    margin:0 !important;
+    padding:0 !important;
+    overflow:visible;
+    border-radius:18px !important;
+}
+.page-dashboard.nexu-v204 .directory-tabs{
+    margin:0 !important;
+    padding:8px !important;
+    gap:5px !important;
+    border:0 !important;
+    border-bottom:1px solid rgba(151,190,216,.08) !important;
+    border-radius:18px 18px 0 0 !important;
+    background:#081019 !important;
+}
+.page-dashboard.nexu-v204 .directory-tab{
+    min-height:38px;
+    padding:0 12px;
+    border:0 !important;
+    border-radius:9px !important;
+    background:transparent !important;
+    font-size:8px;
+}
+.page-dashboard.nexu-v204 .directory-tab.active{
+    border:0 !important;
+    background:#101c28 !important;
+    box-shadow:none !important;
+}
+.page-dashboard.nexu-v204 .directory-tab b{
+    min-width:20px;
+    padding:2px 5px;
+    font-size:7px;
+}
+.page-dashboard.nexu-v204 .directory-panel{
+    padding:18px !important;
+}
+.page-dashboard.nexu-v204 .directory-head{
+    align-items:center;
+    margin-bottom:13px;
+}
+.page-dashboard.nexu-v204 .directory h2{
+    font-size:17px;
+}
+.page-dashboard.nexu-v204 .search{
+    width:min(330px,100%);
+    min-width:0;
+    min-height:39px;
+    height:39px;
+    border:1px solid var(--v204-line);
+    border-radius:10px !important;
+    background:#060c13;
+    font-size:10px;
+}
+.page-dashboard.nexu-v204 .players{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px !important;
+}
+.page-dashboard.nexu-v204 .player,
+.page-dashboard.nexu-v204 .banned-card{
+    padding:12px !important;
+    border:1px solid rgba(151,190,216,.09) !important;
+    border-radius:14px !important;
+    background:#09111a !important;
+    box-shadow:none !important;
+}
+.page-dashboard.nexu-v204 .player:hover{
+    transform:none;
+    border-color:rgba(37,214,255,.18) !important;
+    background:#0a141e !important;
+}
+.page-dashboard.nexu-v204 .player .avatar{
+    width:52px;
+    height:52px;
+    border-radius:13px;
+}
+.page-dashboard.nexu-v204 .player .display-name{
+    font-size:14px;
+}
+.page-dashboard.nexu-v204 .player .username{
+    font-size:9px;
+}
+.page-dashboard.nexu-v204 .player-actions{
+    gap:7px;
+    padding-top:8px;
+}
+.page-dashboard.nexu-v204 .player .action-button{
+    min-height:29px !important;
+    height:29px;
+    padding:0 8px !important;
+    border-radius:8px !important;
+    font-size:7px !important;
+}
+.page-dashboard.nexu-v204 .player .role-trigger.role-badge{
+    min-height:27px !important;
+    border-radius:8px;
+}
+.page-dashboard.nexu-v204 .presence-details{
+    margin-top:8px;
+    border-radius:10px !important;
+    box-shadow:none !important;
+}
+.page-dashboard.nexu-v204 .presence-line,
+.page-dashboard.nexu-v204 .presence-line:nth-child(n){
+    grid-template-columns:78px minmax(0,1fr);
+    min-height:35px;
+    padding:7px 9px !important;
+}
+.page-dashboard.nexu-v204 .presence-key{
+    font-size:6px;
+}
+.page-dashboard.nexu-v204 .presence-value{
+    font-size:8px;
+}
+.page-dashboard.nexu-v204 .footer-note{
+    margin-top:10px;
+    color:#587183;
+    font-size:8px;
+}
+
+/* Sichtbarer, ruhiger Seitenaufbau */
+body.nexu-v204 [data-v204-enter]{
+    opacity:0;
+    transform:translateY(10px);
+}
+body.nexu-v204 [data-v204-enter].is-visible{
+    opacity:1;
+    transform:none;
+    transition:opacity .46s var(--v204-ease),transform .46s var(--v204-ease);
+}
+
+/* ------------------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------------------ */
+@media(max-width:1320px){
+    .page-dashboard.nexu-v204 .nx-overview-layout{
+        grid-template-columns:242px minmax(0,1fr) !important;
+    }
+    .page-dashboard.nexu-v204 .hero{
+        grid-template-columns:1fr !important;
+        grid-template-rows:auto !important;
+    }
+    .page-dashboard.nexu-v204 .hero > .eyebrow,
+    .page-dashboard.nexu-v204 .hero > h1,
+    .page-dashboard.nexu-v204 .hero > p,
+    .page-dashboard.nexu-v204 .hero > .stats{
+        grid-column:1;
+        grid-row:auto;
+    }
+    .page-dashboard.nexu-v204 .hero > .stats{
+        grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+        margin-top:15px !important;
+    }
+    .page-dashboard.nexu-v204 .nx-v204-command-center{
+        grid-template-columns:260px minmax(0,1fr);
+    }
+    .page-dashboard.nexu-v204 .nx-v204-command-meta{
+        grid-column:1/-1;
+        grid-template-columns:repeat(4,minmax(0,1fr));
+    }
+    .page-accounts.nexu-v204 .account-card form > .grid{
+        grid-template-columns:1fr !important;
+    }
+}
+@media(max-width:1060px){
+    .page-login.nexu-v204 .login-shell{
+        grid-template-columns:1fr !important;
+    }
+    .page-login.nexu-v204 .brand-card{
+        min-height:420px !important;
+    }
+    .page-login.nexu-v204 .auth-card{
+        min-height:0;
+    }
+    .page-home.nexu-v204 .hero{
+        grid-template-columns:1fr !important;
+    }
+    .page-home.nexu-v204 .welcome{
+        min-height:500px !important;
+    }
+    .page-dashboard.nexu-v204 .nx-overview-layout{
+        grid-template-columns:1fr !important;
+    }
+    .page-dashboard.nexu-v204 .nx-overview-sidebar{
+        position:relative !important;
+        top:auto !important;
+        max-height:none !important;
+        display:grid;
+        grid-template-columns:1.2fr 1fr 1.2fr;
+        gap:7px;
+    }
+    .page-dashboard.nexu-v204 .nx-server-head{
+        grid-column:1;
+    }
+    .page-dashboard.nexu-v204 .nx-sidebar-section{
+        margin-top:0;
+    }
+    .page-dashboard.nexu-v204 .nx-sidebar-section:nth-of-type(1){
+        grid-column:2;
+    }
+    .page-dashboard.nexu-v204 .nx-sidebar-section:nth-of-type(2){
+        grid-column:3;
+    }
+    .page-dashboard.nexu-v204 .nx-sidebar-section:nth-of-type(3),
+    .page-dashboard.nexu-v204 .nx-server-details,
+    .page-dashboard.nexu-v204 .nx-sidebar-foot{
+        display:none;
+    }
+    .page-dashboard.nexu-v204 .nx-overview-nav{
+        grid-template-columns:1fr 1fr;
+    }
+    .page-dashboard.nexu-v204 .nx-v204-command-center{
+        grid-template-columns:1fr;
+    }
+    .page-dashboard.nexu-v204 .nx-v204-command-actions{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+}
+@media(max-width:760px){
+    body.nexu-v204 .nx-ambient{
+        opacity:.22;
+    }
+    .page-login.nexu-v204{
+        padding:9px !important;
+    }
+    .page-login.nexu-v204 .brand-card{
+        min-height:360px !important;
+        padding:27px !important;
+    }
+    .page-login.nexu-v204 .brand-card .logo{
+        top:22px;
+        left:22px;
+    }
+    .page-login.nexu-v204 .statline .stat{
+        grid-template-columns:1fr;
+    }
+    .page-login.nexu-v204 .statline .stat span{
+        text-align:left;
+    }
+    .page-home.nexu-v204 .shell,
+    .page-accounts.nexu-v204 .shell,
+    .page-dashboard.nexu-v204 .shell{
+        width:min(100% - 14px,1580px) !important;
+    }
+    .page-home.nexu-v204 .header,
+    .page-accounts.nexu-v204 .topbar,
+    .page-dashboard.nexu-v204 header{
+        position:relative !important;
+        top:auto !important;
+    }
+    .page-home.nexu-v204 .welcome{
+        min-height:430px !important;
+        padding:26px !important;
+    }
+    .page-home.nexu-v204 h1{
+        font-size:58px !important;
+    }
+    .page-home.nexu-v204 .quick-info{
+        grid-template-columns:1fr !important;
+    }
+    .page-accounts.nexu-v204 .nx-account-overview{
+        grid-template-columns:1fr 1fr !important;
+    }
+    .page-accounts.nexu-v204 .nx-account-overview article:first-child{
+        grid-column:1/-1;
+    }
+    .page-accounts.nexu-v204 .nx-v204-account-tools{
+        align-items:stretch;
+        flex-direction:column;
+    }
+    .page-accounts.nexu-v204 .nx-v204-account-search{
+        width:100%;
+    }
+    .page-accounts.nexu-v204 .access-grid{
+        grid-template-columns:1fr !important;
+    }
+    .page-dashboard.nexu-v204 .header-actions{
+        width:100%;
+        justify-content:flex-start;
+    }
+    .page-dashboard.nexu-v204 .live-pill{
+        margin-left:auto;
+    }
+    .page-dashboard.nexu-v204 .nx-overview-sidebar{
+        grid-template-columns:1fr !important;
+    }
+    .page-dashboard.nexu-v204 .nx-server-head,
+    .page-dashboard.nexu-v204 .nx-sidebar-section:nth-of-type(1),
+    .page-dashboard.nexu-v204 .nx-sidebar-section:nth-of-type(2){
+        grid-column:1;
+    }
+    .page-dashboard.nexu-v204 .nx-overview-nav{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .page-dashboard.nexu-v204 .hero{
+        min-height:0;
+        padding:22px !important;
+    }
+    .page-dashboard.nexu-v204 .hero > h1{
+        font-size:38px !important;
+    }
+    .page-dashboard.nexu-v204 .hero > .stats{
+        grid-template-columns:1fr 1fr !important;
+    }
+    .page-dashboard.nexu-v204 .nx-v204-command-actions{
+        grid-template-columns:1fr;
+    }
+    .page-dashboard.nexu-v204 .nx-v204-command-meta{
+        grid-template-columns:1fr 1fr;
+    }
+    .page-dashboard.nexu-v204 .nx-v204-control-grid{
+        grid-template-columns:1fr;
+    }
+    .page-dashboard.nexu-v204 .menu-status-row,
+    .page-dashboard.nexu-v204 .update-status-row{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+    .page-dashboard.nexu-v204 .directory-panel{
+        padding:13px !important;
+    }
+    .page-dashboard.nexu-v204 .directory-head{
+        align-items:stretch;
+        flex-direction:column;
+    }
+    .page-dashboard.nexu-v204 .search{
+        width:100%;
+    }
+    .page-dashboard.nexu-v204 .players{
+        grid-template-columns:1fr;
+    }
+}
+@media(max-width:470px){
+    .page-home.nexu-v204 h1{
+        font-size:48px !important;
+    }
+    .page-accounts.nexu-v204 .nx-account-overview{
+        grid-template-columns:1fr !important;
+    }
+    .page-accounts.nexu-v204 .nx-account-overview article:first-child{
+        grid-column:1;
+    }
+    .page-dashboard.nexu-v204 .hero > .stats{
+        grid-template-columns:1fr !important;
+    }
+    .page-dashboard.nexu-v204 .nx-v204-command-meta{
+        grid-template-columns:1fr;
+    }
+}
+@media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    body.nexu-v204 [data-v204-enter]{
+        opacity:1 !important;
+        transform:none !important;
+        transition:none !important;
+    }
+}
+`;
+}
+
+function nexuV204ClientScript(pageType) {
+    return String.raw`<script>
+(function(){
+    "use strict";
+    var pageType=${JSON.stringify(pageType)};
+    var body=document.body;
+    body.classList.add("nexu-v204");
+
+    function one(selector,root){return (root||document).querySelector(selector);}
+    function all(selector,root){return Array.prototype.slice.call((root||document).querySelectorAll(selector));}
+    function make(tag,className,html){
+        var node=document.createElement(tag);
+        if(className) node.className=className;
+        if(html!==undefined) node.innerHTML=html;
+        return node;
+    }
+
+    function enableEntrance(){
+        var reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var targets=all(".hero,.directory,.menu-status-panel,.update-status,.primary-tile,.info-card,.account-card,.auth-panel,.remembered-list,.nx-v204-command-center,.nx-v204-control-grid");
+        targets.forEach(function(node,index){
+            node.setAttribute("data-v204-enter","");
+            if(reduced){
+                node.classList.add("is-visible");
+                return;
+            }
+            node.style.transitionDelay=Math.min(index*24,180)+"ms";
+        });
+        if(reduced||!("IntersectionObserver" in window)){
+            targets.forEach(function(node){node.classList.add("is-visible");});
+            return;
+        }
+        var observer=new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+                if(!entry.isIntersecting) return;
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+            });
+        },{rootMargin:"0px 0px -5% 0px",threshold:.04});
+        targets.forEach(function(node){observer.observe(node);});
+    }
+
+    function setupOverview(){
+        var content=one(".nx-overview-content");
+        var hero=content&&one(".hero",content);
+        if(!content||!hero) return;
+
+        var command=make("section","nx-v204-command-center");
+        command.id="nxV204CommandCenter";
+        command.innerHTML=
+            '<div class="nx-v204-command-copy">'+
+                '<span>Direktaktionen</span>'+
+                '<strong>Steuerzentrale</strong>'+
+                '<small>Wichtige Laufzeitbefehle sind hier gebündelt und bleiben mit den bestehenden Berechtigungen geschützt.</small>'+
+            '</div>'+
+            '<div class="nx-v204-command-actions" id="nxV204CommandActions"></div>'+
+            '<div class="nx-v204-command-meta">'+
+                '<article><span>Menü</span><b id="nxV204MenuState">Wird geprüft</b></article>'+
+                '<article><span>Sitzungen</span><b id="nxV204Sessions">0 aktiv</b></article>'+
+                '<article><span>Laufzeit</span><b id="nxV204Uptime">0 Sekunden</b></article>'+
+                '<article><span>Speicher</span><b id="nxV204Memory">0 MB</b></article>'+
+            '</div>';
+        hero.insertAdjacentElement("afterend",command);
+
+        var actionHolder=one("#nxV204CommandActions");
+        ["broadcastDmButton","openUpdateButton","shutdownAllButton"].forEach(function(id){
+            var button=document.getElementById(id);
+            if(button&&actionHolder) actionHolder.appendChild(button);
+        });
+
+        var menuPanel=document.getElementById("menuStatusPanel");
+        var updatePanel=document.getElementById("updateStatusPanel");
+        var controlGrid=make("div","nx-v204-control-grid");
+        controlGrid.id="nxV204ControlGrid";
+        command.insertAdjacentElement("afterend",controlGrid);
+        if(menuPanel) controlGrid.appendChild(menuPanel);
+        if(updatePanel) controlGrid.appendChild(updatePanel);
+
+        function updateGrid(){
+            var updateVisible=updatePanel&&!updatePanel.classList.contains("hidden");
+            controlGrid.classList.toggle("is-single",!updateVisible);
+        }
+        updateGrid();
+        if(updatePanel&&window.MutationObserver){
+            new MutationObserver(updateGrid).observe(updatePanel,{attributes:true,attributeFilter:["class"]});
+        }
+
+        var directory=one(".directory",content);
+        if(directory){
+            directory.setAttribute("aria-label","Spielerverzeichnis");
+        }
+
+        var stats=all(".stat",hero);
+        var kinds=["status","players","presence","bans"];
+        stats.forEach(function(card,index){card.setAttribute("data-v204-kind",kinds[index]||"metric");});
+
+        function syncMeta(){
+            var menuBadge=document.getElementById("menuStatusBadgeText");
+            var sessions=document.getElementById("nxSessions");
+            var uptime=document.getElementById("nxUptime");
+            var rss=document.getElementById("nxRss");
+            var menuTarget=document.getElementById("nxV204MenuState");
+            var sessionsTarget=document.getElementById("nxV204Sessions");
+            var uptimeTarget=document.getElementById("nxV204Uptime");
+            var memoryTarget=document.getElementById("nxV204Memory");
+            if(menuBadge&&menuTarget) menuTarget.textContent=menuBadge.textContent||"Wird geprüft";
+            if(sessions&&sessionsTarget) sessionsTarget.textContent=sessions.textContent||"0 aktiv";
+            if(uptime&&uptimeTarget) uptimeTarget.textContent=uptime.textContent||"0 Sekunden";
+            if(rss&&memoryTarget) memoryTarget.textContent=rss.textContent||"0 MB";
+        }
+        syncMeta();
+        if(window.MutationObserver){
+            ["menuStatusBadgeText","nxSessions","nxUptime","nxRss"].forEach(function(id){
+                var node=document.getElementById(id);
+                if(node) new MutationObserver(syncMeta).observe(node,{childList:true,subtree:true,characterData:true});
+            });
+        }
+        setInterval(syncMeta,2200);
+
+        function markPlayerCards(root){
+            all(".player,.banned-card",root||document).forEach(function(card){
+                if(card.dataset.v204Ready) return;
+                card.dataset.v204Ready="1";
+                var details=one(".presence-details",card);
+                if(details) details.setAttribute("aria-label","Spielerinformationen");
+            });
+        }
+        ["players","offlinePlayers","bannedPlayers"].forEach(function(id){
+            var container=document.getElementById(id);
+            if(!container) return;
+            markPlayerCards(container);
+            if(window.MutationObserver){
+                new MutationObserver(function(){markPlayerCards(container);}).observe(container,{childList:true,subtree:true});
+            }
+        });
+    }
+
+    function setupAccounts(){
+        var list=one(".account-list");
+        if(!list) return;
+        var cards=all(".account-card",list);
+        var tools=make("section","nx-v204-account-tools");
+        tools.innerHTML=
+            '<div class="nx-v204-account-tools-copy">'+
+                '<strong>Konten und Berechtigungen</strong>'+
+                '<span>'+cards.length+' registrierte Konten · Änderungen werden weiterhin über die vorhandenen Formulare gespeichert.</span>'+
+            '</div>'+
+            '<input class="nx-v204-account-search" type="search" autocomplete="off" placeholder="Konten durchsuchen …" aria-label="Konten durchsuchen">';
+        list.parentNode.insertBefore(tools,list);
+
+        var search=one(".nx-v204-account-search",tools);
+        if(search){
+            search.addEventListener("input",function(){
+                var query=String(search.value||"").trim().toLowerCase();
+                cards.forEach(function(card){
+                    card.hidden=query&&String(card.textContent||"").toLowerCase().indexOf(query)===-1;
+                });
+            });
+        }
+    }
+
+    function setupHome(){
+        var tiles=all(".primary-tile");
+        tiles.forEach(function(tile,index){
+            tile.setAttribute("data-v204-index",String(index+1).padStart(2,"0"));
+        });
+    }
+
+    if(pageType==="overview") setupOverview();
+    if(pageType==="accounts") setupAccounts();
+    if(pageType==="home") setupHome();
+
+    requestAnimationFrame(function(){
+        enableEntrance();
+        body.classList.add("nx-v204-ready");
+    });
+})();
+</script>`;
+}
+
+function enhanceNexuV204Page(html,pageType){
+    if(typeof html!=="string"||html.includes("NEXU V204 // PROFESSIONAL CLEAN SYSTEM")) return html;
+
+    html=html.replace(/<body([^>]*)>/i,function(match,attributes){
+        var next=attributes||"";
+        if(/\bclass\s*=\s*"[^"]*"/i.test(next)){
+            next=next.replace(/\bclass\s*=\s*"([^"]*)"/i,function(_,current){
+                return 'class="'+current+' nexu-v204"';
+            });
+        }else{
+            next+=' class="nexu-v204"';
+        }
+        return "<body"+next+">";
+    });
+
+    html=html.replace("</style>",nexuV204Css()+"</style>");
+    html=html.replace("</body>",nexuV204ClientScript(pageType)+"</body>");
+    return html;
+}
+
+loginHtml=function(...args){
+    return enhanceNexuV204Page(NEXU_V204_BASE_LOGIN_HTML(...args),"login");
+};
+homeHtml=function(...args){
+    return enhanceNexuV204Page(NEXU_V204_BASE_HOME_HTML(...args),"home");
+};
+dashboardAccountsHtml=function(...args){
+    return enhanceNexuV204Page(NEXU_V204_BASE_ACCOUNTS_HTML(...args),"accounts");
+};
+dashboardHtml=function(...args){
+    return enhanceNexuV204Page(NEXU_V204_BASE_OVERVIEW_HTML(...args),"overview");
 };
 
 
