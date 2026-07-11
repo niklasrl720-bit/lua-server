@@ -3575,6 +3575,49 @@ header::before{content:"";position:absolute;inset:0;border-radius:inherit;backgr
 @media (max-width:1180px){header{grid-template-columns:1fr;align-items:start;} .live-pill{justify-self:start;} .stats{grid-template-columns:repeat(2,minmax(0,1fr));} .players{grid-template-columns:1fr;}} 
 @media (max-width:760px){.shell{width:min(100% - 18px,1380px);} header{padding:16px;border-radius:24px;top:8px;} .brand-copy strong{font-size:26px;} .hero,.directory{padding:22px;} .stats{grid-template-columns:1fr;} .directory-head{flex-direction:column;align-items:stretch;} .search{width:100%;} .header-actions{justify-content:flex-start;}} 
 
+
+
+/* V167 SEARCHABLE ROLE PICKER */
+.player{overflow:visible;}
+.player::before{border-radius:inherit;}
+.player.role-menu-open{z-index:30;border-color:rgba(0,200,255,.34);box-shadow:0 26px 70px rgba(0,0,0,.34),0 0 0 1px rgba(255,255,255,.04) inset,0 0 36px rgba(0,200,255,.08);}
+.role-picker{position:relative;display:inline-flex;margin-top:8px;z-index:8;}
+.role-trigger.role-badge{appearance:none;margin:0;min-height:30px;display:inline-flex;align-items:center;gap:8px;padding:0 11px;border-radius:999px;font:inherit;font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,background .16s ease;}
+.role-trigger.role-badge:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(0,0,0,.22),0 0 18px rgba(66,255,145,.11);}
+.role-trigger.role-badge:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(0,200,255,.15),0 10px 24px rgba(0,0,0,.22);}
+.role-trigger-chevron{font-size:13px;line-height:1;opacity:.75;transition:transform .18s ease;}
+.role-picker.open .role-trigger-chevron{transform:rotate(180deg);}
+.role-trigger-spinner{width:12px;height:12px;border:2px solid rgba(255,255,255,.22);border-top-color:#fff;border-radius:50%;animation:role-spin .7s linear infinite;}
+@keyframes role-spin{to{transform:rotate(360deg);}}
+.role-dropdown{position:absolute;left:0;top:calc(100% + 10px);width:min(310px,calc(100vw - 44px));display:none;padding:12px;border:1px solid rgba(108,223,255,.2);border-radius:20px;background:linear-gradient(180deg,rgba(10,18,31,.985),rgba(6,12,22,.98));box-shadow:0 28px 80px rgba(0,0,0,.58),0 0 0 1px rgba(255,255,255,.035) inset,0 0 42px rgba(0,200,255,.07);backdrop-filter:blur(20px);transform-origin:top left;animation:role-menu-in .16s ease both;}
+.role-picker.open .role-dropdown{display:block;}
+@keyframes role-menu-in{from{opacity:0;transform:translateY(-5px) scale(.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+.role-dropdown-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:3px 4px 11px;}
+.role-dropdown-head div{min-width:0;}
+.role-dropdown-head span{display:block;color:#68dfff;font-size:9px;font-weight:900;letter-spacing:.16em;}
+.role-dropdown-head strong{display:block;margin-top:3px;overflow:hidden;color:#ecf9ff;font-size:14px;text-overflow:ellipsis;white-space:nowrap;}
+.role-dropdown-head .role-dropdown-badge{flex:0 0 auto;padding:5px 7px;border:1px solid rgba(108,223,255,.12);border-radius:999px;color:#7899ad;background:rgba(255,255,255,.025);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;letter-spacing:.04em;}
+.role-search-wrap{position:relative;display:block;margin-bottom:10px;}
+.role-search-icon{position:absolute;left:12px;top:50%;z-index:1;transform:translateY(-50%);color:#6f91a7;font-size:16px;pointer-events:none;}
+.role-search{width:100%;height:42px;padding:0 12px 0 36px;border:1px solid rgba(108,223,255,.16);border-radius:13px;outline:none;color:#eaf8ff;background:linear-gradient(180deg,#07111d,#081521);font:inherit;font-size:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.025);}
+.role-search:focus{border-color:rgba(0,200,255,.55);box-shadow:0 0 0 3px rgba(0,200,255,.09),inset 0 1px 0 rgba(255,255,255,.025);}
+.role-search::placeholder{color:#5f7d91;}
+.role-option-list{display:grid;gap:7px;}
+.role-option{width:100%;min-height:58px;display:grid;grid-template-columns:28px minmax(0,1fr);align-items:center;gap:10px;padding:8px 10px;border:1px solid rgba(108,223,255,.1);border-radius:14px;color:#dceef8;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.018));font:inherit;text-align:left;cursor:pointer;transition:transform .15s ease,border-color .15s ease,background .15s ease,box-shadow .15s ease;}
+.role-option:hover:not(:disabled){transform:translateY(-1px);border-color:rgba(0,200,255,.36);background:linear-gradient(180deg,rgba(0,200,255,.10),rgba(111,70,255,.055));box-shadow:0 12px 24px rgba(0,0,0,.16);}
+.role-option:disabled{cursor:default;opacity:1;}
+.role-option.current{border-color:rgba(45,255,165,.30);background:linear-gradient(180deg,rgba(45,255,165,.09),rgba(5,35,24,.26));}
+.role-option.supporter.current{border-color:rgba(245,250,255,.34);background:linear-gradient(180deg,rgba(245,250,255,.11),rgba(23,28,38,.34));}
+.role-option-icon{width:26px;height:26px;display:grid;place-items:center;border:1px solid rgba(108,223,255,.13);border-radius:9px;color:#7f9eb2;background:rgba(3,8,15,.42);font-size:12px;font-weight:900;}
+.role-option.current .role-option-icon{border-color:rgba(45,255,165,.36);color:#7dffc0;background:rgba(5,42,28,.52);}
+.role-option-copy{min-width:0;}
+.role-option-copy strong{display:block;color:#effaff;font-size:11px;letter-spacing:.1em;}
+.role-option-copy small{display:block;margin-top:3px;color:#718fa3;font-size:10px;line-height:1.3;}
+.role-empty{padding:16px 10px 8px;color:#718fa3;font-size:11px;text-align:center;}
+.role-empty.hidden{display:none;}
+.role-option[hidden]{display:none !important;}
+@media (max-width:760px){.role-dropdown{position:fixed;left:12px;right:12px;top:auto;bottom:12px;width:auto;transform-origin:bottom center;}.role-picker.open .role-dropdown{animation:role-menu-mobile-in .18s ease both;}@keyframes role-menu-mobile-in{from{opacity:0;transform:translateY(12px) scale(.985);}to{opacity:1;transform:translateY(0) scale(1);}}}
+
 </style>
 </head>
 <body>
@@ -3734,7 +3777,13 @@ const state = {
     snapshotToken:"",
     serverInstanceId:"",
     warmupHoldUntil:0,
+    openRoleUserId:"",
+    roleSearchQuery:"",
 };
+const PLAYER_ROLE_OPTIONS = [
+    { key:"player", title:"PLAYERS", description:"Standardrang für normale Nutzer" },
+    { key:"supporter", title:"SUPPORTER", description:"Erweiterter Rang mit Bring-Zugriff" },
+];
 let presenceRefreshInFlight = false;
 
 const allowTextEditingTargets = "input, textarea";
@@ -4109,13 +4158,35 @@ function renderPlayer(player,banned) {
     const roleTitle = player.roleTitle || "PLAYERS";
     const stateClass = banned ? "banned" : (online ? "online" : "offline");
     const stateText = banned ? "Gesperrt" : (reconnecting ? "Letzter Stand" : (online ? "Online" : "Offline"));
-    const roleBadge = '<div class="role-badge ' + escapeHtml(roleKey) + '">' + escapeHtml(roleTitle) + '</div>';
-    const roleControls = (!banned && roleKey !== "creator" && state.permissions.managePlayerRoles === true)
-        ? '<div class="role-controls" aria-label="Rang einstellen">' +
-            '<button class="role-button player ' + (roleKey === "player" ? "active" : "") + '" data-action="set-role" data-role="player" data-user-id="' + escapeHtml(player.userId) + '" ' + (roleKey === "player" ? "disabled" : "") + '>PLAYERS</button>' +
-            '<button class="role-button supporter ' + (roleKey === "supporter" ? "active" : "") + '" data-action="set-role" data-role="supporter" data-user-id="' + escapeHtml(player.userId) + '" ' + (roleKey === "supporter" ? "disabled" : "") + '>SUPPORTER</button>' +
+    const canManageRole = !banned && roleKey !== "creator" && state.permissions.managePlayerRoles === true;
+    const roleMenuOpen = canManageRole && state.openRoleUserId === String(player.userId || "");
+    const normalizedRoleQuery = roleMenuOpen ? String(state.roleSearchQuery || "").trim().toLocaleLowerCase() : "";
+    const roleOptionHtml = PLAYER_ROLE_OPTIONS.map(function (option) {
+        const searchText = (option.title + " " + option.key + " " + option.description).toLocaleLowerCase();
+        const visible = !normalizedRoleQuery || searchText.includes(normalizedRoleQuery);
+        const current = option.key === roleKey;
+        return '<button class="role-option ' + escapeHtml(option.key) + (current ? ' current' : '') + '" type="button" data-action="choose-role" data-user-id="' + escapeHtml(player.userId) + '" data-role="' + escapeHtml(option.key) + '" data-role-search-text="' + escapeHtml(searchText) + '" ' + (visible ? '' : 'hidden ') + (current ? 'disabled aria-current="true"' : '') + '>' +
+            '<span class="role-option-icon">' + (current ? '✓' : '') + '</span>' +
+            '<span class="role-option-copy"><strong>' + escapeHtml(option.title) + '</strong><small>' + escapeHtml(option.description) + '</small></span>' +
+        '</button>';
+    }).join("");
+    const visibleRoleOptionCount = PLAYER_ROLE_OPTIONS.filter(function (option) {
+        const searchText = (option.title + " " + option.key + " " + option.description).toLocaleLowerCase();
+        return !normalizedRoleQuery || searchText.includes(normalizedRoleQuery);
+    }).length;
+    const roleBadge = canManageRole
+        ? '<div class="role-picker ' + (roleMenuOpen ? 'open' : '') + '">' +
+            '<button class="role-badge role-trigger ' + escapeHtml(roleKey) + '" type="button" data-action="toggle-role-menu" data-user-id="' + escapeHtml(player.userId) + '" aria-haspopup="listbox" aria-expanded="' + (roleMenuOpen ? 'true' : 'false') + '">' +
+                '<span>' + escapeHtml(roleTitle) + '</span><span class="role-trigger-chevron">⌄</span>' +
+            '</button>' +
+            '<div class="role-dropdown" role="dialog" aria-label="Rang für ' + escapeHtml(name) + ' auswählen">' +
+                '<div class="role-dropdown-head"><div><span>RANG ÄNDERN</span><strong>' + escapeHtml(name) + '</strong></div><span class="role-dropdown-badge">' + escapeHtml(player.userId) + '</span></div>' +
+                '<label class="role-search-wrap"><span class="role-search-icon">⌕</span><input class="role-search" type="search" autocomplete="off" spellcheck="false" placeholder="Rang suchen …" value="' + escapeHtml(roleMenuOpen ? state.roleSearchQuery : '') + '" data-role-search data-user-id="' + escapeHtml(player.userId) + '"></label>' +
+                '<div class="role-option-list" role="listbox">' + roleOptionHtml + '</div>' +
+                '<div class="role-empty ' + (visibleRoleOptionCount > 0 ? 'hidden' : '') + '">Kein Rang gefunden.</div>' +
+            '</div>' +
         '</div>'
-        : "";
+        : '<div class="role-badge ' + escapeHtml(roleKey) + '">' + escapeHtml(roleTitle) + '</div>';
     const reason = banned && player.reason
         ? '<div class="reason">Grund: ' + escapeHtml(player.reason) + '</div>'
         : "";
@@ -4148,13 +4219,12 @@ function renderPlayer(player,banned) {
             (state.permissions.banPlayers === true ? '<button class="action-button ban" data-action="ban" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">BANNEN</button>' : '') +
         '</div>';
 
-    return '<article class="player ' + (banned ? 'banned' : (online ? 'online' : 'offline')) + '">' +
+    return '<article class="player ' + (banned ? 'banned' : (online ? 'online' : 'offline')) + (roleMenuOpen ? ' role-menu-open' : '') + '">' +
         '<img class="avatar" src="' + escapeHtml(player.avatarUrl) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' +
         '<div class="identity">' +
             '<div class="display-name">' + escapeHtml(name) + '</div>' +
             '<div class="username">@' + escapeHtml(username) + ' · ' + escapeHtml(player.userId) + '</div>' +
             roleBadge +
-            roleControls +
             locationDetails +
             reason +
         '</div>' +
@@ -4670,30 +4740,128 @@ if (elements.startUpdateButton) elements.startUpdateButton.addEventListener("cli
         elements.startUpdateButton.textContent = "UPDATE STARTEN";
     }
 });
+function closeRoleMenus(exceptPicker) {
+    document.querySelectorAll(".role-picker.open").forEach(function (picker) {
+        if (picker !== exceptPicker) {
+            picker.classList.remove("open");
+            const trigger = picker.querySelector("[data-action=\"toggle-role-menu\"]");
+            if (trigger) trigger.setAttribute("aria-expanded","false");
+            const card = picker.closest(".player");
+            if (card) card.classList.remove("role-menu-open");
+        }
+    });
+    if (!exceptPicker) {
+        state.openRoleUserId = "";
+        state.roleSearchQuery = "";
+    }
+}
+
+function applyRoleSearch(input) {
+    const picker = input && input.closest ? input.closest(".role-picker") : null;
+    if (!picker) return;
+    const query = String(input.value || "").trim().toLocaleLowerCase();
+    const userId = String(input.dataset.userId || "");
+    state.openRoleUserId = userId;
+    state.roleSearchQuery = input.value || "";
+    let visibleCount = 0;
+    picker.querySelectorAll(".role-option").forEach(function (option) {
+        const searchText = String(option.dataset.roleSearchText || "").toLocaleLowerCase();
+        const visible = !query || searchText.includes(query);
+        option.hidden = !visible;
+        if (visible) visibleCount += 1;
+    });
+    const empty = picker.querySelector(".role-empty");
+    if (empty) empty.classList.toggle("hidden", visibleCount > 0);
+}
+
+document.addEventListener("input", function (event) {
+    const input = event.target.closest && event.target.closest("[data-role-search]");
+    if (input) applyRoleSearch(input);
+});
+
+document.addEventListener("keydown", function (event) {
+    const input = event.target.closest && event.target.closest("[data-role-search]");
+    if (!input) {
+        if (event.key === "Escape" && state.openRoleUserId) closeRoleMenus();
+        return;
+    }
+    if (event.key === "Escape") {
+        event.preventDefault();
+        const picker = input.closest(".role-picker");
+        const trigger = picker && picker.querySelector("[data-action=\"toggle-role-menu\"]");
+        closeRoleMenus();
+        if (trigger) trigger.focus();
+    } else if (event.key === "Enter") {
+        const firstVisible = Array.from(input.closest(".role-picker").querySelectorAll(".role-option:not([hidden]):not(:disabled)"))[0];
+        if (firstVisible) {
+            event.preventDefault();
+            firstVisible.click();
+        }
+    }
+});
+
 document.addEventListener("click",async function (event) {
     const button = event.target.closest("[data-action][data-user-id]");
+    const clickedPicker = event.target.closest(".role-picker");
     if (!button) {
+        if (!clickedPicker) closeRoleMenus();
         return;
     }
 
-    if (button.dataset.action === "set-role") {
-        const originalText = button.textContent;
+    if (button.dataset.action === "toggle-role-menu") {
+        event.preventDefault();
+        const picker = button.closest(".role-picker");
+        if (!picker) return;
+        const opening = !picker.classList.contains("open");
+        closeRoleMenus(opening ? picker : null);
+        picker.classList.toggle("open", opening);
+        button.setAttribute("aria-expanded", opening ? "true" : "false");
+        const card = picker.closest(".player");
+        if (card) card.classList.toggle("role-menu-open", opening);
+        state.openRoleUserId = opening ? String(button.dataset.userId || "") : "";
+        state.roleSearchQuery = "";
+        const search = picker.querySelector("[data-role-search]");
+        if (search) {
+            search.value = "";
+            applyRoleSearch(search);
+            if (opening) setTimeout(function () { if (search.isConnected) search.focus(); }, 20);
+        }
+        return;
+    }
+
+    if (button.dataset.action === "choose-role") {
+        event.preventDefault();
         const roleKey = String(button.dataset.role || "").trim();
-        button.disabled = true;
-        button.textContent = "SETZE …";
+        const picker = button.closest(".role-picker");
+        const trigger = picker && picker.querySelector(".role-trigger");
+        const originalTriggerHtml = trigger ? trigger.innerHTML : "";
+        if (trigger) {
+            trigger.disabled = true;
+            trigger.innerHTML = '<span>WIRD GEÄNDERT …</span><span class="role-trigger-spinner"></span>';
+        }
+        picker && picker.querySelectorAll(".role-option").forEach(function (option) { option.disabled = true; });
         try {
-            await setPlayerRole(button.dataset.userId,roleKey);
-            showToast("Spielerrang wurde gespeichert.", "success");
+            const result = await setPlayerRole(button.dataset.userId,roleKey);
+            state.openRoleUserId = "";
+            state.roleSearchQuery = "";
+            showToast("Rang wurde auf " + String(result.roleTitle || roleKey).toUpperCase() + " geändert.", "success");
             await refresh();
         } catch (error) {
             showToast(error.message || "Rang konnte nicht gespeichert werden.", "error");
-            if (button.isConnected) {
-                button.disabled = false;
-                button.textContent = originalText;
+            if (trigger && trigger.isConnected) {
+                trigger.disabled = false;
+                trigger.innerHTML = originalTriggerHtml;
+            }
+            if (picker && picker.isConnected) {
+                picker.querySelectorAll(".role-option").forEach(function (option) {
+                    option.disabled = option.classList.contains("current");
+                });
             }
         }
         return;
     }
+
+    closeRoleMenus();
 
     if (button.dataset.action === "join") {
         const originalText = button.textContent;
@@ -6658,7 +6826,7 @@ async function startNexuServer() {
         console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
         console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Rang-Auswahl: V167 SUCHBARES DROPDOWN AM AKTUELLEN RANG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
         console.log("========================================");
     });
 }
