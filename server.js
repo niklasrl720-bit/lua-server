@@ -2565,6 +2565,27 @@ button.ghost { background:rgba(255,255,255,.06); box-shadow:none; border:1px sol
 .remembered-account small { display:block; color:#7894a8; margin-top:3px; }
 .remembered-account button { width:auto; padding:10px 12px; font-size:11px; }
 @media (max-width:820px) { .login-shell { grid-template-columns:1fr; } body { align-items:flex-start; } }
+
+/* V165 DESIGN REFRESH */
+
+body::after{content:"";position:fixed;inset:auto -18% -32% auto;width:540px;height:540px;border-radius:50%;background:radial-gradient(circle,rgba(45,255,165,.12),transparent 58%);filter:blur(26px);pointer-events:none;z-index:-1;}
+.login-shell{position:relative;isolation:isolate;}
+.login-shell::before{content:"";position:absolute;inset:-14px;border-radius:34px;background:linear-gradient(135deg,rgba(0,200,255,.08),rgba(111,70,255,.08),rgba(45,255,165,.05));filter:blur(18px);z-index:-1;opacity:.9;}
+.brand-card,.auth-card{border-color:rgba(108,223,255,.22);box-shadow:0 30px 100px rgba(0,0,0,.48),0 0 0 1px rgba(255,255,255,.03) inset,0 0 44px rgba(0,200,255,.06) inset;}
+.brand-card{background:linear-gradient(160deg,rgba(4,12,22,.9),rgba(6,15,27,.84));}
+.auth-card{background:linear-gradient(160deg,rgba(5,11,19,.86),rgba(8,16,29,.8));}
+.logo{position:relative;overflow:hidden;}
+.logo::after{content:"";position:absolute;inset:1px;border-radius:inherit;background:linear-gradient(145deg,rgba(255,255,255,.2),transparent 45%,transparent 55%,rgba(255,255,255,.08));mix-blend-mode:screen;}
+h1{background:linear-gradient(135deg,#ffffff,#9befff 45%,#b9b3ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.auth-panel,.remembered-list{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border-color:rgba(95,208,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.04);}
+input{background:linear-gradient(180deg,#07101b,#081521);border-color:rgba(108,223,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.02);transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease;}
+input:focus{transform:translateY(-1px);}
+button,.button-link{position:relative;overflow:hidden;background:linear-gradient(135deg,#00c8ff,#2f75ff 54%,#6f46ff);box-shadow:0 16px 36px rgba(0,123,255,.22),0 0 0 1px rgba(255,255,255,.06) inset;transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;}
+button:hover,.button-link:hover{transform:translateY(-1px);box-shadow:0 20px 40px rgba(0,123,255,.28),0 0 0 1px rgba(255,255,255,.08) inset;filter:saturate(1.08);}
+button.ghost{background:rgba(255,255,255,.05);}
+button:active,.button-link:active{transform:translateY(0);}
+.remembered-account{border-color:rgba(108,223,255,.12);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));}
+
 </style>
 </head>
 <body>
@@ -2681,6 +2702,25 @@ button.primary-tile { width:100%; text-align:left; font:inherit; cursor:pointer;
 .modal-actions button { min-height:42px; padding:0 14px; border:1px solid rgba(74,178,230,.28); border-radius:13px; color:var(--text); background:rgba(10,18,31,.78); font:inherit; font-size:12px; font-weight:850; letter-spacing:.06em; cursor:pointer; }
 .modal-actions .save { border-color:rgba(0,200,255,.5); background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(111,70,255,.16)); }.danger-zone { margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,77,120,.22); }.danger-zone h3 { margin:0 0 8px; color:#ffb3c2; }.danger-zone button { border-color:rgba(255,77,120,.4); background:rgba(55,7,20,.62); color:#ffd6df; }
 @media (max-width:820px) { .shell { width:min(100% - 20px,1180px); padding-top:16px; } .hero { grid-template-columns:1fr; } .header { align-items:flex-start; } .quick-info { grid-template-columns:1fr; } }
+
+/* V165 DESIGN REFRESH */
+
+body::after{content:"";position:fixed;inset:auto auto -14% -10%;width:540px;height:540px;border-radius:50%;background:radial-gradient(circle,rgba(45,255,165,.11),transparent 58%);filter:blur(34px);pointer-events:none;}
+.shell{width:min(1240px,calc(100% - 34px));}
+.header{padding:10px 0 4px;}
+.panel,.primary-tile,.info-card,.modal-card,.account-menu{box-shadow:0 26px 80px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.03) inset;}
+.panel{position:relative;overflow:hidden;border-color:rgba(108,223,255,.2);background:linear-gradient(180deg,rgba(10,18,30,.92),rgba(6,12,22,.86));}
+.panel::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(0,200,255,.1),transparent 34%),radial-gradient(circle at bottom left,rgba(111,70,255,.08),transparent 35%);pointer-events:none;}
+.welcome,.action-grid{position:relative;z-index:1;}
+h1{background:linear-gradient(135deg,#fff,#98ebff 42%,#bbb6ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.primary-tile{position:relative;overflow:hidden;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;}
+.primary-tile::after{content:"";position:absolute;inset:-35% auto auto -20%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 62%);pointer-events:none;opacity:.55;}
+.primary-tile:hover{transform:translateY(-3px);border-color:rgba(108,223,255,.46);box-shadow:0 20px 46px rgba(0,0,0,.26),0 0 0 1px rgba(255,255,255,.04) inset,0 0 40px rgba(0,200,255,.08) inset;}
+.info-card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border-color:rgba(108,223,255,.12);}
+.account-button,.menu-item,.modal-actions button,.back{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;}
+.account-button:hover,.menu-item:hover,.modal-actions button:hover,.back:hover{transform:translateY(-1px);border-color:rgba(108,223,255,.4);box-shadow:0 12px 24px rgba(0,0,0,.18);}
+.modal-card{background:linear-gradient(180deg,rgba(8,14,25,.98),rgba(6,12,22,.96));}
+
 </style>
 </head>
 <body>
@@ -2888,6 +2928,25 @@ button.danger { margin-top:10px; border-color:rgba(255,77,120,.4); background:rg
 .account-confirm-actions button { min-width:120px; }
 .account-confirm-actions .confirm-delete { border-color:rgba(255,77,120,.52); background:rgba(58,7,23,.72); color:#ffd0da; }
 @media (max-width:820px) { .grid { grid-template-columns:1fr; } .access-box { align-items:flex-start; flex-direction:column; } .topbar { align-items:flex-start; flex-direction:column; } }
+
+/* V165 DESIGN REFRESH */
+
+body::after{content:"";position:fixed;inset:auto -12% -18% auto;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(45,255,165,.1),transparent 60%);filter:blur(30px);pointer-events:none;}
+.shell{width:min(1240px,calc(100% - 32px));}
+.topbar,.intro,.account-card,.account-confirm-card{box-shadow:0 24px 72px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.03) inset;}
+.intro,.account-card{position:relative;overflow:hidden;}
+.intro::before,.account-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(0,200,255,.08),transparent 30%),radial-gradient(circle at bottom left,rgba(111,70,255,.06),transparent 34%);pointer-events:none;}
+.brand h1{background:linear-gradient(135deg,#fff,#95ebff 50%,#b9b3ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.account-card-head,.grid,.access-box,.meta,.actions,.owner-note,.delete-account-form{position:relative;z-index:1;}
+.account-card{border-color:rgba(108,223,255,.18);background:linear-gradient(180deg,rgba(9,16,28,.92),rgba(6,12,22,.88));}
+.access-box{border-color:rgba(108,223,255,.14);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.018));}
+.check{transition:transform .18s ease,border-color .18s ease,background .18s ease;}
+.check:hover{transform:translateY(-1px);border-color:rgba(108,223,255,.35);background:rgba(9,17,29,.78);}
+button,a.back{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;}
+button:hover,a.back:hover{transform:translateY(-1px);box-shadow:0 14px 28px rgba(0,0,0,.18);}
+label input{background:linear-gradient(180deg,#07101b,#081521);}
+.account-confirm-card{background:linear-gradient(180deg,rgba(10,16,27,.98),rgba(8,13,23,.96));}
+
 </style>
 </head>
 <body>
@@ -3380,6 +3439,47 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
     .menu-status-actions { justify-content:flex-start; }
     .update-duration-grid { grid-template-columns:1fr; }
 }
+
+/* V165 DESIGN REFRESH */
+
+body::after{content:"";position:fixed;inset:auto auto -10% -12%;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(45,255,165,.08),transparent 60%);filter:blur(40px);pointer-events:none;}
+.shell{width:min(1280px,calc(100% - 34px));}
+header{position:sticky;top:0;z-index:40;padding:12px 0 16px;margin-bottom:18px;background:linear-gradient(to bottom,rgba(3,7,14,.9),rgba(3,7,14,.74),transparent);backdrop-filter:blur(10px);}
+.hero,.directory,.player,.stat,.stat-mini,.menu-status-panel,.menu-update-panel,.dialog-card,.toast,.directory-tabs,.update-cancel-form,.dashboard-notice{box-shadow:0 24px 72px rgba(0,0,0,.34),0 0 0 1px rgba(255,255,255,.03) inset;}
+.hero,.directory,.menu-status-panel,.menu-update-panel{position:relative;overflow:hidden;border-color:rgba(108,223,255,.2);background:linear-gradient(180deg,rgba(10,17,29,.94),rgba(6,12,22,.88));}
+.hero::before,.directory::before,.menu-status-panel::before,.menu-update-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(0,200,255,.1),transparent 30%),radial-gradient(circle at bottom left,rgba(111,70,255,.08),transparent 34%);pointer-events:none;}
+.hero > *, .directory > *, .menu-status-panel > *, .menu-update-panel > *{position:relative;z-index:1;}
+h1{background:linear-gradient(135deg,#ffffff,#9feeff 40%,#b9b3ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.live-pill{border-color:rgba(108,223,255,.18);background:linear-gradient(180deg,rgba(12,20,34,.88),rgba(8,14,26,.8));box-shadow:0 10px 26px rgba(0,0,0,.18);}
+.header-actions{gap:12px;}
+.logout-button,.action-button,.role-button,.menu-status-toggle,.directory-tab,.small-button,.player-action,.dialog-actions button,.update-preset,.update-submit-button,.update-cancel,.broadcast-button,.shutdown-button{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease,background .18s ease,color .18s ease;}
+.logout-button:hover,.action-button:hover,.role-button:hover,.menu-status-toggle:hover,.directory-tab:hover,.small-button:hover,.player-action:hover,.dialog-actions button:hover,.update-preset:hover,.update-submit-button:hover,.update-cancel:hover,.broadcast-button:hover,.shutdown-button:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(0,0,0,.2);filter:saturate(1.06);}
+.directory-tabs{padding:8px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.02));border-color:rgba(108,223,255,.12);}
+.directory-tab{background:linear-gradient(180deg,rgba(10,17,29,.86),rgba(7,13,23,.78));border-color:rgba(108,223,255,.14);}
+.directory-tab.active{box-shadow:0 0 28px rgba(0,200,255,.08) inset,0 10px 22px rgba(0,0,0,.14);}
+.stats{gap:16px;}
+.stat{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border-color:rgba(108,223,255,.12);}
+.stat-mini{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.02));border-color:rgba(108,223,255,.1);}
+.search{background:linear-gradient(180deg,#07101b,#081521);border-color:rgba(108,223,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.02);}
+.players{gap:14px;}
+.player{position:relative;overflow:hidden;border-color:rgba(108,223,255,.13);background:linear-gradient(180deg,rgba(10,17,29,.86),rgba(8,14,24,.8));box-shadow:0 18px 38px rgba(0,0,0,.18),0 0 0 1px rgba(255,255,255,.02) inset;}
+.player::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,200,255,.06),transparent 30%,transparent 70%,rgba(111,70,255,.05));pointer-events:none;opacity:.9;}
+.player > *{position:relative;z-index:1;}
+.player:hover{box-shadow:0 22px 48px rgba(0,0,0,.24),0 0 0 1px rgba(255,255,255,.03) inset;}
+.avatar{border-color:rgba(108,223,255,.22);box-shadow:0 8px 20px rgba(0,0,0,.22);}
+.display-name{font-size:15px;}
+.presence-details{padding:8px 10px;border:1px solid rgba(108,223,255,.1);border-radius:12px;background:rgba(4,10,18,.34);}
+.role-badge{box-shadow:0 0 18px rgba(66,255,145,.11),0 0 0 1px rgba(255,255,255,.02) inset;}
+.action-grid,.player-actions,.role-controls{gap:8px;}
+.dashboard-notice{border-color:rgba(108,223,255,.16);background:linear-gradient(180deg,rgba(6,15,26,.9),rgba(5,12,22,.84));}
+.toast{backdrop-filter:blur(12px);}
+.dialog-card{background:linear-gradient(180deg,rgba(10,17,29,.98),rgba(7,13,23,.96));}
+.menu-status-toggle{min-height:48px;border-radius:16px;border-color:rgba(108,223,255,.26);background:linear-gradient(135deg,rgba(0,200,255,.14),rgba(111,70,255,.12));}
+.menu-status-toggle[data-status="offline"],.menu-status-toggle.offline{border-color:rgba(255,77,120,.34);background:linear-gradient(135deg,rgba(255,77,120,.18),rgba(111,70,255,.12));}
+::-webkit-scrollbar{width:12px;height:12px;}
+::-webkit-scrollbar-track{background:rgba(5,10,18,.72);}
+::-webkit-scrollbar-thumb{border:2px solid rgba(5,10,18,.72);border-radius:999px;background:linear-gradient(180deg,rgba(0,200,255,.55),rgba(111,70,255,.5));}
+
 </style>
 </head>
 <body>
@@ -6463,7 +6563,7 @@ async function startNexuServer() {
         console.log("Script-Update-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
         console.log("Script-Update:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SCRIPTS AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
         console.log("========================================");
     });
 }
