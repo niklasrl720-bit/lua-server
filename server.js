@@ -1,3 +1,4 @@
+// V208: Freiwillig geteilte Geist-Klone für aktive Nexu-Sitzungen im gleichen Roblox-Server ergänzt; Zustände verfallen automatisch.
 // V207: Rundsendungen unterstützen frei wählbare Anzeigedauer in Sekunden oder Minuten.
 // V206: Öffentliche Startseite ohne Login-Zwang, direkte Aufbauanimation, persistente Anmeldung und Owner-Verwaltung außerhalb der Startkacheln.
 // V205: Einheitliches Button- und Bedienelement-System mit festen Höhen, konsistenten Schriftgrößen und sauberem Aktionsraster.
@@ -24,6 +25,9 @@ const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(pro
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
 const DM_DISPLAY_DEFAULT_SECONDS = 8;
+const GHOST_STATE_TTL_MS = 2200;
+const GHOST_STATE_MAX_ROWS = 100;
+const GHOST_COORDINATE_LIMIT = 2000000;
 
 const GITHUB_DATA_TOKEN = String(process.env.GITHUB_DATA_TOKEN || "").trim();
 const GITHUB_DATA_OWNER = String(process.env.GITHUB_DATA_OWNER || "").trim();
@@ -52,7 +56,7 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
     .digest("hex");
 const DASHBOARD_ACCOUNT_STORAGE_SECRET = String(process.env.DASHBOARD_ACCOUNT_STORAGE_SECRET || "").trim() || DASHBOARD_SESSION_SIGNING_SECRET;
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+const presence = new Map();const ghostStates = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 let latestGlobalShutdownCommand = null;
 let presenceRevision = 1;
 let presenceSnapshotSignature = "";
@@ -525,6 +529,47 @@ return supplied === HEARTBEAT_TOKEN;
 
 }
 
+function cleanGhostNumber(value, limit = GHOST_COORDINATE_LIMIT) {
+    const number = Number(value);
+    if (!Number.isFinite(number) || Math.abs(number) > limit) return null;
+    return Math.round(number * 10000) / 10000;
+}
+
+function cleanGhostTransform(value) {
+    if (!Array.isArray(value) || value.length < 12) return null;
+    const result = [];
+    for (let index = 0; index < 12; index += 1) {
+        const limit = index < 3 ? GHOST_COORDINATE_LIMIT : 2;
+        const number = cleanGhostNumber(value[index], limit);
+        if (number === null) return null;
+        result.push(number);
+    }
+    return result;
+}
+
+function getActivePresenceSession(userId, sessionId, now = Date.now()) {
+    const entry = presence.get(`${userId}:${sessionId}`);
+    return isPresenceEntryActive(entry, now) ? entry : null;
+}
+
+function pruneGhostStates(now = Date.now()) {
+    for (const [key, state] of ghostStates) {
+        if (
+            now - Number(state.updatedAtMs || 0) > GHOST_STATE_TTL_MS ||
+            !getActivePresenceSession(state.userId, state.sessionId, now) ||
+            bans.has(state.userId)
+        ) {
+            ghostStates.delete(key);
+        }
+    }
+}
+
+function removeGhostStatesForUser(userId) {
+    for (const [key, state] of ghostStates) {
+        if (state.userId === userId) ghostStates.delete(key);
+    }
+}
+
 function isPresenceEntryActive(entry, now = Date.now()) {return Boolean(entry && entry.userId && !bans.has(entry.userId) && Number.isFinite(Number(entry.lastSeenMs)) && now - Number(entry.lastSeenMs) <= ACTIVE_PRESENCE_WINDOW_MS);}
 
 function getLatestActivePresenceByUser(now = Date.now()) {
@@ -588,6 +633,7 @@ for (const [key, entry] of presence) {
 }
 
 syncPresenceRevision(now);
+pruneGhostStates(now);
 
 }
 
@@ -601,6 +647,7 @@ for (const [key, entry] of presence) {
 }
 
 if (removed > 0) syncPresenceRevision();
+removeGhostStatesForUser(userId);
 return removed;
 
 }
@@ -10186,6 +10233,103 @@ if (req.method === "POST" && pathname === "/api/bring/poll") {
     return;
 }
 
+if (req.method === "POST" && pathname === "/api/ghost/state") {
+    if (!isHeartbeatAuthorized(req)) {
+        sendJson(res, 401, {success:false,error:"Ungültiger Heartbeat-Token"});
+        return;
+    }
+    try {
+        const body = await readJsonBody(req);
+        const userId = cleanNumericId(body.userId);
+        const sessionId = cleanText(body.sessionId, 100);
+        if (!userId || !sessionId) {
+            sendJson(res, 400, {success:false,error:"Ungültige Geist-Sitzung"});
+            return;
+        }
+        const now = Date.now();
+        const live = getActivePresenceSession(userId, sessionId, now);
+        const key = `${userId}:${sessionId}`;
+        if (!live) {
+            ghostStates.delete(key);
+            sendJson(res, 403, {success:false,error:"Keine aktive Nexu-Sitzung"});
+            return;
+        }
+        if (body.enabled !== true) {
+            ghostStates.delete(key);
+            sendJson(res, 200, {success:true,enabled:false,timestamp:new Date(now).toISOString()});
+            return;
+        }
+        const transform = cleanGhostTransform(body.transform);
+        if (!transform) {
+            sendJson(res, 400, {success:false,error:"Ungültiger Geist-Zustand"});
+            return;
+        }
+        ghostStates.set(key, {
+            userId,
+            sessionId,
+            username: live.username,
+            displayName: live.displayName,
+            placeId: live.placeId,
+            jobId: live.jobId,
+            transform,
+            updatedAtMs: now,
+        });
+        pruneGhostStates(now);
+        sendJson(res, 200, {success:true,enabled:true,ttlMs:GHOST_STATE_TTL_MS,timestamp:new Date(now).toISOString()});
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {success:false,error:"Geist-Zustand konnte nicht gespeichert werden"});
+    }
+    return;
+}
+
+if (req.method === "POST" && pathname === "/api/ghost/snapshot") {
+    if (!isHeartbeatAuthorized(req)) {
+        sendJson(res, 401, {success:false,error:"Ungültiger Heartbeat-Token"});
+        return;
+    }
+    try {
+        const body = await readJsonBody(req);
+        const userId = cleanNumericId(body.userId);
+        const sessionId = cleanText(body.sessionId, 100);
+        if (!userId || !sessionId) {
+            sendJson(res, 400, {success:false,error:"Ungültige Geist-Abfrage"});
+            return;
+        }
+        const now = Date.now();
+        const requester = getActivePresenceSession(userId, sessionId, now);
+        if (!requester) {
+            sendJson(res, 403, {success:false,error:"Keine aktive Nexu-Sitzung"});
+            return;
+        }
+        pruneGhostStates(now);
+        const latestByUser = new Map();
+        for (const state of ghostStates.values()) {
+            if (
+                state.userId === userId ||
+                Number(state.placeId) !== Number(requester.placeId) ||
+                String(state.jobId) !== String(requester.jobId)
+            ) continue;
+            const old = latestByUser.get(state.userId);
+            if (!old || Number(state.updatedAtMs) > Number(old.updatedAtMs)) latestByUser.set(state.userId, state);
+        }
+        const ghosts = [...latestByUser.values()]
+            .sort((a,b) => String(a.userId).localeCompare(String(b.userId)))
+            .slice(0, GHOST_STATE_MAX_ROWS)
+            .map((state) => ({
+                userId: state.userId,
+                sessionId: state.sessionId,
+                username: state.username,
+                displayName: state.displayName,
+                transform: state.transform,
+                updatedAtMs: state.updatedAtMs,
+            }));
+        sendJson(res, 200, {success:true,ghosts,ttlMs:GHOST_STATE_TTL_MS,serverTimeMs:now,timestamp:new Date(now).toISOString()});
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {success:false,error:"Geist-Snapshot konnte nicht geladen werden"});
+    }
+    return;
+}
+
 if (req.method === "GET" && pathname === "/api/presence") {
     prunePresence();
     // V168: Vor dem Unchanged-Vergleich immer die sichtbaren Presence-Metadaten
@@ -10965,7 +11109,7 @@ async function startNexuServer() {
         console.log("Presence: /api/presence");
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
-        console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");
+        console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");console.log("Geteilte Geister: /api/ghost/state + /api/ghost/snapshot");
         console.log("Website Join: /api/join/send + /api/join/poll");
         console.log("Access: /api/menu/access?userId=...");
         console.log("Skript-Aktualisierung-Datei:", MENU_UPDATE_FILE_PATH);
