@@ -1,3 +1,4 @@
+// V209: Geteilte Geist-Sitzungen tolerieren einen kurzen Presence-Startversatz. Die feste User-/Place-/Job-Kombination kann die aktuellste aktive Nexu-Session auflösen; Zustand und Snapshot bleiben trotzdem auf denselben Roblox-Server begrenzt.
 // V208: Freiwillig geteilte Geist-Klone für aktive Nexu-Sitzungen im gleichen Roblox-Server ergänzt; Zustände verfallen automatisch.
 // V207: Rundsendungen unterstützen frei wählbare Anzeigedauer in Sekunden oder Minuten.
 // V206: Öffentliche Startseite ohne Login-Zwang, direkte Aufbauanimation, persistente Anmeldung und Owner-Verwaltung außerhalb der Startkacheln.
@@ -25,7 +26,7 @@ const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(pro
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
 const DM_DISPLAY_DEFAULT_SECONDS = 8;
-const GHOST_STATE_TTL_MS = 2200;
+const GHOST_STATE_TTL_MS = 6500;
 const GHOST_STATE_MAX_ROWS = 100;
 const GHOST_COORDINATE_LIMIT = 2000000;
 
@@ -550,6 +551,41 @@ function cleanGhostTransform(value) {
 function getActivePresenceSession(userId, sessionId, now = Date.now()) {
     const entry = presence.get(`${userId}:${sessionId}`);
     return isPresenceEntryActive(entry, now) ? entry : null;
+}
+
+function resolveGhostPresence(
+    userId,
+    sessionId,
+    placeId,
+    jobId,
+    now = Date.now()
+) {
+    const exact = getActivePresenceSession(userId, sessionId, now);
+    if (exact) {
+        return exact;
+    }
+
+    const latest = getLatestActivePresenceByUser(now).get(userId);
+    if (!latest) {
+        return null;
+    }
+
+    if (
+        placeId !== null &&
+        placeId !== undefined &&
+        Number(latest.placeId) !== Number(placeId)
+    ) {
+        return null;
+    }
+
+    if (
+        jobId &&
+        String(latest.jobId || "") !== String(jobId)
+    ) {
+        return null;
+    }
+
+    return latest;
 }
 
 function pruneGhostStates(now = Date.now()) {
@@ -10235,38 +10271,87 @@ if (req.method === "POST" && pathname === "/api/bring/poll") {
 
 if (req.method === "POST" && pathname === "/api/ghost/state") {
     if (!isHeartbeatAuthorized(req)) {
-        sendJson(res, 401, {success:false,error:"Ungültiger Heartbeat-Token"});
+        sendJson(res, 401, {
+            success: false,
+            error: "Ungültiger Heartbeat-Token",
+        });
         return;
     }
+
     try {
         const body = await readJsonBody(req);
         const userId = cleanNumericId(body.userId);
         const sessionId = cleanText(body.sessionId, 100);
-        if (!userId || !sessionId) {
-            sendJson(res, 400, {success:false,error:"Ungültige Geist-Sitzung"});
+        const placeId = cleanInteger(body.placeId);
+        const jobId = cleanText(body.jobId, 100);
+
+        if (!userId || !sessionId || !placeId || !jobId) {
+            sendJson(res, 400, {
+                success: false,
+                error: "Ungültige Geist-Sitzung",
+            });
             return;
         }
+
         const now = Date.now();
-        const live = getActivePresenceSession(userId, sessionId, now);
-        const key = `${userId}:${sessionId}`;
-        if (!live) {
-            ghostStates.delete(key);
-            sendJson(res, 403, {success:false,error:"Keine aktive Nexu-Sitzung"});
-            return;
-        }
-        if (body.enabled !== true) {
-            ghostStates.delete(key);
-            sendJson(res, 200, {success:true,enabled:false,timestamp:new Date(now).toISOString()});
-            return;
-        }
-        const transform = cleanGhostTransform(body.transform);
-        if (!transform) {
-            sendJson(res, 400, {success:false,error:"Ungültiger Geist-Zustand"});
-            return;
-        }
-        ghostStates.set(key, {
+        const live = resolveGhostPresence(
             userId,
             sessionId,
+            placeId,
+            jobId,
+            now
+        );
+
+        if (!live) {
+            removeGhostStatesForUser(userId);
+            sendJson(res, 403, {
+                success: false,
+                error: "Keine aktive Nexu-Sitzung in diesem Server",
+            });
+            return;
+        }
+
+        if (
+            Number(live.placeId) !== Number(placeId) ||
+            String(live.jobId || "") !== String(jobId)
+        ) {
+            removeGhostStatesForUser(userId);
+            sendJson(res, 403, {
+                success: false,
+                error: "Geist-Sitzung gehört zu einem anderen Server",
+            });
+            return;
+        }
+
+        if (body.enabled !== true) {
+            removeGhostStatesForUser(userId);
+            sendJson(res, 200, {
+                success: true,
+                enabled: false,
+                resolvedSessionId: live.sessionId,
+                timestamp: new Date(now).toISOString(),
+            });
+            return;
+        }
+
+        const transform = cleanGhostTransform(body.transform);
+        if (!transform) {
+            sendJson(res, 400, {
+                success: false,
+                error: "Ungültiger Geist-Zustand",
+            });
+            return;
+        }
+
+        removeGhostStatesForUser(userId);
+
+        const resolvedSessionId =
+            cleanText(live.sessionId, 100) || sessionId;
+        const key = `${userId}:${resolvedSessionId}`;
+
+        ghostStates.set(key, {
+            userId,
+            sessionId: resolvedSessionId,
             username: live.username,
             displayName: live.displayName,
             placeId: live.placeId,
@@ -10274,46 +10359,110 @@ if (req.method === "POST" && pathname === "/api/ghost/state") {
             transform,
             updatedAtMs: now,
         });
+
         pruneGhostStates(now);
-        sendJson(res, 200, {success:true,enabled:true,ttlMs:GHOST_STATE_TTL_MS,timestamp:new Date(now).toISOString()});
+
+        sendJson(res, 200, {
+            success: true,
+            enabled: true,
+            resolvedSessionId,
+            ttlMs: GHOST_STATE_TTL_MS,
+            timestamp: new Date(now).toISOString(),
+        });
     } catch (error) {
-        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {success:false,error:"Geist-Zustand konnte nicht gespeichert werden"});
+        sendJson(
+            res,
+            error.message === "BODY_TOO_LARGE" ? 413 : 400,
+            {
+                success: false,
+                error: "Geist-Zustand konnte nicht gespeichert werden",
+            }
+        );
     }
     return;
 }
 
 if (req.method === "POST" && pathname === "/api/ghost/snapshot") {
     if (!isHeartbeatAuthorized(req)) {
-        sendJson(res, 401, {success:false,error:"Ungültiger Heartbeat-Token"});
+        sendJson(res, 401, {
+            success: false,
+            error: "Ungültiger Heartbeat-Token",
+        });
         return;
     }
+
     try {
         const body = await readJsonBody(req);
         const userId = cleanNumericId(body.userId);
         const sessionId = cleanText(body.sessionId, 100);
-        if (!userId || !sessionId) {
-            sendJson(res, 400, {success:false,error:"Ungültige Geist-Abfrage"});
+        const placeId = cleanInteger(body.placeId);
+        const jobId = cleanText(body.jobId, 100);
+
+        if (!userId || !sessionId || !placeId || !jobId) {
+            sendJson(res, 400, {
+                success: false,
+                error: "Ungültige Geist-Abfrage",
+            });
             return;
         }
+
         const now = Date.now();
-        const requester = getActivePresenceSession(userId, sessionId, now);
+        const requester = resolveGhostPresence(
+            userId,
+            sessionId,
+            placeId,
+            jobId,
+            now
+        );
+
         if (!requester) {
-            sendJson(res, 403, {success:false,error:"Keine aktive Nexu-Sitzung"});
+            sendJson(res, 403, {
+                success: false,
+                error: "Keine aktive Nexu-Sitzung in diesem Server",
+            });
             return;
         }
+
+        if (
+            Number(requester.placeId) !== Number(placeId) ||
+            String(requester.jobId || "") !== String(jobId)
+        ) {
+            sendJson(res, 403, {
+                success: false,
+                error: "Geist-Abfrage gehört zu einem anderen Server",
+            });
+            return;
+        }
+
         pruneGhostStates(now);
+
         const latestByUser = new Map();
         for (const state of ghostStates.values()) {
             if (
                 state.userId === userId ||
                 Number(state.placeId) !== Number(requester.placeId) ||
-                String(state.jobId) !== String(requester.jobId)
-            ) continue;
+                String(state.jobId || "") !==
+                    String(requester.jobId || "")
+            ) {
+                continue;
+            }
+
             const old = latestByUser.get(state.userId);
-            if (!old || Number(state.updatedAtMs) > Number(old.updatedAtMs)) latestByUser.set(state.userId, state);
+            if (
+                !old ||
+                Number(state.updatedAtMs) >
+                    Number(old.updatedAtMs)
+            ) {
+                latestByUser.set(state.userId, state);
+            }
         }
+
         const ghosts = [...latestByUser.values()]
-            .sort((a,b) => String(a.userId).localeCompare(String(b.userId)))
+            .sort((a, b) =>
+                String(a.userId).localeCompare(
+                    String(b.userId)
+                )
+            )
             .slice(0, GHOST_STATE_MAX_ROWS)
             .map((state) => ({
                 userId: state.userId,
@@ -10323,9 +10472,24 @@ if (req.method === "POST" && pathname === "/api/ghost/snapshot") {
                 transform: state.transform,
                 updatedAtMs: state.updatedAtMs,
             }));
-        sendJson(res, 200, {success:true,ghosts,ttlMs:GHOST_STATE_TTL_MS,serverTimeMs:now,timestamp:new Date(now).toISOString()});
+
+        sendJson(res, 200, {
+            success: true,
+            ghosts,
+            resolvedSessionId: requester.sessionId,
+            ttlMs: GHOST_STATE_TTL_MS,
+            serverTimeMs: now,
+            timestamp: new Date(now).toISOString(),
+        });
     } catch (error) {
-        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {success:false,error:"Geist-Snapshot konnte nicht geladen werden"});
+        sendJson(
+            res,
+            error.message === "BODY_TOO_LARGE" ? 413 : 400,
+            {
+                success: false,
+                error: "Geist-Snapshot konnte nicht geladen werden",
+            }
+        );
     }
     return;
 }
@@ -11109,7 +11273,7 @@ async function startNexuServer() {
         console.log("Presence: /api/presence");
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
-        console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");console.log("Geteilte Geister: /api/ghost/state + /api/ghost/snapshot");
+        console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");console.log("Geteilte Geister V209: SESSION-FALLBACK + USER-ID-AVATAR // /api/ghost/state + /api/ghost/snapshot");
         console.log("Website Join: /api/join/send + /api/join/poll");
         console.log("Access: /api/menu/access?userId=...");
         console.log("Skript-Aktualisierung-Datei:", MENU_UPDATE_FILE_PATH);
