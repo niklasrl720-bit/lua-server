@@ -1,3 +1,4 @@
+// V211: Owner-Aktion zum sicheren Leeren aller gespeicherten Spieler mit lokaler und GitHub-Persistenz.
 // V210: Experimentelle Endpunkte für geteilte Geistdarstellung entfernt. Alle V207-Funktionen bleiben erhalten.
 // V207: Rundsendungen unterstützen frei wählbare Anzeigedauer in Sekunden oder Minuten.
 // V206: Öffentliche Startseite ohne Login-Zwang, direkte Aufbauanimation, persistente Anmeldung und Owner-Verwaltung außerhalb der Startkacheln.
@@ -60,6 +61,7 @@ let presenceSnapshotSignature = "";
 let githubStorageContentFingerprint = "";
 let githubDeployBranchWarningShown = false;
 let knownPlayersDiskFingerprint = "";
+let knownPlayersClearInProgress = false;
 let dashboardAccountsDiskFingerprint = "";
 let githubAccountsSha = "";
 let githubAccountsReady = false;
@@ -370,11 +372,12 @@ async function loadGitHubStorage() {
     }
 }
 
-async function writeGitHubStorageNow() {
+async function writeGitHubStorageNow(options = {}) {
+    const allowDeployBranch = Boolean(options && options.allowDeployBranch === true);
     if (
         !githubStorageReady ||
         !isGitHubStorageConfigured() ||
-        !GITHUB_STORAGE_WRITES_ALLOWED ||
+        (!GITHUB_STORAGE_WRITES_ALLOWED && !allowDeployBranch) ||
         !githubStorageDirty
     ) {
         return false;
@@ -1109,6 +1112,93 @@ function saveKnownPlayers(syncGitHub = false) {
     }
 }
 
+async function clearStoredKnownPlayers() {
+    const previousEntries = [...knownPlayers.entries()];
+    const removedCount = previousEntries.length;
+
+    if (removedCount === 0) {
+        return {
+            success: true,
+            removedCount: 0,
+            remainingCount: 0,
+            localPersisted: true,
+            githubPersisted: !isGitHubStorageConfigured() || githubStorageReady,
+        };
+    }
+
+    knownPlayersClearInProgress = true;
+    try {
+        knownPlayers.clear();
+        for (const [userId] of previousEntries) avatarCache.delete(userId);
+
+        const localPersisted = saveKnownPlayers(false);
+        if (!localPersisted) {
+            for (const [userId, player] of previousEntries) knownPlayers.set(userId, player);
+            saveKnownPlayers(false);
+            return {
+                success: false,
+                removedCount: 0,
+                remainingCount: knownPlayers.size,
+                localPersisted: false,
+                githubPersisted: false,
+                error: "Die lokale Spielerliste konnte nicht geleert werden.",
+            };
+        }
+
+        // Die öffentliche Presence-Antwort enthält auch gespeicherte Offline-Spieler.
+        // Deshalb muss sich der Snapshot-Token selbst dann ändern, wenn die Live-Sitzungen gleich bleiben.
+        presenceRevision += 1;
+
+        let githubPersisted = true;
+        if (isGitHubStorageConfigured()) {
+            githubStorageDirty = true;
+            githubStorageReasons.add("players-cleared");
+
+            try {
+                githubStorageWriteChain = githubStorageWriteChain.then(() =>
+                    writeGitHubStorageNow({ allowDeployBranch: true })
+                );
+                const wroteRemote = await githubStorageWriteChain;
+                githubPersisted = wroteRemote === true || githubStorageDirty === false;
+            } catch (error) {
+                githubPersisted = false;
+                console.warn("[NEXU] Gespeicherte Spieler konnten nicht aus GitHub entfernt werden:", error.message);
+            }
+        }
+
+        if (!githubPersisted) {
+            // Bei einem fehlgeschlagenen Remote-Commit den vorherigen Zustand wiederherstellen,
+            // damit ein Neustart nicht erneut die alte GitHub-Liste mit einem leeren lokalen Stand vermischt.
+            for (const [userId, player] of previousEntries) {
+                if (!knownPlayers.has(userId)) knownPlayers.set(userId, player);
+            }
+            saveKnownPlayers(false);
+            presenceRevision += 1;
+            return {
+                success: false,
+                removedCount: 0,
+                remainingCount: knownPlayers.size,
+                localPersisted: true,
+                githubPersisted: false,
+                error: "Der GitHub-Speicher konnte nicht aktualisiert werden. Die Spielerliste wurde wiederhergestellt.",
+            };
+        }
+
+        console.log(`[NEXU] ${removedCount} gespeicherte Spieler wurden vollständig entfernt.`);
+        return {
+            success: true,
+            removedCount,
+            remainingCount: knownPlayers.size,
+            localPersisted: true,
+            githubPersisted,
+            revision: presenceRevision,
+            snapshotToken: getPresenceSnapshotToken(),
+        };
+    } finally {
+        knownPlayersClearInProgress = false;
+    }
+}
+
 
 function normalizePasswordHash(value) {
     const hash = String(value || "").trim().toLowerCase();
@@ -1746,7 +1836,7 @@ function persistentPlayerSignature(row) {
 function rememberKnownPlayer(raw, now = Date.now()) {
     const source = raw && typeof raw === "object" ? raw : {};
     const userId = cleanNumericId(source.userId);
-    if (!userId) return false;
+    if (!userId || knownPlayersClearInProgress) return false;
 
     const existing = knownPlayers.get(userId);
     const firstSeenMs = cleanInteger(existing && existing.firstSeenMs) || now;
@@ -3175,6 +3265,8 @@ const broadcastButtonHtml = permissionSnapshot.dm === true ? '<button id="broadc
 const updateButtonHtml = permissionSnapshot.updateScript === true ? '<button id="openUpdateButton" class="logout-button update-button" type="button">UPDATE SCRIPT</button>' : "";
 const shutdownButtonAllowed = permissionSnapshot.shutdownScript === true || isOwnerDashboardAccount(account);
 const shutdownButtonHtml = shutdownButtonAllowed ? '<button id="shutdownAllButton" class="logout-button shutdown-button" type="button">ALLE SKRIPTE AUS</button>' : "";
+const clearPlayersButtonAllowed = isOwnerDashboardAccount(account);
+const clearPlayersButtonHtml = clearPlayersButtonAllowed ? '<button id="clearStoredPlayersButton" class="logout-button clear-players-button" type="button">GESPEICHERTE SPIELER LEEREN</button>' : "";
 const menuStatusButtonAllowed = permissionSnapshot.menuStatus === true || isOwnerDashboardAccount(account);
 const menuStatusButtonHtml = menuStatusButtonAllowed ? '<button id="menuStatusToggleButton" class="menu-status-toggle" type="button"></button>' : "";
 const cancelUpdateButtonHtml = permissionSnapshot.updateScript === true
@@ -3425,6 +3517,9 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .update-button { border-color:rgba(255,190,70,.42) !important; color:#ffe5a8 !important; background:rgba(55,35,4,.56) !important; }
 .shutdown-button { border-color:rgba(255,77,120,.46) !important; color:#ffc0d0 !important; background:rgba(58,7,23,.62) !important; }
 .shutdown-button:hover { border-color:rgba(255,77,120,.78) !important; box-shadow:0 0 24px rgba(255,77,120,.16); }
+.clear-players-button { border-color:rgba(255,190,70,.44) !important; color:#ffe1a0 !important; background:rgba(55,35,4,.62) !important; }
+.clear-players-button:hover { border-color:rgba(255,190,70,.76) !important; box-shadow:0 0 24px rgba(255,190,70,.14); }
+.clear-players-button:disabled { opacity:.58; cursor:wait; }
 .menu-status-panel { margin-top:22px; padding:20px 22px; border:1px solid rgba(45,255,165,.34); border-radius:22px; background:linear-gradient(135deg,rgba(45,255,165,.08),rgba(0,200,255,.04)),var(--panel); transition:border-color .18s ease,background .18s ease; }
 .menu-status-panel.offline { border-color:rgba(255,77,120,.48); background:linear-gradient(135deg,rgba(255,77,120,.11),rgba(111,70,255,.045)),var(--panel); }
 .menu-status-row { display:flex; align-items:center; justify-content:space-between; gap:18px; }
@@ -3711,6 +3806,7 @@ header::before{content:"";position:absolute;inset:0;border-radius:inherit;backgr
         ${broadcastButtonHtml}
         ${updateButtonHtml}
         ${shutdownButtonHtml}
+        ${clearPlayersButtonHtml}
         <div class="live-pill"><span id="headerDot" class="dot"></span><span id="headerStatus">Verbindung wird geprüft</span></div>
         <form class="logout-form" method="post" action="/logout"><button class="logout-button" type="submit">Abmelden</button></form>
     </div>
@@ -3973,6 +4069,7 @@ const elements = {
     broadcastModalNotice:document.getElementById("broadcastModalNotice"),
     openUpdateButton:document.getElementById("openUpdateButton"),
     shutdownAllButton:document.getElementById("shutdownAllButton"),
+    clearStoredPlayersButton:document.getElementById("clearStoredPlayersButton"),
     menuStatusPanel:document.getElementById("menuStatusPanel"),
     menuStatusTitle:document.getElementById("menuStatusTitle"),
     menuStatusText:document.getElementById("menuStatusText"),
@@ -4210,6 +4307,19 @@ async function updateScriptAction(action, durationMinutes) {
 
 async function shutdownAllActiveScripts() {
     const response = await fetch("/api/admin/shutdown/all", {
+        method:"POST",
+        headers:{Accept:"application/json","Content-Type":"application/json"},
+        body:"{}",
+    });
+    const data = await response.json().catch(function () { return {}; });
+    if (!response.ok || data.success !== true) {
+        throw new Error(data.error || ("HTTP " + response.status));
+    }
+    return data;
+}
+
+async function clearAllStoredPlayers() {
+    const response = await fetch("/api/admin/players/clear", {
         method:"POST",
         headers:{Accept:"application/json","Content-Type":"application/json"},
         body:"{}",
@@ -4858,6 +4968,30 @@ if (elements.shutdownAllButton) elements.shutdownAllButton.addEventListener("cli
     } finally {
         elements.shutdownAllButton.disabled = false;
         elements.shutdownAllButton.textContent = originalText;
+    }
+});
+if (elements.clearStoredPlayersButton) elements.clearStoredPlayersButton.addEventListener("click", async function () {
+    const approved = await openActionConfirm({
+        tone:"danger",
+        eyebrow:"NEXU // SPIELERSPEICHER",
+        title:"Alle gespeicherten Spieler entfernen?",
+        message:"Die komplette gespeicherte Spielerliste wird lokal und in nexu-storage.json geleert. Accounts und Sperren bleiben erhalten. Aktive Spieler können durch ihren nächsten Heartbeat wieder gespeichert werden.",
+        confirmText:"SPIELER ENTFERNEN",
+    });
+    if (!approved) return;
+
+    const originalText = elements.clearStoredPlayersButton.textContent;
+    elements.clearStoredPlayersButton.disabled = true;
+    elements.clearStoredPlayersButton.textContent = "ENTFERNE …";
+
+    try {
+        const result = await clearAllStoredPlayers();
+        const removedCount = Math.max(0, Number(result.removedCount) || 0);
+        window.location.replace("/uebersicht?players=cleared&count=" + encodeURIComponent(String(removedCount)));
+    } catch (error) {
+        showToast(error.message || "Gespeicherte Spieler konnten nicht entfernt werden.", "error", 7000);
+        elements.clearStoredPlayersButton.disabled = false;
+        elements.clearStoredPlayersButton.textContent = originalText;
     }
 });
 if (elements.closeUpdateButton) elements.closeUpdateButton.addEventListener("click", closeUpdateModal);
@@ -7836,6 +7970,11 @@ body.nexu-v204 .account-confirm-card{
     border-color:rgba(255,102,140,.20) !important;
     background:#170c13 !important;
 }
+.page-dashboard.nexu-v204 .nx-v204-command-actions .clear-players-button{
+    color:#ffe09a !important;
+    border-color:rgba(255,190,70,.22) !important;
+    background:#171207 !important;
+}
 .page-dashboard.nexu-v204 .nx-v204-command-meta{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -8832,7 +8971,7 @@ function nexuV204ClientScript(pageType) {
         hero.insertAdjacentElement("afterend",command);
 
         var actionHolder=one("#nxV204CommandActions");
-        ["broadcastDmButton","openUpdateButton","shutdownAllButton"].forEach(function(id){
+        ["broadcastDmButton","openUpdateButton","shutdownAllButton","clearStoredPlayersButton"].forEach(function(id){
             var button=document.getElementById(id);
             if(button&&actionHolder) actionHolder.appendChild(button);
         });
@@ -9276,11 +9415,16 @@ if (req.method === "GET" && (pathname === "/menu-server" || pathname === "/ueber
         return;
     }
     console.log("[NEXU] Serverübersicht aufgerufen");
-    const updateNotice = requestUrl.searchParams.get("update") === "cancelled"
-        ? "Das Skript-Aktualisierung wurde beendet. Alle Spieler können das Menü wieder starten."
-        : requestUrl.searchParams.get("update") === "already-inactive"
-            ? "Der Aktualisierungsmodus war bereits beendet."
-            : "";
+    const clearedPlayerCount = cleanInteger(requestUrl.searchParams.get("count"));
+    const updateNotice = requestUrl.searchParams.get("players") === "cleared"
+        ? (clearedPlayerCount === 1
+            ? "1 gespeicherter Spieler wurde entfernt. Die Übersicht wurde aktualisiert."
+            : `${clearedPlayerCount} gespeicherte Spieler wurden entfernt. Die Übersicht wurde aktualisiert.`)
+        : requestUrl.searchParams.get("update") === "cancelled"
+            ? "Das Skript-Aktualisierung wurde beendet. Alle Spieler können das Menü wieder starten."
+            : requestUrl.searchParams.get("update") === "already-inactive"
+                ? "Der Aktualisierungsmodus war bereits beendet."
+                : "";
     sendHtml(res, 200, dashboardHtml(session.account, updateNotice));
     return;
 }
@@ -9701,6 +9845,32 @@ if (req.method === "GET" && pathname === "/api/uebersicht/runtime") {
         success: true,
         runtime: buildNexuOverviewRuntimeSnapshot(),
     });
+    return;
+}
+
+if (req.method === "POST" && pathname === "/api/admin/players/clear") {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
+        sendJson(res, 401, { success: false, error: "Anmeldung erforderlich" });
+        return;
+    }
+    if (!isOwnerDashboardAccount(session.account)) {
+        sendJson(res, 403, {
+            success: false,
+            error: "Gespeicherte Spieler dürfen nur vom OwnerAccount entfernt werden.",
+        });
+        return;
+    }
+
+    await githubStorageStartupPromise;
+    const result = await clearStoredKnownPlayers();
+    if (result.success !== true) {
+        sendJson(res, 502, result);
+        return;
+    }
+
+    console.log(`[NEXU] Spielerspeicher durch ${session.username || OWNER_ACCOUNT_USERNAME} geleert (${result.removedCount} entfernt).`);
+    sendJson(res, 200, result);
     return;
 }
 
