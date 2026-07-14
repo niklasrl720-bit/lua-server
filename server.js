@@ -1,3 +1,4 @@
+// V218: Präziser Chatfilter ohne Kettenzensur: Nur echte Fragmente werden nachrichtenübergreifend verbunden; erkannte Einzelverstöße löschen den Kontext sofort.
 // V217: Nachrichtenübergreifende Chatmoderation erkennt getrennte Wörter/Buchstaben, zensiert alleinstehende Beleidigungen und aktualisiert bereits sichtbare Teilnachrichten auf Website und im Lua-Menü.
 // V216: Kontextabhängige mehrsprachige Chatmoderation für Website und Lua; erkannte Beleidigungen, Hassrede, Drohungen und sexuelle Inhalte werden vollständig mit # ersetzt.
 // SHARED GHOST: Sichtbare Geist-Klone für Nexu-Nutzer derselben Roblox-Serverinstanz.
@@ -33,8 +34,8 @@ const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(pro
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
 const DM_DISPLAY_DEFAULT_SECONDS = 8;
-const CHAT_MODERATION_CONTEXT_WINDOW_MS = 25_000;
-const CHAT_MODERATION_CONTEXT_LIMIT = 14;
+const CHAT_MODERATION_CONTEXT_WINDOW_MS = 12_000;
+const CHAT_MODERATION_CONTEXT_LIMIT = 8;
 const CHAT_MODERATION_UPDATE_LIMIT = 600;
 
 const GITHUB_DATA_TOKEN = String(process.env.GITHUB_DATA_TOKEN || "").trim();
@@ -2648,12 +2649,12 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         "connard", "connasse", "salaud", "salope", "abruti", "imbécile", "imbecile", "fils de pute", "pute",
         "stronzo", "coglione", "bastardo", "figlio di puttana", "puttana", "idiota",
         "filho da puta", "otário", "otario", "babaca", "vagabunda", "puta", "idiota",
-        "klootzak", "mongool", "sukkel", "hoer", "piç", "pic", "orospu çocuğu", "orospu cocugu", "salak", "gerizekalı", "gerizekali",
+        "klootzak", "mongool", "sukkel", "hoer", "orospu çocuğu", "orospu cocugu", "salak", "gerizekalı", "gerizekali",
         "kurwa", "skurwysyn", "debil", "idiota", "suka", "сука", "мудак", "дебил", "идиот", "ублюдок", "шлюха",
         "غبي", "احمق", "ابن العاهرة", "شرموط", "كلب"
     ];
     const weakProfanity = [
-        "arsch", "scheiße", "scheisse", "kacke", "fuck", "shit", "damn", "crap", "mierda", "merde", "putain", "cazzo", "porra", "caralho", "bok", "lanet"
+        "arsch", "scheiße", "scheisse", "kacke", "fuck", "shit", "damn", "crap", "mierda", "merde", "putain", "cazzo", "porra", "caralho", "lanet"
     ];
     const neutralSexualWords = [
         "sex", "sexy", "nackt", "nackte", "nackter", "nude", "penis", "vagina", "pussy", "dick", "cock", "boobs", "brüste", "brueste", "titten",
@@ -2692,6 +2693,14 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         }
         const variants = new Set(tokens);
         for (const token of tokens) variants.add(token.replace(/(.)\1+/g, "$1"));
+        if (
+            tokens.length >= 2 &&
+            tokens.length <= 4 &&
+            tokens.every((token) => token.length <= 4) &&
+            tokens.reduce((total, token) => total + token.length, 0) <= 16
+        ) {
+            variants.add(tokens.join(""));
+        }
         const spaced = tokens.join(" ");
         return { original, spaced, padded: ` ${spaced} `, tokens, variants };
     }
@@ -2765,40 +2774,37 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         const solicitation = hasAnyToken(data, solicitationWords);
         const reporting = hasReportingContext(data);
 
-        // Alleinstehende Beleidigungen und Flüche sind nicht erlaubt. Nur klar
-        // erkennbarer Erklär-/Meldekontext verhindert unnötige Fehlzensur.
-        if (!reporting && strong.count > 0) return result(data, "BELEIDIGUNG", 90);
-        if (!reporting && weak.count > 0) return result(data, "BELEIDIGUNG", 75);
-
         const tokenCount = data.tokens.length;
+
+        // Eindeutige Beleidigungen wie „Bastard“ werden auch ohne Zielperson
+        // blockiert. Schwächere Flüche werden alleinstehend oder in einem klar
+        // feindseligen Satz blockiert, aber nicht automatisch in sachlichen Sätzen.
+        if (!reporting && strong.count > 0) return result(data, "BELEIDIGUNG", 90);
+        if (
+            !reporting &&
+            weak.count > 0 &&
+            (tokenCount <= 2 || (targeted && hostileSentence))
+        ) {
+            return result(data, "BELEIDIGUNG", 75);
+        }
+
+        // Neutrale Wörter wie „Sex“, „Penis“ oder „sexual“ sind allein noch kein
+        // sexueller Chatverstoß. Erforderlich ist eine Anfrage, ein direktes Ziel
+        // oder eine deutlich explizite Häufung. Explizite Phrasen wurden oben
+        // bereits unabhängig davon vollständig blockiert.
         if (
             !reporting &&
             sexual.count > 0 &&
-            (solicitation || targeted || sexual.count >= 2 || tokenCount <= 4)
+            (solicitation || (targeted && sexual.count >= 1) || sexual.count >= 2)
         ) {
             return result(data, "SEXUELL", 80);
         }
 
-        let insultScore = (strong.count * 4.5) + (weak.count * 2.2);
-        if ((strong.count > 0 || weak.count > 0) && targeted) insultScore += 2.2;
-        if ((strong.count > 0 || weak.count > 0) && hostileSentence) insultScore += 1.3;
-        if ((strong.count > 0 || weak.count > 0) && tokenCount <= 3) insultScore += 1.5;
-        if (reporting) insultScore = Math.max(0, insultScore - 4.8);
-
-        let sexualScore = sexual.count * 3.0;
-        if (sexual.count > 0 && solicitation) sexualScore += 4.0;
-        if (sexual.count > 0 && targeted) sexualScore += 1.5;
-        if (sexual.count >= 2) sexualScore += 2.5;
-        if (reporting && !solicitation) sexualScore = Math.max(0, sexualScore - 4.0);
-
-        const score = Math.max(insultScore, sexualScore);
-        const category = sexualScore > insultScore ? "SEXUELL" : "BELEIDIGUNG";
-        const moderated = score >= 5.5;
         return {
-            moderated,
-            message: moderated ? censorWithHashes(data.original) : data.original,
-            category: moderated ? category : "",
-            score: Math.round(score * 10) / 10,
+            moderated: false,
+            message: data.original,
+            category: "",
+            score: 0,
             normalized: data.spaced,
         };
     }
@@ -2879,60 +2885,95 @@ function getChatModerationContext(userId, now = Date.now()) {
     return context;
 }
 
+function isChatModerationFragment(original, normalized) {
+    const cleanOriginal = cleanText(original, CHAT_MAX_LENGTH);
+    const cleanNormalized = String(normalized || "").trim();
+    if (!cleanOriginal || !cleanNormalized) return false;
+
+    const tokens = cleanNormalized.split(/\s+/).filter(Boolean);
+    if (tokens.length < 1 || tokens.length > 2) return false;
+    const compact = tokens.join("");
+    if (compact.length < 1 || compact.length > 8) return false;
+
+    // Vollständige Sätze, URLs, Zahlenfolgen und längere normale Wörter dürfen
+    // niemals im Buchstabierpuffer landen. Erlaubt sind nur sehr kurze Teile wie
+    // „f“, „u“, „ck“, „bas“ oder „tard“.
+    if (/[.!?;:,/\\]/.test(cleanOriginal)) return false;
+    if (/^\d+$/.test(compact)) return false;
+    if (tokens.length === 1) return compact.length <= 4;
+    return tokens.every((token) => token.length <= 3) && compact.length <= 6;
+}
+
 function analyzeChatMessageWithContext(userId, message, messageId, now = Date.now()) {
+    const key = cleanNumericId(userId);
     const standalone = moderateNexuChatMessage(message);
-    const context = getChatModerationContext(userId, now);
-    const currentNormalized = NEXU_CHAT_MODERATION_V2.normalize(message).spaced;
-    const sequence = context.messages.concat([{
+
+    // Ein bereits allein eindeutig problematischer Text darf nicht als alter
+    // Kontext weiterleben. Genau das verursachte zuvor die Kettenzensur aller
+    // nachfolgenden Nachrichten desselben Nutzers.
+    if (standalone.moderated === true) {
+        if (key) chatModerationContexts.delete(key);
+        return { ...standalone, affectedIds: [messageId] };
+    }
+
+    const normalized = NEXU_CHAT_MODERATION_V2.normalize(message).spaced;
+    if (!key || !isChatModerationFragment(message, normalized)) {
+        if (key) chatModerationContexts.delete(key);
+        return { ...standalone, affectedIds: [] };
+    }
+
+    const context = getChatModerationContext(key, now);
+    const nextEntry = {
         id: messageId,
-        normalized: currentNormalized,
+        original: cleanText(message, CHAT_MAX_LENGTH),
+        normalized,
         sentAtMs: now,
-    }]).slice(-CHAT_MODERATION_CONTEXT_LIMIT);
+    };
+    const sequence = context.messages.concat([nextEntry]).slice(-CHAT_MODERATION_CONTEXT_LIMIT);
 
     let sequenceModeration = null;
     let affectedIds = [];
-    for (let start = sequence.length - 1; start >= 0; start -= 1) {
+    for (let start = sequence.length - 2; start >= 0; start -= 1) {
         const suffix = sequence.slice(start);
-        if (suffix.length < 2) continue;
-        const spaced = suffix.map((entry) => entry.normalized).filter(Boolean).join(" ");
-        if (!spaced) continue;
+        if (suffix.length < 2 || suffix.length > 8) continue;
 
-        const spacedResult = moderateNexuChatMessage(spaced);
-        let compactResult = { moderated: false };
-        const compactParts = suffix.map((entry) => String(entry.normalized || "").replace(/\s+/g, ""));
-        const compactLength = compactParts.reduce((total, part) => total + part.length, 0);
-        const compactEligible = compactLength >= 3 && compactLength <= 48 && suffix.every((entry, index) => {
-            const normalized = String(entry.normalized || "");
-            const tokenCount = normalized ? normalized.split(/\s+/).length : 0;
-            return compactParts[index].length <= 14 && tokenCount <= 2;
-        });
-        if (compactEligible) compactResult = moderateNexuChatMessage(compactParts.join(""));
+        let timingValid = true;
+        for (let index = 1; index < suffix.length; index += 1) {
+            if (Number(suffix[index].sentAtMs || 0) - Number(suffix[index - 1].sentAtMs || 0) > 4_500) {
+                timingValid = false;
+                break;
+            }
+        }
+        if (!timingValid) continue;
+        if (!suffix.every((entry) => isChatModerationFragment(entry.original, entry.normalized))) continue;
 
-        const candidate = spacedResult.moderated === true
-            ? spacedResult
-            : compactResult.moderated === true
-                ? compactResult
-                : null;
-        if (candidate) {
-            sequenceModeration = candidate;
+        const compact = suffix
+            .map((entry) => String(entry.normalized || "").replace(/\s+/g, ""))
+            .join("");
+        if (compact.length < 3 || compact.length > 24) continue;
+
+        const compactResult = moderateNexuChatMessage(compact);
+        if (compactResult.moderated === true) {
+            sequenceModeration = compactResult;
             affectedIds = suffix.map((entry) => entry.id);
             break;
         }
     }
 
-    context.messages = sequence;
-    chatModerationContexts.set(cleanNumericId(userId), context);
-
     if (sequenceModeration) {
+        chatModerationContexts.delete(key);
         return {
             moderated: true,
             message: NEXU_CHAT_MODERATION_V2.censorWithHashes(message),
-            category: sequenceModeration.category || standalone.category || "BELEIDIGUNG",
-            score: Math.max(100, Number(sequenceModeration.score) || 0),
+            category: sequenceModeration.category || "BELEIDIGUNG",
+            score: Number(sequenceModeration.score) || 100,
             affectedIds,
         };
     }
-    return { ...standalone, affectedIds: standalone.moderated ? [messageId] : [] };
+
+    context.messages = sequence;
+    chatModerationContexts.set(key, context);
+    return { ...standalone, affectedIds: [] };
 }
 
 function queueGlobalChatMessage(liveEntry, message) {
