@@ -1,3 +1,4 @@
+// V217: Nachrichtenübergreifende Chatmoderation erkennt getrennte Wörter/Buchstaben, zensiert alleinstehende Beleidigungen und aktualisiert bereits sichtbare Teilnachrichten auf Website und im Lua-Menü.
 // V216: Kontextabhängige mehrsprachige Chatmoderation für Website und Lua; erkannte Beleidigungen, Hassrede, Drohungen und sexuelle Inhalte werden vollständig mit # ersetzt.
 // SHARED GHOST: Sichtbare Geist-Klone für Nexu-Nutzer derselben Roblox-Serverinstanz.
 // V215: Globaler Chat wird täglich um 00:00 Europe/Berlin geleert; Reset synchronisiert Website und Lua, Nachrichten liefern Rangdaten.
@@ -32,6 +33,9 @@ const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(pro
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
 const DM_DISPLAY_DEFAULT_SECONDS = 8;
+const CHAT_MODERATION_CONTEXT_WINDOW_MS = 25_000;
+const CHAT_MODERATION_CONTEXT_LIMIT = 14;
+const CHAT_MODERATION_UPDATE_LIMIT = 600;
 
 const GITHUB_DATA_TOKEN = String(process.env.GITHUB_DATA_TOKEN || "").trim();
 const GITHUB_DATA_OWNER = String(process.env.GITHUB_DATA_OWNER || "").trim();
@@ -65,6 +69,9 @@ let globalChatDayKey = "";
 let globalChatResetRevision = 0;
 let globalChatResetAtMs = 0;
 let globalChatMidnightTimer = null;
+const chatModerationContexts = new Map();
+const chatModerationUpdates = [];
+let chatModerationRevision = 0;
 let latestGlobalShutdownCommand = null;
 let presenceRevision = 1;
 let presenceSnapshotSignature = "";
@@ -2455,6 +2462,9 @@ function clearGlobalChat(reason = "manual", nowMs = Date.now()) {
     const removed = globalChatMessages.length;
     globalChatMessages.length = 0;
     chatRateLimits.clear();
+    chatModerationContexts.clear();
+    chatModerationUpdates.length = 0;
+    chatModerationRevision = 0;
     globalChatDayKey = getGlobalChatDayKey(nowMs);
     globalChatResetRevision += 1;
     globalChatResetAtMs = nowMs;
@@ -2513,6 +2523,16 @@ function pruneGlobalChat() {
             chatRateLimits.delete(key);
         }
     }
+    for (const [key, context] of chatModerationContexts) {
+        const rows = Array.isArray(context && context.messages) ? context.messages : [];
+        const newestAt = rows.length > 0 ? Number(rows[rows.length - 1].sentAtMs || 0) : 0;
+        if (!newestAt || now - newestAt > CHAT_MODERATION_CONTEXT_WINDOW_MS) {
+            chatModerationContexts.delete(key);
+        }
+    }
+    while (chatModerationUpdates.length > CHAT_MODERATION_UPDATE_LIMIT) {
+        chatModerationUpdates.shift();
+    }
 }
 
 function findActivePresenceSession(userId, sessionId = "") {
@@ -2556,13 +2576,14 @@ function allowGlobalChatSend(userId) {
 
 
 // -----------------------------------------------------------------------------
-// NEXU CHAT-MODERATION V1
-// Serverseitig autoritativ: Website und Lua erhalten ausschließlich die bereits
-// geprüfte Nachricht. Der Filter kombiniert Normalisierung, Umgehungserkennung,
-// mehrsprachige Wortlisten und Kontextbewertung, damit einzelne harmlose Wörter
-// nicht ohne Ziel-/Satzkontext pauschal blockiert werden.
+// NEXU CHAT-MODERATION V2
+// Autoritativ für Website und Lua. Zusätzlich zur Einzelanalyse wird pro Nutzer
+// ein kurzer, ausschließlich im RAM liegender Nachrichtenkontext ausgewertet.
+// Dadurch werden über mehrere Nachrichten getrennte Phrasen und buchstabierte
+// Beleidigungen erkannt. Sobald eine Folge eindeutig wird, werden auch bereits
+// sichtbare Teilnachrichten über revisionsbasierte Updates nachträglich zensiert.
 // -----------------------------------------------------------------------------
-const NEXU_CHAT_MODERATION_V1 = (() => {
+const NEXU_CHAT_MODERATION_V2 = (() => {
     const directTargets = new Set([
         "du", "dich", "dir", "dein", "deine", "ihr", "euch",
         "you", "your", "u", "ur", "he", "she", "they",
@@ -2587,8 +2608,8 @@ const NEXU_CHAT_MODERATION_V1 = (() => {
         "quero", "envie", "mostre", "iste", "gönder", "gonder"
     ]);
     const reportingPatterns = [
-        "das wort", "dieses wort", "bedeutet", "übersetzung", "uebersetzung", "zitat", "zitiert", "genannt", "beleidigung melden", "nicht beleidigen",
-        "the word", "means", "translation", "quoted", "called me", "reporting", "do not insult", "dont insult",
+        "das wort", "dieses wort", "bedeutet", "übersetzung", "uebersetzung", "zitat", "zitiert", "genannt", "beleidigung melden", "nicht beleidigen", "sexualkunde", "aufklärung", "aufklaerung", "biologie", "medizinisch",
+        "the word", "means", "translation", "quoted", "called me", "reporting", "do not insult", "dont insult", "sex education", "sexual health", "biology", "medical context",
         "la palabra", "significa", "traducción", "traduccion", "mot signifie", "le mot", "parola significa", "a palavra", "significa",
         "słowo", "slowo", "означает", "слово", "kelime", "anlamı", "anlami"
     ];
@@ -2621,8 +2642,8 @@ const NEXU_CHAT_MODERATION_V1 = (() => {
         "ебать", "трахни меня", "секс со мной", "изнасилование", "نيك", "اغتصاب", "ارسل صور عارية"
     ];
     const strongInsults = [
-        "idiot", "idiotin", "vollidiot", "trottel", "depp", "dummkopf", "hurensohn", "huso", "missgeburt", "miststück", "miststueck", "wichser", "spast", "behindert", "bastard", "arschloch",
-        "moron", "imbecile", "dumbass", "asshole", "bitch", "son of a bitch", "motherfucker", "loser", "scumbag", "piece of shit", "retard",
+        "idiot", "idiotin", "vollidiot", "trottel", "depp", "dummkopf", "hurensohn", "huso", "missgeburt", "miststück", "miststueck", "wichser", "spast", "behindert", "bastard", "arschloch", "schlampe", "nutte",
+        "moron", "imbecile", "dumbass", "asshole", "bitch", "son of a bitch", "motherfucker", "loser", "scumbag", "piece of shit", "retard", "bastard", "slut", "whore",
         "imbécil", "imbecil", "idiota", "estúpido", "estupido", "gilipollas", "pendejo", "cabron", "cabrón", "hijo de puta", "puta",
         "connard", "connasse", "salaud", "salope", "abruti", "imbécile", "imbecile", "fils de pute", "pute",
         "stronzo", "coglione", "bastardo", "figlio di puttana", "puttana", "idiota",
@@ -2657,7 +2678,7 @@ const NEXU_CHAT_MODERATION_V1 = (() => {
             if (rawTokens[index].length === 1) {
                 let end = index;
                 let joined = "";
-                while (end < rawTokens.length && rawTokens[end].length === 1 && joined.length < 32) {
+                while (end < rawTokens.length && rawTokens[end].length === 1 && joined.length < 40) {
                     joined += rawTokens[end];
                     end += 1;
                 }
@@ -2715,22 +2736,26 @@ const NEXU_CHAT_MODERATION_V1 = (() => {
         return Array.from(text).map((character) => /\s/.test(character) ? character : "#").join("");
     }
 
+    function result(data, category, score) {
+        return {
+            moderated: true,
+            message: censorWithHashes(data.original),
+            category,
+            score,
+            normalized: data.spaced,
+        };
+    }
+
     function analyze(value) {
         const data = normalize(value);
-        if (!data.original) return { moderated: false, message: "", category: "", score: 0 };
+        if (!data.original) return { moderated: false, message: "", category: "", score: 0, normalized: "" };
 
         const severe = countTerms(data, severeTerms, 1);
-        if (severe.count > 0) {
-            return { moderated: true, message: censorWithHashes(data.original), category: "HASSREDE", score: 100 };
-        }
+        if (severe.count > 0) return result(data, "HASSREDE", 100);
         const threat = countTerms(data, threatPhrases, 1);
-        if (threat.count > 0) {
-            return { moderated: true, message: censorWithHashes(data.original), category: "DROHUNG", score: 100 };
-        }
+        if (threat.count > 0) return result(data, "DROHUNG", 100);
         const explicit = countTerms(data, explicitSexualTerms, 1);
-        if (explicit.count > 0) {
-            return { moderated: true, message: censorWithHashes(data.original), category: "SEXUELL", score: 100 };
-        }
+        if (explicit.count > 0) return result(data, "SEXUELL", 100);
 
         const strong = countTerms(data, strongInsults, 3);
         const weak = countTerms(data, weakProfanity, 3);
@@ -2740,17 +2765,31 @@ const NEXU_CHAT_MODERATION_V1 = (() => {
         const solicitation = hasAnyToken(data, solicitationWords);
         const reporting = hasReportingContext(data);
 
+        // Alleinstehende Beleidigungen und Flüche sind nicht erlaubt. Nur klar
+        // erkennbarer Erklär-/Meldekontext verhindert unnötige Fehlzensur.
+        if (!reporting && strong.count > 0) return result(data, "BELEIDIGUNG", 90);
+        if (!reporting && weak.count > 0) return result(data, "BELEIDIGUNG", 75);
+
+        const tokenCount = data.tokens.length;
+        if (
+            !reporting &&
+            sexual.count > 0 &&
+            (solicitation || targeted || sexual.count >= 2 || tokenCount <= 4)
+        ) {
+            return result(data, "SEXUELL", 80);
+        }
+
         let insultScore = (strong.count * 4.5) + (weak.count * 2.2);
         if ((strong.count > 0 || weak.count > 0) && targeted) insultScore += 2.2;
         if ((strong.count > 0 || weak.count > 0) && hostileSentence) insultScore += 1.3;
-        if ((strong.count > 0 || weak.count > 0) && data.tokens.length <= 3) insultScore += 1.5;
-        if (reporting) insultScore = Math.max(0, insultScore - 3.6);
+        if ((strong.count > 0 || weak.count > 0) && tokenCount <= 3) insultScore += 1.5;
+        if (reporting) insultScore = Math.max(0, insultScore - 4.8);
 
         let sexualScore = sexual.count * 3.0;
         if (sexual.count > 0 && solicitation) sexualScore += 4.0;
         if (sexual.count > 0 && targeted) sexualScore += 1.5;
         if (sexual.count >= 2) sexualScore += 2.5;
-        if (reporting && !solicitation) sexualScore = Math.max(0, sexualScore - 3.0);
+        if (reporting && !solicitation) sexualScore = Math.max(0, sexualScore - 4.0);
 
         const score = Math.max(insultScore, sexualScore);
         const category = sexualScore > insultScore ? "SEXUELL" : "BELEIDIGUNG";
@@ -2760,14 +2799,140 @@ const NEXU_CHAT_MODERATION_V1 = (() => {
             message: moderated ? censorWithHashes(data.original) : data.original,
             category: moderated ? category : "",
             score: Math.round(score * 10) / 10,
+            normalized: data.spaced,
         };
     }
 
-    return { analyze };
+    return { analyze, normalize, censorWithHashes };
 })();
 
 function moderateNexuChatMessage(value) {
-    return NEXU_CHAT_MODERATION_V1.analyze(value);
+    return NEXU_CHAT_MODERATION_V2.analyze(value);
+}
+
+function recordChatModerationUpdate(entry) {
+    if (!entry || !entry.id) return null;
+    chatModerationRevision += 1;
+    const update = {
+        revision: chatModerationRevision,
+        id: entry.id,
+        message: cleanText(entry.message, CHAT_MAX_LENGTH),
+        moderated: entry.moderated === true,
+        moderationCategory: cleanText(entry.moderationCategory, 40),
+    };
+    chatModerationUpdates.push(update);
+    while (chatModerationUpdates.length > CHAT_MODERATION_UPDATE_LIMIT) chatModerationUpdates.shift();
+    return update;
+}
+
+function applyChatModerationToMessageIds(messageIds, category = "BELEIDIGUNG") {
+    const wanted = new Set((Array.isArray(messageIds) ? messageIds : []).map((value) => Number(value) || 0).filter(Boolean));
+    if (wanted.size === 0) return 0;
+    let changed = 0;
+    for (const entry of globalChatMessages) {
+        if (!wanted.has(Number(entry && entry.id) || 0)) continue;
+        const nextMessage = NEXU_CHAT_MODERATION_V2.censorWithHashes(entry.message);
+        if (
+            entry.moderated === true &&
+            entry.message === nextMessage &&
+            entry.moderationCategory === category
+        ) continue;
+        entry.message = nextMessage;
+        entry.moderated = true;
+        entry.moderationCategory = category;
+        entry.moderationScore = 100;
+        recordChatModerationUpdate(entry);
+        changed += 1;
+    }
+    return changed;
+}
+
+function getChatModerationUpdates(afterRevision) {
+    const requestedRevision = Math.max(0, Number(afterRevision) || 0);
+    if (requestedRevision >= chatModerationRevision) return [];
+    const oldestAvailable = chatModerationUpdates.length > 0
+        ? Number(chatModerationUpdates[0].revision || 0)
+        : chatModerationRevision + 1;
+    if (requestedRevision < oldestAvailable - 1) {
+        return globalChatMessages
+            .filter((entry) => entry && entry.moderated === true)
+            .map((entry) => ({
+                revision: chatModerationRevision,
+                id: entry.id,
+                message: cleanText(entry.message, CHAT_MAX_LENGTH),
+                moderated: true,
+                moderationCategory: cleanText(entry.moderationCategory, 40),
+            }));
+    }
+    return chatModerationUpdates.filter((entry) => Number(entry.revision || 0) > requestedRevision);
+}
+
+function getChatModerationContext(userId, now = Date.now()) {
+    const key = cleanNumericId(userId);
+    if (!key) return { messages: [] };
+    const existing = chatModerationContexts.get(key);
+    const messages = Array.isArray(existing && existing.messages)
+        ? existing.messages.filter((entry) => now - Number(entry.sentAtMs || 0) <= CHAT_MODERATION_CONTEXT_WINDOW_MS)
+        : [];
+    const context = { messages: messages.slice(-CHAT_MODERATION_CONTEXT_LIMIT) };
+    chatModerationContexts.set(key, context);
+    return context;
+}
+
+function analyzeChatMessageWithContext(userId, message, messageId, now = Date.now()) {
+    const standalone = moderateNexuChatMessage(message);
+    const context = getChatModerationContext(userId, now);
+    const currentNormalized = NEXU_CHAT_MODERATION_V2.normalize(message).spaced;
+    const sequence = context.messages.concat([{
+        id: messageId,
+        normalized: currentNormalized,
+        sentAtMs: now,
+    }]).slice(-CHAT_MODERATION_CONTEXT_LIMIT);
+
+    let sequenceModeration = null;
+    let affectedIds = [];
+    for (let start = sequence.length - 1; start >= 0; start -= 1) {
+        const suffix = sequence.slice(start);
+        if (suffix.length < 2) continue;
+        const spaced = suffix.map((entry) => entry.normalized).filter(Boolean).join(" ");
+        if (!spaced) continue;
+
+        const spacedResult = moderateNexuChatMessage(spaced);
+        let compactResult = { moderated: false };
+        const compactParts = suffix.map((entry) => String(entry.normalized || "").replace(/\s+/g, ""));
+        const compactLength = compactParts.reduce((total, part) => total + part.length, 0);
+        const compactEligible = compactLength >= 3 && compactLength <= 48 && suffix.every((entry, index) => {
+            const normalized = String(entry.normalized || "");
+            const tokenCount = normalized ? normalized.split(/\s+/).length : 0;
+            return compactParts[index].length <= 14 && tokenCount <= 2;
+        });
+        if (compactEligible) compactResult = moderateNexuChatMessage(compactParts.join(""));
+
+        const candidate = spacedResult.moderated === true
+            ? spacedResult
+            : compactResult.moderated === true
+                ? compactResult
+                : null;
+        if (candidate) {
+            sequenceModeration = candidate;
+            affectedIds = suffix.map((entry) => entry.id);
+            break;
+        }
+    }
+
+    context.messages = sequence;
+    chatModerationContexts.set(cleanNumericId(userId), context);
+
+    if (sequenceModeration) {
+        return {
+            moderated: true,
+            message: NEXU_CHAT_MODERATION_V2.censorWithHashes(message),
+            category: sequenceModeration.category || standalone.category || "BELEIDIGUNG",
+            score: Math.max(100, Number(sequenceModeration.score) || 0),
+            affectedIds,
+        };
+    }
+    return { ...standalone, affectedIds: standalone.moderated ? [messageId] : [] };
 }
 
 function queueGlobalChatMessage(liveEntry, message) {
@@ -2776,11 +2941,18 @@ function queueGlobalChatMessage(liveEntry, message) {
     const userId = cleanNumericId(liveEntry && liveEntry.userId);
     if (!userId) return null;
 
-    const moderation = moderateNexuChatMessage(message);
+    const messageId = (now * 1000) + ((nextChatMessageId++) % 1000);
+    const moderation = analyzeChatMessageWithContext(userId, message, messageId, now);
     if (!moderation.message) return null;
+
+    const previousAffectedIds = (moderation.affectedIds || []).filter((id) => Number(id) !== messageId);
+    if (previousAffectedIds.length > 0) {
+        applyChatModerationToMessageIds(previousAffectedIds, moderation.category || "BELEIDIGUNG");
+    }
+
     const role = getNexuRoleInfo(userId);
     const entry = {
-        id: (now * 1000) + ((nextChatMessageId++) % 1000),
+        id: messageId,
         userId,
         roleKey: role.key,
         roleTitle: role.title,
@@ -2815,18 +2987,18 @@ function getGlobalChatMessages(afterId) {
                 ? { moderated: true, message: cleanText(entry.message, CHAT_MAX_LENGTH), category: cleanText(entry.moderationCategory, 40), score: Number(entry.moderationScore) || 0 }
                 : moderateNexuChatMessage(entry.message);
             return {
-            id: entry.id,
-            userId: entry.userId,
-            roleKey: role.key,
-            roleTitle: role.title,
-            username: entry.username,
-            displayName: entry.displayName,
-            avatarUrl: (avatarCache.get(String(entry.userId || "")) || {}).url || "",
-            message: moderation.message,
-            moderated: moderation.moderated === true,
-            moderationCategory: moderation.category || "",
-            sentAt: entry.sentAt,
-            sentAtMs: entry.sentAtMs,
+                id: entry.id,
+                userId: entry.userId,
+                roleKey: role.key,
+                roleTitle: role.title,
+                username: entry.username,
+                displayName: entry.displayName,
+                avatarUrl: (avatarCache.get(String(entry.userId || "")) || {}).url || "",
+                message: moderation.message,
+                moderated: moderation.moderated === true,
+                moderationCategory: moderation.category || "",
+                sentAt: entry.sentAt,
+                sentAtMs: entry.sentAtMs,
             };
         });
 }
@@ -10226,7 +10398,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
     var tabCount=document.getElementById('chatTabCount');
     if(!panel||!list||!input||!sendButton) return;
 
-    var state={lastId:0,seen:new Set(),sending:false,polling:false,rows:0,resetToken:""};
+    var state={lastId:0,seen:new Set(),sending:false,polling:false,rows:0,resetToken:"",moderationRevision:0};
     function setStatus(text,error){
         if(!stateLabel)return;
         stateLabel.textContent=String(text||'');
@@ -10245,7 +10417,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
     function removeEmpty(){var empty=list.querySelector('.nx-web-chat-empty');if(empty)empty.remove();}
     function resetChatView(resetToken){
         state.resetToken=String(resetToken||'');
-        state.lastId=0;state.seen.clear();state.rows=0;
+        state.lastId=0;state.seen.clear();state.rows=0;state.moderationRevision=0;
         list.replaceChildren();
         var empty=document.createElement('div');empty.className='nx-web-chat-empty';empty.innerHTML='Noch keine Nachrichten vorhanden.<br>Der Chat wird täglich um 00:00 Uhr geleert. Beleidigungen, Hassrede, Drohungen und sexuelle Inhalte werden automatisch vollständig zensiert.';list.appendChild(empty);
         if(tabCount)tabCount.textContent='0';
@@ -10293,12 +10465,23 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         if(tabCount)tabCount.textContent=String(state.rows);
         if(keepBottom)scrollBottom();
     }
+    function applyModerationUpdate(update){
+        if(!update||!update.id)return;
+        var row=list.querySelector('[data-message-id="'+String(update.id)+'"]');
+        if(!row)return;
+        var message=row.querySelector('.nx-web-chat-text');
+        if(message)message.textContent=String(update.message||'');
+        row.dataset.moderated=update.moderated===true?'true':'false';
+        row.dataset.moderationCategory=String(update.moderationCategory||'');
+    }
     function consume(payload){
         var incomingResetToken=String(payload&&payload.chatResetToken||'');
         if(incomingResetToken&&state.resetToken&&incomingResetToken!==state.resetToken)resetChatView(incomingResetToken);
         else if(incomingResetToken&&!state.resetToken)state.resetToken=incomingResetToken;
         (Array.isArray(payload&&payload.messages)?payload.messages:[]).forEach(appendMessage);
         if(payload&&payload.chatMessage)appendMessage(payload.chatMessage);
+        (Array.isArray(payload&&payload.moderationUpdates)?payload.moderationUpdates:[]).forEach(applyModerationUpdate);
+        state.moderationRevision=Math.max(state.moderationRevision,Number(payload&&payload.moderationRevision)||0);
         state.lastId=Math.max(state.lastId,Number(payload&&payload.latestId)||0);
         if(payload&&Object.prototype.hasOwnProperty.call(payload,'currentRobloxUserId')){CURRENT_ROBLOX_USER_ID=String(payload.currentRobloxUserId||'');}
         if(payload&&typeof payload.canSend==='boolean'){
@@ -10311,7 +10494,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         if(state.polling)return;
         state.polling=true;
         try{
-            var response=await fetch('/api/chat/poll',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({afterId:state.lastId})});
+            var response=await fetch('/api/chat/poll',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({afterId:state.lastId,moderationRevision:state.moderationRevision})});
             var payload=await response.json().catch(function(){return {};});
             if(!response.ok||payload.success===false)throw new Error(payload.error||('HTTP '+response.status));
             consume(payload);
@@ -10325,7 +10508,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         if(!message)return;
         state.sending=true;sendButton.disabled=true;setStatus('Wird gesendet …',false);
         try{
-            var response=await fetch('/api/chat/send',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:message})});
+            var response=await fetch('/api/chat/send',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:message,moderationRevision:state.moderationRevision})});
             var payload=await response.json().catch(function(){return {};});
             if(!response.ok||payload.success===false)throw new Error(payload.error||('HTTP '+response.status));
             input.value='';updateCount();consume(payload);scrollBottom();setStatus('Gesendet',false);
@@ -11803,6 +11986,7 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
     }
     try {
         const body = await readJsonBody(req);
+        const clientModerationRevision = Math.max(0, Number(body.moderationRevision) || 0);
         const message = cleanText(body.message, CHAT_MAX_LENGTH);
         let userId = cleanNumericId(body.userId);
         let sessionId = cleanText(body.sessionId, 120);
@@ -11856,6 +12040,8 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
             chatResetToken: getGlobalChatResetToken(),
             chatDayKey: globalChatDayKey,
             chatResetAtMs: globalChatResetAtMs,
+            moderationRevision: chatModerationRevision,
+            moderationUpdates: getChatModerationUpdates(clientModerationRevision),
         });
     } catch (error) {
         sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
@@ -11879,6 +12065,7 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
     try {
         const body = await readJsonBody(req);
         const afterId = Math.max(0, Number(body.afterId) || 0);
+        const clientModerationRevision = Math.max(0, Number(body.moderationRevision) || 0);
 
         if (!websiteAllowed) {
             const userId = cleanNumericId(body.userId);
@@ -11912,6 +12099,8 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
             chatResetToken: getGlobalChatResetToken(),
             chatDayKey: globalChatDayKey,
             chatResetAtMs: globalChatResetAtMs,
+            moderationRevision: chatModerationRevision,
+            moderationUpdates: getChatModerationUpdates(clientModerationRevision),
             timestamp: new Date().toISOString(),
         });
     } catch (error) {
