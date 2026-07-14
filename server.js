@@ -1,3 +1,4 @@
+// V215: Globaler Chat wird täglich um 00:00 Europe/Berlin geleert; Reset synchronisiert Website und Lua, Nachrichten liefern Rangdaten.
 // V214: Alle Website-Konten benötigen eine eindeutige Roblox-User-ID; Owner kann Verknüpfungen verwalten und der Chat nutzt die jeweilige Roblox-Identität.
 // V213: Globaler Chat als vierter Reiter der Übersicht; OwnerAccount ist mit Roblox-ID 10199760908 verbunden.
 // V212: Globaler Nexu-Chat für alle aktiven Script-Nutzer mit Sitzungsschutz, Verlauf und Rate-Limit.
@@ -24,7 +25,7 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 // V163: Eigene Nexu-Bestätigungsdialoge und Toast-Benachrichtigungen statt Browser-Popups.
 // V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TTL_MS = 6 * 60 * 60_000;const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
 
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
@@ -58,6 +59,10 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
 const DASHBOARD_ACCOUNT_STORAGE_SECRET = String(process.env.DASHBOARD_ACCOUNT_STORAGE_SECRET || "").trim() || DASHBOARD_SESSION_SIGNING_SECRET;
 
 const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+let globalChatDayKey = "";
+let globalChatResetRevision = 0;
+let globalChatResetAtMs = 0;
+let globalChatMidnightTimer = null;
 let latestGlobalShutdownCommand = null;
 let presenceRevision = 1;
 let presenceSnapshotSignature = "";
@@ -2423,14 +2428,78 @@ return queue.map((entry) => ({
 }
 
 
-function pruneGlobalChat() {
-    const now = Date.now();
-    while (
-        globalChatMessages.length > 0 &&
-        now - Number(globalChatMessages[0].sentAtMs || 0) > CHAT_TTL_MS
-    ) {
-        globalChatMessages.shift();
+function getGlobalChatDayKey(nowMs = Date.now()) {
+    const formatter = new Intl.DateTimeFormat("en-CA", {
+        timeZone: CHAT_TIME_ZONE,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+    });
+    const parts = Object.create(null);
+    for (const part of formatter.formatToParts(new Date(nowMs))) {
+        if (part.type !== "literal") parts[part.type] = part.value;
     }
+    return `${parts.year || "0000"}-${parts.month || "00"}-${parts.day || "00"}`;
+}
+
+function getGlobalChatResetToken() {
+    return `${SERVER_INSTANCE_ID}:${globalChatDayKey || getGlobalChatDayKey()}:${globalChatResetRevision}`;
+}
+
+function clearGlobalChat(reason = "manual", nowMs = Date.now()) {
+    const removed = globalChatMessages.length;
+    globalChatMessages.length = 0;
+    chatRateLimits.clear();
+    globalChatDayKey = getGlobalChatDayKey(nowMs);
+    globalChatResetRevision += 1;
+    globalChatResetAtMs = nowMs;
+    console.log(`[NEXU] Globaler Chat geleert (${reason}, ${removed} Nachrichten, Zeitzone ${CHAT_TIME_ZONE}).`);
+    return removed;
+}
+
+function ensureGlobalChatDay(nowMs = Date.now()) {
+    const currentDayKey = getGlobalChatDayKey(nowMs);
+    if (!globalChatDayKey) {
+        globalChatDayKey = currentDayKey;
+        globalChatResetAtMs = nowMs;
+        return false;
+    }
+    if (currentDayKey !== globalChatDayKey) {
+        clearGlobalChat("daily-midnight", nowMs);
+        return true;
+    }
+    return false;
+}
+
+function findNextGlobalChatMidnightMs(nowMs = Date.now()) {
+    const currentDayKey = getGlobalChatDayKey(nowMs);
+    let low = nowMs;
+    let high = nowMs + (30 * 60 * 60_000);
+    while (getGlobalChatDayKey(high) === currentDayKey) {
+        high += 6 * 60 * 60_000;
+    }
+    while (high - low > 250) {
+        const middle = Math.floor((low + high) / 2);
+        if (getGlobalChatDayKey(middle) === currentDayKey) low = middle;
+        else high = middle;
+    }
+    return high;
+}
+
+function scheduleGlobalChatMidnightReset() {
+    if (globalChatMidnightTimer) clearTimeout(globalChatMidnightTimer);
+    const targetMs = findNextGlobalChatMidnightMs();
+    const delayMs = Math.max(250, targetMs - Date.now() + 75);
+    globalChatMidnightTimer = setTimeout(() => {
+        ensureGlobalChatDay(Date.now());
+        scheduleGlobalChatMidnightReset();
+    }, delayMs);
+    if (typeof globalChatMidnightTimer.unref === "function") globalChatMidnightTimer.unref();
+}
+
+function pruneGlobalChat() {
+    ensureGlobalChatDay();
+    const now = Date.now();
     while (globalChatMessages.length > CHAT_HISTORY_LIMIT) {
         globalChatMessages.shift();
     }
@@ -2486,9 +2555,12 @@ function queueGlobalChatMessage(liveEntry, message) {
     const userId = cleanNumericId(liveEntry && liveEntry.userId);
     if (!userId) return null;
 
+    const role = getNexuRoleInfo(userId);
     const entry = {
         id: (now * 1000) + ((nextChatMessageId++) % 1000),
         userId,
+        roleKey: role.key,
+        roleTitle: role.title,
         username: cleanText(liveEntry && (liveEntry.username || liveEntry.name), 40) || `User${userId}`,
         displayName:
             cleanText(liveEntry && liveEntry.displayName, 80) ||
@@ -2511,16 +2583,21 @@ function getGlobalChatMessages(afterId) {
     return globalChatMessages
         .filter((entry) => Number(entry.id || 0) > numericAfterId)
         .slice(-CHAT_POLL_LIMIT)
-        .map((entry) => ({
+        .map((entry) => {
+            const role = getNexuRoleInfo(entry.userId);
+            return {
             id: entry.id,
             userId: entry.userId,
+            roleKey: role.key,
+            roleTitle: role.title,
             username: entry.username,
             displayName: entry.displayName,
             avatarUrl: (avatarCache.get(String(entry.userId || "")) || {}).url || "",
             message: entry.message,
             sentAt: entry.sentAt,
             sentAtMs: entry.sentAtMs,
-        }));
+            };
+        });
 }
 
 async function resolveRobloxUserIdentity(userId) {
@@ -9718,7 +9795,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
     var tabCount=document.getElementById('chatTabCount');
     if(!panel||!list||!input||!sendButton) return;
 
-    var state={lastId:0,seen:new Set(),sending:false,polling:false,rows:0};
+    var state={lastId:0,seen:new Set(),sending:false,polling:false,rows:0,resetToken:""};
     function setStatus(text,error){
         if(!stateLabel)return;
         stateLabel.textContent=String(text||'');
@@ -9735,6 +9812,13 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
     function nearBottom(){return list.scrollHeight-list.scrollTop-list.clientHeight<90;}
     function scrollBottom(){requestAnimationFrame(function(){list.scrollTop=list.scrollHeight;});}
     function removeEmpty(){var empty=list.querySelector('.nx-web-chat-empty');if(empty)empty.remove();}
+    function resetChatView(resetToken){
+        state.resetToken=String(resetToken||'');
+        state.lastId=0;state.seen.clear();state.rows=0;
+        list.replaceChildren();
+        var empty=document.createElement('div');empty.className='nx-web-chat-empty';empty.innerHTML='Noch keine Nachrichten vorhanden.<br>Der Chat wird täglich um 00:00 Uhr geleert.';list.appendChild(empty);
+        if(tabCount)tabCount.textContent='0';
+    }
     function appendMessage(entry){
         if(!entry||!entry.id||state.seen.has(String(entry.id)))return;
         var keepBottom=nearBottom();
@@ -9779,6 +9863,9 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         if(keepBottom)scrollBottom();
     }
     function consume(payload){
+        var incomingResetToken=String(payload&&payload.chatResetToken||'');
+        if(incomingResetToken&&state.resetToken&&incomingResetToken!==state.resetToken)resetChatView(incomingResetToken);
+        else if(incomingResetToken&&!state.resetToken)state.resetToken=incomingResetToken;
         (Array.isArray(payload&&payload.messages)?payload.messages:[]).forEach(appendMessage);
         if(payload&&payload.chatMessage)appendMessage(payload.chatMessage);
         state.lastId=Math.max(state.lastId,Number(payload&&payload.latestId)||0);
@@ -11246,7 +11333,14 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
         }
         await attachAvatarUrlsToChatMessages([chatMessage]);
         console.log(`[NEXU] CHAT ${userId}${websiteIdentity ? " (WEBSITE)" : ""}: ${message.slice(0, 80)}`);
-        sendJson(res, 200, { success: true, chatMessage, latestId: chatMessage.id });
+        sendJson(res, 200, {
+            success: true,
+            chatMessage,
+            latestId: chatMessage.id,
+            chatResetToken: getGlobalChatResetToken(),
+            chatDayKey: globalChatDayKey,
+            chatResetAtMs: globalChatResetAtMs,
+        });
     } catch (error) {
         sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
             success: false,
@@ -11292,13 +11386,16 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
         await attachAvatarUrlsToChatMessages(messages);
         const latestId = globalChatMessages.length > 0
             ? Number(globalChatMessages[globalChatMessages.length - 1].id || 0)
-            : afterId;
+            : 0;
         sendJson(res, 200, {
             success: true,
             messages,
             latestId,
             canSend: Boolean(websiteSession && cleanNumericId(websiteSession.account && websiteSession.account.robloxUserId) && canAccessMenuServer(websiteSession.account)),
             currentRobloxUserId: cleanNumericId(websiteSession && websiteSession.account && websiteSession.account.robloxUserId),
+            chatResetToken: getGlobalChatResetToken(),
+            chatDayKey: globalChatDayKey,
+            chatResetAtMs: globalChatResetAtMs,
             timestamp: new Date().toISOString(),
         });
     } catch (error) {
@@ -11730,6 +11827,8 @@ sendJson(res, 404, {
 
 });
 
+ensureGlobalChatDay();
+scheduleGlobalChatMidnightReset();
 setInterval(() => {prunePresence();pruneDirectMessages();pruneGlobalChat();pruneDashboardAuth();pruneShutdownCommands();}, 20_000).unref();
 
 async function flushGitHubStorageBeforeExit() {
@@ -11774,7 +11873,7 @@ async function startNexuServer() {
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
         console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");
-        console.log("Global Chat: /api/chat/send + /api/chat/poll");
+        console.log("Global Chat: /api/chat/send + /api/chat/poll");console.log("Chat-Tagesreset:", `00:00 ${CHAT_TIME_ZONE}`);
         console.log("Website-Chat: ÜBERSICHT // VIERTER REITER // ACCOUNT-ROBLOX-ID VERKNÜPFUNG");
         console.log("Website Join: /api/join/send + /api/join/poll");
         console.log("Access: /api/menu/access?userId=...");
