@@ -26,7 +26,7 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 // V163: Eigene Nexu-Bestätigungsdialoge und Toast-Benachrichtigungen statt Browser-Popups.
 // V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 2_400;const GHOST_SYNC_MIN_INTERVAL_MS = 120;const GHOST_MAX_VISIBLE_STATES = 24;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 3_200;const GHOST_SYNC_MIN_INTERVAL_MS = 80;const GHOST_MAX_VISIBLE_STATES = 24;const GHOST_HISTORY_LIMIT = 10;const GHOST_HISTORY_WINDOW_MS = 1_900;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
 
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
@@ -59,7 +59,7 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
     .digest("hex");
 const DASHBOARD_ACCOUNT_STORAGE_SECRET = String(process.env.DASHBOARD_ACCOUNT_STORAGE_SECRET || "").trim() || DASHBOARD_SESSION_SIGNING_SECRET;
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const sharedGhostStates = new Map();const ghostSyncRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const sharedGhostStates = new Map();const ghostSyncRateLimits = new Map();const ghostLastSequences = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 let globalChatDayKey = "";
 let globalChatResetRevision = 0;
 let globalChatResetAtMs = 0;
@@ -2624,13 +2624,31 @@ function normalizeSharedGhostCFrame(value) {
     return result;
 }
 
-function normalizeSharedGhostVector(value) {
+function normalizeSharedGhostVector(value, maximum = 1_500) {
     if (!Array.isArray(value) || value.length !== 3) return [0, 0, 0];
-    return value.map((entry) => cleanFiniteNumber(entry, 0, -1_500, 1_500));
+    const limit = Math.max(1, Number(maximum) || 1_500);
+    const vector = value.map((entry) => cleanFiniteNumber(entry, 0, -limit, limit));
+    const magnitude = Math.hypot(vector[0], vector[1], vector[2]);
+    if (magnitude > limit && magnitude > 0) {
+        const scale = limit / magnitude;
+        return vector.map((entry) => entry * scale);
+    }
+    return vector;
 }
 
 function sharedGhostStateKey(userId, sessionId) {
     return `${cleanNumericId(userId)}:${cleanText(sessionId, 120)}`;
+}
+
+function acceptSharedGhostSequence(userId, sessionId, rawSequence, now = Date.now()) {
+    const key = sharedGhostStateKey(userId, sessionId);
+    if (!key || key === ":") return 0;
+    const current = ghostLastSequences.get(key) || { sequence: 0, touchedAtMs: 0 };
+    const requested = cleanInteger(rawSequence);
+    if (requested > 0 && requested <= Number(current.sequence || 0)) return 0;
+    const sequence = requested > 0 ? requested : Number(current.sequence || 0) + 1;
+    ghostLastSequences.set(key, { sequence, touchedAtMs: now });
+    return sequence;
 }
 
 function removeSharedGhostState(userId, sessionId = "") {
@@ -2663,6 +2681,9 @@ function pruneSharedGhostStates(now = Date.now()) {
     for (const [key, lastAtMs] of ghostSyncRateLimits) {
         if (now - Number(lastAtMs || 0) > 60_000) ghostSyncRateLimits.delete(key);
     }
+    for (const [key, state] of ghostLastSequences) {
+        if (!state || now - Number(state.touchedAtMs || 0) > 90_000) ghostLastSequences.delete(key);
+    }
 }
 
 function allowSharedGhostSync(userId, sessionId, now = Date.now()) {
@@ -2674,19 +2695,52 @@ function allowSharedGhostSync(userId, sessionId, now = Date.now()) {
     return true;
 }
 
-function upsertSharedGhostState(live, rawState, now = Date.now()) {
-    if (!live || !rawState || typeof rawState !== "object") return null;
-    const userId = cleanNumericId(live.userId);
-    const sessionId = cleanText(live.sessionId, 120);
+function normalizeSharedGhostSnapshot(rawState, now, sequence) {
+    if (!rawState || typeof rawState !== "object") return null;
     const cframe = normalizeSharedGhostCFrame(rawState.cframe);
-    if (!userId || !sessionId || !cframe) return null;
-
+    if (!cframe) return null;
     const animationNameCandidate = cleanText(rawState.animationName, 20);
     const allowedAnimationNames = new Set(["Idle", "Walk", "Run", "Jump", "Fall", "Climb", "Swim"]);
     const animationName = allowedAnimationNames.has(animationNameCandidate)
         ? animationNameCandidate
         : "Idle";
     const animationDigits = String(rawState.animationId || "").match(/\d{3,20}/);
+    const humanoidState = cleanText(rawState.humanoidState, 28) || "Unknown";
+    return {
+        sequence,
+        sampleTimeMs: cleanInteger(rawState.sampleTimeMs),
+        cframe,
+        velocity: normalizeSharedGhostVector(rawState.velocity, 700),
+        moveDirection: normalizeSharedGhostVector(rawState.moveDirection, 1),
+        angularVelocity: normalizeSharedGhostVector(rawState.angularVelocity, 20),
+        humanoidState,
+        grounded: rawState.grounded === true,
+        animationName,
+        animationId: animationDigits ? animationDigits[0] : "",
+        animationSpeed: cleanFiniteNumber(rawState.animationSpeed, 1, 0, 6),
+        animationTime: cleanFiniteNumber(rawState.animationTime, 0, 0, 86_400),
+        updatedAtMs: now,
+    };
+}
+
+function upsertSharedGhostState(live, rawState, now = Date.now()) {
+    if (!live || !rawState || typeof rawState !== "object") return null;
+    const userId = cleanNumericId(live.userId);
+    const sessionId = cleanText(live.sessionId, 120);
+    if (!userId || !sessionId) return null;
+    const sequence = acceptSharedGhostSequence(userId, sessionId, rawState.sequence, now);
+    if (!sequence) return sharedGhostStates.get(sharedGhostStateKey(userId, sessionId)) || null;
+    const snapshot = normalizeSharedGhostSnapshot(rawState, now, sequence);
+    if (!snapshot) return null;
+
+    const key = sharedGhostStateKey(userId, sessionId);
+    const previous = sharedGhostStates.get(key);
+    const history = Array.isArray(previous && previous.snapshots)
+        ? previous.snapshots.filter((entry) => entry && now - Number(entry.updatedAtMs || 0) <= GHOST_HISTORY_WINDOW_MS)
+        : [];
+    history.push(snapshot);
+    history.sort((a, b) => Number(a.sequence || 0) - Number(b.sequence || 0));
+    const snapshots = history.slice(-GHOST_HISTORY_LIMIT);
     const role = getNexuRoleInfo(userId);
     const entry = {
         userId,
@@ -2697,16 +2751,29 @@ function upsertSharedGhostState(live, rawState, now = Date.now()) {
         roleTitle: role.title,
         placeId: cleanInteger(live.placeId),
         jobId: cleanText(live.jobId, 100),
-        cframe,
-        velocity: normalizeSharedGhostVector(rawState.velocity),
-        animationName,
-        animationId: animationDigits ? animationDigits[0] : "",
-        animationSpeed: cleanFiniteNumber(rawState.animationSpeed, 1, 0, 6),
-        animationTime: cleanFiniteNumber(rawState.animationTime, 0, 0, 86_400),
-        updatedAtMs: now,
+        ...snapshot,
+        snapshots,
     };
-    sharedGhostStates.set(sharedGhostStateKey(userId, sessionId), entry);
+    sharedGhostStates.set(key, entry);
     return entry;
+}
+
+function serializeSharedGhostSnapshot(snapshot) {
+    return {
+        sequence: snapshot.sequence,
+        sampleTimeMs: snapshot.sampleTimeMs,
+        cframe: snapshot.cframe,
+        velocity: snapshot.velocity,
+        moveDirection: snapshot.moveDirection,
+        angularVelocity: snapshot.angularVelocity,
+        humanoidState: snapshot.humanoidState,
+        grounded: snapshot.grounded,
+        animationName: snapshot.animationName,
+        animationId: snapshot.animationId,
+        animationSpeed: snapshot.animationSpeed,
+        animationTime: snapshot.animationTime,
+        updatedAtMs: snapshot.updatedAtMs,
+    };
 }
 
 function getSharedGhostStatesForViewer(live, now = Date.now()) {
@@ -2731,13 +2798,9 @@ function getSharedGhostStatesForViewer(live, now = Date.now()) {
             displayName: state.displayName,
             roleKey: state.roleKey,
             roleTitle: state.roleTitle,
-            cframe: state.cframe,
-            velocity: state.velocity,
-            animationName: state.animationName,
-            animationId: state.animationId,
-            animationSpeed: state.animationSpeed,
-            animationTime: state.animationTime,
-            updatedAtMs: state.updatedAtMs,
+            ...serializeSharedGhostSnapshot(state),
+            snapshots: (Array.isArray(state.snapshots) ? state.snapshots : [])
+                .map(serializeSharedGhostSnapshot),
         }));
 }
 
@@ -11456,7 +11519,13 @@ if (req.method === "POST" && pathname === "/api/ghost/sync") {
             sharing = Boolean(upsertSharedGhostState(live, body.state, now));
             if (!sharing) removeSharedGhostState(userId, sessionId);
         } else {
-            removeSharedGhostState(userId, sessionId);
+            const accepted = acceptSharedGhostSequence(
+                userId,
+                sessionId,
+                body.sequence || (body.state && body.state.sequence),
+                now
+            );
+            if (accepted) removeSharedGhostState(userId, sessionId);
         }
 
         const states = body.receive === false ? [] : getSharedGhostStatesForViewer(live, now);
@@ -11465,6 +11534,7 @@ if (req.method === "POST" && pathname === "/api/ghost/sync") {
             sharing,
             states,
             ttlMs: GHOST_STATE_TTL_MS,
+            historyLimit: GHOST_HISTORY_LIMIT,
             timestampMs: now,
         });
     } catch (error) {
@@ -11485,7 +11555,8 @@ if (req.method === "POST" && pathname === "/api/ghost/stop") {
         const body = await readJsonBody(req);
         const userId = cleanNumericId(body.userId);
         const sessionId = cleanText(body.sessionId, 120);
-        const removed = removeSharedGhostState(userId, sessionId);
+        const accepted = acceptSharedGhostSequence(userId, sessionId, body.sequence, Date.now());
+        const removed = accepted ? removeSharedGhostState(userId, sessionId) : 0;
         sendJson(res, 200, { success: true, removed });
     } catch (error) {
         sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
