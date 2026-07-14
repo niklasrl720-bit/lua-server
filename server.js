@@ -1,3 +1,4 @@
+// V216: Kontextabhängige mehrsprachige Chatmoderation für Website und Lua; erkannte Beleidigungen, Hassrede, Drohungen und sexuelle Inhalte werden vollständig mit # ersetzt.
 // SHARED GHOST: Sichtbare Geist-Klone für Nexu-Nutzer derselben Roblox-Serverinstanz.
 // V215: Globaler Chat wird täglich um 00:00 Europe/Berlin geleert; Reset synchronisiert Website und Lua, Nachrichten liefern Rangdaten.
 // V214: Alle Website-Konten benötigen eine eindeutige Roblox-User-ID; Owner kann Verknüpfungen verwalten und der Chat nutzt die jeweilige Roblox-Identität.
@@ -2553,12 +2554,230 @@ function allowGlobalChatSend(userId) {
     return state.count <= CHAT_RATE_LIMIT;
 }
 
+
+// -----------------------------------------------------------------------------
+// NEXU CHAT-MODERATION V1
+// Serverseitig autoritativ: Website und Lua erhalten ausschließlich die bereits
+// geprüfte Nachricht. Der Filter kombiniert Normalisierung, Umgehungserkennung,
+// mehrsprachige Wortlisten und Kontextbewertung, damit einzelne harmlose Wörter
+// nicht ohne Ziel-/Satzkontext pauschal blockiert werden.
+// -----------------------------------------------------------------------------
+const NEXU_CHAT_MODERATION_V1 = (() => {
+    const directTargets = new Set([
+        "du", "dich", "dir", "dein", "deine", "ihr", "euch",
+        "you", "your", "u", "ur", "he", "she", "they",
+        "tu", "te", "toi", "ton", "ta", "vous", "votre",
+        "tú", "usted", "ustedes", "vos", "eres", "sois",
+        "voce", "você", "teu", "tua", "voi", "sei",
+        "sen", "siz", "jij", "jouw", "ty", "ciebie", "twoj", "twój",
+        "ты", "тебя", "тебе", "вы", "انت", "انتي", "أنت"
+    ]);
+    const hostileCopulas = new Set([
+        "bist", "seid", "wärst", "waerst", "bleibst",
+        "are", "is", "be", "being", "look", "looks",
+        "es", "eres", "sois", "êtes", "etre", "sei", "siete",
+        "e", "é", "est", "sind", "jesteś", "jestes", "ben", "siniz",
+        "ты", "являешься", "انت"
+    ]);
+    const solicitationWords = new Set([
+        "will", "willst", "möchte", "moechte", "zeig", "schick", "sende", "komm",
+        "want", "wanna", "send", "show", "trade", "meet", "touch",
+        "quiero", "manda", "envia", "muestra", "quieres",
+        "veux", "envoie", "montre", "vuoi", "manda", "mostra",
+        "quero", "envie", "mostre", "iste", "gönder", "gonder"
+    ]);
+    const reportingPatterns = [
+        "das wort", "dieses wort", "bedeutet", "übersetzung", "uebersetzung", "zitat", "zitiert", "genannt", "beleidigung melden", "nicht beleidigen",
+        "the word", "means", "translation", "quoted", "called me", "reporting", "do not insult", "dont insult",
+        "la palabra", "significa", "traducción", "traduccion", "mot signifie", "le mot", "parola significa", "a palavra", "significa",
+        "słowo", "slowo", "означает", "слово", "kelime", "anlamı", "anlami"
+    ];
+
+    const severeTerms = [
+        "nigger", "nigga", "n1gger", "n1gga", "neger", "negroide", "kanake", "kike", "chink", "gook", "spic", "wetback", "coon",
+        "faggot", "fagot", "fag", "tranny", "shemale", "schwuchtel", "judensau", "heil hitler", "white power",
+        "sale juif", "bougnoule", "bamboula", "negro de mierda", "maricon de mierda", "maricón de mierda",
+        "czarnuch", "pedal", "пидор", "пидорас", "черножопый", "хач", "زنجي", "يهودي قذر"
+    ];
+    const threatPhrases = [
+        "bring dich um", "töte dich", "toete dich", "ich töte dich", "ich toete dich", "du sollst sterben", "geh sterben", "stirb endlich",
+        "kill yourself", "kys", "i will kill you", "im going to kill you", "go die", "you should die", "drop dead",
+        "mátate", "matate", "te voy a matar", "muérete", "muerete",
+        "tue toi", "tuez vous", "je vais te tuer", "crève", "creve",
+        "ammazzati", "ti ammazzo", "muori", "mate se", "vou te matar", "morra",
+        "kendini öldür", "kendini oldur", "seni öldüreceğim", "seni oldurecegim",
+        "zabij się", "zabij sie", "zabiję cię", "zabije cie",
+        "убей себя", "я тебя убью", "сдохни", "اقتل نفسك", "سأقتلك"
+    ];
+    const explicitSexualTerms = [
+        "fick dich", "fick mich", "ficken wir", "sex mit dir", "nacktbilder", "nacktfoto", "nudes", "send nudes", "onlyfans",
+        "blowjob", "handjob", "rimjob", "deepthroat", "gangbang", "porn", "porno", "pornhub", "hentai", "sexchat", "sexting",
+        "cum", "cumming", "suck my dick", "suck dick", "eat my pussy", "fuck me", "fuck you", "rape", "vergewaltigen",
+        "chúpame", "chupame", "fóllame", "follame", "sexo contigo", "manda nudes", "violación", "violacion",
+        "suce moi", "baise moi", "sexe avec toi", "envoie des nudes", "viol",
+        "scopami", "sesso con te", "manda nudes", "stupro",
+        "me fode", "sexo com você", "sexo com voce", "mande nudes", "estupro",
+        "sakso", "sikiş", "sikis", "tecavüz", "tecavuz",
+        "ебать", "трахни меня", "секс со мной", "изнасилование", "نيك", "اغتصاب", "ارسل صور عارية"
+    ];
+    const strongInsults = [
+        "idiot", "idiotin", "vollidiot", "trottel", "depp", "dummkopf", "hurensohn", "huso", "missgeburt", "miststück", "miststueck", "wichser", "spast", "behindert", "bastard", "arschloch",
+        "moron", "imbecile", "dumbass", "asshole", "bitch", "son of a bitch", "motherfucker", "loser", "scumbag", "piece of shit", "retard",
+        "imbécil", "imbecil", "idiota", "estúpido", "estupido", "gilipollas", "pendejo", "cabron", "cabrón", "hijo de puta", "puta",
+        "connard", "connasse", "salaud", "salope", "abruti", "imbécile", "imbecile", "fils de pute", "pute",
+        "stronzo", "coglione", "bastardo", "figlio di puttana", "puttana", "idiota",
+        "filho da puta", "otário", "otario", "babaca", "vagabunda", "puta", "idiota",
+        "klootzak", "mongool", "sukkel", "hoer", "piç", "pic", "orospu çocuğu", "orospu cocugu", "salak", "gerizekalı", "gerizekali",
+        "kurwa", "skurwysyn", "debil", "idiota", "suka", "сука", "мудак", "дебил", "идиот", "ублюдок", "шлюха",
+        "غبي", "احمق", "ابن العاهرة", "شرموط", "كلب"
+    ];
+    const weakProfanity = [
+        "arsch", "scheiße", "scheisse", "kacke", "fuck", "shit", "damn", "crap", "mierda", "merde", "putain", "cazzo", "porra", "caralho", "bok", "lanet"
+    ];
+    const neutralSexualWords = [
+        "sex", "sexy", "nackt", "nackte", "nackter", "nude", "penis", "vagina", "pussy", "dick", "cock", "boobs", "brüste", "brueste", "titten",
+        "sexual", "sexuell", "erotic", "erotisch", "orgasmus", "orgasm", "masturbation", "masturbieren"
+    ];
+
+    const confusables = {
+        "а":"a", "е":"e", "ё":"e", "о":"o", "р":"p", "с":"c", "у":"y", "х":"x", "к":"k", "м":"m", "т":"t", "в":"b", "н":"h",
+        "Α":"a", "Β":"b", "Ε":"e", "Ζ":"z", "Η":"h", "Ι":"i", "Κ":"k", "Μ":"m", "Ν":"n", "Ο":"o", "Ρ":"p", "Τ":"t", "Υ":"y", "Χ":"x"
+    };
+    const leet = {"0":"o", "1":"i", "2":"z", "3":"e", "4":"a", "5":"s", "6":"g", "7":"t", "8":"b", "9":"g", "@":"a", "$":"s", "!":"i", "+":"t", "|":"i"};
+
+    function normalize(value) {
+        const original = cleanText(value, CHAT_MAX_LENGTH);
+        let text = original.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        text = Array.from(text).map((character) => confusables[character] || leet[character] || character).join("");
+        text = text.replace(/(.)\1{2,}/g, "$1$1");
+        text = text.replace(/[^a-z0-9\u00c0-\u024f\u0400-\u04ff\u0600-\u06ff]+/g, " ").replace(/\s+/g, " ").trim();
+        const rawTokens = text ? text.split(" ") : [];
+        const tokens = [];
+        for (let index = 0; index < rawTokens.length; index += 1) {
+            if (rawTokens[index].length === 1) {
+                let end = index;
+                let joined = "";
+                while (end < rawTokens.length && rawTokens[end].length === 1 && joined.length < 32) {
+                    joined += rawTokens[end];
+                    end += 1;
+                }
+                if (end - index >= 3) {
+                    tokens.push(joined);
+                    index = end - 1;
+                    continue;
+                }
+            }
+            tokens.push(rawTokens[index]);
+        }
+        const variants = new Set(tokens);
+        for (const token of tokens) variants.add(token.replace(/(.)\1+/g, "$1"));
+        const spaced = tokens.join(" ");
+        return { original, spaced, padded: ` ${spaced} `, tokens, variants };
+    }
+
+    function normalizeTerm(value) {
+        return normalize(value).spaced;
+    }
+
+    function containsTerm(data, value) {
+        const term = normalizeTerm(value);
+        if (!term) return false;
+        if (term.includes(" ")) {
+            const compactTerm = term.replace(/\s+/g, "");
+            return data.padded.includes(` ${term} `) || data.variants.has(compactTerm);
+        }
+        return data.variants.has(term) || data.variants.has(term.replace(/(.)\1+/g, "$1"));
+    }
+
+    function countTerms(data, terms, stopAt = 3) {
+        let count = 0;
+        let first = "";
+        for (const term of terms) {
+            if (!containsTerm(data, term)) continue;
+            count += 1;
+            if (!first) first = term;
+            if (count >= stopAt) break;
+        }
+        return { count, first };
+    }
+
+    function hasAnyToken(data, set) {
+        for (const token of data.variants) if (set.has(token)) return true;
+        return false;
+    }
+
+    function hasReportingContext(data) {
+        return reportingPatterns.some((pattern) => containsTerm(data, pattern));
+    }
+
+    function censorWithHashes(value) {
+        const text = cleanText(value, CHAT_MAX_LENGTH);
+        return Array.from(text).map((character) => /\s/.test(character) ? character : "#").join("");
+    }
+
+    function analyze(value) {
+        const data = normalize(value);
+        if (!data.original) return { moderated: false, message: "", category: "", score: 0 };
+
+        const severe = countTerms(data, severeTerms, 1);
+        if (severe.count > 0) {
+            return { moderated: true, message: censorWithHashes(data.original), category: "HASSREDE", score: 100 };
+        }
+        const threat = countTerms(data, threatPhrases, 1);
+        if (threat.count > 0) {
+            return { moderated: true, message: censorWithHashes(data.original), category: "DROHUNG", score: 100 };
+        }
+        const explicit = countTerms(data, explicitSexualTerms, 1);
+        if (explicit.count > 0) {
+            return { moderated: true, message: censorWithHashes(data.original), category: "SEXUELL", score: 100 };
+        }
+
+        const strong = countTerms(data, strongInsults, 3);
+        const weak = countTerms(data, weakProfanity, 3);
+        const sexual = countTerms(data, neutralSexualWords, 3);
+        const targeted = hasAnyToken(data, directTargets);
+        const hostileSentence = hasAnyToken(data, hostileCopulas);
+        const solicitation = hasAnyToken(data, solicitationWords);
+        const reporting = hasReportingContext(data);
+
+        let insultScore = (strong.count * 4.5) + (weak.count * 2.2);
+        if ((strong.count > 0 || weak.count > 0) && targeted) insultScore += 2.2;
+        if ((strong.count > 0 || weak.count > 0) && hostileSentence) insultScore += 1.3;
+        if ((strong.count > 0 || weak.count > 0) && data.tokens.length <= 3) insultScore += 1.5;
+        if (reporting) insultScore = Math.max(0, insultScore - 3.6);
+
+        let sexualScore = sexual.count * 3.0;
+        if (sexual.count > 0 && solicitation) sexualScore += 4.0;
+        if (sexual.count > 0 && targeted) sexualScore += 1.5;
+        if (sexual.count >= 2) sexualScore += 2.5;
+        if (reporting && !solicitation) sexualScore = Math.max(0, sexualScore - 3.0);
+
+        const score = Math.max(insultScore, sexualScore);
+        const category = sexualScore > insultScore ? "SEXUELL" : "BELEIDIGUNG";
+        const moderated = score >= 5.5;
+        return {
+            moderated,
+            message: moderated ? censorWithHashes(data.original) : data.original,
+            category: moderated ? category : "",
+            score: Math.round(score * 10) / 10,
+        };
+    }
+
+    return { analyze };
+})();
+
+function moderateNexuChatMessage(value) {
+    return NEXU_CHAT_MODERATION_V1.analyze(value);
+}
+
 function queueGlobalChatMessage(liveEntry, message) {
     pruneGlobalChat();
     const now = Date.now();
     const userId = cleanNumericId(liveEntry && liveEntry.userId);
     if (!userId) return null;
 
+    const moderation = moderateNexuChatMessage(message);
+    if (!moderation.message) return null;
     const role = getNexuRoleInfo(userId);
     const entry = {
         id: (now * 1000) + ((nextChatMessageId++) % 1000),
@@ -2570,7 +2789,10 @@ function queueGlobalChatMessage(liveEntry, message) {
             cleanText(liveEntry && liveEntry.displayName, 80) ||
             cleanText(liveEntry && (liveEntry.username || liveEntry.name), 40) ||
             `User ${userId}`,
-        message: cleanText(message, CHAT_MAX_LENGTH),
+        message: moderation.message,
+        moderated: moderation.moderated === true,
+        moderationCategory: moderation.category || "",
+        moderationScore: Number(moderation.score) || 0,
         sentAt: new Date(now).toISOString(),
         sentAtMs: now,
     };
@@ -2589,6 +2811,9 @@ function getGlobalChatMessages(afterId) {
         .slice(-CHAT_POLL_LIMIT)
         .map((entry) => {
             const role = getNexuRoleInfo(entry.userId);
+            const moderation = entry.moderated === true
+                ? { moderated: true, message: cleanText(entry.message, CHAT_MAX_LENGTH), category: cleanText(entry.moderationCategory, 40), score: Number(entry.moderationScore) || 0 }
+                : moderateNexuChatMessage(entry.message);
             return {
             id: entry.id,
             userId: entry.userId,
@@ -2597,7 +2822,9 @@ function getGlobalChatMessages(afterId) {
             username: entry.username,
             displayName: entry.displayName,
             avatarUrl: (avatarCache.get(String(entry.userId || "")) || {}).url || "",
-            message: entry.message,
+            message: moderation.message,
+            moderated: moderation.moderated === true,
+            moderationCategory: moderation.category || "",
             sentAt: entry.sentAt,
             sentAtMs: entry.sentAtMs,
             };
@@ -10020,7 +10247,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         state.resetToken=String(resetToken||'');
         state.lastId=0;state.seen.clear();state.rows=0;
         list.replaceChildren();
-        var empty=document.createElement('div');empty.className='nx-web-chat-empty';empty.innerHTML='Noch keine Nachrichten vorhanden.<br>Der Chat wird täglich um 00:00 Uhr geleert.';list.appendChild(empty);
+        var empty=document.createElement('div');empty.className='nx-web-chat-empty';empty.innerHTML='Noch keine Nachrichten vorhanden.<br>Der Chat wird täglich um 00:00 Uhr geleert. Beleidigungen, Hassrede, Drohungen und sexuelle Inhalte werden automatisch vollständig zensiert.';list.appendChild(empty);
         if(tabCount)tabCount.textContent='0';
     }
     function appendMessage(entry){
@@ -11621,7 +11848,7 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
             return;
         }
         await attachAvatarUrlsToChatMessages([chatMessage]);
-        console.log(`[NEXU] CHAT ${userId}${websiteIdentity ? " (WEBSITE)" : ""}: ${message.slice(0, 80)}`);
+        console.log(`[NEXU] CHAT ${userId}${websiteIdentity ? " (WEBSITE)" : ""}: ${chatMessage.moderated ? `[ZENSIERT:${chatMessage.moderationCategory || "INHALT"}]` : chatMessage.message.slice(0, 80)}`);
         sendJson(res, 200, {
             success: true,
             chatMessage,
