@@ -1,3 +1,4 @@
+// V213: Globaler Chat als vierter Reiter der Übersicht; OwnerAccount ist mit Roblox-ID 10199760908 verbunden.
 // V212: Globaler Nexu-Chat für alle aktiven Script-Nutzer mit Sitzungsschutz, Verlauf und Rate-Limit.
 // V211: Owner-Aktion zum sicheren Leeren aller gespeicherten Spieler mit lokaler und GitHub-Persistenz.
 // V210: Experimentelle Endpunkte für geteilte Geistdarstellung entfernt. Alle V207-Funktionen bleiben erhalten.
@@ -22,7 +23,7 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 // V163: Eigene Nexu-Bestätigungsdialoge und Toast-Benachrichtigungen statt Browser-Popups.
 // V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TTL_MS = 6 * 60 * 60_000;const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TTL_MS = 6 * 60 * 60_000;const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
 
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
@@ -55,7 +56,7 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
     .digest("hex");
 const DASHBOARD_ACCOUNT_STORAGE_SECRET = String(process.env.DASHBOARD_ACCOUNT_STORAGE_SECRET || "").trim() || DASHBOARD_SESSION_SIGNING_SECRET;
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 let latestGlobalShutdownCommand = null;
 let presenceRevision = 1;
 let presenceSnapshotSignature = "";
@@ -2479,10 +2480,66 @@ function getGlobalChatMessages(afterId) {
             userId: entry.userId,
             username: entry.username,
             displayName: entry.displayName,
+            avatarUrl: (avatarCache.get(String(entry.userId || "")) || {}).url || "",
             message: entry.message,
             sentAt: entry.sentAt,
             sentAtMs: entry.sentAtMs,
         }));
+}
+
+async function resolveRobloxUserIdentity(userId) {
+    const id = cleanNumericId(userId);
+    if (!id) return null;
+
+    const now = Date.now();
+    const cached = robloxIdentityCache.get(id);
+    if (cached && now - Number(cached.cachedAtMs || 0) < AVATAR_CACHE_MS) {
+        return { userId:id, username:cached.username, displayName:cached.displayName };
+    }
+
+    const live = findLatestPresenceForUser(id);
+    const known = knownPlayers.get(id);
+    let username = cleanText(live && live.username, 40) || cleanText(known && known.username, 40);
+    let displayName = cleanText(live && live.displayName, 80) || cleanText(known && known.displayName, 80);
+
+    try {
+        const response = await fetch(`https://users.roblox.com/v1/users/${encodeURIComponent(id)}`, {
+            headers: {
+                "User-Agent": "Nexu-Presence-Dashboard/3.0",
+                Accept: "application/json",
+            },
+        });
+        if (response.ok) {
+            const payload = await response.json().catch(() => ({}));
+            username = cleanText(payload && payload.name, 40) || username;
+            displayName = cleanText(payload && payload.displayName, 80) || displayName;
+        }
+    } catch (error) {
+        console.warn(`[NEXU] Roblox-Identität ${id} konnte nicht geladen werden:`, error.message);
+    }
+
+    username = username || `User${id}`;
+    displayName = displayName || username || `User ${id}`;
+    robloxIdentityCache.set(id, { username, displayName, cachedAtMs:now });
+    rememberKnownPlayer({ userId:id, username, displayName }, now);
+    return { userId:id, username, displayName };
+}
+
+async function getOwnerWebsiteChatIdentity(session) {
+    if (!session || !isOwnerDashboardAccount(session.account)) return null;
+    return resolveRobloxUserIdentity(OWNER_ACCOUNT_ROBLOX_USER_ID);
+}
+
+async function attachAvatarUrlsToChatMessages(messages) {
+    const rows = Array.isArray(messages) ? messages : [];
+    const ids = [...new Set(rows.map((entry) => cleanNumericId(entry && entry.userId)).filter(Boolean))];
+    if (ids.length === 0) return rows;
+    const urls = await fetchAvatarUrls(ids);
+    for (const entry of rows) {
+        const id = cleanNumericId(entry && entry.userId);
+        if (id) entry.avatarUrl = urls.get(id) || entry.avatarUrl || "";
+    }
+    return rows;
 }
 
 async function fetchAvatarUrls(userIds) {const now = Date.now();const result = new Map();const missing = [];
@@ -9478,6 +9535,204 @@ homeHtml = function(notice = "", error = "", account = null, options = {}) {
 loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();loadMenuAvailabilityState();
 const githubStorageStartupPromise = Promise.all([loadGitHubStorage(), loadGitHubAccounts()]).then(() => { syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler und Accounts geladen; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
 
+
+/* --------------------------------------------------------------------------
+ * NEXU V213 // WEBSITE GLOBAL CHAT
+ * Globaler Chat als vierte Liste der Übersicht. Der geschützte OwnerAccount
+ * schreibt mit der echten Roblox-Identität 10199760908.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V213_BASE_OVERVIEW_HTML = dashboardHtml;
+
+function nexuV213OverviewChatCss() {
+    return String.raw`
+.page-dashboard .nx-web-chat-panel{min-height:560px;}
+.nx-web-chat-shell{display:grid;grid-template-rows:auto minmax(330px,1fr) auto;gap:14px;min-height:540px;}
+.nx-web-chat-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;border:1px solid rgba(108,223,255,.12);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.018));}
+.nx-web-chat-head h2{margin:3px 0 0;font-size:20px;}
+.nx-web-chat-state{display:inline-flex;align-items:center;gap:8px;color:#8faabd;font-size:11px;font-weight:850;letter-spacing:.07em;text-transform:uppercase;}
+.nx-web-chat-state::before{content:"";width:8px;height:8px;border-radius:50%;background:#2dffa5;box-shadow:0 0 14px rgba(45,255,165,.55);}
+.nx-web-chat-state.error::before{background:#ff4d78;box-shadow:0 0 14px rgba(255,77,120,.55);}
+.nx-web-chat-messages{min-height:330px;max-height:560px;overflow:auto;display:flex;flex-direction:column;gap:11px;padding:18px;border:1px solid rgba(108,223,255,.12);border-radius:20px;background:linear-gradient(180deg,rgba(2,8,15,.7),rgba(4,10,18,.58));scrollbar-gutter:stable;}
+.nx-web-chat-empty{margin:auto;color:#69889d;font-size:13px;text-align:center;line-height:1.6;}
+.nx-web-chat-row{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:start;gap:10px;max-width:min(760px,86%);}
+.nx-web-chat-row.own{align-self:flex-end;grid-template-columns:minmax(0,1fr) 42px;}
+.nx-web-chat-row.own .nx-web-chat-avatar{grid-column:2;}
+.nx-web-chat-row.own .nx-web-chat-bubble{grid-column:1;grid-row:1;}
+.nx-web-chat-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid rgba(0,200,255,.34);background:#07111d;box-shadow:0 8px 22px rgba(0,0,0,.25);}
+.nx-web-chat-bubble{min-width:0;padding:11px 13px 12px;border:1px solid rgba(108,223,255,.15);border-radius:6px 17px 17px 17px;background:linear-gradient(180deg,rgba(13,24,39,.94),rgba(8,16,28,.9));box-shadow:0 12px 28px rgba(0,0,0,.18);}
+.nx-web-chat-row.own .nx-web-chat-bubble{border-radius:17px 6px 17px 17px;border-color:rgba(111,70,255,.28);background:linear-gradient(180deg,rgba(24,23,54,.94),rgba(12,19,37,.92));}
+.nx-web-chat-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;}
+.nx-web-chat-name{min-width:0;color:#dff7ff;font-size:12px;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nx-web-chat-name small{color:#7895aa;font-size:10px;font-weight:700;}
+.nx-web-chat-time{flex:0 0 auto;color:#617e92;font-size:9px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;}
+.nx-web-chat-text{color:#dcecf5;font-size:13px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text !important;-webkit-user-select:text !important;}
+.nx-web-chat-composer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:12px;border:1px solid rgba(108,223,255,.13);border-radius:18px;background:linear-gradient(180deg,rgba(10,17,29,.9),rgba(6,13,23,.82));}
+.nx-web-chat-input-wrap{position:relative;min-width:0;}
+.nx-web-chat-input{width:100%;min-height:48px;max-height:130px;resize:vertical;padding:13px 66px 11px 14px;border:1px solid rgba(108,223,255,.18);border-radius:14px;outline:none;color:#e6f5fc;background:rgba(2,8,15,.76);font:inherit;font-size:13px;line-height:1.45;}
+.nx-web-chat-input:focus{border-color:rgba(0,200,255,.55);box-shadow:0 0 0 3px rgba(0,200,255,.08);}
+.nx-web-chat-count{position:absolute;right:11px;bottom:9px;color:#66859a;font-size:9px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;}
+.nx-web-chat-send{min-width:118px;min-height:48px;border-color:rgba(0,200,255,.34)!important;color:#b8efff!important;background:linear-gradient(135deg,rgba(0,200,255,.18),rgba(111,70,255,.16))!important;}
+.nx-web-chat-send:disabled,.nx-web-chat-input:disabled{opacity:.5;cursor:not-allowed;}
+.nx-web-chat-owner-note{grid-column:1/-1;margin:0;color:#7895aa;font-size:10px;line-height:1.45;}
+@media(max-width:760px){.nx-web-chat-shell{min-height:480px}.nx-web-chat-head{align-items:flex-start;flex-direction:column}.nx-web-chat-messages{min-height:300px;max-height:460px;padding:12px}.nx-web-chat-row{max-width:96%}.nx-web-chat-composer{grid-template-columns:1fr}.nx-web-chat-send{width:100%}}
+`;
+}
+
+function nexuV213OverviewChatScript(canSend) {
+    const ownerIdJson = JSON.stringify(OWNER_ACCOUNT_ROBLOX_USER_ID);
+    const canSendJson = canSend === true ? "true" : "false";
+    return String.raw`<script>
+(function(){
+    var OWNER_ROBLOX_USER_ID=${ownerIdJson};
+    var canSend=${canSendJson};
+    var panel=document.querySelector('[data-directory-panel="chat"]');
+    var list=document.getElementById('websiteGlobalChatMessages');
+    var input=document.getElementById('websiteGlobalChatInput');
+    var sendButton=document.getElementById('websiteGlobalChatSend');
+    var stateLabel=document.getElementById('websiteGlobalChatState');
+    var countLabel=document.getElementById('websiteGlobalChatCount');
+    var tabCount=document.getElementById('chatTabCount');
+    if(!panel||!list||!input||!sendButton) return;
+
+    var state={lastId:0,seen:new Set(),sending:false,polling:false,rows:0};
+    function setStatus(text,error){
+        if(!stateLabel)return;
+        stateLabel.textContent=String(text||'');
+        stateLabel.classList.toggle('error',error===true);
+    }
+    function fallbackAvatar(userId){
+        return 'https://www.roblox.com/headshot-thumbnail/image?userId='+encodeURIComponent(String(userId||0))+'&width=150&height=150&format=png';
+    }
+    function formatTime(value){
+        var date=new Date(value||Date.now());
+        if(Number.isNaN(date.getTime())) return '';
+        return date.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+    }
+    function nearBottom(){return list.scrollHeight-list.scrollTop-list.clientHeight<90;}
+    function scrollBottom(){requestAnimationFrame(function(){list.scrollTop=list.scrollHeight;});}
+    function removeEmpty(){var empty=list.querySelector('.nx-web-chat-empty');if(empty)empty.remove();}
+    function appendMessage(entry){
+        if(!entry||!entry.id||state.seen.has(String(entry.id)))return;
+        var keepBottom=nearBottom();
+        state.seen.add(String(entry.id));
+        state.lastId=Math.max(state.lastId,Number(entry.id)||0);
+        state.rows+=1;
+        removeEmpty();
+
+        var own=String(entry.userId||'')===String(OWNER_ROBLOX_USER_ID);
+        var row=document.createElement('article');
+        row.className='nx-web-chat-row'+(own?' own':'');
+        row.dataset.messageId=String(entry.id);
+        var avatar=document.createElement('img');
+        avatar.className='nx-web-chat-avatar';
+        avatar.alt='';
+        avatar.loading='lazy';
+        avatar.referrerPolicy='no-referrer';
+        avatar.src=String(entry.avatarUrl||fallbackAvatar(entry.userId));
+        avatar.addEventListener('error',function(){if(avatar.src!==fallbackAvatar(entry.userId))avatar.src=fallbackAvatar(entry.userId);},{once:true});
+
+        var bubble=document.createElement('div');
+        bubble.className='nx-web-chat-bubble';
+        var meta=document.createElement('div');
+        meta.className='nx-web-chat-meta';
+        var name=document.createElement('div');
+        name.className='nx-web-chat-name';
+        name.textContent=String(entry.displayName||entry.username||('User '+entry.userId));
+        var username=document.createElement('small');
+        username.textContent='  @'+String(entry.username||entry.displayName||entry.userId||'');
+        name.appendChild(username);
+        var time=document.createElement('time');
+        time.className='nx-web-chat-time';
+        time.textContent=formatTime(entry.sentAt);
+        var message=document.createElement('div');
+        message.className='nx-web-chat-text';
+        message.textContent=String(entry.message||'');
+        meta.append(name,time);
+        bubble.append(meta,message);
+        row.append(avatar,bubble);
+        list.appendChild(row);
+        if(tabCount)tabCount.textContent=String(state.rows);
+        if(keepBottom)scrollBottom();
+    }
+    function consume(payload){
+        (Array.isArray(payload&&payload.messages)?payload.messages:[]).forEach(appendMessage);
+        if(payload&&payload.chatMessage)appendMessage(payload.chatMessage);
+        state.lastId=Math.max(state.lastId,Number(payload&&payload.latestId)||0);
+        if(payload&&typeof payload.canSend==='boolean'){
+            canSend=payload.canSend;
+            input.disabled=!canSend;
+            sendButton.disabled=!canSend;
+        }
+    }
+    async function poll(){
+        if(state.polling)return;
+        state.polling=true;
+        try{
+            var response=await fetch('/api/chat/poll',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({afterId:state.lastId})});
+            var payload=await response.json().catch(function(){return {};});
+            if(!response.ok||payload.success===false)throw new Error(payload.error||('HTTP '+response.status));
+            consume(payload);
+            setStatus('Live verbunden',false);
+        }catch(error){setStatus(error&&error.message?error.message:'Chat nicht erreichbar',true);}
+        finally{state.polling=false;}
+    }
+    async function send(){
+        if(!canSend||state.sending)return;
+        var message=String(input.value||'').trim().slice(0,300);
+        if(!message)return;
+        state.sending=true;sendButton.disabled=true;setStatus('Wird gesendet …',false);
+        try{
+            var response=await fetch('/api/chat/send',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:message})});
+            var payload=await response.json().catch(function(){return {};});
+            if(!response.ok||payload.success===false)throw new Error(payload.error||('HTTP '+response.status));
+            input.value='';updateCount();consume(payload);scrollBottom();setStatus('Gesendet',false);
+        }catch(error){setStatus(error&&error.message?error.message:'Senden fehlgeschlagen',true);}
+        finally{state.sending=false;sendButton.disabled=!canSend;}
+    }
+    function updateCount(){if(countLabel)countLabel.textContent=String(input.value.length)+' / 300';}
+    input.maxLength=300;
+    input.disabled=!canSend;
+    sendButton.disabled=!canSend;
+    input.addEventListener('input',updateCount);
+    input.addEventListener('keydown',function(event){if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();}});
+    sendButton.addEventListener('click',send);
+    updateCount();poll();setInterval(poll,2400);
+})();
+</script>`;
+}
+
+dashboardHtml = function(account = null, notice = "") {
+    let html = NEXU_V213_BASE_OVERVIEW_HTML(account, notice);
+    const canSend = isOwnerDashboardAccount(account);
+
+    html = html.replace(
+        '<button class="directory-tab" type="button" data-directory-tab="banned" role="tab" aria-selected="false">Gesperrt <b id="bannedTabCount">0</b></button>',
+        '<button class="directory-tab" type="button" data-directory-tab="banned" role="tab" aria-selected="false">Gesperrt <b id="bannedTabCount">0</b></button><button class="directory-tab" type="button" data-directory-tab="chat" role="tab" aria-selected="false">Chat <b id="chatTabCount">0</b></button>'
+    );
+
+    const bannedPanelEnd = '<div id="bannedPlayers" class="players"></div><div id="bannedFooter" class="footer-note"></div>\n    </div>\n</section>';
+    const chatPanel = `<div id="bannedPlayers" class="players"></div><div id="bannedFooter" class="footer-note"></div>
+    </div>
+    <div class="directory-panel hidden nx-web-chat-panel" data-directory-panel="chat" role="tabpanel">
+        <div class="nx-web-chat-shell">
+            <div class="nx-web-chat-head"><div><div class="eyebrow">NEXU // GLOBALER CHAT</div><h2>Chat für alle Nexu-Nutzer</h2></div><div id="websiteGlobalChatState" class="nx-web-chat-state">Verbindung wird hergestellt</div></div>
+            <div id="websiteGlobalChatMessages" class="nx-web-chat-messages" aria-live="polite"><div class="nx-web-chat-empty">Noch keine Nachrichten vorhanden.<br>Schreibe die erste Nachricht aus der Übersicht oder dem Lua-Menü.</div></div>
+            <div class="nx-web-chat-composer">
+                <div class="nx-web-chat-input-wrap"><textarea id="websiteGlobalChatInput" class="nx-web-chat-input" maxlength="300" placeholder="Nachricht an alle Nexu-Nutzer schreiben …"></textarea><span id="websiteGlobalChatCount" class="nx-web-chat-count">0 / 300</span></div>
+                <button id="websiteGlobalChatSend" class="nx-web-chat-send" type="button">ABSENDEN</button>
+                <p class="nx-web-chat-owner-note">${canSend ? 'Du schreibst als verbundener Roblox-Account des OwnerAccount. Enter sendet, Shift + Enter erzeugt eine neue Zeile.' : 'Lesemodus: Nachrichten über die Website können nur vom geschützten OwnerAccount gesendet werden.'}</p>
+            </div>
+        </div>
+    </div>
+</section>`;
+    html = html.replace(bannedPanelEnd, chatPanel);
+    html = html.replace('["online","offline","banned"].includes(name)', '["online","offline","banned","chat"].includes(name)');
+    html = html.replace('</style>', nexuV213OverviewChatCss() + '</style>');
+    html = html.replace('</body>', nexuV213OverviewChatScript(canSend) + '</body>');
+    return html;
+};
+
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
 if (req.method === "GET" && pathname === "/") {
@@ -10776,15 +11031,31 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
 
 
 if (req.method === "POST" && pathname === "/api/chat/send") {
-    if (!isHeartbeatAuthorized(req)) {
+    const websiteSession = getDashboardSession(req);
+    const ownerWebsiteIdentity = await getOwnerWebsiteChatIdentity(websiteSession);
+    if (!ownerWebsiteIdentity && !isHeartbeatAuthorized(req)) {
         sendJson(res, 401, { success: false, error: "Ungültiger Heartbeat-Token" });
         return;
     }
     try {
         const body = await readJsonBody(req);
-        const userId = cleanNumericId(body.userId);
-        const sessionId = cleanText(body.sessionId, 120);
         const message = cleanText(body.message, CHAT_MAX_LENGTH);
+        let userId = cleanNumericId(body.userId);
+        let sessionId = cleanText(body.sessionId, 120);
+        let live = null;
+
+        if (ownerWebsiteIdentity) {
+            userId = ownerWebsiteIdentity.userId;
+            sessionId = "website-owneraccount";
+            live = {
+                userId: ownerWebsiteIdentity.userId,
+                username: ownerWebsiteIdentity.username,
+                displayName: ownerWebsiteIdentity.displayName,
+                sessionId,
+                lastSeenMs: Date.now(),
+            };
+        }
+
         if (!userId) {
             sendJson(res, 400, { success: false, error: "Ungültige User-ID" });
             return;
@@ -10797,7 +11068,7 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
             sendJson(res, 403, { success: false, error: "Der Spieler ist vom Menü gebannt." });
             return;
         }
-        const live = findActivePresenceSession(userId, sessionId);
+        if (!live) live = findActivePresenceSession(userId, sessionId);
         if (!live) {
             sendJson(res, 409, { success: false, error: "Die Nexu-Sitzung ist nicht mehr online." });
             return;
@@ -10811,7 +11082,8 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
             sendJson(res, 400, { success: false, error: "Nachricht fehlt" });
             return;
         }
-        console.log(`[NEXU] CHAT ${userId}: ${message.slice(0, 80)}`);
+        await attachAvatarUrlsToChatMessages([chatMessage]);
+        console.log(`[NEXU] CHAT ${userId}${ownerWebsiteIdentity ? " (WEBSITE)" : ""}: ${message.slice(0, 80)}`);
         sendJson(res, 200, { success: true, chatMessage, latestId: chatMessage.id });
     } catch (error) {
         sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
@@ -10823,29 +11095,39 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
 }
 
 if (req.method === "POST" && pathname === "/api/chat/poll") {
-    if (!isHeartbeatAuthorized(req)) {
+    const websiteSession = getDashboardSession(req);
+    const websiteAllowed = Boolean(
+        websiteSession &&
+        (websiteSession.isOwner === true || canAccessMenuServer(websiteSession.account))
+    );
+    if (!websiteAllowed && !isHeartbeatAuthorized(req)) {
         sendJson(res, 401, { success: false, error: "Ungültiger Heartbeat-Token" });
         return;
     }
     try {
         const body = await readJsonBody(req);
-        const userId = cleanNumericId(body.userId);
-        const sessionId = cleanText(body.sessionId, 120);
         const afterId = Math.max(0, Number(body.afterId) || 0);
-        if (!userId) {
-            sendJson(res, 400, { success: false, error: "Ungültige User-ID" });
-            return;
+
+        if (!websiteAllowed) {
+            const userId = cleanNumericId(body.userId);
+            const sessionId = cleanText(body.sessionId, 120);
+            if (!userId) {
+                sendJson(res, 400, { success: false, error: "Ungültige User-ID" });
+                return;
+            }
+            if (bans.has(userId)) {
+                sendJson(res, 403, { success: false, error: "Der Spieler ist vom Menü gebannt." });
+                return;
+            }
+            const live = findActivePresenceSession(userId, sessionId);
+            if (!live) {
+                sendJson(res, 409, { success: false, error: "Die Nexu-Sitzung ist nicht mehr online." });
+                return;
+            }
         }
-        if (bans.has(userId)) {
-            sendJson(res, 403, { success: false, error: "Der Spieler ist vom Menü gebannt." });
-            return;
-        }
-        const live = findActivePresenceSession(userId, sessionId);
-        if (!live) {
-            sendJson(res, 409, { success: false, error: "Die Nexu-Sitzung ist nicht mehr online." });
-            return;
-        }
+
         const messages = getGlobalChatMessages(afterId);
+        await attachAvatarUrlsToChatMessages(messages);
         const latestId = globalChatMessages.length > 0
             ? Number(globalChatMessages[globalChatMessages.length - 1].id || 0)
             : afterId;
@@ -10853,6 +11135,8 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
             success: true,
             messages,
             latestId,
+            canSend: Boolean(websiteSession && isOwnerDashboardAccount(websiteSession.account)),
+            ownerRobloxUserId: OWNER_ACCOUNT_ROBLOX_USER_ID,
             timestamp: new Date().toISOString(),
         });
     } catch (error) {
@@ -11312,7 +11596,7 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V212 GESTARTET");
+        console.log("NEXU PRESENCE & MODERATION V213 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
@@ -11329,6 +11613,7 @@ async function startNexuServer() {
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
         console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");
         console.log("Global Chat: /api/chat/send + /api/chat/poll");
+        console.log("Website-Chat: ÜBERSICHT // VIERTER REITER // OWNER ROBLOX-ID", OWNER_ACCOUNT_ROBLOX_USER_ID);
         console.log("Website Join: /api/join/send + /api/join/poll");
         console.log("Access: /api/menu/access?userId=...");
         console.log("Skript-Aktualisierung-Datei:", MENU_UPDATE_FILE_PATH);
