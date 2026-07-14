@@ -1,3 +1,4 @@
+// V212: Globaler Nexu-Chat für alle aktiven Script-Nutzer mit Sitzungsschutz, Verlauf und Rate-Limit.
 // V211: Owner-Aktion zum sicheren Leeren aller gespeicherten Spieler mit lokaler und GitHub-Persistenz.
 // V210: Experimentelle Endpunkte für geteilte Geistdarstellung entfernt. Alle V207-Funktionen bleiben erhalten.
 // V207: Rundsendungen unterstützen frei wählbare Anzeigedauer in Sekunden oder Minuten.
@@ -21,7 +22,7 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 // V163: Eigene Nexu-Bestätigungsdialoge und Toast-Benachrichtigungen statt Browser-Popups.
 // V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TTL_MS = 6 * 60 * 60_000;const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
 
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
@@ -54,7 +55,7 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
     .digest("hex");
 const DASHBOARD_ACCOUNT_STORAGE_SECRET = String(process.env.DASHBOARD_ACCOUNT_STORAGE_SECRET || "").trim() || DASHBOARD_SESSION_SIGNING_SECRET;
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 let latestGlobalShutdownCommand = null;
 let presenceRevision = 1;
 let presenceSnapshotSignature = "";
@@ -2382,6 +2383,106 @@ return queue.map((entry) => ({
     sentAt: entry.sentAt,
 }));
 
+}
+
+
+function pruneGlobalChat() {
+    const now = Date.now();
+    while (
+        globalChatMessages.length > 0 &&
+        now - Number(globalChatMessages[0].sentAtMs || 0) > CHAT_TTL_MS
+    ) {
+        globalChatMessages.shift();
+    }
+    while (globalChatMessages.length > CHAT_HISTORY_LIMIT) {
+        globalChatMessages.shift();
+    }
+    for (const [key, state] of chatRateLimits) {
+        if (now - Number(state.windowStartedAtMs || 0) > CHAT_RATE_WINDOW_MS) {
+            chatRateLimits.delete(key);
+        }
+    }
+}
+
+function findActivePresenceSession(userId, sessionId = "") {
+    prunePresence();
+    const cleanUserId = cleanNumericId(userId);
+    const cleanSessionId = cleanText(sessionId, 120);
+    if (!cleanUserId) return null;
+
+    let best = null;
+    for (const entry of presence.values()) {
+        if (!entry || String(entry.userId || "") !== cleanUserId) continue;
+        if (
+            cleanSessionId &&
+            entry.sessionId &&
+            String(entry.sessionId) !== cleanSessionId
+        ) {
+            continue;
+        }
+        if (!isPresenceEntryActive(entry)) continue;
+        if (!best || Number(entry.lastSeenMs || 0) > Number(best.lastSeenMs || 0)) {
+            best = entry;
+        }
+    }
+    return best;
+}
+
+function allowGlobalChatSend(userId) {
+    pruneGlobalChat();
+    const key = cleanNumericId(userId);
+    if (!key) return false;
+
+    const now = Date.now();
+    let state = chatRateLimits.get(key);
+    if (!state || now - Number(state.windowStartedAtMs || 0) > CHAT_RATE_WINDOW_MS) {
+        state = { windowStartedAtMs: now, count: 0 };
+        chatRateLimits.set(key, state);
+    }
+    state.count += 1;
+    return state.count <= CHAT_RATE_LIMIT;
+}
+
+function queueGlobalChatMessage(liveEntry, message) {
+    pruneGlobalChat();
+    const now = Date.now();
+    const userId = cleanNumericId(liveEntry && liveEntry.userId);
+    if (!userId) return null;
+
+    const entry = {
+        id: (now * 1000) + ((nextChatMessageId++) % 1000),
+        userId,
+        username: cleanText(liveEntry && (liveEntry.username || liveEntry.name), 40) || `User${userId}`,
+        displayName:
+            cleanText(liveEntry && liveEntry.displayName, 80) ||
+            cleanText(liveEntry && (liveEntry.username || liveEntry.name), 40) ||
+            `User ${userId}`,
+        message: cleanText(message, CHAT_MAX_LENGTH),
+        sentAt: new Date(now).toISOString(),
+        sentAtMs: now,
+    };
+    if (!entry.message) return null;
+
+    globalChatMessages.push(entry);
+    pruneGlobalChat();
+    return entry;
+}
+
+function getGlobalChatMessages(afterId) {
+    pruneGlobalChat();
+    const numericAfterId = Math.max(0, Number(afterId) || 0);
+    return globalChatMessages
+        .filter((entry) => Number(entry.id || 0) > numericAfterId)
+        .slice(-CHAT_POLL_LIMIT)
+        .map((entry) => ({
+            id: entry.id,
+            userId: entry.userId,
+            username: entry.username,
+            displayName: entry.displayName,
+            message: entry.message,
+            sentAt: entry.sentAt,
+            sentAtMs: entry.sentAtMs,
+        }));
 }
 
 async function fetchAvatarUrls(userIds) {const now = Date.now();const result = new Map();const missing = [];
@@ -10673,6 +10774,96 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
     return;
 }
 
+
+if (req.method === "POST" && pathname === "/api/chat/send") {
+    if (!isHeartbeatAuthorized(req)) {
+        sendJson(res, 401, { success: false, error: "Ungültiger Heartbeat-Token" });
+        return;
+    }
+    try {
+        const body = await readJsonBody(req);
+        const userId = cleanNumericId(body.userId);
+        const sessionId = cleanText(body.sessionId, 120);
+        const message = cleanText(body.message, CHAT_MAX_LENGTH);
+        if (!userId) {
+            sendJson(res, 400, { success: false, error: "Ungültige User-ID" });
+            return;
+        }
+        if (!message) {
+            sendJson(res, 400, { success: false, error: "Nachricht fehlt" });
+            return;
+        }
+        if (bans.has(userId)) {
+            sendJson(res, 403, { success: false, error: "Der Spieler ist vom Menü gebannt." });
+            return;
+        }
+        const live = findActivePresenceSession(userId, sessionId);
+        if (!live) {
+            sendJson(res, 409, { success: false, error: "Die Nexu-Sitzung ist nicht mehr online." });
+            return;
+        }
+        if (!allowGlobalChatSend(userId)) {
+            sendJson(res, 429, { success: false, error: "Zu viele Nachrichten. Bitte kurz warten." });
+            return;
+        }
+        const chatMessage = queueGlobalChatMessage(live, message);
+        if (!chatMessage) {
+            sendJson(res, 400, { success: false, error: "Nachricht fehlt" });
+            return;
+        }
+        console.log(`[NEXU] CHAT ${userId}: ${message.slice(0, 80)}`);
+        sendJson(res, 200, { success: true, chatMessage, latestId: chatMessage.id });
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+            success: false,
+            error: error.message === "BODY_TOO_LARGE" ? "Anfrage zu groß" : "Ungültiges JSON",
+        });
+    }
+    return;
+}
+
+if (req.method === "POST" && pathname === "/api/chat/poll") {
+    if (!isHeartbeatAuthorized(req)) {
+        sendJson(res, 401, { success: false, error: "Ungültiger Heartbeat-Token" });
+        return;
+    }
+    try {
+        const body = await readJsonBody(req);
+        const userId = cleanNumericId(body.userId);
+        const sessionId = cleanText(body.sessionId, 120);
+        const afterId = Math.max(0, Number(body.afterId) || 0);
+        if (!userId) {
+            sendJson(res, 400, { success: false, error: "Ungültige User-ID" });
+            return;
+        }
+        if (bans.has(userId)) {
+            sendJson(res, 403, { success: false, error: "Der Spieler ist vom Menü gebannt." });
+            return;
+        }
+        const live = findActivePresenceSession(userId, sessionId);
+        if (!live) {
+            sendJson(res, 409, { success: false, error: "Die Nexu-Sitzung ist nicht mehr online." });
+            return;
+        }
+        const messages = getGlobalChatMessages(afterId);
+        const latestId = globalChatMessages.length > 0
+            ? Number(globalChatMessages[globalChatMessages.length - 1].id || 0)
+            : afterId;
+        sendJson(res, 200, {
+            success: true,
+            messages,
+            latestId,
+            timestamp: new Date().toISOString(),
+        });
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+            success: false,
+            error: error.message === "BODY_TOO_LARGE" ? "Anfrage zu groß" : "Ungültiges JSON",
+        });
+    }
+    return;
+}
+
 if (req.method === "POST" && pathname === "/api/dm/broadcast") {
     const broadcastSession = getDashboardSession(req);
     if (
@@ -11093,7 +11284,7 @@ sendJson(res, 404, {
 
 });
 
-setInterval(() => {prunePresence();pruneDirectMessages();pruneDashboardAuth();pruneShutdownCommands();}, 20_000).unref();
+setInterval(() => {prunePresence();pruneDirectMessages();pruneGlobalChat();pruneDashboardAuth();pruneShutdownCommands();}, 20_000).unref();
 
 async function flushGitHubStorageBeforeExit() {
     const pending = [];
@@ -11121,7 +11312,7 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V164 GESTARTET");
+        console.log("NEXU PRESENCE & MODERATION V212 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
@@ -11137,6 +11328,7 @@ async function startNexuServer() {
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
         console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");
+        console.log("Global Chat: /api/chat/send + /api/chat/poll");
         console.log("Website Join: /api/join/send + /api/join/poll");
         console.log("Access: /api/menu/access?userId=...");
         console.log("Skript-Aktualisierung-Datei:", MENU_UPDATE_FILE_PATH);
