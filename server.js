@@ -1,3 +1,4 @@
+// SHARED GHOST: Sichtbare Geist-Klone für Nexu-Nutzer derselben Roblox-Serverinstanz.
 // V215: Globaler Chat wird täglich um 00:00 Europe/Berlin geleert; Reset synchronisiert Website und Lua, Nachrichten liefern Rangdaten.
 // V214: Alle Website-Konten benötigen eine eindeutige Roblox-User-ID; Owner kann Verknüpfungen verwalten und der Chat nutzt die jeweilige Roblox-Identität.
 // V213: Globaler Chat als vierter Reiter der Übersicht; OwnerAccount ist mit Roblox-ID 10199760908 verbunden.
@@ -25,7 +26,7 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 // V163: Eigene Nexu-Bestätigungsdialoge und Toast-Benachrichtigungen statt Browser-Popups.
 // V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 2_400;const GHOST_SYNC_MIN_INTERVAL_MS = 120;const GHOST_MAX_VISIBLE_STATES = 24;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
 
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
@@ -58,7 +59,7 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
     .digest("hex");
 const DASHBOARD_ACCOUNT_STORAGE_SECRET = String(process.env.DASHBOARD_ACCOUNT_STORAGE_SECRET || "").trim() || DASHBOARD_SESSION_SIGNING_SECRET;
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const sharedGhostStates = new Map();const ghostSyncRateLimits = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 let globalChatDayKey = "";
 let globalChatResetRevision = 0;
 let globalChatResetAtMs = 0;
@@ -613,6 +614,7 @@ for (const [key, entry] of presence) {
 }
 
 if (removed > 0) syncPresenceRevision();
+removeSharedGhostState(userId);
 return removed;
 
 }
@@ -871,6 +873,7 @@ function setMenuAvailability(online, changedBy) {
         shutdownResult = queueGlobalScriptShutdown(menuAvailabilityState.changedBy);
         if (presence.size > 0) {
             presence.clear();
+            sharedGhostStates.clear();
             syncPresenceRevision(now);
         }
     }
@@ -992,6 +995,7 @@ function queueGlobalScriptShutdown(startedBy) {
     // nächsten Heartbeat bzw. Access-Poll weiterhin zugestellt.
     const forcedOfflineSessions = presence.size;
     presence.clear();
+    sharedGhostStates.clear();
 
     return {
         id: commandId,
@@ -2598,6 +2602,143 @@ function getGlobalChatMessages(afterId) {
             sentAtMs: entry.sentAtMs,
             };
         });
+}
+
+
+function cleanFiniteNumber(value, fallback = 0, minimum = -1_000_000, maximum = 1_000_000) {
+    const numeric = Number(value);
+    if (!Number.isFinite(numeric)) return fallback;
+    return Math.min(maximum, Math.max(minimum, numeric));
+}
+
+function normalizeSharedGhostCFrame(value) {
+    if (!Array.isArray(value) || value.length !== 12) return null;
+    const result = value.map((entry, index) => cleanFiniteNumber(
+        entry,
+        index === 3 || index === 7 || index === 11 ? 1 : 0,
+        index < 3 ? -10_000_000 : -2,
+        index < 3 ? 10_000_000 : 2
+    ));
+    const positionMagnitude = Math.hypot(result[0], result[1], result[2]);
+    if (!Number.isFinite(positionMagnitude) || positionMagnitude > 17_000_000) return null;
+    return result;
+}
+
+function normalizeSharedGhostVector(value) {
+    if (!Array.isArray(value) || value.length !== 3) return [0, 0, 0];
+    return value.map((entry) => cleanFiniteNumber(entry, 0, -1_500, 1_500));
+}
+
+function sharedGhostStateKey(userId, sessionId) {
+    return `${cleanNumericId(userId)}:${cleanText(sessionId, 120)}`;
+}
+
+function removeSharedGhostState(userId, sessionId = "") {
+    const cleanUserId = cleanNumericId(userId);
+    const cleanSessionId = cleanText(sessionId, 120);
+    if (!cleanUserId) return 0;
+    let removed = 0;
+    for (const [key, state] of sharedGhostStates) {
+        if (!state || state.userId !== cleanUserId) continue;
+        if (cleanSessionId && state.sessionId !== cleanSessionId) continue;
+        sharedGhostStates.delete(key);
+        removed += 1;
+    }
+    return removed;
+}
+
+function pruneSharedGhostStates(now = Date.now()) {
+    prunePresence();
+    const activeSessionKeys = new Set();
+    for (const entry of presence.values()) {
+        if (!isPresenceEntryActive(entry, now)) continue;
+        activeSessionKeys.add(sharedGhostStateKey(entry.userId, entry.sessionId));
+    }
+    for (const [key, state] of sharedGhostStates) {
+        const expired = !state || now - Number(state.updatedAtMs || 0) > GHOST_STATE_TTL_MS;
+        const banned = state && bans.has(String(state.userId || ""));
+        const active = state && activeSessionKeys.has(sharedGhostStateKey(state.userId, state.sessionId));
+        if (expired || banned || !active) sharedGhostStates.delete(key);
+    }
+    for (const [key, lastAtMs] of ghostSyncRateLimits) {
+        if (now - Number(lastAtMs || 0) > 60_000) ghostSyncRateLimits.delete(key);
+    }
+}
+
+function allowSharedGhostSync(userId, sessionId, now = Date.now()) {
+    const key = sharedGhostStateKey(userId, sessionId);
+    if (!key || key === ":") return false;
+    const previous = Number(ghostSyncRateLimits.get(key) || 0);
+    if (now - previous < GHOST_SYNC_MIN_INTERVAL_MS) return false;
+    ghostSyncRateLimits.set(key, now);
+    return true;
+}
+
+function upsertSharedGhostState(live, rawState, now = Date.now()) {
+    if (!live || !rawState || typeof rawState !== "object") return null;
+    const userId = cleanNumericId(live.userId);
+    const sessionId = cleanText(live.sessionId, 120);
+    const cframe = normalizeSharedGhostCFrame(rawState.cframe);
+    if (!userId || !sessionId || !cframe) return null;
+
+    const animationNameCandidate = cleanText(rawState.animationName, 20);
+    const allowedAnimationNames = new Set(["Idle", "Walk", "Run", "Jump", "Fall", "Climb", "Swim"]);
+    const animationName = allowedAnimationNames.has(animationNameCandidate)
+        ? animationNameCandidate
+        : "Idle";
+    const animationDigits = String(rawState.animationId || "").match(/\d{3,20}/);
+    const role = getNexuRoleInfo(userId);
+    const entry = {
+        userId,
+        sessionId,
+        username: cleanText(live.username, 40) || `User${userId}`,
+        displayName: cleanText(live.displayName, 80) || cleanText(live.username, 40) || `User ${userId}`,
+        roleKey: role.key,
+        roleTitle: role.title,
+        placeId: cleanInteger(live.placeId),
+        jobId: cleanText(live.jobId, 100),
+        cframe,
+        velocity: normalizeSharedGhostVector(rawState.velocity),
+        animationName,
+        animationId: animationDigits ? animationDigits[0] : "",
+        animationSpeed: cleanFiniteNumber(rawState.animationSpeed, 1, 0, 6),
+        animationTime: cleanFiniteNumber(rawState.animationTime, 0, 0, 86_400),
+        updatedAtMs: now,
+    };
+    sharedGhostStates.set(sharedGhostStateKey(userId, sessionId), entry);
+    return entry;
+}
+
+function getSharedGhostStatesForViewer(live, now = Date.now()) {
+    pruneSharedGhostStates(now);
+    if (!live) return [];
+    const viewerUserId = cleanNumericId(live.userId);
+    const viewerPlaceId = cleanInteger(live.placeId);
+    const viewerJobId = cleanText(live.jobId, 100);
+    return [...sharedGhostStates.values()]
+        .filter((state) =>
+            state &&
+            state.userId !== viewerUserId &&
+            state.placeId === viewerPlaceId &&
+            state.jobId === viewerJobId &&
+            now - Number(state.updatedAtMs || 0) <= GHOST_STATE_TTL_MS
+        )
+        .sort((a, b) => Number(b.updatedAtMs || 0) - Number(a.updatedAtMs || 0))
+        .slice(0, GHOST_MAX_VISIBLE_STATES)
+        .map((state) => ({
+            userId: state.userId,
+            username: state.username,
+            displayName: state.displayName,
+            roleKey: state.roleKey,
+            roleTitle: state.roleTitle,
+            cframe: state.cframe,
+            velocity: state.velocity,
+            animationName: state.animationName,
+            animationId: state.animationId,
+            animationSpeed: state.animationSpeed,
+            animationTime: state.animationTime,
+            updatedAtMs: state.updatedAtMs,
+        }));
 }
 
 async function resolveRobloxUserIdentity(userId) {
@@ -11266,6 +11407,7 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
             saveKnownPlayers(false);
         }
         syncPresenceRevision(now);
+        removeSharedGhostState(userId, sessionId);
 
         sendJson(res, 200, { success: true, removed, snapshotToken: getPresenceSnapshotToken() });
     } catch {
@@ -11277,6 +11419,82 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
     return;
 }
 
+
+
+if (req.method === "POST" && pathname === "/api/ghost/sync") {
+    if (!isHeartbeatAuthorized(req)) {
+        sendJson(res, 401, { success: false, error: "Ungültiger Heartbeat-Token" });
+        return;
+    }
+    try {
+        const body = await readJsonBody(req);
+        const userId = cleanNumericId(body.userId);
+        const sessionId = cleanText(body.sessionId, 120);
+        if (!userId || !sessionId) {
+            sendJson(res, 400, { success: false, error: "Ungültige Geist-Sitzung" });
+            return;
+        }
+        if (bans.has(userId)) {
+            removeSharedGhostState(userId, sessionId);
+            sendJson(res, 403, { success: false, error: "Der Spieler ist vom Menü gebannt." });
+            return;
+        }
+        const live = findActivePresenceSession(userId, sessionId);
+        if (!live) {
+            removeSharedGhostState(userId, sessionId);
+            sendJson(res, 409, { success: false, error: "Die Nexu-Sitzung ist nicht mehr online." });
+            return;
+        }
+        const now = Date.now();
+        if (!allowSharedGhostSync(userId, sessionId, now)) {
+            sendJson(res, 429, { success: false, error: "Geist-Synchronisierung zu schnell." });
+            return;
+        }
+
+        let sharing = false;
+        if (body.share === true) {
+            sharing = Boolean(upsertSharedGhostState(live, body.state, now));
+            if (!sharing) removeSharedGhostState(userId, sessionId);
+        } else {
+            removeSharedGhostState(userId, sessionId);
+        }
+
+        const states = body.receive === false ? [] : getSharedGhostStatesForViewer(live, now);
+        sendJson(res, 200, {
+            success: true,
+            sharing,
+            states,
+            ttlMs: GHOST_STATE_TTL_MS,
+            timestampMs: now,
+        });
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+            success: false,
+            error: error.message === "BODY_TOO_LARGE" ? "Anfrage zu groß" : "Ungültiges JSON",
+        });
+    }
+    return;
+}
+
+if (req.method === "POST" && pathname === "/api/ghost/stop") {
+    if (!isHeartbeatAuthorized(req)) {
+        sendJson(res, 401, { success: false, error: "Ungültiger Heartbeat-Token" });
+        return;
+    }
+    try {
+        const body = await readJsonBody(req);
+        const userId = cleanNumericId(body.userId);
+        const sessionId = cleanText(body.sessionId, 120);
+        const removed = removeSharedGhostState(userId, sessionId);
+        sendJson(res, 200, { success: true, removed });
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+            success: false,
+            error: error.message === "BODY_TOO_LARGE" ? "Anfrage zu groß" : "Ungültiges JSON",
+        });
+    }
+    return;
+}
 
 if (req.method === "POST" && pathname === "/api/chat/send") {
     const websiteSession = getDashboardSession(req);
@@ -11829,7 +12047,7 @@ sendJson(res, 404, {
 
 ensureGlobalChatDay();
 scheduleGlobalChatMidnightReset();
-setInterval(() => {prunePresence();pruneDirectMessages();pruneGlobalChat();pruneDashboardAuth();pruneShutdownCommands();}, 20_000).unref();
+setInterval(() => {prunePresence();pruneDirectMessages();pruneGlobalChat();pruneSharedGhostStates();pruneDashboardAuth();pruneShutdownCommands();}, 20_000).unref();
 
 async function flushGitHubStorageBeforeExit() {
     const pending = [];
@@ -11873,7 +12091,7 @@ async function startNexuServer() {
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
         console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");
-        console.log("Global Chat: /api/chat/send + /api/chat/poll");console.log("Chat-Tagesreset:", `00:00 ${CHAT_TIME_ZONE}`);
+        console.log("Global Chat: /api/chat/send + /api/chat/poll");console.log("Chat-Tagesreset:", `00:00 ${CHAT_TIME_ZONE}`);console.log("Geteilte Geister: /api/ghost/sync + /api/ghost/stop");
         console.log("Website-Chat: ÜBERSICHT // VIERTER REITER // ACCOUNT-ROBLOX-ID VERKNÜPFUNG");
         console.log("Website Join: /api/join/send + /api/join/poll");
         console.log("Access: /api/menu/access?userId=...");
