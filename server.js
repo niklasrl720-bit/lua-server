@@ -1,3 +1,4 @@
+// V214: Alle Website-Konten benötigen eine eindeutige Roblox-User-ID; Owner kann Verknüpfungen verwalten und der Chat nutzt die jeweilige Roblox-Identität.
 // V213: Globaler Chat als vierter Reiter der Übersicht; OwnerAccount ist mit Roblox-ID 10199760908 verbunden.
 // V212: Globaler Nexu-Chat für alle aktiven Script-Nutzer mit Sitzungsschutz, Verlauf und Rate-Limit.
 // V211: Owner-Aktion zum sicheren Leeren aller gespeicherten Spieler mit lokaler und GitHub-Persistenz.
@@ -1289,9 +1290,12 @@ function canManageDashboardAccounts(account) {
 
 function hasDashboardPermission(account, permissionKey) {
     if (!account) return false;
+    if (permissionKey === "accountManager") return isOwnerDashboardAccount(account);
+    // Jede Website-Identität muss mit einem Roblox-Konto verbunden sein, bevor
+    // Übersichtsfunktionen oder der globale Website-Chat freigeschaltet werden.
+    if (!cleanNumericId(account.robloxUserId)) return false;
     if (isOwnerDashboardAccount(account)) return true;
     const access = account.access || {};
-    if (permissionKey === "accountManager") return false;
     if (permissionKey !== "menuServer" && access.menuServer !== true) return false;
     return access[permissionKey] === true;
 }
@@ -1377,12 +1381,17 @@ function normalizeDashboardAccount(raw) {
         return null;
     }
     const isOwner = isOwnerDashboardIdentity(username, email, raw && (raw.isOwner === true || raw.owner === true));
+    const requestedRobloxUserId = cleanNumericId(raw && (raw.robloxUserId || raw.robloxId || raw.linkedRobloxUserId));
+    const robloxUserId = requestedRobloxUserId || (isOwner ? OWNER_ACCOUNT_ROBLOX_USER_ID : "");
     const access = normalizeDashboardAccess(raw || {}, username, email);
     return {
         username,
         email,
         passwordHash,
         isOwner,
+        robloxUserId,
+        robloxUsername: cleanText(raw && (raw.robloxUsername || raw.linkedRobloxUsername), 40),
+        robloxDisplayName: cleanText(raw && (raw.robloxDisplayName || raw.linkedRobloxDisplayName), 80),
         access,
         createdAt: cleanText(raw && raw.createdAt, 64) || new Date().toISOString(),
         updatedAt: cleanText(raw && raw.updatedAt, 64) || "",
@@ -1450,6 +1459,7 @@ function loadDashboardAccount() {
                     username: parsed.username || DASHBOARD_DEFAULT_USERNAME,
                     email: parsed.email || DASHBOARD_DEFAULT_EMAIL,
                     passwordHash: parsed.passwordHash || DASHBOARD_DEFAULT_PASSWORD_HASH,
+                    robloxUserId: parsed.robloxUserId || OWNER_ACCOUNT_ROBLOX_USER_ID,
                     createdAt: parsed.createdAt || new Date().toISOString(),
                     updatedAt: parsed.updatedAt || "",
                 });
@@ -1465,6 +1475,7 @@ function loadDashboardAccount() {
             email: cleanDashboardEmail(DASHBOARD_DEFAULT_EMAIL) || "owner@nexu.local",
             passwordHash: normalizePasswordHash(DASHBOARD_DEFAULT_PASSWORD_HASH),
             isOwner: true,
+            robloxUserId: OWNER_ACCOUNT_ROBLOX_USER_ID,
             createdAt: new Date().toISOString(),
             updatedAt: "",
         });
@@ -1492,6 +1503,9 @@ function serializeDashboardAccountForStorage(raw) {
         email: account.email,
         passwordHash: account.passwordHash,
         isOwner: account.isOwner === true,
+        robloxUserId: account.robloxUserId,
+        robloxUsername: account.robloxUsername,
+        robloxDisplayName: account.robloxDisplayName,
         access,
         createdAt: account.createdAt,
         updatedAt: account.updatedAt,
@@ -1509,7 +1523,7 @@ function buildDashboardAccountsCore() {
         if (ownerOrder !== 0) return ownerOrder;
         return String(left.username).localeCompare(String(right.username));
     });
-    return { version: 1, accounts };
+    return { version: 2, accounts };
 }
 
 function saveDashboardAccount(syncGitHub = true) {
@@ -1581,19 +1595,28 @@ function normalizeDashboardAccountsCore(payload) {
     const accounts = [];
     const seenEmails = new Set();
     const seenUsernames = new Set();
+    const seenRobloxUserIds = new Set();
     for (const raw of decoded.accounts) {
         const account = serializeDashboardAccountForStorage(raw);
         if (!account) continue;
         const emailKey = account.email.toLowerCase();
         const usernameKey = account.username.toLowerCase();
         if (seenEmails.has(emailKey) || seenUsernames.has(usernameKey)) continue;
+        const robloxKey = cleanNumericId(account.robloxUserId);
+        if (robloxKey && seenRobloxUserIds.has(robloxKey)) {
+            account.robloxUserId = "";
+            account.robloxUsername = "";
+            account.robloxDisplayName = "";
+        } else if (robloxKey) {
+            seenRobloxUserIds.add(robloxKey);
+        }
         seenEmails.add(emailKey);
         seenUsernames.add(usernameKey);
         accounts.push(account);
     }
     if (accounts.length === 0) return null;
     accounts.sort((left, right) => String(left.username).localeCompare(String(right.username)));
-    return { version: 1, accounts };
+    return { version: 2, accounts };
 }
 
 function ensureDashboardOwnerInMemory() {
@@ -1615,6 +1638,7 @@ function ensureDashboardOwnerInMemory() {
     const promotedOwner = normalizeDashboardAccount({
         ...ownerCandidate,
         isOwner: true,
+        robloxUserId: cleanNumericId(ownerCandidate.robloxUserId) || OWNER_ACCOUNT_ROBLOX_USER_ID,
         access: normalizeDashboardAccess({ ...ownerCandidate, isOwner: true }, ownerCandidate.username, ownerCandidate.email),
         updatedAt: new Date().toISOString(),
     });
@@ -1817,6 +1841,18 @@ function dashboardUsernameExists(username, exceptEmail = "") {
     if (!wanted) return false;
     for (const account of dashboardAccounts.values()) {
         if (account.email !== except && String(account.username || "").toLowerCase() === wanted) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function dashboardRobloxUserIdExists(userId, exceptEmail = "") {
+    const wanted = cleanNumericId(userId);
+    const except = cleanDashboardEmail(exceptEmail);
+    if (!wanted) return false;
+    for (const account of dashboardAccounts.values()) {
+        if (account.email !== except && cleanNumericId(account.robloxUserId) === wanted) {
             return true;
         }
     }
@@ -2508,6 +2544,7 @@ async function resolveRobloxUserIdentity(userId) {
                 "User-Agent": "Nexu-Presence-Dashboard/3.0",
                 Accept: "application/json",
             },
+            signal: typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function" ? AbortSignal.timeout(8_000) : undefined,
         });
         if (response.ok) {
             const payload = await response.json().catch(() => ({}));
@@ -2525,9 +2562,82 @@ async function resolveRobloxUserIdentity(userId) {
     return { userId:id, username, displayName };
 }
 
-async function getOwnerWebsiteChatIdentity(session) {
-    if (!session || !isOwnerDashboardAccount(session.account)) return null;
-    return resolveRobloxUserIdentity(OWNER_ACCOUNT_ROBLOX_USER_ID);
+async function verifyDashboardRobloxIdentity(userId) {
+    const id = cleanNumericId(userId);
+    if (!id) return null;
+
+    try {
+        const response = await fetch(`https://users.roblox.com/v1/users/${encodeURIComponent(id)}`, {
+            headers: {
+                "User-Agent": "Nexu-Presence-Dashboard/4.0",
+                Accept: "application/json",
+            },
+            signal: typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function" ? AbortSignal.timeout(8_000) : undefined,
+        });
+        if (response.status === 404) return null;
+        if (!response.ok) {
+            throw new Error(`Roblox Benutzerabfrage HTTP ${response.status}`);
+        }
+        const payload = await response.json().catch(() => ({}));
+        const username = cleanText(payload && payload.name, 40);
+        const displayName = cleanText(payload && payload.displayName, 80) || username;
+        if (!username) return null;
+        const now = Date.now();
+        robloxIdentityCache.set(id, { username, displayName, cachedAtMs:now });
+        rememberKnownPlayer({ userId:id, username, displayName }, now);
+        fetchAvatarUrls([id]).catch(() => {});
+        return { userId:id, username, displayName };
+    } catch (error) {
+        const live = findLatestPresenceForUser(id);
+        const known = knownPlayers.get(id);
+        const username = cleanText(live && live.username, 40) || cleanText(known && known.username, 40);
+        const displayName = cleanText(live && live.displayName, 80) || cleanText(known && known.displayName, 80) || username;
+        if (username) return { userId:id, username, displayName };
+        throw error;
+    }
+}
+
+async function getWebsiteChatIdentity(session) {
+    if (!session || !session.account || !canAccessMenuServer(session.account)) return null;
+    const userId = cleanNumericId(session.account.robloxUserId);
+    if (!userId) return null;
+    const storedUsername = cleanText(session.account.robloxUsername, 40);
+    const storedDisplayName = cleanText(session.account.robloxDisplayName, 80) || storedUsername;
+    if (storedUsername) {
+        return { userId, username:storedUsername, displayName:storedDisplayName };
+    }
+    const resolved = await resolveRobloxUserIdentity(userId);
+    if (!resolved) return null;
+    return { userId, username:resolved.username, displayName:resolved.displayName };
+}
+
+async function refreshDashboardAccountRobloxIdentities() {
+    let changed = false;
+    for (const [email, account] of dashboardAccounts) {
+        const userId = cleanNumericId(account && account.robloxUserId);
+        if (!userId) continue;
+        try {
+            const identity = await verifyDashboardRobloxIdentity(userId);
+            if (!identity) continue;
+            if (
+                account.robloxUsername !== identity.username ||
+                account.robloxDisplayName !== identity.displayName
+            ) {
+                dashboardAccounts.set(email, normalizeDashboardAccount({
+                    ...account,
+                    robloxUserId: identity.userId,
+                    robloxUsername: identity.username,
+                    robloxDisplayName: identity.displayName,
+                    updatedAt: account.updatedAt || new Date().toISOString(),
+                }));
+                changed = true;
+            }
+        } catch (error) {
+            console.warn(`[NEXU] Roblox-Verknüpfung für ${account.username} konnte nicht aktualisiert werden:`, error.message);
+        }
+    }
+    if (changed) saveDashboardAccount();
+    return changed;
 }
 
 async function attachAvatarUrlsToChatMessages(messages) {
@@ -2961,6 +3071,7 @@ button,.button-link{border-radius:15px;}
                 <h2>Registrieren</h2>
                 <form method="post" action="/register/request" autocomplete="on">
                     <div class="field"><label for="registerUsername">Benutzername</label><input id="registerUsername" name="username" type="text" maxlength="80" autocomplete="username" required></div>
+                    <div class="field"><label for="registerRobloxUserId">Roblox User-ID</label><input id="registerRobloxUserId" name="robloxUserId" type="text" inputmode="numeric" pattern="[0-9]+" maxlength="30" placeholder="z. B. 10199760908" required></div>
                     <div class="field"><label for="registerPassword">Passwort</label><input id="registerPassword" name="password" type="password" maxlength="200" autocomplete="new-password" required></div>
                     <div class="field"><label for="registerConfirmPassword">Passwort bestätigen</label><input id="registerConfirmPassword" name="confirmPassword" type="password" maxlength="200" autocomplete="new-password" required></div>
                     <button type="submit">Registrieren</button>
@@ -2972,11 +3083,11 @@ button,.button-link{border-radius:15px;}
 </body>
 </html>`;}
 
-function homeHtml(notice = "", error = "", account = null) {const loaderCommandJson = JSON.stringify(NEXU_LOADER_COMMAND);const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = isOwnerDashboardAccount(accountData);const canOpenMenuServer = canAccessMenuServer(accountData);const canManageAccounts = canManageDashboardAccounts(accountData);const usernameReadonly = isOwnerAccount ? "readonly" : "";const deleteAccountBlock = isOwnerAccount
+function homeHtml(notice = "", error = "", account = null) {const loaderCommandJson = JSON.stringify(NEXU_LOADER_COMMAND);const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = isOwnerDashboardAccount(accountData);const hasRobloxLink = Boolean(cleanNumericId(accountData.robloxUserId));const canOpenMenuServer = canAccessMenuServer(accountData);const canManageAccounts = canManageDashboardAccounts(accountData);const usernameReadonly = isOwnerAccount ? "readonly" : "";const deleteAccountBlock = isOwnerAccount
     ? '<section class="modal-card"><div class="danger-zone"><h3>OwnerAccount geschützt</h3><p>Der OwnerAccount kann hier nicht gelöscht werden, damit du den Hauptzugriff nicht verlierst.</p></div></section>'
     : '<form class="modal-card" method="post" action="/account/delete" autocomplete="off"><div class="danger-zone"><h3>Konto löschen</h3><p>Dieses Konto wird dauerhaft aus der Übersicht entfernt. Danach wirst du abgemeldet.</p><div class="field"><label for="deletePassword">Passwort bestätigen</label><input id="deletePassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div><div class="modal-actions"><button type="submit">KONTO LÖSCHEN</button></div></div></form>';const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = canOpenMenuServer
     ? '<a class="primary-tile menu-server" href="/uebersicht"><span>ÜBERSICHT</span><strong>Serverübersicht öffnen</strong><small>' + (isOwnerAccount ? 'OwnerAccount Zugriff' : 'Vom Owner freigegeben') + '</small></a>'
-    : '<div class="primary-tile menu-server locked"><span>ÜBERSICHT</span><strong>Zugriff gesperrt</strong><small>Der OwnerAccount kann deinen Zugriff freigeben.</small></div>';const accountManagerButton = '';
+    : '<div class="primary-tile menu-server locked"><span>ÜBERSICHT</span><strong>Zugriff gesperrt</strong><small>' + (hasRobloxLink ? 'Der OwnerAccount kann deinen Zugriff freigeben.' : 'Dieses Konto muss zuerst mit einer Roblox User-ID verbunden werden.') + '</small></div>';const accountManagerButton = '';
 return String.raw`<!doctype html>
 <html lang="de">
 <head>
@@ -3186,10 +3297,17 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
     const rows = [...dashboardAccounts.values()].sort((a, b) => String(a.username).localeCompare(String(b.username)));
     const cards = rows.map((entry) => {
         const owner = isOwnerDashboardAccount(entry);
-        const permissionSnapshot = getDashboardPermissionSnapshot(entry);
+        const permissionSnapshot = owner ? getDashboardPermissionSnapshot(entry) : (entry.access || {});
         const created = cleanText(entry.createdAt, 32) || "unbekannt";
         const updated = cleanText(entry.updatedAt, 32) || "nie";
         const ownerBadge = owner ? '<span class="badge owner">OWNER-SCHUTZ</span>' : '';
+        const robloxUserId = cleanNumericId(entry.robloxUserId);
+        const robloxUsername = cleanText(entry.robloxUsername, 40);
+        const robloxDisplayName = cleanText(entry.robloxDisplayName, 80) || robloxUsername;
+        const robloxAvatar = robloxUserId ? `https://www.roblox.com/headshot-thumbnail/image?userId=${encodeURIComponent(robloxUserId)}&width=150&height=150&format=png` : "";
+        const robloxStatus = robloxUserId
+            ? `${robloxDisplayName || `Roblox ${robloxUserId}`}${robloxUsername ? ` @${robloxUsername}` : ""} · ID ${robloxUserId}`
+            : "Noch nicht mit Roblox verbunden";
         const dashboardEnabled = owner || permissionSnapshot.menuServer === true;
         const accessInput = '<div class="access-grid" data-dashboard-permissions="1">' + DASHBOARD_PERMISSION_DEFINITIONS.map((definition) => {
             const isDashboardRoot = definition.key === "menuServer";
@@ -3208,11 +3326,12 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
             ? '<div class="owner-note">OwnerAccount kann nicht gelöscht oder vom Hauptzugriff getrennt werden.</div>'
             : '<form class="delete-account-form" method="post" action="/accounts/delete"><input type="hidden" name="accountEmail" value="' + escapeHtml(entry.email) + '"><button class="danger" type="submit">Konto löschen</button></form>';
         return '<article class="account-card">'
-            + '<div class="account-card-head"><div><strong>' + escapeHtml(entry.username) + '</strong><small>' + escapeHtml(entry.email) + '</small></div>' + ownerBadge + '</div>'
+            + '<div class="account-card-head"><div class="account-identity">' + (robloxAvatar ? '<img class="account-avatar" src="' + escapeHtml(robloxAvatar) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' : '<div class="account-avatar account-avatar-empty">?</div>') + '<div><strong>' + escapeHtml(entry.username) + '</strong><small>' + escapeHtml(entry.email) + '</small><em class="account-roblox">' + escapeHtml(robloxStatus) + '</em></div></div>' + ownerBadge + '</div>'
             + '<form method="post" action="/accounts/update" autocomplete="off">'
             + '<input type="hidden" name="accountEmail" value="' + escapeHtml(entry.email) + '">'
             + '<div class="grid">'
             + '<label>Benutzername<input name="username" maxlength="80" value="' + escapeHtml(entry.username) + '" ' + usernameReadonly + ' required></label>'
+            + '<label>Roblox User-ID<input name="robloxUserId" inputmode="numeric" pattern="[0-9]+" maxlength="30" value="' + escapeHtml(robloxUserId) + '" placeholder="Roblox User-ID" required></label>'
             + '<label>Neues Passwort<input name="newPassword" type="password" maxlength="200" placeholder="Leer lassen = bleibt gleich"></label>'
             + '<label>Passwort bestätigen<input name="confirmPassword" type="password" maxlength="200"></label>'
             + '</div>'
@@ -3254,6 +3373,10 @@ a.back { min-height:40px; display:inline-flex; align-items:center; padding:0 13p
 .account-card-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:14px; }
 .account-card-head strong { display:block; font-size:18px; }
 .account-card-head small { display:block; color:var(--muted); margin-top:3px; }
+.account-identity { display:flex; align-items:center; gap:12px; min-width:0; }
+.account-avatar { width:52px; height:52px; flex:0 0 auto; border-radius:50%; object-fit:cover; border:1px solid rgba(0,200,255,.34); background:#07111d; box-shadow:0 8px 24px rgba(0,0,0,.28); }
+.account-avatar-empty { display:grid; place-items:center; color:#7894a8; font-weight:900; }
+.account-roblox { display:block; max-width:420px; margin-top:5px; color:#78cfee; font-size:10px; font-style:normal; line-height:1.35; overflow-wrap:anywhere; }
 .badge { display:inline-flex; align-items:center; min-height:26px; padding:0 9px; border-radius:999px; font-size:10px; font-weight:950; letter-spacing:.08em; }
 .badge.owner { color:#fff2a8; border:1px solid rgba(255,194,45,.42); background:rgba(47,27,3,.7); }
 .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
@@ -3327,7 +3450,7 @@ button,a.back{border-radius:14px;}
     </div>
     ${noticeBlock}${errorBlock}
     <section class="intro">
-        <p>Nur der feste <b>OwnerAccount</b> kann diese Seite öffnen. Hier stellst du Benutzername, Passwort und die einzelnen Übersichtsrechte ein. Die Kontoverwaltung selbst bleibt immer nur für OwnerAccount.</p>
+        <p>Nur der feste <b>OwnerAccount</b> kann diese Seite öffnen. Hier verbindest du jedes Website-Konto eindeutig mit einer Roblox-User-ID und stellst Benutzername, Passwort sowie die einzelnen Übersichtsrechte ein. Die Kontoverwaltung selbst bleibt immer nur für OwnerAccount.</p>
     </section>
     <section class="account-list">
         ${cards}
@@ -5982,7 +6105,7 @@ function enhanceNexuV200Page(html, pageType) {
         html = html.replace("</header>", "</header>" + strip);
         html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · MENU SERVER</span><span>PROFESSIONELLE SERVERÜBERSICHT · V207</span></div></main>');
     } else if (pageType === "accounts") {
-        const accountOverview = `<section class="nx-account-overview"><article><span>Access Governance</span><strong>Kontrollzentrum für Konten</strong><small>Zentrale Verwaltung für Identitäten, Passwörter und granulare Rechte.</small></article><article><span>Accounts</span><strong>${dashboardAccounts.size}</strong><small>Registrierte Zugänge zur Übersicht</small></article><article><span>Permission Modules</span><strong>${DASHBOARD_PERMISSION_DEFINITIONS.length}</strong><small>Einzeln steuerbare Berechtigungen</small></article><article><span>Owner Protection</span><strong>Active</strong><small>OwnerAccount bleibt unveränderbar geschützt</small></article></section>`;
+        const accountOverview = `<section class="nx-account-overview"><article><span>Access Governance</span><strong>Kontrollzentrum für Konten</strong><small>Zentrale Verwaltung für Roblox-Verknüpfungen, Passwörter und granulare Rechte.</small></article><article><span>Accounts</span><strong>${dashboardAccounts.size}</strong><small>Registrierte Zugänge zur Übersicht</small></article><article><span>Permission Modules</span><strong>${DASHBOARD_PERMISSION_DEFINITIONS.length}</strong><small>Einzeln steuerbare Berechtigungen</small></article><article><span>Owner Protection</span><strong>Active</strong><small>OwnerAccount bleibt geschützt; Roblox-Verknüpfung ist änderbar</small></article></section>`;
         html = html.replace('<section class="account-list">', accountOverview + '<section class="account-list">');
         html = html.replace("</main>", '<div class="nx-page-footer"><span><strong>NEXU</strong> · ACCOUNT GOVERNANCE</span><span>OWNER GESCHÜTZT · V207</span></div></main>');
     }
@@ -9462,7 +9585,7 @@ function nexuV206HomeScript(isGuest, isOwner, initialAuthMode) {
                 '<main class="nx-v206-auth-main"><button class="nx-v206-auth-close" type="button" aria-label="Schließen">×</button>'+
                     '<div class="nx-v206-auth-tabs" role="tablist"><button class="nx-v206-auth-tab active" type="button" data-mode="login">ANMELDEN</button><button class="nx-v206-auth-tab" type="button" data-mode="register">REGISTRIEREN</button></div>'+
                     '<form class="nx-v206-auth-form active" data-form="login" method="post" action="/login" autocomplete="on"><h3>Willkommen zurück</h3><p>Melde dich mit deinem Nexu-Konto an.</p><div class="nx-v206-auth-field"><label for="nxV206LoginUsername">Benutzername</label><input id="nxV206LoginUsername" name="username" type="text" maxlength="80" autocomplete="username" required></div><div class="nx-v206-auth-field"><label for="nxV206LoginPassword">Passwort</label><input id="nxV206LoginPassword" name="password" type="password" maxlength="200" autocomplete="current-password" required></div><button class="nx-v206-auth-submit" type="submit">ANMELDEN</button><div class="nx-v206-auth-foot"><i></i><span>Die Anmeldung wird automatisch für dieses Gerät gespeichert.</span></div></form>'+
-                    '<form class="nx-v206-auth-form" data-form="register" method="post" action="/register/request" autocomplete="on"><h3>Konto erstellen</h3><p>Erstelle direkt dein persönliches Nexu-Konto.</p><div class="nx-v206-auth-field"><label for="nxV206RegisterUsername">Benutzername</label><input id="nxV206RegisterUsername" name="username" type="text" maxlength="80" autocomplete="username" required></div><div class="nx-v206-auth-field"><label for="nxV206RegisterPassword">Passwort</label><input id="nxV206RegisterPassword" name="password" type="password" minlength="8" maxlength="200" autocomplete="new-password" required></div><div class="nx-v206-auth-field"><label for="nxV206RegisterConfirm">Passwort bestätigen</label><input id="nxV206RegisterConfirm" name="confirmPassword" type="password" minlength="8" maxlength="200" autocomplete="new-password" required></div><button class="nx-v206-auth-submit" type="submit">KONTO ERSTELLEN</button><div class="nx-v206-auth-foot"><i></i><span>Keine E-Mail und kein Bestätigungscode erforderlich.</span></div></form>'+
+                    '<form class="nx-v206-auth-form" data-form="register" method="post" action="/register/request" autocomplete="on"><h3>Konto erstellen</h3><p>Erstelle direkt dein persönliches Nexu-Konto.</p><div class="nx-v206-auth-field"><label for="nxV206RegisterUsername">Benutzername</label><input id="nxV206RegisterUsername" name="username" type="text" maxlength="80" autocomplete="username" required></div><div class="nx-v206-auth-field"><label for="nxV206RegisterRobloxUserId">Roblox User-ID</label><input id="nxV206RegisterRobloxUserId" name="robloxUserId" type="text" inputmode="numeric" pattern="[0-9]+" maxlength="30" placeholder="z. B. 10199760908" required></div><div class="nx-v206-auth-field"><label for="nxV206RegisterPassword">Passwort</label><input id="nxV206RegisterPassword" name="password" type="password" minlength="8" maxlength="200" autocomplete="new-password" required></div><div class="nx-v206-auth-field"><label for="nxV206RegisterConfirm">Passwort bestätigen</label><input id="nxV206RegisterConfirm" name="confirmPassword" type="password" minlength="8" maxlength="200" autocomplete="new-password" required></div><button class="nx-v206-auth-submit" type="submit">KONTO ERSTELLEN</button><div class="nx-v206-auth-foot"><i></i><span>Die Roblox-ID wird geprüft und eindeutig mit diesem Konto verbunden.</span></div></form>'+
                 '</main></div>';
         document.body.appendChild(modal);
         var tabs=Array.prototype.slice.call(modal.querySelectorAll(".nx-v206-auth-tab"));
@@ -9533,7 +9656,7 @@ homeHtml = function(notice = "", error = "", account = null, options = {}) {
 
 
 loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();loadMenuAvailabilityState();
-const githubStorageStartupPromise = Promise.all([loadGitHubStorage(), loadGitHubAccounts()]).then(() => { syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler und Accounts geladen; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
+const githubStorageStartupPromise = Promise.all([loadGitHubStorage(), loadGitHubAccounts()]).then(() => { refreshDashboardAccountRobloxIdentities().catch((error) => console.warn("[NEXU] Roblox-Verknüpfungen konnten nicht vollständig aktualisiert werden:", error.message)); syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler und Accounts geladen; Roblox-Verknüpfungen werden aktualisiert; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
 
 
 /* --------------------------------------------------------------------------
@@ -9579,12 +9702,12 @@ function nexuV213OverviewChatCss() {
 `;
 }
 
-function nexuV213OverviewChatScript(canSend) {
-    const ownerIdJson = JSON.stringify(OWNER_ACCOUNT_ROBLOX_USER_ID);
+function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
+    const currentUserIdJson = JSON.stringify(cleanNumericId(currentRobloxUserId));
     const canSendJson = canSend === true ? "true" : "false";
     return String.raw`<script>
 (function(){
-    var OWNER_ROBLOX_USER_ID=${ownerIdJson};
+    var CURRENT_ROBLOX_USER_ID=${currentUserIdJson};
     var canSend=${canSendJson};
     var panel=document.querySelector('[data-directory-panel="chat"]');
     var list=document.getElementById('websiteGlobalChatMessages');
@@ -9620,7 +9743,7 @@ function nexuV213OverviewChatScript(canSend) {
         state.rows+=1;
         removeEmpty();
 
-        var own=String(entry.userId||'')===String(OWNER_ROBLOX_USER_ID);
+        var own=String(entry.userId||'')===String(CURRENT_ROBLOX_USER_ID);
         var row=document.createElement('article');
         row.className='nx-web-chat-row'+(own?' own':'');
         row.dataset.messageId=String(entry.id);
@@ -9659,6 +9782,7 @@ function nexuV213OverviewChatScript(canSend) {
         (Array.isArray(payload&&payload.messages)?payload.messages:[]).forEach(appendMessage);
         if(payload&&payload.chatMessage)appendMessage(payload.chatMessage);
         state.lastId=Math.max(state.lastId,Number(payload&&payload.latestId)||0);
+        if(payload&&Object.prototype.hasOwnProperty.call(payload,'currentRobloxUserId')){CURRENT_ROBLOX_USER_ID=String(payload.currentRobloxUserId||'');}
         if(payload&&typeof payload.canSend==='boolean'){
             canSend=payload.canSend;
             input.disabled=!canSend;
@@ -9704,7 +9828,8 @@ function nexuV213OverviewChatScript(canSend) {
 
 dashboardHtml = function(account = null, notice = "") {
     let html = NEXU_V213_BASE_OVERVIEW_HTML(account, notice);
-    const canSend = isOwnerDashboardAccount(account);
+    const currentRobloxUserId = cleanNumericId(account && account.robloxUserId);
+    const canSend = Boolean(currentRobloxUserId && canAccessMenuServer(account));
 
     html = html.replace(
         '<button class="directory-tab" type="button" data-directory-tab="banned" role="tab" aria-selected="false">Gesperrt <b id="bannedTabCount">0</b></button>',
@@ -9721,7 +9846,7 @@ dashboardHtml = function(account = null, notice = "") {
             <div class="nx-web-chat-composer">
                 <div class="nx-web-chat-input-wrap"><textarea id="websiteGlobalChatInput" class="nx-web-chat-input" maxlength="300" placeholder="Nachricht an alle Nexu-Nutzer schreiben …"></textarea><span id="websiteGlobalChatCount" class="nx-web-chat-count">0 / 300</span></div>
                 <button id="websiteGlobalChatSend" class="nx-web-chat-send" type="button">ABSENDEN</button>
-                <p class="nx-web-chat-owner-note">${canSend ? 'Du schreibst als verbundener Roblox-Account des OwnerAccount. Enter sendet, Shift + Enter erzeugt eine neue Zeile.' : 'Lesemodus: Nachrichten über die Website können nur vom geschützten OwnerAccount gesendet werden.'}</p>
+                <p class="nx-web-chat-owner-note">${canSend ? 'Du schreibst als der mit diesem Website-Konto verbundene Roblox-Account. Enter sendet, Shift + Enter erzeugt eine neue Zeile.' : 'Lesemodus: Dieses Website-Konto benötigt eine Roblox-Verknüpfung und Zugriff auf die Übersicht.'}</p>
             </div>
         </div>
     </div>
@@ -9729,7 +9854,7 @@ dashboardHtml = function(account = null, notice = "") {
     html = html.replace(bannedPanelEnd, chatPanel);
     html = html.replace('["online","offline","banned"].includes(name)', '["online","offline","banned","chat"].includes(name)');
     html = html.replace('</style>', nexuV213OverviewChatCss() + '</style>');
-    html = html.replace('</body>', nexuV213OverviewChatScript(canSend) + '</body>');
+    html = html.replace('</body>', nexuV213OverviewChatScript(canSend, currentRobloxUserId) + '</body>');
     return html;
 };
 
@@ -9850,6 +9975,26 @@ if (req.method === "POST" && pathname === "/accounts/update") {
             sendHtml(res, 409, dashboardAccountsHtml("", "Dieser Benutzername ist bereits vergeben.", session.account));
             return;
         }
+        const nextRobloxUserId = cleanNumericId(form.robloxUserId);
+        if (!nextRobloxUserId) {
+            sendHtml(res, 400, dashboardAccountsHtml("", "Eine gültige Roblox User-ID ist erforderlich.", session.account));
+            return;
+        }
+        if (dashboardRobloxUserIdExists(nextRobloxUserId, target.email)) {
+            sendHtml(res, 409, dashboardAccountsHtml("", "Diese Roblox User-ID ist bereits mit einem anderen Website-Konto verbunden.", session.account));
+            return;
+        }
+        let robloxIdentity;
+        try {
+            robloxIdentity = await verifyDashboardRobloxIdentity(nextRobloxUserId);
+        } catch (error) {
+            sendHtml(res, 503, dashboardAccountsHtml("", "Die Roblox-ID konnte gerade nicht überprüft werden. Bitte später erneut versuchen.", session.account));
+            return;
+        }
+        if (!robloxIdentity) {
+            sendHtml(res, 400, dashboardAccountsHtml("", "Unter dieser Roblox User-ID wurde kein Benutzer gefunden.", session.account));
+            return;
+        }
         let nextPasswordHash = target.passwordHash;
         if (newPassword !== "" || confirmPassword !== "") {
             if (newPassword.length < 8) {
@@ -9867,6 +10012,9 @@ if (req.method === "POST" && pathname === "/accounts/update") {
             ...target,
             username: nextUsername,
             passwordHash: nextPasswordHash,
+            robloxUserId: robloxIdentity.userId,
+            robloxUsername: robloxIdentity.username,
+            robloxDisplayName: robloxIdentity.displayName,
             access: targetIsOwner
                 ? normalizeDashboardAccess({}, OWNER_ACCOUNT_USERNAME, DASHBOARD_DEFAULT_EMAIL)
                 : normalizeDashboardAccess({
@@ -9877,6 +10025,8 @@ if (req.method === "POST" && pathname === "/accounts/update") {
                     managePlayerRoles: dashboardAccessEnabled && (form.dashboardRole === "1" || form.dashboardRole === "on"),
                     banPlayers: dashboardAccessEnabled && (form.dashboardBan === "1" || form.dashboardBan === "on"),
                     updateScript: dashboardAccessEnabled && (form.dashboardUpdateScript === "1" || form.dashboardUpdateScript === "on"),
+                    shutdownScript: dashboardAccessEnabled && (form.dashboardShutdownScript === "1" || form.dashboardShutdownScript === "on"),
+                    menuStatus: dashboardAccessEnabled && (form.dashboardMenuStatus === "1" || form.dashboardMenuStatus === "on"),
                 }, nextUsername),
             updatedAt: new Date().toISOString(),
         });
@@ -10158,13 +10308,24 @@ if (req.method === "POST" && pathname === "/register/request") {
         }
         const form = await readFormBody(req);
         const username = cleanDashboardUsername(form.username);
+        const robloxUserId = cleanNumericId(form.robloxUserId);
         const password = String(form.password || "");
         const confirmPassword = String(form.confirmPassword || "");
         if (!username) {sendHtml(res, 400, homeHtml("", "Benutzername ungültig. Erlaubt sind 3–80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", null, { authMode: "register" }));return;}
         if (dashboardUsernameExists(username)) {sendHtml(res, 409, homeHtml("", "Dieser Benutzername ist bereits vergeben.", null, { authMode: "register" }));return;}
+        if (!robloxUserId) {sendHtml(res, 400, homeHtml("", "Eine gültige Roblox User-ID ist erforderlich.", null, { authMode: "register" }));return;}
+        if (dashboardRobloxUserIdExists(robloxUserId)) {sendHtml(res, 409, homeHtml("", "Diese Roblox User-ID ist bereits mit einem anderen Website-Konto verbunden.", null, { authMode: "register" }));return;}
         if (password.length < 8) {sendHtml(res, 400, homeHtml("", "Das Passwort muss mindestens 8 Zeichen haben.", null, { authMode: "register" }));return;}
         if (password !== confirmPassword) {sendHtml(res, 400, homeHtml("", "Passwörter stimmen nicht überein.", null, { authMode: "register" }));return;}
-        const account = putDashboardAccount({username,email: internalDashboardEmailForUsername(username),passwordHash: sha256Hex(password),createdAt: new Date().toISOString(),updatedAt: new Date().toISOString()});
+        let robloxIdentity;
+        try {
+            robloxIdentity = await verifyDashboardRobloxIdentity(robloxUserId);
+        } catch (error) {
+            sendHtml(res, 503, homeHtml("", "Die Roblox-ID konnte gerade nicht überprüft werden. Bitte später erneut versuchen.", null, { authMode: "register" }));
+            return;
+        }
+        if (!robloxIdentity) {sendHtml(res, 400, homeHtml("", "Unter dieser Roblox User-ID wurde kein Benutzer gefunden.", null, { authMode: "register" }));return;}
+        const account = putDashboardAccount({username,email: internalDashboardEmailForUsername(username),passwordHash: sha256Hex(password),robloxUserId:robloxIdentity.userId,robloxUsername:robloxIdentity.username,robloxDisplayName:robloxIdentity.displayName,createdAt: new Date().toISOString(),updatedAt: new Date().toISOString()});
         if (!account || !saveDashboardAccount()) {sendHtml(res, 500, homeHtml("", "Konto konnte nicht gespeichert werden.", null, { authMode: "register" }));return;}
         clearLoginAttempts(req);
         const token = createDashboardSession(account);
@@ -11032,8 +11193,8 @@ if (req.method === "POST" && pathname === "/api/presence/offline") {
 
 if (req.method === "POST" && pathname === "/api/chat/send") {
     const websiteSession = getDashboardSession(req);
-    const ownerWebsiteIdentity = await getOwnerWebsiteChatIdentity(websiteSession);
-    if (!ownerWebsiteIdentity && !isHeartbeatAuthorized(req)) {
+    const websiteIdentity = await getWebsiteChatIdentity(websiteSession);
+    if (!websiteIdentity && !isHeartbeatAuthorized(req)) {
         sendJson(res, 401, { success: false, error: "Ungültiger Heartbeat-Token" });
         return;
     }
@@ -11044,13 +11205,14 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
         let sessionId = cleanText(body.sessionId, 120);
         let live = null;
 
-        if (ownerWebsiteIdentity) {
-            userId = ownerWebsiteIdentity.userId;
-            sessionId = "website-owneraccount";
+        if (websiteIdentity) {
+            userId = websiteIdentity.userId;
+            const accountKey = cleanText(websiteSession && websiteSession.account && websiteSession.account.email, 120) || String(userId);
+            sessionId = `website-${crypto.createHash("sha1").update(accountKey, "utf8").digest("hex").slice(0, 16)}`;
             live = {
-                userId: ownerWebsiteIdentity.userId,
-                username: ownerWebsiteIdentity.username,
-                displayName: ownerWebsiteIdentity.displayName,
+                userId: websiteIdentity.userId,
+                username: websiteIdentity.username,
+                displayName: websiteIdentity.displayName,
                 sessionId,
                 lastSeenMs: Date.now(),
             };
@@ -11083,7 +11245,7 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
             return;
         }
         await attachAvatarUrlsToChatMessages([chatMessage]);
-        console.log(`[NEXU] CHAT ${userId}${ownerWebsiteIdentity ? " (WEBSITE)" : ""}: ${message.slice(0, 80)}`);
+        console.log(`[NEXU] CHAT ${userId}${websiteIdentity ? " (WEBSITE)" : ""}: ${message.slice(0, 80)}`);
         sendJson(res, 200, { success: true, chatMessage, latestId: chatMessage.id });
     } catch (error) {
         sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
@@ -11135,8 +11297,8 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
             success: true,
             messages,
             latestId,
-            canSend: Boolean(websiteSession && isOwnerDashboardAccount(websiteSession.account)),
-            ownerRobloxUserId: OWNER_ACCOUNT_ROBLOX_USER_ID,
+            canSend: Boolean(websiteSession && cleanNumericId(websiteSession.account && websiteSession.account.robloxUserId) && canAccessMenuServer(websiteSession.account)),
+            currentRobloxUserId: cleanNumericId(websiteSession && websiteSession.account && websiteSession.account.robloxUserId),
             timestamp: new Date().toISOString(),
         });
     } catch (error) {
@@ -11596,7 +11758,7 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V213 GESTARTET");
+        console.log("NEXU PRESENCE & MODERATION V214 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
@@ -11613,7 +11775,7 @@ async function startNexuServer() {
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
         console.log("Direct Messages: /api/dm/send + /api/dm/broadcast + /api/dm/poll");
         console.log("Global Chat: /api/chat/send + /api/chat/poll");
-        console.log("Website-Chat: ÜBERSICHT // VIERTER REITER // OWNER ROBLOX-ID", OWNER_ACCOUNT_ROBLOX_USER_ID);
+        console.log("Website-Chat: ÜBERSICHT // VIERTER REITER // ACCOUNT-ROBLOX-ID VERKNÜPFUNG");
         console.log("Website Join: /api/join/send + /api/join/poll");
         console.log("Access: /api/menu/access?userId=...");
         console.log("Skript-Aktualisierung-Datei:", MENU_UPDATE_FILE_PATH);
