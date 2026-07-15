@@ -10439,7 +10439,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
     var tabCount=document.getElementById('chatTabCount');
     if(!panel||!list||!input||!sendButton) return;
 
-    var state={lastId:0,seen:new Set(),sending:false,polling:false,rows:0,resetToken:"",moderationRevision:0};
+    var state={lastId:0,seen:new Set(),sending:false,polling:false,rows:0,resetToken:"",moderationRevision:0,followLatest:true};
     function setStatus(text,error){
         if(!stateLabel)return;
         stateLabel.textContent=String(text||'');
@@ -10454,15 +10454,43 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         return date.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
     }
     var scrollFrame=0;
-    function scrollBottom(){
-        if(scrollFrame)cancelAnimationFrame(scrollFrame);
+    var scrollToken=0;
+    var BOTTOM_FOLLOW_DISTANCE=88;
+    function distanceFromBottom(){
+        return Math.max(0,list.scrollHeight-list.clientHeight-list.scrollTop);
+    }
+    function isNearBottom(){
+        return distanceFromBottom()<=BOTTOM_FOLLOW_DISTANCE;
+    }
+    function cancelPendingScroll(){
+        scrollToken+=1;
+        if(scrollFrame){cancelAnimationFrame(scrollFrame);scrollFrame=0;}
+    }
+    function scrollBottom(force){
+        if(force!==true&&!state.followLatest)return;
+        cancelPendingScroll();
+        var token=scrollToken;
         scrollFrame=requestAnimationFrame(function(){
             scrollFrame=requestAnimationFrame(function(){
                 scrollFrame=0;
+                if(token!==scrollToken)return;
+                if(force!==true&&!state.followLatest)return;
                 list.scrollTop=Math.max(0,list.scrollHeight-list.clientHeight);
+                state.followLatest=true;
             });
         });
     }
+    function noteManualScrollStart(){
+        if(!isNearBottom())state.followLatest=false;
+        cancelPendingScroll();
+    }
+    list.addEventListener('scroll',function(){
+        state.followLatest=isNearBottom();
+        if(!state.followLatest&&scrollFrame)cancelPendingScroll();
+    },{passive:true});
+    list.addEventListener('wheel',noteManualScrollStart,{passive:true});
+    list.addEventListener('touchstart',noteManualScrollStart,{passive:true});
+    list.addEventListener('pointerdown',noteManualScrollStart,{passive:true});
     function removeEmpty(){var empty=list.querySelector('.nx-web-chat-empty');if(empty)empty.remove();}
     function resetChatView(resetToken){
         state.resetToken=String(resetToken||'');
@@ -10470,7 +10498,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         list.replaceChildren();
         var empty=document.createElement('div');empty.className='nx-web-chat-empty';empty.innerHTML='Noch keine Nachrichten vorhanden.<br>Der Chat wird täglich um 00:00 Uhr geleert. Beleidigungen, Hassrede, Drohungen und sexuelle Inhalte werden automatisch vollständig zensiert.';list.appendChild(empty);
         if(tabCount)tabCount.textContent='0';
-        scrollBottom();
+        scrollBottom(true);
     }
     function appendMessage(entry){
         if(!entry||!entry.id||state.seen.has(String(entry.id)))return;
@@ -10512,7 +10540,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         row.append(avatar,bubble);
         list.appendChild(row);
         if(tabCount)tabCount.textContent=String(state.rows);
-        scrollBottom();
+        return true;
     }
     function applyModerationUpdate(update){
         if(!update||!update.id)return;
@@ -10523,16 +10551,32 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         row.dataset.moderated=update.moderated===true?'true':'false';
         row.dataset.moderationCategory=String(update.moderationCategory||'');
     }
-    function consume(payload){
+    function consume(payload,options){
+        options=options||{};
+        var forceLatest=options.forceLatest===true;
+        var shouldFollow=forceLatest||state.followLatest||isNearBottom();
+        var appended=false;
         var incomingResetToken=String(payload&&payload.chatResetToken||'');
-        if(incomingResetToken&&state.resetToken&&incomingResetToken!==state.resetToken)resetChatView(incomingResetToken);
-        else if(incomingResetToken&&!state.resetToken)state.resetToken=incomingResetToken;
-        (Array.isArray(payload&&payload.messages)?payload.messages:[]).forEach(appendMessage);
-        if(payload&&payload.chatMessage)appendMessage(payload.chatMessage);
-        (Array.isArray(payload&&payload.moderationUpdates)?payload.moderationUpdates:[]).forEach(applyModerationUpdate);
+        if(incomingResetToken&&state.resetToken&&incomingResetToken!==state.resetToken){
+            resetChatView(incomingResetToken);
+            shouldFollow=true;
+        }else if(incomingResetToken&&!state.resetToken){
+            state.resetToken=incomingResetToken;
+        }
+        (Array.isArray(payload&&payload.messages)?payload.messages:[]).forEach(function(entry){
+            appended=appendMessage(entry)===true||appended;
+        });
+        if(payload&&payload.chatMessage){
+            appended=appendMessage(payload.chatMessage)===true||appended;
+        }
+        var moderationUpdates=Array.isArray(payload&&payload.moderationUpdates)?payload.moderationUpdates:[];
+        moderationUpdates.forEach(applyModerationUpdate);
         state.moderationRevision=Math.max(state.moderationRevision,Number(payload&&payload.moderationRevision)||0);
         state.lastId=Math.max(state.lastId,Number(payload&&payload.latestId)||0);
-        scrollBottom();
+        if((appended||moderationUpdates.length>0)&&shouldFollow){
+            state.followLatest=true;
+            scrollBottom(forceLatest);
+        }
         if(payload&&Object.prototype.hasOwnProperty.call(payload,'currentRobloxUserId')){CURRENT_ROBLOX_USER_ID=String(payload.currentRobloxUserId||'');}
         if(payload&&typeof payload.canSend==='boolean'){
             canSend=payload.canSend;
@@ -10561,7 +10605,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
             var response=await fetch('/api/chat/send',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:message,moderationRevision:state.moderationRevision})});
             var payload=await response.json().catch(function(){return {};});
             if(!response.ok||payload.success===false)throw new Error(payload.error||('HTTP '+response.status));
-            input.value='';updateCount();consume(payload);scrollBottom();setStatus('Gesendet',false);
+            input.value='';updateCount();state.followLatest=true;consume(payload,{forceLatest:true});setStatus('Gesendet',false);
         }catch(error){setStatus(error&&error.message?error.message:'Senden fehlgeschlagen',true);}
         finally{state.sending=false;sendButton.disabled=!canSend;}
     }
@@ -10570,17 +10614,20 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
     var chatTab=document.querySelector('[data-directory-tab="chat"]');
     if(chatTab){
         chatTab.addEventListener('click',function(){
-            setTimeout(scrollBottom,0);
-            setTimeout(scrollBottom,90);
+            state.followLatest=true;
+            setTimeout(function(){scrollBottom(true);},0);
+            setTimeout(function(){scrollBottom(true);},90);
         });
     }
     if(typeof ResizeObserver==='function'){
         var chatResizeObserver=new ResizeObserver(function(){
-            if(!panel.classList.contains('hidden'))scrollBottom();
+            if(!panel.classList.contains('hidden')&&state.followLatest)scrollBottom(false);
         });
         chatResizeObserver.observe(list);
     }
-    window.addEventListener('resize',scrollBottom,{passive:true});
+    window.addEventListener('resize',function(){
+        if(state.followLatest)scrollBottom(false);
+    },{passive:true});
 
     input.disabled=!canSend;
     sendButton.disabled=!canSend;
