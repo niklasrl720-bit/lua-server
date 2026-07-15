@@ -10453,8 +10453,16 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         if(Number.isNaN(date.getTime())) return '';
         return date.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
     }
-    function nearBottom(){return list.scrollHeight-list.scrollTop-list.clientHeight<90;}
-    function scrollBottom(){requestAnimationFrame(function(){list.scrollTop=list.scrollHeight;});}
+    var scrollFrame=0;
+    function scrollBottom(){
+        if(scrollFrame)cancelAnimationFrame(scrollFrame);
+        scrollFrame=requestAnimationFrame(function(){
+            scrollFrame=requestAnimationFrame(function(){
+                scrollFrame=0;
+                list.scrollTop=Math.max(0,list.scrollHeight-list.clientHeight);
+            });
+        });
+    }
     function removeEmpty(){var empty=list.querySelector('.nx-web-chat-empty');if(empty)empty.remove();}
     function resetChatView(resetToken){
         state.resetToken=String(resetToken||'');
@@ -10462,10 +10470,10 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         list.replaceChildren();
         var empty=document.createElement('div');empty.className='nx-web-chat-empty';empty.innerHTML='Noch keine Nachrichten vorhanden.<br>Der Chat wird täglich um 00:00 Uhr geleert. Beleidigungen, Hassrede, Drohungen und sexuelle Inhalte werden automatisch vollständig zensiert.';list.appendChild(empty);
         if(tabCount)tabCount.textContent='0';
+        scrollBottom();
     }
     function appendMessage(entry){
         if(!entry||!entry.id||state.seen.has(String(entry.id)))return;
-        var keepBottom=nearBottom();
         state.seen.add(String(entry.id));
         state.lastId=Math.max(state.lastId,Number(entry.id)||0);
         state.rows+=1;
@@ -10504,7 +10512,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         row.append(avatar,bubble);
         list.appendChild(row);
         if(tabCount)tabCount.textContent=String(state.rows);
-        if(keepBottom)scrollBottom();
+        scrollBottom();
     }
     function applyModerationUpdate(update){
         if(!update||!update.id)return;
@@ -10524,6 +10532,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         (Array.isArray(payload&&payload.moderationUpdates)?payload.moderationUpdates:[]).forEach(applyModerationUpdate);
         state.moderationRevision=Math.max(state.moderationRevision,Number(payload&&payload.moderationRevision)||0);
         state.lastId=Math.max(state.lastId,Number(payload&&payload.latestId)||0);
+        scrollBottom();
         if(payload&&Object.prototype.hasOwnProperty.call(payload,'currentRobloxUserId')){CURRENT_ROBLOX_USER_ID=String(payload.currentRobloxUserId||'');}
         if(payload&&typeof payload.canSend==='boolean'){
             canSend=payload.canSend;
@@ -10558,6 +10567,21 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
     }
     function updateCount(){if(countLabel)countLabel.textContent=String(input.value.length)+' / 300';}
     input.maxLength=300;
+    var chatTab=document.querySelector('[data-directory-tab="chat"]');
+    if(chatTab){
+        chatTab.addEventListener('click',function(){
+            setTimeout(scrollBottom,0);
+            setTimeout(scrollBottom,90);
+        });
+    }
+    if(typeof ResizeObserver==='function'){
+        var chatResizeObserver=new ResizeObserver(function(){
+            if(!panel.classList.contains('hidden'))scrollBottom();
+        });
+        chatResizeObserver.observe(list);
+    }
+    window.addEventListener('resize',scrollBottom,{passive:true});
+
     input.disabled=!canSend;
     sendButton.disabled=!canSend;
     input.addEventListener('input',updateCount);
