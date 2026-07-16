@@ -14,8 +14,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-16T18:10:00.000Z",
-      "lastSeenMs": 1784225400000
+      "lastSeen": "2026-07-16T18:15:00.000Z",
+      "lastSeenMs": 1784225700000
     },
     {
       "userId": "10771145154",
@@ -30,8 +30,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-16T18:10:00.000Z",
-      "lastSeenMs": 1784225400000
+      "lastSeen": "2026-07-16T18:15:00.000Z",
+      "lastSeenMs": 1784225700000
     },
     {
       "userId": "11203703629",
@@ -48,6 +48,22 @@
       "firstSeenMs": 1784225212058,
       "lastSeen": "2026-07-16T18:10:00.000Z",
       "lastSeenMs": 1784225400000
+    },
+    {
+      "userId": "11243688312",
+      "username": "LoveOnlyMe675",
+      "displayName": "LoveOnlyMe675",
+      "roleKey": "",
+      "gameName": "[🏖️] Wall Hop Practice",
+      "placeId": 5044920251,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:15:31.326Z",
+      "firstSeenMs": 1784225731326,
+      "lastSeen": "2026-07-16T18:15:31.326Z",
+      "lastSeenMs": 1784225731326
     },
     {
       "userId": "11247318857",
@@ -94,8 +110,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:14:19.481Z",
       "firstSeenMs": 1784225659481,
-      "lastSeen": "2026-07-16T18:14:19.481Z",
-      "lastSeenMs": 1784225659481
+      "lastSeen": "2026-07-16T18:15:00.000Z",
+      "lastSeenMs": 1784225700000
     },
     {
       "userId": "1746266119",
@@ -110,8 +126,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-16T18:10:00.000Z",
-      "lastSeenMs": 1784225400000
+      "lastSeen": "2026-07-16T18:15:00.000Z",
+      "lastSeenMs": 1784225700000
     },
     {
       "userId": "1969914820",
@@ -126,8 +142,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:14.687Z",
       "firstSeenMs": 1784225114687,
-      "lastSeen": "2026-07-16T18:10:00.000Z",
-      "lastSeenMs": 1784225400000
+      "lastSeen": "2026-07-16T18:15:00.000Z",
+      "lastSeenMs": 1784225700000
     },
     {
       "userId": "4393272033",
@@ -142,8 +158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.309Z",
       "firstSeenMs": 1784225112309,
-      "lastSeen": "2026-07-16T18:10:00.000Z",
-      "lastSeenMs": 1784225400000
+      "lastSeen": "2026-07-16T18:15:00.000Z",
+      "lastSeenMs": 1784225700000
     },
     {
       "userId": "4963790387",
@@ -190,8 +206,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-16T18:10:00.000Z",
-      "lastSeenMs": 1784225400000
+      "lastSeen": "2026-07-16T18:15:00.000Z",
+      "lastSeenMs": 1784225700000
     },
     {
       "userId": "9123342097",
@@ -206,8 +222,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T18:10:00.000Z",
-      "lastSeenMs": 1784225400000
+      "lastSeen": "2026-07-16T18:15:00.000Z",
+      "lastSeenMs": 1784225700000
     },
     {
       "userId": "9232921015",
@@ -238,8 +254,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.309Z",
       "firstSeenMs": 1784225110309,
-      "lastSeen": "2026-07-16T18:10:00.000Z",
-      "lastSeenMs": 1784225400000
+      "lastSeen": "2026-07-16T18:15:00.000Z",
+      "lastSeenMs": 1784225700000
     },
     {
       "userId": "9870980208",
@@ -290,5 +306,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:14:47.457Z"
+  "updatedAt": "2026-07-16T18:15:36.328Z"
 }
