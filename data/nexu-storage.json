@@ -62,8 +62,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T19:35:00.000Z",
-      "lastSeenMs": 1784230500000
+      "lastSeen": "2026-07-16T19:40:00.000Z",
+      "lastSeenMs": 1784230800000
     },
     {
       "userId": "10668497380",
@@ -318,8 +318,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:35:00.281Z",
       "firstSeenMs": 1784230500281,
-      "lastSeen": "2026-07-16T19:35:00.281Z",
-      "lastSeenMs": 1784230500281
+      "lastSeen": "2026-07-16T19:40:00.000Z",
+      "lastSeenMs": 1784230800000
     },
     {
       "userId": "11292693920",
@@ -414,8 +414,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:19:43.014Z",
       "firstSeenMs": 1784229583014,
-      "lastSeen": "2026-07-16T19:35:00.000Z",
-      "lastSeenMs": 1784230500000
+      "lastSeen": "2026-07-16T19:40:00.000Z",
+      "lastSeenMs": 1784230800000
     },
     {
       "userId": "1534052061",
@@ -638,8 +638,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:37:48.332Z",
       "firstSeenMs": 1784227068332,
-      "lastSeen": "2026-07-16T19:35:00.000Z",
-      "lastSeenMs": 1784230500000
+      "lastSeen": "2026-07-16T19:40:00.000Z",
+      "lastSeenMs": 1784230800000
     },
     {
       "userId": "4963790387",
@@ -798,8 +798,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-16T19:35:00.000Z",
-      "lastSeenMs": 1784230500000
+      "lastSeen": "2026-07-16T19:40:00.000Z",
+      "lastSeenMs": 1784230800000
     },
     {
       "userId": "8554890463",
@@ -814,8 +814,24 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:36:24.035Z",
       "firstSeenMs": 1784230584035,
-      "lastSeen": "2026-07-16T19:36:24.035Z",
-      "lastSeenMs": 1784230584035
+      "lastSeen": "2026-07-16T19:40:00.000Z",
+      "lastSeenMs": 1784230800000
+    },
+    {
+      "userId": "8650475608",
+      "username": "sds_monol",
+      "displayName": "ABDO_KGN",
+      "roleKey": "",
+      "gameName": "مجنون Troll Slap برج 😈",
+      "placeId": 110470672231288,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:40:06.703Z",
+      "firstSeenMs": 1784230806703,
+      "lastSeen": "2026-07-16T19:40:06.703Z",
+      "lastSeenMs": 1784230806703
     },
     {
       "userId": "8796766857",
@@ -862,8 +878,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T19:35:00.000Z",
-      "lastSeenMs": 1784230500000
+      "lastSeen": "2026-07-16T19:40:00.000Z",
+      "lastSeenMs": 1784230800000
     },
     {
       "userId": "9232921015",
@@ -1275,5 +1291,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:36:57.392Z"
+  "updatedAt": "2026-07-16T19:40:11.708Z"
 }
