@@ -2,6 +2,22 @@
   "version": 4,
   "players": [
     {
+      "userId": "1000176308",
+      "username": "33eren66",
+      "displayName": "AC_33eren66",
+      "roleKey": "",
+      "gameName": "insanlar simülatöründe çete",
+      "placeId": 5610197459,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:00:52.820Z",
+      "firstSeenMs": 1784235652820,
+      "lastSeen": "2026-07-16T21:00:52.820Z",
+      "lastSeenMs": 1784235652820
+    },
+    {
       "userId": "10100984799",
       "username": "CARRILOMOTORZINHO",
       "displayName": "Alien_stalker",
@@ -62,8 +78,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T20:55:00.000Z",
-      "lastSeenMs": 1784235300000
+      "lastSeen": "2026-07-16T21:00:00.000Z",
+      "lastSeenMs": 1784235600000
     },
     {
       "userId": "10427971366",
@@ -430,8 +446,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:53:21.242Z",
       "firstSeenMs": 1784235201242,
-      "lastSeen": "2026-07-16T20:55:00.000Z",
-      "lastSeenMs": 1784235300000
+      "lastSeen": "2026-07-16T21:00:00.000Z",
+      "lastSeenMs": 1784235600000
     },
     {
       "userId": "11292693920",
@@ -462,8 +478,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-16T20:55:00.000Z",
-      "lastSeenMs": 1784235300000
+      "lastSeen": "2026-07-16T21:00:00.000Z",
+      "lastSeenMs": 1784235600000
     },
     {
       "userId": "11293835762",
@@ -558,8 +574,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:37:53.346Z",
       "firstSeenMs": 1784234273346,
-      "lastSeen": "2026-07-16T20:55:00.000Z",
-      "lastSeenMs": 1784235300000
+      "lastSeen": "2026-07-16T21:00:00.000Z",
+      "lastSeenMs": 1784235600000
     },
     {
       "userId": "1407975513",
@@ -686,8 +702,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:05:19.977Z",
       "firstSeenMs": 1784228719977,
-      "lastSeen": "2026-07-16T20:55:00.000Z",
-      "lastSeenMs": 1784235300000
+      "lastSeen": "2026-07-16T21:00:00.000Z",
+      "lastSeenMs": 1784235600000
     },
     {
       "userId": "2821234045",
@@ -1006,8 +1022,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:43:14.567Z",
       "firstSeenMs": 1784234594567,
-      "lastSeen": "2026-07-16T20:55:00.000Z",
-      "lastSeenMs": 1784235300000
+      "lastSeen": "2026-07-16T21:00:00.000Z",
+      "lastSeenMs": 1784235600000
     },
     {
       "userId": "6232305366",
@@ -1022,8 +1038,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:53:39.482Z",
       "firstSeenMs": 1784235219482,
-      "lastSeen": "2026-07-16T20:55:00.000Z",
-      "lastSeenMs": 1784235300000
+      "lastSeen": "2026-07-16T21:00:00.000Z",
+      "lastSeenMs": 1784235600000
     },
     {
       "userId": "7080587968",
@@ -1086,8 +1102,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:16:28.179Z",
       "firstSeenMs": 1784225788179,
-      "lastSeen": "2026-07-16T20:55:00.000Z",
-      "lastSeenMs": 1784235300000
+      "lastSeen": "2026-07-16T21:00:00.000Z",
+      "lastSeenMs": 1784235600000
     },
     {
       "userId": "7975307214",
@@ -1214,8 +1230,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-16T20:55:00.000Z",
-      "lastSeenMs": 1784235300000
+      "lastSeen": "2026-07-16T21:00:00.000Z",
+      "lastSeenMs": 1784235600000
     },
     {
       "userId": "8999363560",
@@ -1719,5 +1735,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:00:36.896Z"
+  "updatedAt": "2026-07-16T21:00:57.824Z"
 }
