@@ -1398,8 +1398,8 @@
       "username": "5eui6dth5wu",
       "displayName": "5eui6dth5wu",
       "roleKey": "",
-      "gameName": "БЕРСЕРК ДРИФТ X // WIP",
-      "placeId": 136449173422746,
+      "gameName": "BDX - Мотор скотоводства",
+      "placeId": 111423408130363,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
@@ -1973,5 +1973,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:47:19.215Z"
+  "updatedAt": "2026-07-16T21:48:11.941Z"
 }
