@@ -98,6 +98,22 @@
       "lastSeenMs": 1784227224256
     },
     {
+      "userId": "11103697834",
+      "username": "ffgj3403",
+      "displayName": "ffgj3403",
+      "roleKey": "",
+      "gameName": "✨Etiqueta de villano",
+      "placeId": 79402242188809,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:54:24.235Z",
+      "firstSeenMs": 1784228064235,
+      "lastSeen": "2026-07-16T18:54:24.235Z",
+      "lastSeenMs": 1784228064235
+    },
+    {
       "userId": "11126047368",
       "username": "Thereal12201",
       "displayName": "Thereal12201",
@@ -778,8 +794,22 @@
         "moderationScore": 95,
         "sentAt": "2026-07-16T18:54:16.377Z",
         "sentAtMs": 1784228056377
+      },
+      {
+        "id": 1784228066570003,
+        "userId": "10199760908",
+        "roleKey": "creator",
+        "roleTitle": "MENU CREATOR",
+        "username": "znxklas198",
+        "displayName": "znxklas198",
+        "message": "########",
+        "moderated": true,
+        "moderationCategory": "BELEIDIGUNG",
+        "moderationScore": 95,
+        "sentAt": "2026-07-16T18:54:26.570Z",
+        "sentAtMs": 1784228066570
       }
     ]
   },
-  "updatedAt": "2026-07-16T18:54:17.522Z"
+  "updatedAt": "2026-07-16T18:54:27.585Z"
 }
