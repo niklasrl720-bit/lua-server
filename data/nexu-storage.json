@@ -354,6 +354,22 @@
       "lastSeenMs": 1784225762716
     },
     {
+      "userId": "4337357751",
+      "username": "El_Juanito013",
+      "displayName": "El_Juanito013",
+      "roleKey": "",
+      "gameName": "[X5] +1 Teclado de escape de velocidad | Caramelos y chocolate",
+      "placeId": 95082159892680,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:51:03.029Z",
+      "firstSeenMs": 1784227863029,
+      "lastSeen": "2026-07-16T18:51:03.029Z",
+      "lastSeenMs": 1784227863029
+    },
+    {
       "userId": "4393272033",
       "username": "loxkoting",
       "displayName": "Jessica",
@@ -721,5 +737,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T18:50:50.441Z"
+  "updatedAt": "2026-07-16T18:51:08.031Z"
 }
