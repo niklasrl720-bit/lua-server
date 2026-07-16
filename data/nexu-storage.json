@@ -294,16 +294,16 @@
       "username": "Chernosigma_8",
       "displayName": "Chernosigma_8",
       "roleKey": "",
-      "gameName": "MAKE EVERYONE BALD AND SELL WIGS TYCOON",
-      "placeId": 120797319068429,
+      "gameName": "[SEASON🏆] Military Tycoon ®",
+      "placeId": 7180042682,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:16:28.179Z",
       "firstSeenMs": 1784225788179,
-      "lastSeen": "2026-07-16T18:20:00.000Z",
-      "lastSeenMs": 1784226000000
+      "lastSeen": "2026-07-16T18:25:00.000Z",
+      "lastSeenMs": 1784226300000
     },
     {
       "userId": "8796766857",
@@ -434,5 +434,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:26:00.897Z"
+  "updatedAt": "2026-07-16T18:26:34.509Z"
 }
