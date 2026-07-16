@@ -210,6 +210,22 @@
       "lastSeenMs": 1784228064235
     },
     {
+      "userId": "11114131048",
+      "username": "marwanehab646",
+      "displayName": "666",
+      "roleKey": "",
+      "gameName": "[UP] Just a baseplate.",
+      "placeId": 123974602339071,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:37:37.224Z",
+      "firstSeenMs": 1784237857224,
+      "lastSeen": "2026-07-16T21:37:37.224Z",
+      "lastSeenMs": 1784237857224
+    },
+    {
       "userId": "11126047368",
       "username": "Thereal12201",
       "displayName": "Thereal12201",
@@ -1374,8 +1390,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T21:30:00.000Z",
-      "lastSeenMs": 1784237400000
+      "lastSeen": "2026-07-16T21:35:00.000Z",
+      "lastSeenMs": 1784237700000
     },
     {
       "userId": "9232921015",
@@ -1925,5 +1941,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:35:46.302Z"
+  "updatedAt": "2026-07-16T21:37:42.229Z"
 }
