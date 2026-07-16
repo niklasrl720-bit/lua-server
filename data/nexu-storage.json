@@ -146,6 +146,22 @@
       "lastSeenMs": 1784225400000
     },
     {
+      "userId": "7411965264",
+      "username": "Koolboalan_4",
+      "displayName": "llAAll",
+      "roleKey": "",
+      "gameName": "Merge a Nuke!",
+      "placeId": 128784467030899,
+      "executionSource": "Delta",
+      "executionVersion": "1.0.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:12:16.585Z",
+      "firstSeenMs": 1784225536585,
+      "lastSeen": "2026-07-16T18:12:16.585Z",
+      "lastSeenMs": 1784225536585
+    },
+    {
       "userId": "8796766857",
       "username": "ImTheBestAtMath123",
       "displayName": "Hello",
@@ -242,5 +258,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:11:42.349Z"
+  "updatedAt": "2026-07-16T18:12:21.587Z"
 }
