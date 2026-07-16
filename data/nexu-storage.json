@@ -274,6 +274,22 @@
       "lastSeenMs": 1784226300000
     },
     {
+      "userId": "3705405966",
+      "username": "TinkofFail",
+      "displayName": "SpiderMan",
+      "roleKey": "",
+      "gameName": "Дуэли бомб замедления времени [Альфа]",
+      "placeId": 11379739543,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:42:40.019Z",
+      "firstSeenMs": 1784227360019,
+      "lastSeen": "2026-07-16T18:42:40.019Z",
+      "lastSeenMs": 1784227360019
+    },
+    {
       "userId": "4009875708",
       "username": "LUFFYBRAZILEIR9",
       "displayName": "Kennedy_Gabs",
@@ -584,5 +600,5 @@
     "resetAtMs": 1784227288358,
     "messages": []
   },
-  "updatedAt": "2026-07-16T18:41:33.767Z"
+  "updatedAt": "2026-07-16T18:42:45.022Z"
 }
