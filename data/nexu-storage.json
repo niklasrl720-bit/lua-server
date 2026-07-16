@@ -358,16 +358,16 @@
       "username": "vessl_111",
       "displayName": "vessl",
       "roleKey": "",
-      "gameName": "BlockSpin (Server: 2)",
-      "placeId": 97556409405464,
+      "gameName": "Blood Zone [🌻]",
+      "placeId": 13955927965,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:38:00.358Z",
       "firstSeenMs": 1784234280358,
-      "lastSeen": "2026-07-16T21:50:00.000Z",
-      "lastSeenMs": 1784238600000
+      "lastSeen": "2026-07-16T21:55:00.000Z",
+      "lastSeenMs": 1784238900000
     },
     {
       "userId": "11247318857",
@@ -2053,5 +2053,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:56:00.793Z"
+  "updatedAt": "2026-07-16T21:56:06.364Z"
 }
