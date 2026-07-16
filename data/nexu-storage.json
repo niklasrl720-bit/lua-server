@@ -124,10 +124,10 @@
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-16T20:21:14.515Z",
-      "firstSeenMs": 1784233274515,
-      "lastSeen": "2026-07-16T20:21:14.515Z",
-      "lastSeenMs": 1784233274515
+      "firstSeen": "2026-07-16T20:21:27.259Z",
+      "firstSeenMs": 1784233287259,
+      "lastSeen": "2026-07-16T20:21:27.259Z",
+      "lastSeenMs": 1784233287259
     },
     {
       "userId": "11031356766",
@@ -946,6 +946,22 @@
       "lastSeenMs": 1784231966174
     },
     {
+      "userId": "8082164894",
+      "username": "bloxy3547",
+      "displayName": "pan_conchicharron",
+      "roleKey": "",
+      "gameName": "[NUEVO! 🔥] Pintar o buscar",
+      "placeId": 85245205758607,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T20:21:27.562Z",
+      "firstSeenMs": 1784233287562,
+      "lastSeen": "2026-07-16T20:21:27.562Z",
+      "lastSeenMs": 1784233287562
+    },
+    {
       "userId": "8084788172",
       "username": "tanakad05",
       "displayName": "sd00elementaltaiga",
@@ -1497,5 +1513,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:21:19.518Z"
+  "updatedAt": "2026-07-16T20:21:32.265Z"
 }
