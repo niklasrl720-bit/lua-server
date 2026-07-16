@@ -684,14 +684,28 @@
         "roleTitle": "PLAYERS",
         "username": "hdjrgfrh1",
         "displayName": "AbuAliMohammadBoom",
-        "message": "guysyo",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
+        "message": "######",
+        "moderated": true,
+        "moderationCategory": "BELEIDIGUNG",
+        "moderationScore": 100,
         "sentAt": "2026-07-16T18:49:45.955Z",
         "sentAtMs": 1784227785955
+      },
+      {
+        "id": 1784227792251002,
+        "userId": "4711231058",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "hdjrgfrh1",
+        "displayName": "AbuAliMohammadBoom",
+        "message": "##",
+        "moderated": true,
+        "moderationCategory": "BELEIDIGUNG",
+        "moderationScore": 95,
+        "sentAt": "2026-07-16T18:49:52.251Z",
+        "sentAtMs": 1784227792251
       }
     ]
   },
-  "updatedAt": "2026-07-16T18:49:47.144Z"
+  "updatedAt": "2026-07-16T18:49:53.327Z"
 }
