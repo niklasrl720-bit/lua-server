@@ -338,6 +338,22 @@
       "lastSeenMs": 1784226189134
     },
     {
+      "userId": "11297594727",
+      "username": "Butter92818",
+      "displayName": "Butter92818",
+      "roleKey": "",
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:06:26.623Z",
+      "firstSeenMs": 1784228786623,
+      "lastSeen": "2026-07-16T19:06:26.623Z",
+      "lastSeenMs": 1784228786623
+    },
+    {
       "userId": "1534052061",
       "username": "kittykirb111",
       "displayName": "Krib",
@@ -967,5 +983,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:05:56.754Z"
+  "updatedAt": "2026-07-16T19:06:31.625Z"
 }
