@@ -326,8 +326,8 @@
       "username": "GhostyAlones",
       "displayName": "plow1k",
       "roleKey": "",
-      "gameName": "Башня ада",
-      "placeId": 94971861814985,
+      "gameName": "Башня Ада",
+      "placeId": 1962086868,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -530,5 +530,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:36:02.744Z"
+  "updatedAt": "2026-07-16T18:37:41.979Z"
 }
