@@ -38,16 +38,16 @@
       "username": "gagamaru_rogi",
       "displayName": "gagamaru_rogi",
       "roleKey": "",
-      "gameName": "Place 76437627925169",
-      "placeId": 76437627925169,
+      "gameName": "Dead Rails (Game)",
+      "placeId": 70876832253163,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:21:31.345Z",
       "firstSeenMs": 1784226091345,
-      "lastSeen": "2026-07-16T18:25:00.000Z",
-      "lastSeenMs": 1784226300000
+      "lastSeen": "2026-07-16T18:30:00.000Z",
+      "lastSeenMs": 1784226600000
     },
     {
       "userId": "11203703629",
@@ -466,5 +466,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:31:48.627Z"
+  "updatedAt": "2026-07-16T18:32:21.525Z"
 }
