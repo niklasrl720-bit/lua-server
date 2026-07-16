@@ -274,6 +274,22 @@
       "lastSeenMs": 1784240539288
     },
     {
+      "userId": "10984741887",
+      "username": "Robloxianq7x0m9u7w",
+      "displayName": "Pookie",
+      "roleKey": "",
+      "gameName": "Morocco Vibes 🔊 [UPD]",
+      "placeId": 93621178242599,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:35:56.603Z",
+      "firstSeenMs": 1784244956603,
+      "lastSeen": "2026-07-16T23:35:56.603Z",
+      "lastSeenMs": 1784244956603
+    },
+    {
       "userId": "11031356766",
       "username": "gagamaru_rogi",
       "displayName": "gagamaru_rogi",
@@ -2303,5 +2319,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:35:24.194Z"
+  "updatedAt": "2026-07-16T23:36:01.606Z"
 }
