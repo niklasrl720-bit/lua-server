@@ -1926,16 +1926,16 @@
       "username": "EuropeeeNo1",
       "displayName": "Femto",
       "roleKey": "",
-      "gameName": "Português",
-      "placeId": 88401347674707,
+      "gameName": "MushYO! 🔊",
+      "placeId": 17274762379,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-16T23:05:00.000Z",
-      "lastSeenMs": 1784243100000
+      "lastSeen": "2026-07-16T23:20:00.000Z",
+      "lastSeenMs": 1784244000000
     },
     {
       "userId": "9273382764",
@@ -2287,5 +2287,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:21:23.745Z"
+  "updatedAt": "2026-07-16T23:24:37.243Z"
 }
