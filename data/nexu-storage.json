@@ -206,8 +206,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-16T18:15:00.000Z",
-      "lastSeenMs": 1784225700000
+      "lastSeen": "2026-07-16T18:20:00.000Z",
+      "lastSeenMs": 1784226000000
     },
     {
       "userId": "5100621375",
@@ -370,5 +370,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:21:16.141Z"
+  "updatedAt": "2026-07-16T18:21:27.453Z"
 }
