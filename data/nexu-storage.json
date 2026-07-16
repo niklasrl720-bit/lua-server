@@ -786,6 +786,22 @@
       "lastSeenMs": 1784230500000
     },
     {
+      "userId": "8554890463",
+      "username": "Fushiki02",
+      "displayName": "HDxMannvia",
+      "roleKey": "",
+      "gameName": "[ UPDATE ] Gunung Narayasa",
+      "placeId": 119719188486260,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:36:24.035Z",
+      "firstSeenMs": 1784230584035,
+      "lastSeen": "2026-07-16T19:36:24.035Z",
+      "lastSeenMs": 1784230584035
+    },
+    {
       "userId": "8796766857",
       "username": "ImTheBestAtMath123",
       "displayName": "Hello",
@@ -830,8 +846,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T19:30:00.000Z",
-      "lastSeenMs": 1784230200000
+      "lastSeen": "2026-07-16T19:35:00.000Z",
+      "lastSeenMs": 1784230500000
     },
     {
       "userId": "9232921015",
@@ -1198,8 +1214,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-16T19:23:41.199Z",
         "sentAtMs": 1784229821199
+      },
+      {
+        "id": 1784230585899001,
+        "userId": "11290702208",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Flasche7200",
+        "displayName": "Flasche7200",
+        "message": "g",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-16T19:36:25.899Z",
+        "sentAtMs": 1784230585899
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:36:08.046Z"
+  "updatedAt": "2026-07-16T19:36:26.988Z"
 }
