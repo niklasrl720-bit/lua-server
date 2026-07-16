@@ -818,6 +818,22 @@
       "lastSeenMs": 1784236500000
     },
     {
+      "userId": "3503124544",
+      "username": "Eddie_Bobe",
+      "displayName": "Eddie_Bis",
+      "roleKey": "",
+      "gameName": "Greek Voice 🔊",
+      "placeId": 91932055090151,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:28:57.499Z",
+      "firstSeenMs": 1784237337499,
+      "lastSeen": "2026-07-16T21:28:57.499Z",
+      "lastSeenMs": 1784237337499
+    },
+    {
       "userId": "3649742821",
       "username": "Tryty600",
       "displayName": "Henry",
@@ -1166,8 +1182,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:16:28.179Z",
       "firstSeenMs": 1784225788179,
-      "lastSeen": "2026-07-16T21:15:00.000Z",
-      "lastSeenMs": 1784236500000
+      "lastSeen": "2026-07-16T21:25:00.000Z",
+      "lastSeenMs": 1784237100000
     },
     {
       "userId": "7975307214",
@@ -1877,5 +1893,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:27:15.570Z"
+  "updatedAt": "2026-07-16T21:29:02.504Z"
 }
