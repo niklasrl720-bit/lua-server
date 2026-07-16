@@ -2,6 +2,22 @@
   "version": 4,
   "players": [
     {
+      "userId": "10100984799",
+      "username": "CARRILOMOTORZINHO",
+      "displayName": "Alien_stalker",
+      "roleKey": "",
+      "gameName": "Jogo de Mukbang [Testes] 🍣🐟!",
+      "placeId": 74188431054457,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:43:28.545Z",
+      "firstSeenMs": 1784227408545,
+      "lastSeen": "2026-07-16T18:43:28.545Z",
+      "lastSeenMs": 1784227408545
+    },
+    {
       "userId": "10199760908",
       "username": "znxklas198",
       "displayName": "znxklas198",
@@ -188,10 +204,10 @@
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-16T18:43:14.444Z",
-      "firstSeenMs": 1784227394444,
-      "lastSeen": "2026-07-16T18:43:14.444Z",
-      "lastSeenMs": 1784227394444
+      "firstSeen": "2026-07-16T18:43:27.480Z",
+      "firstSeenMs": 1784227407480,
+      "lastSeen": "2026-07-16T18:43:27.480Z",
+      "lastSeenMs": 1784227407480
     },
     {
       "userId": "11293707100",
@@ -616,5 +632,5 @@
     "resetAtMs": 1784227288358,
     "messages": []
   },
-  "updatedAt": "2026-07-16T18:43:19.445Z"
+  "updatedAt": "2026-07-16T18:43:32.480Z"
 }
