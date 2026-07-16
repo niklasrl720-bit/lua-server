@@ -62,8 +62,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T19:15:00.000Z",
-      "lastSeenMs": 1784229300000
+      "lastSeen": "2026-07-16T19:20:00.000Z",
+      "lastSeenMs": 1784229600000
     },
     {
       "userId": "10668497380",
@@ -478,8 +478,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:19:34.358Z",
       "firstSeenMs": 1784229574358,
-      "lastSeen": "2026-07-16T19:19:34.358Z",
-      "lastSeenMs": 1784229574358
+      "lastSeen": "2026-07-16T19:20:00.000Z",
+      "lastSeenMs": 1784229600000
     },
     {
       "userId": "2831916965",
@@ -830,8 +830,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-16T19:15:00.000Z",
-      "lastSeenMs": 1784229300000
+      "lastSeen": "2026-07-16T19:20:00.000Z",
+      "lastSeenMs": 1784229600000
     },
     {
       "userId": "9425779584",
@@ -1076,8 +1076,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-16T19:00:43.026Z",
         "sentAtMs": 1784228443026
+      },
+      {
+        "id": 1784229633303001,
+        "userId": "2821234045",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "sneidertest",
+        "displayName": "Bmw2007",
+        "message": "### ####",
+        "moderated": true,
+        "moderationCategory": "SEXUELL",
+        "moderationScore": 100,
+        "sentAt": "2026-07-16T19:20:33.303Z",
+        "sentAtMs": 1784229633303
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:20:29.233Z"
+  "updatedAt": "2026-07-16T19:20:34.320Z"
 }
