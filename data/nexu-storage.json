@@ -302,8 +302,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:36:13.284Z",
       "firstSeenMs": 1784244973284,
-      "lastSeen": "2026-07-16T23:40:00.000Z",
-      "lastSeenMs": 1784245200000
+      "lastSeen": "2026-07-16T23:50:00.000Z",
+      "lastSeenMs": 1784245800000
     },
     {
       "userId": "11031356766",
@@ -2006,16 +2006,16 @@
       "username": "5eui6dth5wu",
       "displayName": "5eui6dth5wu",
       "roleKey": "",
-      "gameName": "BDX - Мотор скотоводства",
-      "placeId": 111423408130363,
+      "gameName": "Брукхейвен 🏡 RP",
+      "placeId": 4924922222,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:47:14.211Z",
       "firstSeenMs": 1784238434211,
-      "lastSeen": "2026-07-16T21:55:00.000Z",
-      "lastSeenMs": 1784238900000
+      "lastSeen": "2026-07-16T23:50:00.000Z",
+      "lastSeenMs": 1784245800000
     },
     {
       "userId": "9123342097",
@@ -2463,5 +2463,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:51:34.418Z"
+  "updatedAt": "2026-07-16T23:52:51.122Z"
 }
