@@ -146,6 +146,22 @@
       "lastSeenMs": 1784225700000
     },
     {
+      "userId": "4036934344",
+      "username": "TheMonstersTTV",
+      "displayName": "Monster",
+      "roleKey": "",
+      "gameName": "💥Global Anarchy [Early Access]",
+      "placeId": 132640332499066,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:16:02.716Z",
+      "firstSeenMs": 1784225762716,
+      "lastSeen": "2026-07-16T18:16:02.716Z",
+      "lastSeenMs": 1784225762716
+    },
+    {
       "userId": "4393272033",
       "username": "loxkoting",
       "displayName": "Jessica",
@@ -306,5 +322,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:15:48.492Z"
+  "updatedAt": "2026-07-16T18:16:07.716Z"
 }
