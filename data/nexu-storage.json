@@ -1106,8 +1106,22 @@
         "moderationScore": 100,
         "sentAt": "2026-07-16T19:20:33.303Z",
         "sentAtMs": 1784229633303
+      },
+      {
+        "id": 1784229721098001,
+        "userId": "4711231058",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "hdjrgfrh1",
+        "displayName": "AbuAliMohammadBoom",
+        "message": "gay",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-16T19:22:01.098Z",
+        "sentAtMs": 1784229721098
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:21:45.066Z"
+  "updatedAt": "2026-07-16T19:22:02.111Z"
 }
