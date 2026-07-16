@@ -918,8 +918,22 @@
         "moderationScore": 95,
         "sentAt": "2026-07-16T18:54:26.570Z",
         "sentAtMs": 1784228066570
+      },
+      {
+        "id": 1784228443026001,
+        "userId": "10368308763",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "ZzZsonec",
+        "displayName": "BBello_Vsynca",
+        "message": "gay",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-16T19:00:43.026Z",
+        "sentAtMs": 1784228443026
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:00:27.097Z"
+  "updatedAt": "2026-07-16T19:00:44.037Z"
 }
