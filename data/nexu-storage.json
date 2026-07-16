@@ -1378,6 +1378,22 @@
       "lastSeenMs": 1784228356005
     },
     {
+      "userId": "9812944983",
+      "username": "Lost_Yamada",
+      "displayName": "its",
+      "roleKey": "",
+      "gameName": "MushYO! 🔊",
+      "placeId": 17274762379,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T20:54:08.077Z",
+      "firstSeenMs": 1784235248077,
+      "lastSeen": "2026-07-16T20:54:08.077Z",
+      "lastSeenMs": 1784235248077
+    },
+    {
       "userId": "9870980208",
       "username": "miguel10293871",
       "displayName": "miguel10293871",
@@ -1703,5 +1719,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:53:44.487Z"
+  "updatedAt": "2026-07-16T20:54:13.081Z"
 }
