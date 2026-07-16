@@ -546,6 +546,22 @@
       "lastSeenMs": 1784227360019
     },
     {
+      "userId": "3733667059",
+      "username": "sarser49013",
+      "displayName": "XxKing_BandidoXx",
+      "roleKey": "",
+      "gameName": "💥 Simulador de Destrucción",
+      "placeId": 2248408710,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:42:21.722Z",
+      "firstSeenMs": 1784230941722,
+      "lastSeen": "2026-07-16T19:42:21.722Z",
+      "lastSeenMs": 1784230941722
+    },
+    {
       "userId": "4009875708",
       "username": "LUFFYBRAZILEIR9",
       "displayName": "Kennedy_Gabs",
@@ -1291,5 +1307,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:41:11.823Z"
+  "updatedAt": "2026-07-16T19:42:26.727Z"
 }
