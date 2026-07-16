@@ -2182,16 +2182,16 @@
       "username": "souzattk4",
       "displayName": "souzax",
       "roleKey": "",
-      "gameName": "[2v2] Campos de Duelo ⚔️",
-      "placeId": 94217045453265,
+      "gameName": "NewSmith 🏡 RP",
+      "placeId": 16625391970,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-16T20:52:09.008Z",
-      "lastSeenMs": 1784235129008
+      "lastSeen": "2026-07-16T23:45:00.000Z",
+      "lastSeenMs": 1784245500000
     },
     {
       "userId": "9527358538",
@@ -2431,5 +2431,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:46:45.319Z"
+  "updatedAt": "2026-07-16T23:49:14.430Z"
 }
