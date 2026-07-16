@@ -1010,6 +1010,22 @@
       "lastSeenMs": 1784235000000
     },
     {
+      "userId": "6232305366",
+      "username": "tiktosik34",
+      "displayName": "tiktosik34",
+      "roleKey": "",
+      "gameName": "INSANE Troll Slap Tower 😈",
+      "placeId": 110470672231288,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T20:53:39.482Z",
+      "firstSeenMs": 1784235219482,
+      "lastSeen": "2026-07-16T20:53:39.482Z",
+      "lastSeenMs": 1784235219482
+    },
+    {
       "userId": "7080587968",
       "username": "OKEJ_436",
       "displayName": "STARPAK",
@@ -1687,5 +1703,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:53:22.126Z"
+  "updatedAt": "2026-07-16T20:53:44.487Z"
 }
