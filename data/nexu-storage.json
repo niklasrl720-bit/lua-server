@@ -30,8 +30,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-16T19:10:00.000Z",
-      "lastSeenMs": 1784229000000
+      "lastSeen": "2026-07-16T19:15:00.000Z",
+      "lastSeenMs": 1784229300000
     },
     {
       "userId": "10259668015",
@@ -62,8 +62,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T19:10:00.000Z",
-      "lastSeenMs": 1784229000000
+      "lastSeen": "2026-07-16T19:15:00.000Z",
+      "lastSeenMs": 1784229300000
     },
     {
       "userId": "10668497380",
@@ -574,8 +574,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:37:48.332Z",
       "firstSeenMs": 1784227068332,
-      "lastSeen": "2026-07-16T19:10:00.000Z",
-      "lastSeenMs": 1784229000000
+      "lastSeen": "2026-07-16T19:15:00.000Z",
+      "lastSeenMs": 1784229300000
     },
     {
       "userId": "4963790387",
@@ -718,8 +718,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-16T19:10:00.000Z",
-      "lastSeenMs": 1784229000000
+      "lastSeen": "2026-07-16T19:15:00.000Z",
+      "lastSeenMs": 1784229300000
     },
     {
       "userId": "8796766857",
@@ -750,8 +750,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T19:10:00.000Z",
-      "lastSeenMs": 1784229000000
+      "lastSeen": "2026-07-16T19:15:00.000Z",
+      "lastSeenMs": 1784229300000
     },
     {
       "userId": "9232921015",
@@ -798,8 +798,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-16T19:10:00.000Z",
-      "lastSeenMs": 1784229000000
+      "lastSeen": "2026-07-16T19:15:00.000Z",
+      "lastSeenMs": 1784229300000
     },
     {
       "userId": "9425779584",
@@ -1047,5 +1047,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:11:39.576Z"
+  "updatedAt": "2026-07-16T19:16:00.082Z"
 }
