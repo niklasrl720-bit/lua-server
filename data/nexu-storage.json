@@ -130,6 +130,22 @@
       "lastSeenMs": 1784225400000
     },
     {
+      "userId": "11297501230",
+      "username": "9x8x7x6x5x4x3x0x1",
+      "displayName": "9x8x7x6x5x4x3x0x1",
+      "roleKey": "",
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.1.5",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:23:09.134Z",
+      "firstSeenMs": 1784226189134,
+      "lastSeen": "2026-07-16T18:23:09.134Z",
+      "lastSeenMs": 1784226189134
+    },
+    {
       "userId": "1534052061",
       "username": "kittykirb111",
       "displayName": "Krib",
@@ -256,6 +272,22 @@
       "firstSeenMs": 1784225536585,
       "lastSeen": "2026-07-16T18:12:16.585Z",
       "lastSeenMs": 1784225536585
+    },
+    {
+      "userId": "7770119135",
+      "username": "Znuget81",
+      "displayName": "Who dis_stranger",
+      "roleKey": "",
+      "gameName": "Livetopia 🏡 RP",
+      "placeId": 6737970321,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:23:10.194Z",
+      "firstSeenMs": 1784226190194,
+      "lastSeen": "2026-07-16T18:23:10.194Z",
+      "lastSeenMs": 1784226190194
     },
     {
       "userId": "7918165537",
@@ -402,5 +434,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:23:05.949Z"
+  "updatedAt": "2026-07-16T18:23:14.141Z"
 }
