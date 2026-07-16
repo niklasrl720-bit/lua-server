@@ -626,6 +626,22 @@
       "lastSeenMs": 1784230200000
     },
     {
+      "userId": "5005775489",
+      "username": "zenzensabaln",
+      "displayName": "Noob",
+      "roleKey": "",
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:34:51.850Z",
+      "firstSeenMs": 1784230491850,
+      "lastSeen": "2026-07-16T19:34:51.850Z",
+      "lastSeenMs": 1784230491850
+    },
+    {
       "userId": "5067029649",
       "username": "fer_tra33",
       "displayName": "fer_tra33",
@@ -1169,5 +1185,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:32:29.224Z"
+  "updatedAt": "2026-07-16T19:34:56.854Z"
 }
