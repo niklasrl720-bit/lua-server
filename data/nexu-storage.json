@@ -594,6 +594,22 @@
       "lastSeenMs": 1784228259342
     },
     {
+      "userId": "11270561560",
+      "username": "asdfafasfas18",
+      "displayName": "asdfafasfas18",
+      "roleKey": "",
+      "gameName": "Deutsche Stimme",
+      "placeId": 136162036182779,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:41:38.876Z",
+      "firstSeenMs": 1784245298876,
+      "lastSeen": "2026-07-16T23:41:38.876Z",
+      "lastSeenMs": 1784245298876
+    },
+    {
       "userId": "11274549088",
       "username": "Kaiju_universe350",
       "displayName": "Spinosaurus",
@@ -2399,5 +2415,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:41:36.985Z"
+  "updatedAt": "2026-07-16T23:41:43.879Z"
 }
