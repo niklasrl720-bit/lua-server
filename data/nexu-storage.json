@@ -374,16 +374,16 @@
       "username": "epicman1234451",
       "displayName": "epicman1234451",
       "roleKey": "",
-      "gameName": "[FIXED] Blocks n' Props",
-      "placeId": 2537430692,
+      "gameName": "[🏆⚽] FIFA Super Soccer",
+      "placeId": 12177325772,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-16T18:10:00.000Z",
-      "lastSeenMs": 1784225400000
+      "lastSeen": "2026-07-16T19:55:00.000Z",
+      "lastSeenMs": 1784231700000
     },
     {
       "userId": "11293835762",
@@ -1387,5 +1387,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:57:56.852Z"
+  "updatedAt": "2026-07-16T19:59:22.081Z"
 }
