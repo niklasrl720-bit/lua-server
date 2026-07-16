@@ -802,6 +802,22 @@
       "lastSeenMs": 1784238713536
     },
     {
+      "userId": "11296666431",
+      "username": "Paluumuutto678",
+      "displayName": "Paluumuutto678",
+      "roleKey": "",
+      "gameName": "Theme Park Tycoon 2",
+      "placeId": 69184822,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:36:26.009Z",
+      "firstSeenMs": 1784244986009,
+      "lastSeen": "2026-07-16T23:36:26.009Z",
+      "lastSeenMs": 1784244986009
+    },
+    {
       "userId": "11297402533",
       "username": "mat_67470",
       "displayName": "mat_67470",
@@ -2335,5 +2351,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:36:18.287Z"
+  "updatedAt": "2026-07-16T23:36:31.011Z"
 }
