@@ -210,6 +210,22 @@
       "lastSeenMs": 1784228140706
     },
     {
+      "userId": "11269562679",
+      "username": "hackebrlihacksjsks",
+      "displayName": "hackebrlihacksjsks",
+      "roleKey": "",
+      "gameName": "Pro_HLOX's Place",
+      "placeId": 114116010751742,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:57:39.342Z",
+      "firstSeenMs": 1784228259342,
+      "lastSeen": "2026-07-16T18:57:39.342Z",
+      "lastSeenMs": 1784228259342
+    },
+    {
       "userId": "11284061402",
       "username": "wackyisboys",
       "displayName": "wackyisboys",
@@ -857,5 +873,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T18:57:30.082Z"
+  "updatedAt": "2026-07-16T18:57:44.344Z"
 }
