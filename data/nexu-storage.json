@@ -1650,6 +1650,22 @@
       "lastSeenMs": 1784228100000
     },
     {
+      "userId": "8094696043",
+      "username": "sifou_928",
+      "displayName": "itz_okk",
+      "roleKey": "",
+      "gameName": "جريمة قتل غامضة 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:24:43.900Z",
+      "firstSeenMs": 1784244283900,
+      "lastSeen": "2026-07-16T23:24:43.900Z",
+      "lastSeenMs": 1784244283900
+    },
+    {
       "userId": "8338181851",
       "username": "AMMARx713",
       "displayName": "F_12",
@@ -2287,5 +2303,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:24:37.243Z"
+  "updatedAt": "2026-07-16T23:24:48.902Z"
 }
