@@ -50,6 +50,22 @@
       "lastSeenMs": 1784226600000
     },
     {
+      "userId": "11126047368",
+      "username": "Thereal12201",
+      "displayName": "Thereal12201",
+      "roleKey": "",
+      "gameName": "LifeTogether 🏠 RP",
+      "placeId": 13967668166,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:34:38.045Z",
+      "firstSeenMs": 1784226878045,
+      "lastSeen": "2026-07-16T18:34:38.045Z",
+      "lastSeenMs": 1784226878045
+    },
+    {
       "userId": "11203703629",
       "username": "Ichbin13I",
       "displayName": "Vadim",
@@ -466,5 +482,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:33:03.137Z"
+  "updatedAt": "2026-07-16T18:34:43.046Z"
 }
