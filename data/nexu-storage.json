@@ -402,6 +402,22 @@
       "lastSeenMs": 1784236745149
     },
     {
+      "userId": "11278003896",
+      "username": "bin_eifDA15",
+      "displayName": "bin_eifDA15",
+      "roleKey": "",
+      "gameName": "Deutsche Stimme",
+      "placeId": 136162036182779,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:19:27.977Z",
+      "firstSeenMs": 1784236767977,
+      "lastSeen": "2026-07-16T21:19:27.977Z",
+      "lastSeenMs": 1784236767977
+    },
+    {
       "userId": "11280130975",
       "username": "Gray_team7",
       "displayName": "Bacon_team",
@@ -1861,5 +1877,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:19:26.403Z"
+  "updatedAt": "2026-07-16T21:19:32.983Z"
 }
