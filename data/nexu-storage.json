@@ -898,6 +898,22 @@
       "lastSeenMs": 1784240400000
     },
     {
+      "userId": "2568955477",
+      "username": "nico_You681",
+      "displayName": "Nico",
+      "roleKey": "",
+      "gameName": "Baue eine Basis-RNG 🎲",
+      "placeId": 99108783264633,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T22:43:08.754Z",
+      "firstSeenMs": 1784241788754,
+      "lastSeen": "2026-07-16T22:43:08.754Z",
+      "lastSeenMs": 1784241788754
+    },
+    {
       "userId": "2821234045",
       "username": "sneidertest",
       "displayName": "Bmw2007",
@@ -1941,5 +1957,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T22:41:51.686Z"
+  "updatedAt": "2026-07-16T22:43:13.757Z"
 }
