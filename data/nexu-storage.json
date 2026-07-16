@@ -594,6 +594,22 @@
       "lastSeenMs": 1784228617683
     },
     {
+      "userId": "3238021023",
+      "username": "lusi_wolff",
+      "displayName": "lusi_wolff",
+      "roleKey": "",
+      "gameName": "Abbau-Simulator",
+      "placeId": 1417427737,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T20:11:33.636Z",
+      "firstSeenMs": 1784232693636,
+      "lastSeen": "2026-07-16T20:11:33.636Z",
+      "lastSeenMs": 1784232693636
+    },
+    {
       "userId": "3468057790",
       "username": "c0sta43",
       "displayName": "c0sta43",
@@ -1449,5 +1465,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:11:00.236Z"
+  "updatedAt": "2026-07-16T20:11:38.640Z"
 }
