@@ -1554,6 +1554,22 @@
       "lastSeenMs": 1784236800000
     },
     {
+      "userId": "9462151183",
+      "username": "dfffffffir",
+      "displayName": "JNLS_JLS",
+      "roleKey": "",
+      "gameName": "[🏆⚽] Super Futebol da FIFA",
+      "placeId": 12177325772,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:52:10.145Z",
+      "firstSeenMs": 1784238730145,
+      "lastSeen": "2026-07-16T21:52:10.145Z",
+      "lastSeenMs": 1784238730145
+    },
+    {
       "userId": "9472991443",
       "username": "souzattk4",
       "displayName": "souzax",
@@ -1989,5 +2005,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:51:58.541Z"
+  "updatedAt": "2026-07-16T21:52:15.154Z"
 }
