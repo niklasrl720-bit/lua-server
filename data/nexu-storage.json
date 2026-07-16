@@ -258,6 +258,22 @@
       "lastSeenMs": 1784226900000
     },
     {
+      "userId": "11031755388",
+      "username": "yNi4Tohjy",
+      "displayName": "TBON_Dpyg",
+      "roleKey": "",
+      "gameName": "Я хочу убежать!",
+      "placeId": 111748793365490,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:16:09.752Z",
+      "firstSeenMs": 1784243769752,
+      "lastSeen": "2026-07-16T23:16:09.752Z",
+      "lastSeenMs": 1784243769752
+    },
+    {
       "userId": "11060863501",
       "username": "wni938",
       "displayName": "wni938",
@@ -2209,5 +2225,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:15:52.083Z"
+  "updatedAt": "2026-07-16T23:16:14.755Z"
 }
