@@ -914,6 +914,22 @@
       "lastSeenMs": 1784241788754
     },
     {
+      "userId": "2761369214",
+      "username": "cristian778737",
+      "displayName": "Cristian778737",
+      "roleKey": "",
+      "gameName": "Crece un jardín 2",
+      "placeId": 97598239454123,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T22:43:17.370Z",
+      "firstSeenMs": 1784241797370,
+      "lastSeen": "2026-07-16T22:43:17.370Z",
+      "lastSeenMs": 1784241797370
+    },
+    {
       "userId": "2821234045",
       "username": "sneidertest",
       "displayName": "Bmw2007",
@@ -1957,5 +1973,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T22:43:13.757Z"
+  "updatedAt": "2026-07-16T22:43:22.373Z"
 }
