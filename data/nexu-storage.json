@@ -274,6 +274,22 @@
       "lastSeenMs": 1784226600000
     },
     {
+      "userId": "5067029649",
+      "username": "fer_tra33",
+      "displayName": "fer_tra33",
+      "roleKey": "",
+      "gameName": "Bir büyüyü çal 🔮",
+      "placeId": 84467557068970,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:34:57.756Z",
+      "firstSeenMs": 1784226897756,
+      "lastSeen": "2026-07-16T18:34:57.756Z",
+      "lastSeenMs": 1784226897756
+    },
+    {
       "userId": "5100621375",
       "username": "GhostyAlones",
       "displayName": "plow1k",
@@ -286,8 +302,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-16T18:30:00.000Z",
-      "lastSeenMs": 1784226600000
+      "lastSeen": "2026-07-16T18:35:00.000Z",
+      "lastSeenMs": 1784226900000
     },
     {
       "userId": "7411965264",
@@ -414,8 +430,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.309Z",
       "firstSeenMs": 1784225110309,
-      "lastSeen": "2026-07-16T18:30:00.000Z",
-      "lastSeenMs": 1784226600000
+      "lastSeen": "2026-07-16T18:35:00.000Z",
+      "lastSeenMs": 1784226900000
     },
     {
       "userId": "9425779584",
@@ -482,5 +498,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:34:43.046Z"
+  "updatedAt": "2026-07-16T18:35:02.757Z"
 }
