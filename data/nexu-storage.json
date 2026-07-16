@@ -338,6 +338,22 @@
       "lastSeenMs": 1784226000000
     },
     {
+      "userId": "9425779584",
+      "username": "990thhggdalt",
+      "displayName": "SkylerDOESNOTlikemc",
+      "roleKey": "",
+      "gameName": "Forsaken RP",
+      "placeId": 76231371152392,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:23:00.949Z",
+      "firstSeenMs": 1784226180949,
+      "lastSeen": "2026-07-16T18:23:00.949Z",
+      "lastSeenMs": 1784226180949
+    },
+    {
       "userId": "9870980208",
       "username": "miguel10293871",
       "displayName": "miguel10293871",
@@ -386,5 +402,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:22:29.619Z"
+  "updatedAt": "2026-07-16T18:23:05.949Z"
 }
