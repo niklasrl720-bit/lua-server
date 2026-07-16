@@ -862,8 +862,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-16T21:40:00.000Z",
-      "lastSeenMs": 1784238000000
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "3649742821",
@@ -1392,6 +1392,22 @@
       "firstSeenMs": 1784236657154,
       "lastSeen": "2026-07-16T21:17:37.154Z",
       "lastSeenMs": 1784236657154
+    },
+    {
+      "userId": "9095826838",
+      "username": "5eui6dth5wu",
+      "displayName": "5eui6dth5wu",
+      "roleKey": "",
+      "gameName": "БЕРСЕРК ДРИФТ X // WIP",
+      "placeId": 136449173422746,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:47:14.211Z",
+      "firstSeenMs": 1784238434211,
+      "lastSeen": "2026-07-16T21:47:14.211Z",
+      "lastSeenMs": 1784238434211
     },
     {
       "userId": "9123342097",
@@ -1957,5 +1973,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:46:25.421Z"
+  "updatedAt": "2026-07-16T21:47:19.215Z"
 }
