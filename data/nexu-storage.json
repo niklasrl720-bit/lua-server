@@ -1878,16 +1878,16 @@
       "username": "Znaud_00",
       "displayName": "MOPSIK67",
       "roleKey": "",
-      "gameName": "Переживите 99 ночей",
-      "placeId": 126509999114328,
+      "gameName": "Загадка убийства 2",
+      "placeId": 142823291,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-16T19:20:00.000Z",
-      "lastSeenMs": 1784229600000
+      "lastSeen": "2026-07-16T23:05:00.000Z",
+      "lastSeenMs": 1784243100000
     },
     {
       "userId": "9414382754",
@@ -2179,5 +2179,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:08:45.849Z"
+  "updatedAt": "2026-07-16T23:09:46.320Z"
 }
