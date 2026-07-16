@@ -1,3 +1,4 @@
+// V220: Globaler Chat bleibt beim Menü-/Serverneustart erhalten und wird ausschließlich beim Tageswechsel um 00:00 Europe/Berlin geleert.
 // V219: Robuste Zwei-Dateien-Persistenz und strikte Chatmoderation mit Fuzzy-/Vertauschungs-, Obfuskations- und Nachrichtenkontext-Erkennung.
 // V218: Präziser Chatfilter ohne Kettenzensur: Nur echte Fragmente werden nachrichtenübergreifend verbunden; erkannte Einzelverstöße löschen den Kontext sofort.
 // V217: Nachrichtenübergreifende Chatmoderation erkennt getrennte Wörter/Buchstaben, zensiert alleinstehende Beleidigungen und aktualisiert bereits sichtbare Teilnachrichten auf Website und im Lua-Menü.
@@ -308,6 +309,103 @@ function buildPersistentMenuAvailabilityState(raw = menuAvailabilityState) {
     };
 }
 
+function normalizePersistentChatEntry(raw) {
+    const source = raw && typeof raw === "object" ? raw : {};
+    const id = cleanInteger(source.id);
+    const userId = cleanNumericId(source.userId);
+    const message = cleanText(source.message, CHAT_MAX_LENGTH);
+    const parsedSentAtMs = Date.parse(String(source.sentAt || ""));
+    const sentAtMs = cleanInteger(source.sentAtMs) || (Number.isFinite(parsedSentAtMs) ? Math.floor(parsedSentAtMs) : 0);
+    if (!id || !userId || !message || !sentAtMs) return null;
+    return {
+        id,
+        userId,
+        roleKey: cleanText(source.roleKey, 24),
+        roleTitle: cleanText(source.roleTitle, 40),
+        username: cleanText(source.username, 40) || `User${userId}`,
+        displayName: cleanText(source.displayName, 80) || cleanText(source.username, 40) || `User ${userId}`,
+        message,
+        moderated: source.moderated === true,
+        moderationCategory: cleanText(source.moderationCategory, 40),
+        moderationScore: Math.max(0, Number(source.moderationScore) || 0),
+        sentAt: cleanText(source.sentAt, 64) || new Date(sentAtMs).toISOString(),
+        sentAtMs,
+    };
+}
+
+function normalizePersistentChatState(raw, nowMs = Date.now()) {
+    const source = raw && typeof raw === "object" ? raw : {};
+    const currentDayKey = getGlobalChatDayKey(nowMs);
+    const sourceDayKey = cleanText(source.dayKey, 16);
+    if (sourceDayKey !== currentDayKey) {
+        return {
+            dayKey: currentDayKey,
+            resetRevision: 0,
+            resetAtMs: 0,
+            messages: [],
+        };
+    }
+
+    const byId = new Map();
+    for (const rawEntry of Array.isArray(source.messages) ? source.messages : []) {
+        const entry = normalizePersistentChatEntry(rawEntry);
+        if (!entry || getGlobalChatDayKey(entry.sentAtMs) !== currentDayKey) continue;
+        byId.set(entry.id, entry);
+    }
+    const messages = [...byId.values()]
+        .sort((a, b) => Number(a.id) - Number(b.id))
+        .slice(-CHAT_HISTORY_LIMIT);
+    return {
+        dayKey: currentDayKey,
+        resetRevision: Math.max(0, cleanInteger(source.resetRevision)),
+        resetAtMs: Math.max(0, cleanInteger(source.resetAtMs)),
+        messages,
+    };
+}
+
+function buildPersistentGlobalChatState() {
+    return normalizePersistentChatState({
+        dayKey: globalChatDayKey || getGlobalChatDayKey(),
+        resetRevision: globalChatResetRevision,
+        resetAtMs: globalChatResetAtMs,
+        messages: globalChatMessages,
+    });
+}
+
+function applyPersistentGlobalChatState(raw, options = {}) {
+    const normalized = normalizePersistentChatState(raw);
+    const currentDayKey = getGlobalChatDayKey();
+    const merge = options.merge !== false;
+    const shouldReplace = !merge
+        || globalChatDayKey !== currentDayKey
+        || normalized.resetRevision > globalChatResetRevision;
+    const byId = new Map();
+    if (!shouldReplace && globalChatDayKey === currentDayKey) {
+        for (const entry of globalChatMessages) {
+            const normalizedEntry = normalizePersistentChatEntry(entry);
+            if (normalizedEntry) byId.set(normalizedEntry.id, normalizedEntry);
+        }
+    }
+    for (const entry of normalized.messages) byId.set(entry.id, entry);
+
+    globalChatDayKey = currentDayKey;
+    globalChatResetRevision = Math.max(
+        shouldReplace ? 0 : globalChatResetRevision,
+        normalized.resetRevision
+    );
+    globalChatResetAtMs = Math.max(
+        shouldReplace ? 0 : globalChatResetAtMs,
+        normalized.resetAtMs
+    );
+    globalChatMessages.length = 0;
+    globalChatMessages.push(
+        ...[...byId.values()]
+            .sort((a, b) => Number(a.id) - Number(b.id))
+            .slice(-CHAT_HISTORY_LIMIT)
+    );
+    return buildPersistentGlobalChatState();
+}
+
 function normalizeGitHubStorageCore(payload) {
     const source = payload && typeof payload === "object" ? payload : {};
     const players = [];
@@ -325,11 +423,12 @@ function normalizeGitHubStorageCore(payload) {
     normalizedBans.sort((a, b) => String(a.userId).localeCompare(String(b.userId)));
 
     return {
-        version: 3,
+        version: 4,
         players,
         bans: normalizedBans,
         updateState: buildPersistentMenuUpdateState(source.updateState || source.update || {}),
         menuStatus: buildPersistentMenuAvailabilityState(source.menuStatus || source.menuAvailability || {}),
+        chat: normalizePersistentChatState(source.chat),
     };
 }
 
@@ -339,6 +438,7 @@ function buildGitHubStorageCore() {
         bans: [...bans.values()],
         updateState: menuUpdateState,
         menuStatus: menuAvailabilityState,
+        chat: buildPersistentGlobalChatState(),
     });
 }
 
@@ -400,6 +500,10 @@ function applyGitHubStorageSnapshot(payload) {
 
     if (payload && typeof (payload.menuStatus || payload.menuAvailability) === "object") {
         menuAvailabilityState = normalizeMenuAvailabilityState(payload.menuStatus || payload.menuAvailability || {});
+    }
+
+    if (payload && typeof payload.chat === "object") {
+        applyPersistentGlobalChatState(payload.chat, { merge: true });
     }
 
     return core;
@@ -1191,7 +1295,11 @@ function buildKnownPlayersDiskCore() {
         .map(serializePersistentKnownPlayer)
         .filter(Boolean)
         .sort((a, b) => String(a.userId).localeCompare(String(b.userId)));
-    return { version: 3, players };
+    return {
+        version: 4,
+        players,
+        chat: buildPersistentGlobalChatState(),
+    };
 }
 
 function buildKnownPlayersDiskPayload() {
@@ -1211,8 +1319,14 @@ function loadKnownPlayers() {
             const entry = normalizeKnownPlayer(raw);
             if (entry) knownPlayers.set(entry.userId, entry);
         }
+        if (parsed && typeof parsed.chat === "object") {
+            applyPersistentGlobalChatState(parsed.chat, { merge: false });
+        }
         knownPlayersDiskFingerprint = storageFingerprint(buildKnownPlayersDiskCore());
-        console.log(`[NEXU] ${knownPlayers.size} gespeicherte Spieler geladen`);
+        console.log(
+            `[NEXU] ${knownPlayers.size} gespeicherte Spieler und ` +
+            `${globalChatMessages.length} heutige Chat-Nachrichten geladen`
+        );
     } catch (error) {
         console.warn("[NEXU] Gespeicherte Spieler konnten nicht geladen werden:", error.message);
     }
@@ -2586,7 +2700,10 @@ function getGlobalChatDayKey(nowMs = Date.now()) {
 }
 
 function getGlobalChatResetToken() {
-    return `${SERVER_INSTANCE_ID}:${globalChatDayKey || getGlobalChatDayKey()}:${globalChatResetRevision}`;
+    // Der Token darf sich bei einem Serverneustart nicht ändern. Andernfalls
+    // würde jedes Lua-Menü seinen sichtbaren Verlauf fälschlich wie bei einem
+    // Tagesreset leeren. Tag + persistierte Revision sind restartstabil.
+    return `${globalChatDayKey || getGlobalChatDayKey()}:${globalChatResetRevision}`;
 }
 
 function clearGlobalChat(reason = "manual", nowMs = Date.now()) {
@@ -2599,6 +2716,8 @@ function clearGlobalChat(reason = "manual", nowMs = Date.now()) {
     globalChatDayKey = getGlobalChatDayKey(nowMs);
     globalChatResetRevision += 1;
     globalChatResetAtMs = nowMs;
+    saveKnownPlayers(false);
+    scheduleGitHubStorageSave("chat-daily-reset", 750);
     console.log(`[NEXU] Globaler Chat geleert (${reason}, ${removed} Nachrichten, Zeitzone ${CHAT_TIME_ZONE}).`);
     return removed;
 }
@@ -2707,7 +2826,7 @@ function allowGlobalChatSend(userId) {
 
 
 // -----------------------------------------------------------------------------
-// NEXU CHAT-MODERATION V3 / SERVER V219
+// NEXU CHAT-MODERATION V3 / SERVER V220
 // Autoritativ für Website und Lua. Zusätzlich zur Einzelanalyse wird pro Nutzer
 // ein kurzer, ausschließlich im RAM liegender Nachrichtenkontext ausgewertet.
 // Dadurch werden über mehrere Nachrichten getrennte Phrasen und buchstabierte
@@ -3284,6 +3403,10 @@ function queueGlobalChatMessage(liveEntry, message) {
 
     globalChatMessages.push(entry);
     pruneGlobalChat();
+    // Chat gehört zum gemeinsamen nexu-storage-Datenträger. Dadurch bleibt der
+    // Tagesverlauf auch nach Menüschließen, Server-Sleep und Neustart erhalten.
+    saveKnownPlayers(false);
+    scheduleGitHubStorageSave("chat-message", 1_000);
     return entry;
 }
 
@@ -3638,6 +3761,9 @@ async function refreshDashboardAccountRobloxIdentities() {
 
 async function attachAvatarUrlsToChatMessages(messages) {
     const rows = Array.isArray(messages) ? messages : [];
+    if (String(process.env.NEXU_DISABLE_AVATAR_FETCH || "").toLowerCase() === "true") {
+        return rows;
+    }
     const ids = [...new Set(rows.map((entry) => cleanNumericId(entry && entry.userId)).filter(Boolean))];
     if (ids.length === 0) return rows;
     const urls = await fetchAvatarUrls(ids);
@@ -7143,7 +7269,7 @@ function buildNexuOverviewRuntimeSnapshot() {
     const cpu = process.cpuUsage();
     return {
         success: true,
-        version: "V219",
+        version: "V220",
         serviceName: cleanText(process.env.RENDER_SERVICE_NAME || "Nexu Server", 100) || "Nexu Server",
         instanceId: SERVER_INSTANCE_ID,
         startedAtMs: SERVER_STARTED_AT_MS,
@@ -10952,6 +11078,17 @@ dashboardHtml = function(account = null, notice = "") {
 
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
+if (req.method === "GET" && pathname === "/api/health") {
+    sendJson(res, 200, {
+        success: true,
+        version: "V220",
+        chatDayKey: globalChatDayKey || getGlobalChatDayKey(),
+        chatMessages: globalChatMessages.length,
+        timestamp: new Date().toISOString(),
+    });
+    return;
+}
+
 if (req.method === "GET" && pathname === "/") {
     const session = getDashboardSession(req);
     const message = requestUrl.searchParams.get("settings") === "updated"
@@ -11492,7 +11629,7 @@ if (
         success: true,
         online: true,
         service: "Nexu Presence & Moderation",
-        version: "V219",
+        version: "V220",
         activePlayers: countActivePresenceUsers(),
         activeSessions: presence.size,
         bannedPlayers: bans.size,
@@ -12435,6 +12572,7 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
             chatResetToken: getGlobalChatResetToken(),
             chatDayKey: globalChatDayKey,
             chatResetAtMs: globalChatResetAtMs,
+            chatNextResetAtMs: findNextGlobalChatMidnightMs(),
             moderationRevision: chatModerationRevision,
             moderationUpdates: getChatModerationUpdates(clientModerationRevision),
         });
@@ -12494,6 +12632,7 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
             chatResetToken: getGlobalChatResetToken(),
             chatDayKey: globalChatDayKey,
             chatResetAtMs: globalChatResetAtMs,
+            chatNextResetAtMs: findNextGlobalChatMidnightMs(),
             moderationRevision: chatModerationRevision,
             moderationUpdates: getChatModerationUpdates(clientModerationRevision),
             timestamp: new Date().toISOString(),
@@ -12963,7 +13102,7 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE, STORAGE & MODERATION V219 GESTARTET");
+        console.log("NEXU PRESENCE, STORAGE & MODERATION V220 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
@@ -12987,7 +13126,7 @@ async function startNexuServer() {
         console.log("Skript-Aktualisierung-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
         console.log("Skript-Aktualisierung:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SKRIPTE AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V219 LOKAL + GITHUB // AES-256-GCM // ATOMAR");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Ingame-Moderation: V172 AKTIVE CREATOR-SESSION + BAN/UNBAN");console.log("Rang-Banner-Sync: V168 LIVE SNAPSHOT INVALIDATION + INGAME COLOR REFRESH");console.log("Rang-Auswahl: V167 SUCHBARES DROPDOWN AM AKTUELLEN RANG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: V219 SPIELER-METADATEN + 5-MINUTEN-DEDUPE + BACKUP");console.log("Chat-Zensur:", CHAT_MODERATION_STRICT ? "V219 MAXIMAL STRENG" : "V219 KONTEXTMODUS");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? `AKTIV AUF ${GITHUB_DATA_BRANCH}` : `GESPERRT AUF ${GITHUB_DATA_BRANCH}`);
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SKRIPTE AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V220 LOKAL + GITHUB // AES-256-GCM // ATOMAR");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Ingame-Moderation: V172 AKTIVE CREATOR-SESSION + BAN/UNBAN");console.log("Rang-Banner-Sync: V168 LIVE SNAPSHOT INVALIDATION + INGAME COLOR REFRESH");console.log("Rang-Auswahl: V167 SUCHBARES DROPDOWN AM AKTUELLEN RANG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: V220 SPIELER + TAGESCHAT + 5-MINUTEN-DEDUPE + BACKUP");console.log("Chat-Zensur:", CHAT_MODERATION_STRICT ? "V220 MAXIMAL STRENG" : "V220 KONTEXTMODUS");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? `AKTIV AUF ${GITHUB_DATA_BRANCH}` : `GESPERRT AUF ${GITHUB_DATA_BRANCH}`);
         console.log("========================================");
     });
 }
@@ -13013,4 +13152,7 @@ module.exports = {
     analyzeChatMessageWithContext,
     buildKnownPlayersDiskCore,
     normalizeGitHubStorageCore,
+    normalizePersistentChatState,
+    getGlobalChatDayKey,
+    findNextGlobalChatMidnightMs,
 };
