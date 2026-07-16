@@ -110,8 +110,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T21:05:00.000Z",
-      "lastSeenMs": 1784235900000
+      "lastSeen": "2026-07-16T21:55:00.000Z",
+      "lastSeenMs": 1784238900000
     },
     {
       "userId": "10427971366",
@@ -1414,8 +1414,8 @@
       "username": "ImTheBestAtMath123",
       "displayName": "Hello",
       "roleKey": "",
-      "gameName": "Place 124012316000254",
-      "placeId": 124012316000254,
+      "gameName": "The Rake REMASTERED",
+      "placeId": 2413927524,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -2069,5 +2069,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:57:46.320Z"
+  "updatedAt": "2026-07-16T21:59:56.844Z"
 }
