@@ -1782,16 +1782,16 @@
       "username": "wil777326",
       "displayName": "wil777",
       "roleKey": "",
-      "gameName": "Supervivencia de desastres naturales",
-      "placeId": 189707,
+      "gameName": "Juego",
+      "placeId": 121418861436763,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:57:41.312Z",
       "firstSeenMs": 1784239061312,
-      "lastSeen": "2026-07-16T21:57:41.312Z",
-      "lastSeenMs": 1784239061312
+      "lastSeen": "2026-07-16T22:55:00.000Z",
+      "lastSeenMs": 1784242500000
     },
     {
       "userId": "9405689037",
@@ -2099,5 +2099,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T22:57:36.353Z"
+  "updatedAt": "2026-07-16T22:58:11.527Z"
 }
