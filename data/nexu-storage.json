@@ -1416,8 +1416,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-16T19:36:29.442Z",
         "sentAtMs": 1784230589442
+      },
+      {
+        "id": 1784232224173001,
+        "userId": "3468057790",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "c0sta43",
+        "displayName": "c0sta43",
+        "message": "oii",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-16T20:03:44.173Z",
+        "sentAtMs": 1784232224173
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:02:49.686Z"
+  "updatedAt": "2026-07-16T20:03:45.265Z"
 }
