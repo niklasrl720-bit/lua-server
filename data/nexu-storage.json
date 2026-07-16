@@ -1350,16 +1350,16 @@
       "username": "lejusdu91",
       "displayName": "lejusdu91",
       "roleKey": "",
-      "gameName": "Paint My Keyboard! 🎨",
-      "placeId": 75738770295234,
+      "gameName": "Climb Waterslide and Slide",
+      "placeId": 139617346573330,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.530Z",
       "firstSeenMs": 1784225113530,
-      "lastSeen": "2026-07-16T18:05:13.530Z",
-      "lastSeenMs": 1784225113530
+      "lastSeen": "2026-07-16T21:25:00.000Z",
+      "lastSeenMs": 1784237100000
     },
     {
       "userId": "9234385232",
@@ -1877,5 +1877,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:26:00.936Z"
+  "updatedAt": "2026-07-16T21:26:21.084Z"
 }
