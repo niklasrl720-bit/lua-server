@@ -770,6 +770,22 @@
       "lastSeenMs": 1784231700000
     },
     {
+      "userId": "11299068864",
+      "username": "Flasche47200",
+      "displayName": "Flasche47200",
+      "roleKey": "",
+      "gameName": "Deutsche Stimme",
+      "placeId": 136162036182779,
+      "executionSource": "Madium",
+      "executionVersion": "1.3.8.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T22:47:41.944Z",
+      "firstSeenMs": 1784242061944,
+      "lastSeen": "2026-07-16T22:47:41.944Z",
+      "lastSeenMs": 1784242061944
+    },
+    {
       "userId": "1267528515",
       "username": "manumacaroni",
       "displayName": "bignoobi",
@@ -2005,5 +2021,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T22:47:09.415Z"
+  "updatedAt": "2026-07-16T22:47:46.946Z"
 }
