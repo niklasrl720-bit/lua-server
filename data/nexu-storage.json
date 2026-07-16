@@ -914,6 +914,22 @@
       "lastSeenMs": 1784227800000
     },
     {
+      "userId": "6074258353",
+      "username": "angelopo301",
+      "displayName": "UTTVM",
+      "roleKey": "",
+      "gameName": "(WOD) Juego de rol de inodoro apocalíptico",
+      "placeId": 102917792916356,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T20:43:14.567Z",
+      "firstSeenMs": 1784234594567,
+      "lastSeen": "2026-07-16T20:43:14.567Z",
+      "lastSeenMs": 1784234594567
+    },
+    {
       "userId": "7080587968",
       "username": "OKEJ_436",
       "displayName": "STARPAK",
@@ -1561,5 +1577,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:41:52.216Z"
+  "updatedAt": "2026-07-16T20:43:19.573Z"
 }
