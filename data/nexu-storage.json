@@ -1634,6 +1634,22 @@
       "lastSeenMs": 1784242200000
     },
     {
+      "userId": "8910557706",
+      "username": "Boredeveryday5066",
+      "displayName": "idk2",
+      "roleKey": "",
+      "gameName": "Catalog Avatar Creator",
+      "placeId": 7041939546,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T22:53:21.509Z",
+      "firstSeenMs": 1784242401509,
+      "lastSeen": "2026-07-16T22:53:21.509Z",
+      "lastSeenMs": 1784242401509
+    },
+    {
       "userId": "8999363560",
       "username": "Higor244006",
       "displayName": "Higor244006",
@@ -2053,5 +2069,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T22:51:02.043Z"
+  "updatedAt": "2026-07-16T22:53:26.511Z"
 }
