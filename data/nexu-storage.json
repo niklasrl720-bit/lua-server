@@ -130,6 +130,22 @@
       "lastSeenMs": 1784238900000
     },
     {
+      "userId": "10310693857",
+      "username": "rei_18227",
+      "displayName": "c00lkidd",
+      "roleKey": "",
+      "gameName": "Troll e Wall Hop Master 2",
+      "placeId": 134452176018874,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:37:30.646Z",
+      "firstSeenMs": 1784245050646,
+      "lastSeen": "2026-07-16T23:37:30.646Z",
+      "lastSeenMs": 1784245050646
+    },
+    {
       "userId": "10368308763",
       "username": "ZzZsonec",
       "displayName": "BBello_Vsynca",
@@ -2158,8 +2174,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-16T18:59:16.005Z",
-      "lastSeenMs": 1784228356005
+      "lastSeen": "2026-07-16T23:35:00.000Z",
+      "lastSeenMs": 1784244900000
     },
     {
       "userId": "9812944983",
@@ -2351,5 +2367,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:36:31.011Z"
+  "updatedAt": "2026-07-16T23:37:35.649Z"
 }
