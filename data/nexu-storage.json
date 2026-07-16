@@ -1602,6 +1602,22 @@
       "lastSeenMs": 1784225400000
     },
     {
+      "userId": "9924903401",
+      "username": "shgoo662",
+      "displayName": "kyo",
+      "roleKey": "",
+      "gameName": "Survie aux catastrophes naturelles",
+      "placeId": 189707,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:32:53.494Z",
+      "firstSeenMs": 1784237573494,
+      "lastSeen": "2026-07-16T21:32:53.494Z",
+      "lastSeenMs": 1784237573494
+    },
+    {
       "userId": "9978184567",
       "username": "ettu1035",
       "displayName": "00SHINNYP",
@@ -1893,5 +1909,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:31:41.210Z"
+  "updatedAt": "2026-07-16T21:32:58.497Z"
 }
