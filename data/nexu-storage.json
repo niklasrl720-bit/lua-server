@@ -1602,6 +1602,22 @@
       "lastSeenMs": 1784234100000
     },
     {
+      "userId": "7088744458",
+      "username": "Top1RIVAL",
+      "displayName": "Senchi",
+      "roleKey": "",
+      "gameName": "LEE HOOD [WOW]",
+      "placeId": 119865529165532,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:38:47.565Z",
+      "firstSeenMs": 1784245127565,
+      "lastSeen": "2026-07-16T23:38:47.565Z",
+      "lastSeenMs": 1784245127565
+    },
+    {
       "userId": "7411965264",
       "username": "Koolboalan_4",
       "displayName": "llAAll",
@@ -2383,5 +2399,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:38:25.419Z"
+  "updatedAt": "2026-07-16T23:38:52.567Z"
 }
