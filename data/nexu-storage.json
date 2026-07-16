@@ -194,6 +194,22 @@
       "lastSeenMs": 1784226300000
     },
     {
+      "userId": "4009875708",
+      "username": "LUFFYBRAZILEIR9",
+      "displayName": "Kennedy_Gabs",
+      "roleKey": "",
+      "gameName": "[REGISTRAR] Shenanigans de Jujutsu",
+      "placeId": 9391468976,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:27:27.134Z",
+      "firstSeenMs": 1784226447134,
+      "lastSeen": "2026-07-16T18:27:27.134Z",
+      "lastSeenMs": 1784226447134
+    },
+    {
       "userId": "4036934344",
       "username": "TheMonstersTTV",
       "displayName": "Monster",
@@ -334,8 +350,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T18:15:00.000Z",
-      "lastSeenMs": 1784225700000
+      "lastSeen": "2026-07-16T18:25:00.000Z",
+      "lastSeenMs": 1784226300000
     },
     {
       "userId": "9232921015",
@@ -434,5 +450,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:26:34.509Z"
+  "updatedAt": "2026-07-16T18:27:32.135Z"
 }
