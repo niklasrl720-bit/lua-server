@@ -434,6 +434,22 @@
       "lastSeenMs": 1784226900000
     },
     {
+      "userId": "5497562572",
+      "username": "Lggj_sol",
+      "displayName": "Losmim",
+      "roleKey": "",
+      "gameName": "Tycoon de Poderes Elementares",
+      "placeId": 10253248401,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:47:00.051Z",
+      "firstSeenMs": 1784227620051,
+      "lastSeen": "2026-07-16T18:47:00.051Z",
+      "lastSeenMs": 1784227620051
+    },
+    {
       "userId": "7411965264",
       "username": "Koolboalan_4",
       "displayName": "llAAll",
@@ -648,5 +664,5 @@
     "resetAtMs": 1784227288358,
     "messages": []
   },
-  "updatedAt": "2026-07-16T18:46:05.193Z"
+  "updatedAt": "2026-07-16T18:47:05.053Z"
 }
