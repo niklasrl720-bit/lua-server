@@ -158,8 +158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T23:45:00.000Z",
-      "lastSeenMs": 1784245500000
+      "lastSeen": "2026-07-16T23:50:00.000Z",
+      "lastSeenMs": 1784245800000
     },
     {
       "userId": "10427971366",
@@ -542,8 +542,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:49:44.243Z",
       "firstSeenMs": 1784245784243,
-      "lastSeen": "2026-07-16T23:49:44.243Z",
-      "lastSeenMs": 1784245784243
+      "lastSeen": "2026-07-16T23:50:00.000Z",
+      "lastSeenMs": 1784245800000
     },
     {
       "userId": "11256438346",
@@ -990,8 +990,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-16T23:45:00.000Z",
-      "lastSeenMs": 1784245500000
+      "lastSeen": "2026-07-16T23:50:00.000Z",
+      "lastSeenMs": 1784245800000
     },
     {
       "userId": "1267528515",
@@ -1008,6 +1008,22 @@
       "firstSeenMs": 1784234273346,
       "lastSeen": "2026-07-16T21:35:00.000Z",
       "lastSeenMs": 1784237700000
+    },
+    {
+      "userId": "1356739077",
+      "username": "XxjavierXx251clon",
+      "displayName": "Javier_gamer",
+      "roleKey": "",
+      "gameName": "The Rake REMASTERADO",
+      "placeId": 2413927524,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:51:29.415Z",
+      "firstSeenMs": 1784245889415,
+      "lastSeen": "2026-07-16T23:51:29.415Z",
+      "lastSeenMs": 1784245889415
     },
     {
       "userId": "1407975513",
@@ -1262,8 +1278,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-16T23:45:00.000Z",
-      "lastSeenMs": 1784245500000
+      "lastSeen": "2026-07-16T23:50:00.000Z",
+      "lastSeenMs": 1784245800000
     },
     {
       "userId": "3649742821",
@@ -2206,8 +2222,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-16T23:45:00.000Z",
-      "lastSeenMs": 1784245500000
+      "lastSeen": "2026-07-16T23:50:00.000Z",
+      "lastSeenMs": 1784245800000
     },
     {
       "userId": "9527358538",
@@ -2447,5 +2463,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:50:24.544Z"
+  "updatedAt": "2026-07-16T23:51:34.418Z"
 }
