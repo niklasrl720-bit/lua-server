@@ -606,8 +606,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:37:48.332Z",
       "firstSeenMs": 1784227068332,
-      "lastSeen": "2026-07-16T19:15:00.000Z",
-      "lastSeenMs": 1784229300000
+      "lastSeen": "2026-07-16T19:20:00.000Z",
+      "lastSeenMs": 1784229600000
     },
     {
       "userId": "4963790387",
@@ -750,8 +750,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-16T19:15:00.000Z",
-      "lastSeenMs": 1784229300000
+      "lastSeen": "2026-07-16T19:20:00.000Z",
+      "lastSeenMs": 1784229600000
     },
     {
       "userId": "8796766857",
@@ -782,8 +782,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T19:15:00.000Z",
-      "lastSeenMs": 1784229300000
+      "lastSeen": "2026-07-16T19:20:00.000Z",
+      "lastSeenMs": 1784229600000
     },
     {
       "userId": "9232921015",
@@ -848,6 +848,22 @@
       "firstSeenMs": 1784226180949,
       "lastSeen": "2026-07-16T18:23:00.949Z",
       "lastSeenMs": 1784226180949
+    },
+    {
+      "userId": "9661855432",
+      "username": "capit8836",
+      "displayName": "rico_swim",
+      "roleKey": "",
+      "gameName": "Viagem de acampamento!",
+      "placeId": 13864667823,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:21:40.064Z",
+      "firstSeenMs": 1784229700064,
+      "lastSeen": "2026-07-16T19:21:40.064Z",
+      "lastSeenMs": 1784229700064
     },
     {
       "userId": "9786800904",
@@ -1093,5 +1109,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:20:34.320Z"
+  "updatedAt": "2026-07-16T19:21:45.066Z"
 }
