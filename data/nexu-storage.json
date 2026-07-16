@@ -774,16 +774,16 @@
       "username": "c0sta43",
       "displayName": "c0sta43",
       "roleKey": "",
-      "gameName": "O Abrigo de Gatos 🐱",
-      "placeId": 76526090659517,
+      "gameName": "Sorriso Infeccioso [PRIMAVERA 🌻]",
+      "placeId": 5985232436,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:02:44.683Z",
       "firstSeenMs": 1784232164683,
-      "lastSeen": "2026-07-16T20:02:44.683Z",
-      "lastSeenMs": 1784232164683
+      "lastSeen": "2026-07-16T21:15:00.000Z",
+      "lastSeenMs": 1784236500000
     },
     {
       "userId": "3649742821",
@@ -1334,16 +1334,16 @@
       "username": "EuropeeeNo1",
       "displayName": "Femto",
       "roleKey": "",
-      "gameName": "Voleibol 4.2",
-      "placeId": 3840352284,
+      "gameName": "MushYO! 🔊",
+      "placeId": 17274762379,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-16T21:10:00.000Z",
-      "lastSeenMs": 1784236200000
+      "lastSeen": "2026-07-16T21:15:00.000Z",
+      "lastSeenMs": 1784236500000
     },
     {
       "userId": "9405689037",
@@ -1813,5 +1813,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:16:36.897Z"
+  "updatedAt": "2026-07-16T21:16:50.514Z"
 }
