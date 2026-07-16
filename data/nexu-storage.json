@@ -82,6 +82,22 @@
       "lastSeenMs": 1784225400000
     },
     {
+      "userId": "1534052061",
+      "username": "kittykirb111",
+      "displayName": "Krib",
+      "roleKey": "",
+      "gameName": "A Social baseplate 💬",
+      "placeId": 107040115024757,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:14:19.481Z",
+      "firstSeenMs": 1784225659481,
+      "lastSeen": "2026-07-16T18:14:19.481Z",
+      "lastSeenMs": 1784225659481
+    },
+    {
       "userId": "1746266119",
       "username": "SphinxPlaysR0BL0X",
       "displayName": "CostaHERMANO",
@@ -274,5 +290,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:12:49.440Z"
+  "updatedAt": "2026-07-16T18:14:24.482Z"
 }
