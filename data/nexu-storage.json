@@ -158,8 +158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T23:50:00.000Z",
-      "lastSeenMs": 1784245800000
+      "lastSeen": "2026-07-16T23:55:00.000Z",
+      "lastSeenMs": 1784246100000
     },
     {
       "userId": "10427971366",
@@ -302,8 +302,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:36:13.284Z",
       "firstSeenMs": 1784244973284,
-      "lastSeen": "2026-07-16T23:50:00.000Z",
-      "lastSeenMs": 1784245800000
+      "lastSeen": "2026-07-16T23:55:00.000Z",
+      "lastSeenMs": 1784246100000
     },
     {
       "userId": "11031356766",
@@ -434,6 +434,22 @@
       "lastSeenMs": 1784225400000
     },
     {
+      "userId": "11213059431",
+      "username": "cabra_mods",
+      "displayName": "cabra_mods",
+      "roleKey": "",
+      "gameName": "Robar un Brainrot",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:55:25.635Z",
+      "firstSeenMs": 1784246125635,
+      "lastSeen": "2026-07-16T23:55:25.635Z",
+      "lastSeenMs": 1784246125635
+    },
+    {
       "userId": "11217236975",
       "username": "hackr9547",
       "displayName": "hackr9547",
@@ -542,8 +558,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:49:44.243Z",
       "firstSeenMs": 1784245784243,
-      "lastSeen": "2026-07-16T23:50:00.000Z",
-      "lastSeenMs": 1784245800000
+      "lastSeen": "2026-07-16T23:55:00.000Z",
+      "lastSeenMs": 1784246100000
     },
     {
       "userId": "11256438346",
@@ -990,8 +1006,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-16T23:50:00.000Z",
-      "lastSeenMs": 1784245800000
+      "lastSeen": "2026-07-16T23:55:00.000Z",
+      "lastSeenMs": 1784246100000
     },
     {
       "userId": "1267528515",
@@ -1022,8 +1038,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:51:29.415Z",
       "firstSeenMs": 1784245889415,
-      "lastSeen": "2026-07-16T23:51:29.415Z",
-      "lastSeenMs": 1784245889415
+      "lastSeen": "2026-07-16T23:55:00.000Z",
+      "lastSeenMs": 1784246100000
     },
     {
       "userId": "1407975513",
@@ -1278,8 +1294,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-16T23:50:00.000Z",
-      "lastSeenMs": 1784245800000
+      "lastSeen": "2026-07-16T23:55:00.000Z",
+      "lastSeenMs": 1784246100000
     },
     {
       "userId": "3649742821",
@@ -2222,8 +2238,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-16T23:50:00.000Z",
-      "lastSeenMs": 1784245800000
+      "lastSeen": "2026-07-16T23:55:00.000Z",
+      "lastSeenMs": 1784246100000
     },
     {
       "userId": "9527358538",
@@ -2463,5 +2479,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:52:51.122Z"
+  "updatedAt": "2026-07-16T23:55:30.639Z"
 }
