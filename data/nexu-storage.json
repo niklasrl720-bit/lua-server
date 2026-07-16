@@ -662,7 +662,22 @@
     "dayKey": "2026-07-16",
     "resetRevision": 0,
     "resetAtMs": 1784227288358,
-    "messages": []
+    "messages": [
+      {
+        "id": 1784227775043001,
+        "userId": "4711231058",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "hdjrgfrh1",
+        "displayName": "AbuAliMohammadBoom",
+        "message": "gay",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-16T18:49:35.043Z",
+        "sentAtMs": 1784227775043
+      }
+    ]
   },
-  "updatedAt": "2026-07-16T18:49:12.908Z"
+  "updatedAt": "2026-07-16T18:49:36.151Z"
 }
