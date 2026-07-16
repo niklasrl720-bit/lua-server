@@ -578,6 +578,22 @@
       "lastSeenMs": 1784226000000
     },
     {
+      "userId": "11288462881",
+      "username": "hjggvhnnhgv",
+      "displayName": "hjggvhnnhgv",
+      "roleKey": "",
+      "gameName": "سرقة دورة الدماغ",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T22:47:04.412Z",
+      "firstSeenMs": 1784242024412,
+      "lastSeen": "2026-07-16T22:47:04.412Z",
+      "lastSeenMs": 1784242024412
+    },
+    {
       "userId": "11290663241",
       "username": "norna10000",
       "displayName": "norna10000",
@@ -910,8 +926,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:43:08.754Z",
       "firstSeenMs": 1784241788754,
-      "lastSeen": "2026-07-16T22:43:08.754Z",
-      "lastSeenMs": 1784241788754
+      "lastSeen": "2026-07-16T22:45:00.000Z",
+      "lastSeenMs": 1784241900000
     },
     {
       "userId": "2761369214",
@@ -1630,8 +1646,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T22:40:00.000Z",
-      "lastSeenMs": 1784241600000
+      "lastSeen": "2026-07-16T22:45:00.000Z",
+      "lastSeenMs": 1784241900000
     },
     {
       "userId": "9232921015",
@@ -1989,5 +2005,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T22:45:36.764Z"
+  "updatedAt": "2026-07-16T22:47:09.415Z"
 }
