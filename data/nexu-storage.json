@@ -470,8 +470,8 @@
       "username": "epicman1234451",
       "displayName": "epicman1234451",
       "roleKey": "",
-      "gameName": "Murder Mystery 2",
-      "placeId": 142823291,
+      "gameName": "INSANE Troll Slap Tower 😈",
+      "placeId": 110470672231288,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -702,8 +702,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:05:19.977Z",
       "firstSeenMs": 1784228719977,
-      "lastSeen": "2026-07-16T21:00:00.000Z",
-      "lastSeenMs": 1784235600000
+      "lastSeen": "2026-07-16T21:05:00.000Z",
+      "lastSeenMs": 1784235900000
     },
     {
       "userId": "2821234045",
@@ -1735,5 +1735,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:06:56.798Z"
+  "updatedAt": "2026-07-16T21:07:28.157Z"
 }
