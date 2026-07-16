@@ -726,16 +726,16 @@
       "username": "epicman1234451",
       "displayName": "epicman1234451",
       "roleKey": "",
-      "gameName": "Natural Disaster Survival",
-      "placeId": 189707,
+      "gameName": "Brookhaven 🏡RP",
+      "placeId": 4924922222,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-16T23:00:00.000Z",
-      "lastSeenMs": 1784242800000
+      "lastSeen": "2026-07-16T23:25:00.000Z",
+      "lastSeenMs": 1784244300000
     },
     {
       "userId": "11293835762",
@@ -2303,5 +2303,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:27:12.096Z"
+  "updatedAt": "2026-07-16T23:29:01.172Z"
 }
