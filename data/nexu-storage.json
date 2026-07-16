@@ -50,6 +50,22 @@
       "lastSeenMs": 1784238000000
     },
     {
+      "userId": "1023658413",
+      "username": "ardapro123589",
+      "displayName": "ASTOR",
+      "roleKey": "",
+      "gameName": "Epic Minigames ✨",
+      "placeId": 277751860,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:43:26.364Z",
+      "firstSeenMs": 1784238206364,
+      "lastSeen": "2026-07-16T21:43:26.364Z",
+      "lastSeenMs": 1784238206364
+    },
+    {
       "userId": "10259668015",
       "username": "200pumpbrudda",
       "displayName": "vynx",
@@ -1941,5 +1957,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:41:56.054Z"
+  "updatedAt": "2026-07-16T21:43:31.368Z"
 }
