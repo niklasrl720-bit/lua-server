@@ -670,8 +670,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-16T22:55:00.000Z",
-      "lastSeenMs": 1784242500000
+      "lastSeen": "2026-07-16T23:00:00.000Z",
+      "lastSeenMs": 1784242800000
     },
     {
       "userId": "11293835762",
@@ -1070,8 +1070,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-16T22:55:00.000Z",
-      "lastSeenMs": 1784242500000
+      "lastSeen": "2026-07-16T23:00:00.000Z",
+      "lastSeenMs": 1784242800000
     },
     {
       "userId": "3649742821",
@@ -1152,6 +1152,22 @@
       "firstSeenMs": 1784225762716,
       "lastSeen": "2026-07-16T18:16:02.716Z",
       "lastSeenMs": 1784225762716
+    },
+    {
+      "userId": "4054718426",
+      "username": "FihDoRauzinho002",
+      "displayName": "FihDoRauzinho002",
+      "roleKey": "",
+      "gameName": "Exército Brasileiro 🔊",
+      "placeId": 14511049,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:01:39.965Z",
+      "firstSeenMs": 1784242899965,
+      "lastSeen": "2026-07-16T23:01:39.965Z",
+      "lastSeenMs": 1784242899965
     },
     {
       "userId": "4337357751",
@@ -1390,8 +1406,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:50:29.911Z",
       "firstSeenMs": 1784242229911,
-      "lastSeen": "2026-07-16T22:55:00.000Z",
-      "lastSeenMs": 1784242500000
+      "lastSeen": "2026-07-16T23:00:00.000Z",
+      "lastSeenMs": 1784242800000
     },
     {
       "userId": "7080587968",
@@ -1742,8 +1758,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:59:56.506Z",
       "firstSeenMs": 1784242796506,
-      "lastSeen": "2026-07-16T22:59:56.506Z",
-      "lastSeenMs": 1784242796506
+      "lastSeen": "2026-07-16T23:00:00.000Z",
+      "lastSeenMs": 1784242800000
     },
     {
       "userId": "9232921015",
@@ -2115,5 +2131,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:00:47.964Z"
+  "updatedAt": "2026-07-16T23:01:44.967Z"
 }
