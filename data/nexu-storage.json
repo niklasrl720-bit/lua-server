@@ -126,8 +126,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T23:10:00.000Z",
-      "lastSeenMs": 1784243400000
+      "lastSeen": "2026-07-16T23:15:00.000Z",
+      "lastSeenMs": 1784243700000
     },
     {
       "userId": "10427971366",
@@ -158,8 +158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:08:40.846Z",
       "firstSeenMs": 1784243320846,
-      "lastSeen": "2026-07-16T23:10:00.000Z",
-      "lastSeenMs": 1784243400000
+      "lastSeen": "2026-07-16T23:15:00.000Z",
+      "lastSeenMs": 1784243700000
     },
     {
       "userId": "10668497380",
@@ -830,8 +830,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-16T23:10:00.000Z",
-      "lastSeenMs": 1784243400000
+      "lastSeen": "2026-07-16T23:15:00.000Z",
+      "lastSeenMs": 1784243700000
     },
     {
       "userId": "1267528515",
@@ -1794,6 +1794,22 @@
       "lastSeenMs": 1784242800000
     },
     {
+      "userId": "9134201874",
+      "username": "KAENbr27000",
+      "displayName": "chagazbr2700",
+      "roleKey": "",
+      "gameName": "Construa um barco para tesouros",
+      "placeId": 537413528,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:15:47.080Z",
+      "firstSeenMs": 1784243747080,
+      "lastSeen": "2026-07-16T23:15:47.080Z",
+      "lastSeenMs": 1784243747080
+    },
+    {
       "userId": "9139865779",
       "username": "migo9mg_409",
       "displayName": "Ragnarok",
@@ -1870,8 +1886,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:57:41.312Z",
       "firstSeenMs": 1784239061312,
-      "lastSeen": "2026-07-16T23:10:00.000Z",
-      "lastSeenMs": 1784243400000
+      "lastSeen": "2026-07-16T23:15:00.000Z",
+      "lastSeenMs": 1784243700000
     },
     {
       "userId": "9405689037",
@@ -1886,8 +1902,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-16T23:10:00.000Z",
-      "lastSeenMs": 1784243400000
+      "lastSeen": "2026-07-16T23:15:00.000Z",
+      "lastSeenMs": 1784243700000
     },
     {
       "userId": "9414382754",
@@ -2193,5 +2209,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:12:41.407Z"
+  "updatedAt": "2026-07-16T23:15:52.083Z"
 }
