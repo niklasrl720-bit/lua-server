@@ -126,8 +126,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T22:45:00.000Z",
-      "lastSeenMs": 1784241900000
+      "lastSeen": "2026-07-16T22:50:00.000Z",
+      "lastSeenMs": 1784242200000
     },
     {
       "userId": "10427971366",
@@ -670,8 +670,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-16T22:45:00.000Z",
-      "lastSeenMs": 1784241900000
+      "lastSeen": "2026-07-16T22:50:00.000Z",
+      "lastSeenMs": 1784242200000
     },
     {
       "userId": "11293835762",
@@ -704,6 +704,22 @@
       "firstSeenMs": 1784238713536,
       "lastSeen": "2026-07-16T21:51:53.536Z",
       "lastSeenMs": 1784238713536
+    },
+    {
+      "userId": "11297402533",
+      "username": "mat_67470",
+      "displayName": "mat_67470",
+      "roleKey": "",
+      "gameName": "Vole un Brainrot [Nouveaux serveurs de joueurs]",
+      "placeId": 96342491571673,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T22:50:25.150Z",
+      "firstSeenMs": 1784242225150,
+      "lastSeen": "2026-07-16T22:50:25.150Z",
+      "lastSeenMs": 1784242225150
     },
     {
       "userId": "11297501230",
@@ -782,8 +798,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-16T22:47:41.944Z",
-      "lastSeenMs": 1784242061944
+      "lastSeen": "2026-07-16T22:50:00.000Z",
+      "lastSeenMs": 1784242200000
     },
     {
       "userId": "1267528515",
@@ -942,8 +958,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:43:08.754Z",
       "firstSeenMs": 1784241788754,
-      "lastSeen": "2026-07-16T22:45:00.000Z",
-      "lastSeenMs": 1784241900000
+      "lastSeen": "2026-07-16T22:50:00.000Z",
+      "lastSeenMs": 1784242200000
     },
     {
       "userId": "2761369214",
@@ -1038,8 +1054,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-16T22:45:00.000Z",
-      "lastSeenMs": 1784241900000
+      "lastSeen": "2026-07-16T22:50:00.000Z",
+      "lastSeenMs": 1784242200000
     },
     {
       "userId": "3649742821",
@@ -1346,6 +1362,22 @@
       "lastSeenMs": 1784235900000
     },
     {
+      "userId": "660596384",
+      "username": "a_kurti",
+      "displayName": "Fester",
+      "roleKey": "",
+      "gameName": "MIC UP 🔊",
+      "placeId": 6884319169,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T22:50:29.911Z",
+      "firstSeenMs": 1784242229911,
+      "lastSeen": "2026-07-16T22:50:29.911Z",
+      "lastSeenMs": 1784242229911
+    },
+    {
       "userId": "7080587968",
       "username": "OKEJ_436",
       "displayName": "STARPAK",
@@ -1598,8 +1630,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:44:54.881Z",
       "firstSeenMs": 1784241894881,
-      "lastSeen": "2026-07-16T22:45:00.000Z",
-      "lastSeenMs": 1784241900000
+      "lastSeen": "2026-07-16T22:50:00.000Z",
+      "lastSeenMs": 1784242200000
     },
     {
       "userId": "8999363560",
@@ -1662,8 +1694,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T22:45:00.000Z",
-      "lastSeenMs": 1784241900000
+      "lastSeen": "2026-07-16T22:50:00.000Z",
+      "lastSeenMs": 1784242200000
     },
     {
       "userId": "9232921015",
@@ -2021,5 +2053,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T22:47:46.946Z"
+  "updatedAt": "2026-07-16T22:50:30.152Z"
 }
