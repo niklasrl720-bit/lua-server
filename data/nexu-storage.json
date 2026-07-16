@@ -834,6 +834,22 @@
       "lastSeenMs": 1784229600000
     },
     {
+      "userId": "9414382754",
+      "username": "tupape477",
+      "displayName": "tupape477",
+      "roleKey": "",
+      "gameName": "Supervivencia de desastres naturales",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:23:40.640Z",
+      "firstSeenMs": 1784229820640,
+      "lastSeen": "2026-07-16T19:23:40.640Z",
+      "lastSeenMs": 1784229820640
+    },
+    {
       "userId": "9425779584",
       "username": "990thhggdalt",
       "displayName": "SkylerDOESNOTlikemc",
@@ -1120,8 +1136,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-16T19:22:01.098Z",
         "sentAtMs": 1784229721098
+      },
+      {
+        "id": 1784229821199001,
+        "userId": "10199760908",
+        "roleKey": "creator",
+        "roleTitle": "MENU CREATOR",
+        "username": "znxklas198",
+        "displayName": "znxklas198",
+        "message": "...",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-16T19:23:41.199Z",
+        "sentAtMs": 1784229821199
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:23:10.290Z"
+  "updatedAt": "2026-07-16T19:23:42.301Z"
 }
