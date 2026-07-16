@@ -146,6 +146,22 @@
       "lastSeenMs": 1784227224256
     },
     {
+      "userId": "11073896038",
+      "username": "ttttjfjdjff",
+      "displayName": "ttttjfjdjff",
+      "roleKey": "",
+      "gameName": "Sobrevive 7 días en el Ártico [Alfa]",
+      "placeId": 138432670504218,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:51:52.196Z",
+      "firstSeenMs": 1784231512196,
+      "lastSeen": "2026-07-16T19:51:52.196Z",
+      "lastSeenMs": 1784231512196
+    },
+    {
       "userId": "11103697834",
       "username": "ffgj3403",
       "displayName": "ffgj3403",
@@ -1355,5 +1371,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:50:59.986Z"
+  "updatedAt": "2026-07-16T19:51:57.200Z"
 }
