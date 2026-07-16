@@ -950,8 +950,8 @@
       "username": "nico_You681",
       "displayName": "Nico",
       "roleKey": "",
-      "gameName": "Baue eine Basis-RNG 🎲",
-      "placeId": 99108783264633,
+      "gameName": "[UPD 1] Magier-RNG",
+      "placeId": 132393662679852,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -1542,16 +1542,16 @@
       "username": "roblox_user_8554706348",
       "displayName": "MNMNMNM",
       "roleKey": "",
-      "gameName": "Voler un Brainrot",
-      "placeId": 109983668079237,
+      "gameName": "PATO PRISON RUN! (Obby)",
+      "placeId": 71094558033416,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-16T22:35:00.000Z",
-      "lastSeenMs": 1784241300000
+      "lastSeen": "2026-07-16T22:50:00.000Z",
+      "lastSeenMs": 1784242200000
     },
     {
       "userId": "8554890463",
@@ -2069,5 +2069,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T22:54:23.854Z"
+  "updatedAt": "2026-07-16T22:54:34.635Z"
 }
