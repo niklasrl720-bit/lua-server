@@ -658,6 +658,22 @@
       "lastSeenMs": 1784226300000
     },
     {
+      "userId": "4549877961",
+      "username": "momololbob",
+      "displayName": "Vnucek_portala",
+      "roleKey": "",
+      "gameName": "Блокировщик шахт",
+      "placeId": 7871169780,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:42:50.234Z",
+      "firstSeenMs": 1784230970234,
+      "lastSeen": "2026-07-16T19:42:50.234Z",
+      "lastSeenMs": 1784230970234
+    },
+    {
       "userId": "4711231058",
       "username": "hdjrgfrh1",
       "displayName": "AbuAliMohammadBoom",
@@ -1323,5 +1339,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:42:37.253Z"
+  "updatedAt": "2026-07-16T19:42:55.239Z"
 }
