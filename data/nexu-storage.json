@@ -402,6 +402,22 @@
       "lastSeenMs": 1784226300000
     },
     {
+      "userId": "2831916965",
+      "username": "Teteuscarlito",
+      "displayName": "Perry",
+      "roleKey": "",
+      "gameName": "[FPS] Um Toque",
+      "placeId": 90568084448279,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:03:37.683Z",
+      "firstSeenMs": 1784228617683,
+      "lastSeen": "2026-07-16T19:03:37.683Z",
+      "lastSeenMs": 1784228617683
+    },
+    {
       "userId": "3705405966",
       "username": "TinkofFail",
       "displayName": "SpiderMan",
@@ -935,5 +951,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:01:06.801Z"
+  "updatedAt": "2026-07-16T19:03:42.687Z"
 }
