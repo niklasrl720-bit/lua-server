@@ -66,6 +66,22 @@
       "lastSeenMs": 1784230800000
     },
     {
+      "userId": "10427971366",
+      "username": "DougFavero",
+      "displayName": "DougFavero",
+      "roleKey": "",
+      "gameName": "Mãos VR v3.2 🎙️",
+      "placeId": 4832438542,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:42:32.244Z",
+      "firstSeenMs": 1784230952244,
+      "lastSeen": "2026-07-16T19:42:32.244Z",
+      "lastSeenMs": 1784230952244
+    },
+    {
       "userId": "10668497380",
       "username": "ZIOLESSSBODY",
       "displayName": "TEAM_BACON",
@@ -1307,5 +1323,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:42:26.727Z"
+  "updatedAt": "2026-07-16T19:42:37.253Z"
 }
