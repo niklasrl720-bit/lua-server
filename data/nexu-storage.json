@@ -514,6 +514,22 @@
       "lastSeenMs": 1784228100000
     },
     {
+      "userId": "4388929244",
+      "username": "barbosa2405",
+      "displayName": "barbosa",
+      "roleKey": "",
+      "gameName": "Construir para Sobreviver 🛠️ [TESTE]",
+      "placeId": 7241858214,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:09:30.830Z",
+      "firstSeenMs": 1784228970830,
+      "lastSeen": "2026-07-16T19:09:30.830Z",
+      "lastSeenMs": 1784228970830
+    },
+    {
       "userId": "4393272033",
       "username": "loxkoting",
       "displayName": "Jessica",
@@ -999,5 +1015,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:08:59.068Z"
+  "updatedAt": "2026-07-16T19:09:35.833Z"
 }
