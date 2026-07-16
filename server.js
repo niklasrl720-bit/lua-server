@@ -1,3 +1,4 @@
+// V219: Robuste Zwei-Dateien-Persistenz und strikte Chatmoderation mit Fuzzy-/Vertauschungs-, Obfuskations- und Nachrichtenkontext-Erkennung.
 // V218: Präziser Chatfilter ohne Kettenzensur: Nur echte Fragmente werden nachrichtenübergreifend verbunden; erkannte Einzelverstöße löschen den Kontext sofort.
 // V217: Nachrichtenübergreifende Chatmoderation erkennt getrennte Wörter/Buchstaben, zensiert alleinstehende Beleidigungen und aktualisiert bereits sichtbare Teilnachrichten auf Website und im Lua-Menü.
 // V216: Kontextabhängige mehrsprachige Chatmoderation für Website und Lua; erkannte Beleidigungen, Hassrede, Drohungen und sexuelle Inhalte werden vollständig mit # ersetzt.
@@ -16,6 +17,7 @@
 // V202: Kompakte Spielerkarten, kleinere Aktionsschaltflächen, lesbare Serverinformationen und zuverlässige Rang-Auswahl.
 // V201: Vollständig deutsche Oberfläche, "Dashboard" wird zu "Übersicht", neue linke Serverzentrale mit Live-Metriken, Navigation und Laufzeitprüfung.
 const http = require("node:http");const fs = require("node:fs");const path = require("node:path");const crypto = require("node:crypto");
+const NEXU_IS_MAIN_MODULE = require.main === module;
 // V200: NEXU AURORA-ERLEBNIS — professionelles, responsives Designsystem für Login, Startseite, Accounts und Menu-Server.
 // V200: Cinematic Startsequenz, echte Landingpage-Sektionen, konsistente Oberflächen, Micro-Interactions und Reduced-Motion-Fallback.
 // V148: Neustartfeste, signierte Dashboard-Sitzungen und stabiler Owner-Rundsendungszugriff.
@@ -29,14 +31,16 @@ const http = require("node:http");const fs = require("node:fs");const path = req
 // V163: Eigene Nexu-Bestätigungsdialoge und Toast-Benachrichtigungen statt Browser-Popups.
 // V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 3_200;const GHOST_SYNC_MIN_INTERVAL_MS = 80;const GHOST_MAX_VISIBLE_STATES = 24;const GHOST_HISTORY_LIMIT = 10;const GHOST_HISTORY_WINDOW_MS = 1_900;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(process.cwd(), "data", "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH ||path.join(path.dirname(BAN_FILE_PATH), "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-known-players.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-dashboard-account.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(path.dirname(BAN_FILE_PATH), "nexu-menu-status.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 3_200;const GHOST_SYNC_MIN_INTERVAL_MS = 80;const GHOST_MAX_VISIBLE_STATES = 24;const GHOST_HISTORY_LIMIT = 10;const GHOST_HISTORY_WINDOW_MS = 1_900;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const NEXU_DATA_DIRECTORY = String(process.env.NEXU_DATA_DIRECTORY || path.join(process.cwd(), "data"));const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || process.env.NEXU_STORAGE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-storage.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || process.env.NEXU_ACCOUNTS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-accounts.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-status.json"));
 
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
 const DM_DISPLAY_DEFAULT_SECONDS = 8;
-const CHAT_MODERATION_CONTEXT_WINDOW_MS = 12_000;
-const CHAT_MODERATION_CONTEXT_LIMIT = 8;
+const CHAT_MODERATION_CONTEXT_WINDOW_MS = 60_000;
+const CHAT_MODERATION_CONTEXT_LIMIT = 12;
 const CHAT_MODERATION_UPDATE_LIMIT = 600;
+const PLAYER_PERSISTENCE_GRANULARITY_MS = 5 * 60_000;
+const CHAT_MODERATION_STRICT = String(process.env.CHAT_MODERATION_STRICT || "true").trim().toLowerCase() !== "false";
 
 const GITHUB_DATA_TOKEN = String(process.env.GITHUB_DATA_TOKEN || "").trim();
 const GITHUB_DATA_OWNER = String(process.env.GITHUB_DATA_OWNER || "").trim();
@@ -48,7 +52,8 @@ const GITHUB_STORAGE_API_VERSION = "2022-11-28";
 const GITHUB_STORAGE_USER_AGENT = "Nexu-Presence-Storage/1.0";
 const GITHUB_STORAGE_DEFAULT_DELAY_MS = 12_000;
 const GITHUB_DATA_IS_DEPLOY_BRANCH = /^(main|master)$/i.test(GITHUB_DATA_BRANCH);
-const GITHUB_STORAGE_WRITES_ALLOWED = !GITHUB_DATA_IS_DEPLOY_BRANCH;
+const GITHUB_STORAGE_WRITES_ON_DEPLOY_BRANCH = String(process.env.GITHUB_STORAGE_WRITES_ON_DEPLOY_BRANCH || "true").trim().toLowerCase() !== "false";
+const GITHUB_STORAGE_WRITES_ALLOWED = !GITHUB_DATA_IS_DEPLOY_BRANCH || GITHUB_STORAGE_WRITES_ON_DEPLOY_BRANCH;
 const GITHUB_ACCOUNT_WRITES_ON_DEPLOY_BRANCH = String(process.env.GITHUB_ACCOUNT_WRITES_ON_DEPLOY_BRANCH || "true").trim().toLowerCase() !== "false";
 const GITHUB_ACCOUNTS_WRITES_ALLOWED = !GITHUB_DATA_IS_DEPLOY_BRANCH || GITHUB_ACCOUNT_WRITES_ON_DEPLOY_BRANCH;
 const GITHUB_PLAYER_AUTOSAVE_ENABLED = GITHUB_STORAGE_WRITES_ALLOWED;
@@ -104,6 +109,70 @@ function cleanText(value, maxLength) {return typeof value === "string"? value.tr
 function cleanNumericId(value) {const text = String(value ?? "").trim();return /^\d{1,30}$/.test(text) ? text : "";}
 
 function cleanInteger(value) {const number = Number(value);return Number.isSafeInteger(number) && number >= 0 ? number : 0;}
+
+function readJsonFileWithBackupSync(filePath, label = "JSON-Datei") {
+    const candidates = [filePath, `${filePath}.bak`];
+    let lastError = null;
+    for (const candidate of candidates) {
+        if (!fs.existsSync(candidate)) continue;
+        try {
+            const parsed = JSON.parse(fs.readFileSync(candidate, "utf8"));
+            if (candidate !== filePath) {
+                console.warn(`[NEXU] ${label} aus Sicherung ${path.basename(candidate)} wiederhergestellt.`);
+                if (fs.existsSync(filePath)) {
+                    try {
+                        fs.renameSync(filePath, `${filePath}.corrupt-${Date.now()}`);
+                    } catch {}
+                }
+            }
+            return parsed;
+        } catch (error) {
+            lastError = error;
+            console.warn(`[NEXU] ${label} ist beschädigt (${path.basename(candidate)}):`, error.message);
+        }
+    }
+    if (lastError) throw lastError;
+    return null;
+}
+
+function writeJsonAtomicSync(filePath, payload, options = {}) {
+    const directory = path.dirname(filePath);
+    const mode = Number(options.mode) || 0o600;
+    const createBackup = options.backup !== false;
+    fs.mkdirSync(directory, { recursive: true });
+
+    const tempPath = `${filePath}.${process.pid}.${Date.now()}.${crypto.randomBytes(4).toString("hex")}.tmp`;
+    let descriptor = null;
+    try {
+        descriptor = fs.openSync(tempPath, "w", mode);
+        fs.writeFileSync(descriptor, JSON.stringify(payload, null, 2), "utf8");
+        fs.fsyncSync(descriptor);
+        fs.closeSync(descriptor);
+        descriptor = null;
+
+        if (createBackup && fs.existsSync(filePath)) {
+            fs.copyFileSync(filePath, `${filePath}.bak`);
+            try { fs.chmodSync(`${filePath}.bak`, mode); } catch {}
+        }
+        fs.renameSync(tempPath, filePath);
+        try { fs.chmodSync(filePath, mode); } catch {}
+
+        // Best effort: Auch der Verzeichniseintrag soll einen Absturz überleben.
+        try {
+            const directoryDescriptor = fs.openSync(directory, "r");
+            fs.fsyncSync(directoryDescriptor);
+            fs.closeSync(directoryDescriptor);
+        } catch {}
+        return true;
+    } finally {
+        if (descriptor !== null) {
+            try { fs.closeSync(descriptor); } catch {}
+        }
+        if (fs.existsSync(tempPath)) {
+            try { fs.unlinkSync(tempPath); } catch {}
+        }
+    }
+}
 
 function isGitHubStorageConfigured() {
     return Boolean(
@@ -181,13 +250,26 @@ function serializePersistentKnownPlayer(raw) {
     const userId = cleanNumericId(source.userId);
     if (!userId) return null;
     const firstSeenMs = cleanInteger(source.firstSeenMs) || Date.now();
+    const rawLastSeenMs = Math.max(firstSeenMs, cleanInteger(source.lastSeenMs) || firstSeenMs);
+    const lastSeenMs = Math.max(
+        firstSeenMs,
+        Math.floor(rawLastSeenMs / PLAYER_PERSISTENCE_GRANULARITY_MS) * PLAYER_PERSISTENCE_GRANULARITY_MS
+    );
     return {
         userId,
         username: cleanText(source.username, 40) || `User${userId}`,
         displayName: cleanText(source.displayName, 80) || cleanText(source.username, 40) || `User ${userId}`,
         roleKey: cleanPlayerRoleAssignment(source.roleKey || source.role || source.assignedRole),
+        gameName: cleanText(source.gameName, 120),
+        placeId: cleanInteger(source.placeId),
+        executionSource: cleanText(source.executionSource, 80),
+        executionVersion: cleanText(source.executionVersion, 80),
+        clientPlatform: cleanText(source.clientPlatform, 40),
+        scriptBuild: cleanText(source.scriptBuild, 120),
         firstSeen: cleanText(source.firstSeen, 64) || new Date(firstSeenMs).toISOString(),
         firstSeenMs,
+        lastSeen: new Date(lastSeenMs).toISOString(),
+        lastSeenMs,
     };
 }
 
@@ -280,14 +362,31 @@ function applyGitHubStorageSnapshot(payload) {
         const playerEntry = normalizeKnownPlayer(raw);
         if (!playerEntry) continue;
         const existing = knownPlayers.get(playerEntry.userId);
-        knownPlayers.set(playerEntry.userId, existing ? {
+        if (!existing) {
+            knownPlayers.set(playerEntry.userId, playerEntry);
+            continue;
+        }
+
+        const existingLastSeenMs = cleanInteger(existing.lastSeenMs);
+        const remoteLastSeenMs = cleanInteger(playerEntry.lastSeenMs);
+        const newest = remoteLastSeenMs >= existingLastSeenMs ? playerEntry : existing;
+        const firstSeenMs = Math.min(
+            cleanInteger(existing.firstSeenMs) || Date.now(),
+            cleanInteger(playerEntry.firstSeenMs) || Date.now()
+        );
+        const lastSeenMs = Math.max(firstSeenMs, existingLastSeenMs, remoteLastSeenMs);
+        knownPlayers.set(playerEntry.userId, normalizeKnownPlayer({
             ...existing,
-            username: playerEntry.username || existing.username,
-            displayName: playerEntry.displayName || existing.displayName,
+            ...newest,
+            userId: playerEntry.userId,
+            username: newest.username || existing.username || playerEntry.username,
+            displayName: newest.displayName || existing.displayName || playerEntry.displayName,
             roleKey: playerEntry.roleKey || existing.roleKey || "",
-            firstSeen: existing.firstSeen || playerEntry.firstSeen,
-            firstSeenMs: existing.firstSeenMs || playerEntry.firstSeenMs,
-        } : playerEntry);
+            firstSeen: new Date(firstSeenMs).toISOString(),
+            firstSeenMs,
+            lastSeen: new Date(lastSeenMs).toISOString(),
+            lastSeenMs,
+        }, firstSeenMs));
     }
 
     if (Array.isArray(payload && payload.bans)) {
@@ -1087,25 +1186,32 @@ function getShutdownCommandForClient(userId, sessionId, sessionStartedAtMs = 0) 
 
 function normalizeKnownPlayer(raw, now = Date.now()) {const userId = cleanNumericId(raw && raw.userId);if (!userId) {return null;}const firstSeenMs = cleanInteger(raw && raw.firstSeenMs) || now;const lastSeenMs = cleanInteger(raw && raw.lastSeenMs) || firstSeenMs;const roleKey = cleanPlayerRoleAssignment(raw && (raw.roleKey || raw.role || raw.assignedRole));return {userId,username: cleanText(raw && raw.username, 40) || `User${userId}`,displayName: cleanText(raw && raw.displayName, 80) || cleanText(raw && raw.username, 40) || `User ${userId}`,gameName: cleanText(raw && raw.gameName, 120),placeId: cleanInteger(raw && raw.placeId),jobId: cleanText(raw && raw.jobId, 100),sessionId: cleanText(raw && raw.sessionId, 100),executionSource: cleanText(raw && raw.executionSource, 80),executionVersion: cleanText(raw && raw.executionVersion, 80),clientPlatform: cleanText(raw && raw.clientPlatform, 40),scriptBuild: cleanText(raw && raw.scriptBuild, 120),roleKey,firstSeen: cleanText(raw && raw.firstSeen, 64) || new Date(firstSeenMs).toISOString(),lastSeen: cleanText(raw && raw.lastSeen, 64) || new Date(lastSeenMs).toISOString(),firstSeenMs,lastSeenMs,};}
 
-function buildKnownPlayersDiskPayload() {
+function buildKnownPlayersDiskCore() {
     const players = [...knownPlayers.values()]
         .map(serializePersistentKnownPlayer)
         .filter(Boolean)
         .sort((a, b) => String(a.userId).localeCompare(String(b.userId)));
-    return { version: 2, players };
+    return { version: 3, players };
+}
+
+function buildKnownPlayersDiskPayload() {
+    return {
+        ...buildKnownPlayersDiskCore(),
+        updatedAt: new Date().toISOString(),
+    };
 }
 
 function loadKnownPlayers() {
     try {
-        if (!fs.existsSync(KNOWN_PLAYERS_FILE_PATH)) return;
-        const parsed = JSON.parse(fs.readFileSync(KNOWN_PLAYERS_FILE_PATH, "utf8"));
+        const parsed = readJsonFileWithBackupSync(KNOWN_PLAYERS_FILE_PATH, "Spieler-Speicher");
+        if (!parsed) return;
         const rows = Array.isArray(parsed) ? parsed : parsed.players;
         if (!Array.isArray(rows)) return;
         for (const raw of rows) {
             const entry = normalizeKnownPlayer(raw);
             if (entry) knownPlayers.set(entry.userId, entry);
         }
-        knownPlayersDiskFingerprint = storageFingerprint(buildKnownPlayersDiskPayload());
+        knownPlayersDiskFingerprint = storageFingerprint(buildKnownPlayersDiskCore());
         console.log(`[NEXU] ${knownPlayers.size} gespeicherte Spieler geladen`);
     } catch (error) {
         console.warn("[NEXU] Gespeicherte Spieler konnten nicht geladen werden:", error.message);
@@ -1114,16 +1220,16 @@ function loadKnownPlayers() {
 
 function saveKnownPlayers(syncGitHub = false) {
     try {
-        const payload = buildKnownPlayersDiskPayload();
-        const nextFingerprint = storageFingerprint(payload);
+        const core = buildKnownPlayersDiskCore();
+        const nextFingerprint = storageFingerprint(core);
         if (nextFingerprint === knownPlayersDiskFingerprint) {
             if (syncGitHub) scheduleGitHubStorageSave("players", 5_000);
             return true;
         }
-        fs.mkdirSync(path.dirname(KNOWN_PLAYERS_FILE_PATH), { recursive: true });
-        const tempPath = `${KNOWN_PLAYERS_FILE_PATH}.tmp`;
-        fs.writeFileSync(tempPath, JSON.stringify(payload, null, 2), "utf8");
-        fs.renameSync(tempPath, KNOWN_PLAYERS_FILE_PATH);
+        writeJsonAtomicSync(KNOWN_PLAYERS_FILE_PATH, {
+            ...core,
+            updatedAt: new Date().toISOString(),
+        }, { mode: 0o600, backup: true });
         knownPlayersDiskFingerprint = nextFingerprint;
         if (syncGitHub) scheduleGitHubStorageSave("players", 5_000);
         return true;
@@ -1465,9 +1571,16 @@ function putDashboardAccount(account) {
 function loadDashboardAccount() {
     dashboardAccounts.clear();
     try {
-        if (fs.existsSync(DASHBOARD_ACCOUNT_FILE_PATH)) {
-            const parsed = JSON.parse(fs.readFileSync(DASHBOARD_ACCOUNT_FILE_PATH, "utf8"));
-            const rows = Array.isArray(parsed) ? parsed : Array.isArray(parsed && parsed.accounts) ? parsed.accounts : [];
+        const parsed = readJsonFileWithBackupSync(DASHBOARD_ACCOUNT_FILE_PATH, "Account-Speicher");
+        if (parsed) {
+            const normalizedCore = normalizeDashboardAccountsCore(parsed);
+            const rows = normalizedCore && Array.isArray(normalizedCore.accounts)
+                ? normalizedCore.accounts
+                : Array.isArray(parsed)
+                    ? parsed
+                    : Array.isArray(parsed && parsed.accounts)
+                        ? parsed.accounts
+                        : [];
             if (rows.length > 0) {
                 for (const raw of rows) {
                     putDashboardAccount(raw);
@@ -1549,10 +1662,12 @@ function saveDashboardAccount(syncGitHub = true) {
         const core = buildDashboardAccountsCore();
         const nextFingerprint = storageFingerprint(core);
         if (nextFingerprint !== dashboardAccountsDiskFingerprint) {
-            fs.mkdirSync(path.dirname(DASHBOARD_ACCOUNT_FILE_PATH), { recursive: true });
-            const tempPath = `${DASHBOARD_ACCOUNT_FILE_PATH}.tmp`;
-            fs.writeFileSync(tempPath, JSON.stringify(core, null, 2), "utf8");
-            fs.renameSync(tempPath, DASHBOARD_ACCOUNT_FILE_PATH);
+            const encryptedSnapshot = encryptDashboardAccountsCore(core);
+            writeJsonAtomicSync(
+                DASHBOARD_ACCOUNT_FILE_PATH,
+                encryptedSnapshot,
+                { mode: 0o600, backup: true }
+            );
             dashboardAccountsDiskFingerprint = nextFingerprint;
         }
         if (syncGitHub) scheduleGitHubAccountsSave("account-change", 1_500);
@@ -1707,9 +1822,13 @@ async function loadGitHubAccounts() {
         const remote = await fetchGitHubAccountsFile();
         githubAccountsSha = remote.sha || "";
         let remoteCore = null;
+        let remoteInvalid = false;
         if (remote.exists && remote.payload) {
             remoteCore = applyDashboardAccountsCore(remote.payload);
-            if (!remoteCore) throw new Error("GitHub-Accountdatei enthält keine gültigen Accounts");
+            remoteInvalid = !remoteCore;
+            if (remoteInvalid) {
+                console.warn("[NEXU] GitHub-Accountdatei ist leer oder ungültig; der gültige lokale Account-Speicher wird zur Reparatur vorgemerkt.");
+            }
         }
         githubAccountsReady = true;
         saveDashboardAccount(false);
@@ -1719,6 +1838,8 @@ async function loadGitHubAccounts() {
         console.log(`[NEXU] GitHub-Accountdatei geladen: ${dashboardAccounts.size} Account(s), verschlüsselt.`);
         if (!remote.exists) {
             if (GITHUB_ACCOUNTS_WRITES_ALLOWED) scheduleGitHubAccountsSave("initial-create", 1_000);
+        } else if (remoteInvalid) {
+            if (GITHUB_ACCOUNTS_WRITES_ALLOWED) scheduleGitHubAccountsSave("repair-invalid-remote", 1_000);
         } else if (GITHUB_ACCOUNTS_WRITES_ALLOWED && githubAccountsContentFingerprint !== currentFingerprint) {
             scheduleGitHubAccountsSave("startup-merge", 2_500);
         }
@@ -1889,6 +2010,13 @@ function persistentPlayerSignature(row) {
     return entry ? JSON.stringify(entry) : "";
 }
 
+function persistentPlayerIdentitySignature(row) {
+    const entry = serializePersistentKnownPlayer(row);
+    if (!entry) return "";
+    const { lastSeen, lastSeenMs, ...identity } = entry;
+    return JSON.stringify(identity);
+}
+
 function rememberKnownPlayer(raw, now = Date.now()) {
     const source = raw && typeof raw === "object" ? raw : {};
     const userId = cleanNumericId(source.userId);
@@ -1903,25 +2031,27 @@ function rememberKnownPlayer(raw, now = Date.now()) {
         roleKey: (existing && cleanPlayerRoleAssignment(existing.roleKey || existing.role || existing.assignedRole)) || cleanPlayerRoleAssignment(source.roleKey || source.role || source.assignedRole),
         firstSeen: (existing && existing.firstSeen) || new Date(firstSeenMs).toISOString(),
         firstSeenMs,
-        // Historische Felder werden nur zur Abwärtskompatibilität übernommen,
-        // aber niemals durch einen normalen Heartbeat fortgeschrieben.
-        gameName: existing && existing.gameName,
-        placeId: existing && existing.placeId,
-        jobId: existing && existing.jobId,
-        sessionId: existing && existing.sessionId,
-        executionSource: existing && existing.executionSource,
-        executionVersion: existing && existing.executionVersion,
-        clientPlatform: existing && existing.clientPlatform,
-        scriptBuild: existing && existing.scriptBuild,
-        lastSeen: existing && existing.lastSeen,
-        lastSeenMs: existing && existing.lastSeenMs,
+        gameName: cleanText(source.gameName, 120) || (existing && existing.gameName) || "",
+        placeId: cleanInteger(source.placeId) || cleanInteger(existing && existing.placeId),
+        // Job-/Session-ID bleiben ausschließlich im RAM und werden bewusst
+        // nicht in die möglicherweise öffentliche GitHub-Datei serialisiert.
+        jobId: cleanText(source.jobId, 100) || (existing && existing.jobId) || "",
+        sessionId: cleanText(source.sessionId, 100) || (existing && existing.sessionId) || "",
+        executionSource: cleanText(source.executionSource, 80) || (existing && existing.executionSource) || "",
+        executionVersion: cleanText(source.executionVersion, 80) || (existing && existing.executionVersion) || "",
+        clientPlatform: cleanText(source.clientPlatform, 40) || (existing && existing.clientPlatform) || "",
+        scriptBuild: cleanText(source.scriptBuild, 120) || (existing && existing.scriptBuild) || "",
+        lastSeen: new Date(now).toISOString(),
+        lastSeenMs: now,
     }, firstSeenMs);
     if (!next) return false;
 
     const changed = !existing || persistentPlayerSignature(existing) !== persistentPlayerSignature(next);
-    if (!changed) return false;
     knownPlayers.set(userId, next);
-    return "important";
+    if (!changed) return false;
+    const identityChanged = !existing
+        || persistentPlayerIdentitySignature(existing) !== persistentPlayerIdentitySignature(next);
+    return identityChanged ? "important" : "activity";
 }
 
 function markKnownPlayerOffline(userId, sessionId, now = Date.now(), identity = {}) {
@@ -2577,7 +2707,7 @@ function allowGlobalChatSend(userId) {
 
 
 // -----------------------------------------------------------------------------
-// NEXU CHAT-MODERATION V2
+// NEXU CHAT-MODERATION V3 / SERVER V219
 // Autoritativ für Website und Lua. Zusätzlich zur Einzelanalyse wird pro Nutzer
 // ein kurzer, ausschließlich im RAM liegender Nachrichtenkontext ausgewertet.
 // Dadurch werden über mehrere Nachrichten getrennte Phrasen und buchstabierte
@@ -2644,7 +2774,9 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
     ];
     const strongInsults = [
         "idiot", "idiotin", "vollidiot", "trottel", "depp", "dummkopf", "hurensohn", "huso", "missgeburt", "miststück", "miststueck", "wichser", "spast", "behindert", "bastard", "arschloch", "schlampe", "nutte",
+        "dumm", "dumme", "dummer", "dummes", "doof", "blöd", "bloed", "hässlich", "haesslich", "nutzlos", "wertlos", "erbärmlich", "erbaermlich", "opfer", "versager", "lappen", "lusche", "spinner", "drecksau", "hundesohn", "fotze", "hackfresse", "fresse", "halt die fresse", "halt dein maul", "mongo", "krüppel", "krueppel", "asozialer", "asoziale", "weichei",
         "moron", "imbecile", "dumbass", "asshole", "bitch", "son of a bitch", "motherfucker", "loser", "scumbag", "piece of shit", "retard", "bastard", "slut", "whore",
+        "stupid", "dumb", "fool", "jerk", "jackass", "dipshit", "douchebag", "pathetic", "useless", "ugly", "trash", "garbage", "clown", "creep", "freak", "shut up",
         "imbécil", "imbecil", "idiota", "estúpido", "estupido", "gilipollas", "pendejo", "cabron", "cabrón", "hijo de puta", "puta",
         "connard", "connasse", "salaud", "salope", "abruti", "imbécile", "imbecile", "fils de pute", "pute",
         "stronzo", "coglione", "bastardo", "figlio di puttana", "puttana", "idiota",
@@ -2654,7 +2786,7 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         "غبي", "احمق", "ابن العاهرة", "شرموط", "كلب"
     ];
     const weakProfanity = [
-        "arsch", "scheiße", "scheisse", "kacke", "fuck", "shit", "damn", "crap", "mierda", "merde", "putain", "cazzo", "porra", "caralho", "lanet"
+        "arsch", "scheiße", "scheisse", "scheiss", "kacke", "verpiss dich", "fuck", "fck", "shit", "damn", "crap", "wtf", "bullshit", "piss off", "mierda", "merde", "putain", "cazzo", "porra", "caralho", "lanet"
     ];
     const neutralSexualWords = [
         "sex", "sexy", "nackt", "nackte", "nackter", "nude", "penis", "vagina", "pussy", "dick", "cock", "boobs", "brüste", "brueste", "titten",
@@ -2662,28 +2794,42 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
     ];
 
     const confusables = {
-        "а":"a", "е":"e", "ё":"e", "о":"o", "р":"p", "с":"c", "у":"y", "х":"x", "к":"k", "м":"m", "т":"t", "в":"b", "н":"h",
-        "Α":"a", "Β":"b", "Ε":"e", "Ζ":"z", "Η":"h", "Ι":"i", "Κ":"k", "Μ":"m", "Ν":"n", "Ο":"o", "Ρ":"p", "Τ":"t", "Υ":"y", "Χ":"x"
+        "а":"a", "е":"e", "ё":"e", "о":"o", "р":"p", "с":"c", "у":"y", "х":"x", "к":"k", "м":"m", "т":"t", "в":"b", "н":"h", "і":"i", "ј":"j", "ѕ":"s", "ԁ":"d", "һ":"h", "ӏ":"l",
+        "α":"a", "β":"b", "ε":"e", "ζ":"z", "η":"h", "ι":"i", "κ":"k", "μ":"m", "ν":"n", "ο":"o", "ρ":"p", "τ":"t", "υ":"y", "χ":"x"
     };
-    const leet = {"0":"o", "1":"i", "2":"z", "3":"e", "4":"a", "5":"s", "6":"g", "7":"t", "8":"b", "9":"g", "@":"a", "$":"s", "!":"i", "+":"t", "|":"i"};
+    const leet = {"0":"o", "1":"i", "2":"z", "3":"e", "4":"a", "5":"s", "6":"g", "7":"t", "8":"b", "9":"g", "@":"a", "$":"s", "!":"i", "+":"t", "|":"i", "€":"e", "£":"l", "¥":"y", "§":"s", "×":"x"};
+
+    const normalizedTermCache = new Map();
+
+    function collapseRepeated(value) {
+        return String(value || "").replace(/(.)\1+/gu, "$1");
+    }
 
     function normalize(value) {
         const original = cleanText(value, CHAT_MAX_LENGTH);
-        let text = original.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        let text = original
+            .replace(/[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u202a-\u202e\u2060\ufeff]/gu, "")
+            .normalize("NFKD")
+            .replace(/[\u0300-\u036f]/gu, "")
+            .toLowerCase();
         text = Array.from(text).map((character) => confusables[character] || leet[character] || character).join("");
-        text = text.replace(/(.)\1{2,}/g, "$1$1");
-        text = text.replace(/[^a-z0-9\u00c0-\u024f\u0400-\u04ff\u0600-\u06ff]+/g, " ").replace(/\s+/g, " ").trim();
+        text = text.replace(/(.)\1{2,}/gu, "$1$1");
+        text = text
+            .replace(/[^a-z0-9\u00c0-\u024f\u0400-\u04ff\u0600-\u06ff]+/gu, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+
         const rawTokens = text ? text.split(" ") : [];
         const tokens = [];
         for (let index = 0; index < rawTokens.length; index += 1) {
             if (rawTokens[index].length === 1) {
                 let end = index;
                 let joined = "";
-                while (end < rawTokens.length && rawTokens[end].length === 1 && joined.length < 40) {
+                while (end < rawTokens.length && rawTokens[end].length === 1 && joined.length < 48) {
                     joined += rawTokens[end];
                     end += 1;
                 }
-                if (end - index >= 3) {
+                if (end - index >= 2) {
                     tokens.push(joined);
                     index = end - 1;
                     continue;
@@ -2691,32 +2837,146 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
             }
             tokens.push(rawTokens[index]);
         }
-        const variants = new Set(tokens);
-        for (const token of tokens) variants.add(token.replace(/(.)\1+/g, "$1"));
-        if (
-            tokens.length >= 2 &&
-            tokens.length <= 4 &&
-            tokens.every((token) => token.length <= 4) &&
-            tokens.reduce((total, token) => total + token.length, 0) <= 16
-        ) {
-            variants.add(tokens.join(""));
-        }
+
         const spaced = tokens.join(" ");
-        return { original, spaced, padded: ` ${spaced} `, tokens, variants };
+        const compact = tokens.join("");
+        const collapsedCompact = collapseRepeated(compact);
+        const variants = new Set();
+        const candidates = new Set();
+        const addCandidate = (rawCandidate) => {
+            const candidate = collapseRepeated(rawCandidate);
+            if (!candidate || candidate.length > 40 || candidates.size >= 240) return;
+            candidates.add(candidate);
+
+            // Häufige Umgehung: Zwischen jeden echten Buchstaben wird ein
+            // Füllzeichen gesetzt (i-x-d-x-i-x-o-x-t). Gerade/ungerade sowie
+            // periodische Teilfolgen machen auch diese Schreibweise prüfbar.
+            if (/^[a-z0-9]+$/.test(candidate) && candidate.length >= 7 && candidate.length <= 32) {
+                for (let stride = 2; stride <= 3; stride += 1) {
+                    for (let offset = 0; offset < stride; offset += 1) {
+                        let sequence = "";
+                        for (let index = offset; index < candidate.length; index += stride) {
+                            sequence += candidate[index];
+                        }
+                        if (sequence.length >= 4) candidates.add(collapseRepeated(sequence));
+                    }
+                }
+
+                const counts = new Map();
+                for (const character of candidate) counts.set(character, (counts.get(character) || 0) + 1);
+                let removals = 0;
+                for (const [character, count] of counts) {
+                    if (count < 2 || removals >= 4) continue;
+                    const withoutFiller = candidate.split(character).join("");
+                    if (withoutFiller.length >= 4) candidates.add(collapseRepeated(withoutFiller));
+                    removals += 1;
+                }
+            }
+        };
+        for (let start = 0; start < tokens.length; start += 1) {
+            let joined = "";
+            for (let width = 1; width <= 4 && start + width <= tokens.length; width += 1) {
+                joined += tokens[start + width - 1];
+                if (joined.length > 40) break;
+                addCandidate(joined);
+                if (width === 1) {
+                    variants.add(joined);
+                    variants.add(collapseRepeated(joined));
+                }
+            }
+        }
+        if (compact && compact.length <= 48) {
+            addCandidate(compact);
+            addCandidate(collapsedCompact);
+        }
+        for (const candidate of candidates) variants.add(candidate);
+        return {
+            original,
+            spaced,
+            padded: ` ${spaced} `,
+            compact,
+            collapsedCompact,
+            tokens,
+            variants,
+            candidates,
+        };
     }
 
     function normalizeTerm(value) {
-        return normalize(value).spaced;
+        const cacheKey = String(value || "");
+        if (!normalizedTermCache.has(cacheKey)) {
+            normalizedTermCache.set(cacheKey, normalize(cacheKey));
+        }
+        return normalizedTermCache.get(cacheKey);
+    }
+
+    function damerauLevenshteinWithin(leftValue, rightValue, maximumDistance) {
+        const left = Array.from(String(leftValue || ""));
+        const right = Array.from(String(rightValue || ""));
+        const maximum = Math.max(0, Number(maximumDistance) || 0);
+        if (Math.abs(left.length - right.length) > maximum) return false;
+        if (left.join("") === right.join("")) return true;
+
+        const matrix = Array.from({ length: left.length + 1 }, () => new Array(right.length + 1).fill(0));
+        for (let row = 0; row <= left.length; row += 1) matrix[row][0] = row;
+        for (let column = 0; column <= right.length; column += 1) matrix[0][column] = column;
+
+        for (let row = 1; row <= left.length; row += 1) {
+            let rowMinimum = maximum + 1;
+            for (let column = 1; column <= right.length; column += 1) {
+                const substitution = left[row - 1] === right[column - 1] ? 0 : 1;
+                let distance = Math.min(
+                    matrix[row - 1][column] + 1,
+                    matrix[row][column - 1] + 1,
+                    matrix[row - 1][column - 1] + substitution
+                );
+                if (
+                    row > 1 && column > 1 &&
+                    left[row - 1] === right[column - 2] &&
+                    left[row - 2] === right[column - 1]
+                ) {
+                    distance = Math.min(distance, matrix[row - 2][column - 2] + 1);
+                }
+                matrix[row][column] = distance;
+                rowMinimum = Math.min(rowMinimum, distance);
+            }
+            if (rowMinimum > maximum && row > right.length + maximum) return false;
+        }
+        return matrix[left.length][right.length] <= maximum;
+    }
+
+    function sortedLetterSignature(value) {
+        return Array.from(String(value || "")).sort().join("");
+    }
+
+    function fuzzyMatches(candidateValue, termValue) {
+        const candidate = collapseRepeated(candidateValue);
+        const term = collapseRepeated(termValue);
+        if (!candidate || !term) return false;
+        if (candidate === term) return true;
+        if (term.length >= 5 && candidate.includes(term)) return true;
+        if (candidate.length < 4 || term.length < 4) return false;
+
+        const maximumDistance = term.length >= 12 ? 2 : 1;
+        if (Math.abs(candidate.length - term.length) <= maximumDistance &&
+            damerauLevenshteinWithin(candidate, term, maximumDistance)) {
+            return true;
+        }
+        return term.length >= 5 && candidate.length === term.length &&
+            sortedLetterSignature(candidate) === sortedLetterSignature(term);
     }
 
     function containsTerm(data, value) {
-        const term = normalizeTerm(value);
-        if (!term) return false;
-        if (term.includes(" ")) {
-            const compactTerm = term.replace(/\s+/g, "");
-            return data.padded.includes(` ${term} `) || data.variants.has(compactTerm);
+        const termData = normalizeTerm(value);
+        const term = termData.spaced;
+        const compactTerm = termData.collapsedCompact;
+        if (!term || !compactTerm) return false;
+        if (data.padded.includes(` ${term} `)) return true;
+        if (data.variants.has(compactTerm)) return true;
+        for (const candidate of data.candidates) {
+            if (fuzzyMatches(candidate, compactTerm)) return true;
         }
-        return data.variants.has(term) || data.variants.has(term.replace(/(.)\1+/g, "$1"));
+        return false;
     }
 
     function countTerms(data, terms, stopAt = 3) {
@@ -2776,16 +3036,19 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
 
         const tokenCount = data.tokens.length;
 
-        // Eindeutige Beleidigungen wie „Bastard“ werden auch ohne Zielperson
-        // blockiert. Schwächere Flüche werden alleinstehend oder in einem klar
-        // feindseligen Satz blockiert, aber nicht automatisch in sachlichen Sätzen.
-        if (!reporting && strong.count > 0) return result(data, "BELEIDIGUNG", 90);
+        // Strenger Modus: Ein erkannter Ausdruck wird unabhängig von Zielperson,
+        // Zitat-/Meldekontext oder Satzbau zensiert. Damit kann ein Nutzer eine
+        // Beleidigung nicht durch „ich meine niemanden“ oder ein vorgeschobenes
+        // Zitat freischalten.
+        if ((CHAT_MODERATION_STRICT || !reporting) && strong.count > 0) {
+            return result(data, "BELEIDIGUNG", 95);
+        }
         if (
-            !reporting &&
+            (CHAT_MODERATION_STRICT || !reporting) &&
             weak.count > 0 &&
-            (tokenCount <= 2 || (targeted && hostileSentence))
+            (CHAT_MODERATION_STRICT || tokenCount <= 2 || (targeted && hostileSentence))
         ) {
-            return result(data, "BELEIDIGUNG", 75);
+            return result(data, "BELEIDIGUNG", CHAT_MODERATION_STRICT ? 92 : 75);
         }
 
         // Neutrale Wörter wie „Sex“, „Penis“ oder „sexual“ sind allein noch kein
@@ -2793,9 +3056,9 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         // oder eine deutlich explizite Häufung. Explizite Phrasen wurden oben
         // bereits unabhängig davon vollständig blockiert.
         if (
-            !reporting &&
+            (CHAT_MODERATION_STRICT || !reporting) &&
             sexual.count > 0 &&
-            (solicitation || (targeted && sexual.count >= 1) || sexual.count >= 2)
+            (CHAT_MODERATION_STRICT || solicitation || (targeted && sexual.count >= 1) || sexual.count >= 2)
         ) {
             return result(data, "SEXUELL", 80);
         }
@@ -2891,17 +3154,16 @@ function isChatModerationFragment(original, normalized) {
     if (!cleanOriginal || !cleanNormalized) return false;
 
     const tokens = cleanNormalized.split(/\s+/).filter(Boolean);
-    if (tokens.length < 1 || tokens.length > 2) return false;
+    if (tokens.length < 1 || tokens.length > 4) return false;
     const compact = tokens.join("");
-    if (compact.length < 1 || compact.length > 8) return false;
+    if (compact.length < 1 || compact.length > 32) return false;
 
-    // Vollständige Sätze, URLs, Zahlenfolgen und längere normale Wörter dürfen
-    // niemals im Buchstabierpuffer landen. Erlaubt sind nur sehr kurze Teile wie
-    // „f“, „u“, „ck“, „bas“ oder „tard“.
-    if (/[.!?;:,/\\]/.test(cleanOriginal)) return false;
+    // URLs und reine Zahlenfolgen gehören nie in den Sprachkontext. Satzzeichen
+    // werden dagegen absichtlich erlaubt, weil sie häufig zur Umgehung zwischen
+    // Buchstaben oder Wortteilen eingesetzt werden.
+    if (/https?:\/\/|www\.|\.[a-z]{2,}(?:\/|$)/i.test(cleanOriginal)) return false;
     if (/^\d+$/.test(compact)) return false;
-    if (tokens.length === 1) return compact.length <= 4;
-    return tokens.every((token) => token.length <= 3) && compact.length <= 6;
+    return true;
 }
 
 function analyzeChatMessageWithContext(userId, message, messageId, now = Date.now()) {
@@ -2916,7 +3178,8 @@ function analyzeChatMessageWithContext(userId, message, messageId, now = Date.no
         return { ...standalone, affectedIds: [messageId] };
     }
 
-    const normalized = NEXU_CHAT_MODERATION_V2.normalize(message).spaced;
+    const normalizedData = NEXU_CHAT_MODERATION_V2.normalize(message);
+    const normalized = normalizedData.spaced;
     if (!key || !isChatModerationFragment(message, normalized)) {
         if (key) chatModerationContexts.delete(key);
         return { ...standalone, affectedIds: [] };
@@ -2927,6 +3190,7 @@ function analyzeChatMessageWithContext(userId, message, messageId, now = Date.no
         id: messageId,
         original: cleanText(message, CHAT_MAX_LENGTH),
         normalized,
+        compact: normalizedData.collapsedCompact,
         sentAtMs: now,
     };
     const sequence = context.messages.concat([nextEntry]).slice(-CHAT_MODERATION_CONTEXT_LIMIT);
@@ -2939,7 +3203,7 @@ function analyzeChatMessageWithContext(userId, message, messageId, now = Date.no
 
         let timingValid = true;
         for (let index = 1; index < suffix.length; index += 1) {
-            if (Number(suffix[index].sentAtMs || 0) - Number(suffix[index - 1].sentAtMs || 0) > 4_500) {
+            if (Number(suffix[index].sentAtMs || 0) - Number(suffix[index - 1].sentAtMs || 0) > 15_000) {
                 timingValid = false;
                 break;
             }
@@ -2947,12 +3211,19 @@ function analyzeChatMessageWithContext(userId, message, messageId, now = Date.no
         if (!timingValid) continue;
         if (!suffix.every((entry) => isChatModerationFragment(entry.original, entry.normalized))) continue;
 
-        const compact = suffix
-            .map((entry) => String(entry.normalized || "").replace(/\s+/g, ""))
+        const spacedSequence = suffix
+            .map((entry) => String(entry.normalized || "").trim())
+            .filter(Boolean)
+            .join(" ");
+        const compactSequence = suffix
+            .map((entry) => String(entry.compact || entry.normalized || "").replace(/\s+/g, ""))
             .join("");
-        if (compact.length < 3 || compact.length > 24) continue;
+        if (compactSequence.length < 3 || compactSequence.length > 72) continue;
 
-        const compactResult = moderateNexuChatMessage(compact);
+        const spacedResult = moderateNexuChatMessage(spacedSequence);
+        const compactResult = spacedResult.moderated === true
+            ? spacedResult
+            : moderateNexuChatMessage(compactSequence);
         if (compactResult.moderated === true) {
             sequenceModeration = compactResult;
             affectedIds = suffix.map((entry) => entry.id);
@@ -3279,7 +3550,9 @@ async function resolveRobloxUserIdentity(userId) {
     username = username || `User${id}`;
     displayName = displayName || username || `User ${id}`;
     robloxIdentityCache.set(id, { username, displayName, cachedAtMs:now });
-    rememberKnownPlayer({ userId:id, username, displayName }, now);
+    if (rememberKnownPlayer({ userId:id, username, displayName }, now)) {
+        saveKnownPlayers(true);
+    }
     return { userId:id, username, displayName };
 }
 
@@ -3305,7 +3578,9 @@ async function verifyDashboardRobloxIdentity(userId) {
         if (!username) return null;
         const now = Date.now();
         robloxIdentityCache.set(id, { username, displayName, cachedAtMs:now });
-        rememberKnownPlayer({ userId:id, username, displayName }, now);
+        if (rememberKnownPlayer({ userId:id, username, displayName }, now)) {
+            saveKnownPlayers(true);
+        }
         fetchAvatarUrls([id]).catch(() => {});
         return { userId:id, username, displayName };
     } catch (error) {
@@ -6868,7 +7143,7 @@ function buildNexuOverviewRuntimeSnapshot() {
     const cpu = process.cpuUsage();
     return {
         success: true,
-        version: "V207",
+        version: "V219",
         serviceName: cleanText(process.env.RENDER_SERVICE_NAME || "Nexu Server", 100) || "Nexu Server",
         instanceId: SERVER_INSTANCE_ID,
         startedAtMs: SERVER_STARTED_AT_MS,
@@ -10376,8 +10651,12 @@ homeHtml = function(notice = "", error = "", account = null, options = {}) {
 };
 
 
-loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();loadMenuAvailabilityState();
-const githubStorageStartupPromise = Promise.all([loadGitHubStorage(), loadGitHubAccounts()]).then(() => { refreshDashboardAccountRobloxIdentities().catch((error) => console.warn("[NEXU] Roblox-Verknüpfungen konnten nicht vollständig aktualisiert werden:", error.message)); syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler und Accounts geladen; Roblox-Verknüpfungen werden aktualisiert; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); });
+if (NEXU_IS_MAIN_MODULE) {
+    loadBans();loadKnownPlayers();loadDashboardAccount();loadRememberedDashboardDevices();loadMenuUpdateState();loadMenuAvailabilityState();
+}
+const githubStorageStartupPromise = NEXU_IS_MAIN_MODULE
+    ? Promise.all([loadGitHubStorage(), loadGitHubAccounts()]).then(() => { refreshDashboardAccountRobloxIdentities().catch((error) => console.warn("[NEXU] Roblox-Verknüpfungen konnten nicht vollständig aktualisiert werden:", error.message)); syncPresenceRevision(); console.log("[NEXU] Gespeicherte Spieler und Accounts geladen; Roblox-Verknüpfungen werden aktualisiert; Online-Status wartet auf echte Heartbeats"); }).catch((error) => { syncPresenceRevision(); console.warn("[NEXU] GitHub-Startspeicher fehlgeschlagen:", error.message); })
+    : Promise.resolve();
 
 
 /* --------------------------------------------------------------------------
@@ -11213,6 +11492,7 @@ if (
         success: true,
         online: true,
         service: "Nexu Presence & Moderation",
+        version: "V219",
         activePlayers: countActivePresenceUsers(),
         activeSessions: presence.size,
         bannedPlayers: bans.size,
@@ -11884,8 +12164,11 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
             const playerChange = rememberKnownPlayer(entry, now);
             if (playerChange) {
                 knownPlayersChanged = true;
-                if (playerChange === "important" && GITHUB_PLAYER_AUTOSAVE_ENABLED) {
-                    scheduleGitHubStorageSave("player-identity", 30_000);
+                if (GITHUB_PLAYER_AUTOSAVE_ENABLED) {
+                    scheduleGitHubStorageSave(
+                        playerChange === "important" ? "player-identity" : "player-activity",
+                        playerChange === "important" ? 5_000 : 60_000
+                    );
                 }
             }
         }
@@ -12245,7 +12528,9 @@ if (req.method === "POST" && pathname === "/api/dm/broadcast") {
     }
     try {
         const body = await readJsonBody(req);
-        const message = cleanText(body.message, DM_MAX_LENGTH);
+        const rawMessage = cleanText(body.message, DM_MAX_LENGTH);
+        const messageModeration = moderateNexuChatMessage(rawMessage);
+        const message = cleanText(messageModeration.message, DM_MAX_LENGTH);
         const displaySeconds = normalizeDirectMessageDisplaySeconds(body.displaySeconds, null);
         if (!message) {
             sendJson(res, 400, {success:false, error:"Nachricht fehlt"});
@@ -12280,7 +12565,7 @@ if (req.method === "POST" && pathname === "/api/dm/broadcast") {
             const directMessage = queueDirectMessage(userId, message, "NEXU", displaySeconds);
             queued.push({userId, id:directMessage.id});
         }
-        console.log(`[NEXU] RUNDSENDUNG an ${queued.length} aktive Spieler (${displaySeconds}s): ${message.slice(0, 60)}`);
+        console.log(`[NEXU] RUNDSENDUNG an ${queued.length} aktive Spieler (${displaySeconds}s): ${messageModeration.moderated ? `[ZENSIERT:${messageModeration.category || "INHALT"}]` : message.slice(0, 60)}`);
         sendJson(res, 200, {
             success:true,
             queued:true,
@@ -12314,7 +12599,9 @@ if (req.method === "POST" && pathname === "/api/dm/send") {
     try {
         const body = await readJsonBody(req);
         const userId = cleanNumericId(body.userId);
-        const message = cleanText(body.message, DM_MAX_LENGTH);
+        const rawMessage = cleanText(body.message, DM_MAX_LENGTH);
+        const messageModeration = moderateNexuChatMessage(rawMessage);
+        const message = cleanText(messageModeration.message, DM_MAX_LENGTH);
 
         if (!userId) {
             sendJson(res, 400, {
@@ -12350,7 +12637,7 @@ if (req.method === "POST" && pathname === "/api/dm/send") {
         }
 
         const directMessage = queueDirectMessage(userId, message, "NEXU");
-        console.log(`[NEXU] DM an ${userId}: ${message.slice(0, 60)}`);
+        console.log(`[NEXU] DM an ${userId}: ${messageModeration.moderated ? `[ZENSIERT:${messageModeration.category || "INHALT"}]` : message.slice(0, 60)}`);
 
         sendJson(res, 200, {
             success: true,
@@ -12644,9 +12931,11 @@ sendJson(res, 404, {
 
 });
 
-ensureGlobalChatDay();
-scheduleGlobalChatMidnightReset();
-setInterval(() => {prunePresence();pruneDirectMessages();pruneGlobalChat();pruneSharedGhostStates();pruneDashboardAuth();pruneShutdownCommands();}, 20_000).unref();
+if (NEXU_IS_MAIN_MODULE) {
+    ensureGlobalChatDay();
+    scheduleGlobalChatMidnightReset();
+    setInterval(() => {prunePresence();pruneDirectMessages();pruneGlobalChat();pruneSharedGhostStates();pruneDashboardAuth();pruneShutdownCommands();}, 20_000).unref();
+}
 
 async function flushGitHubStorageBeforeExit() {
     const pending = [];
@@ -12674,11 +12963,12 @@ async function startNexuServer() {
 
     server.listen(PORT, "0.0.0.0", () => {
         console.log("========================================");
-        console.log("NEXU PRESENCE & MODERATION V214 GESTARTET");
+        console.log("NEXU PRESENCE, STORAGE & MODERATION V219 GESTARTET");
         console.log("Port:", PORT);
         console.log("Heartbeat-Schutz:", HEARTBEAT_TOKEN ? "AKTIV" : "AUS (Kompatibilitätsmodus)");
         console.log("Ban-Datei:", BAN_FILE_PATH);
         console.log("Spieler-Speicher:", KNOWN_PLAYERS_FILE_PATH);
+        console.log("Account-Speicher:", DASHBOARD_ACCOUNT_FILE_PATH);
         console.log("GitHub-Speicher:", isGitHubStorageConfigured() ? "AKTIV" : "NICHT KONFIGURIERT");
         console.log("GitHub-Datendatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_DATA_PATH}`);
         console.log("GitHub-Accountdatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_ACCOUNTS_PATH}`);
@@ -12697,21 +12987,30 @@ async function startNexuServer() {
         console.log("Skript-Aktualisierung-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
         console.log("Skript-Aktualisierung:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SKRIPTE AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V164 SEPARATE VERSCHLÜSSELTE GITHUB-DATEI // CHANGE-ONLY");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Ingame-Moderation: V172 AKTIVE CREATOR-SESSION + BAN/UNBAN");console.log("Rang-Banner-Sync: V168 LIVE SNAPSHOT INVALIDATION + INGAME COLOR REFRESH");console.log("Rang-Auswahl: V167 SUCHBARES DROPDOWN AM AKTUELLEN RANG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: NUR NEUE/GEÄNDERTE IDENTITÄTEN // KEINE HEARTBEAT-SPEICHERUNG");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV AUF DATEN-BRANCH" : "GESPERRT AUF DEPLOY-BRANCH");
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SKRIPTE AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V219 LOKAL + GITHUB // AES-256-GCM // ATOMAR");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Ingame-Moderation: V172 AKTIVE CREATOR-SESSION + BAN/UNBAN");console.log("Rang-Banner-Sync: V168 LIVE SNAPSHOT INVALIDATION + INGAME COLOR REFRESH");console.log("Rang-Auswahl: V167 SUCHBARES DROPDOWN AM AKTUELLEN RANG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: V219 SPIELER-METADATEN + 5-MINUTEN-DEDUPE + BACKUP");console.log("Chat-Zensur:", CHAT_MODERATION_STRICT ? "V219 MAXIMAL STRENG" : "V219 KONTEXTMODUS");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? `AKTIV AUF ${GITHUB_DATA_BRANCH}` : `GESPERRT AUF ${GITHUB_DATA_BRANCH}`);
         console.log("========================================");
     });
 }
 
-startNexuServer().catch((error) => {
-    console.error("[NEXU] Serverstart fehlgeschlagen:", error);
-    process.exitCode = 1;
-});
-
-for (const signal of ["SIGINT", "SIGTERM"]) {
-    process.once(signal, () => {
-        Promise.race([
-            flushGitHubStorageBeforeExit(),
-            new Promise((resolve) => setTimeout(resolve, 4_000)),
-        ]).finally(() => process.exit(0));
+if (NEXU_IS_MAIN_MODULE) {
+    startNexuServer().catch((error) => {
+        console.error("[NEXU] Serverstart fehlgeschlagen:", error);
+        process.exitCode = 1;
     });
+
+    for (const signal of ["SIGINT", "SIGTERM"]) {
+        process.once(signal, () => {
+            Promise.race([
+                flushGitHubStorageBeforeExit(),
+                new Promise((resolve) => setTimeout(resolve, 4_000)),
+            ]).finally(() => process.exit(0));
+        });
+    }
 }
+
+module.exports = {
+    moderateNexuChatMessage,
+    analyzeChatMessageWithContext,
+    buildKnownPlayersDiskCore,
+    normalizeGitHubStorageCore,
+};
