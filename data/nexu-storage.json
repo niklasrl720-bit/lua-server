@@ -386,6 +386,22 @@
       "lastSeenMs": 1784226000000
     },
     {
+      "userId": "11290663241",
+      "username": "norna10000",
+      "displayName": "norna10000",
+      "roleKey": "",
+      "gameName": "Steal a Brainrot [New Players Servers]",
+      "placeId": 96342491571673,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T20:52:22.477Z",
+      "firstSeenMs": 1784235142477,
+      "lastSeen": "2026-07-16T20:52:22.477Z",
+      "lastSeenMs": 1784235142477
+    },
+    {
       "userId": "11290702208",
       "username": "Flasche7200",
       "displayName": "Flasche7200",
@@ -646,16 +662,16 @@
       "username": "IronChase33",
       "displayName": "saturogojo",
       "roleKey": "",
-      "gameName": "Regretevator [ ELEVATOR SIMULATOR ]",
-      "placeId": 4972273297,
+      "gameName": "Place 117596343548805",
+      "placeId": 117596343548805,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:05:19.977Z",
       "firstSeenMs": 1784228719977,
-      "lastSeen": "2026-07-16T19:10:00.000Z",
-      "lastSeenMs": 1784229000000
+      "lastSeen": "2026-07-16T20:50:00.000Z",
+      "lastSeenMs": 1784235000000
     },
     {
       "userId": "2821234045",
@@ -1641,5 +1657,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:52:14.013Z"
+  "updatedAt": "2026-07-16T20:52:27.481Z"
 }
