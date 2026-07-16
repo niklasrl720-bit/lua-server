@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "players": [
     {
       "userId": "10199760908",
@@ -578,5 +578,11 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:40:53.963Z"
+  "chat": {
+    "dayKey": "2026-07-16",
+    "resetRevision": 0,
+    "resetAtMs": 1784227288358,
+    "messages": []
+  },
+  "updatedAt": "2026-07-16T18:41:33.767Z"
 }
