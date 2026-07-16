@@ -78,8 +78,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-16T23:30:00.000Z",
-      "lastSeenMs": 1784244600000
+      "lastSeen": "2026-07-16T23:35:00.000Z",
+      "lastSeenMs": 1784244900000
     },
     {
       "userId": "1023658413",
@@ -272,22 +272,6 @@
       "firstSeenMs": 1784240539288,
       "lastSeen": "2026-07-16T22:22:19.288Z",
       "lastSeenMs": 1784240539288
-    },
-    {
-      "userId": "10984741887",
-      "username": "Robloxianq7x0m9u7w",
-      "displayName": "Pookie",
-      "roleKey": "",
-      "gameName": "Morocco Vibes 🔊 [UPD]",
-      "placeId": 93621178242599,
-      "executionSource": "Xeno",
-      "executionVersion": "v1.3.55",
-      "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-16T23:35:56.603Z",
-      "firstSeenMs": 1784244956603,
-      "lastSeen": "2026-07-16T23:35:56.603Z",
-      "lastSeenMs": 1784244956603
     },
     {
       "userId": "11031356766",
@@ -1390,8 +1374,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-16T23:30:00.000Z",
-      "lastSeenMs": 1784244600000
+      "lastSeen": "2026-07-16T23:35:00.000Z",
+      "lastSeenMs": 1784244900000
     },
     {
       "userId": "5005775489",
@@ -2319,5 +2303,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:36:01.606Z"
+  "updatedAt": "2026-07-16T23:36:07.316Z"
 }
