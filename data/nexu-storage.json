@@ -274,6 +274,22 @@
       "lastSeenMs": 1784240539288
     },
     {
+      "userId": "10984741887",
+      "username": "Robloxianq7x0m9u7w",
+      "displayName": "Pookie",
+      "roleKey": "",
+      "gameName": "Morocco Vibes 🔊 [UPD]",
+      "placeId": 93621178242599,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:36:13.284Z",
+      "firstSeenMs": 1784244973284,
+      "lastSeen": "2026-07-16T23:36:13.284Z",
+      "lastSeenMs": 1784244973284
+    },
+    {
       "userId": "11031356766",
       "username": "gagamaru_rogi",
       "displayName": "gagamaru_rogi",
@@ -1394,6 +1410,22 @@
       "lastSeenMs": 1784230500000
     },
     {
+      "userId": "5047269433",
+      "username": "Death_Stroky",
+      "displayName": "Death_Stroky",
+      "roleKey": "",
+      "gameName": "Uma placa de base social 💬",
+      "placeId": 107040115024757,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:36:16.792Z",
+      "firstSeenMs": 1784244976792,
+      "lastSeen": "2026-07-16T23:36:16.792Z",
+      "lastSeenMs": 1784244976792
+    },
+    {
       "userId": "5067029649",
       "username": "fer_tra33",
       "displayName": "fer_tra33",
@@ -2303,5 +2335,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:36:07.316Z"
+  "updatedAt": "2026-07-16T23:36:18.287Z"
 }
