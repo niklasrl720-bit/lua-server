@@ -62,8 +62,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:43:26.364Z",
       "firstSeenMs": 1784238206364,
-      "lastSeen": "2026-07-16T21:43:26.364Z",
-      "lastSeenMs": 1784238206364
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "10259668015",
@@ -334,8 +334,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:38:00.358Z",
       "firstSeenMs": 1784234280358,
-      "lastSeen": "2026-07-16T21:40:00.000Z",
-      "lastSeenMs": 1784238000000
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "11247318857",
@@ -446,8 +446,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:19:27.977Z",
       "firstSeenMs": 1784236767977,
-      "lastSeen": "2026-07-16T21:40:00.000Z",
-      "lastSeenMs": 1784238000000
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "11280130975",
@@ -526,8 +526,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:53:21.242Z",
       "firstSeenMs": 1784235201242,
-      "lastSeen": "2026-07-16T21:40:00.000Z",
-      "lastSeenMs": 1784238000000
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "11292693920",
@@ -550,16 +550,16 @@
       "username": "epicman1234451",
       "displayName": "epicman1234451",
       "roleKey": "",
-      "gameName": "INSANE Troll Slap Tower 😈",
-      "placeId": 110470672231288,
+      "gameName": "Seeker vs Hider",
+      "placeId": 18336470541,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-16T21:40:00.000Z",
-      "lastSeenMs": 1784238000000
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "11293835762",
@@ -782,8 +782,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:05:19.977Z",
       "firstSeenMs": 1784228719977,
-      "lastSeen": "2026-07-16T21:40:00.000Z",
-      "lastSeenMs": 1784238000000
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "2821234045",
@@ -990,8 +990,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.309Z",
       "firstSeenMs": 1784225112309,
-      "lastSeen": "2026-07-16T18:25:00.000Z",
-      "lastSeenMs": 1784226300000
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "4549877961",
@@ -1350,16 +1350,16 @@
       "username": "ImTheBestAtMath123",
       "displayName": "Hello",
       "roleKey": "",
-      "gameName": "INSANE Troll Slap Tower 😈",
-      "placeId": 110470672231288,
+      "gameName": "Seeker vs Hider",
+      "placeId": 18336470541,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-16T21:40:00.000Z",
-      "lastSeenMs": 1784238000000
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "8999363560",
@@ -1406,8 +1406,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T21:40:00.000Z",
-      "lastSeenMs": 1784238000000
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "9232921015",
@@ -1454,8 +1454,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-16T21:40:00.000Z",
-      "lastSeenMs": 1784238000000
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "9405689037",
@@ -1957,5 +1957,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:43:31.368Z"
+  "updatedAt": "2026-07-16T21:45:48.245Z"
 }
