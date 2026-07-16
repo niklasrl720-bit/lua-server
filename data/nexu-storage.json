@@ -62,8 +62,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T20:15:00.000Z",
-      "lastSeenMs": 1784232900000
+      "lastSeen": "2026-07-16T20:20:00.000Z",
+      "lastSeenMs": 1784233200000
     },
     {
       "userId": "10427971366",
@@ -110,8 +110,24 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-16T20:15:00.000Z",
-      "lastSeenMs": 1784232900000
+      "lastSeen": "2026-07-16T20:20:00.000Z",
+      "lastSeenMs": 1784233200000
+    },
+    {
+      "userId": "10825283505",
+      "username": "wos404767",
+      "displayName": "wos404767",
+      "roleKey": "",
+      "gameName": "[Salto de Parede] Torre de Troll de Banksy",
+      "placeId": 104647821569857,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T20:21:14.515Z",
+      "firstSeenMs": 1784233274515,
+      "lastSeen": "2026-07-16T20:21:14.515Z",
+      "lastSeenMs": 1784233274515
     },
     {
       "userId": "11031356766",
@@ -350,8 +366,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:35:00.281Z",
       "firstSeenMs": 1784230500281,
-      "lastSeen": "2026-07-16T20:15:00.000Z",
-      "lastSeenMs": 1784232900000
+      "lastSeen": "2026-07-16T20:20:00.000Z",
+      "lastSeenMs": 1784233200000
     },
     {
       "userId": "11292693920",
@@ -382,8 +398,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-16T20:15:00.000Z",
-      "lastSeenMs": 1784232900000
+      "lastSeen": "2026-07-16T20:20:00.000Z",
+      "lastSeenMs": 1784233200000
     },
     {
       "userId": "11293835762",
@@ -1481,5 +1497,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:20:43.348Z"
+  "updatedAt": "2026-07-16T20:21:19.518Z"
 }
