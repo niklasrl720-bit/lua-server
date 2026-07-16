@@ -374,16 +374,16 @@
       "username": "kukapelua7",
       "displayName": "kukapelua7",
       "roleKey": "",
-      "gameName": "Arsenal",
-      "placeId": 286090429,
+      "gameName": "San Aurie",
+      "placeId": 104841616983113,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:19:43.014Z",
       "firstSeenMs": 1784229583014,
-      "lastSeen": "2026-07-16T19:19:43.014Z",
-      "lastSeenMs": 1784229583014
+      "lastSeen": "2026-07-16T19:20:00.000Z",
+      "lastSeenMs": 1784229600000
     },
     {
       "userId": "1534052061",
@@ -1123,5 +1123,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:22:02.111Z"
+  "updatedAt": "2026-07-16T19:23:10.290Z"
 }
