@@ -62,8 +62,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T20:00:00.000Z",
-      "lastSeenMs": 1784232000000
+      "lastSeen": "2026-07-16T20:05:00.000Z",
+      "lastSeenMs": 1784232300000
     },
     {
       "userId": "10427971366",
@@ -382,8 +382,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-16T20:00:00.000Z",
-      "lastSeenMs": 1784232000000
+      "lastSeen": "2026-07-16T20:05:00.000Z",
+      "lastSeenMs": 1784232300000
     },
     {
       "userId": "11293835762",
@@ -496,6 +496,22 @@
       "firstSeenMs": 1784226927559,
       "lastSeen": "2026-07-16T18:40:00.000Z",
       "lastSeenMs": 1784227200000
+    },
+    {
+      "userId": "1937971753",
+      "username": "1Lluvcz",
+      "displayName": "Najwhan",
+      "roleKey": "",
+      "gameName": "San Aurie",
+      "placeId": 104841616983113,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T20:05:37.791Z",
+      "firstSeenMs": 1784232337791,
+      "lastSeen": "2026-07-16T20:05:37.791Z",
+      "lastSeenMs": 1784232337791
     },
     {
       "userId": "1969914820",
@@ -926,8 +942,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-16T20:00:00.000Z",
-      "lastSeenMs": 1784232000000
+      "lastSeen": "2026-07-16T20:05:00.000Z",
+      "lastSeenMs": 1784232300000
     },
     {
       "userId": "8554890463",
@@ -974,8 +990,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-16T20:00:00.000Z",
-      "lastSeenMs": 1784232000000
+      "lastSeen": "2026-07-16T20:05:00.000Z",
+      "lastSeenMs": 1784232300000
     },
     {
       "userId": "8999363560",
@@ -1006,8 +1022,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T20:00:00.000Z",
-      "lastSeenMs": 1784232000000
+      "lastSeen": "2026-07-16T20:05:00.000Z",
+      "lastSeenMs": 1784232300000
     },
     {
       "userId": "9232921015",
@@ -1433,5 +1449,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:05:21.877Z"
+  "updatedAt": "2026-07-16T20:05:42.794Z"
 }
