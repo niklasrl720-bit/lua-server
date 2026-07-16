@@ -370,6 +370,22 @@
       "lastSeenMs": 1784228786623
     },
     {
+      "userId": "11298448727",
+      "username": "kukapelua7",
+      "displayName": "kukapelua7",
+      "roleKey": "",
+      "gameName": "Arsenal",
+      "placeId": 286090429,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:19:43.014Z",
+      "firstSeenMs": 1784229583014,
+      "lastSeen": "2026-07-16T19:19:43.014Z",
+      "lastSeenMs": 1784229583014
+    },
+    {
       "userId": "1534052061",
       "username": "kittykirb111",
       "displayName": "Krib",
@@ -1063,5 +1079,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:19:39.363Z"
+  "updatedAt": "2026-07-16T19:19:48.016Z"
 }
