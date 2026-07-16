@@ -850,6 +850,22 @@
       "lastSeenMs": 1784225564439
     },
     {
+      "userId": "9892888020",
+      "username": "tubers1exe21",
+      "displayName": "die_1",
+      "roleKey": "",
+      "gameName": "[X5] +1 مفتاح السرعة للهروب على لوحة المفاتيح | الحلوى والشوكولاتة",
+      "placeId": 95082159892680,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:11:34.572Z",
+      "firstSeenMs": 1784229094572,
+      "lastSeen": "2026-07-16T19:11:34.572Z",
+      "lastSeenMs": 1784229094572
+    },
+    {
       "userId": "9893321151",
       "username": "may_26680",
       "displayName": "ltz_Iza",
@@ -1031,5 +1047,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:10:25.074Z"
+  "updatedAt": "2026-07-16T19:11:39.576Z"
 }
