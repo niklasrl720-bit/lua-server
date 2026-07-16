@@ -1218,6 +1218,22 @@
       "lastSeenMs": 1784227800000
     },
     {
+      "userId": "553726178",
+      "username": "cookiemanbenny",
+      "displayName": "Donald",
+      "roleKey": "",
+      "gameName": "World 2",
+      "placeId": 108290619625402,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T22:26:06.148Z",
+      "firstSeenMs": 1784240766148,
+      "lastSeen": "2026-07-16T22:26:06.148Z",
+      "lastSeenMs": 1784240766148
+    },
+    {
       "userId": "6074258353",
       "username": "angelopo301",
       "displayName": "UTTVM",
@@ -1864,5 +1880,5 @@
     "resetAtMs": 1784239200127,
     "messages": []
   },
-  "updatedAt": "2026-07-16T22:26:00.025Z"
+  "updatedAt": "2026-07-16T22:26:11.149Z"
 }
