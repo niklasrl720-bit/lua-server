@@ -130,6 +130,22 @@
       "lastSeenMs": 1784227200000
     },
     {
+      "userId": "10736557501",
+      "username": "Jdjkdjdjdjxxndnfndnj",
+      "displayName": "Bacon",
+      "roleKey": "",
+      "gameName": "Macacos Assustados",
+      "placeId": 97438379434717,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:53:03.581Z",
+      "firstSeenMs": 1784238783581,
+      "lastSeen": "2026-07-16T21:53:03.581Z",
+      "lastSeenMs": 1784238783581
+    },
+    {
       "userId": "10771145154",
       "username": "lelekoleon",
       "displayName": "lelekoleon",
@@ -2005,5 +2021,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:52:45.027Z"
+  "updatedAt": "2026-07-16T21:53:08.586Z"
 }
