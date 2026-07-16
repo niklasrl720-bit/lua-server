@@ -82,6 +82,22 @@
       "lastSeenMs": 1784229300000
     },
     {
+      "userId": "10305976438",
+      "username": "builddsKaiella47",
+      "displayName": "rip_laygt",
+      "roleKey": "",
+      "gameName": "[ACTUALIZAÇÃO 4] Meme Sea",
+      "placeId": 10260193230,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:53:27.805Z",
+      "firstSeenMs": 1784238807805,
+      "lastSeen": "2026-07-16T21:53:27.805Z",
+      "lastSeenMs": 1784238807805
+    },
+    {
       "userId": "10368308763",
       "username": "ZzZsonec",
       "displayName": "BBello_Vsynca",
@@ -400,6 +416,22 @@
       "firstSeenMs": 1784228140706,
       "lastSeen": "2026-07-16T18:55:40.706Z",
       "lastSeenMs": 1784228140706
+    },
+    {
+      "userId": "11264362932",
+      "username": "Liam_12n6",
+      "displayName": "Liam",
+      "roleKey": "",
+      "gameName": "this is krakeruzz!",
+      "placeId": 91861344866513,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:53:25.680Z",
+      "firstSeenMs": 1784238805680,
+      "lastSeen": "2026-07-16T21:53:25.680Z",
+      "lastSeenMs": 1784238805680
     },
     {
       "userId": "11264378605",
@@ -2021,5 +2053,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:53:08.586Z"
+  "updatedAt": "2026-07-16T21:53:30.684Z"
 }
