@@ -294,16 +294,16 @@
       "username": "vessl_111",
       "displayName": "vessl",
       "roleKey": "",
-      "gameName": "Booga Booga 🌴",
-      "placeId": 11729688377,
+      "gameName": "Armored Patrol v9.0",
+      "placeId": 79970252300628,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:38:00.358Z",
       "firstSeenMs": 1784234280358,
-      "lastSeen": "2026-07-16T20:38:00.358Z",
-      "lastSeenMs": 1784234280358
+      "lastSeen": "2026-07-16T21:00:00.000Z",
+      "lastSeenMs": 1784235600000
     },
     {
       "userId": "11247318857",
@@ -1735,5 +1735,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:00:57.824Z"
+  "updatedAt": "2026-07-16T21:01:19.614Z"
 }
