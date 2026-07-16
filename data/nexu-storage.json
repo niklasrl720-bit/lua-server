@@ -1410,6 +1410,22 @@
       "lastSeenMs": 1784231830082
     },
     {
+      "userId": "8455434666",
+      "username": "fjvvjvfyvy",
+      "displayName": "Guest1338",
+      "roleKey": "",
+      "gameName": "Тренировка с настенными зажимами (R6)",
+      "placeId": 71805810296642,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T22:32:27.991Z",
+      "firstSeenMs": 1784241147991,
+      "lastSeen": "2026-07-16T22:32:27.991Z",
+      "lastSeenMs": 1784241147991
+    },
+    {
       "userId": "8554706348",
       "username": "roblox_user_8554706348",
       "displayName": "MNMNMNM",
@@ -1895,5 +1911,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T22:31:36.530Z"
+  "updatedAt": "2026-07-16T22:32:32.993Z"
 }
