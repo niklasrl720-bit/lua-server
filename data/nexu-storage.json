@@ -1430,16 +1430,16 @@
       "username": "lejusdu91",
       "displayName": "lejusdu91",
       "roleKey": "",
-      "gameName": "Climb Waterslide and Slide",
-      "placeId": 139617346573330,
+      "gameName": "Forest",
+      "placeId": 109025676702094,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.530Z",
       "firstSeenMs": 1784225113530,
-      "lastSeen": "2026-07-16T21:35:00.000Z",
-      "lastSeenMs": 1784237700000
+      "lastSeen": "2026-07-16T21:45:00.000Z",
+      "lastSeenMs": 1784238300000
     },
     {
       "userId": "9234385232",
@@ -1973,5 +1973,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:48:11.941Z"
+  "updatedAt": "2026-07-16T21:49:18.647Z"
 }
