@@ -466,6 +466,22 @@
       "lastSeenMs": 1784228786623
     },
     {
+      "userId": "11298423133",
+      "username": "Vsk1orieidjsjsm",
+      "displayName": "Vsk1orieidjsjsm",
+      "roleKey": "",
+      "gameName": "[🏖️ЛЕТО] Симулятор мышц",
+      "placeId": 89083064385572,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T20:44:10.270Z",
+      "firstSeenMs": 1784234650270,
+      "lastSeen": "2026-07-16T20:44:10.270Z",
+      "lastSeenMs": 1784234650270
+    },
+    {
       "userId": "11298448727",
       "username": "kukapelua7",
       "displayName": "kukapelua7",
@@ -1577,5 +1593,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:43:19.573Z"
+  "updatedAt": "2026-07-16T20:44:15.276Z"
 }
