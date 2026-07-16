@@ -450,6 +450,22 @@
       "lastSeenMs": 1784229000000
     },
     {
+      "userId": "2821234045",
+      "username": "sneidertest",
+      "displayName": "Bmw2007",
+      "roleKey": "",
+      "gameName": "[UK] The Oak & Ivy",
+      "placeId": 133364156120844,
+      "executionSource": "MacSploit",
+      "executionVersion": "727.143",
+      "clientPlatform": "OSX",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:19:34.358Z",
+      "firstSeenMs": 1784229574358,
+      "lastSeen": "2026-07-16T19:19:34.358Z",
+      "lastSeenMs": 1784229574358
+    },
+    {
       "userId": "2831916965",
       "username": "Teteuscarlito",
       "displayName": "Perry",
@@ -1047,5 +1063,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:18:21.104Z"
+  "updatedAt": "2026-07-16T19:19:39.363Z"
 }
