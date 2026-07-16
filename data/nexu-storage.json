@@ -354,6 +354,22 @@
       "lastSeenMs": 1784228259342
     },
     {
+      "userId": "11280130975",
+      "username": "Gray_team7",
+      "displayName": "Bacon_team",
+      "roleKey": "",
+      "gameName": "Outils Ohio",
+      "placeId": 85011874799856,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T20:47:24.274Z",
+      "firstSeenMs": 1784234844274,
+      "lastSeen": "2026-07-16T20:47:24.274Z",
+      "lastSeenMs": 1784234844274
+    },
+    {
       "userId": "11284061402",
       "username": "wackyisboys",
       "displayName": "wackyisboys",
@@ -1593,5 +1609,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:46:34.795Z"
+  "updatedAt": "2026-07-16T20:47:29.278Z"
 }
