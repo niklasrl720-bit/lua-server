@@ -142,8 +142,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T23:30:00.000Z",
-      "lastSeenMs": 1784244600000
+      "lastSeen": "2026-07-16T23:35:00.000Z",
+      "lastSeenMs": 1784244900000
     },
     {
       "userId": "10427971366",
@@ -174,8 +174,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:08:40.846Z",
       "firstSeenMs": 1784243320846,
-      "lastSeen": "2026-07-16T23:30:00.000Z",
-      "lastSeenMs": 1784244600000
+      "lastSeen": "2026-07-16T23:35:00.000Z",
+      "lastSeenMs": 1784244900000
     },
     {
       "userId": "10655312681",
@@ -894,8 +894,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-16T23:30:00.000Z",
-      "lastSeenMs": 1784244600000
+      "lastSeen": "2026-07-16T23:35:00.000Z",
+      "lastSeenMs": 1784244900000
     },
     {
       "userId": "1267528515",
@@ -1166,8 +1166,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-16T23:30:00.000Z",
-      "lastSeenMs": 1784244600000
+      "lastSeen": "2026-07-16T23:35:00.000Z",
+      "lastSeenMs": 1784244900000
     },
     {
       "userId": "3649742821",
@@ -1942,16 +1942,16 @@
       "username": "EuropeeeNo1",
       "displayName": "Femto",
       "roleKey": "",
-      "gameName": "MushYO! 🔊",
-      "placeId": 17274762379,
+      "gameName": "Salão de Festas 2",
+      "placeId": 11694307960,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-16T23:30:00.000Z",
-      "lastSeenMs": 1784244600000
+      "lastSeen": "2026-07-16T23:35:00.000Z",
+      "lastSeenMs": 1784244900000
     },
     {
       "userId": "9273382764",
@@ -1982,8 +1982,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-16T23:30:00.000Z",
-      "lastSeenMs": 1784244600000
+      "lastSeen": "2026-07-16T23:35:00.000Z",
+      "lastSeenMs": 1784244900000
     },
     {
       "userId": "9414382754",
@@ -2303,5 +2303,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:31:33.414Z"
+  "updatedAt": "2026-07-16T23:35:24.194Z"
 }
