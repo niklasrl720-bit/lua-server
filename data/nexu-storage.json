@@ -1730,6 +1730,22 @@
       "lastSeenMs": 1784242500000
     },
     {
+      "userId": "9139865779",
+      "username": "migo9mg_409",
+      "displayName": "Ragnarok",
+      "roleKey": "",
+      "gameName": "[🪓] مزرعتي الخشبية",
+      "placeId": 79267089300389,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T22:59:56.506Z",
+      "firstSeenMs": 1784242796506,
+      "lastSeen": "2026-07-16T22:59:56.506Z",
+      "lastSeenMs": 1784242796506
+    },
+    {
       "userId": "9232921015",
       "username": "lejusdu91",
       "displayName": "lejusdu91",
@@ -2099,5 +2115,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T22:58:28.177Z"
+  "updatedAt": "2026-07-16T23:00:01.509Z"
 }
