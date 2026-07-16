@@ -62,8 +62,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:34:38.045Z",
       "firstSeenMs": 1784226878045,
-      "lastSeen": "2026-07-16T18:34:38.045Z",
-      "lastSeenMs": 1784226878045
+      "lastSeen": "2026-07-16T18:35:00.000Z",
+      "lastSeenMs": 1784226900000
     },
     {
       "userId": "11203703629",
@@ -190,8 +190,24 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-16T18:30:00.000Z",
-      "lastSeenMs": 1784226600000
+      "lastSeen": "2026-07-16T18:35:00.000Z",
+      "lastSeenMs": 1784226900000
+    },
+    {
+      "userId": "1916375036",
+      "username": "felipesup091",
+      "displayName": "Boyfriend",
+      "roleKey": "",
+      "gameName": "Animal Hospital (Anomaly) 🧪",
+      "placeId": 78515283254292,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:35:27.559Z",
+      "firstSeenMs": 1784226927559,
+      "lastSeen": "2026-07-16T18:35:27.559Z",
+      "lastSeenMs": 1784226927559
     },
     {
       "userId": "1969914820",
@@ -366,8 +382,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:29:10.886Z",
       "firstSeenMs": 1784226550886,
-      "lastSeen": "2026-07-16T18:30:00.000Z",
-      "lastSeenMs": 1784226600000
+      "lastSeen": "2026-07-16T18:35:00.000Z",
+      "lastSeenMs": 1784226900000
     },
     {
       "userId": "8796766857",
@@ -498,5 +514,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:35:15.784Z"
+  "updatedAt": "2026-07-16T18:35:32.560Z"
 }
