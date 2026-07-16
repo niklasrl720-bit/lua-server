@@ -1762,6 +1762,22 @@
       "lastSeenMs": 1784226190194
     },
     {
+      "userId": "7844998205",
+      "username": "Supeman680",
+      "displayName": "Soinc",
+      "roleKey": "",
+      "gameName": "💪Muscle Legends",
+      "placeId": 3623096087,
+      "executionSource": "Delta",
+      "executionVersion": "1.0.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:58:42.842Z",
+      "firstSeenMs": 1784246322842,
+      "lastSeen": "2026-07-16T23:58:42.842Z",
+      "lastSeenMs": 1784246322842
+    },
+    {
       "userId": "7918165537",
       "username": "Chernosigma_8",
       "displayName": "Chernosigma_8",
@@ -2495,5 +2511,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:58:00.603Z"
+  "updatedAt": "2026-07-16T23:58:47.844Z"
 }
