@@ -832,6 +832,22 @@
       "firstSeenMs": 1784225277129,
       "lastSeen": "2026-07-16T18:10:00.000Z",
       "lastSeenMs": 1784225400000
+    },
+    {
+      "userId": "9978184567",
+      "username": "ettu1035",
+      "displayName": "00SHINNYP",
+      "roleKey": "",
+      "gameName": "Ataque Zombi",
+      "placeId": 1240123653,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:08:54.064Z",
+      "firstSeenMs": 1784228934064,
+      "lastSeen": "2026-07-16T19:08:54.064Z",
+      "lastSeenMs": 1784228934064
     }
   ],
   "bans": [],
@@ -983,5 +999,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:06:31.625Z"
+  "updatedAt": "2026-07-16T19:08:59.068Z"
 }
