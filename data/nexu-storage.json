@@ -1878,7 +1878,22 @@
     "dayKey": "2026-07-17",
     "resetRevision": 1,
     "resetAtMs": 1784239200127,
-    "messages": []
+    "messages": [
+      {
+        "id": 1784240898588001,
+        "userId": "553726178",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "cookiemanbenny",
+        "displayName": "Donald",
+        "message": "yo",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-16T22:28:18.588Z",
+        "sentAtMs": 1784240898588
+      }
+    ]
   },
-  "updatedAt": "2026-07-16T22:26:32.386Z"
+  "updatedAt": "2026-07-16T22:28:19.653Z"
 }
