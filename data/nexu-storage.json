@@ -578,6 +578,22 @@
       "lastSeenMs": 1784228100000
     },
     {
+      "userId": "11296404146",
+      "username": "Pkstockxgod",
+      "displayName": "Pkstockxgod",
+      "roleKey": "",
+      "gameName": "SS26 Private 4v4",
+      "placeId": 140531752630891,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T21:51:53.536Z",
+      "firstSeenMs": 1784238713536,
+      "lastSeen": "2026-07-16T21:51:53.536Z",
+      "lastSeenMs": 1784238713536
+    },
+    {
       "userId": "11297501230",
       "username": "9x8x7x6x5x4x3x0x1",
       "displayName": "9x8x7x6x5x4x3x0x1",
@@ -1973,5 +1989,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T21:50:35.568Z"
+  "updatedAt": "2026-07-16T21:51:58.541Z"
 }
