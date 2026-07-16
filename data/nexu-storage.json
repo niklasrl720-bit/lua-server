@@ -30,8 +30,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-16T19:00:00.000Z",
-      "lastSeenMs": 1784228400000
+      "lastSeen": "2026-07-16T19:05:00.000Z",
+      "lastSeenMs": 1784228700000
     },
     {
       "userId": "10368308763",
@@ -46,8 +46,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-16T19:00:09.691Z",
-      "lastSeenMs": 1784228409691
+      "lastSeen": "2026-07-16T19:05:00.000Z",
+      "lastSeenMs": 1784228700000
     },
     {
       "userId": "10668497380",
@@ -366,8 +366,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-16T19:00:00.000Z",
-      "lastSeenMs": 1784228400000
+      "lastSeen": "2026-07-16T19:05:00.000Z",
+      "lastSeenMs": 1784228700000
     },
     {
       "userId": "1916375036",
@@ -400,6 +400,22 @@
       "firstSeenMs": 1784225114687,
       "lastSeen": "2026-07-16T18:25:00.000Z",
       "lastSeenMs": 1784226300000
+    },
+    {
+      "userId": "2065199494",
+      "username": "IronChase33",
+      "displayName": "saturogojo",
+      "roleKey": "",
+      "gameName": "Regretevator [ ELEVATOR SIMULATOR ]",
+      "placeId": 4972273297,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T19:05:19.977Z",
+      "firstSeenMs": 1784228719977,
+      "lastSeen": "2026-07-16T19:05:19.977Z",
+      "lastSeenMs": 1784228719977
     },
     {
       "userId": "2831916965",
@@ -510,8 +526,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:37:48.332Z",
       "firstSeenMs": 1784227068332,
-      "lastSeen": "2026-07-16T19:00:00.000Z",
-      "lastSeenMs": 1784228400000
+      "lastSeen": "2026-07-16T19:05:00.000Z",
+      "lastSeenMs": 1784228700000
     },
     {
       "userId": "4963790387",
@@ -654,8 +670,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-16T19:00:00.000Z",
-      "lastSeenMs": 1784228400000
+      "lastSeen": "2026-07-16T19:05:00.000Z",
+      "lastSeenMs": 1784228700000
     },
     {
       "userId": "8796766857",
@@ -686,8 +702,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T19:00:00.000Z",
-      "lastSeenMs": 1784228400000
+      "lastSeen": "2026-07-16T19:05:00.000Z",
+      "lastSeenMs": 1784228700000
     },
     {
       "userId": "9232921015",
@@ -734,8 +750,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-16T19:00:00.000Z",
-      "lastSeenMs": 1784228400000
+      "lastSeen": "2026-07-16T19:05:00.000Z",
+      "lastSeenMs": 1784228700000
     },
     {
       "userId": "9425779584",
@@ -951,5 +967,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T19:03:42.687Z"
+  "updatedAt": "2026-07-16T19:05:24.981Z"
 }
