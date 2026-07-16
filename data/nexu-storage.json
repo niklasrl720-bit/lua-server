@@ -798,8 +798,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-16T22:50:00.000Z",
-      "lastSeenMs": 1784242200000
+      "lastSeen": "2026-07-16T22:55:00.000Z",
+      "lastSeenMs": 1784242500000
     },
     {
       "userId": "1267528515",
@@ -946,6 +946,22 @@
       "lastSeenMs": 1784240400000
     },
     {
+      "userId": "2398075590",
+      "username": "20mayo1994",
+      "displayName": "ジャジエル",
+      "roleKey": "",
+      "gameName": "(Gakuran desordenado)",
+      "placeId": 128736949265057,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T22:56:54.201Z",
+      "firstSeenMs": 1784242614201,
+      "lastSeen": "2026-07-16T22:56:54.201Z",
+      "lastSeenMs": 1784242614201
+    },
+    {
       "userId": "2568955477",
       "username": "nico_You681",
       "displayName": "Nico",
@@ -1054,8 +1070,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-16T22:50:00.000Z",
-      "lastSeenMs": 1784242200000
+      "lastSeen": "2026-07-16T22:55:00.000Z",
+      "lastSeenMs": 1784242500000
     },
     {
       "userId": "3649742821",
@@ -2083,5 +2099,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T22:55:21.395Z"
+  "updatedAt": "2026-07-16T22:56:59.203Z"
 }
