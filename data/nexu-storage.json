@@ -578,6 +578,22 @@
       "lastSeenMs": 1784228617683
     },
     {
+      "userId": "3468057790",
+      "username": "c0sta43",
+      "displayName": "c0sta43",
+      "roleKey": "",
+      "gameName": "O Abrigo de Gatos 🐱",
+      "placeId": 76526090659517,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T20:02:44.683Z",
+      "firstSeenMs": 1784232164683,
+      "lastSeen": "2026-07-16T20:02:44.683Z",
+      "lastSeenMs": 1784232164683
+    },
+    {
       "userId": "3705405966",
       "username": "TinkofFail",
       "displayName": "SpiderMan",
@@ -1403,5 +1419,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T20:02:02.148Z"
+  "updatedAt": "2026-07-16T20:02:49.686Z"
 }
