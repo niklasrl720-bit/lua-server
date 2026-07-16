@@ -1164,10 +1164,10 @@
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-16T23:02:16.981Z",
-      "firstSeenMs": 1784242936981,
-      "lastSeen": "2026-07-16T23:02:16.981Z",
-      "lastSeenMs": 1784242936981
+      "firstSeen": "2026-07-16T23:02:23.536Z",
+      "firstSeenMs": 1784242943536,
+      "lastSeen": "2026-07-16T23:02:23.536Z",
+      "lastSeenMs": 1784242943536
     },
     {
       "userId": "4054718426",
@@ -2147,5 +2147,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:02:21.983Z"
+  "updatedAt": "2026-07-16T23:02:28.539Z"
 }
