@@ -30,8 +30,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-16T18:40:00.000Z",
-      "lastSeenMs": 1784227200000
+      "lastSeen": "2026-07-16T18:45:00.000Z",
+      "lastSeenMs": 1784227500000
     },
     {
       "userId": "10668497380",
@@ -110,8 +110,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:34:38.045Z",
       "firstSeenMs": 1784226878045,
-      "lastSeen": "2026-07-16T18:40:00.000Z",
-      "lastSeenMs": 1784227200000
+      "lastSeen": "2026-07-16T18:45:00.000Z",
+      "lastSeenMs": 1784227500000
     },
     {
       "userId": "11203703629",
@@ -142,8 +142,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:35:57.742Z",
       "firstSeenMs": 1784226957742,
-      "lastSeen": "2026-07-16T18:40:00.000Z",
-      "lastSeenMs": 1784227200000
+      "lastSeen": "2026-07-16T18:45:00.000Z",
+      "lastSeenMs": 1784227500000
     },
     {
       "userId": "11243688312",
@@ -270,8 +270,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-16T18:40:00.000Z",
-      "lastSeenMs": 1784227200000
+      "lastSeen": "2026-07-16T18:45:00.000Z",
+      "lastSeenMs": 1784227500000
     },
     {
       "userId": "1916375036",
@@ -382,8 +382,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:37:48.332Z",
       "firstSeenMs": 1784227068332,
-      "lastSeen": "2026-07-16T18:40:00.000Z",
-      "lastSeenMs": 1784227200000
+      "lastSeen": "2026-07-16T18:45:00.000Z",
+      "lastSeenMs": 1784227500000
     },
     {
       "userId": "4963790387",
@@ -414,8 +414,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:34:57.756Z",
       "firstSeenMs": 1784226897756,
-      "lastSeen": "2026-07-16T18:40:00.000Z",
-      "lastSeenMs": 1784227200000
+      "lastSeen": "2026-07-16T18:45:00.000Z",
+      "lastSeenMs": 1784227500000
     },
     {
       "userId": "5100621375",
@@ -558,8 +558,24 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.309Z",
       "firstSeenMs": 1784225110309,
-      "lastSeen": "2026-07-16T18:40:00.000Z",
-      "lastSeenMs": 1784227200000
+      "lastSeen": "2026-07-16T18:45:00.000Z",
+      "lastSeenMs": 1784227500000
+    },
+    {
+      "userId": "9405689037",
+      "username": "Znaud_00",
+      "displayName": "MOPSIK67",
+      "roleKey": "",
+      "gameName": "[🦖] 99 ночей в лесу 🔦",
+      "placeId": 79546208627805,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:45:47.132Z",
+      "firstSeenMs": 1784227547132,
+      "lastSeen": "2026-07-16T18:45:47.132Z",
+      "lastSeenMs": 1784227547132
     },
     {
       "userId": "9425779584",
@@ -632,5 +648,5 @@
     "resetAtMs": 1784227288358,
     "messages": []
   },
-  "updatedAt": "2026-07-16T18:44:11.325Z"
+  "updatedAt": "2026-07-16T18:45:52.134Z"
 }
