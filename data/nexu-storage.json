@@ -30,8 +30,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:39:46.261Z",
       "firstSeenMs": 1784227186261,
-      "lastSeen": "2026-07-16T18:39:46.261Z",
-      "lastSeenMs": 1784227186261
+      "lastSeen": "2026-07-16T18:40:00.000Z",
+      "lastSeenMs": 1784227200000
     },
     {
       "userId": "10771145154",
@@ -66,6 +66,22 @@
       "lastSeenMs": 1784226900000
     },
     {
+      "userId": "11060863501",
+      "username": "wni938",
+      "displayName": "wni938",
+      "roleKey": "",
+      "gameName": "Brookhaven 🏡RP",
+      "placeId": 4924922222,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:40:24.256Z",
+      "firstSeenMs": 1784227224256,
+      "lastSeen": "2026-07-16T18:40:24.256Z",
+      "lastSeenMs": 1784227224256
+    },
+    {
       "userId": "11126047368",
       "username": "Thereal12201",
       "displayName": "Thereal12201",
@@ -78,8 +94,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:34:38.045Z",
       "firstSeenMs": 1784226878045,
-      "lastSeen": "2026-07-16T18:35:00.000Z",
-      "lastSeenMs": 1784226900000
+      "lastSeen": "2026-07-16T18:40:00.000Z",
+      "lastSeenMs": 1784227200000
     },
     {
       "userId": "11203703629",
@@ -110,8 +126,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:35:57.742Z",
       "firstSeenMs": 1784226957742,
-      "lastSeen": "2026-07-16T18:35:57.742Z",
-      "lastSeenMs": 1784226957742
+      "lastSeen": "2026-07-16T18:40:00.000Z",
+      "lastSeenMs": 1784227200000
     },
     {
       "userId": "11243688312",
@@ -222,8 +238,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-16T18:35:00.000Z",
-      "lastSeenMs": 1784226900000
+      "lastSeen": "2026-07-16T18:40:00.000Z",
+      "lastSeenMs": 1784227200000
     },
     {
       "userId": "1916375036",
@@ -238,8 +254,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:35:27.559Z",
       "firstSeenMs": 1784226927559,
-      "lastSeen": "2026-07-16T18:35:27.559Z",
-      "lastSeenMs": 1784226927559
+      "lastSeen": "2026-07-16T18:40:00.000Z",
+      "lastSeenMs": 1784227200000
     },
     {
       "userId": "1969914820",
@@ -318,8 +334,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:37:48.332Z",
       "firstSeenMs": 1784227068332,
-      "lastSeen": "2026-07-16T18:37:48.332Z",
-      "lastSeenMs": 1784227068332
+      "lastSeen": "2026-07-16T18:40:00.000Z",
+      "lastSeenMs": 1784227200000
     },
     {
       "userId": "4963790387",
@@ -350,8 +366,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:34:57.756Z",
       "firstSeenMs": 1784226897756,
-      "lastSeen": "2026-07-16T18:35:00.000Z",
-      "lastSeenMs": 1784226900000
+      "lastSeen": "2026-07-16T18:40:00.000Z",
+      "lastSeenMs": 1784227200000
     },
     {
       "userId": "5100621375",
@@ -414,8 +430,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:16:28.179Z",
       "firstSeenMs": 1784225788179,
-      "lastSeen": "2026-07-16T18:35:00.000Z",
-      "lastSeenMs": 1784226900000
+      "lastSeen": "2026-07-16T18:40:00.000Z",
+      "lastSeenMs": 1784227200000
     },
     {
       "userId": "8084788172",
@@ -430,8 +446,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:29:10.886Z",
       "firstSeenMs": 1784226550886,
-      "lastSeen": "2026-07-16T18:35:00.000Z",
-      "lastSeenMs": 1784226900000
+      "lastSeen": "2026-07-16T18:40:00.000Z",
+      "lastSeenMs": 1784227200000
     },
     {
       "userId": "8796766857",
@@ -494,8 +510,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.309Z",
       "firstSeenMs": 1784225110309,
-      "lastSeen": "2026-07-16T18:35:00.000Z",
-      "lastSeenMs": 1784226900000
+      "lastSeen": "2026-07-16T18:40:00.000Z",
+      "lastSeenMs": 1784227200000
     },
     {
       "userId": "9425779584",
@@ -562,5 +578,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:39:51.262Z"
+  "updatedAt": "2026-07-16T18:40:29.257Z"
 }
