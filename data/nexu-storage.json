@@ -194,6 +194,22 @@
       "lastSeenMs": 1784225159112
     },
     {
+      "userId": "11256438346",
+      "username": "trollPG24",
+      "displayName": "trollPG24",
+      "roleKey": "",
+      "gameName": "Wall Hop 1 - 100 Studs",
+      "placeId": 77435651075358,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:55:40.706Z",
+      "firstSeenMs": 1784228140706,
+      "lastSeen": "2026-07-16T18:55:40.706Z",
+      "lastSeenMs": 1784228140706
+    },
+    {
       "userId": "11284061402",
       "username": "wackyisboys",
       "displayName": "wackyisboys",
@@ -254,8 +270,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:53:20.055Z",
       "firstSeenMs": 1784228000055,
-      "lastSeen": "2026-07-16T18:53:20.055Z",
-      "lastSeenMs": 1784228000055
+      "lastSeen": "2026-07-16T18:55:00.000Z",
+      "lastSeenMs": 1784228100000
     },
     {
       "userId": "11297501230",
@@ -558,8 +574,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:29:10.886Z",
       "firstSeenMs": 1784226550886,
-      "lastSeen": "2026-07-16T18:40:00.000Z",
-      "lastSeenMs": 1784227200000
+      "lastSeen": "2026-07-16T18:55:00.000Z",
+      "lastSeenMs": 1784228100000
     },
     {
       "userId": "8796766857",
@@ -825,5 +841,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T18:55:30.285Z"
+  "updatedAt": "2026-07-16T18:55:45.708Z"
 }
