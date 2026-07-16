@@ -322,6 +322,22 @@
       "lastSeenMs": 1784226300000
     },
     {
+      "userId": "8084788172",
+      "username": "tanakad05",
+      "displayName": "sd00elementaltaiga",
+      "roleKey": "",
+      "gameName": "物や人を飛ばす",
+      "placeId": 6961824067,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T18:29:10.886Z",
+      "firstSeenMs": 1784226550886,
+      "lastSeen": "2026-07-16T18:29:10.886Z",
+      "lastSeenMs": 1784226550886
+    },
+    {
       "userId": "8796766857",
       "username": "ImTheBestAtMath123",
       "displayName": "Hello",
@@ -450,5 +466,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:27:42.593Z"
+  "updatedAt": "2026-07-16T18:29:15.888Z"
 }
