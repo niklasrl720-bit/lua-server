@@ -86,16 +86,16 @@
       "username": "wackyisboys",
       "displayName": "wackyisboys",
       "roleKey": "",
-      "gameName": "Football Fusion 3",
-      "placeId": 82866880824588,
+      "gameName": "🫣 HIDER",
+      "placeId": 140719260369433,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:18:30.209Z",
       "firstSeenMs": 1784225910209,
-      "lastSeen": "2026-07-16T18:18:30.209Z",
-      "lastSeenMs": 1784225910209
+      "lastSeen": "2026-07-16T18:20:00.000Z",
+      "lastSeenMs": 1784226000000
     },
     {
       "userId": "11293707100",
@@ -370,5 +370,5 @@
     "changedAt": "",
     "changedBy": ""
   },
-  "updatedAt": "2026-07-16T18:21:04.945Z"
+  "updatedAt": "2026-07-16T18:21:16.141Z"
 }
