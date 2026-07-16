@@ -690,6 +690,22 @@
       "lastSeenMs": 1784228100000
     },
     {
+      "userId": "11295823873",
+      "username": "Mcnasty44562",
+      "displayName": "Mcnasty44562",
+      "roleKey": "",
+      "gameName": "Rising Apocalypse 2",
+      "placeId": 93911318070665,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-16T23:07:52.445Z",
+      "firstSeenMs": 1784243272445,
+      "lastSeen": "2026-07-16T23:07:52.445Z",
+      "lastSeenMs": 1784243272445
+    },
+    {
       "userId": "11296404146",
       "username": "Pkstockxgod",
       "displayName": "Pkstockxgod",
@@ -2147,5 +2163,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-16T23:06:39.247Z"
+  "updatedAt": "2026-07-16T23:07:57.447Z"
 }
