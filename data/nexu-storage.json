@@ -8374,16 +8374,16 @@
       "username": "souzattk4",
       "displayName": "souzax",
       "roleKey": "",
-      "gameName": "Jogo",
-      "placeId": 121418861436763,
+      "gameName": "RP DE PRISÃO - Público",
+      "placeId": 102718061120016,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-17T19:50:00.000Z",
-      "lastSeenMs": 1784317800000
+      "lastSeen": "2026-07-17T20:10:00.000Z",
+      "lastSeenMs": 1784319000000
     },
     {
       "userId": "9508855732",
@@ -9673,5 +9673,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:11:38.313Z"
+  "updatedAt": "2026-07-17T20:11:46.569Z"
 }
