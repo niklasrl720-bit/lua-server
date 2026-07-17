@@ -5858,6 +5858,22 @@
       "lastSeenMs": 1784295900000
     },
     {
+      "userId": "5465354094",
+      "username": "OSMAN_92741",
+      "displayName": "Baby",
+      "roleKey": "",
+      "gameName": "[🔱DUELS] Asesinos VS Sheriffs",
+      "placeId": 135856908115931,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:08:36.696Z",
+      "firstSeenMs": 1784318916696,
+      "lastSeen": "2026-07-17T20:08:36.696Z",
+      "lastSeenMs": 1784318916696
+    },
+    {
       "userId": "547595676",
       "username": "promasterblake400911",
       "displayName": "LittleTimmy",
@@ -9657,5 +9673,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:08:18.400Z"
+  "updatedAt": "2026-07-17T20:08:41.707Z"
 }
