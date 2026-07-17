@@ -2902,8 +2902,8 @@
       "username": "Langrouis",
       "displayName": "JaMonti",
       "roleKey": "",
-      "gameName": "[BattlePass🔥] Sniper Arena",
-      "placeId": 122446657157717,
+      "gameName": "[Arcade]",
+      "placeId": 126042865144779,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -5373,5 +5373,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:22:43.899Z"
+  "updatedAt": "2026-07-17T08:24:39.929Z"
 }
