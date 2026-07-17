@@ -1490,6 +1490,22 @@
       "lastSeenMs": 1784253076882
     },
     {
+      "userId": "11299532365",
+      "username": "Emilon240Hz",
+      "displayName": "Emilon240Hz",
+      "roleKey": "",
+      "gameName": "Logo-Farbbrücke",
+      "placeId": 119455737640001,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T04:53:22.868Z",
+      "firstSeenMs": 1784264002868,
+      "lastSeen": "2026-07-17T04:53:22.868Z",
+      "lastSeenMs": 1784264002868
+    },
+    {
       "userId": "11299578304",
       "username": "Mateproxe0098",
       "displayName": "Mateproxe0098",
@@ -3782,16 +3798,16 @@
       "username": "shgoo662",
       "displayName": "kyo",
       "roleKey": "",
-      "gameName": "Survie aux catastrophes naturelles",
-      "placeId": 189707,
+      "gameName": "Créateur d'Avatar de Catalogue",
+      "placeId": 7041939546,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:32:53.494Z",
       "firstSeenMs": 1784237573494,
-      "lastSeen": "2026-07-16T21:32:53.494Z",
-      "lastSeenMs": 1784237573494
+      "lastSeen": "2026-07-17T04:50:00.000Z",
+      "lastSeenMs": 1784263800000
     },
     {
       "userId": "9953434480",
@@ -4171,5 +4187,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:52:33.218Z"
+  "updatedAt": "2026-07-17T04:53:25.802Z"
 }
