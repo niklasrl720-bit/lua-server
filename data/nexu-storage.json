@@ -82,6 +82,22 @@
       "lastSeenMs": 1784227408545
     },
     {
+      "userId": "10149091354",
+      "username": "iN_7E",
+      "displayName": "V4MP",
+      "roleKey": "",
+      "gameName": "South Bronx ultimate warz v2",
+      "placeId": 116287844108561,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:32:23.196Z",
+      "firstSeenMs": 1784273543196,
+      "lastSeen": "2026-07-17T07:32:23.196Z",
+      "lastSeenMs": 1784273543196
+    },
+    {
       "userId": "10159707276",
       "username": "happy_hasif516",
       "displayName": "tentara_ganung99",
@@ -982,8 +998,8 @@
       "username": "Yrys_pyrys9",
       "displayName": "Yrys_pyrys9",
       "roleKey": "",
-      "gameName": "[WORLD2] +1 Скорость побега на клавиатуре",
-      "placeId": 118941584817777,
+      "gameName": "+1 ключ к скорости побега на клавиатуре | конфеты и шоколад",
+      "placeId": 95082159892680,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
@@ -5059,5 +5075,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:32:00.650Z"
+  "updatedAt": "2026-07-17T07:32:28.206Z"
 }
