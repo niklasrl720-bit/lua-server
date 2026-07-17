@@ -5238,16 +5238,16 @@
       "username": "Montoxisgoat",
       "displayName": "iloveviolet",
       "roleKey": "",
-      "gameName": "Customs",
-      "placeId": 92517437168342,
+      "gameName": "Fight Others For Brainrots!",
+      "placeId": 75646865566926,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T22:45:00.000Z",
-      "lastSeenMs": 1784328300000
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "3420728419",
@@ -10655,5 +10655,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:40:52.522Z"
+  "updatedAt": "2026-07-17T23:41:31.852Z"
 }
