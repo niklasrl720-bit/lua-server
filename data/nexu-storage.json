@@ -4070,16 +4070,16 @@
       "username": "GhostyAlones",
       "displayName": "plow1k",
       "roleKey": "",
-      "gameName": "Башня Ада",
-      "placeId": 1962086868,
+      "gameName": "Магнат ужасов",
+      "placeId": 5189834468,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T12:20:00.000Z",
-      "lastSeenMs": 1784290800000
+      "lastSeen": "2026-07-17T13:50:00.000Z",
+      "lastSeenMs": 1784296200000
     },
     {
       "userId": "5111527490",
@@ -7081,5 +7081,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:53:31.873Z"
+  "updatedAt": "2026-07-17T13:53:55.812Z"
 }
