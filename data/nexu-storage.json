@@ -4450,6 +4450,22 @@
       "lastSeenMs": 1784300100000
     },
     {
+      "userId": "2433464042",
+      "username": "NICOLAS_OFC3215",
+      "displayName": "baconmade_ofuniverse",
+      "roleKey": "",
+      "gameName": "[CRAFTING] Verity [REALISTIC]",
+      "placeId": 120944686522212,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:42:13.544Z",
+      "firstSeenMs": 1784324533544,
+      "lastSeen": "2026-07-17T21:42:13.544Z",
+      "lastSeenMs": 1784324533544
+    },
+    {
       "userId": "2508758979",
       "username": "facundo300099999",
       "displayName": "Krymoss",
@@ -10281,5 +10297,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:41:46.772Z"
+  "updatedAt": "2026-07-17T21:42:18.556Z"
 }
