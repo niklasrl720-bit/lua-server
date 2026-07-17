@@ -482,6 +482,22 @@
       "lastSeenMs": 1784312700000
     },
     {
+      "userId": "10342998762",
+      "username": "miauszisza28",
+      "displayName": "SOUL_SENKIDHH",
+      "roleKey": "",
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:36:21.251Z",
+      "firstSeenMs": 1784324181251,
+      "lastSeen": "2026-07-17T21:36:21.251Z",
+      "lastSeenMs": 1784324181251
+    },
+    {
       "userId": "10368308763",
       "username": "ZzZsonec",
       "displayName": "BBello_Vsynca",
@@ -5822,8 +5838,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-17T21:30:00.000Z",
-      "lastSeenMs": 1784323800000
+      "lastSeen": "2026-07-17T21:35:00.000Z",
+      "lastSeenMs": 1784324100000
     },
     {
       "userId": "5005775489",
@@ -10233,5 +10249,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:35:40.361Z"
+  "updatedAt": "2026-07-17T21:36:25.512Z"
 }
