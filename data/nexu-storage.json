@@ -78,8 +78,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T09:49:05.967Z",
       "firstSeenMs": 1784281745967,
-      "lastSeen": "2026-07-17T09:50:00.000Z",
-      "lastSeenMs": 1784281800000
+      "lastSeen": "2026-07-17T09:49:05.967Z",
+      "lastSeenMs": 1784281745967
     },
     {
       "userId": "10100984799",
@@ -444,10 +444,10 @@
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-17T09:51:14.043Z",
-      "firstSeenMs": 1784281874043,
-      "lastSeen": "2026-07-17T09:51:14.043Z",
-      "lastSeenMs": 1784281874043
+      "firstSeen": "2026-07-17T09:51:20.598Z",
+      "firstSeenMs": 1784281880598,
+      "lastSeen": "2026-07-17T09:51:20.598Z",
+      "lastSeenMs": 1784281880598
     },
     {
       "userId": "10655312681",
@@ -2366,8 +2366,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T09:25:52.078Z",
       "firstSeenMs": 1784280352078,
-      "lastSeen": "2026-07-17T09:50:00.000Z",
-      "lastSeenMs": 1784281800000
+      "lastSeen": "2026-07-17T09:45:00.000Z",
+      "lastSeenMs": 1784281500000
     },
     {
       "userId": "1891206840",
@@ -5737,5 +5737,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:51:18.223Z"
+  "updatedAt": "2026-07-17T09:51:25.605Z"
 }
