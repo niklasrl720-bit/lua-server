@@ -2870,16 +2870,16 @@
       "username": "Langrouis",
       "displayName": "JaMonti",
       "roleKey": "",
-      "gameName": "[CURE] Violence District",
-      "placeId": 93978595733734,
+      "gameName": "🎉 10 Player Flee",
+      "placeId": 17600423422,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:26:43.731Z",
       "firstSeenMs": 1784269603731,
-      "lastSeen": "2026-07-17T07:45:00.000Z",
-      "lastSeenMs": 1784274300000
+      "lastSeen": "2026-07-17T08:10:00.000Z",
+      "lastSeenMs": 1784275800000
     },
     {
       "userId": "4549877961",
@@ -5341,5 +5341,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:10:57.061Z"
+  "updatedAt": "2026-07-17T08:12:43.969Z"
 }
