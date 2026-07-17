@@ -6438,16 +6438,16 @@
       "username": "nana_22816",
       "displayName": "Dark_40",
       "roleKey": "",
-      "gameName": "Украдите Brainrot [Новые серверы игроков]",
-      "placeId": 96342491571673,
+      "gameName": "Загадка убийства 2",
+      "placeId": 142823291,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:12:17.430Z",
       "firstSeenMs": 1784257937430,
-      "lastSeen": "2026-07-17T10:55:00.000Z",
-      "lastSeenMs": 1784285700000
+      "lastSeen": "2026-07-17T17:05:00.000Z",
+      "lastSeenMs": 1784307900000
     },
     {
       "userId": "8455434666",
@@ -8567,5 +8567,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:06:01.667Z"
+  "updatedAt": "2026-07-17T17:06:14.563Z"
 }
