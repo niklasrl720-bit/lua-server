@@ -786,6 +786,22 @@
       "lastSeenMs": 1784248990751
     },
     {
+      "userId": "11242727349",
+      "username": "zkuzwbwisu",
+      "displayName": "zkuzwbwisu",
+      "roleKey": "",
+      "gameName": "Roba un Brainrot [Servidores de Nuevos Jugadores]",
+      "placeId": 96342491571673,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T04:34:55.179Z",
+      "firstSeenMs": 1784262895179,
+      "lastSeen": "2026-07-17T04:34:55.179Z",
+      "lastSeenMs": 1784262895179
+    },
+    {
       "userId": "11243688312",
       "username": "LoveOnlyMe675",
       "displayName": "LoveOnlyMe675",
@@ -4109,5 +4125,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:32:09.132Z"
+  "updatedAt": "2026-07-17T04:35:00.185Z"
 }
