@@ -2622,8 +2622,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T13:55:29.889Z",
       "firstSeenMs": 1784296529889,
-      "lastSeen": "2026-07-17T14:50:00.000Z",
-      "lastSeenMs": 1784299800000
+      "lastSeen": "2026-07-17T17:20:00.000Z",
+      "lastSeenMs": 1784308800000
     },
     {
       "userId": "11287230344",
@@ -4304,6 +4304,22 @@
       "firstSeenMs": 1784270166436,
       "lastSeen": "2026-07-17T06:45:00.000Z",
       "lastSeenMs": 1784270700000
+    },
+    {
+      "userId": "3687550279",
+      "username": "putego33",
+      "displayName": "KUSUNA",
+      "roleKey": "",
+      "gameName": "Prison Life",
+      "placeId": 155615604,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:22:17.503Z",
+      "firstSeenMs": 1784308937503,
+      "lastSeen": "2026-07-17T17:22:17.503Z",
+      "lastSeenMs": 1784308937503
     },
     {
       "userId": "3687575968",
@@ -7118,8 +7134,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T17:10:00.000Z",
-      "lastSeenMs": 1784308200000
+      "lastSeen": "2026-07-17T17:20:00.000Z",
+      "lastSeenMs": 1784308800000
     },
     {
       "userId": "9134201874",
@@ -8663,5 +8679,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:21:34.239Z"
+  "updatedAt": "2026-07-17T17:22:22.513Z"
 }
