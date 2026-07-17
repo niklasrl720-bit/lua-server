@@ -1746,6 +1746,22 @@
       "lastSeenMs": 1784236745149
     },
     {
+      "userId": "11277307439",
+      "username": "ShawtyEasy11",
+      "displayName": "ShawtyEasy11",
+      "roleKey": "",
+      "gameName": "Sobrevivência de Desastres Naturais",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T11:33:40.911Z",
+      "firstSeenMs": 1784288020911,
+      "lastSeen": "2026-07-17T11:33:40.911Z",
+      "lastSeenMs": 1784288020911
+    },
+    {
       "userId": "11278003896",
       "username": "bin_eifDA15",
       "displayName": "bin_eifDA15",
@@ -2912,6 +2928,22 @@
       "firstSeenMs": 1784259333959,
       "lastSeen": "2026-07-17T03:35:33.959Z",
       "lastSeenMs": 1784259333959
+    },
+    {
+      "userId": "3143794926",
+      "username": "kuttibago",
+      "displayName": "Papa_JoeJoe",
+      "roleKey": "",
+      "gameName": "RIVALS",
+      "placeId": 17625359962,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T11:33:45.311Z",
+      "firstSeenMs": 1784288025311,
+      "lastSeen": "2026-07-17T11:33:45.311Z",
+      "lastSeenMs": 1784288025311
     },
     {
       "userId": "3238021023",
@@ -5630,8 +5662,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-17T09:40:00.000Z",
-      "lastSeenMs": 1784281200000
+      "lastSeen": "2026-07-17T11:30:00.000Z",
+      "lastSeenMs": 1784287800000
     },
     {
       "userId": "9812944983",
@@ -6319,5 +6351,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T11:32:47.123Z"
+  "updatedAt": "2026-07-17T11:33:46.061Z"
 }
