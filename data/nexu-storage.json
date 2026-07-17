@@ -258,6 +258,22 @@
       "lastSeenMs": 1784250600000
     },
     {
+      "userId": "10523068842",
+      "username": "Sahel0984",
+      "displayName": "EL4YOU",
+      "roleKey": "",
+      "gameName": "Menara Slap Troll KECELAKINAN 😈",
+      "placeId": 110470672231288,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:33:31.247Z",
+      "firstSeenMs": 1784266411247,
+      "lastSeen": "2026-07-17T05:33:31.247Z",
+      "lastSeenMs": 1784266411247
+    },
+    {
       "userId": "10534661561",
       "username": "Jeanpapazezi",
       "displayName": "Umh",
@@ -4423,5 +4439,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:32:59.716Z"
+  "updatedAt": "2026-07-17T05:33:36.253Z"
 }
