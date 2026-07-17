@@ -1762,6 +1762,22 @@
       "lastSeenMs": 1784259900000
     },
     {
+      "userId": "11251683408",
+      "username": "mody_best67",
+      "displayName": "mody_best67",
+      "roleKey": "",
+      "gameName": "Extreme Wall Hop Obby",
+      "placeId": 114232692662430,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:48:54.148Z",
+      "firstSeenMs": 1784299734148,
+      "lastSeen": "2026-07-17T14:48:54.148Z",
+      "lastSeenMs": 1784299734148
+    },
+    {
       "userId": "11251777009",
       "username": "cookied_666666",
       "displayName": "cookied_666666",
@@ -7415,5 +7431,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:48:49.295Z"
+  "updatedAt": "2026-07-17T14:48:59.162Z"
 }
