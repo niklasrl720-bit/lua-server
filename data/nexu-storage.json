@@ -10546,8 +10546,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T23:32:43.388Z",
         "sentAtMs": 1784331163388
+      },
+      {
+        "id": 1784331181624001,
+        "userId": "10652435106",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "GUNS_nROSESS666",
+        "displayName": "Scorpio_Bejj",
+        "message": "thats gd",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T23:33:01.624Z",
+        "sentAtMs": 1784331181624
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:32:44.410Z"
+  "updatedAt": "2026-07-17T23:33:02.794Z"
 }
