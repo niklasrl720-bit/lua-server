@@ -2262,16 +2262,16 @@
       "username": "manumacaroni",
       "displayName": "bignoobi",
       "roleKey": "",
-      "gameName": "My Legion [MISTLANDS]",
-      "placeId": 97133064068185,
+      "gameName": "[UPD3] +1 Fan per Step",
+      "placeId": 139177199868845,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:37:53.346Z",
       "firstSeenMs": 1784234273346,
-      "lastSeen": "2026-07-16T21:35:00.000Z",
-      "lastSeenMs": 1784237700000
+      "lastSeen": "2026-07-17T10:05:00.000Z",
+      "lastSeenMs": 1784282700000
     },
     {
       "userId": "1356739077",
@@ -5863,5 +5863,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:06:51.806Z"
+  "updatedAt": "2026-07-17T10:07:49.539Z"
 }
