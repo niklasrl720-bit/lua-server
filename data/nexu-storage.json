@@ -4402,6 +4402,22 @@
       "lastSeenMs": 1784283600000
     },
     {
+      "userId": "5131378969",
+      "username": "Felix_228362",
+      "displayName": "Felix_225",
+      "roleKey": "",
+      "gameName": "Заброшенная ролевая игра",
+      "placeId": 135883225554377,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:03:46.044Z",
+      "firstSeenMs": 1784300626044,
+      "lastSeen": "2026-07-17T15:03:46.044Z",
+      "lastSeenMs": 1784300626044
+    },
+    {
       "userId": "5155158122",
       "username": "Bouuias",
       "displayName": "Dunked",
@@ -7551,5 +7567,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:01:40.443Z"
+  "updatedAt": "2026-07-17T15:03:51.054Z"
 }
