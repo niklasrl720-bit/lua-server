@@ -3302,16 +3302,16 @@
       "username": "jkvgujyuyvuk",
       "displayName": "jkvgujyuyvuk",
       "roleKey": "",
-      "gameName": "شكل SCP",
-      "placeId": 71599043035739,
+      "gameName": "الجراد - البقاء",
+      "placeId": 82898983236792,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:23:48.351Z",
       "firstSeenMs": 1784305428351,
-      "lastSeen": "2026-07-17T16:25:00.000Z",
-      "lastSeenMs": 1784305500000
+      "lastSeen": "2026-07-17T17:00:00.000Z",
+      "lastSeenMs": 1784307600000
     },
     {
       "userId": "11301617517",
@@ -8535,5 +8535,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:02:22.629Z"
+  "updatedAt": "2026-07-17T17:02:49.382Z"
 }
