@@ -2498,6 +2498,22 @@
       "lastSeenMs": 1784251800000
     },
     {
+      "userId": "7567669699",
+      "username": "cesar271630",
+      "displayName": "RX_Ghost",
+      "roleKey": "",
+      "gameName": "🚔 ¡Ladrón de carteras!",
+      "placeId": 120348634319012,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:37:08.595Z",
+      "firstSeenMs": 1784259428595,
+      "lastSeen": "2026-07-17T03:37:08.595Z",
+      "lastSeenMs": 1784259428595
+    },
+    {
       "userId": "7741785159",
       "username": "bamegf656r",
       "displayName": "Xxmm2_loverxX",
@@ -3735,5 +3751,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:36:11.414Z"
+  "updatedAt": "2026-07-17T03:37:13.600Z"
 }
