@@ -4930,6 +4930,22 @@
       "lastSeenMs": 1784251645004
     },
     {
+      "userId": "3366186862",
+      "username": "RodGamyt",
+      "displayName": "RodGamR",
+      "roleKey": "",
+      "gameName": "Supervivencia de desastres naturales",
+      "placeId": 189707,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:04:21.859Z",
+      "firstSeenMs": 1784325861859,
+      "lastSeen": "2026-07-17T22:04:21.859Z",
+      "lastSeenMs": 1784325861859
+    },
+    {
       "userId": "3392387740",
       "username": "okokkelley",
       "displayName": "Tails",
@@ -9715,5 +9731,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:03:55.173Z"
+  "updatedAt": "2026-07-17T22:04:26.864Z"
 }
