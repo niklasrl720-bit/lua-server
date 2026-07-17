@@ -2206,8 +2206,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T10:40:00.000Z",
-      "lastSeenMs": 1784284800000
+      "lastSeen": "2026-07-17T10:55:00.000Z",
+      "lastSeenMs": 1784285700000
     },
     {
       "userId": "11299297213",
@@ -6174,8 +6174,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T10:33:32.547Z",
         "sentAtMs": 1784284412547
+      },
+      {
+        "id": 1784285963449001,
+        "userId": "11187370108",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Asxat_rutu19",
+        "displayName": "Asxat_rutu19",
+        "message": "hi",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T10:59:23.449Z",
+        "sentAtMs": 1784285963449
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:57:28.356Z"
+  "updatedAt": "2026-07-17T10:59:24.524Z"
 }
