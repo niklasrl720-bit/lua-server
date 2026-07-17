@@ -1998,8 +1998,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T09:15:00.000Z",
-      "lastSeenMs": 1784279700000
+      "lastSeen": "2026-07-17T09:20:00.000Z",
+      "lastSeenMs": 1784280000000
     },
     {
       "userId": "11299297213",
@@ -3374,8 +3374,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T09:18:53.354Z",
       "firstSeenMs": 1784279933354,
-      "lastSeen": "2026-07-17T09:18:53.354Z",
-      "lastSeenMs": 1784279933354
+      "lastSeen": "2026-07-17T09:20:00.000Z",
+      "lastSeenMs": 1784280000000
     },
     {
       "userId": "5557688924",
@@ -4990,8 +4990,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-17T09:15:00.000Z",
-      "lastSeenMs": 1784279700000
+      "lastSeen": "2026-07-17T09:20:00.000Z",
+      "lastSeenMs": 1784280000000
     },
     {
       "userId": "9812944983",
@@ -5070,8 +5070,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:32:53.494Z",
       "firstSeenMs": 1784237573494,
-      "lastSeen": "2026-07-17T09:15:00.000Z",
-      "lastSeenMs": 1784279700000
+      "lastSeen": "2026-07-17T09:20:00.000Z",
+      "lastSeenMs": 1784280000000
     },
     {
       "userId": "9953434480",
@@ -5576,8 +5576,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T08:48:49.316Z",
         "sentAtMs": 1784278129316
+      },
+      {
+        "id": 1784280044767001,
+        "userId": "5552698500",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "dotorexe9",
+        "displayName": "Dotorexe_C",
+        "message": "tidal",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T09:20:44.767Z",
+        "sentAtMs": 1784280044767
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:18:58.363Z"
+  "updatedAt": "2026-07-17T09:20:45.920Z"
 }
