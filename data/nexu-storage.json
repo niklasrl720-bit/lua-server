@@ -1954,6 +1954,22 @@
       "lastSeenMs": 1784294753190
     },
     {
+      "userId": "11161838500",
+      "username": "e9eowe",
+      "displayName": "e9eowe",
+      "roleKey": "",
+      "gameName": "[X2] +1 Speed Keyboard Escape | Candy & Chocolate",
+      "placeId": 95082159892680,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:43:49.814Z",
+      "firstSeenMs": 1784331829814,
+      "lastSeen": "2026-07-17T23:43:49.814Z",
+      "lastSeenMs": 1784331829814
+    },
+    {
       "userId": "11166148320",
       "username": "BY_verity",
       "displayName": "Verity",
@@ -10687,5 +10703,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:43:11.102Z"
+  "updatedAt": "2026-07-17T23:43:54.824Z"
 }
