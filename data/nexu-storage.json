@@ -398,8 +398,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-17T18:50:00.000Z",
-      "lastSeenMs": 1784314200000
+      "lastSeen": "2026-07-17T18:55:00.000Z",
+      "lastSeenMs": 1784314500000
     },
     {
       "userId": "10305976438",
@@ -3534,8 +3534,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T18:50:00.000Z",
-      "lastSeenMs": 1784314200000
+      "lastSeen": "2026-07-17T18:55:00.000Z",
+      "lastSeenMs": 1784314500000
     },
     {
       "userId": "11302817434",
@@ -3790,8 +3790,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:25:16.752Z",
       "firstSeenMs": 1784312716752,
-      "lastSeen": "2026-07-17T18:50:00.000Z",
-      "lastSeenMs": 1784314200000
+      "lastSeen": "2026-07-17T18:55:00.000Z",
+      "lastSeenMs": 1784314500000
     },
     {
       "userId": "1891206840",
@@ -4064,6 +4064,22 @@
       "firstSeenMs": 1784241788754,
       "lastSeen": "2026-07-16T23:00:00.000Z",
       "lastSeenMs": 1784242800000
+    },
+    {
+      "userId": "2583057472",
+      "username": "unikawaai234",
+      "displayName": "ImChagas",
+      "roleKey": "",
+      "gameName": "Jogo Principal",
+      "placeId": 107866096431004,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:55:56.218Z",
+      "firstSeenMs": 1784314556218,
+      "lastSeen": "2026-07-17T18:55:56.218Z",
+      "lastSeenMs": 1784314556218
     },
     {
       "userId": "2591492263",
@@ -4630,16 +4646,16 @@
       "username": "Beluga13164314",
       "displayName": "primeS1",
       "roleKey": "",
-      "gameName": "🛸 Бой с лучевой пушкой",
-      "placeId": 118688893380778,
+      "gameName": "эта потрясающая игра",
+      "placeId": 117973911105557,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T12:12:28.508Z",
       "firstSeenMs": 1784290348508,
-      "lastSeen": "2026-07-17T12:45:00.000Z",
-      "lastSeenMs": 1784292300000
+      "lastSeen": "2026-07-17T18:55:00.000Z",
+      "lastSeenMs": 1784314500000
     },
     {
       "userId": "3953958486",
@@ -7278,8 +7294,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:44:47.348Z",
       "firstSeenMs": 1784256287348,
-      "lastSeen": "2026-07-17T18:50:00.000Z",
-      "lastSeenMs": 1784314200000
+      "lastSeen": "2026-07-17T18:55:00.000Z",
+      "lastSeenMs": 1784314500000
     },
     {
       "userId": "8852319931",
@@ -9169,5 +9185,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:52:13.057Z"
+  "updatedAt": "2026-07-17T18:55:59.700Z"
 }
