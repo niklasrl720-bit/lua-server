@@ -946,6 +946,22 @@
       "lastSeenMs": 1784280300000
     },
     {
+      "userId": "11099429381",
+      "username": "Sixth_9969",
+      "displayName": "Sixth_9969",
+      "roleKey": "",
+      "gameName": "트롤은 못깨는 타워 2",
+      "placeId": 83312952548612,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:39:59.395Z",
+      "firstSeenMs": 1784284799395,
+      "lastSeen": "2026-07-17T10:39:59.395Z",
+      "lastSeenMs": 1784284799395
+    },
+    {
       "userId": "11103697834",
       "username": "ffgj3403",
       "displayName": "ffgj3403",
@@ -2142,8 +2158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T10:35:00.000Z",
-      "lastSeenMs": 1784284500000
+      "lastSeen": "2026-07-17T10:40:00.000Z",
+      "lastSeenMs": 1784284800000
     },
     {
       "userId": "11299297213",
@@ -4510,8 +4526,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-17T10:35:00.000Z",
-      "lastSeenMs": 1784284500000
+      "lastSeen": "2026-07-17T10:40:00.000Z",
+      "lastSeenMs": 1784284800000
     },
     {
       "userId": "8554890463",
@@ -6049,5 +6065,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:39:25.877Z"
+  "updatedAt": "2026-07-17T10:40:04.404Z"
 }
