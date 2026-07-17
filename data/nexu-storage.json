@@ -1190,16 +1190,16 @@
       "username": "Yrys_pyrys9",
       "displayName": "Yrys_pyrys9",
       "roleKey": "",
-      "gameName": "Ешьте пиццу, чтобы вырастить гигачард",
-      "placeId": 86688009497733,
+      "gameName": "+1 Скорость побега супергероя",
+      "placeId": 92937726498067,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T07:19:09.530Z",
       "firstSeenMs": 1784272749530,
-      "lastSeen": "2026-07-17T09:05:00.000Z",
-      "lastSeenMs": 1784279100000
+      "lastSeen": "2026-07-17T09:25:00.000Z",
+      "lastSeenMs": 1784280300000
     },
     {
       "userId": "11239120216",
@@ -5625,5 +5625,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:25:57.088Z"
+  "updatedAt": "2026-07-17T09:26:38.106Z"
 }
