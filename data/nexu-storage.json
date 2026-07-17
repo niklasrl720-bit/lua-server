@@ -4418,6 +4418,22 @@
       "lastSeenMs": 1784272276906
     },
     {
+      "userId": "7968687323",
+      "username": "UncleLoresomnite",
+      "displayName": "UncleLoresomnite",
+      "roleKey": "",
+      "gameName": "Booth Game [FUSION]",
+      "placeId": 8351248417,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T11:37:17.069Z",
+      "firstSeenMs": 1784288237069,
+      "lastSeen": "2026-07-17T11:37:17.069Z",
+      "lastSeenMs": 1784288237069
+    },
+    {
       "userId": "7975307214",
       "username": "ezioles54",
       "displayName": "ezioles54",
@@ -6351,5 +6367,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T11:36:39.554Z"
+  "updatedAt": "2026-07-17T11:37:22.076Z"
 }
