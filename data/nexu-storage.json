@@ -3468,8 +3468,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T02:24:56.975Z",
         "sentAtMs": 1784255096975
+      },
+      {
+        "id": 1784256517934001,
+        "userId": "9953434480",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "tussia18",
+        "displayName": "tussia18",
+        "message": "#######",
+        "moderated": true,
+        "moderationCategory": "HASSREDE",
+        "moderationScore": 100,
+        "sentAt": "2026-07-17T02:48:37.934Z",
+        "sentAtMs": 1784256517934
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:48:36.306Z"
+  "updatedAt": "2026-07-17T02:48:38.947Z"
 }
