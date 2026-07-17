@@ -190,8 +190,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T12:15:00.000Z",
-      "lastSeenMs": 1784290500000
+      "lastSeen": "2026-07-17T12:20:00.000Z",
+      "lastSeenMs": 1784290800000
     },
     {
       "userId": "10203550652",
@@ -3442,22 +3442,6 @@
       "lastSeenMs": 1784267034496
     },
     {
-      "userId": "4167371493",
-      "username": "e24ien",
-      "displayName": "superdaden",
-      "roleKey": "",
-      "gameName": "Infectious Smile [SPRING 🌻]",
-      "placeId": 5985232436,
-      "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
-      "clientPlatform": "Android",
-      "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-17T12:19:54.682Z",
-      "firstSeenMs": 1784290794682,
-      "lastSeen": "2026-07-17T12:19:54.682Z",
-      "lastSeenMs": 1784290794682
-    },
-    {
       "userId": "4212061169",
       "username": "candoblo34",
       "displayName": "candoblo34",
@@ -3694,8 +3678,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-17T12:15:00.000Z",
-      "lastSeenMs": 1784290500000
+      "lastSeen": "2026-07-17T12:20:00.000Z",
+      "lastSeenMs": 1784290800000
     },
     {
       "userId": "5005775489",
@@ -3758,8 +3742,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T12:15:00.000Z",
-      "lastSeenMs": 1784290500000
+      "lastSeen": "2026-07-17T12:20:00.000Z",
+      "lastSeenMs": 1784290800000
     },
     {
       "userId": "5111527490",
@@ -6559,5 +6543,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:19:59.690Z"
+  "updatedAt": "2026-07-17T12:20:05.163Z"
 }
