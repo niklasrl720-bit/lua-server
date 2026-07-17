@@ -2914,6 +2914,22 @@
       "lastSeenMs": 1784283429809
     },
     {
+      "userId": "2361831889",
+      "username": "LoveNoRage",
+      "displayName": "China",
+      "roleKey": "",
+      "gameName": "😈 Split or Steal Brainrot",
+      "placeId": 70959844973091,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:06:45.314Z",
+      "firstSeenMs": 1784293605314,
+      "lastSeen": "2026-07-17T13:06:45.314Z",
+      "lastSeenMs": 1784293605314
+    },
+    {
       "userId": "2398075590",
       "username": "20mayo1994",
       "displayName": "ジャジエル",
@@ -6765,5 +6781,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:06:14.678Z"
+  "updatedAt": "2026-07-17T13:06:50.324Z"
 }
