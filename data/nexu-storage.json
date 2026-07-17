@@ -482,6 +482,22 @@
       "lastSeenMs": 1784245200000
     },
     {
+      "userId": "10566812830",
+      "username": "kenda7832",
+      "displayName": "kenda7832",
+      "roleKey": "",
+      "gameName": "Robar un Brainrot",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:32:48.679Z",
+      "firstSeenMs": 1784302368679,
+      "lastSeen": "2026-07-17T15:32:48.679Z",
+      "lastSeenMs": 1784302368679
+    },
+    {
       "userId": "10570631020",
       "username": "cfyhvftyjhj779",
       "displayName": "Alpha_Bot12321",
@@ -592,6 +608,22 @@
       "firstSeenMs": 1784278009851,
       "lastSeen": "2026-07-17T08:46:49.851Z",
       "lastSeenMs": 1784278009851
+    },
+    {
+      "userId": "10693280567",
+      "username": "dc6nc0",
+      "displayName": "exvy",
+      "roleKey": "",
+      "gameName": "Duck Duck",
+      "placeId": 135486323963203,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:32:53.175Z",
+      "firstSeenMs": 1784302373175,
+      "lastSeen": "2026-07-17T15:32:53.175Z",
+      "lastSeenMs": 1784302373175
     },
     {
       "userId": "10736557501",
@@ -7741,5 +7773,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:31:48.900Z"
+  "updatedAt": "2026-07-17T15:32:53.689Z"
 }
