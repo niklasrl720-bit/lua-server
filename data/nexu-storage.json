@@ -1086,8 +1086,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-17T03:05:00.000Z",
-      "lastSeenMs": 1784257500000
+      "lastSeen": "2026-07-17T03:10:00.000Z",
+      "lastSeenMs": 1784257800000
     },
     {
       "userId": "11293835762",
@@ -2814,8 +2814,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T03:05:00.000Z",
-      "lastSeenMs": 1784257500000
+      "lastSeen": "2026-07-17T03:10:00.000Z",
+      "lastSeenMs": 1784257800000
     },
     {
       "userId": "8825146444",
@@ -3118,8 +3118,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-17T03:05:00.000Z",
-      "lastSeenMs": 1784257500000
+      "lastSeen": "2026-07-17T03:10:00.000Z",
+      "lastSeenMs": 1784257800000
     },
     {
       "userId": "9414382754",
@@ -3594,8 +3594,22 @@
         "moderationScore": 100,
         "sentAt": "2026-07-17T02:48:37.934Z",
         "sentAtMs": 1784256517934
+      },
+      {
+        "id": 1784257837190001,
+        "userId": "3041449939",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Mike4157X",
+        "displayName": "Hellhound",
+        "message": "67",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T03:10:37.190Z",
+        "sentAtMs": 1784257837190
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:10:18.710Z"
+  "updatedAt": "2026-07-17T03:10:38.250Z"
 }
