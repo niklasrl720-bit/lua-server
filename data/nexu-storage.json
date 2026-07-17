@@ -3608,8 +3608,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T03:10:37.190Z",
         "sentAtMs": 1784257837190
+      },
+      {
+        "id": 1784257859695002,
+        "userId": "3041449939",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Mike4157X",
+        "displayName": "Hellhound",
+        "message": "пх",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T03:10:59.695Z",
+        "sentAtMs": 1784257859695
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:10:38.250Z"
+  "updatedAt": "2026-07-17T03:11:00.711Z"
 }
