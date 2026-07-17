@@ -5646,8 +5646,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:24:46.850Z",
       "firstSeenMs": 1784305486850,
-      "lastSeen": "2026-07-17T16:25:00.000Z",
-      "lastSeenMs": 1784305500000
+      "lastSeen": "2026-07-17T16:30:00.000Z",
+      "lastSeenMs": 1784305800000
     },
     {
       "userId": "7642952845",
@@ -6998,8 +6998,8 @@
       "username": "Znaud_00",
       "displayName": "MOPSIK67",
       "roleKey": "",
-      "gameName": "Загадка убийства 2",
-      "placeId": 142823291,
+      "gameName": "Сбросить вещи и людей",
+      "placeId": 6961824067,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
@@ -8235,5 +8235,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:29:54.219Z"
+  "updatedAt": "2026-07-17T16:30:00.861Z"
 }
