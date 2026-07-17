@@ -7170,6 +7170,22 @@
       "lastSeenMs": 1784272276906
     },
     {
+      "userId": "7968614207",
+      "username": "t6778imuy554grfgh",
+      "displayName": "shalomy",
+      "roleKey": "",
+      "gameName": "pisa con cuidado",
+      "placeId": 104808235862933,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:16:22.966Z",
+      "firstSeenMs": 1784322982966,
+      "lastSeen": "2026-07-17T21:16:22.966Z",
+      "lastSeenMs": 1784322982966
+    },
+    {
       "userId": "7968687323",
       "username": "UncleLoresomnite",
       "displayName": "UncleLoresomnite",
@@ -10109,5 +10125,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:15:35.286Z"
+  "updatedAt": "2026-07-17T21:16:27.976Z"
 }
