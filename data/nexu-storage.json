@@ -4006,16 +4006,16 @@
       "username": "WARGOHDAR",
       "displayName": "WARGONDAR",
       "roleKey": "",
-      "gameName": "Русский чат [🔊]",
-      "placeId": 95929919723230,
+      "gameName": "[СТАРАЯ КАРТА] Бой мечами самурая",
+      "placeId": 6678877691,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:46:45.139Z",
       "firstSeenMs": 1784299605139,
-      "lastSeen": "2026-07-17T14:50:00.000Z",
-      "lastSeenMs": 1784299800000
+      "lastSeen": "2026-07-17T14:55:00.000Z",
+      "lastSeenMs": 1784300100000
     },
     {
       "userId": "4242993477",
@@ -7487,5 +7487,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:56:00.593Z"
+  "updatedAt": "2026-07-17T14:56:43.033Z"
 }
