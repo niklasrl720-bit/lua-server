@@ -9790,8 +9790,22 @@
         "moderationScore": 80,
         "sentAt": "2026-07-17T22:04:40.242Z",
         "sentAtMs": 1784325880242
+      },
+      {
+        "id": 1784325941905008,
+        "userId": "3991335398",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "neonblade20o",
+        "displayName": "Idk",
+        "message": "ez",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T22:05:41.905Z",
+        "sentAtMs": 1784325941905
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:05:19.461Z"
+  "updatedAt": "2026-07-17T22:05:42.925Z"
 }
