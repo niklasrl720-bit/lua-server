@@ -1550,8 +1550,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:37:45.552Z",
       "firstSeenMs": 1784259465552,
-      "lastSeen": "2026-07-17T05:00:00.000Z",
-      "lastSeenMs": 1784264400000
+      "lastSeen": "2026-07-17T05:05:00.000Z",
+      "lastSeenMs": 1784264700000
     },
     {
       "userId": "11299902948",
@@ -1678,8 +1678,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:03:12.324Z",
       "firstSeenMs": 1784264592324,
-      "lastSeen": "2026-07-17T05:03:12.324Z",
-      "lastSeenMs": 1784264592324
+      "lastSeen": "2026-07-17T05:05:00.000Z",
+      "lastSeenMs": 1784264700000
     },
     {
       "userId": "1746266119",
@@ -2302,8 +2302,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:03:53.427Z",
       "firstSeenMs": 1784264633427,
-      "lastSeen": "2026-07-17T05:03:53.427Z",
-      "lastSeenMs": 1784264633427
+      "lastSeen": "2026-07-17T05:05:00.000Z",
+      "lastSeenMs": 1784264700000
     },
     {
       "userId": "4549877961",
@@ -2590,8 +2590,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:02:53.513Z",
       "firstSeenMs": 1784253773513,
-      "lastSeen": "2026-07-17T05:00:00.000Z",
-      "lastSeenMs": 1784264400000
+      "lastSeen": "2026-07-17T05:05:00.000Z",
+      "lastSeenMs": 1784264700000
     },
     {
       "userId": "6074258353",
@@ -2694,16 +2694,16 @@
       "username": "crashtweakin",
       "displayName": "Owen",
       "roleKey": "",
-      "gameName": "(学乱) Gakuran",
-      "placeId": 128736949265057,
+      "gameName": "Cold War [CONSOLES/1PP ONLY]",
+      "placeId": 13687899540,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:09:01.012Z",
       "firstSeenMs": 1784246941012,
-      "lastSeen": "2026-07-17T03:00:00.000Z",
-      "lastSeenMs": 1784257200000
+      "lastSeen": "2026-07-17T05:05:00.000Z",
+      "lastSeenMs": 1784264700000
     },
     {
       "userId": "7256837696",
@@ -3854,8 +3854,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:32:53.494Z",
       "firstSeenMs": 1784237573494,
-      "lastSeen": "2026-07-17T05:00:00.000Z",
-      "lastSeenMs": 1784264400000
+      "lastSeen": "2026-07-17T05:05:00.000Z",
+      "lastSeenMs": 1784264700000
     },
     {
       "userId": "9953434480",
@@ -4249,5 +4249,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:03:55.119Z"
+  "updatedAt": "2026-07-17T05:05:27.031Z"
 }
