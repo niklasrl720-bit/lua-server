@@ -562,6 +562,22 @@
       "lastSeenMs": 1784238900000
     },
     {
+      "userId": "10738041442",
+      "username": "zik_val",
+      "displayName": "JustVal",
+      "roleKey": "",
+      "gameName": "Cotton dreams tower",
+      "placeId": 79453428559219,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T12:54:48.676Z",
+      "firstSeenMs": 1784292888676,
+      "lastSeen": "2026-07-17T12:54:48.676Z",
+      "lastSeenMs": 1784292888676
+    },
+    {
       "userId": "10747279147",
       "username": "kobeandbronglaze",
       "displayName": "kobeandbronglaze",
@@ -6701,5 +6717,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:53:11.083Z"
+  "updatedAt": "2026-07-17T12:54:53.683Z"
 }
