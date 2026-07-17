@@ -5984,8 +5984,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T10:21:07.077Z",
         "sentAtMs": 1784283667077
+      },
+      {
+        "id": 1784284412547001,
+        "userId": "4666151778",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "issadday4me",
+        "displayName": "issadday4me",
+        "message": "hii",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T10:33:32.547Z",
+        "sentAtMs": 1784284412547
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:32:38.021Z"
+  "updatedAt": "2026-07-17T10:33:33.792Z"
 }
