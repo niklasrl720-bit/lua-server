@@ -4630,16 +4630,16 @@
       "username": "Jf_520",
       "displayName": "X4ZT",
       "roleKey": "",
-      "gameName": "更好的動漫?",
-      "placeId": 15118223068,
+      "gameName": "擊敗新手的障礙物",
+      "placeId": 120742901763323,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:36:06.436Z",
       "firstSeenMs": 1784270166436,
-      "lastSeen": "2026-07-17T06:45:00.000Z",
-      "lastSeenMs": 1784270700000
+      "lastSeen": "2026-07-17T19:40:00.000Z",
+      "lastSeenMs": 1784317200000
     },
     {
       "userId": "3687550279",
@@ -9515,5 +9515,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:42:55.054Z"
+  "updatedAt": "2026-07-17T19:44:30.272Z"
 }
