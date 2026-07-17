@@ -1986,6 +1986,22 @@
       "lastSeenMs": 1784232900000
     },
     {
+      "userId": "3243642938",
+      "username": "ShaquelleOatmeal3",
+      "displayName": "ShaquelleOatmeal3",
+      "roleKey": "",
+      "gameName": "My Giant Sandwich",
+      "placeId": 139546619723000,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:12:27.823Z",
+      "firstSeenMs": 1784265147823,
+      "lastSeen": "2026-07-17T05:12:27.823Z",
+      "lastSeenMs": 1784265147823
+    },
+    {
       "userId": "3353928966",
       "username": "amigod_823838",
       "displayName": "Slk_num1compensa001",
@@ -4295,5 +4311,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:11:13.760Z"
+  "updatedAt": "2026-07-17T05:12:32.829Z"
 }
