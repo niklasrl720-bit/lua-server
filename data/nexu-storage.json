@@ -1746,6 +1746,22 @@
       "lastSeenMs": 1784313900000
     },
     {
+      "userId": "11155260092",
+      "username": "airanth_1",
+      "displayName": "airanth",
+      "roleKey": "",
+      "gameName": "[👽PARTE 2] DUELOS DE ARMAS [Asesinos vs Sheriffs]",
+      "placeId": 82983707799188,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:57:05.880Z",
+      "firstSeenMs": 1784321825880,
+      "lastSeen": "2026-07-17T20:57:05.880Z",
+      "lastSeenMs": 1784321825880
+    },
+    {
       "userId": "11158826634",
       "username": "urudjdud42",
       "displayName": "Wee",
@@ -9911,5 +9927,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:56:54.856Z"
+  "updatedAt": "2026-07-17T20:57:10.890Z"
 }
