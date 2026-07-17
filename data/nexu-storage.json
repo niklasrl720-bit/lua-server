@@ -7094,16 +7094,16 @@
       "username": "ImTheBestAtMath123",
       "displayName": "Hello",
       "roleKey": "",
-      "gameName": "Place 82807309372429",
-      "placeId": 82807309372429,
+      "gameName": "INSANE Troll Slap Tower 😈",
+      "placeId": 110470672231288,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T18:15:00.000Z",
-      "lastSeenMs": 1784312100000
+      "lastSeen": "2026-07-17T18:20:00.000Z",
+      "lastSeenMs": 1784312400000
     },
     {
       "userId": "8808861528",
@@ -9025,5 +9025,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:20:20.131Z"
+  "updatedAt": "2026-07-17T18:21:02.223Z"
 }
