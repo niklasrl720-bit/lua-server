@@ -5378,6 +5378,22 @@
       "lastSeenMs": 1784294301599
     },
     {
+      "userId": "4946018313",
+      "username": "Jkjshdff",
+      "displayName": "Henry_Ori",
+      "roleKey": "",
+      "gameName": "Casarão - Fusão Fest",
+      "placeId": 93536077692357,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:29:55.002Z",
+      "firstSeenMs": 1784316595002,
+      "lastSeen": "2026-07-17T19:29:55.002Z",
+      "lastSeenMs": 1784316595002
+    },
+    {
       "userId": "4948559177",
       "username": "jrheehehhe",
       "displayName": "Dung",
@@ -9467,5 +9483,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:29:52.473Z"
+  "updatedAt": "2026-07-17T19:30:00.013Z"
 }
