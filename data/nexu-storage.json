@@ -206,8 +206,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T14:25:00.000Z",
-      "lastSeenMs": 1784298300000
+      "lastSeen": "2026-07-17T14:30:00.000Z",
+      "lastSeenMs": 1784298600000
     },
     {
       "userId": "10203550652",
@@ -3282,22 +3282,6 @@
       "lastSeenMs": 1784242614201
     },
     {
-      "userId": "2399633590",
-      "username": "cankilerterjj",
-      "displayName": "IIII",
-      "roleKey": "",
-      "gameName": "[💰] Your Bank !",
-      "placeId": 138030613822538,
-      "executionSource": "Xeno",
-      "executionVersion": "v1.3.55",
-      "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-17T14:32:35.605Z",
-      "firstSeenMs": 1784298755605,
-      "lastSeen": "2026-07-17T14:32:35.605Z",
-      "lastSeenMs": 1784298755605
-    },
-    {
       "userId": "2508758979",
       "username": "facundo300099999",
       "displayName": "Krymoss",
@@ -4238,8 +4222,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-17T14:25:00.000Z",
-      "lastSeenMs": 1784298300000
+      "lastSeen": "2026-07-17T14:30:00.000Z",
+      "lastSeenMs": 1784298600000
     },
     {
       "userId": "5005775489",
@@ -7351,5 +7335,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:32:40.628Z"
+  "updatedAt": "2026-07-17T14:32:42.229Z"
 }
