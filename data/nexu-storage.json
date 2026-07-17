@@ -118,16 +118,16 @@
       "username": "happy_hasif516",
       "displayName": "tentara_ganung99",
       "roleKey": "",
-      "gameName": "💥 Flag Wars!",
-      "placeId": 3214114884,
+      "gameName": "The Animal Hospital",
+      "placeId": 104522435597696,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:54:59.105Z",
       "firstSeenMs": 1784249699105,
-      "lastSeen": "2026-07-17T07:15:00.000Z",
-      "lastSeenMs": 1784272500000
+      "lastSeen": "2026-07-17T07:50:00.000Z",
+      "lastSeenMs": 1784274600000
     },
     {
       "userId": "10172085694",
@@ -5217,5 +5217,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:51:27.271Z"
+  "updatedAt": "2026-07-17T07:53:54.099Z"
 }
