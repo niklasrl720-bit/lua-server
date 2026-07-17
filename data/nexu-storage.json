@@ -3710,8 +3710,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T20:15:00.000Z",
-      "lastSeenMs": 1784319300000
+      "lastSeen": "2026-07-17T20:30:00.000Z",
+      "lastSeenMs": 1784320200000
     },
     {
       "userId": "11302817434",
@@ -4448,6 +4448,22 @@
       "firstSeenMs": 1784228617683,
       "lastSeen": "2026-07-16T19:03:37.683Z",
       "lastSeenMs": 1784228617683
+    },
+    {
+      "userId": "2885335326",
+      "username": "MEDI106000",
+      "displayName": "216",
+      "roleKey": "",
+      "gameName": "BikeStars💫 (MISE À JOUR🔥)",
+      "placeId": 138332904385564,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:31:12.359Z",
+      "firstSeenMs": 1784320272359,
+      "lastSeen": "2026-07-17T20:31:12.359Z",
+      "lastSeenMs": 1784320272359
     },
     {
       "userId": "2892419709",
@@ -9801,5 +9817,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:30:45.630Z"
+  "updatedAt": "2026-07-17T20:31:17.566Z"
 }
