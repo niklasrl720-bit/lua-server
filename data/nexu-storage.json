@@ -4178,6 +4178,22 @@
       "lastSeenMs": 1784265288231
     },
     {
+      "userId": "7938633824",
+      "username": "Aw_Thocoise",
+      "displayName": "Aw_Thocoise",
+      "roleKey": "",
+      "gameName": "[✋] Tháp Tát Trang Bị",
+      "placeId": 72845937010155,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:43:57.092Z",
+      "firstSeenMs": 1784285037092,
+      "lastSeen": "2026-07-17T10:43:57.092Z",
+      "lastSeenMs": 1784285037092
+    },
+    {
       "userId": "7957137706",
       "username": "uerujr2",
       "displayName": "Ishan",
@@ -6081,5 +6097,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:40:57.693Z"
+  "updatedAt": "2026-07-17T10:44:02.100Z"
 }
