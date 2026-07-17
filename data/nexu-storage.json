@@ -1086,8 +1086,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-17T03:30:00.000Z",
-      "lastSeenMs": 1784259000000
+      "lastSeen": "2026-07-17T03:35:00.000Z",
+      "lastSeenMs": 1784259300000
     },
     {
       "userId": "11293835762",
@@ -1390,8 +1390,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:20:56.906Z",
       "firstSeenMs": 1784258456906,
-      "lastSeen": "2026-07-17T03:30:00.000Z",
-      "lastSeenMs": 1784259000000
+      "lastSeen": "2026-07-17T03:35:00.000Z",
+      "lastSeenMs": 1784259300000
     },
     {
       "userId": "1267528515",
@@ -1730,6 +1730,22 @@
       "lastSeenMs": 1784257800000
     },
     {
+      "userId": "3104796288",
+      "username": "ianiaff",
+      "displayName": "904",
+      "roleKey": "",
+      "gameName": "¡Conviértete en OP para Brainrots! ⚔️",
+      "placeId": 138096575744330,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:35:33.959Z",
+      "firstSeenMs": 1784259333959,
+      "lastSeen": "2026-07-17T03:35:33.959Z",
+      "lastSeenMs": 1784259333959
+    },
+    {
       "userId": "3238021023",
       "username": "lusi_wolff",
       "displayName": "lusi_wolff",
@@ -1806,8 +1822,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T03:30:00.000Z",
-      "lastSeenMs": 1784259000000
+      "lastSeen": "2026-07-17T03:35:00.000Z",
+      "lastSeenMs": 1784259300000
     },
     {
       "userId": "3643100956",
@@ -1982,8 +1998,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:32:11.729Z",
       "firstSeenMs": 1784259131729,
-      "lastSeen": "2026-07-17T03:32:11.729Z",
-      "lastSeenMs": 1784259131729
+      "lastSeen": "2026-07-17T03:35:00.000Z",
+      "lastSeenMs": 1784259300000
     },
     {
       "userId": "4337357751",
@@ -2894,8 +2910,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T03:30:00.000Z",
-      "lastSeenMs": 1784259000000
+      "lastSeen": "2026-07-17T03:35:00.000Z",
+      "lastSeenMs": 1784259300000
     },
     {
       "userId": "8825146444",
@@ -3198,8 +3214,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-17T03:30:00.000Z",
-      "lastSeenMs": 1784259000000
+      "lastSeen": "2026-07-17T03:35:00.000Z",
+      "lastSeenMs": 1784259300000
     },
     {
       "userId": "9414382754",
@@ -3719,5 +3735,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:32:16.735Z"
+  "updatedAt": "2026-07-17T03:35:38.965Z"
 }
