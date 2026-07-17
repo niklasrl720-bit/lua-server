@@ -478,8 +478,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T19:10:00.000Z",
-      "lastSeenMs": 1784315400000
+      "lastSeen": "2026-07-17T20:30:00.000Z",
+      "lastSeenMs": 1784320200000
     },
     {
       "userId": "10427971366",
@@ -942,8 +942,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-17T20:25:00.000Z",
-      "lastSeenMs": 1784319900000
+      "lastSeen": "2026-07-17T20:30:00.000Z",
+      "lastSeenMs": 1784320200000
     },
     {
       "userId": "10780173311",
@@ -3414,16 +3414,16 @@
       "username": "RobloxSuporter_11304",
       "displayName": "Niko",
       "roleKey": "",
-      "gameName": "🪣 Drena el lago",
-      "placeId": 138381251771774,
+      "gameName": "No robes el bollo esponjoso 🥧",
+      "placeId": 126171938168748,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T20:28:05.004Z",
       "firstSeenMs": 1784320085004,
-      "lastSeen": "2026-07-17T20:28:05.004Z",
-      "lastSeenMs": 1784320085004
+      "lastSeen": "2026-07-17T20:30:00.000Z",
+      "lastSeenMs": 1784320200000
     },
     {
       "userId": "11299297213",
@@ -5518,8 +5518,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T15:13:00.520Z",
       "firstSeenMs": 1784301180520,
-      "lastSeen": "2026-07-17T20:25:00.000Z",
-      "lastSeenMs": 1784319900000
+      "lastSeen": "2026-07-17T20:30:00.000Z",
+      "lastSeenMs": 1784320200000
     },
     {
       "userId": "479715628",
@@ -9801,5 +9801,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:30:30.372Z"
+  "updatedAt": "2026-07-17T20:30:45.630Z"
 }
