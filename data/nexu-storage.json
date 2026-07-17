@@ -4582,16 +4582,16 @@
       "username": "souzattk4",
       "displayName": "souzax",
       "roleKey": "",
-      "gameName": "Jogo",
-      "placeId": 121418861436763,
+      "gameName": "NewSmith 🏡 RP",
+      "placeId": 16625391970,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-17T06:00:00.000Z",
-      "lastSeenMs": 1784268000000
+      "lastSeen": "2026-07-17T08:05:00.000Z",
+      "lastSeenMs": 1784275500000
     },
     {
       "userId": "9508855732",
@@ -5279,5 +5279,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:05:34.957Z"
+  "updatedAt": "2026-07-17T08:05:40.483Z"
 }
