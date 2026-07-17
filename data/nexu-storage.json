@@ -10370,8 +10370,22 @@
         "moderationScore": 100,
         "sentAt": "2026-07-17T21:47:50.549Z",
         "sentAtMs": 1784324870549
+      },
+      {
+        "id": 1784324880047002,
+        "userId": "11168140263",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Steckdose2743",
+        "displayName": "Steckdose2743",
+        "message": "#### #####",
+        "moderated": true,
+        "moderationCategory": "HASSREDE",
+        "moderationScore": 100,
+        "sentAt": "2026-07-17T21:48:00.047Z",
+        "sentAtMs": 1784324880047
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:47:56.997Z"
+  "updatedAt": "2026-07-17T21:48:01.108Z"
 }
