@@ -3954,6 +3954,22 @@
       "lastSeenMs": 1784256900000
     },
     {
+      "userId": "9458104776",
+      "username": "Zuppanorte65710",
+      "displayName": "Dookiewaffles67",
+      "roleKey": "",
+      "gameName": "FREE Hug Fight!",
+      "placeId": 79289305317945,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:13:26.950Z",
+      "firstSeenMs": 1784268806950,
+      "lastSeen": "2026-07-17T06:13:26.950Z",
+      "lastSeenMs": 1784268806950
+    },
+    {
       "userId": "9462151183",
       "username": "dfffffffir",
       "displayName": "JNLS_JLS",
@@ -4535,5 +4551,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:13:05.626Z"
+  "updatedAt": "2026-07-17T06:13:31.956Z"
 }
