@@ -722,6 +722,22 @@
       "lastSeenMs": 1784249828783
     },
     {
+      "userId": "11190140397",
+      "username": "valplist",
+      "displayName": "valp",
+      "roleKey": "",
+      "gameName": "[NYAN🌈] Flame Trainer",
+      "placeId": 16772371910,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:21:06.271Z",
+      "firstSeenMs": 1784269266271,
+      "lastSeen": "2026-07-17T06:21:06.271Z",
+      "lastSeenMs": 1784269266271
+    },
+    {
       "userId": "11195258612",
       "username": "ibvdpxghj",
       "displayName": "ADM",
@@ -4583,5 +4599,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:21:02.049Z"
+  "updatedAt": "2026-07-17T06:21:11.283Z"
 }
