@@ -1250,6 +1250,22 @@
       "lastSeenMs": 1784247613744
     },
     {
+      "userId": "11299476727",
+      "username": "taim_give0me10k",
+      "displayName": "taim_give0me10k",
+      "roleKey": "",
+      "gameName": "[🎙️] تجمع العرب / مايك",
+      "placeId": 76272175611885,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T01:51:16.882Z",
+      "firstSeenMs": 1784253076882,
+      "lastSeen": "2026-07-17T01:51:16.882Z",
+      "lastSeenMs": 1784253076882
+    },
+    {
       "userId": "1267528515",
       "username": "manumacaroni",
       "displayName": "bignoobi",
@@ -1614,8 +1630,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T01:45:00.000Z",
-      "lastSeenMs": 1784252700000
+      "lastSeen": "2026-07-17T01:50:00.000Z",
+      "lastSeenMs": 1784253000000
     },
     {
       "userId": "3643100956",
@@ -3125,5 +3141,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T01:51:00.175Z"
+  "updatedAt": "2026-07-17T01:51:21.884Z"
 }
