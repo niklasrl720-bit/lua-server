@@ -290,6 +290,22 @@
       "lastSeenMs": 1784233274515
     },
     {
+      "userId": "10860088451",
+      "username": "noname2r50",
+      "displayName": "noname2r50",
+      "roleKey": "",
+      "gameName": "3008 [2,74]",
+      "placeId": 2768379856,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:16:43.732Z",
+      "firstSeenMs": 1784247403732,
+      "lastSeen": "2026-07-17T00:16:43.732Z",
+      "lastSeenMs": 1784247403732
+    },
+    {
       "userId": "10950493610",
       "username": "BANNAK123452NDACC",
       "displayName": "I_L1K3N0B0DY",
@@ -2591,5 +2607,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:16:37.126Z"
+  "updatedAt": "2026-07-17T00:16:48.734Z"
 }
