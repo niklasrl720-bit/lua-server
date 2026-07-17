@@ -466,6 +466,22 @@
       "lastSeenMs": 1784284500000
     },
     {
+      "userId": "10477900406",
+      "username": "Yooouurz12",
+      "displayName": "YooBoyyEz_12",
+      "roleKey": "",
+      "gameName": "Elytra + Firework",
+      "placeId": 82921739423450,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:17:21.901Z",
+      "firstSeenMs": 1784308641901,
+      "lastSeen": "2026-07-17T17:17:21.901Z",
+      "lastSeenMs": 1784308641901
+    },
+    {
       "userId": "1049291677",
       "username": "scvrrzz0",
       "displayName": "kureiji",
@@ -8647,5 +8663,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:15:58.697Z"
+  "updatedAt": "2026-07-17T17:17:26.910Z"
 }
