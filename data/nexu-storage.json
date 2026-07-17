@@ -6050,6 +6050,22 @@
       "lastSeenMs": 1784297430370
     },
     {
+      "userId": "7662949404",
+      "username": "Andreit_957",
+      "displayName": "00Andreit_957",
+      "roleKey": "",
+      "gameName": "PLS DONATE 💸",
+      "placeId": 8737602449,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:47:49.706Z",
+      "firstSeenMs": 1784310469706,
+      "lastSeen": "2026-07-17T17:47:49.706Z",
+      "lastSeenMs": 1784310469706
+    },
+    {
       "userId": "7692971188",
       "username": "dunglele3",
       "displayName": "Nk_admin",
@@ -7870,8 +7886,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-17T17:40:00.000Z",
-      "lastSeenMs": 1784310000000
+      "lastSeen": "2026-07-17T17:45:00.000Z",
+      "lastSeenMs": 1784310300000
     },
     {
       "userId": "9786800904",
@@ -8835,5 +8851,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:46:32.705Z"
+  "updatedAt": "2026-07-17T17:47:54.719Z"
 }
