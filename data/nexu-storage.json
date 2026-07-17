@@ -3634,6 +3634,22 @@
       "lastSeenMs": 1784265600000
     },
     {
+      "userId": "7692971188",
+      "username": "dunglele3",
+      "displayName": "Nk_admin",
+      "roleKey": "",
+      "gameName": "Đảo Brookhaven 🏡RP",
+      "placeId": 4924922222,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T08:40:14.486Z",
+      "firstSeenMs": 1784277614486,
+      "lastSeen": "2026-07-17T08:40:14.486Z",
+      "lastSeenMs": 1784277614486
+    },
+    {
       "userId": "7741785159",
       "username": "bamegf656r",
       "displayName": "Xxmm2_loverxX",
@@ -5421,5 +5437,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:40:09.386Z"
+  "updatedAt": "2026-07-17T08:40:19.497Z"
 }
