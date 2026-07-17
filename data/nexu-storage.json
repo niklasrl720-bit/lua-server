@@ -10716,8 +10716,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T23:33:07.158Z",
         "sentAtMs": 1784331187158
+      },
+      {
+        "id": 1784332365836001,
+        "userId": "4259160808",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Tidesudden",
+        "displayName": "Tidesudden",
+        "message": "yo",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T23:52:45.836Z",
+        "sentAtMs": 1784332365836
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:51:39.605Z"
+  "updatedAt": "2026-07-17T23:52:46.949Z"
 }
