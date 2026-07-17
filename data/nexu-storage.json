@@ -6338,6 +6338,22 @@
       "lastSeenMs": 1784304600000
     },
     {
+      "userId": "8262062123",
+      "username": "olicoli241",
+      "displayName": "olicoli241",
+      "roleKey": "",
+      "gameName": "+1 Klawisz szybkości ucieczki | Cukierki i czekolada",
+      "placeId": 95082159892680,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:14:14.475Z",
+      "firstSeenMs": 1784308454475,
+      "lastSeen": "2026-07-17T17:14:14.475Z",
+      "lastSeenMs": 1784308454475
+    },
+    {
       "userId": "8273817325",
       "username": "jtkyjyy",
       "displayName": "labubu_dubaichoclat",
@@ -8615,5 +8631,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:11:31.420Z"
+  "updatedAt": "2026-07-17T17:14:19.486Z"
 }
