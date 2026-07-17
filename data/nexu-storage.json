@@ -370,6 +370,22 @@
       "lastSeenMs": 1784229300000
     },
     {
+      "userId": "10270951608",
+      "username": "R_TYT20168",
+      "displayName": "MR_Cola",
+      "roleKey": "",
+      "gameName": "Тролль - невидимая башня 2",
+      "placeId": 83312952548612,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:08:51.132Z",
+      "firstSeenMs": 1784311731132,
+      "lastSeen": "2026-07-17T18:08:51.132Z",
+      "lastSeenMs": 1784311731132
+    },
+    {
       "userId": "10305976438",
       "username": "builddsKaiella47",
       "displayName": "rip_laygt",
@@ -8931,5 +8947,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:08:22.601Z"
+  "updatedAt": "2026-07-17T18:08:56.151Z"
 }
