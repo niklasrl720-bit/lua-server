@@ -270,8 +270,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T22:35:00.000Z",
-      "lastSeenMs": 1784327700000
+      "lastSeen": "2026-07-17T22:40:00.000Z",
+      "lastSeenMs": 1784328000000
     },
     {
       "userId": "10203550652",
@@ -430,8 +430,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-17T22:35:00.000Z",
-      "lastSeenMs": 1784327700000
+      "lastSeen": "2026-07-17T22:40:00.000Z",
+      "lastSeenMs": 1784328000000
     },
     {
       "userId": "10305976438",
@@ -510,8 +510,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T22:35:00.000Z",
-      "lastSeenMs": 1784327700000
+      "lastSeen": "2026-07-17T22:40:00.000Z",
+      "lastSeenMs": 1784328000000
     },
     {
       "userId": "10427971366",
@@ -670,8 +670,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:08:40.846Z",
       "firstSeenMs": 1784243320846,
-      "lastSeen": "2026-07-16T23:40:00.000Z",
-      "lastSeenMs": 1784245200000
+      "lastSeen": "2026-07-17T22:40:00.000Z",
+      "lastSeenMs": 1784328000000
     },
     {
       "userId": "10566812830",
@@ -4286,8 +4286,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:23:45.015Z",
       "firstSeenMs": 1784327025015,
-      "lastSeen": "2026-07-17T22:35:00.000Z",
-      "lastSeenMs": 1784327700000
+      "lastSeen": "2026-07-17T22:40:00.000Z",
+      "lastSeenMs": 1784328000000
     },
     {
       "userId": "1746266119",
@@ -5150,8 +5150,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T22:35:00.000Z",
-      "lastSeenMs": 1784327700000
+      "lastSeen": "2026-07-17T22:40:00.000Z",
+      "lastSeenMs": 1784328000000
     },
     {
       "userId": "3579384057",
@@ -5438,8 +5438,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:18:06.632Z",
       "firstSeenMs": 1784323086632,
-      "lastSeen": "2026-07-17T22:35:00.000Z",
-      "lastSeenMs": 1784327700000
+      "lastSeen": "2026-07-17T22:40:00.000Z",
+      "lastSeenMs": 1784328000000
     },
     {
       "userId": "4009875708",
@@ -6206,8 +6206,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-17T22:35:00.000Z",
-      "lastSeenMs": 1784327700000
+      "lastSeen": "2026-07-17T22:40:00.000Z",
+      "lastSeenMs": 1784328000000
     },
     {
       "userId": "5131378969",
@@ -6654,8 +6654,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:43:14.567Z",
       "firstSeenMs": 1784234594567,
-      "lastSeen": "2026-07-17T22:35:00.000Z",
-      "lastSeenMs": 1784327700000
+      "lastSeen": "2026-07-17T22:40:00.000Z",
+      "lastSeenMs": 1784328000000
     },
     {
       "userId": "6089503220",
@@ -8194,6 +8194,22 @@
       "lastSeenMs": 1784283524349
     },
     {
+      "userId": "8564387303",
+      "username": "hasgbnjkl",
+      "displayName": "RTY_H77",
+      "roleKey": "",
+      "gameName": "Blox Fruits | البحر الثاني",
+      "placeId": 4442272183,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:40:35.838Z",
+      "firstSeenMs": 1784328035838,
+      "lastSeen": "2026-07-17T22:40:35.838Z",
+      "lastSeenMs": 1784328035838
+    },
+    {
       "userId": "8570867230",
       "username": "WifiSkel999",
       "displayName": "TTcaleb_isc00l",
@@ -9038,8 +9054,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-17T22:35:00.000Z",
-      "lastSeenMs": 1784327700000
+      "lastSeen": "2026-07-17T22:40:00.000Z",
+      "lastSeenMs": 1784328000000
     },
     {
       "userId": "9414382754",
@@ -10157,5 +10173,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:36:11.162Z"
+  "updatedAt": "2026-07-17T22:40:40.851Z"
 }
