@@ -1526,16 +1526,16 @@
       "username": "IronChase33",
       "displayName": "saturogojo",
       "roleKey": "",
-      "gameName": "The Button Room [Game]",
-      "placeId": 85724524674243,
+      "gameName": "Place 117596343548805",
+      "placeId": 117596343548805,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:05:19.977Z",
       "firstSeenMs": 1784228719977,
-      "lastSeen": "2026-07-16T22:20:00.000Z",
-      "lastSeenMs": 1784240400000
+      "lastSeen": "2026-07-17T02:35:00.000Z",
+      "lastSeenMs": 1784255700000
     },
     {
       "userId": "2398075590",
@@ -3391,5 +3391,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:35:38.699Z"
+  "updatedAt": "2026-07-17T02:36:08.041Z"
 }
