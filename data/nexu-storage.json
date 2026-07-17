@@ -626,6 +626,22 @@
       "lastSeenMs": 1784248311406
     },
     {
+      "userId": "11208288124",
+      "username": "minhcaychayhuhu",
+      "displayName": "minhcaychayhuhu",
+      "roleKey": "",
+      "gameName": "Cướp một Brainrot [Máy chủ người chơi mới]",
+      "placeId": 96342491571673,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.725.1142",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:52:04.143Z",
+      "firstSeenMs": 1784260324143,
+      "lastSeen": "2026-07-17T03:52:04.143Z",
+      "lastSeenMs": 1784260324143
+    },
+    {
       "userId": "11213059431",
       "username": "cabra_mods",
       "displayName": "cabra_mods",
@@ -3891,5 +3907,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:51:35.535Z"
+  "updatedAt": "2026-07-17T03:52:09.147Z"
 }
