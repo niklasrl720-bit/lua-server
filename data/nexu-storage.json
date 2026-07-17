@@ -3158,16 +3158,16 @@
       "username": "EdinPlayz100",
       "displayName": "LarryEXE",
       "roleKey": "",
-      "gameName": "[LAST] Bathtub Universe",
-      "placeId": 140199277601307,
+      "gameName": "[MORPHS] The Backrooms VR : Escape",
+      "placeId": 9415887955,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "IOS",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:32:58.793Z",
       "firstSeenMs": 1784266378793,
-      "lastSeen": "2026-07-17T06:10:00.000Z",
-      "lastSeenMs": 1784268600000
+      "lastSeen": "2026-07-17T15:45:00.000Z",
+      "lastSeenMs": 1784303100000
     },
     {
       "userId": "1534052061",
@@ -5022,8 +5022,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:50:29.911Z",
       "firstSeenMs": 1784242229911,
-      "lastSeen": "2026-07-17T14:45:00.000Z",
-      "lastSeenMs": 1784299500000
+      "lastSeen": "2026-07-17T15:45:00.000Z",
+      "lastSeenMs": 1784303100000
     },
     {
       "userId": "7045525106",
@@ -6190,8 +6190,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T15:35:00.000Z",
-      "lastSeenMs": 1784302500000
+      "lastSeen": "2026-07-17T15:45:00.000Z",
+      "lastSeenMs": 1784303100000
     },
     {
       "userId": "8808861528",
@@ -7885,5 +7885,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:46:48.496Z"
+  "updatedAt": "2026-07-17T15:47:23.468Z"
 }
