@@ -270,8 +270,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:59:17.091Z",
       "firstSeenMs": 1784260757091,
-      "lastSeen": "2026-07-17T03:59:17.091Z",
-      "lastSeenMs": 1784260757091
+      "lastSeen": "2026-07-17T04:00:00.000Z",
+      "lastSeenMs": 1784260800000
     },
     {
       "userId": "10551580357",
@@ -1150,8 +1150,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-17T03:55:00.000Z",
-      "lastSeenMs": 1784260500000
+      "lastSeen": "2026-07-17T04:00:00.000Z",
+      "lastSeenMs": 1784260800000
     },
     {
       "userId": "11293835762",
@@ -1470,8 +1470,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:56:51.301Z",
       "firstSeenMs": 1784260611301,
-      "lastSeen": "2026-07-17T03:56:51.301Z",
-      "lastSeenMs": 1784260611301
+      "lastSeen": "2026-07-17T04:00:00.000Z",
+      "lastSeenMs": 1784260800000
     },
     {
       "userId": "11299912346",
@@ -1486,8 +1486,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:20:56.906Z",
       "firstSeenMs": 1784258456906,
-      "lastSeen": "2026-07-17T03:55:00.000Z",
-      "lastSeenMs": 1784260500000
+      "lastSeen": "2026-07-17T04:00:00.000Z",
+      "lastSeenMs": 1784260800000
     },
     {
       "userId": "1267528515",
@@ -1918,8 +1918,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T03:55:00.000Z",
-      "lastSeenMs": 1784260500000
+      "lastSeen": "2026-07-17T04:00:00.000Z",
+      "lastSeenMs": 1784260800000
     },
     {
       "userId": "3643100956",
@@ -3086,24 +3086,24 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:48:12.108Z",
       "firstSeenMs": 1784260092108,
-      "lastSeen": "2026-07-17T03:55:00.000Z",
-      "lastSeenMs": 1784260500000
+      "lastSeen": "2026-07-17T04:00:00.000Z",
+      "lastSeenMs": 1784260800000
     },
     {
       "userId": "8825146444",
       "username": "joandk12",
       "displayName": "4x_naoya",
       "roleKey": "",
-      "gameName": "[MUNDO 3] +1 Escape de teclado de velocidad",
-      "placeId": 93411036959889,
+      "gameName": "🐒 +1 Escape de mono de velocidad",
+      "placeId": 114697347887839,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "IOS",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:44:47.348Z",
       "firstSeenMs": 1784256287348,
-      "lastSeen": "2026-07-17T03:20:00.000Z",
-      "lastSeenMs": 1784258400000
+      "lastSeen": "2026-07-17T04:00:00.000Z",
+      "lastSeenMs": 1784260800000
     },
     {
       "userId": "8852319931",
@@ -3390,8 +3390,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-17T03:55:00.000Z",
-      "lastSeenMs": 1784260500000
+      "lastSeen": "2026-07-17T04:00:00.000Z",
+      "lastSeenMs": 1784260800000
     },
     {
       "userId": "9414382754",
@@ -3953,5 +3953,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:59:22.096Z"
+  "updatedAt": "2026-07-17T04:00:11.606Z"
 }
