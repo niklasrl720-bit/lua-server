@@ -482,6 +482,22 @@
       "lastSeenMs": 1784225400000
     },
     {
+      "userId": "11206878595",
+      "username": "udioek8w",
+      "displayName": "666",
+      "roleKey": "",
+      "gameName": "Brookhaven 🏡 RP",
+      "placeId": 4924922222,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:31:51.406Z",
+      "firstSeenMs": 1784248311406,
+      "lastSeen": "2026-07-17T00:31:51.406Z",
+      "lastSeenMs": 1784248311406
+    },
+    {
       "userId": "11213059431",
       "username": "cabra_mods",
       "displayName": "cabra_mods",
@@ -1422,8 +1438,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T00:25:00.000Z",
-      "lastSeenMs": 1784247900000
+      "lastSeen": "2026-07-17T00:30:00.000Z",
+      "lastSeenMs": 1784248200000
     },
     {
       "userId": "3649742821",
@@ -2000,6 +2016,22 @@
       "firstSeenMs": 1784244283900,
       "lastSeen": "2026-07-16T23:24:43.900Z",
       "lastSeenMs": 1784244283900
+    },
+    {
+      "userId": "8245444026",
+      "username": "Rmalvado06",
+      "displayName": "Rmalvado06",
+      "roleKey": "",
+      "gameName": "[MAPA DE VERÃO!] Camaleão",
+      "placeId": 110808833601416,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:31:50.248Z",
+      "firstSeenMs": 1784248310248,
+      "lastSeen": "2026-07-17T00:31:50.248Z",
+      "lastSeenMs": 1784248310248
     },
     {
       "userId": "8338181851",
@@ -2717,5 +2749,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:30:21.997Z"
+  "updatedAt": "2026-07-17T00:31:55.251Z"
 }
