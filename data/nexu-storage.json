@@ -1458,6 +1458,22 @@
       "lastSeenMs": 1784252478250
     },
     {
+      "userId": "1891206840",
+      "username": "Denasia_123",
+      "displayName": "nae",
+      "roleKey": "",
+      "gameName": "Mukbang Game [Testing] 🍣🐟!",
+      "placeId": 74188431054457,
+      "executionSource": "Delta",
+      "executionVersion": "1.0.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:05:48.712Z",
+      "firstSeenMs": 1784257548712,
+      "lastSeen": "2026-07-17T03:05:48.712Z",
+      "lastSeenMs": 1784257548712
+    },
+    {
       "userId": "1916375036",
       "username": "felipesup091",
       "displayName": "Boyfriend",
@@ -3501,5 +3517,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:05:30.754Z"
+  "updatedAt": "2026-07-17T03:05:53.717Z"
 }
