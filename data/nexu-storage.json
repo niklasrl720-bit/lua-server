@@ -194,6 +194,22 @@
       "lastSeenMs": 1784306400000
     },
     {
+      "userId": "1012891388",
+      "username": "KekePika250",
+      "displayName": "gogo",
+      "roleKey": "",
+      "gameName": "Game1234's Place.",
+      "placeId": 12253922014,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:59:26.536Z",
+      "firstSeenMs": 1784329166536,
+      "lastSeen": "2026-07-17T22:59:26.536Z",
+      "lastSeenMs": 1784329166536
+    },
+    {
       "userId": "10135335294",
       "username": "BogachanF16",
       "displayName": "Basurcan",
@@ -10251,5 +10267,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:59:17.511Z"
+  "updatedAt": "2026-07-17T22:59:31.544Z"
 }
