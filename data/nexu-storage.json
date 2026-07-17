@@ -2950,8 +2950,8 @@
       "username": "jghirebq2011",
       "displayName": "jghirebq2011",
       "roleKey": "",
-      "gameName": "Arène de pistolets",
-      "placeId": 87018676608089,
+      "gameName": "Tir rapide [fps]",
+      "placeId": 83728249169833,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
@@ -3439,5 +3439,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:45:36.353Z"
+  "updatedAt": "2026-07-17T02:45:48.655Z"
 }
