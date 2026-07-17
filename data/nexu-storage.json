@@ -2818,6 +2818,22 @@
       "lastSeenMs": 1784243100000
     },
     {
+      "userId": "9223593357",
+      "username": "Th6DarkSide66",
+      "displayName": "Toxic",
+      "roleKey": "",
+      "gameName": "Batalha de lâminas por Brainrots!",
+      "placeId": 135529246290923,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T02:39:15.520Z",
+      "firstSeenMs": 1784255955520,
+      "lastSeen": "2026-07-17T02:39:15.520Z",
+      "lastSeenMs": 1784255955520
+    },
+    {
       "userId": "9232921015",
       "username": "lejusdu91",
       "displayName": "lejusdu91",
@@ -3391,5 +3407,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:38:22.654Z"
+  "updatedAt": "2026-07-17T02:39:20.524Z"
 }
