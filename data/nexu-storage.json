@@ -3920,8 +3920,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T03:42:16.603Z",
         "sentAtMs": 1784259736603
+      },
+      {
+        "id": 1784260667779001,
+        "userId": "11299902948",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "kfjjwegugd",
+        "displayName": "kfjjwegugd",
+        "message": "بدي روب مين يسادني",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T03:57:47.779Z",
+        "sentAtMs": 1784260667779
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:56:56.305Z"
+  "updatedAt": "2026-07-17T03:57:48.903Z"
 }
