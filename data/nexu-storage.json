@@ -4050,6 +4050,22 @@
       "lastSeenMs": 1784313000000
     },
     {
+      "userId": "11303186538",
+      "username": "aram_2725353",
+      "displayName": "aram_2725353",
+      "roleKey": "",
+      "gameName": "Survive 99 Nights",
+      "placeId": 126509999114328,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:44:31.222Z",
+      "firstSeenMs": 1784328271222,
+      "lastSeen": "2026-07-17T22:44:31.222Z",
+      "lastSeenMs": 1784328271222
+    },
+    {
       "userId": "11303556724",
       "username": "3ducationalxpurposes",
       "displayName": "3ducationalxpurposes",
@@ -10173,5 +10189,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:42:14.458Z"
+  "updatedAt": "2026-07-17T22:44:36.231Z"
 }
