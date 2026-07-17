@@ -34,6 +34,22 @@
       "lastSeenMs": 1784257589715
     },
     {
+      "userId": "10063862509",
+      "username": "ssbcmatgthkmrjbkr",
+      "displayName": "System",
+      "roleKey": "",
+      "gameName": "Element Arena💥",
+      "placeId": 93922097153911,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:08:18.050Z",
+      "firstSeenMs": 1784272098050,
+      "lastSeen": "2026-07-17T07:08:18.050Z",
+      "lastSeenMs": 1784272098050
+    },
+    {
       "userId": "10079795518",
       "username": "NooobAltRivals",
       "displayName": "NooobAltRivals",
@@ -4901,5 +4917,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:08:07.103Z"
+  "updatedAt": "2026-07-17T07:08:23.057Z"
 }
