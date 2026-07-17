@@ -702,8 +702,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:16:43.732Z",
       "firstSeenMs": 1784247403732,
-      "lastSeen": "2026-07-17T14:15:00.000Z",
-      "lastSeenMs": 1784297700000
+      "lastSeen": "2026-07-17T14:20:00.000Z",
+      "lastSeenMs": 1784298000000
     },
     {
       "userId": "10865199057",
@@ -2318,8 +2318,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:02:41.381Z",
       "firstSeenMs": 1784296961381,
-      "lastSeen": "2026-07-17T14:15:00.000Z",
-      "lastSeenMs": 1784297700000
+      "lastSeen": "2026-07-17T14:20:00.000Z",
+      "lastSeenMs": 1784298000000
     },
     {
       "userId": "11292693920",
@@ -4222,8 +4222,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T14:15:00.000Z",
-      "lastSeenMs": 1784297700000
+      "lastSeen": "2026-07-17T14:20:00.000Z",
+      "lastSeenMs": 1784298000000
     },
     {
       "userId": "5111527490",
@@ -5086,8 +5086,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:16:28.179Z",
       "firstSeenMs": 1784225788179,
-      "lastSeen": "2026-07-17T14:15:00.000Z",
-      "lastSeenMs": 1784297700000
+      "lastSeen": "2026-07-17T14:20:00.000Z",
+      "lastSeenMs": 1784298000000
     },
     {
       "userId": "7926460129",
@@ -5670,16 +5670,16 @@
       "username": "vitory5009",
       "displayName": "vitory5009",
       "roleKey": "",
-      "gameName": "Mistério Assassino 2",
-      "placeId": 142823291,
+      "gameName": "O Hospital Animal",
+      "placeId": 104522435597696,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T08:40:04.377Z",
       "firstSeenMs": 1784277604377,
-      "lastSeen": "2026-07-17T08:45:00.000Z",
-      "lastSeenMs": 1784277900000
+      "lastSeen": "2026-07-17T14:20:00.000Z",
+      "lastSeenMs": 1784298000000
     },
     {
       "userId": "8785383597",
@@ -5710,8 +5710,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T03:35:00.000Z",
-      "lastSeenMs": 1784259300000
+      "lastSeen": "2026-07-17T14:20:00.000Z",
+      "lastSeenMs": 1784298000000
     },
     {
       "userId": "8808861528",
@@ -5950,8 +5950,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T14:15:00.000Z",
-      "lastSeenMs": 1784297700000
+      "lastSeen": "2026-07-17T14:20:00.000Z",
+      "lastSeenMs": 1784298000000
     },
     {
       "userId": "9134201874",
@@ -7255,5 +7255,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:20:24.332Z"
+  "updatedAt": "2026-07-17T14:21:06.538Z"
 }
