@@ -10470,8 +10470,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T21:51:46.604Z",
         "sentAtMs": 1784325106604
+      },
+      {
+        "id": 1784325110658003,
+        "userId": "11168140263",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Steckdose2743",
+        "displayName": "Steckdose2743",
+        "message": "Niklas liebt bbc",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T21:51:50.658Z",
+        "sentAtMs": 1784325110658
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:51:47.720Z"
+  "updatedAt": "2026-07-17T21:51:52.161Z"
 }
