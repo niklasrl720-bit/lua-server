@@ -9746,6 +9746,22 @@
       "lastSeenMs": 1784235248077
     },
     {
+      "userId": "9863525264",
+      "username": "idk6257775",
+      "displayName": "idk6257775",
+      "roleKey": "",
+      "gameName": "[FINAL INSANITY PART1] Advanced Soul Ops Boss Rush",
+      "placeId": 95044159432032,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:42:18.755Z",
+      "firstSeenMs": 1784331738755,
+      "lastSeen": "2026-07-17T23:42:18.755Z",
+      "lastSeenMs": 1784331738755
+    },
+    {
       "userId": "9870980208",
       "username": "miguel10293871",
       "displayName": "miguel10293871",
@@ -10655,5 +10671,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:41:31.852Z"
+  "updatedAt": "2026-07-17T23:42:23.765Z"
 }
