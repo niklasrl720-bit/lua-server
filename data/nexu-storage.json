@@ -82,6 +82,22 @@
       "lastSeenMs": 1784227408545
     },
     {
+      "userId": "10112042881",
+      "username": "llXxFESxXll09",
+      "displayName": "llXxADRIANxTIARAxXll",
+      "roleKey": "",
+      "gameName": "Conjuntos de Buchones v3",
+      "placeId": 14771338115,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:49:00.115Z",
+      "firstSeenMs": 1784274540115,
+      "lastSeen": "2026-07-17T07:49:00.115Z",
+      "lastSeenMs": 1784274540115
+    },
+    {
       "userId": "10149091354",
       "username": "iN_7E",
       "displayName": "V4MP",
@@ -608,6 +624,22 @@
       "firstSeenMs": 1784270387853,
       "lastSeen": "2026-07-17T06:40:00.000Z",
       "lastSeenMs": 1784270400000
+    },
+    {
+      "userId": "11014149263",
+      "username": "c00lkiddfropsa",
+      "displayName": "Pizzakidd",
+      "roleKey": "",
+      "gameName": "クレイジー・トロル・スラップ・タワー😈",
+      "placeId": 110470672231288,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:49:01.291Z",
+      "firstSeenMs": 1784274541291,
+      "lastSeen": "2026-07-17T07:49:01.291Z",
+      "lastSeenMs": 1784274541291
     },
     {
       "userId": "11014655499",
@@ -5171,5 +5203,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:46:38.592Z"
+  "updatedAt": "2026-07-17T07:49:05.122Z"
 }
