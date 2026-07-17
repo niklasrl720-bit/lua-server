@@ -1582,8 +1582,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T01:15:00.000Z",
-      "lastSeenMs": 1784250900000
+      "lastSeen": "2026-07-17T01:25:00.000Z",
+      "lastSeenMs": 1784251500000
     },
     {
       "userId": "3643100956",
@@ -2112,6 +2112,22 @@
       "firstSeenMs": 1784249031187,
       "lastSeen": "2026-07-17T00:50:00.000Z",
       "lastSeenMs": 1784249400000
+    },
+    {
+      "userId": "7476002052",
+      "username": "kekexz99",
+      "displayName": "kekexz99",
+      "roleKey": "",
+      "gameName": "BOMBAROO",
+      "placeId": 94264181209267,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T01:27:08.454Z",
+      "firstSeenMs": 1784251628454,
+      "lastSeen": "2026-07-17T01:27:08.454Z",
+      "lastSeenMs": 1784251628454
     },
     {
       "userId": "7741785159",
@@ -3045,5 +3061,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T01:26:33.865Z"
+  "updatedAt": "2026-07-17T01:27:13.459Z"
 }
