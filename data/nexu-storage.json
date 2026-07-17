@@ -6258,6 +6258,22 @@
       "lastSeenMs": 1784257525749
     },
     {
+      "userId": "7788811597",
+      "username": "aalleexx_369",
+      "displayName": "foltynisthebestuhuh",
+      "roleKey": "",
+      "gameName": "Ohio Tools",
+      "placeId": 85011874799856,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:20:01.579Z",
+      "firstSeenMs": 1784312401579,
+      "lastSeen": "2026-07-17T18:20:01.579Z",
+      "lastSeenMs": 1784312401579
+    },
+    {
       "userId": "7803427161",
       "username": "lennepkrl",
       "displayName": "Menotralha7",
@@ -7390,8 +7406,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T18:15:00.000Z",
-      "lastSeenMs": 1784312100000
+      "lastSeen": "2026-07-17T18:20:00.000Z",
+      "lastSeenMs": 1784312400000
     },
     {
       "userId": "9134201874",
@@ -8030,8 +8046,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-17T18:15:00.000Z",
-      "lastSeenMs": 1784312100000
+      "lastSeen": "2026-07-17T18:20:00.000Z",
+      "lastSeenMs": 1784312400000
     },
     {
       "userId": "9786800904",
@@ -9009,5 +9025,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:19:19.655Z"
+  "updatedAt": "2026-07-17T18:20:06.589Z"
 }
