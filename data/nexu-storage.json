@@ -722,6 +722,22 @@
       "lastSeenMs": 1784275500000
     },
     {
+      "userId": "10938747666",
+      "username": "umacriancafeli",
+      "displayName": "umacriancafeli",
+      "roleKey": "",
+      "gameName": "Jogos SCP e Monstros SCP",
+      "placeId": 7253149844,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:14:06.218Z",
+      "firstSeenMs": 1784294046218,
+      "lastSeen": "2026-07-17T13:14:06.218Z",
+      "lastSeenMs": 1784294046218
+    },
+    {
       "userId": "10950493610",
       "username": "BANNAK123452NDACC",
       "displayName": "I_L1K3N0B0DY",
@@ -6845,5 +6861,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:13:30.690Z"
+  "updatedAt": "2026-07-17T13:14:11.226Z"
 }
