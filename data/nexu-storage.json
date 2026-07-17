@@ -1954,6 +1954,22 @@
       "lastSeenMs": 1784242800000
     },
     {
+      "userId": "2591492263",
+      "username": "yenn_lost",
+      "displayName": "yenn_lost",
+      "roleKey": "",
+      "gameName": "SUFRIR",
+      "placeId": 6761209900,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:07:32.423Z",
+      "firstSeenMs": 1784268452423,
+      "lastSeen": "2026-07-17T06:07:32.423Z",
+      "lastSeenMs": 1784268452423
+    },
+    {
       "userId": "2761369214",
       "username": "cristian778737",
       "displayName": "Cristian778737",
@@ -4503,5 +4519,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:06:34.730Z"
+  "updatedAt": "2026-07-17T06:07:37.492Z"
 }
