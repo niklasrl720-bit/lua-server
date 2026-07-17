@@ -658,6 +658,22 @@
       "lastSeenMs": 1784282806791
     },
     {
+      "userId": "10807117487",
+      "username": "Dem_0n22",
+      "displayName": "Dem_0n22",
+      "roleKey": "",
+      "gameName": "Cinayet Gizemi 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:08:19.204Z",
+      "firstSeenMs": 1784297299204,
+      "lastSeen": "2026-07-17T14:08:19.204Z",
+      "lastSeenMs": 1784297299204
+    },
+    {
       "userId": "10825283505",
       "username": "wos404767",
       "displayName": "wos404767",
@@ -7145,5 +7161,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:05:52.869Z"
+  "updatedAt": "2026-07-17T14:08:24.212Z"
 }
