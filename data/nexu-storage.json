@@ -6486,16 +6486,16 @@
       "username": "Mikey6869",
       "displayName": "Blacktophatsiiiiiiii",
       "roleKey": "",
-      "gameName": "Sheriffs VS Murderers ⚔️",
-      "placeId": 101302512924070,
+      "gameName": "Timebomb Tag 💣💥 [ANKLEBREAK]",
+      "placeId": 71150159809417,
       "executionSource": "Delta",
       "executionVersion": "1.0.727.1199",
       "clientPlatform": "IOS",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:00:11.581Z",
       "firstSeenMs": 1784264411581,
-      "lastSeen": "2026-07-17T14:10:00.000Z",
-      "lastSeenMs": 1784297400000
+      "lastSeen": "2026-07-17T23:20:00.000Z",
+      "lastSeenMs": 1784330400000
     },
     {
       "userId": "5316980228",
@@ -10445,5 +10445,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:24:28.123Z"
+  "updatedAt": "2026-07-17T23:24:45.229Z"
 }
