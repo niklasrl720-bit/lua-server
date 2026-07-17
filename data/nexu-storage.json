@@ -722,6 +722,22 @@
       "lastSeenMs": 1784249828783
     },
     {
+      "userId": "11195258612",
+      "username": "ibvdpxghj",
+      "displayName": "ADM",
+      "roleKey": "",
+      "gameName": "Hospital Animal: ROLEPLAY",
+      "placeId": 118237991793479,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:19:05.823Z",
+      "firstSeenMs": 1784269145823,
+      "lastSeen": "2026-07-17T06:19:05.823Z",
+      "lastSeenMs": 1784269145823
+    },
+    {
       "userId": "11203703629",
       "username": "Ichbin13I",
       "displayName": "Vadim",
@@ -4567,5 +4583,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:17:46.607Z"
+  "updatedAt": "2026-07-17T06:19:10.828Z"
 }
