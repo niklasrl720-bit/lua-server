@@ -6556,8 +6556,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T10:59:23.449Z",
         "sentAtMs": 1784285963449
+      },
+      {
+        "id": 1784290904310001,
+        "userId": "4167371493",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "e24ien",
+        "displayName": "superdaden",
+        "message": "######",
+        "moderated": true,
+        "moderationCategory": "HASSREDE",
+        "moderationScore": 100,
+        "sentAt": "2026-07-17T12:21:44.310Z",
+        "sentAtMs": 1784290904310
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:21:23.123Z"
+  "updatedAt": "2026-07-17T12:21:45.336Z"
 }
