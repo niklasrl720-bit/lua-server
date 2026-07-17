@@ -3330,6 +3330,22 @@
       "lastSeenMs": 1784283429809
     },
     {
+      "userId": "2297905036",
+      "username": "wuuwsh2",
+      "displayName": "Bracer",
+      "roleKey": "",
+      "gameName": "Build A Boat For Treasure",
+      "placeId": 537413528,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:21:02.853Z",
+      "firstSeenMs": 1784301662853,
+      "lastSeen": "2026-07-17T15:21:02.853Z",
+      "lastSeenMs": 1784301662853
+    },
+    {
       "userId": "2361831889",
       "username": "LoveNoRage",
       "displayName": "China",
@@ -3536,6 +3552,22 @@
       "firstSeenMs": 1784257712006,
       "lastSeen": "2026-07-17T03:10:00.000Z",
       "lastSeenMs": 1784257800000
+    },
+    {
+      "userId": "3069967015",
+      "username": "Migot20",
+      "displayName": "Migot20",
+      "roleKey": "",
+      "gameName": "⚡Ninja Legends",
+      "placeId": 3956818381,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:21:04.529Z",
+      "firstSeenMs": 1784301664529,
+      "lastSeen": "2026-07-17T15:21:04.529Z",
+      "lastSeenMs": 1784301664529
     },
     {
       "userId": "3104796288",
@@ -7677,5 +7709,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:21:01.220Z"
+  "updatedAt": "2026-07-17T15:21:07.861Z"
 }
