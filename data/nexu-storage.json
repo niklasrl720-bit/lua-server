@@ -354,6 +354,22 @@
       "lastSeenMs": 1784238900000
     },
     {
+      "userId": "10747279147",
+      "username": "kobeandbronglaze",
+      "displayName": "kobeandbronglaze",
+      "roleKey": "",
+      "gameName": "World 2",
+      "placeId": 113900430381305,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T04:02:39.607Z",
+      "firstSeenMs": 1784260959607,
+      "lastSeen": "2026-07-17T04:02:39.607Z",
+      "lastSeenMs": 1784260959607
+    },
+    {
       "userId": "10771145154",
       "username": "lelekoleon",
       "displayName": "lelekoleon",
@@ -3969,5 +3985,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:00:59.376Z"
+  "updatedAt": "2026-07-17T04:02:44.612Z"
 }
