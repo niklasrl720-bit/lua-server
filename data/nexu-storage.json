@@ -450,6 +450,22 @@
       "lastSeenMs": 1784246100000
     },
     {
+      "userId": "10998491696",
+      "username": "blockspin1234498",
+      "displayName": "Jesus",
+      "roleKey": "",
+      "gameName": "Robar un Brainrot",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T04:21:35.404Z",
+      "firstSeenMs": 1784262095404,
+      "lastSeen": "2026-07-17T04:21:35.404Z",
+      "lastSeenMs": 1784262095404
+    },
+    {
       "userId": "11025367411",
       "username": "Wahwah027",
       "displayName": "AstagaNaga",
@@ -4033,5 +4049,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:21:35.184Z"
+  "updatedAt": "2026-07-17T04:21:40.410Z"
 }
