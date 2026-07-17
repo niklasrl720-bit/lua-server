@@ -674,6 +674,22 @@
       "lastSeenMs": 1784273688503
     },
     {
+      "userId": "10594787282",
+      "username": "jovan6132",
+      "displayName": "palestinegirl",
+      "roleKey": "",
+      "gameName": "Brookhaven 🏡RP",
+      "placeId": 4924922222,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:12:06.010Z",
+      "firstSeenMs": 1784319126010,
+      "lastSeen": "2026-07-17T20:12:06.010Z",
+      "lastSeenMs": 1784319126010
+    },
+    {
       "userId": "10600244081",
       "username": "gerald100121",
       "displayName": "121001dlareg",
@@ -9673,5 +9689,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:11:46.569Z"
+  "updatedAt": "2026-07-17T20:12:11.090Z"
 }
