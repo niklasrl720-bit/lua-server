@@ -9798,16 +9798,16 @@
       "username": "jeanfils2354",
       "displayName": "jeanfils2354",
       "roleKey": "",
-      "gameName": "[NÉBULEUSE] BloxStrike",
-      "placeId": 114234929420007,
+      "gameName": "RIVAUX",
+      "placeId": 17625359962,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-17T23:40:00.000Z",
-      "lastSeenMs": 1784331600000
+      "lastSeen": "2026-07-17T23:55:00.000Z",
+      "lastSeenMs": 1784332500000
     },
     {
       "userId": "9812944983",
@@ -10779,5 +10779,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:57:41.099Z"
+  "updatedAt": "2026-07-17T23:58:04.657Z"
 }
