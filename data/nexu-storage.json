@@ -3782,16 +3782,16 @@
       "username": "Migot20",
       "displayName": "Migot20",
       "roleKey": "",
-      "gameName": "⚡Ninja Legends",
-      "placeId": 3956818381,
+      "gameName": "EAT A FRIEND",
+      "placeId": 17011539675,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T15:21:04.529Z",
       "firstSeenMs": 1784301664529,
-      "lastSeen": "2026-07-17T15:21:04.529Z",
-      "lastSeenMs": 1784301664529
+      "lastSeen": "2026-07-17T16:15:00.000Z",
+      "lastSeenMs": 1784304900000
     },
     {
       "userId": "3104796288",
@@ -5174,16 +5174,16 @@
       "username": "a_kurti",
       "displayName": "Fester",
       "roleKey": "",
-      "gameName": "MIC UP 🔊",
-      "placeId": 6884319169,
+      "gameName": "Classmates [🔊VC]",
+      "placeId": 121335031927444,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:50:29.911Z",
       "firstSeenMs": 1784242229911,
-      "lastSeen": "2026-07-17T16:05:00.000Z",
-      "lastSeenMs": 1784304300000
+      "lastSeen": "2026-07-17T16:15:00.000Z",
+      "lastSeenMs": 1784304900000
     },
     {
       "userId": "7045525106",
@@ -8123,5 +8123,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:16:30.341Z"
+  "updatedAt": "2026-07-17T16:16:47.462Z"
 }
