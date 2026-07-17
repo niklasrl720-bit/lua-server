@@ -2482,6 +2482,22 @@
       "lastSeenMs": 1784269500000
     },
     {
+      "userId": "4508373870",
+      "username": "Langrouis",
+      "displayName": "JaMonti",
+      "roleKey": "",
+      "gameName": "Basketball: Zero",
+      "placeId": 130739873848552,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:26:43.731Z",
+      "firstSeenMs": 1784269603731,
+      "lastSeen": "2026-07-17T06:26:43.731Z",
+      "lastSeenMs": 1784269603731
+    },
+    {
       "userId": "4549877961",
       "username": "momololbob",
       "displayName": "Vnucek_portala",
@@ -4078,8 +4094,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:23:33.518Z",
       "firstSeenMs": 1784269413518,
-      "lastSeen": "2026-07-17T06:23:33.518Z",
-      "lastSeenMs": 1784269413518
+      "lastSeen": "2026-07-17T06:25:00.000Z",
+      "lastSeenMs": 1784269500000
     },
     {
       "userId": "9661855432",
@@ -4615,5 +4631,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:26:16.795Z"
+  "updatedAt": "2026-07-17T06:26:48.737Z"
 }
