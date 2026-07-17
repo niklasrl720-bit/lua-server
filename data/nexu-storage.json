@@ -6322,6 +6322,22 @@
       "lastSeenMs": 1784249400000
     },
     {
+      "userId": "7443486219",
+      "username": "Monkeyman81902",
+      "displayName": "Vending_machine",
+      "roleKey": "",
+      "gameName": "Piggy: Takeover",
+      "placeId": 15460434875,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:48:51.803Z",
+      "firstSeenMs": 1784317731803,
+      "lastSeen": "2026-07-17T19:48:51.803Z",
+      "lastSeenMs": 1784317731803
+    },
+    {
       "userId": "7460800582",
       "username": "vitinhonido02",
       "displayName": "Lord_Branco",
@@ -9545,5 +9561,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:48:47.272Z"
+  "updatedAt": "2026-07-17T19:48:56.813Z"
 }
