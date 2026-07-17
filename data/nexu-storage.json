@@ -2994,6 +2994,22 @@
       "lastSeenMs": 1784238000000
     },
     {
+      "userId": "7926460129",
+      "username": "Jban071",
+      "displayName": "Jban071",
+      "roleKey": "",
+      "gameName": "Steal a Brainrot",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:14:41.723Z",
+      "firstSeenMs": 1784265281723,
+      "lastSeen": "2026-07-17T05:14:41.723Z",
+      "lastSeenMs": 1784265281723
+    },
+    {
       "userId": "7975307214",
       "username": "ezioles54",
       "displayName": "ezioles54",
@@ -4327,5 +4343,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:14:08.023Z"
+  "updatedAt": "2026-07-17T05:14:46.729Z"
 }
