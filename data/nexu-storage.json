@@ -1078,16 +1078,16 @@
       "username": "epicman1234451",
       "displayName": "epicman1234451",
       "roleKey": "",
-      "gameName": "Brookhaven 🏡RP",
-      "placeId": 4924922222,
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-17T02:25:00.000Z",
-      "lastSeenMs": 1784255100000
+      "lastSeen": "2026-07-17T03:05:00.000Z",
+      "lastSeenMs": 1784257500000
     },
     {
       "userId": "11293835762",
@@ -2706,6 +2706,22 @@
       "lastSeenMs": 1784230806703
     },
     {
+      "userId": "8659474035",
+      "username": "EuEo_Enzo5",
+      "displayName": "Henriq_333",
+      "roleKey": "",
+      "gameName": "Mistério Assassino 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:07:08.140Z",
+      "firstSeenMs": 1784257628140,
+      "lastSeen": "2026-07-17T03:07:08.140Z",
+      "lastSeenMs": 1784257628140
+    },
+    {
       "userId": "8703565839",
       "username": "CharAlt09",
       "displayName": "BrandonLee",
@@ -3533,5 +3549,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:06:34.719Z"
+  "updatedAt": "2026-07-17T03:07:13.145Z"
 }
