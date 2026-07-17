@@ -1122,6 +1122,22 @@
       "lastSeenMs": 1784243400000
     },
     {
+      "userId": "11296023569",
+      "username": "cticiyx8ry",
+      "displayName": "ycutd7dtu",
+      "roleKey": "",
+      "gameName": "Máy chủ Noob",
+      "placeId": 137378874406308,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:08:19.767Z",
+      "firstSeenMs": 1784257699767,
+      "lastSeen": "2026-07-17T03:08:19.767Z",
+      "lastSeenMs": 1784257699767
+    },
+    {
       "userId": "11296404146",
       "username": "Pkstockxgod",
       "displayName": "Pkstockxgod",
@@ -3549,5 +3565,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:07:13.145Z"
+  "updatedAt": "2026-07-17T03:08:24.771Z"
 }
