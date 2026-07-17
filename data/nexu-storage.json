@@ -6402,6 +6402,22 @@
       "lastSeenMs": 1784311252701
     },
     {
+      "userId": "6093269085",
+      "username": "GarikMania",
+      "displayName": "kusai",
+      "roleKey": "",
+      "gameName": "Лагерь РП 🌞",
+      "placeId": 18537175269,
+      "executionSource": "Wave",
+      "executionVersion": "1.4.1",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:44:54.025Z",
+      "firstSeenMs": 1784324694025,
+      "lastSeen": "2026-07-17T21:44:54.025Z",
+      "lastSeenMs": 1784324694025
+    },
+    {
       "userId": "6146966137",
       "username": "CatnapK184",
       "displayName": "baconking",
@@ -10297,5 +10313,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:42:18.556Z"
+  "updatedAt": "2026-07-17T21:44:59.042Z"
 }
