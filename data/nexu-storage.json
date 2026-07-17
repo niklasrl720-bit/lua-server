@@ -418,6 +418,22 @@
       "lastSeenMs": 1784251800000
     },
     {
+      "userId": "10898667066",
+      "username": "zzzzzasd5",
+      "displayName": "TGR",
+      "roleKey": "",
+      "gameName": "SIREN HEAD: LEGACY",
+      "placeId": 15715368401,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:13:26.743Z",
+      "firstSeenMs": 1784265206743,
+      "lastSeen": "2026-07-17T05:13:26.743Z",
+      "lastSeenMs": 1784265206743
+    },
+    {
       "userId": "10950493610",
       "username": "BANNAK123452NDACC",
       "displayName": "I_L1K3N0B0DY",
@@ -4311,5 +4327,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:12:32.829Z"
+  "updatedAt": "2026-07-17T05:13:31.749Z"
 }
