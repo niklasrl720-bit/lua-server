@@ -6118,16 +6118,16 @@
       "username": "System28M",
       "displayName": "system",
       "roleKey": "",
-      "gameName": "Defuse Division",
-      "placeId": 112757576021097,
+      "gameName": "[🧤] Defusal",
+      "placeId": 79393329652220,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:03:34.191Z",
       "firstSeenMs": 1784253814191,
-      "lastSeen": "2026-07-17T04:50:00.000Z",
-      "lastSeenMs": 1784263800000
+      "lastSeen": "2026-07-17T23:10:00.000Z",
+      "lastSeenMs": 1784329800000
     },
     {
       "userId": "4916414575",
@@ -9582,8 +9582,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-17T12:20:00.000Z",
-      "lastSeenMs": 1784290800000
+      "lastSeen": "2026-07-17T23:10:00.000Z",
+      "lastSeenMs": 1784329800000
     },
     {
       "userId": "9812944983",
@@ -10399,5 +10399,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:11:43.289Z"
+  "updatedAt": "2026-07-17T23:14:17.052Z"
 }
