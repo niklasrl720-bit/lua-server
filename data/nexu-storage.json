@@ -2706,6 +2706,22 @@
       "lastSeenMs": 1784249400000
     },
     {
+      "userId": "7460800582",
+      "username": "vitinhonido02",
+      "displayName": "Lord_Branco",
+      "roleKey": "",
+      "gameName": "Criador de Avatar de Catálogo",
+      "placeId": 7041939546,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T04:44:21.530Z",
+      "firstSeenMs": 1784263461530,
+      "lastSeen": "2026-07-17T04:44:21.530Z",
+      "lastSeenMs": 1784263461530
+    },
+    {
       "userId": "7476002052",
       "username": "kekexz99",
       "displayName": "kekexz99",
@@ -4141,5 +4157,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:43:55.684Z"
+  "updatedAt": "2026-07-17T04:44:26.535Z"
 }
