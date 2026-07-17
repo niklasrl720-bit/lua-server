@@ -6146,6 +6146,22 @@
       "lastSeenMs": 1784249100000
     },
     {
+      "userId": "91042242",
+      "username": "KenzooEndo",
+      "displayName": "KenzoEndo",
+      "roleKey": "",
+      "gameName": "Rensselaer County",
+      "placeId": 4637668954,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:07:11.920Z",
+      "firstSeenMs": 1784300831920,
+      "lastSeen": "2026-07-17T15:07:11.920Z",
+      "lastSeenMs": 1784300831920
+    },
+    {
       "userId": "910862081",
       "username": "ruben3320",
       "displayName": "BeamedByYakov",
@@ -7583,5 +7599,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:06:50.850Z"
+  "updatedAt": "2026-07-17T15:07:17.633Z"
 }
