@@ -2870,16 +2870,16 @@
       "username": "theblackrip0",
       "displayName": "theblackrip0",
       "roleKey": "",
-      "gameName": "Giro de bloques 🔪",
-      "placeId": 104715542330896,
+      "gameName": "[0.25.2] Fecha límite",
+      "placeId": 12144402492,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:47:35.534Z",
       "firstSeenMs": 1784260055534,
-      "lastSeen": "2026-07-17T04:25:00.000Z",
-      "lastSeenMs": 1784262300000
+      "lastSeen": "2026-07-17T05:20:00.000Z",
+      "lastSeenMs": 1784265600000
     },
     {
       "userId": "7741785159",
@@ -4359,5 +4359,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:23:13.921Z"
+  "updatedAt": "2026-07-17T05:23:29.331Z"
 }
