@@ -6038,16 +6038,16 @@
       "username": "luckbillionz",
       "displayName": "aaa",
       "roleKey": "",
-      "gameName": "Build A Boat For Treasure",
-      "placeId": 537413528,
+      "gameName": "The Normal Elevator",
+      "placeId": 230362888,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-17T10:20:00.000Z",
-      "lastSeenMs": 1784283600000
+      "lastSeen": "2026-07-17T21:55:00.000Z",
+      "lastSeenMs": 1784325300000
     },
     {
       "userId": "5131378969",
@@ -10549,5 +10549,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:58:47.294Z"
+  "updatedAt": "2026-07-17T21:59:08.200Z"
 }
