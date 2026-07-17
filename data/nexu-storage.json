@@ -1250,6 +1250,22 @@
       "lastSeenMs": 1784303029635
     },
     {
+      "userId": "11053547022",
+      "username": "sammy0121134",
+      "displayName": "kataloneooo",
+      "roleKey": "",
+      "gameName": "Steal a Brainrot",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:56:15.201Z",
+      "firstSeenMs": 1784307375201,
+      "lastSeen": "2026-07-17T16:56:15.201Z",
+      "lastSeenMs": 1784307375201
+    },
+    {
       "userId": "11055567968",
       "username": "Twichbentley12233",
       "displayName": "Twichbentley12233",
@@ -3390,8 +3406,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:40:46.291Z",
       "firstSeenMs": 1784306446291,
-      "lastSeen": "2026-07-17T16:50:00.000Z",
-      "lastSeenMs": 1784307000000
+      "lastSeen": "2026-07-17T16:55:00.000Z",
+      "lastSeenMs": 1784307300000
     },
     {
       "userId": "1267528515",
@@ -4622,8 +4638,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:18:23.880Z",
       "firstSeenMs": 1784305103880,
-      "lastSeen": "2026-07-17T16:50:00.000Z",
-      "lastSeenMs": 1784307000000
+      "lastSeen": "2026-07-17T16:55:00.000Z",
+      "lastSeenMs": 1784307300000
     },
     {
       "userId": "4451091661",
@@ -7198,8 +7214,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-17T16:50:00.000Z",
-      "lastSeenMs": 1784307000000
+      "lastSeen": "2026-07-17T16:55:00.000Z",
+      "lastSeenMs": 1784307300000
     },
     {
       "userId": "9414382754",
@@ -8455,5 +8471,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:55:35.639Z"
+  "updatedAt": "2026-07-17T16:56:20.215Z"
 }
