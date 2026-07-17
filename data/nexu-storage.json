@@ -5842,6 +5842,22 @@
       "lastSeenMs": 1784272200000
     },
     {
+      "userId": "8704708435",
+      "username": "sigma82895",
+      "displayName": "sigma82895",
+      "roleKey": "",
+      "gameName": "[FPS] Флик",
+      "placeId": 136801880565837,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:58:02.838Z",
+      "firstSeenMs": 1784300282838,
+      "lastSeen": "2026-07-17T14:58:02.838Z",
+      "lastSeenMs": 1784300282838
+    },
+    {
       "userId": "8713015163",
       "username": "vitory5009",
       "displayName": "vitory5009",
@@ -7535,5 +7551,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:58:01.585Z"
+  "updatedAt": "2026-07-17T14:58:08.182Z"
 }
