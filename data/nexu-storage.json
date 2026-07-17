@@ -1550,8 +1550,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:37:45.552Z",
       "firstSeenMs": 1784259465552,
-      "lastSeen": "2026-07-17T04:55:00.000Z",
-      "lastSeenMs": 1784264100000
+      "lastSeen": "2026-07-17T05:00:00.000Z",
+      "lastSeenMs": 1784264400000
     },
     {
       "userId": "11299902948",
@@ -2450,6 +2450,22 @@
       "lastSeenMs": 1784260829187
     },
     {
+      "userId": "5274996342",
+      "username": "Mikey6869",
+      "displayName": "Blacktophatsiiiiiiii",
+      "roleKey": "",
+      "gameName": "The Strongest Battlegrounds",
+      "placeId": 10449761463,
+      "executionSource": "Delta",
+      "executionVersion": "1.0.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:00:11.581Z",
+      "firstSeenMs": 1784264411581,
+      "lastSeen": "2026-07-17T05:00:11.581Z",
+      "lastSeenMs": 1784264411581
+    },
+    {
       "userId": "5316980228",
       "username": "Tu_chavo503",
       "displayName": "Churrito_STL",
@@ -2542,8 +2558,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:02:53.513Z",
       "firstSeenMs": 1784253773513,
-      "lastSeen": "2026-07-17T04:55:00.000Z",
-      "lastSeenMs": 1784264100000
+      "lastSeen": "2026-07-17T05:00:00.000Z",
+      "lastSeenMs": 1784264400000
     },
     {
       "userId": "6074258353",
@@ -4187,5 +4203,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:58:19.715Z"
+  "updatedAt": "2026-07-17T05:00:16.586Z"
 }
