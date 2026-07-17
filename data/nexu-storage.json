@@ -226,6 +226,22 @@
       "lastSeenMs": 1784259600000
     },
     {
+      "userId": "10216291061",
+      "username": "zerou462",
+      "displayName": "Deltaexecutor",
+      "roleKey": "",
+      "gameName": "Punch Button Tower 🥊",
+      "placeId": 128462882940593,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:27:22.384Z",
+      "firstSeenMs": 1784302042384,
+      "lastSeen": "2026-07-17T15:27:22.384Z",
+      "lastSeenMs": 1784302042384
+    },
+    {
       "userId": "10232348197",
       "username": "antirprobloxrampage",
       "displayName": "ima",
@@ -5278,8 +5294,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T15:21:44.352Z",
       "firstSeenMs": 1784301704352,
-      "lastSeen": "2026-07-17T15:21:44.352Z",
-      "lastSeenMs": 1784301704352
+      "lastSeen": "2026-07-17T15:25:00.000Z",
+      "lastSeenMs": 1784301900000
     },
     {
       "userId": "7741785159",
@@ -6046,8 +6062,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T15:20:00.000Z",
-      "lastSeenMs": 1784301600000
+      "lastSeen": "2026-07-17T15:25:00.000Z",
+      "lastSeenMs": 1784301900000
     },
     {
       "userId": "8808861528",
@@ -6878,8 +6894,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-17T15:20:00.000Z",
-      "lastSeenMs": 1784301600000
+      "lastSeen": "2026-07-17T15:25:00.000Z",
+      "lastSeenMs": 1784301900000
     },
     {
       "userId": "9786800904",
@@ -7725,5 +7741,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:25:57.019Z"
+  "updatedAt": "2026-07-17T15:27:27.392Z"
 }
