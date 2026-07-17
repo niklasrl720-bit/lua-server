@@ -2578,6 +2578,22 @@
       "lastSeenMs": 1784241300000
     },
     {
+      "userId": "8509283772",
+      "username": "leandrorivals1234",
+      "displayName": "X4_L3O",
+      "roleKey": "",
+      "gameName": "[WORLD3] +1 Speed Keyboard Escape",
+      "placeId": 93411036959889,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T02:48:31.301Z",
+      "firstSeenMs": 1784256511301,
+      "lastSeen": "2026-07-17T02:48:31.301Z",
+      "lastSeenMs": 1784256511301
+    },
+    {
       "userId": "8554706348",
       "username": "roblox_user_8554706348",
       "displayName": "MNMNMNM",
@@ -3455,5 +3471,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:47:43.914Z"
+  "updatedAt": "2026-07-17T02:48:36.306Z"
 }
