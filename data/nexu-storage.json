@@ -2658,6 +2658,22 @@
       "lastSeenMs": 1784254617161
     },
     {
+      "userId": "8424600103",
+      "username": "NICO125666778",
+      "displayName": "MOROCHITOCHOCOLATOSO",
+      "roleKey": "",
+      "gameName": "Renacimiento de Arsenal 2020",
+      "placeId": 106680097749942,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:16:37.217Z",
+      "firstSeenMs": 1784258197217,
+      "lastSeen": "2026-07-17T03:16:37.217Z",
+      "lastSeenMs": 1784258197217
+    },
+    {
       "userId": "8426876940",
       "username": "nana_22816",
       "displayName": "Dark_40",
@@ -3655,5 +3671,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:16:35.169Z"
+  "updatedAt": "2026-07-17T03:16:42.222Z"
 }
