@@ -5554,6 +5554,22 @@
       "lastSeenMs": 1784237100000
     },
     {
+      "userId": "6146966137",
+      "username": "CatnapK184",
+      "displayName": "baconking",
+      "roleKey": "",
+      "gameName": "The Animal Hospital",
+      "placeId": 104522435597696,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:56:46.481Z",
+      "firstSeenMs": 1784311006481,
+      "lastSeen": "2026-07-17T17:56:46.481Z",
+      "lastSeenMs": 1784311006481
+    },
+    {
       "userId": "6148125989",
       "username": "Awaad87",
       "displayName": "AK077",
@@ -8851,5 +8867,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:56:32.988Z"
+  "updatedAt": "2026-07-17T17:56:51.495Z"
 }
