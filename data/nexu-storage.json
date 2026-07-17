@@ -4134,16 +4134,16 @@
       "username": "qqrtqr1h1o45m1o4",
       "displayName": "qqrtqr1h1o45m1o4",
       "roleKey": "",
-      "gameName": "灭绝前 - 白ret纪低地生态系统!",
-      "placeId": 97201644567936,
+      "gameName": "灭绝前 - 白ret纪群岛!",
+      "placeId": 8603641600,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:02:53.513Z",
       "firstSeenMs": 1784253773513,
-      "lastSeen": "2026-07-17T12:15:00.000Z",
-      "lastSeenMs": 1784290500000
+      "lastSeen": "2026-07-17T12:45:00.000Z",
+      "lastSeenMs": 1784292300000
     },
     {
       "userId": "6074258353",
@@ -6685,5 +6685,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:46:39.901Z"
+  "updatedAt": "2026-07-17T12:48:57.864Z"
 }
