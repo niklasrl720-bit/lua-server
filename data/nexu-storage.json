@@ -5014,16 +5014,16 @@
       "username": "7qvzy",
       "displayName": "isaac",
       "roleKey": "",
-      "gameName": "You Can't Leave This Game",
-      "placeId": 8697486179,
+      "gameName": "The Chosen One",
+      "placeId": 11137575513,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "IOS",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:12:26.213Z",
       "firstSeenMs": 1784326346213,
-      "lastSeen": "2026-07-17T22:15:00.000Z",
-      "lastSeenMs": 1784326500000
+      "lastSeen": "2026-07-17T23:05:00.000Z",
+      "lastSeenMs": 1784329500000
     },
     {
       "userId": "3238021023",
@@ -10399,5 +10399,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:08:40.549Z"
+  "updatedAt": "2026-07-17T23:09:22.460Z"
 }
