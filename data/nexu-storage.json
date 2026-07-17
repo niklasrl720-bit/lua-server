@@ -5058,6 +5058,22 @@
       "lastSeenMs": 1784265300000
     },
     {
+      "userId": "327647664",
+      "username": "asdBlackasd",
+      "displayName": "Patrick",
+      "roleKey": "",
+      "gameName": "[⭐ 底部燈光 + 引擎蓋移除] 科莎傳奇車 [阿爾法版]",
+      "placeId": 122720857080780,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:07:44.271Z",
+      "firstSeenMs": 1784329664271,
+      "lastSeen": "2026-07-17T23:07:44.271Z",
+      "lastSeenMs": 1784329664271
+    },
+    {
       "userId": "3278678237",
       "username": "ppppppp_133",
       "displayName": "NOTAgerman_spy133",
@@ -10383,5 +10399,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:06:47.157Z"
+  "updatedAt": "2026-07-17T23:07:49.280Z"
 }
