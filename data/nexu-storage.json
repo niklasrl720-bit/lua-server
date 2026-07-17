@@ -2018,6 +2018,22 @@
       "lastSeenMs": 1784240766148
     },
     {
+      "userId": "6070402361",
+      "username": "qqrtqr1h1o45m1o4",
+      "displayName": "qqrtqr1h1o45m1o4",
+      "roleKey": "",
+      "gameName": "运输车道",
+      "placeId": 245440965,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T02:02:53.513Z",
+      "firstSeenMs": 1784253773513,
+      "lastSeen": "2026-07-17T02:02:53.513Z",
+      "lastSeenMs": 1784253773513
+    },
+    {
       "userId": "6074258353",
       "username": "angelopo301",
       "displayName": "UTTVM",
@@ -3155,5 +3171,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:02:04.855Z"
+  "updatedAt": "2026-07-17T02:02:58.517Z"
 }
