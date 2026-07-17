@@ -286,8 +286,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T23:25:00.000Z",
-      "lastSeenMs": 1784330700000
+      "lastSeen": "2026-07-17T23:30:00.000Z",
+      "lastSeenMs": 1784331000000
     },
     {
       "userId": "10203550652",
@@ -494,8 +494,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:21:03.905Z",
       "firstSeenMs": 1784312463905,
-      "lastSeen": "2026-07-17T23:25:00.000Z",
-      "lastSeenMs": 1784330700000
+      "lastSeen": "2026-07-17T23:30:00.000Z",
+      "lastSeenMs": 1784331000000
     },
     {
       "userId": "10342998762",
@@ -816,6 +816,22 @@
       "firstSeenMs": 1784281874043,
       "lastSeen": "2026-07-17T09:51:14.043Z",
       "lastSeenMs": 1784281874043
+    },
+    {
+      "userId": "10652435106",
+      "username": "GUNS_nROSESS666",
+      "displayName": "Scorpio_Bejj",
+      "roleKey": "",
+      "gameName": "Around 🔊",
+      "placeId": 99597871660326,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:30:29.290Z",
+      "firstSeenMs": 1784331029290,
+      "lastSeen": "2026-07-17T23:30:29.290Z",
+      "lastSeenMs": 1784331029290
     },
     {
       "userId": "10655312681",
@@ -9630,8 +9646,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-17T23:25:00.000Z",
-      "lastSeenMs": 1784330700000
+      "lastSeen": "2026-07-17T23:30:00.000Z",
+      "lastSeenMs": 1784331000000
     },
     {
       "userId": "9812944983",
@@ -10461,5 +10477,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:27:28.748Z"
+  "updatedAt": "2026-07-17T23:30:34.298Z"
 }
