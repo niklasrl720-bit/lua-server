@@ -482,6 +482,22 @@
       "lastSeenMs": 1784228064235
     },
     {
+      "userId": "11105652386",
+      "username": "jobani_900",
+      "displayName": "jobani_900",
+      "roleKey": "",
+      "gameName": "Construir y Sobrevivir",
+      "placeId": 14120937723,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T02:08:42.647Z",
+      "firstSeenMs": 1784254122647,
+      "lastSeen": "2026-07-17T02:08:42.647Z",
+      "lastSeenMs": 1784254122647
+    },
+    {
       "userId": "11114131048",
       "username": "marwanehab646",
       "displayName": "666",
@@ -3203,5 +3219,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:08:37.544Z"
+  "updatedAt": "2026-07-17T02:08:47.651Z"
 }
