@@ -918,16 +918,16 @@
       "username": "gagamaru_rogi",
       "displayName": "gagamaru_rogi",
       "roleKey": "",
-      "gameName": "Dead Rails (Game)",
-      "placeId": 70876832253163,
+      "gameName": "Granny: Multiplayer",
+      "placeId": 4480809144,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:21:31.345Z",
       "firstSeenMs": 1784226091345,
-      "lastSeen": "2026-07-16T18:35:00.000Z",
-      "lastSeenMs": 1784226900000
+      "lastSeen": "2026-07-17T13:30:00.000Z",
+      "lastSeenMs": 1784295000000
     },
     {
       "userId": "11031755388",
@@ -6987,5 +6987,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:31:59.121Z"
+  "updatedAt": "2026-07-17T13:32:55.574Z"
 }
