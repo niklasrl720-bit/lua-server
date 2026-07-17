@@ -4894,8 +4894,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:18:23.880Z",
       "firstSeenMs": 1784305103880,
-      "lastSeen": "2026-07-17T18:05:00.000Z",
-      "lastSeenMs": 1784311500000
+      "lastSeen": "2026-07-17T18:10:00.000Z",
+      "lastSeenMs": 1784311800000
     },
     {
       "userId": "4451091661",
@@ -6994,6 +6994,22 @@
       "lastSeenMs": 1784298000000
     },
     {
+      "userId": "8723106331",
+      "username": "Kotik_21074",
+      "displayName": "Who_Im",
+      "roleKey": "",
+      "gameName": "Игра",
+      "placeId": 124012316000254,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:10:23.656Z",
+      "firstSeenMs": 1784311823656,
+      "lastSeen": "2026-07-17T18:10:23.656Z",
+      "lastSeenMs": 1784311823656
+    },
+    {
       "userId": "8730605773",
       "username": "Jo3l_theKing",
       "displayName": "Jo3l",
@@ -7038,8 +7054,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T18:05:00.000Z",
-      "lastSeenMs": 1784311500000
+      "lastSeen": "2026-07-17T18:10:00.000Z",
+      "lastSeenMs": 1784311800000
     },
     {
       "userId": "8808861528",
@@ -7342,8 +7358,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T18:05:00.000Z",
-      "lastSeenMs": 1784311500000
+      "lastSeen": "2026-07-17T18:10:00.000Z",
+      "lastSeenMs": 1784311800000
     },
     {
       "userId": "9134201874",
@@ -7982,8 +7998,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-17T18:05:00.000Z",
-      "lastSeenMs": 1784311500000
+      "lastSeen": "2026-07-17T18:10:00.000Z",
+      "lastSeenMs": 1784311800000
     },
     {
       "userId": "9786800904",
@@ -8947,5 +8963,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:10:20.090Z"
+  "updatedAt": "2026-07-17T18:10:28.666Z"
 }
