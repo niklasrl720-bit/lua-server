@@ -62,8 +62,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:54:59.105Z",
       "firstSeenMs": 1784249699105,
-      "lastSeen": "2026-07-17T01:30:00.000Z",
-      "lastSeenMs": 1784251800000
+      "lastSeen": "2026-07-17T01:35:00.000Z",
+      "lastSeenMs": 1784252100000
     },
     {
       "userId": "10172085694",
@@ -174,8 +174,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T01:30:00.000Z",
-      "lastSeenMs": 1784251800000
+      "lastSeen": "2026-07-17T01:35:00.000Z",
+      "lastSeenMs": 1784252100000
     },
     {
       "userId": "10427971366",
@@ -1558,16 +1558,16 @@
       "username": "Montoxisgoat",
       "displayName": "iloveviolet",
       "roleKey": "",
-      "gameName": "+1 Wings for Brainrots",
-      "placeId": 84332574190497,
+      "gameName": "Fight Others For Brainrots!",
+      "placeId": 75646865566926,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T01:30:00.000Z",
-      "lastSeenMs": 1784251800000
+      "lastSeen": "2026-07-17T01:35:00.000Z",
+      "lastSeenMs": 1784252100000
     },
     {
       "userId": "3468057790",
@@ -1598,8 +1598,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T01:30:00.000Z",
-      "lastSeenMs": 1784251800000
+      "lastSeen": "2026-07-17T01:35:00.000Z",
+      "lastSeenMs": 1784252100000
     },
     {
       "userId": "3643100956",
@@ -2094,8 +2094,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:09:01.012Z",
       "firstSeenMs": 1784246941012,
-      "lastSeen": "2026-07-17T01:30:00.000Z",
-      "lastSeenMs": 1784251800000
+      "lastSeen": "2026-07-17T01:35:00.000Z",
+      "lastSeenMs": 1784252100000
     },
     {
       "userId": "7411965264",
@@ -2190,8 +2190,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:34:56.782Z",
       "firstSeenMs": 1784252096782,
-      "lastSeen": "2026-07-17T01:34:56.782Z",
-      "lastSeenMs": 1784252096782
+      "lastSeen": "2026-07-17T01:35:00.000Z",
+      "lastSeenMs": 1784252100000
     },
     {
       "userId": "7844998205",
@@ -2558,8 +2558,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T01:30:00.000Z",
-      "lastSeenMs": 1784251800000
+      "lastSeen": "2026-07-17T01:35:00.000Z",
+      "lastSeenMs": 1784252100000
     },
     {
       "userId": "9134201874",
@@ -3109,5 +3109,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T01:35:50.720Z"
+  "updatedAt": "2026-07-17T01:36:16.209Z"
 }
