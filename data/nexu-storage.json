@@ -4246,8 +4246,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T05:01:40.476Z",
         "sentAtMs": 1784264500476
+      },
+      {
+        "id": 1784264845755001,
+        "userId": "4475862032",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "wow1005788",
+        "displayName": "lilly",
+        "message": "wsp chat",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T05:07:25.755Z",
+        "sentAtMs": 1784264845755
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:06:01.068Z"
+  "updatedAt": "2026-07-17T05:07:26.879Z"
 }
