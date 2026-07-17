@@ -690,6 +690,22 @@
       "lastSeenMs": 1784240539288
     },
     {
+      "userId": "10951135201",
+      "username": "ER1C4_R0S3",
+      "displayName": "V1LL14N",
+      "roleKey": "",
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T12:00:16.649Z",
+      "firstSeenMs": 1784289616649,
+      "lastSeen": "2026-07-17T12:00:16.649Z",
+      "lastSeenMs": 1784289616649
+    },
+    {
       "userId": "10954115677",
       "username": "angel_4793817",
       "displayName": "angel_4793817",
@@ -1886,8 +1902,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T11:52:58.228Z",
       "firstSeenMs": 1784289178228,
-      "lastSeen": "2026-07-17T11:55:00.000Z",
-      "lastSeenMs": 1784289300000
+      "lastSeen": "2026-07-17T12:00:00.000Z",
+      "lastSeenMs": 1784289600000
     },
     {
       "userId": "11288462881",
@@ -2286,8 +2302,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T11:55:00.000Z",
-      "lastSeenMs": 1784289300000
+      "lastSeen": "2026-07-17T12:00:00.000Z",
+      "lastSeenMs": 1784289600000
     },
     {
       "userId": "11299297213",
@@ -2590,8 +2606,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T11:55:00.000Z",
-      "lastSeenMs": 1784289300000
+      "lastSeen": "2026-07-17T12:00:00.000Z",
+      "lastSeenMs": 1784289600000
     },
     {
       "userId": "1784154449",
@@ -2942,8 +2958,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T11:56:52.792Z",
       "firstSeenMs": 1784289412792,
-      "lastSeen": "2026-07-17T11:56:52.792Z",
-      "lastSeenMs": 1784289412792
+      "lastSeen": "2026-07-17T12:00:00.000Z",
+      "lastSeenMs": 1784289600000
     },
     {
       "userId": "3041449939",
@@ -3662,8 +3678,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T11:55:00.000Z",
-      "lastSeenMs": 1784289300000
+      "lastSeen": "2026-07-17T12:00:00.000Z",
+      "lastSeenMs": 1784289600000
     },
     {
       "userId": "5111527490",
@@ -4430,8 +4446,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:16:28.179Z",
       "firstSeenMs": 1784225788179,
-      "lastSeen": "2026-07-17T11:55:00.000Z",
-      "lastSeenMs": 1784289300000
+      "lastSeen": "2026-07-17T12:00:00.000Z",
+      "lastSeenMs": 1784289600000
     },
     {
       "userId": "7926460129",
@@ -5758,8 +5774,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-17T11:55:00.000Z",
-      "lastSeenMs": 1784289300000
+      "lastSeen": "2026-07-17T12:00:00.000Z",
+      "lastSeenMs": 1784289600000
     },
     {
       "userId": "9812944983",
@@ -6447,5 +6463,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T11:59:07.270Z"
+  "updatedAt": "2026-07-17T12:00:21.657Z"
 }
