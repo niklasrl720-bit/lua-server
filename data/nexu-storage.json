@@ -1314,6 +1314,22 @@
       "lastSeenMs": 1784246100000
     },
     {
+      "userId": "10989900440",
+      "username": "carlos641691",
+      "displayName": "T_T67",
+      "roleKey": "",
+      "gameName": "Torre de Taller de Pared KiWAMiMU",
+      "placeId": 123401392328470,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:12:00.463Z",
+      "firstSeenMs": 1784326320463,
+      "lastSeen": "2026-07-17T22:12:00.463Z",
+      "lastSeenMs": 1784326320463
+    },
+    {
       "userId": "10994156036",
       "username": "Sanzhar_ff01",
       "displayName": "Sanzhar_ff01",
@@ -8974,8 +8990,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-17T22:05:00.000Z",
-      "lastSeenMs": 1784325900000
+      "lastSeen": "2026-07-17T22:10:00.000Z",
+      "lastSeenMs": 1784326200000
     },
     {
       "userId": "9414382754",
@@ -9981,5 +9997,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:11:17.266Z"
+  "updatedAt": "2026-07-17T22:12:05.469Z"
 }
