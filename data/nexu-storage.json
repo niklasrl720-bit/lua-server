@@ -9420,8 +9420,22 @@
         "moderationScore": 100,
         "sentAt": "2026-07-17T19:06:07.517Z",
         "sentAtMs": 1784315167517
+      },
+      {
+        "id": 1784316075655001,
+        "userId": "5238100221",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Crazy_Shark2350",
+        "displayName": "cyashmelon",
+        "message": "hi",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T19:21:15.655Z",
+        "sentAtMs": 1784316075655
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:21:06.894Z"
+  "updatedAt": "2026-07-17T19:21:16.680Z"
 }
