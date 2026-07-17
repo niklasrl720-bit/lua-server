@@ -5010,8 +5010,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T06:51:37.716Z",
         "sentAtMs": 1784271097716
+      },
+      {
+        "id": 1784273171335001,
+        "userId": "11300587875",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "djdjdjdjdjdjdjdn42",
+        "displayName": "djdjdjdjdjdjdjdn42",
+        "message": "hello",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T07:26:11.335Z",
+        "sentAtMs": 1784273171335
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:26:03.727Z"
+  "updatedAt": "2026-07-17T07:26:12.441Z"
 }
