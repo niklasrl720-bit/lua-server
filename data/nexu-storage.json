@@ -1206,16 +1206,16 @@
       "username": "wsgwiththeguys",
       "displayName": "wsgwiththeguys",
       "roleKey": "",
-      "gameName": "Natural Disaster Survival",
-      "placeId": 189707,
+      "gameName": "Football Fusion 3",
+      "placeId": 82866880824588,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:23:31.722Z",
       "firstSeenMs": 1784251411722,
-      "lastSeen": "2026-07-17T02:35:00.000Z",
-      "lastSeenMs": 1784255700000
+      "lastSeen": "2026-07-17T06:25:00.000Z",
+      "lastSeenMs": 1784269500000
     },
     {
       "userId": "11284061402",
@@ -2478,8 +2478,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:03:53.427Z",
       "firstSeenMs": 1784264633427,
-      "lastSeen": "2026-07-17T06:20:00.000Z",
-      "lastSeenMs": 1784269200000
+      "lastSeen": "2026-07-17T06:25:00.000Z",
+      "lastSeenMs": 1784269500000
     },
     {
       "userId": "4549877961",
@@ -2814,8 +2814,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:02:53.513Z",
       "firstSeenMs": 1784253773513,
-      "lastSeen": "2026-07-17T06:20:00.000Z",
-      "lastSeenMs": 1784269200000
+      "lastSeen": "2026-07-17T06:25:00.000Z",
+      "lastSeenMs": 1784269500000
     },
     {
       "userId": "6074258353",
@@ -2894,8 +2894,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:09:48.628Z",
       "firstSeenMs": 1784268588628,
-      "lastSeen": "2026-07-17T06:20:00.000Z",
-      "lastSeenMs": 1784269200000
+      "lastSeen": "2026-07-17T06:25:00.000Z",
+      "lastSeenMs": 1784269500000
     },
     {
       "userId": "7080587968",
@@ -4615,5 +4615,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:23:38.523Z"
+  "updatedAt": "2026-07-17T06:25:42.738Z"
 }
