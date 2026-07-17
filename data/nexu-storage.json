@@ -3846,16 +3846,16 @@
       "username": "qqrtqr1h1o45m1o4",
       "displayName": "qqrtqr1h1o45m1o4",
       "roleKey": "",
-      "gameName": "灭绝前 -  Jur罗纪植物生态系统!",
-      "placeId": 126167861785141,
+      "gameName": "灭绝前 - 白ret纪群岛!",
+      "placeId": 8603641600,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:02:53.513Z",
       "firstSeenMs": 1784253773513,
-      "lastSeen": "2026-07-17T09:55:00.000Z",
-      "lastSeenMs": 1784282100000
+      "lastSeen": "2026-07-17T11:15:00.000Z",
+      "lastSeenMs": 1784286900000
     },
     {
       "userId": "6074258353",
@@ -6255,5 +6255,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T11:16:01.614Z"
+  "updatedAt": "2026-07-17T11:16:29.312Z"
 }
