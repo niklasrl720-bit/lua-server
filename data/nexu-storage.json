@@ -390,8 +390,8 @@
       "username": "Enchanted_WolfDragon",
       "displayName": "YounusLaBooness",
       "roleKey": "",
-      "gameName": "Murder Mystery 2",
-      "placeId": 142823291,
+      "gameName": "White Room",
+      "placeId": 13278749064,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -9105,5 +9105,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:30:24.240Z"
+  "updatedAt": "2026-07-17T18:33:03.408Z"
 }
