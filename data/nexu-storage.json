@@ -126,8 +126,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:04:24.590Z",
       "firstSeenMs": 1784304264590,
-      "lastSeen": "2026-07-17T16:04:24.590Z",
-      "lastSeenMs": 1784304264590
+      "lastSeen": "2026-07-17T16:05:00.000Z",
+      "lastSeenMs": 1784304300000
     },
     {
       "userId": "10100984799",
@@ -798,8 +798,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:16:43.732Z",
       "firstSeenMs": 1784247403732,
-      "lastSeen": "2026-07-17T16:00:00.000Z",
-      "lastSeenMs": 1784304000000
+      "lastSeen": "2026-07-17T16:05:00.000Z",
+      "lastSeenMs": 1784304300000
     },
     {
       "userId": "10865199057",
@@ -1344,6 +1344,22 @@
       "firstSeenMs": 1784254122647,
       "lastSeen": "2026-07-17T02:08:42.647Z",
       "lastSeenMs": 1784254122647
+    },
+    {
+      "userId": "1110845427",
+      "username": "EThrash2015",
+      "displayName": "angel",
+      "roleKey": "",
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.0.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:05:59.952Z",
+      "firstSeenMs": 1784304359952,
+      "lastSeen": "2026-07-17T16:05:59.952Z",
+      "lastSeenMs": 1784304359952
     },
     {
       "userId": "11114131048",
@@ -8013,5 +8029,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:05:24.081Z"
+  "updatedAt": "2026-07-17T16:06:04.964Z"
 }
