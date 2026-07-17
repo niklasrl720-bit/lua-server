@@ -482,6 +482,22 @@
       "lastSeenMs": 1784273688503
     },
     {
+      "userId": "10600244081",
+      "username": "gerald100121",
+      "displayName": "121001dlareg",
+      "roleKey": "",
+      "gameName": "Chaos: Roblox!",
+      "placeId": 7940932746,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:46:42.229Z",
+      "firstSeenMs": 1784299602229,
+      "lastSeen": "2026-07-17T14:46:42.229Z",
+      "lastSeenMs": 1784299602229
+    },
+    {
       "userId": "10600536099",
       "username": "TEUSLZZ0",
       "displayName": "Mateus",
@@ -3970,6 +3986,22 @@
       "lastSeenMs": 1784282114274
     },
     {
+      "userId": "4229801191",
+      "username": "WARGOHDAR",
+      "displayName": "WARGONDAR",
+      "roleKey": "",
+      "gameName": "Русский чат [🔊]",
+      "placeId": 95929919723230,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:46:45.139Z",
+      "firstSeenMs": 1784299605139,
+      "lastSeen": "2026-07-17T14:46:45.139Z",
+      "lastSeenMs": 1784299605139
+    },
+    {
       "userId": "4242993477",
       "username": "roblox_user_4242993477",
       "displayName": "ARCANJO",
@@ -4750,8 +4782,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:15:27.430Z",
       "firstSeenMs": 1784232927430,
-      "lastSeen": "2026-07-17T01:15:00.000Z",
-      "lastSeenMs": 1784250900000
+      "lastSeen": "2026-07-17T14:45:00.000Z",
+      "lastSeenMs": 1784299500000
     },
     {
       "userId": "7084113045",
@@ -6098,6 +6130,22 @@
       "lastSeenMs": 1784243100000
     },
     {
+      "userId": "9146830916",
+      "username": "ks3_official",
+      "displayName": "tortinha_plays",
+      "roleKey": "",
+      "gameName": "Esconder e Buscar Extremo",
+      "placeId": 205224386,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:46:45.671Z",
+      "firstSeenMs": 1784299605671,
+      "lastSeen": "2026-07-17T14:46:45.671Z",
+      "lastSeenMs": 1784299605671
+    },
+    {
       "userId": "9151023540",
       "username": "expentox",
       "displayName": "down",
@@ -7367,5 +7415,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:46:40.385Z"
+  "updatedAt": "2026-07-17T14:46:47.239Z"
 }
