@@ -8408,8 +8408,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T16:16:29.314Z",
         "sentAtMs": 1784304989314
+      },
+      {
+        "id": 1784306885271001,
+        "userId": "7108105347",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "kiritokinn228",
+        "displayName": "icythugger",
+        "message": "негры",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T16:48:05.271Z",
+        "sentAtMs": 1784306885271
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:46:48.369Z"
+  "updatedAt": "2026-07-17T16:48:06.445Z"
 }
