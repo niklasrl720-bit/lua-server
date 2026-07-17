@@ -270,8 +270,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T22:00:00.000Z",
-      "lastSeenMs": 1784325600000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "10203550652",
@@ -510,8 +510,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T22:00:00.000Z",
-      "lastSeenMs": 1784325600000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "10427971366",
@@ -1634,6 +1634,22 @@
       "lastSeenMs": 1784280300000
     },
     {
+      "userId": "11097881908",
+      "username": "slax19444",
+      "displayName": "slax19444",
+      "roleKey": "",
+      "gameName": "[🦖] 99 ليلة في الغابة 🔦",
+      "placeId": 79546208627805,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:05:14.450Z",
+      "firstSeenMs": 1784325914450,
+      "lastSeen": "2026-07-17T22:05:14.450Z",
+      "lastSeenMs": 1784325914450
+    },
+    {
       "userId": "11098604226",
       "username": "KING_GALAXY835",
       "displayName": "KING_GALAXY835",
@@ -1886,8 +1902,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:46:08.433Z",
       "firstSeenMs": 1784324768433,
-      "lastSeen": "2026-07-17T22:00:00.000Z",
-      "lastSeenMs": 1784325600000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "11169885571",
@@ -1918,8 +1934,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:29:16.628Z",
       "firstSeenMs": 1784323756628,
-      "lastSeen": "2026-07-17T22:00:00.000Z",
-      "lastSeenMs": 1784325600000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "11185260337",
@@ -2206,8 +2222,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:45:45.404Z",
       "firstSeenMs": 1784324745404,
-      "lastSeen": "2026-07-17T22:00:00.000Z",
-      "lastSeenMs": 1784325600000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "1122148912",
@@ -2846,8 +2862,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:56:45.942Z",
       "firstSeenMs": 1784325405942,
-      "lastSeen": "2026-07-17T22:00:00.000Z",
-      "lastSeenMs": 1784325600000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "11271917103",
@@ -3054,8 +3070,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:04:32.656Z",
       "firstSeenMs": 1784325872656,
-      "lastSeen": "2026-07-17T22:04:32.656Z",
-      "lastSeenMs": 1784325872656
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "11286358709",
@@ -4062,8 +4078,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:53:06.722Z",
       "firstSeenMs": 1784325186722,
-      "lastSeen": "2026-07-17T22:00:00.000Z",
-      "lastSeenMs": 1784325600000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "11304100750",
@@ -4304,6 +4320,22 @@
       "firstSeenMs": 1784257548712,
       "lastSeen": "2026-07-17T03:05:48.712Z",
       "lastSeenMs": 1784257548712
+    },
+    {
+      "userId": "189329467",
+      "username": "hotshotgamer12345",
+      "displayName": "Holiday",
+      "roleKey": "",
+      "gameName": "Raise a Froggit [RELEASE]",
+      "placeId": 16697629131,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:05:17.771Z",
+      "firstSeenMs": 1784325917771,
+      "lastSeen": "2026-07-17T22:05:17.771Z",
+      "lastSeenMs": 1784325917771
     },
     {
       "userId": "1916375036",
@@ -4958,8 +4990,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:04:21.859Z",
       "firstSeenMs": 1784325861859,
-      "lastSeen": "2026-07-17T22:04:21.859Z",
-      "lastSeenMs": 1784325861859
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "3392387740",
@@ -5342,8 +5374,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:18:06.632Z",
       "firstSeenMs": 1784323086632,
-      "lastSeen": "2026-07-17T22:00:00.000Z",
-      "lastSeenMs": 1784325600000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "4009875708",
@@ -6078,8 +6110,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-17T22:00:00.000Z",
-      "lastSeenMs": 1784325600000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "5131378969",
@@ -8606,8 +8638,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T22:00:00.000Z",
-      "lastSeenMs": 1784325600000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "9123569216",
@@ -9761,5 +9793,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:04:41.259Z"
+  "updatedAt": "2026-07-17T22:05:19.461Z"
 }
