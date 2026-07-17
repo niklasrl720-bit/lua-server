@@ -1014,8 +1014,8 @@
       "username": "Yrys_pyrys9",
       "displayName": "Yrys_pyrys9",
       "roleKey": "",
-      "gameName": "+1 ключ к скорости побега на клавиатуре | конфеты и шоколад",
-      "placeId": 95082159892680,
+      "gameName": "Малая Римская империя",
+      "placeId": 70721634659971,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
@@ -5107,5 +5107,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:33:46.451Z"
+  "updatedAt": "2026-07-17T07:34:37.914Z"
 }
