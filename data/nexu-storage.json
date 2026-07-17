@@ -2390,16 +2390,16 @@
       "username": "rotedief2s",
       "displayName": "Rty",
       "roleKey": "",
-      "gameName": "Tower of Hell",
-      "placeId": 1962086868,
+      "gameName": "[CURE] Violence District",
+      "placeId": 93978595733734,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T09:25:52.078Z",
       "firstSeenMs": 1784280352078,
-      "lastSeen": "2026-07-17T09:50:00.000Z",
-      "lastSeenMs": 1784281800000
+      "lastSeen": "2026-07-17T09:55:00.000Z",
+      "lastSeenMs": 1784282100000
     },
     {
       "userId": "1891206840",
@@ -5815,5 +5815,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:56:46.180Z"
+  "updatedAt": "2026-07-17T09:57:07.355Z"
 }
