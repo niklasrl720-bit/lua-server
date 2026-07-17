@@ -546,6 +546,22 @@
       "lastSeenMs": 1784265206743
     },
     {
+      "userId": "10934367952",
+      "username": "glitchure_vIp",
+      "displayName": "Life_NoTE",
+      "roleKey": "",
+      "gameName": "Загадка убийства 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T08:04:16.627Z",
+      "firstSeenMs": 1784275456627,
+      "lastSeen": "2026-07-17T08:04:16.627Z",
+      "lastSeenMs": 1784275456627
+    },
+    {
       "userId": "10950493610",
       "username": "BANNAK123452NDACC",
       "displayName": "I_L1K3N0B0DY",
@@ -5263,5 +5279,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:01:46.324Z"
+  "updatedAt": "2026-07-17T08:04:21.633Z"
 }
