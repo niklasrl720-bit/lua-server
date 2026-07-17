@@ -766,8 +766,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:16:43.732Z",
       "firstSeenMs": 1784247403732,
-      "lastSeen": "2026-07-17T15:50:00.000Z",
-      "lastSeenMs": 1784303400000
+      "lastSeen": "2026-07-17T15:55:00.000Z",
+      "lastSeenMs": 1784303700000
     },
     {
       "userId": "10865199057",
@@ -3102,8 +3102,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T15:50:00.000Z",
-      "lastSeenMs": 1784303400000
+      "lastSeen": "2026-07-17T15:55:00.000Z",
+      "lastSeenMs": 1784303700000
     },
     {
       "userId": "1267528515",
@@ -3166,8 +3166,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:32:58.793Z",
       "firstSeenMs": 1784266378793,
-      "lastSeen": "2026-07-17T15:50:00.000Z",
-      "lastSeenMs": 1784303400000
+      "lastSeen": "2026-07-17T15:55:00.000Z",
+      "lastSeenMs": 1784303700000
     },
     {
       "userId": "1534052061",
@@ -3230,8 +3230,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T15:50:00.000Z",
-      "lastSeenMs": 1784303400000
+      "lastSeen": "2026-07-17T15:55:00.000Z",
+      "lastSeenMs": 1784303700000
     },
     {
       "userId": "1784154449",
@@ -3646,8 +3646,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T11:56:52.792Z",
       "firstSeenMs": 1784289412792,
-      "lastSeen": "2026-07-17T15:50:00.000Z",
-      "lastSeenMs": 1784303400000
+      "lastSeen": "2026-07-17T15:55:00.000Z",
+      "lastSeenMs": 1784303700000
     },
     {
       "userId": "3041449939",
@@ -4142,8 +4142,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T15:53:29.994Z",
       "firstSeenMs": 1784303609994,
-      "lastSeen": "2026-07-17T15:53:29.994Z",
-      "lastSeenMs": 1784303609994
+      "lastSeen": "2026-07-17T15:55:00.000Z",
+      "lastSeenMs": 1784303700000
     },
     {
       "userId": "4166676692",
@@ -6046,8 +6046,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-17T15:50:00.000Z",
-      "lastSeenMs": 1784303400000
+      "lastSeen": "2026-07-17T15:55:00.000Z",
+      "lastSeenMs": 1784303700000
     },
     {
       "userId": "8554890463",
@@ -6222,8 +6222,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T15:50:00.000Z",
-      "lastSeenMs": 1784303400000
+      "lastSeen": "2026-07-17T15:55:00.000Z",
+      "lastSeenMs": 1784303700000
     },
     {
       "userId": "8808861528",
@@ -7040,6 +7040,22 @@
       "firstSeenMs": 1784229700064,
       "lastSeen": "2026-07-16T19:21:40.064Z",
       "lastSeenMs": 1784229700064
+    },
+    {
+      "userId": "9714291135",
+      "username": "sammy356379",
+      "displayName": "SISI",
+      "roleKey": "",
+      "gameName": "[🌊] Вырастите сад 🌶️",
+      "placeId": 126884695634066,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:55:27.274Z",
+      "firstSeenMs": 1784303727274,
+      "lastSeen": "2026-07-17T15:55:27.274Z",
+      "lastSeenMs": 1784303727274
     },
     {
       "userId": "9730602928",
@@ -7949,5 +7965,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:55:22.576Z"
+  "updatedAt": "2026-07-17T15:55:32.285Z"
 }
