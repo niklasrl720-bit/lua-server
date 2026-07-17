@@ -2238,8 +2238,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T06:50:00.000Z",
-      "lastSeenMs": 1784271000000
+      "lastSeen": "2026-07-17T06:55:00.000Z",
+      "lastSeenMs": 1784271300000
     },
     {
       "userId": "3468057790",
@@ -2854,8 +2854,8 @@
       "username": "Msjsjaiiiy",
       "displayName": "VitaminMonkey",
       "roleKey": "",
-      "gameName": "2 Player Steal Brainrot",
-      "placeId": 128066522055979,
+      "gameName": "[👮] Arrest Brainrot",
+      "placeId": 108631717812345,
       "executionSource": "Delta",
       "executionVersion": "1.0.727.1199",
       "clientPlatform": "IOS",
@@ -3422,8 +3422,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:51:23.332Z",
       "firstSeenMs": 1784271083332,
-      "lastSeen": "2026-07-17T06:51:23.332Z",
-      "lastSeenMs": 1784271083332
+      "lastSeen": "2026-07-17T06:55:00.000Z",
+      "lastSeenMs": 1784271300000
     },
     {
       "userId": "8245444026",
@@ -4853,5 +4853,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:53:04.768Z"
+  "updatedAt": "2026-07-17T06:55:02.305Z"
 }
