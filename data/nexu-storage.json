@@ -2210,6 +2210,22 @@
       "lastSeenMs": 1784238300000
     },
     {
+      "userId": "11291339681",
+      "username": "jfoqhccnao",
+      "displayName": "jfoqhccnao",
+      "roleKey": "",
+      "gameName": "+1 ключ к скорости побега на клавиатуре | конфеты и шоколад",
+      "placeId": 95082159892680,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:48:50.665Z",
+      "firstSeenMs": 1784296130665,
+      "lastSeen": "2026-07-17T13:48:50.665Z",
+      "lastSeenMs": 1784296130665
+    },
+    {
       "userId": "11292693920",
       "username": "tcvybunubhvifRc",
       "displayName": "tcvybunubhvifRc",
@@ -2526,8 +2542,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T13:35:00.000Z",
-      "lastSeenMs": 1784295300000
+      "lastSeen": "2026-07-17T13:45:00.000Z",
+      "lastSeenMs": 1784295900000
     },
     {
       "userId": "11299297213",
@@ -7049,5 +7065,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:47:43.948Z"
+  "updatedAt": "2026-07-17T13:48:55.675Z"
 }
