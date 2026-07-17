@@ -1106,6 +1106,22 @@
       "lastSeenMs": 1784294046218
     },
     {
+      "userId": "1094505094",
+      "username": "FENIX_0087",
+      "displayName": "Askeladd",
+      "roleKey": "",
+      "gameName": "Supervivencia de desastres naturales",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:15:11.793Z",
+      "firstSeenMs": 1784315711793,
+      "lastSeen": "2026-07-17T19:15:11.793Z",
+      "lastSeenMs": 1784315711793
+    },
+    {
       "userId": "10949525920",
       "username": "3DAY_404",
       "displayName": "3DAY_404",
@@ -3534,8 +3550,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T19:10:00.000Z",
-      "lastSeenMs": 1784315400000
+      "lastSeen": "2026-07-17T19:15:00.000Z",
+      "lastSeenMs": 1784315700000
     },
     {
       "userId": "11302817434",
@@ -3806,8 +3822,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:25:16.752Z",
       "firstSeenMs": 1784312716752,
-      "lastSeen": "2026-07-17T19:10:00.000Z",
-      "lastSeenMs": 1784315400000
+      "lastSeen": "2026-07-17T19:15:00.000Z",
+      "lastSeenMs": 1784315700000
     },
     {
       "userId": "1891206840",
@@ -4398,8 +4414,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T19:14:37.351Z",
       "firstSeenMs": 1784315677351,
-      "lastSeen": "2026-07-17T19:14:37.351Z",
-      "lastSeenMs": 1784315677351
+      "lastSeen": "2026-07-17T19:15:00.000Z",
+      "lastSeenMs": 1784315700000
     },
     {
       "userId": "3419187651",
@@ -4702,8 +4718,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:56:18.242Z",
       "firstSeenMs": 1784314578242,
-      "lastSeen": "2026-07-17T19:10:00.000Z",
-      "lastSeenMs": 1784315400000
+      "lastSeen": "2026-07-17T19:15:00.000Z",
+      "lastSeenMs": 1784315700000
     },
     {
       "userId": "3943834742",
@@ -4718,8 +4734,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T12:12:28.508Z",
       "firstSeenMs": 1784290348508,
-      "lastSeen": "2026-07-17T19:10:00.000Z",
-      "lastSeenMs": 1784315400000
+      "lastSeen": "2026-07-17T19:15:00.000Z",
+      "lastSeenMs": 1784315700000
     },
     {
       "userId": "3953958486",
@@ -6862,8 +6878,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:14:14.475Z",
       "firstSeenMs": 1784308454475,
-      "lastSeen": "2026-07-17T19:10:00.000Z",
-      "lastSeenMs": 1784315400000
+      "lastSeen": "2026-07-17T19:15:00.000Z",
+      "lastSeenMs": 1784315700000
     },
     {
       "userId": "8273817325",
@@ -8094,8 +8110,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-17T19:10:00.000Z",
-      "lastSeenMs": 1784315400000
+      "lastSeen": "2026-07-17T19:15:00.000Z",
+      "lastSeenMs": 1784315700000
     },
     {
       "userId": "9508855732",
@@ -9327,5 +9343,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:14:42.360Z"
+  "updatedAt": "2026-07-17T19:15:16.805Z"
 }
