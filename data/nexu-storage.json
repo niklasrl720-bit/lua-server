@@ -910,8 +910,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:23:31.722Z",
       "firstSeenMs": 1784251411722,
-      "lastSeen": "2026-07-17T01:30:00.000Z",
-      "lastSeenMs": 1784251800000
+      "lastSeen": "2026-07-17T01:35:00.000Z",
+      "lastSeenMs": 1784252100000
     },
     {
       "userId": "11284061402",
@@ -2178,6 +2178,22 @@
       "lastSeenMs": 1784226190194
     },
     {
+      "userId": "7803427161",
+      "username": "lennepkrl",
+      "displayName": "Menotralha7",
+      "roleKey": "",
+      "gameName": "[UPD] Cave e Ganhe 🏆",
+      "placeId": 133492982148122,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T01:34:56.782Z",
+      "firstSeenMs": 1784252096782,
+      "lastSeen": "2026-07-17T01:34:56.782Z",
+      "lastSeenMs": 1784252096782
+    },
+    {
       "userId": "7844998205",
       "username": "Supeman680",
       "displayName": "Soinc",
@@ -3093,5 +3109,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T01:33:36.223Z"
+  "updatedAt": "2026-07-17T01:35:01.786Z"
 }
