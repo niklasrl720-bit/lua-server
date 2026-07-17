@@ -1490,6 +1490,22 @@
       "lastSeenMs": 1784294753190
     },
     {
+      "userId": "11167555874",
+      "username": "bhsnzbzz",
+      "displayName": "bhsnzbzz",
+      "roleKey": "",
+      "gameName": "البقاء على قيدة الحياة 99 ليلة",
+      "placeId": 126509999114328,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:32:21.840Z",
+      "firstSeenMs": 1784305941840,
+      "lastSeen": "2026-07-17T16:32:21.840Z",
+      "lastSeenMs": 1784305941840
+    },
+    {
       "userId": "11169885571",
       "username": "Viltrumit_001",
       "displayName": "Viltrumite",
@@ -3294,8 +3310,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T16:15:00.000Z",
-      "lastSeenMs": 1784304900000
+      "lastSeen": "2026-07-17T16:30:00.000Z",
+      "lastSeenMs": 1784305800000
     },
     {
       "userId": "11302817434",
@@ -8251,5 +8267,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:31:10.944Z"
+  "updatedAt": "2026-07-17T16:32:26.857Z"
 }
