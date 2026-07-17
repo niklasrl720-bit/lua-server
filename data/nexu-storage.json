@@ -7762,6 +7762,22 @@
       "lastSeenMs": 1784270012692
     },
     {
+      "userId": "9747056394",
+      "username": "FISYLI671",
+      "displayName": "FISYLI671",
+      "roleKey": "",
+      "gameName": "Blox Fruits | Второе Море",
+      "placeId": 79091703265657,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:28:14.262Z",
+      "firstSeenMs": 1784309294262,
+      "lastSeen": "2026-07-17T17:28:14.262Z",
+      "lastSeenMs": 1784309294262
+    },
+    {
       "userId": "9767130360",
       "username": "lacedgeekycart",
       "displayName": "lacedgeekycart",
@@ -8741,5 +8757,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:27:25.637Z"
+  "updatedAt": "2026-07-17T17:28:19.272Z"
 }
