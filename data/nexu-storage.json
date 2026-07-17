@@ -2578,6 +2578,22 @@
       "lastSeenMs": 1784243700000
     },
     {
+      "userId": "9297629319",
+      "username": "that1_person631",
+      "displayName": "min",
+      "roleKey": "",
+      "gameName": "Forgotten Worlds - Howling Heart",
+      "placeId": 3031338375,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T01:17:27.588Z",
+      "firstSeenMs": 1784251047588,
+      "lastSeen": "2026-07-17T01:17:27.588Z",
+      "lastSeenMs": 1784251047588
+    },
+    {
       "userId": "9405689037",
       "username": "Znaud_00",
       "displayName": "MOPSIK67",
@@ -2955,5 +2971,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T01:16:33.315Z"
+  "updatedAt": "2026-07-17T01:17:32.591Z"
 }
