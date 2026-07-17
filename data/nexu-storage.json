@@ -1638,16 +1638,16 @@
       "username": "Montoxisgoat",
       "displayName": "iloveviolet",
       "roleKey": "",
-      "gameName": "[😈SHIDOU +🏆] Blue Lock: Rivals",
-      "placeId": 18668065416,
+      "gameName": "Customs",
+      "placeId": 92517437168342,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T01:50:00.000Z",
-      "lastSeenMs": 1784253000000
+      "lastSeen": "2026-07-17T02:10:00.000Z",
+      "lastSeenMs": 1784254200000
     },
     {
       "userId": "3468057790",
@@ -3251,5 +3251,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:12:27.435Z"
+  "updatedAt": "2026-07-17T02:12:51.158Z"
 }
