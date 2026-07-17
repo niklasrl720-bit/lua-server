@@ -7138,6 +7138,22 @@
       "lastSeenMs": 1784277614486
     },
     {
+      "userId": "7710150577",
+      "username": "Jonathan60682",
+      "displayName": "Jonathan60682",
+      "roleKey": "",
+      "gameName": "Misterio de asesinato 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:01:44.667Z",
+      "firstSeenMs": 1784325704667,
+      "lastSeen": "2026-07-17T22:01:44.667Z",
+      "lastSeenMs": 1784325704667
+    },
+    {
       "userId": "7715311746",
       "username": "jl134331",
       "displayName": "jl134331",
@@ -9554,8 +9570,22 @@
         "moderationScore": 100,
         "sentAt": "2026-07-17T22:01:41.466Z",
         "sentAtMs": 1784325701466
+      },
+      {
+        "id": 1784325705862002,
+        "userId": "11168140263",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Steckdose2743",
+        "displayName": "Steckdose2743",
+        "message": "N|G|E|R|I|A",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T22:01:45.862Z",
+        "sentAtMs": 1784325705862
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:01:42.860Z"
+  "updatedAt": "2026-07-17T22:01:47.357Z"
 }
