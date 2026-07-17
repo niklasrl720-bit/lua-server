@@ -354,6 +354,22 @@
       "lastSeenMs": 1784244000000
     },
     {
+      "userId": "11055567968",
+      "username": "Twichbentley12233",
+      "displayName": "Twichbentley12233",
+      "roleKey": "",
+      "gameName": "Vole un Brainrot [Nouveaux serveurs de joueurs]",
+      "placeId": 96342491571673,
+      "executionSource": "Delta",
+      "executionVersion": "1.0.725.1142",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:10:53.166Z",
+      "firstSeenMs": 1784247053166,
+      "lastSeen": "2026-07-17T00:10:53.166Z",
+      "lastSeenMs": 1784247053166
+    },
+    {
       "userId": "11060863501",
       "username": "wni938",
       "displayName": "wni938",
@@ -2575,5 +2591,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:10:49.745Z"
+  "updatedAt": "2026-07-17T00:10:58.168Z"
 }
