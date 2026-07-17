@@ -2834,6 +2834,22 @@
       "lastSeenMs": 1784245298876
     },
     {
+      "userId": "11271601312",
+      "username": "noxxz67676",
+      "displayName": "noxxz67676",
+      "roleKey": "",
+      "gameName": "Fluxo PVP [DUELOS]",
+      "placeId": 99001115434148,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:56:45.942Z",
+      "firstSeenMs": 1784325405942,
+      "lastSeen": "2026-07-17T21:56:45.942Z",
+      "lastSeenMs": 1784325405942
+    },
+    {
       "userId": "11271917103",
       "username": "jwhwhwjdik",
       "displayName": "jwhwhwjdik",
@@ -4030,8 +4046,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:53:06.722Z",
       "firstSeenMs": 1784325186722,
-      "lastSeen": "2026-07-17T21:53:06.722Z",
-      "lastSeenMs": 1784325186722
+      "lastSeen": "2026-07-17T21:55:00.000Z",
+      "lastSeenMs": 1784325300000
     },
     {
       "userId": "1177195747",
@@ -10517,5 +10533,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:56:18.731Z"
+  "updatedAt": "2026-07-17T21:56:51.036Z"
 }
