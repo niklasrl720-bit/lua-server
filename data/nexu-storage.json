@@ -1702,16 +1702,16 @@
       "username": "EdinPlayz100",
       "displayName": "LarryEXE",
       "roleKey": "",
-      "gameName": "Morphs",
-      "placeId": 94523147998873,
+      "gameName": "[LAST] Bathtub Universe",
+      "placeId": 140199277601307,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "IOS",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:32:58.793Z",
       "firstSeenMs": 1784266378793,
-      "lastSeen": "2026-07-17T06:00:00.000Z",
-      "lastSeenMs": 1784268000000
+      "lastSeen": "2026-07-17T06:10:00.000Z",
+      "lastSeenMs": 1784268600000
     },
     {
       "userId": "1534052061",
@@ -4535,5 +4535,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:10:30.787Z"
+  "updatedAt": "2026-07-17T06:13:05.626Z"
 }
