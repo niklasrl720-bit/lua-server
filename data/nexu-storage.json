@@ -206,8 +206,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T03:05:00.000Z",
-      "lastSeenMs": 1784257500000
+      "lastSeen": "2026-07-17T04:25:00.000Z",
+      "lastSeenMs": 1784262300000
     },
     {
       "userId": "10427971366",
@@ -800,6 +800,22 @@
       "firstSeenMs": 1784225731326,
       "lastSeen": "2026-07-16T18:15:31.326Z",
       "lastSeenMs": 1784225731326
+    },
+    {
+      "userId": "11244901654",
+      "username": "lMrTickIe",
+      "displayName": "Mr Tickle",
+      "roleKey": "",
+      "gameName": "White Room",
+      "placeId": 13278749064,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T04:28:35.122Z",
+      "firstSeenMs": 1784262515122,
+      "lastSeen": "2026-07-17T04:28:35.122Z",
+      "lastSeenMs": 1784262515122
     },
     {
       "userId": "11247164747",
@@ -4065,5 +4081,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:27:12.704Z"
+  "updatedAt": "2026-07-17T04:28:40.127Z"
 }
