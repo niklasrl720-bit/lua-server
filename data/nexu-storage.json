@@ -54,16 +54,16 @@
       "username": "happy_hasif516",
       "displayName": "tentara_ganung99",
       "roleKey": "",
-      "gameName": "💥 Flag Wars!",
-      "placeId": 3214114884,
+      "gameName": "Shoot Noobs and Eat Foods😋",
+      "placeId": 14410213941,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:54:59.105Z",
       "firstSeenMs": 1784249699105,
-      "lastSeen": "2026-07-17T01:35:00.000Z",
-      "lastSeenMs": 1784252100000
+      "lastSeen": "2026-07-17T02:20:00.000Z",
+      "lastSeenMs": 1784254800000
     },
     {
       "userId": "10172085694",
@@ -1646,8 +1646,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T02:15:00.000Z",
-      "lastSeenMs": 1784254500000
+      "lastSeen": "2026-07-17T02:20:00.000Z",
+      "lastSeenMs": 1784254800000
     },
     {
       "userId": "3468057790",
@@ -3299,5 +3299,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:20:45.375Z"
+  "updatedAt": "2026-07-17T02:22:03.152Z"
 }
