@@ -3042,6 +3042,22 @@
       "lastSeenMs": 1784226000000
     },
     {
+      "userId": "11285585930",
+      "username": "bombastic67062",
+      "displayName": "bombastic67062",
+      "roleKey": "",
+      "gameName": "Faza pierwsza",
+      "placeId": 92416817362629,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:04:32.656Z",
+      "firstSeenMs": 1784325872656,
+      "lastSeen": "2026-07-17T22:04:32.656Z",
+      "lastSeenMs": 1784325872656
+    },
+    {
       "userId": "11286358709",
       "username": "Jsbsjz_2",
       "displayName": "Dasodxl",
@@ -9731,5 +9747,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:04:26.864Z"
+  "updatedAt": "2026-07-17T22:04:37.661Z"
 }
