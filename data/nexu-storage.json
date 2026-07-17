@@ -790,16 +790,16 @@
       "username": "Rip_SECRET22222",
       "displayName": "Rip_SECRET22222",
       "roleKey": "",
-      "gameName": "HIDE FROM THE VILLAIN",
-      "placeId": 97463774278378,
+      "gameName": "+1 Speed Keyboard Escape | Candy & Chocolate",
+      "placeId": 95082159892680,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:30:28.378Z",
       "firstSeenMs": 1784305828378,
-      "lastSeen": "2026-07-17T17:55:00.000Z",
-      "lastSeenMs": 1784310900000
+      "lastSeen": "2026-07-17T19:35:00.000Z",
+      "lastSeenMs": 1784316900000
     },
     {
       "userId": "10717295463",
@@ -9483,5 +9483,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:37:16.729Z"
+  "updatedAt": "2026-07-17T19:38:27.267Z"
 }
