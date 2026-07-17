@@ -286,8 +286,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T23:30:00.000Z",
-      "lastSeenMs": 1784331000000
+      "lastSeen": "2026-07-17T23:35:00.000Z",
+      "lastSeenMs": 1784331300000
     },
     {
       "userId": "10203550652",
@@ -494,8 +494,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:21:03.905Z",
       "firstSeenMs": 1784312463905,
-      "lastSeen": "2026-07-17T23:30:00.000Z",
-      "lastSeenMs": 1784331000000
+      "lastSeen": "2026-07-17T23:35:00.000Z",
+      "lastSeenMs": 1784331300000
     },
     {
       "userId": "10342998762",
@@ -654,8 +654,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T23:27:23.739Z",
       "firstSeenMs": 1784330843739,
-      "lastSeen": "2026-07-17T23:27:23.739Z",
-      "lastSeenMs": 1784330843739
+      "lastSeen": "2026-07-17T23:35:00.000Z",
+      "lastSeenMs": 1784331300000
     },
     {
       "userId": "10534661561",
@@ -830,8 +830,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T23:30:29.290Z",
       "firstSeenMs": 1784331029290,
-      "lastSeen": "2026-07-17T23:30:29.290Z",
-      "lastSeenMs": 1784331029290
+      "lastSeen": "2026-07-17T23:35:00.000Z",
+      "lastSeenMs": 1784331300000
     },
     {
       "userId": "10655312681",
@@ -4110,8 +4110,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-17T18:30:00.000Z",
-      "lastSeenMs": 1784313000000
+      "lastSeen": "2026-07-17T23:35:00.000Z",
+      "lastSeenMs": 1784331300000
     },
     {
       "userId": "11303186538",
@@ -5186,6 +5186,22 @@
       "lastSeenMs": 1784315700000
     },
     {
+      "userId": "3397326780",
+      "username": "ZigglyJr",
+      "displayName": "OGzigglyx",
+      "roleKey": "",
+      "gameName": "Skyrift [V10.13]",
+      "placeId": 6986072639,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:35:40.347Z",
+      "firstSeenMs": 1784331340347,
+      "lastSeen": "2026-07-17T23:35:40.347Z",
+      "lastSeenMs": 1784331340347
+    },
+    {
       "userId": "3419187651",
       "username": "Montoxisgoat",
       "displayName": "iloveviolet",
@@ -5550,8 +5566,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:45:52.758Z",
       "firstSeenMs": 1784306752758,
-      "lastSeen": "2026-07-17T23:30:00.000Z",
-      "lastSeenMs": 1784331000000
+      "lastSeen": "2026-07-17T23:35:00.000Z",
+      "lastSeenMs": 1784331300000
     },
     {
       "userId": "3991335398",
@@ -9662,8 +9678,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-17T23:30:00.000Z",
-      "lastSeenMs": 1784331000000
+      "lastSeen": "2026-07-17T23:35:00.000Z",
+      "lastSeenMs": 1784331300000
     },
     {
       "userId": "9812944983",
@@ -10591,5 +10607,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:34:21.444Z"
+  "updatedAt": "2026-07-17T23:35:45.357Z"
 }
