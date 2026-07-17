@@ -6674,6 +6674,22 @@
       "lastSeenMs": 1784254700808
     },
     {
+      "userId": "7388918205",
+      "username": "eapcDc_68",
+      "displayName": "Lord",
+      "roleKey": "",
+      "gameName": "+1 مفتاح الهروب بالسرعة على لوحة المفاتيح | الحلوى والشوكولاتة",
+      "placeId": 95082159892680,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:37:11.064Z",
+      "firstSeenMs": 1784324231064,
+      "lastSeen": "2026-07-17T21:37:11.064Z",
+      "lastSeenMs": 1784324231064
+    },
+    {
       "userId": "7407077752",
       "username": "Hujanpo123",
       "displayName": "Sticker",
@@ -10249,5 +10265,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:36:25.512Z"
+  "updatedAt": "2026-07-17T21:37:16.164Z"
 }
