@@ -414,8 +414,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-17T19:35:00.000Z",
-      "lastSeenMs": 1784316900000
+      "lastSeen": "2026-07-17T19:40:00.000Z",
+      "lastSeenMs": 1784317200000
     },
     {
       "userId": "10305976438",
@@ -798,8 +798,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:30:28.378Z",
       "firstSeenMs": 1784305828378,
-      "lastSeen": "2026-07-17T19:35:00.000Z",
-      "lastSeenMs": 1784316900000
+      "lastSeen": "2026-07-17T19:40:00.000Z",
+      "lastSeenMs": 1784317200000
     },
     {
       "userId": "10717295463",
@@ -3582,8 +3582,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T19:35:00.000Z",
-      "lastSeenMs": 1784316900000
+      "lastSeen": "2026-07-17T19:40:00.000Z",
+      "lastSeenMs": 1784317200000
     },
     {
       "userId": "11302817434",
@@ -3854,8 +3854,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:25:16.752Z",
       "firstSeenMs": 1784312716752,
-      "lastSeen": "2026-07-17T19:35:00.000Z",
-      "lastSeenMs": 1784316900000
+      "lastSeen": "2026-07-17T19:40:00.000Z",
+      "lastSeenMs": 1784317200000
     },
     {
       "userId": "1891206840",
@@ -4766,8 +4766,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:56:18.242Z",
       "firstSeenMs": 1784314578242,
-      "lastSeen": "2026-07-17T19:35:00.000Z",
-      "lastSeenMs": 1784316900000
+      "lastSeen": "2026-07-17T19:40:00.000Z",
+      "lastSeenMs": 1784317200000
     },
     {
       "userId": "3943834742",
@@ -5566,8 +5566,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:09:58.185Z",
       "firstSeenMs": 1784264998185,
-      "lastSeen": "2026-07-17T19:35:00.000Z",
-      "lastSeenMs": 1784316900000
+      "lastSeen": "2026-07-17T19:40:00.000Z",
+      "lastSeenMs": 1784317200000
     },
     {
       "userId": "5181708696",
@@ -7934,8 +7934,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.309Z",
       "firstSeenMs": 1784225110309,
-      "lastSeen": "2026-07-17T19:35:00.000Z",
-      "lastSeenMs": 1784316900000
+      "lastSeen": "2026-07-17T19:40:00.000Z",
+      "lastSeenMs": 1784317200000
     },
     {
       "userId": "9247923083",
@@ -8222,8 +8222,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-17T19:35:00.000Z",
-      "lastSeenMs": 1784316900000
+      "lastSeen": "2026-07-17T19:40:00.000Z",
+      "lastSeenMs": 1784317200000
     },
     {
       "userId": "9508855732",
@@ -8672,6 +8672,22 @@
       "firstSeenMs": 1784303638988,
       "lastSeen": "2026-07-17T15:53:58.988Z",
       "lastSeenMs": 1784303638988
+    },
+    {
+      "userId": "9988894287",
+      "username": "TRNKA102",
+      "displayName": "TRNKA102",
+      "roleKey": "",
+      "gameName": "[Туманность] Удар Блокса",
+      "placeId": 114234929420007,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:40:19.854Z",
+      "firstSeenMs": 1784317219854,
+      "lastSeen": "2026-07-17T19:40:19.854Z",
+      "lastSeenMs": 1784317219854
     },
     {
       "userId": "999305479",
@@ -9483,5 +9499,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:38:27.267Z"
+  "updatedAt": "2026-07-17T19:40:24.864Z"
 }
