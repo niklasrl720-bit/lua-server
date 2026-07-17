@@ -1042,6 +1042,22 @@
       "lastSeenMs": 1784247053166
     },
     {
+      "userId": "11058653499",
+      "username": "AlibekGribko",
+      "displayName": "44444444444444444444",
+      "roleKey": "",
+      "gameName": "Брукхейвен 🏡 RP",
+      "placeId": 4924922222,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:06:06.989Z",
+      "firstSeenMs": 1784300766989,
+      "lastSeen": "2026-07-17T15:06:06.989Z",
+      "lastSeenMs": 1784300766989
+    },
+    {
       "userId": "11059757904",
       "username": "Perryjazxon3368",
       "displayName": "Jennyside23",
@@ -7567,5 +7583,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:06:00.449Z"
+  "updatedAt": "2026-07-17T15:06:12.071Z"
 }
