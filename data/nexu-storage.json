@@ -6540,10 +6540,10 @@
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-17T16:42:00.358Z",
-      "firstSeenMs": 1784306520358,
-      "lastSeen": "2026-07-17T16:42:00.358Z",
-      "lastSeenMs": 1784306520358
+      "firstSeen": "2026-07-17T16:41:40.299Z",
+      "firstSeenMs": 1784306500299,
+      "lastSeen": "2026-07-17T16:41:40.299Z",
+      "lastSeenMs": 1784306500299
     },
     {
       "userId": "8785383597",
@@ -8331,5 +8331,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:42:05.377Z"
+  "updatedAt": "2026-07-17T16:42:38.620Z"
 }
