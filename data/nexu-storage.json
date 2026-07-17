@@ -146,6 +146,22 @@
       "lastSeenMs": 1784238600000
     },
     {
+      "userId": "10254446956",
+      "username": "mom_4621",
+      "displayName": "mom_4621",
+      "roleKey": "",
+      "gameName": "[🌴] Kick a Lucky Block",
+      "placeId": 89469502395769,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:52:59.763Z",
+      "firstSeenMs": 1784271179763,
+      "lastSeen": "2026-07-17T06:52:59.763Z",
+      "lastSeenMs": 1784271179763
+    },
+    {
       "userId": "10259668015",
       "username": "200pumpbrudda",
       "displayName": "vynx",
@@ -4837,5 +4853,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:51:53.806Z"
+  "updatedAt": "2026-07-17T06:53:04.768Z"
 }
