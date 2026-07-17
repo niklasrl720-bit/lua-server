@@ -1666,6 +1666,22 @@
       "lastSeenMs": 1784246400000
     },
     {
+      "userId": "1671961077",
+      "username": "DEAD_MIKIII",
+      "displayName": "FOE_deadMIKIII",
+      "roleKey": "",
+      "gameName": "Highschool Experience RP",
+      "placeId": 112333343527957,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:03:12.324Z",
+      "firstSeenMs": 1784264592324,
+      "lastSeen": "2026-07-17T05:03:12.324Z",
+      "lastSeenMs": 1784264592324
+    },
+    {
       "userId": "1746266119",
       "username": "SphinxPlaysR0BL0X",
       "displayName": "CostaHERMANO",
@@ -4217,5 +4233,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:01:41.575Z"
+  "updatedAt": "2026-07-17T05:03:17.331Z"
 }
