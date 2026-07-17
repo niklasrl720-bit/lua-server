@@ -1362,6 +1362,22 @@
       "lastSeenMs": 1784276989070
     },
     {
+      "userId": "11210139137",
+      "username": "TUFF2211w",
+      "displayName": "TUFF2211w",
+      "roleKey": "",
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:11:58.789Z",
+      "firstSeenMs": 1784297518789,
+      "lastSeen": "2026-07-17T14:11:58.789Z",
+      "lastSeenMs": 1784297518789
+    },
+    {
       "userId": "11213059431",
       "username": "cabra_mods",
       "displayName": "cabra_mods",
@@ -4302,8 +4318,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:00:11.581Z",
       "firstSeenMs": 1784264411581,
-      "lastSeen": "2026-07-17T06:30:00.000Z",
-      "lastSeenMs": 1784269800000
+      "lastSeen": "2026-07-17T14:10:00.000Z",
+      "lastSeenMs": 1784297400000
     },
     {
       "userId": "5316980228",
@@ -7193,5 +7209,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:11:10.975Z"
+  "updatedAt": "2026-07-17T14:12:03.799Z"
 }
