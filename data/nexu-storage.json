@@ -10048,8 +10048,22 @@
         "moderationScore": 80,
         "sentAt": "2026-07-17T21:14:39.449Z",
         "sentAtMs": 1784322879449
+      },
+      {
+        "id": 1784322887400002,
+        "userId": "1028623238",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Enchanted_WolfDragon",
+        "displayName": "YounusLaBooness",
+        "message": "bruh",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T21:14:47.400Z",
+        "sentAtMs": 1784322887400
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:14:40.946Z"
+  "updatedAt": "2026-07-17T21:14:48.441Z"
 }
