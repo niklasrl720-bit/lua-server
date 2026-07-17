@@ -4158,8 +4158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-17T23:50:00.000Z",
-      "lastSeenMs": 1784332200000
+      "lastSeen": "2026-07-17T23:55:00.000Z",
+      "lastSeenMs": 1784332500000
     },
     {
       "userId": "11303186538",
@@ -5894,16 +5894,16 @@
       "username": "Tidesudden",
       "displayName": "Tidesudden",
       "roleKey": "",
-      "gameName": "Physics Obby + Mechanisms",
-      "placeId": 10871789326,
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T23:47:40.773Z",
       "firstSeenMs": 1784332060773,
-      "lastSeen": "2026-07-17T23:50:00.000Z",
-      "lastSeenMs": 1784332200000
+      "lastSeen": "2026-07-17T23:55:00.000Z",
+      "lastSeenMs": 1784332500000
     },
     {
       "userId": "4305233614",
@@ -7102,8 +7102,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:15:27.430Z",
       "firstSeenMs": 1784232927430,
-      "lastSeen": "2026-07-17T23:50:00.000Z",
-      "lastSeenMs": 1784332200000
+      "lastSeen": "2026-07-17T23:55:00.000Z",
+      "lastSeenMs": 1784332500000
     },
     {
       "userId": "7084113045",
@@ -9806,8 +9806,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T23:42:18.755Z",
       "firstSeenMs": 1784331738755,
-      "lastSeen": "2026-07-17T23:50:00.000Z",
-      "lastSeenMs": 1784332200000
+      "lastSeen": "2026-07-17T23:55:00.000Z",
+      "lastSeenMs": 1784332500000
     },
     {
       "userId": "9870980208",
@@ -10747,5 +10747,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:55:38.193Z"
+  "updatedAt": "2026-07-17T23:55:56.980Z"
 }
