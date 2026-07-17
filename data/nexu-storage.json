@@ -1570,6 +1570,22 @@
       "lastSeenMs": 1784276989070
     },
     {
+      "userId": "11209583129",
+      "username": "clengcleng037",
+      "displayName": "clengcleng037",
+      "roleKey": "",
+      "gameName": "Arena",
+      "placeId": 98927955463992,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:12:01.917Z",
+      "firstSeenMs": 1784304721917,
+      "lastSeen": "2026-07-17T16:12:01.917Z",
+      "lastSeenMs": 1784304721917
+    },
+    {
       "userId": "11210139137",
       "username": "TUFF2211w",
       "displayName": "TUFF2211w",
@@ -6790,16 +6806,16 @@
       "username": "jghirebq2011",
       "displayName": "jghirebq2011",
       "roleKey": "",
-      "gameName": "Construis et vole des Brainrots!",
-      "placeId": 134879690978154,
+      "gameName": "[FPS] Arène à un tir 🎯",
+      "placeId": 128326169270358,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:31:02.186Z",
       "firstSeenMs": 1784251862186,
-      "lastSeen": "2026-07-17T15:50:00.000Z",
-      "lastSeenMs": 1784303400000
+      "lastSeen": "2026-07-17T16:10:00.000Z",
+      "lastSeenMs": 1784304600000
     },
     {
       "userId": "9405689037",
@@ -8029,5 +8045,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:11:59.914Z"
+  "updatedAt": "2026-07-17T16:12:07.118Z"
 }
