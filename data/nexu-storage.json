@@ -1206,8 +1206,8 @@
       "username": "wsgwiththeguys",
       "displayName": "wsgwiththeguys",
       "roleKey": "",
-      "gameName": "FSS - Private 4v4",
-      "placeId": 71758036674663,
+      "gameName": "[🏆⚽] FIFA Super Soccer",
+      "placeId": 12177325772,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -2478,8 +2478,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:03:53.427Z",
       "firstSeenMs": 1784264633427,
-      "lastSeen": "2026-07-17T06:25:00.000Z",
-      "lastSeenMs": 1784269500000
+      "lastSeen": "2026-07-17T06:30:00.000Z",
+      "lastSeenMs": 1784269800000
     },
     {
       "userId": "4508373870",
@@ -2494,8 +2494,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:26:43.731Z",
       "firstSeenMs": 1784269603731,
-      "lastSeen": "2026-07-17T06:26:43.731Z",
-      "lastSeenMs": 1784269603731
+      "lastSeen": "2026-07-17T06:30:00.000Z",
+      "lastSeenMs": 1784269800000
     },
     {
       "userId": "4549877961",
@@ -2754,6 +2754,22 @@
       "lastSeenMs": 1784240443672
     },
     {
+      "userId": "5393331248",
+      "username": "Msjsjaiiiy",
+      "displayName": "VitaminMonkey",
+      "roleKey": "",
+      "gameName": "[S12] BATHE DA BABY",
+      "placeId": 14567590300,
+      "executionSource": "Delta",
+      "executionVersion": "1.0.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:32:02.258Z",
+      "firstSeenMs": 1784269922258,
+      "lastSeen": "2026-07-17T06:32:02.258Z",
+      "lastSeenMs": 1784269922258
+    },
+    {
       "userId": "5497562572",
       "username": "Lggj_sol",
       "displayName": "Losmim",
@@ -2830,8 +2846,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:02:53.513Z",
       "firstSeenMs": 1784253773513,
-      "lastSeen": "2026-07-17T06:25:00.000Z",
-      "lastSeenMs": 1784269500000
+      "lastSeen": "2026-07-17T06:30:00.000Z",
+      "lastSeenMs": 1784269800000
     },
     {
       "userId": "6074258353",
@@ -4631,5 +4647,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:30:20.687Z"
+  "updatedAt": "2026-07-17T06:32:54.324Z"
 }
