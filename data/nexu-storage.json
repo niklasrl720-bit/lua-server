@@ -5534,8 +5534,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:15:27.430Z",
       "firstSeenMs": 1784232927430,
-      "lastSeen": "2026-07-17T16:55:00.000Z",
-      "lastSeenMs": 1784307300000
+      "lastSeen": "2026-07-17T17:05:00.000Z",
+      "lastSeenMs": 1784307900000
     },
     {
       "userId": "7084113045",
@@ -5968,6 +5968,22 @@
       "firstSeenMs": 1784226190194,
       "lastSeen": "2026-07-16T18:23:10.194Z",
       "lastSeenMs": 1784226190194
+    },
+    {
+      "userId": "7775439525",
+      "username": "Rz_demondd",
+      "displayName": "Xiao",
+      "roleKey": "",
+      "gameName": "[GOGETA] Campi di battaglia Saiyan",
+      "placeId": 13448262796,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:07:02.633Z",
+      "firstSeenMs": 1784308022633,
+      "lastSeen": "2026-07-17T17:07:02.633Z",
+      "lastSeenMs": 1784308022633
     },
     {
       "userId": "7786097908",
@@ -8567,5 +8583,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:06:14.563Z"
+  "updatedAt": "2026-07-17T17:07:07.644Z"
 }
