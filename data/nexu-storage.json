@@ -2482,6 +2482,22 @@
       "lastSeenMs": 1784228140706
     },
     {
+      "userId": "11259425132",
+      "username": "deonate_1",
+      "displayName": "Deontaeisthegoat_107",
+      "roleKey": "",
+      "gameName": "👥 Make a Friend Request [UPDATE!]",
+      "placeId": 130954818388365,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:22:52.236Z",
+      "firstSeenMs": 1784319772236,
+      "lastSeen": "2026-07-17T20:22:52.236Z",
+      "lastSeenMs": 1784319772236
+    },
+    {
       "userId": "11260807262",
       "username": "Shades_Oh5Alt",
       "displayName": "Shades_Oh5Alt",
@@ -9705,5 +9721,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:21:25.013Z"
+  "updatedAt": "2026-07-17T20:22:57.247Z"
 }
