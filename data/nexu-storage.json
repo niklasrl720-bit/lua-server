@@ -1806,8 +1806,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T03:25:00.000Z",
-      "lastSeenMs": 1784258700000
+      "lastSeen": "2026-07-17T03:30:00.000Z",
+      "lastSeenMs": 1784259000000
     },
     {
       "userId": "3643100956",
@@ -1968,6 +1968,22 @@
       "firstSeenMs": 1784248743817,
       "lastSeen": "2026-07-17T01:00:00.000Z",
       "lastSeenMs": 1784250000000
+    },
+    {
+      "userId": "4242993477",
+      "username": "roblox_user_4242993477",
+      "displayName": "ARCANJO",
+      "roleKey": "",
+      "gameName": "Duelos de Assassinos vs Xerifes",
+      "placeId": 12355337193,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:32:11.729Z",
+      "firstSeenMs": 1784259131729,
+      "lastSeen": "2026-07-17T03:32:11.729Z",
+      "lastSeenMs": 1784259131729
     },
     {
       "userId": "4337357751",
@@ -3703,5 +3719,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:30:25.538Z"
+  "updatedAt": "2026-07-17T03:32:16.735Z"
 }
