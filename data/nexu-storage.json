@@ -6938,8 +6938,22 @@
         "moderationScore": 100,
         "sentAt": "2026-07-17T12:21:44.310Z",
         "sentAtMs": 1784290904310
+      },
+      {
+        "id": 1784294398754001,
+        "userId": "11248971207",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "ThemightyGre3ntea",
+        "displayName": "ThemightyGre3ntea",
+        "message": "Hi",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T13:19:58.754Z",
+        "sentAtMs": 1784294398754
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:18:26.610Z"
+  "updatedAt": "2026-07-17T13:19:59.842Z"
 }
