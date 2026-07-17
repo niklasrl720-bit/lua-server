@@ -2210,6 +2210,22 @@
       "lastSeenMs": 1784240766148
     },
     {
+      "userId": "5557688924",
+      "username": "INEEDDRillman",
+      "displayName": "luna",
+      "roleKey": "",
+      "gameName": "Murderers VS Sheriffs DUELS",
+      "placeId": 12355337193,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:09:23.816Z",
+      "firstSeenMs": 1784257763816,
+      "lastSeen": "2026-07-17T03:09:23.816Z",
+      "lastSeenMs": 1784257763816
+    },
+    {
       "userId": "6070402361",
       "username": "qqrtqr1h1o45m1o4",
       "displayName": "qqrtqr1h1o45m1o4",
@@ -3581,5 +3597,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:08:37.010Z"
+  "updatedAt": "2026-07-17T03:09:28.822Z"
 }
