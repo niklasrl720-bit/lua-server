@@ -10428,8 +10428,22 @@
         "moderationScore": 100,
         "sentAt": "2026-07-17T23:06:45.751Z",
         "sentAtMs": 1784329605751
+      },
+      {
+        "id": 1784330447070001,
+        "userId": "7797125676",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "mig_oda",
+        "displayName": "zingo",
+        "message": "### ##### ## ##",
+        "moderated": true,
+        "moderationCategory": "SEXUELL",
+        "moderationScore": 100,
+        "sentAt": "2026-07-17T23:20:47.070Z",
+        "sentAtMs": 1784330447070
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:20:09.561Z"
+  "updatedAt": "2026-07-17T23:20:48.254Z"
 }
