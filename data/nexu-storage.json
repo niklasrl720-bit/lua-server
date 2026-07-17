@@ -3254,16 +3254,16 @@
       "username": "Itndinaha",
       "displayName": "ZAMONTI",
       "roleKey": "",
-      "gameName": "Murder Mystery 2",
-      "placeId": 142823291,
+      "gameName": "Murderers VS Sheriffs DUELS",
+      "placeId": 12355337193,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:11:08.754Z",
       "firstSeenMs": 1784265068754,
-      "lastSeen": "2026-07-17T05:25:00.000Z",
-      "lastSeenMs": 1784265900000
+      "lastSeen": "2026-07-17T05:30:00.000Z",
+      "lastSeenMs": 1784266200000
     },
     {
       "userId": "8532047955",
@@ -4439,5 +4439,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:33:36.253Z"
+  "updatedAt": "2026-07-17T05:33:41.453Z"
 }
