@@ -6066,6 +6066,22 @@
       "lastSeenMs": 1784226190194
     },
     {
+      "userId": "7775230391",
+      "username": "V4cgfg",
+      "displayName": "ADMIM_Don",
+      "roleKey": "",
+      "gameName": "Last To Leave",
+      "placeId": 8305337434,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:33:25.807Z",
+      "firstSeenMs": 1784309605807,
+      "lastSeen": "2026-07-17T17:33:25.807Z",
+      "lastSeenMs": 1784309605807
+    },
+    {
       "userId": "7775439525",
       "username": "Rz_demondd",
       "displayName": "Xiao",
@@ -8757,5 +8773,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:32:04.246Z"
+  "updatedAt": "2026-07-17T17:33:30.821Z"
 }
