@@ -1330,6 +1330,22 @@
       "lastSeenMs": 1784253787384
     },
     {
+      "userId": "11299756168",
+      "username": "eoeos516",
+      "displayName": "eoeos516",
+      "roleKey": "",
+      "gameName": "Blox Frutas",
+      "placeId": 2753915549,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T02:47:38.910Z",
+      "firstSeenMs": 1784256458910,
+      "lastSeen": "2026-07-17T02:47:38.910Z",
+      "lastSeenMs": 1784256458910
+    },
+    {
       "userId": "1267528515",
       "username": "manumacaroni",
       "displayName": "bignoobi",
@@ -3439,5 +3455,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:45:48.655Z"
+  "updatedAt": "2026-07-17T02:47:43.914Z"
 }
