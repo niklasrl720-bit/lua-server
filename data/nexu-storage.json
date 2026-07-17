@@ -1458,6 +1458,22 @@
       "lastSeenMs": 1784241797370
     },
     {
+      "userId": "2785780512",
+      "username": "hola_xd8162",
+      "displayName": "poof",
+      "roleKey": "",
+      "gameName": "PRUEBA DE CAPÓ REALISTA",
+      "placeId": 12673840215,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T01:13:27.847Z",
+      "firstSeenMs": 1784250807847,
+      "lastSeen": "2026-07-17T01:13:27.847Z",
+      "lastSeenMs": 1784250807847
+    },
+    {
       "userId": "2821234045",
       "username": "sneidertest",
       "displayName": "Bmw2007",
@@ -2939,5 +2955,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T01:12:10.211Z"
+  "updatedAt": "2026-07-17T01:13:32.849Z"
 }
