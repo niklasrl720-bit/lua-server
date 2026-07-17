@@ -6982,16 +6982,16 @@
       "username": "jghirebq2011",
       "displayName": "jghirebq2011",
       "roleKey": "",
-      "gameName": "[FPS] Flick",
-      "placeId": 136801880565837,
+      "gameName": "[FPS] Une lunette",
+      "placeId": 135648408848758,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:31:02.186Z",
       "firstSeenMs": 1784251862186,
-      "lastSeen": "2026-07-17T16:20:00.000Z",
-      "lastSeenMs": 1784305200000
+      "lastSeen": "2026-07-17T16:25:00.000Z",
+      "lastSeenMs": 1784305500000
     },
     {
       "userId": "9405689037",
@@ -8235,5 +8235,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:28:12.801Z"
+  "updatedAt": "2026-07-17T16:29:54.219Z"
 }
