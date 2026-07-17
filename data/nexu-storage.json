@@ -210,6 +210,22 @@
       "lastSeenMs": 1784259600000
     },
     {
+      "userId": "10232348197",
+      "username": "antirprobloxrampage",
+      "displayName": "ima",
+      "roleKey": "",
+      "gameName": "Universo de Roleplay 🌎🍏",
+      "placeId": 483878848,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T12:39:43.514Z",
+      "firstSeenMs": 1784291983514,
+      "lastSeen": "2026-07-17T12:39:43.514Z",
+      "lastSeenMs": 1784291983514
+    },
+    {
       "userId": "1023658413",
       "username": "ardapro123589",
       "displayName": "ASTOR",
@@ -6653,5 +6669,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:37:10.739Z"
+  "updatedAt": "2026-07-17T12:39:48.533Z"
 }
