@@ -3758,8 +3758,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:25:16.752Z",
       "firstSeenMs": 1784312716752,
-      "lastSeen": "2026-07-17T18:25:16.752Z",
-      "lastSeenMs": 1784312716752
+      "lastSeen": "2026-07-17T18:30:00.000Z",
+      "lastSeenMs": 1784313000000
     },
     {
       "userId": "1891206840",
@@ -4622,8 +4622,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:45:52.758Z",
       "firstSeenMs": 1784306752758,
-      "lastSeen": "2026-07-17T18:25:00.000Z",
-      "lastSeenMs": 1784312700000
+      "lastSeen": "2026-07-17T18:30:00.000Z",
+      "lastSeenMs": 1784313000000
     },
     {
       "userId": "4009875708",
@@ -5872,6 +5872,22 @@
       "firstSeenMs": 1784306790037,
       "lastSeen": "2026-07-17T16:46:30.037Z",
       "lastSeenMs": 1784306790037
+    },
+    {
+      "userId": "7119400488",
+      "username": "signey_speed",
+      "displayName": "vt77",
+      "roleKey": "",
+      "gameName": "Roleplay de Fronteira de San Diego",
+      "placeId": 136020512003847,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:30:21.732Z",
+      "firstSeenMs": 1784313021732,
+      "lastSeen": "2026-07-17T18:30:21.732Z",
+      "lastSeenMs": 1784313021732
     },
     {
       "userId": "7156284451",
@@ -8102,16 +8118,16 @@
       "username": "KingXD4081",
       "displayName": "KingXD4081",
       "roleKey": "",
-      "gameName": "[🏆⚽] FIFA Super Soccer",
-      "placeId": 12177325772,
+      "gameName": "[UPD] +1 Speed Kart Tsunami Escape",
+      "placeId": 86681121894203,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-17T18:25:00.000Z",
-      "lastSeenMs": 1784312700000
+      "lastSeen": "2026-07-17T18:30:00.000Z",
+      "lastSeenMs": 1784313000000
     },
     {
       "userId": "9786800904",
@@ -9089,5 +9105,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:30:17.328Z"
+  "updatedAt": "2026-07-17T18:30:24.240Z"
 }
