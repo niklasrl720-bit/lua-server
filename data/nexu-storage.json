@@ -3394,6 +3394,22 @@
       "lastSeenMs": 1784304300000
     },
     {
+      "userId": "11303043756",
+      "username": "Marvey_Specter",
+      "displayName": "Marvey_Specter",
+      "roleKey": "",
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:01:18.405Z",
+      "firstSeenMs": 1784307678405,
+      "lastSeen": "2026-07-17T17:01:18.405Z",
+      "lastSeenMs": 1784307678405
+    },
+    {
       "userId": "1177195747",
       "username": "giovajaket",
       "displayName": "ggiova_101",
@@ -3406,8 +3422,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:40:46.291Z",
       "firstSeenMs": 1784306446291,
-      "lastSeen": "2026-07-17T16:55:00.000Z",
-      "lastSeenMs": 1784307300000
+      "lastSeen": "2026-07-17T17:00:00.000Z",
+      "lastSeenMs": 1784307600000
     },
     {
       "userId": "1267528515",
@@ -8503,5 +8519,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:01:00.906Z"
+  "updatedAt": "2026-07-17T17:01:23.417Z"
 }
