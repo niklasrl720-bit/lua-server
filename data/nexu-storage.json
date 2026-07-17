@@ -338,6 +338,22 @@
       "lastSeenMs": 1784249833467
     },
     {
+      "userId": "10465474246",
+      "username": "aether14717mods",
+      "displayName": "aether14717mods",
+      "roleKey": "",
+      "gameName": "블록스 과일 | 제3의 바다",
+      "placeId": 100117331123089,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:34:33.718Z",
+      "firstSeenMs": 1784284473718,
+      "lastSeen": "2026-07-17T10:34:33.718Z",
+      "lastSeenMs": 1784284473718
+    },
+    {
       "userId": "1049291677",
       "username": "scvrrzz0",
       "displayName": "kureiji",
@@ -6001,5 +6017,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:33:33.792Z"
+  "updatedAt": "2026-07-17T10:34:38.728Z"
 }
