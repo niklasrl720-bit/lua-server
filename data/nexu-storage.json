@@ -4530,6 +4530,22 @@
       "lastSeenMs": 1784288025311
     },
     {
+      "userId": "3162097535",
+      "username": "6727star",
+      "displayName": "6727star",
+      "roleKey": "",
+      "gameName": "steal time from others & be the best",
+      "placeId": 6361937392,
+      "executionSource": "Delta",
+      "executionVersion": "1.0.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:28:57.653Z",
+      "firstSeenMs": 1784320137653,
+      "lastSeen": "2026-07-17T20:28:57.653Z",
+      "lastSeenMs": 1784320137653
+    },
+    {
       "userId": "3238021023",
       "username": "lusi_wolff",
       "displayName": "lusi_wolff",
@@ -9769,5 +9785,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:28:10.063Z"
+  "updatedAt": "2026-07-17T20:29:02.667Z"
 }
