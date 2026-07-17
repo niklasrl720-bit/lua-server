@@ -174,8 +174,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T02:30:00.000Z",
-      "lastSeenMs": 1784255400000
+      "lastSeen": "2026-07-17T02:35:00.000Z",
+      "lastSeenMs": 1784255700000
     },
     {
       "userId": "10427971366",
@@ -958,8 +958,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:23:31.722Z",
       "firstSeenMs": 1784251411722,
-      "lastSeen": "2026-07-17T02:30:00.000Z",
-      "lastSeenMs": 1784255400000
+      "lastSeen": "2026-07-17T02:35:00.000Z",
+      "lastSeenMs": 1784255700000
     },
     {
       "userId": "11284061402",
@@ -1678,8 +1678,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T02:30:00.000Z",
-      "lastSeenMs": 1784255400000
+      "lastSeen": "2026-07-17T02:35:00.000Z",
+      "lastSeenMs": 1784255700000
     },
     {
       "userId": "3468057790",
@@ -1710,8 +1710,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T02:30:00.000Z",
-      "lastSeenMs": 1784255400000
+      "lastSeen": "2026-07-17T02:35:00.000Z",
+      "lastSeenMs": 1784255700000
     },
     {
       "userId": "3643100956",
@@ -2254,8 +2254,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:09:01.012Z",
       "firstSeenMs": 1784246941012,
-      "lastSeen": "2026-07-17T02:30:00.000Z",
-      "lastSeenMs": 1784255400000
+      "lastSeen": "2026-07-17T02:35:00.000Z",
+      "lastSeenMs": 1784255700000
     },
     {
       "userId": "7256837696",
@@ -2286,8 +2286,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:34:54.968Z",
       "firstSeenMs": 1784255694968,
-      "lastSeen": "2026-07-17T02:34:54.968Z",
-      "lastSeenMs": 1784255694968
+      "lastSeen": "2026-07-17T02:35:00.000Z",
+      "lastSeenMs": 1784255700000
     },
     {
       "userId": "7411965264",
@@ -2966,16 +2966,16 @@
       "username": "groxmc7273",
       "displayName": "alex",
       "roleKey": "",
-      "gameName": "The Strongest Battlegrounds",
-      "placeId": 10449761463,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:19:21.399Z",
       "firstSeenMs": 1784236761399,
-      "lastSeen": "2026-07-16T21:20:00.000Z",
-      "lastSeenMs": 1784236800000
+      "lastSeen": "2026-07-17T02:35:00.000Z",
+      "lastSeenMs": 1784255700000
     },
     {
       "userId": "9462151183",
@@ -3166,8 +3166,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:33:59.808Z",
       "firstSeenMs": 1784255639808,
-      "lastSeen": "2026-07-17T02:33:59.808Z",
-      "lastSeenMs": 1784255639808
+      "lastSeen": "2026-07-17T02:35:00.000Z",
+      "lastSeenMs": 1784255700000
     },
     {
       "userId": "9978184567",
@@ -3391,5 +3391,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:34:59.971Z"
+  "updatedAt": "2026-07-17T02:35:29.158Z"
 }
