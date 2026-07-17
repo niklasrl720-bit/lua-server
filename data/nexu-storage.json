@@ -3554,6 +3554,22 @@
       "lastSeenMs": 1784283600000
     },
     {
+      "userId": "2710370396",
+      "username": "acgonzale41611",
+      "displayName": "ANDY",
+      "roleKey": "",
+      "gameName": "[⛰️] Mine a Mountain",
+      "placeId": 125927821145949,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:54:07.924Z",
+      "firstSeenMs": 1784303647924,
+      "lastSeen": "2026-07-17T15:54:07.924Z",
+      "lastSeenMs": 1784303647924
+    },
+    {
       "userId": "2761369214",
       "username": "cristian778737",
       "displayName": "Cristian778737",
@@ -7933,5 +7949,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:54:04.283Z"
+  "updatedAt": "2026-07-17T15:54:12.931Z"
 }
