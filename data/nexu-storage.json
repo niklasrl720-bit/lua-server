@@ -786,6 +786,22 @@
       "lastSeenMs": 1784265206743
     },
     {
+      "userId": "10912271530",
+      "username": "Only_nuris1",
+      "displayName": "Mass_anton",
+      "roleKey": "",
+      "gameName": "Hutan [Obrolan Suara]",
+      "placeId": 17577256698,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:11:21.777Z",
+      "firstSeenMs": 1784301081777,
+      "lastSeen": "2026-07-17T15:11:21.777Z",
+      "lastSeenMs": 1784301081777
+    },
+    {
       "userId": "10934367952",
       "username": "glitchure_vIp",
       "displayName": "Life_NoTE",
@@ -7613,5 +7629,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:11:01.514Z"
+  "updatedAt": "2026-07-17T15:11:26.788Z"
 }
