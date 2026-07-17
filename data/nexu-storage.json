@@ -114,6 +114,22 @@
       "lastSeenMs": 1784259300000
     },
     {
+      "userId": "10203550652",
+      "username": "ultraluck275",
+      "displayName": "ultraluck275",
+      "roleKey": "",
+      "gameName": "The Chosen One but i made it [UPDATE]",
+      "placeId": 14044614256,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:38:52.317Z",
+      "firstSeenMs": 1784259532317,
+      "lastSeen": "2026-07-17T03:38:52.317Z",
+      "lastSeenMs": 1784259532317
+    },
+    {
       "userId": "1023658413",
       "username": "ardapro123589",
       "displayName": "ASTOR",
@@ -3767,5 +3783,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:37:50.558Z"
+  "updatedAt": "2026-07-17T03:38:57.322Z"
 }
