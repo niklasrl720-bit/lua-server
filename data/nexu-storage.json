@@ -126,8 +126,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:54:59.105Z",
       "firstSeenMs": 1784249699105,
-      "lastSeen": "2026-07-17T07:55:00.000Z",
-      "lastSeenMs": 1784274900000
+      "lastSeen": "2026-07-17T08:00:00.000Z",
+      "lastSeenMs": 1784275200000
     },
     {
       "userId": "10172085694",
@@ -2110,8 +2110,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-16T20:05:00.000Z",
-      "lastSeenMs": 1784232300000
+      "lastSeen": "2026-07-17T08:00:00.000Z",
+      "lastSeenMs": 1784275200000
     },
     {
       "userId": "1784154449",
@@ -3198,8 +3198,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T07:36:33.079Z",
       "firstSeenMs": 1784273793079,
-      "lastSeen": "2026-07-17T07:55:00.000Z",
-      "lastSeenMs": 1784274900000
+      "lastSeen": "2026-07-17T08:00:00.000Z",
+      "lastSeenMs": 1784275200000
     },
     {
       "userId": "5843349211",
@@ -4578,6 +4578,22 @@
       "lastSeenMs": 1784268000000
     },
     {
+      "userId": "9508855732",
+      "username": "zian_fan7",
+      "displayName": "mas_oren123",
+      "roleKey": "",
+      "gameName": "MENARA WALLHOP AMIGOS",
+      "placeId": 139481340721619,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T08:00:17.025Z",
+      "firstSeenMs": 1784275217025,
+      "lastSeen": "2026-07-17T08:00:17.025Z",
+      "lastSeenMs": 1784275217025
+    },
+    {
       "userId": "9527358538",
       "username": "Aguitaenpolvo6",
       "displayName": "サッドガール",
@@ -5233,5 +5249,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:55:13.992Z"
+  "updatedAt": "2026-07-17T08:00:22.031Z"
 }
