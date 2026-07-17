@@ -990,8 +990,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T07:33:41.444Z",
       "firstSeenMs": 1784273621444,
-      "lastSeen": "2026-07-17T07:33:41.444Z",
-      "lastSeenMs": 1784273621444
+      "lastSeen": "2026-07-17T07:35:00.000Z",
+      "lastSeenMs": 1784273700000
     },
     {
       "userId": "11225974533",
@@ -1184,6 +1184,22 @@
       "firstSeenMs": 1784259788923,
       "lastSeen": "2026-07-17T03:45:00.000Z",
       "lastSeenMs": 1784259900000
+    },
+    {
+      "userId": "11256076542",
+      "username": "lloveromancee",
+      "displayName": "lloveromancee",
+      "roleKey": "",
+      "gameName": "Customs",
+      "placeId": 92517437168342,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:36:30.948Z",
+      "firstSeenMs": 1784273790948,
+      "lastSeen": "2026-07-17T07:36:30.948Z",
+      "lastSeenMs": 1784273790948
     },
     {
       "userId": "11256172063",
@@ -2766,8 +2782,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:26:43.731Z",
       "firstSeenMs": 1784269603731,
-      "lastSeen": "2026-07-17T07:25:00.000Z",
-      "lastSeenMs": 1784273100000
+      "lastSeen": "2026-07-17T07:35:00.000Z",
+      "lastSeenMs": 1784273700000
     },
     {
       "userId": "4549877961",
@@ -3122,6 +3138,22 @@
       "lastSeenMs": 1784258100000
     },
     {
+      "userId": "5621904307",
+      "username": "1rv1nnx",
+      "displayName": "1rv1nnx",
+      "roleKey": "",
+      "gameName": "Entrenamiento Capybara🍊",
+      "placeId": 111723072716385,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:36:33.079Z",
+      "firstSeenMs": 1784273793079,
+      "lastSeen": "2026-07-17T07:36:33.079Z",
+      "lastSeenMs": 1784273793079
+    },
+    {
       "userId": "5843349211",
       "username": "mc_saponn",
       "displayName": "afrodite",
@@ -3150,8 +3182,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:02:53.513Z",
       "firstSeenMs": 1784253773513,
-      "lastSeen": "2026-07-17T07:30:00.000Z",
-      "lastSeenMs": 1784273400000
+      "lastSeen": "2026-07-17T07:35:00.000Z",
+      "lastSeenMs": 1784273700000
     },
     {
       "userId": "6074258353",
@@ -5123,5 +5155,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:35:25.526Z"
+  "updatedAt": "2026-07-17T07:36:35.989Z"
 }
