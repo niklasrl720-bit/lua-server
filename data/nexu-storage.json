@@ -2982,16 +2982,16 @@
       "username": "wow1005788",
       "displayName": "lilly",
       "roleKey": "",
-      "gameName": "Murder Mystery 2",
-      "placeId": 142823291,
+      "gameName": "LifeTogether 🏠 RP",
+      "placeId": 13967668166,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:03:53.427Z",
       "firstSeenMs": 1784264633427,
-      "lastSeen": "2026-07-17T07:15:00.000Z",
-      "lastSeenMs": 1784272500000
+      "lastSeen": "2026-07-17T09:00:00.000Z",
+      "lastSeenMs": 1784278800000
     },
     {
       "userId": "4508373870",
@@ -5547,5 +5547,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:03:38.083Z"
+  "updatedAt": "2026-07-17T09:04:20.256Z"
 }
