@@ -3554,6 +3554,22 @@
       "lastSeenMs": 1784229820640
     },
     {
+      "userId": "9424686909",
+      "username": "david5261822",
+      "displayName": "david_777",
+      "roleKey": "",
+      "gameName": "[🌴] DUELIST: PvP (BETA)",
+      "placeId": 122310270867133,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T04:43:50.677Z",
+      "firstSeenMs": 1784263430677,
+      "lastSeen": "2026-07-17T04:43:50.677Z",
+      "lastSeenMs": 1784263430677
+    },
+    {
       "userId": "9425779584",
       "username": "990thhggdalt",
       "displayName": "SkylerDOESNOTlikemc",
@@ -4125,5 +4141,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:41:56.827Z"
+  "updatedAt": "2026-07-17T04:43:55.684Z"
 }
