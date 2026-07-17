@@ -146,6 +146,22 @@
       "lastSeenMs": 1784227408545
     },
     {
+      "userId": "10103333777",
+      "username": "joseo_444",
+      "displayName": "joseo_444",
+      "roleKey": "",
+      "gameName": "Juego",
+      "placeId": 15735896047,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:57:53.895Z",
+      "firstSeenMs": 1784321873895,
+      "lastSeen": "2026-07-17T20:57:53.895Z",
+      "lastSeenMs": 1784321873895
+    },
+    {
       "userId": "10112042881",
       "username": "llXxFESxXll09",
       "displayName": "llXxADRIANxTIARAxXll",
@@ -9927,5 +9943,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:57:10.890Z"
+  "updatedAt": "2026-07-17T20:57:58.909Z"
 }
