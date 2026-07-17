@@ -3734,16 +3734,16 @@
       "username": "giovajaket",
       "displayName": "ggiova_101",
       "roleKey": "",
-      "gameName": "Brookhaven 🏡 RP",
-      "placeId": 4924922222,
+      "gameName": "La Prisión 🔊",
+      "placeId": 91308579636443,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:40:46.291Z",
       "firstSeenMs": 1784306446291,
-      "lastSeen": "2026-07-17T19:50:00.000Z",
-      "lastSeenMs": 1784317800000
+      "lastSeen": "2026-07-17T19:55:00.000Z",
+      "lastSeenMs": 1784318100000
     },
     {
       "userId": "1267528515",
@@ -9641,5 +9641,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:57:27.240Z"
+  "updatedAt": "2026-07-17T19:59:49.577Z"
 }
