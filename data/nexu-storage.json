@@ -1650,6 +1650,22 @@
       "lastSeenMs": 1784233645636
     },
     {
+      "userId": "1423116368",
+      "username": "EdinPlayz100",
+      "displayName": "LarryEXE",
+      "roleKey": "",
+      "gameName": "[MORPHS] The Backrooms VR : Escape",
+      "placeId": 9415887955,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:32:58.793Z",
+      "firstSeenMs": 1784266378793,
+      "lastSeen": "2026-07-17T05:32:58.793Z",
+      "lastSeenMs": 1784266378793
+    },
+    {
       "userId": "1534052061",
       "username": "kittykirb111",
       "displayName": "Krib",
@@ -3106,6 +3122,22 @@
       "lastSeenMs": 1784248500000
     },
     {
+      "userId": "8332856019",
+      "username": "loveulove50",
+      "displayName": "loveulove50",
+      "roleKey": "",
+      "gameName": "INSANE Troll Slap Tower 😈",
+      "placeId": 110470672231288,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:32:54.710Z",
+      "firstSeenMs": 1784266374710,
+      "lastSeen": "2026-07-17T05:32:54.710Z",
+      "lastSeenMs": 1784266374710
+    },
+    {
       "userId": "8338181851",
       "username": "AMMARx713",
       "displayName": "F_12",
@@ -4391,5 +4423,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:31:42.564Z"
+  "updatedAt": "2026-07-17T05:32:59.716Z"
 }
