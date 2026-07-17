@@ -2270,8 +2270,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:36:06.436Z",
       "firstSeenMs": 1784270166436,
-      "lastSeen": "2026-07-17T06:36:06.436Z",
-      "lastSeenMs": 1784270166436
+      "lastSeen": "2026-07-17T06:45:00.000Z",
+      "lastSeenMs": 1784270700000
     },
     {
       "userId": "3705366670",
@@ -3794,6 +3794,22 @@
       "lastSeenMs": 1784249100000
     },
     {
+      "userId": "910862081",
+      "username": "ruben3320",
+      "displayName": "BeamedByYakov",
+      "roleKey": "",
+      "gameName": "[🌲] RNG de hacha",
+      "placeId": 121863161094252,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:46:28.154Z",
+      "firstSeenMs": 1784270788154,
+      "lastSeen": "2026-07-17T06:46:28.154Z",
+      "lastSeenMs": 1784270788154
+    },
+    {
       "userId": "9123342097",
       "username": "roblox_user_9123342097",
       "displayName": "skrappz",
@@ -4727,5 +4743,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:46:00.937Z"
+  "updatedAt": "2026-07-17T06:46:33.160Z"
 }
