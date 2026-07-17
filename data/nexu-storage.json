@@ -5298,6 +5298,22 @@
       "lastSeenMs": 1784255700000
     },
     {
+      "userId": "7411181533",
+      "username": "momin1178",
+      "displayName": "mlk",
+      "roleKey": "",
+      "gameName": "لوحة قاعدة",
+      "placeId": 95206881,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:14:08.130Z",
+      "firstSeenMs": 1784304848130,
+      "lastSeen": "2026-07-17T16:14:08.130Z",
+      "lastSeenMs": 1784304848130
+    },
+    {
       "userId": "7411965264",
       "username": "Koolboalan_4",
       "displayName": "llAAll",
@@ -5870,8 +5886,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T10:05:58.500Z",
       "firstSeenMs": 1784282758500,
-      "lastSeen": "2026-07-17T13:00:00.000Z",
-      "lastSeenMs": 1784293200000
+      "lastSeen": "2026-07-17T16:10:00.000Z",
+      "lastSeenMs": 1784304600000
     },
     {
       "userId": "8273817325",
@@ -8045,5 +8061,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:12:07.118Z"
+  "updatedAt": "2026-07-17T16:14:13.139Z"
 }
