@@ -270,8 +270,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T22:45:00.000Z",
-      "lastSeenMs": 1784328300000
+      "lastSeen": "2026-07-17T22:50:00.000Z",
+      "lastSeenMs": 1784328600000
     },
     {
       "userId": "10203550652",
@@ -510,8 +510,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T22:45:00.000Z",
-      "lastSeenMs": 1784328300000
+      "lastSeen": "2026-07-17T22:50:00.000Z",
+      "lastSeenMs": 1784328600000
     },
     {
       "userId": "10427971366",
@@ -670,8 +670,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:08:40.846Z",
       "firstSeenMs": 1784243320846,
-      "lastSeen": "2026-07-17T22:45:00.000Z",
-      "lastSeenMs": 1784328300000
+      "lastSeen": "2026-07-17T22:50:00.000Z",
+      "lastSeenMs": 1784328600000
     },
     {
       "userId": "10566812830",
@@ -4158,8 +4158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:44:55.239Z",
       "firstSeenMs": 1784328295239,
-      "lastSeen": "2026-07-17T22:45:00.000Z",
-      "lastSeenMs": 1784328300000
+      "lastSeen": "2026-07-17T22:50:00.000Z",
+      "lastSeenMs": 1784328600000
     },
     {
       "userId": "1177195747",
@@ -4318,8 +4318,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:23:45.015Z",
       "firstSeenMs": 1784327025015,
-      "lastSeen": "2026-07-17T22:45:00.000Z",
-      "lastSeenMs": 1784328300000
+      "lastSeen": "2026-07-17T22:50:00.000Z",
+      "lastSeenMs": 1784328600000
     },
     {
       "userId": "1746266119",
@@ -4910,8 +4910,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T11:56:52.792Z",
       "firstSeenMs": 1784289412792,
-      "lastSeen": "2026-07-17T22:45:00.000Z",
-      "lastSeenMs": 1784328300000
+      "lastSeen": "2026-07-17T22:50:00.000Z",
+      "lastSeenMs": 1784328600000
     },
     {
       "userId": "3041449939",
@@ -5182,8 +5182,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T22:45:00.000Z",
-      "lastSeenMs": 1784328300000
+      "lastSeen": "2026-07-17T22:50:00.000Z",
+      "lastSeenMs": 1784328600000
     },
     {
       "userId": "3579384057",
@@ -5470,8 +5470,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:18:06.632Z",
       "firstSeenMs": 1784323086632,
-      "lastSeen": "2026-07-17T22:45:00.000Z",
-      "lastSeenMs": 1784328300000
+      "lastSeen": "2026-07-17T22:50:00.000Z",
+      "lastSeenMs": 1784328600000
     },
     {
       "userId": "4009875708",
@@ -6238,8 +6238,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-17T22:45:00.000Z",
-      "lastSeenMs": 1784328300000
+      "lastSeen": "2026-07-17T22:50:00.000Z",
+      "lastSeenMs": 1784328600000
     },
     {
       "userId": "5131378969",
@@ -6686,8 +6686,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:43:14.567Z",
       "firstSeenMs": 1784234594567,
-      "lastSeen": "2026-07-17T22:45:00.000Z",
-      "lastSeenMs": 1784328300000
+      "lastSeen": "2026-07-17T22:50:00.000Z",
+      "lastSeenMs": 1784328600000
     },
     {
       "userId": "6089503220",
@@ -8482,6 +8482,22 @@
       "lastSeenMs": 1784262000000
     },
     {
+      "userId": "8818084218",
+      "username": "Chris_Princers",
+      "displayName": "Rip_polar",
+      "roleKey": "",
+      "gameName": "Os Campos de Batalha Mais Fortes",
+      "placeId": 10449761463,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:50:26.629Z",
+      "firstSeenMs": 1784328626629,
+      "lastSeen": "2026-07-17T22:50:26.629Z",
+      "lastSeenMs": 1784328626629
+    },
+    {
       "userId": "8825146444",
       "username": "joandk12",
       "displayName": "4x_naoya",
@@ -10205,5 +10221,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:50:00.015Z"
+  "updatedAt": "2026-07-17T22:50:31.638Z"
 }
