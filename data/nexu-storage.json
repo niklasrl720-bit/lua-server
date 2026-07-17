@@ -7410,6 +7410,22 @@
       "lastSeenMs": 1784265721664
     },
     {
+      "userId": "8945888250",
+      "username": "Megaladon_froget8542",
+      "displayName": "Azrael",
+      "roleKey": "",
+      "gameName": "Русский чат [🔊]",
+      "placeId": 95929919723230,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:57:01.588Z",
+      "firstSeenMs": 1784314621588,
+      "lastSeen": "2026-07-17T18:57:01.588Z",
+      "lastSeenMs": 1784314621588
+    },
+    {
       "userId": "8989281285",
       "username": "Bylciaweasly",
       "displayName": "bella",
@@ -9201,5 +9217,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:56:35.601Z"
+  "updatedAt": "2026-07-17T18:57:06.597Z"
 }
