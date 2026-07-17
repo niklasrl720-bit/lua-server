@@ -5086,8 +5086,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T22:00:00.000Z",
-      "lastSeenMs": 1784325600000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "3579384057",
@@ -8926,8 +8926,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-17T17:05:00.000Z",
-      "lastSeenMs": 1784307900000
+      "lastSeen": "2026-07-17T22:05:00.000Z",
+      "lastSeenMs": 1784325900000
     },
     {
       "userId": "9414382754",
@@ -9818,8 +9818,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T22:06:19.073Z",
         "sentAtMs": 1784325979073
+      },
+      {
+        "id": 1784326009800001,
+        "userId": "11168140263",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Steckdose2743",
+        "displayName": "Steckdose2743",
+        "message": "niklas owner",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T22:06:49.800Z",
+        "sentAtMs": 1784326009800
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:06:20.161Z"
+  "updatedAt": "2026-07-17T22:06:51.061Z"
 }
