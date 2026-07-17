@@ -2242,6 +2242,22 @@
       "lastSeenMs": 1784235064943
     },
     {
+      "userId": "3670027748",
+      "username": "Jf_520",
+      "displayName": "X4ZT",
+      "roleKey": "",
+      "gameName": "更好的動漫?",
+      "placeId": 15118223068,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:36:06.436Z",
+      "firstSeenMs": 1784270166436,
+      "lastSeen": "2026-07-17T06:36:06.436Z",
+      "lastSeenMs": 1784270166436
+    },
+    {
       "userId": "3705366670",
       "username": "vipko38",
       "displayName": "Ismira",
@@ -4679,5 +4695,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:35:48.836Z"
+  "updatedAt": "2026-07-17T06:36:11.442Z"
 }
