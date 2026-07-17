@@ -1730,6 +1730,22 @@
       "lastSeenMs": 1784226300000
     },
     {
+      "userId": "1970487042",
+      "username": "Gohands2",
+      "displayName": "Gohands2",
+      "roleKey": "",
+      "gameName": "Human World",
+      "placeId": 14219489601,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T04:27:07.691Z",
+      "firstSeenMs": 1784262427691,
+      "lastSeen": "2026-07-17T04:27:07.691Z",
+      "lastSeenMs": 1784262427691
+    },
+    {
       "userId": "2039263410",
       "username": "LA_playsss",
       "displayName": "Greenbean",
@@ -4049,5 +4065,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:25:43.384Z"
+  "updatedAt": "2026-07-17T04:27:12.704Z"
 }
