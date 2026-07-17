@@ -690,6 +690,22 @@
       "lastSeenMs": 1784251800000
     },
     {
+      "userId": "10865199057",
+      "username": "gxfgffL533",
+      "displayName": "gxfgffL533",
+      "roleKey": "",
+      "gameName": "ปลูกสวน 2",
+      "placeId": 97598239454123,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:37:17.855Z",
+      "firstSeenMs": 1784295437855,
+      "lastSeen": "2026-07-17T13:37:17.855Z",
+      "lastSeenMs": 1784295437855
+    },
+    {
       "userId": "10897779490",
       "username": "Rip_Collkid133",
       "displayName": "c00lkid",
@@ -6150,16 +6166,16 @@
       "username": "LOL_PRO22714",
       "displayName": "LOL_PRO22714",
       "roleKey": "",
-      "gameName": "Загадка убийства 2",
-      "placeId": 142823291,
+      "gameName": "Брукхейвен 🏡 RP",
+      "placeId": 4924922222,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T07:54:35.470Z",
       "firstSeenMs": 1784274875470,
-      "lastSeen": "2026-07-17T07:54:35.470Z",
-      "lastSeenMs": 1784274875470
+      "lastSeen": "2026-07-17T13:35:00.000Z",
+      "lastSeenMs": 1784295300000
     },
     {
       "userId": "9599103995",
@@ -7017,5 +7033,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:36:56.468Z"
+  "updatedAt": "2026-07-17T13:37:22.864Z"
 }
