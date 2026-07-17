@@ -190,8 +190,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T12:30:00.000Z",
-      "lastSeenMs": 1784291400000
+      "lastSeen": "2026-07-17T12:35:00.000Z",
+      "lastSeenMs": 1784291700000
     },
     {
       "userId": "10203550652",
@@ -1824,22 +1824,6 @@
       "firstSeenMs": 1784236767977,
       "lastSeen": "2026-07-16T22:00:00.000Z",
       "lastSeenMs": 1784239200000
-    },
-    {
-      "userId": "11278305182",
-      "username": "Rocxaolongnach36",
-      "displayName": "Rocxaolongnach36",
-      "roleKey": "",
-      "gameName": "Cướp kem từ trẻ em! 🍦",
-      "placeId": 90427575650929,
-      "executionSource": "Delta",
-      "executionVersion": "1.0.727.1199",
-      "clientPlatform": "IOS",
-      "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-17T12:36:25.546Z",
-      "firstSeenMs": 1784291785546,
-      "lastSeen": "2026-07-17T12:36:25.546Z",
-      "lastSeenMs": 1784291785546
     },
     {
       "userId": "11280130975",
@@ -3742,8 +3726,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-17T12:30:00.000Z",
-      "lastSeenMs": 1784291400000
+      "lastSeen": "2026-07-17T12:35:00.000Z",
+      "lastSeenMs": 1784291700000
     },
     {
       "userId": "5005775489",
@@ -6637,5 +6621,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:36:30.555Z"
+  "updatedAt": "2026-07-17T12:36:36.585Z"
 }
