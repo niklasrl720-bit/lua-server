@@ -1214,8 +1214,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:23:31.722Z",
       "firstSeenMs": 1784251411722,
-      "lastSeen": "2026-07-17T06:30:00.000Z",
-      "lastSeenMs": 1784269800000
+      "lastSeen": "2026-07-17T06:35:00.000Z",
+      "lastSeenMs": 1784270100000
     },
     {
       "userId": "11284061402",
@@ -2166,16 +2166,16 @@
       "username": "Montoxisgoat",
       "displayName": "iloveviolet",
       "roleKey": "",
-      "gameName": "[Arcade]",
-      "placeId": 126042865144779,
+      "gameName": "Korrupt: Zombies Main Game",
+      "placeId": 11229187850,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T03:30:00.000Z",
-      "lastSeenMs": 1784259000000
+      "lastSeen": "2026-07-17T06:35:00.000Z",
+      "lastSeenMs": 1784270100000
     },
     {
       "userId": "3468057790",
@@ -2494,8 +2494,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:26:43.731Z",
       "firstSeenMs": 1784269603731,
-      "lastSeen": "2026-07-17T06:30:00.000Z",
-      "lastSeenMs": 1784269800000
+      "lastSeen": "2026-07-17T06:35:00.000Z",
+      "lastSeenMs": 1784270100000
     },
     {
       "userId": "4549877961",
@@ -2766,8 +2766,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:32:02.258Z",
       "firstSeenMs": 1784269922258,
-      "lastSeen": "2026-07-17T06:32:02.258Z",
-      "lastSeenMs": 1784269922258
+      "lastSeen": "2026-07-17T06:35:00.000Z",
+      "lastSeenMs": 1784270100000
     },
     {
       "userId": "5497562572",
@@ -2926,8 +2926,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:09:48.628Z",
       "firstSeenMs": 1784268588628,
-      "lastSeen": "2026-07-17T06:30:00.000Z",
-      "lastSeenMs": 1784269800000
+      "lastSeen": "2026-07-17T06:35:00.000Z",
+      "lastSeenMs": 1784270100000
     },
     {
       "userId": "7080587968",
@@ -3550,8 +3550,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:35:11.965Z",
       "firstSeenMs": 1784237711965,
-      "lastSeen": "2026-07-17T06:30:00.000Z",
-      "lastSeenMs": 1784269800000
+      "lastSeen": "2026-07-17T06:35:00.000Z",
+      "lastSeenMs": 1784270100000
     },
     {
       "userId": "8785383597",
@@ -4663,5 +4663,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:35:23.495Z"
+  "updatedAt": "2026-07-17T06:35:33.744Z"
 }
