@@ -4258,6 +4258,22 @@
       "lastSeenMs": 1784231830082
     },
     {
+      "userId": "8340984513",
+      "username": "duy_sky9",
+      "displayName": "AM1LY_DUY",
+      "roleKey": "",
+      "gameName": "Các chiến trường mạnh nhất",
+      "placeId": 10449761463,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:11:50.214Z",
+      "firstSeenMs": 1784283110214,
+      "lastSeen": "2026-07-17T10:11:50.214Z",
+      "lastSeenMs": 1784283110214
+    },
+    {
       "userId": "8345028013",
       "username": "vitinho_p14",
       "displayName": "ANTONi",
@@ -5863,5 +5879,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:11:01.341Z"
+  "updatedAt": "2026-07-17T10:11:55.221Z"
 }
