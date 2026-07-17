@@ -958,8 +958,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T10:39:59.395Z",
       "firstSeenMs": 1784284799395,
-      "lastSeen": "2026-07-17T10:40:00.000Z",
-      "lastSeenMs": 1784284800000
+      "lastSeen": "2026-07-17T10:45:00.000Z",
+      "lastSeenMs": 1784285100000
     },
     {
       "userId": "11103697834",
@@ -3042,6 +3042,22 @@
       "lastSeenMs": 1784230941722
     },
     {
+      "userId": "3918188164",
+      "username": "mya_luv146",
+      "displayName": "BabyLj",
+      "roleKey": "",
+      "gameName": "Berry Avenue 🏠 RP",
+      "placeId": 8481844229,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:45:33.671Z",
+      "firstSeenMs": 1784285133671,
+      "lastSeen": "2026-07-17T10:45:33.671Z",
+      "lastSeenMs": 1784285133671
+    },
+    {
       "userId": "4009875708",
       "username": "LUFFYBRAZILEIR9",
       "displayName": "Kennedy_Gabs",
@@ -3422,8 +3438,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T10:40:00.000Z",
-      "lastSeenMs": 1784284800000
+      "lastSeen": "2026-07-17T10:45:00.000Z",
+      "lastSeenMs": 1784285100000
     },
     {
       "userId": "5111527490",
@@ -4190,8 +4206,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T10:43:57.092Z",
       "firstSeenMs": 1784285037092,
-      "lastSeen": "2026-07-17T10:43:57.092Z",
-      "lastSeenMs": 1784285037092
+      "lastSeen": "2026-07-17T10:45:00.000Z",
+      "lastSeenMs": 1784285100000
     },
     {
       "userId": "7957137706",
@@ -4558,8 +4574,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-17T10:40:00.000Z",
-      "lastSeenMs": 1784284800000
+      "lastSeen": "2026-07-17T10:45:00.000Z",
+      "lastSeenMs": 1784285100000
     },
     {
       "userId": "8554890463",
@@ -6097,5 +6113,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:44:02.100Z"
+  "updatedAt": "2026-07-17T10:45:38.683Z"
 }
