@@ -930,6 +930,22 @@
       "lastSeenMs": 1784268215485
     },
     {
+      "userId": "10975814662",
+      "username": "imnotakidah",
+      "displayName": "imnotakidah",
+      "roleKey": "",
+      "gameName": "Lake",
+      "placeId": 124786371598438,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:34:37.225Z",
+      "firstSeenMs": 1784302477225,
+      "lastSeen": "2026-07-17T15:34:37.225Z",
+      "lastSeenMs": 1784302477225
+    },
+    {
       "userId": "10984741887",
       "username": "Robloxianq7x0m9u7w",
       "displayName": "Pookie",
@@ -7773,5 +7789,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:33:12.737Z"
+  "updatedAt": "2026-07-17T15:34:42.234Z"
 }
