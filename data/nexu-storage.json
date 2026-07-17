@@ -414,8 +414,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-17T19:30:00.000Z",
-      "lastSeenMs": 1784316600000
+      "lastSeen": "2026-07-17T19:25:00.000Z",
+      "lastSeenMs": 1784316300000
     },
     {
       "userId": "10305976438",
@@ -6950,8 +6950,8 @@
       "username": "olicoli241",
       "displayName": "olicoli241",
       "roleKey": "",
-      "gameName": "[🕳️VOID] +1 Bieg dla NEEDOH!",
-      "placeId": 104074184885925,
+      "gameName": "Zbuduj wieżę",
+      "placeId": 103556382323599,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -9483,5 +9483,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:31:33.258Z"
+  "updatedAt": "2026-07-17T19:32:04.792Z"
 }
