@@ -2386,6 +2386,22 @@
       "lastSeenMs": 1784270700000
     },
     {
+      "userId": "3687575968",
+      "username": "maresrq",
+      "displayName": "mar",
+      "roleKey": "",
+      "gameName": "Bobsled Ride Down a Mountainside",
+      "placeId": 72317248326994,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:19:17.578Z",
+      "firstSeenMs": 1784272757578,
+      "lastSeen": "2026-07-17T07:19:17.578Z",
+      "lastSeenMs": 1784272757578
+    },
+    {
       "userId": "3705366670",
       "username": "vipko38",
       "displayName": "Ismira",
@@ -4981,5 +4997,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:19:14.537Z"
+  "updatedAt": "2026-07-17T07:19:22.583Z"
 }
