@@ -414,8 +414,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-17T20:00:00.000Z",
-      "lastSeenMs": 1784318400000
+      "lastSeen": "2026-07-17T20:05:00.000Z",
+      "lastSeenMs": 1784318700000
     },
     {
       "userId": "10305976438",
@@ -1728,6 +1728,22 @@
       "firstSeenMs": 1784294753190,
       "lastSeen": "2026-07-17T13:25:53.190Z",
       "lastSeenMs": 1784294753190
+    },
+    {
+      "userId": "11166148320",
+      "username": "BY_verity",
+      "displayName": "Verity",
+      "roleKey": "",
+      "gameName": "+1 высота за прыжок",
+      "placeId": 137202615981355,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:05:40.051Z",
+      "firstSeenMs": 1784318740051,
+      "lastSeen": "2026-07-17T20:05:40.051Z",
+      "lastSeenMs": 1784318740051
     },
     {
       "userId": "11167555874",
@@ -3630,8 +3646,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T20:00:00.000Z",
-      "lastSeenMs": 1784318400000
+      "lastSeen": "2026-07-17T20:05:00.000Z",
+      "lastSeenMs": 1784318700000
     },
     {
       "userId": "11302817434",
@@ -3918,8 +3934,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:25:16.752Z",
       "firstSeenMs": 1784312716752,
-      "lastSeen": "2026-07-17T20:00:00.000Z",
-      "lastSeenMs": 1784318400000
+      "lastSeen": "2026-07-17T20:05:00.000Z",
+      "lastSeenMs": 1784318700000
     },
     {
       "userId": "1891206840",
@@ -4254,8 +4270,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-17T20:00:00.000Z",
-      "lastSeenMs": 1784318400000
+      "lastSeen": "2026-07-17T20:05:00.000Z",
+      "lastSeenMs": 1784318700000
     },
     {
       "userId": "2643166270",
@@ -4846,8 +4862,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:56:18.242Z",
       "firstSeenMs": 1784314578242,
-      "lastSeen": "2026-07-17T20:00:00.000Z",
-      "lastSeenMs": 1784318400000
+      "lastSeen": "2026-07-17T20:05:00.000Z",
+      "lastSeenMs": 1784318700000
     },
     {
       "userId": "3943834742",
@@ -8062,8 +8078,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.309Z",
       "firstSeenMs": 1784225110309,
-      "lastSeen": "2026-07-17T20:00:00.000Z",
-      "lastSeenMs": 1784318400000
+      "lastSeen": "2026-07-17T20:05:00.000Z",
+      "lastSeenMs": 1784318700000
     },
     {
       "userId": "9247923083",
@@ -9641,5 +9657,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:02:33.340Z"
+  "updatedAt": "2026-07-17T20:05:45.065Z"
 }
