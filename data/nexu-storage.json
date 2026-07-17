@@ -1438,8 +1438,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T00:30:00.000Z",
-      "lastSeenMs": 1784248200000
+      "lastSeen": "2026-07-17T00:35:00.000Z",
+      "lastSeenMs": 1784248500000
     },
     {
       "userId": "3649742821",
@@ -1870,8 +1870,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:09:01.012Z",
       "firstSeenMs": 1784246941012,
-      "lastSeen": "2026-07-17T00:30:00.000Z",
-      "lastSeenMs": 1784248200000
+      "lastSeen": "2026-07-17T00:35:00.000Z",
+      "lastSeenMs": 1784248500000
     },
     {
       "userId": "7411965264",
@@ -2030,8 +2030,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:31:50.248Z",
       "firstSeenMs": 1784248310248,
-      "lastSeen": "2026-07-17T00:31:50.248Z",
-      "lastSeenMs": 1784248310248
+      "lastSeen": "2026-07-17T00:35:00.000Z",
+      "lastSeenMs": 1784248500000
     },
     {
       "userId": "8338181851",
@@ -2746,8 +2746,22 @@
         "moderationScore": 100,
         "sentAt": "2026-07-17T00:30:07.685Z",
         "sentAtMs": 1784248207685
+      },
+      {
+        "id": 1784248644698001,
+        "userId": "11299068864",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Flasche47200",
+        "displayName": "Flasche47200",
+        "message": "#####",
+        "moderated": true,
+        "moderationCategory": "HASSREDE",
+        "moderationScore": 100,
+        "sentAt": "2026-07-17T00:37:24.698Z",
+        "sentAtMs": 1784248644698
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:35:54.214Z"
+  "updatedAt": "2026-07-17T00:37:25.711Z"
 }
