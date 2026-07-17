@@ -2502,16 +2502,16 @@
       "username": "alain123456741",
       "displayName": "AjavierCx",
       "roleKey": "",
-      "gameName": "Misterio de asesinato 2",
-      "placeId": 142823291,
+      "gameName": "Creador de Avatar de Catálogo",
+      "placeId": 7041939546,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:44:54.881Z",
       "firstSeenMs": 1784241894881,
-      "lastSeen": "2026-07-16T22:55:00.000Z",
-      "lastSeenMs": 1784242500000
+      "lastSeen": "2026-07-17T02:00:00.000Z",
+      "lastSeenMs": 1784253600000
     },
     {
       "userId": "8910557706",
@@ -3155,5 +3155,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:01:40.305Z"
+  "updatedAt": "2026-07-17T02:02:04.855Z"
 }
