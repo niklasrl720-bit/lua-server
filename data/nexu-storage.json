@@ -670,8 +670,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T23:27:23.739Z",
       "firstSeenMs": 1784330843739,
-      "lastSeen": "2026-07-17T23:45:00.000Z",
-      "lastSeenMs": 1784331900000
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "10534661561",
@@ -4158,8 +4158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-17T23:45:00.000Z",
-      "lastSeenMs": 1784331900000
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "11303186538",
@@ -6318,8 +6318,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-17T23:40:00.000Z",
-      "lastSeenMs": 1784331600000
+      "lastSeen": "2026-07-17T23:45:00.000Z",
+      "lastSeenMs": 1784331900000
     },
     {
       "userId": "5005775489",
@@ -6902,16 +6902,16 @@
       "username": "angelopo301",
       "displayName": "Yuji",
       "roleKey": "",
-      "gameName": "manía de paseo en carrito",
-      "placeId": 15090870288,
+      "gameName": "(WOD) Juego de rol de inodoro apocalíptico",
+      "placeId": 102917792916356,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:43:14.567Z",
       "firstSeenMs": 1784234594567,
-      "lastSeen": "2026-07-17T23:45:00.000Z",
-      "lastSeenMs": 1784331900000
+      "lastSeen": "2026-07-17T23:10:00.000Z",
+      "lastSeenMs": 1784329800000
     },
     {
       "userId": "6089503220",
@@ -10703,5 +10703,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:45:31.595Z"
+  "updatedAt": "2026-07-17T23:45:33.296Z"
 }
