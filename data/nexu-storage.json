@@ -2194,6 +2194,22 @@
       "lastSeenMs": 1784283300000
     },
     {
+      "userId": "11232754419",
+      "username": "collorfulnaohacker",
+      "displayName": "collorfulnaohacker",
+      "roleKey": "",
+      "gameName": "[UP] Apenas uma base.",
+      "placeId": 123974602339071,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:17:02.019Z",
+      "firstSeenMs": 1784323022019,
+      "lastSeen": "2026-07-17T21:17:02.019Z",
+      "lastSeenMs": 1784323022019
+    },
+    {
       "userId": "11234818850",
       "username": "7bby8",
       "displayName": "7bby8",
@@ -10125,5 +10141,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:16:35.320Z"
+  "updatedAt": "2026-07-17T21:17:07.031Z"
 }
