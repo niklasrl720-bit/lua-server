@@ -1766,16 +1766,16 @@
       "username": "Montoxisgoat",
       "displayName": "iloveviolet",
       "roleKey": "",
-      "gameName": "Customs",
-      "placeId": 92517437168342,
+      "gameName": "[Arcade]",
+      "placeId": 126042865144779,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T03:15:00.000Z",
-      "lastSeenMs": 1784258100000
+      "lastSeen": "2026-07-17T03:20:00.000Z",
+      "lastSeenMs": 1784258400000
     },
     {
       "userId": "3468057790",
@@ -3703,5 +3703,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:21:32.584Z"
+  "updatedAt": "2026-07-17T03:22:09.726Z"
 }
