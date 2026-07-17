@@ -174,8 +174,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:05:18.984Z",
       "firstSeenMs": 1784304318984,
-      "lastSeen": "2026-07-17T16:15:00.000Z",
-      "lastSeenMs": 1784304900000
+      "lastSeen": "2026-07-17T16:40:00.000Z",
+      "lastSeenMs": 1784306400000
     },
     {
       "userId": "10135335294",
@@ -7094,8 +7094,8 @@
       "username": "jghirebq2011",
       "displayName": "jghirebq2011",
       "roleKey": "",
-      "gameName": "COMBAT DE PISTOLET [MISE À JOUR]",
-      "placeId": 123516147505946,
+      "gameName": "Serveurs pour débutants",
+      "placeId": 85207102870777,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
@@ -8347,5 +8347,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:42:59.085Z"
+  "updatedAt": "2026-07-17T16:43:25.358Z"
 }
