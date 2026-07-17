@@ -3746,6 +3746,22 @@
       "lastSeenMs": 1784283600000
     },
     {
+      "userId": "5155158122",
+      "username": "Bouuias",
+      "displayName": "Dunked",
+      "roleKey": "",
+      "gameName": "[🌴 DUELS] Dah Aim Trainer",
+      "placeId": 97314337060060,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T12:12:53.386Z",
+      "firstSeenMs": 1784290373386,
+      "lastSeen": "2026-07-17T12:12:53.386Z",
+      "lastSeenMs": 1784290373386
+    },
+    {
       "userId": "5180933519",
       "username": "Roughprisonsec2s",
       "displayName": "Timmytoughknuckles",
@@ -6511,5 +6527,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:12:33.515Z"
+  "updatedAt": "2026-07-17T12:12:58.397Z"
 }
