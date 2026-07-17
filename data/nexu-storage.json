@@ -494,8 +494,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:21:03.905Z",
       "firstSeenMs": 1784312463905,
-      "lastSeen": "2026-07-17T18:25:00.000Z",
-      "lastSeenMs": 1784312700000
+      "lastSeen": "2026-07-17T23:25:00.000Z",
+      "lastSeenMs": 1784330700000
     },
     {
       "userId": "10342998762",
@@ -640,6 +640,22 @@
       "firstSeenMs": 1784266411247,
       "lastSeen": "2026-07-17T05:33:31.247Z",
       "lastSeenMs": 1784266411247
+    },
+    {
+      "userId": "10531985699",
+      "username": "silvapvp007",
+      "displayName": "Cruzes",
+      "roleKey": "",
+      "gameName": "Arena de Habilidades 💥",
+      "placeId": 110175021189594,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:27:23.739Z",
+      "firstSeenMs": 1784330843739,
+      "lastSeen": "2026-07-17T23:27:23.739Z",
+      "lastSeenMs": 1784330843739
     },
     {
       "userId": "10534661561",
@@ -6142,8 +6158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:03:34.191Z",
       "firstSeenMs": 1784253814191,
-      "lastSeen": "2026-07-17T23:20:00.000Z",
-      "lastSeenMs": 1784330400000
+      "lastSeen": "2026-07-17T23:25:00.000Z",
+      "lastSeenMs": 1784330700000
     },
     {
       "userId": "4916414575",
@@ -10445,5 +10461,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:25:46.893Z"
+  "updatedAt": "2026-07-17T23:27:28.748Z"
 }
