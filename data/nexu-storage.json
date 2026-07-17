@@ -466,6 +466,22 @@
       "lastSeenMs": 1784240539288
     },
     {
+      "userId": "10954115677",
+      "username": "angel_4793817",
+      "displayName": "angel_4793817",
+      "roleKey": "",
+      "gameName": "Robar un Brainrot",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:03:35.485Z",
+      "firstSeenMs": 1784268215485,
+      "lastSeen": "2026-07-17T06:03:35.485Z",
+      "lastSeenMs": 1784268215485
+    },
+    {
       "userId": "10984741887",
       "username": "Robloxianq7x0m9u7w",
       "displayName": "Pookie",
@@ -4487,5 +4503,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:01:53.122Z"
+  "updatedAt": "2026-07-17T06:03:40.491Z"
 }
