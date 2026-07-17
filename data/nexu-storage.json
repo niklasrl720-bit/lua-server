@@ -254,8 +254,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T20:40:00.000Z",
-      "lastSeenMs": 1784320800000
+      "lastSeen": "2026-07-17T20:35:00.000Z",
+      "lastSeenMs": 1784320500000
     },
     {
       "userId": "10203550652",
@@ -5646,8 +5646,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-17T20:40:00.000Z",
-      "lastSeenMs": 1784320800000
+      "lastSeen": "2026-07-17T20:35:00.000Z",
+      "lastSeenMs": 1784320500000
     },
     {
       "userId": "5005775489",
@@ -7280,6 +7280,22 @@
       "firstSeenMs": 1784306190834,
       "lastSeen": "2026-07-17T16:36:30.834Z",
       "lastSeenMs": 1784306190834
+    },
+    {
+      "userId": "8331098045",
+      "username": "dimason62726",
+      "displayName": "Timeless",
+      "roleKey": "",
+      "gameName": "[ВЕРХ] Просто базовая пластина.",
+      "placeId": 123974602339071,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:41:28.599Z",
+      "firstSeenMs": 1784320888599,
+      "lastSeen": "2026-07-17T20:41:28.599Z",
+      "lastSeenMs": 1784320888599
     },
     {
       "userId": "8332856019",
@@ -9847,5 +9863,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:41:33.681Z"
+  "updatedAt": "2026-07-17T20:41:33.612Z"
 }
