@@ -1414,16 +1414,16 @@
       "username": "Gemma_fs",
       "displayName": "Gemma_fs",
       "roleKey": "",
-      "gameName": "Natural Disaster Survival",
-      "placeId": 189707,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:20:56.906Z",
       "firstSeenMs": 1784258456906,
-      "lastSeen": "2026-07-17T03:35:00.000Z",
-      "lastSeenMs": 1784259300000
+      "lastSeen": "2026-07-17T03:40:00.000Z",
+      "lastSeenMs": 1784259600000
     },
     {
       "userId": "1267528515",
@@ -3794,8 +3794,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T03:40:15.186Z",
         "sentAtMs": 1784259615186
+      },
+      {
+        "id": 1784259736603002,
+        "userId": "11299826851",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "bananapop0088",
+        "displayName": "Popsicle",
+        "message": "ey",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T03:42:16.603Z",
+        "sentAtMs": 1784259736603
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:41:30.990Z"
+  "updatedAt": "2026-07-17T03:42:17.620Z"
 }
