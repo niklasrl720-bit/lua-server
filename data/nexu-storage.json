@@ -4114,6 +4114,22 @@
       "lastSeenMs": 1784267400000
     },
     {
+      "userId": "4164618378",
+      "username": "Becon_Darklord",
+      "displayName": "Phet",
+      "roleKey": "",
+      "gameName": "Legacy",
+      "placeId": 12679345678,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:53:29.994Z",
+      "firstSeenMs": 1784303609994,
+      "lastSeen": "2026-07-17T15:53:29.994Z",
+      "lastSeenMs": 1784303609994
+    },
+    {
       "userId": "4166676692",
       "username": "ti5erman",
       "displayName": "201088_robloxuser",
@@ -7901,5 +7917,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:53:26.532Z"
+  "updatedAt": "2026-07-17T15:53:35.002Z"
 }
