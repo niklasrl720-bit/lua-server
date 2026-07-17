@@ -182,16 +182,16 @@
       "username": "BogachanF16",
       "displayName": "Basurcan",
       "roleKey": "",
-      "gameName": "cart ride around nothing",
-      "placeId": 10660791703,
+      "gameName": "Weight Lifting Simulator 3",
+      "placeId": 72123476634033,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "IOS",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:18:42.183Z",
       "firstSeenMs": 1784305122183,
-      "lastSeen": "2026-07-17T16:20:00.000Z",
-      "lastSeenMs": 1784305200000
+      "lastSeen": "2026-07-17T16:45:00.000Z",
+      "lastSeenMs": 1784306700000
     },
     {
       "userId": "10149091354",
@@ -8425,5 +8425,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:48:06.445Z"
+  "updatedAt": "2026-07-17T16:48:12.250Z"
 }
