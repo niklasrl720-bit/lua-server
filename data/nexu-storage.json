@@ -5890,6 +5890,22 @@
       "lastSeenMs": 1784294700000
     },
     {
+      "userId": "4259160808",
+      "username": "Tidesudden",
+      "displayName": "Tidesudden",
+      "roleKey": "",
+      "gameName": "Physics Obby + Mechanisms",
+      "placeId": 10871789326,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:47:40.773Z",
+      "firstSeenMs": 1784332060773,
+      "lastSeen": "2026-07-17T23:47:40.773Z",
+      "lastSeenMs": 1784332060773
+    },
+    {
       "userId": "4305233614",
       "username": "QRXJLDT",
       "displayName": "QRXJLDT",
@@ -10703,5 +10719,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:47:25.577Z"
+  "updatedAt": "2026-07-17T23:47:45.783Z"
 }
