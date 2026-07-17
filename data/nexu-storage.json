@@ -10296,8 +10296,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T22:53:47.389Z",
         "sentAtMs": 1784328827389
+      },
+      {
+        "id": 1784329354825001,
+        "userId": "9413846578",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "fredisthebest9999",
+        "displayName": "speedkingrblx",
+        "message": "wsp. hacker gag",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T23:02:34.825Z",
+        "sentAtMs": 1784329354825
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:01:43.310Z"
+  "updatedAt": "2026-07-17T23:02:36.124Z"
 }
