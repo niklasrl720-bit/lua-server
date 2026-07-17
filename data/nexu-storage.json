@@ -1538,6 +1538,22 @@
       "lastSeenMs": 1784232900000
     },
     {
+      "userId": "3419187651",
+      "username": "Montoxisgoat",
+      "displayName": "iloveviolet",
+      "roleKey": "",
+      "gameName": "+1 Wings for Brainrots",
+      "placeId": 84332574190497,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T01:26:14.048Z",
+      "firstSeenMs": 1784251574048,
+      "lastSeen": "2026-07-17T01:26:14.048Z",
+      "lastSeenMs": 1784251574048
+    },
+    {
       "userId": "3468057790",
       "username": "c0sta43",
       "displayName": "c0sta43",
@@ -3029,5 +3045,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T01:26:00.027Z"
+  "updatedAt": "2026-07-17T01:26:19.052Z"
 }
