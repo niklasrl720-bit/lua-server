@@ -158,8 +158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T00:45:00.000Z",
-      "lastSeenMs": 1784249100000
+      "lastSeen": "2026-07-17T00:50:00.000Z",
+      "lastSeenMs": 1784249400000
     },
     {
       "userId": "10427971366",
@@ -302,8 +302,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:16:43.732Z",
       "firstSeenMs": 1784247403732,
-      "lastSeen": "2026-07-17T00:45:00.000Z",
-      "lastSeenMs": 1784249100000
+      "lastSeen": "2026-07-17T00:50:00.000Z",
+      "lastSeenMs": 1784249400000
     },
     {
       "userId": "10950493610",
@@ -1150,8 +1150,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T00:45:00.000Z",
-      "lastSeenMs": 1784249100000
+      "lastSeen": "2026-07-17T00:50:00.000Z",
+      "lastSeenMs": 1784249400000
     },
     {
       "userId": "11299297213",
@@ -1778,6 +1778,22 @@
       "lastSeenMs": 1784226900000
     },
     {
+      "userId": "5316980228",
+      "username": "Tu_chavo503",
+      "displayName": "Churrito_STL",
+      "roleKey": "",
+      "gameName": "Creador de Avatar de Catálogo",
+      "placeId": 7041939546,
+      "executionSource": "Delta",
+      "executionVersion": "1.0.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:53:14.398Z",
+      "firstSeenMs": 1784249594398,
+      "lastSeen": "2026-07-17T00:53:14.398Z",
+      "lastSeenMs": 1784249594398
+    },
+    {
       "userId": "5377980444",
       "username": "ALGUEM665",
       "displayName": "luudud",
@@ -1902,8 +1918,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:15:27.430Z",
       "firstSeenMs": 1784232927430,
-      "lastSeen": "2026-07-17T00:45:00.000Z",
-      "lastSeenMs": 1784249100000
+      "lastSeen": "2026-07-17T00:50:00.000Z",
+      "lastSeenMs": 1784249400000
     },
     {
       "userId": "7088744458",
@@ -1934,8 +1950,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:09:01.012Z",
       "firstSeenMs": 1784246941012,
-      "lastSeen": "2026-07-17T00:45:00.000Z",
-      "lastSeenMs": 1784249100000
+      "lastSeen": "2026-07-17T00:50:00.000Z",
+      "lastSeenMs": 1784249400000
     },
     {
       "userId": "7411965264",
@@ -1966,8 +1982,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:43:51.187Z",
       "firstSeenMs": 1784249031187,
-      "lastSeen": "2026-07-17T00:45:00.000Z",
-      "lastSeenMs": 1784249100000
+      "lastSeen": "2026-07-17T00:50:00.000Z",
+      "lastSeenMs": 1784249400000
     },
     {
       "userId": "7741785159",
@@ -2843,5 +2859,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:46:35.165Z"
+  "updatedAt": "2026-07-17T00:53:19.401Z"
 }
