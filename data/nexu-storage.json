@@ -1554,6 +1554,22 @@
       "lastSeenMs": 1784242899965
     },
     {
+      "userId": "4111664935",
+      "username": "Aaronboss600u",
+      "displayName": "Macaronii",
+      "roleKey": "",
+      "gameName": "[UP] Just a baseplate.",
+      "placeId": 123974602339071,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:39:03.817Z",
+      "firstSeenMs": 1784248743817,
+      "lastSeen": "2026-07-17T00:39:03.817Z",
+      "lastSeenMs": 1784248743817
+    },
+    {
       "userId": "4337357751",
       "username": "El_Juanito013",
       "displayName": "El_Juanito013",
@@ -2763,5 +2779,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:37:25.711Z"
+  "updatedAt": "2026-07-17T00:39:08.821Z"
 }
