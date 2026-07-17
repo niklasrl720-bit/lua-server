@@ -5222,16 +5222,16 @@
       "username": "Richard123477hh",
       "displayName": "Hunter",
       "roleKey": "",
-      "gameName": "Prueba de choque de coche",
-      "placeId": 7720943627,
+      "gameName": "Minijuegos Épicos ✨",
+      "placeId": 277751860,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:45:52.758Z",
       "firstSeenMs": 1784306752758,
-      "lastSeen": "2026-07-17T18:35:00.000Z",
-      "lastSeenMs": 1784313300000
+      "lastSeen": "2026-07-17T21:45:00.000Z",
+      "lastSeenMs": 1784324700000
     },
     {
       "userId": "3991335398",
@@ -10373,5 +10373,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:47:51.677Z"
+  "updatedAt": "2026-07-17T21:47:56.997Z"
 }
