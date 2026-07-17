@@ -5634,6 +5634,22 @@
       "lastSeenMs": 1784275200000
     },
     {
+      "userId": "5654547044",
+      "username": "haks959",
+      "displayName": "Dogday",
+      "roleKey": "",
+      "gameName": "HeadAdmin gratuit",
+      "placeId": 6150462444,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:38:27.129Z",
+      "firstSeenMs": 1784313507129,
+      "lastSeen": "2026-07-17T18:38:27.129Z",
+      "lastSeenMs": 1784313507129
+    },
+    {
       "userId": "5664916244",
       "username": "jacobri132",
       "displayName": "Jacobri",
@@ -9137,5 +9153,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:37:18.813Z"
+  "updatedAt": "2026-07-17T18:38:32.141Z"
 }
