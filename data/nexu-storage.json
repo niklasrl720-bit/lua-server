@@ -4098,6 +4098,22 @@
       "lastSeenMs": 1784262600000
     },
     {
+      "userId": "1989339160",
+      "username": "santylux10",
+      "displayName": "Elmascapo_saint",
+      "roleKey": "",
+      "gameName": "Los campos de batalla más fuertes",
+      "placeId": 10449761463,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:29:12.733Z",
+      "firstSeenMs": 1784320152733,
+      "lastSeen": "2026-07-17T20:29:12.733Z",
+      "lastSeenMs": 1784320152733
+    },
+    {
       "userId": "2005124702",
       "username": "Yar228Kol",
       "displayName": "Yar228Kol",
@@ -9785,5 +9801,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:29:02.667Z"
+  "updatedAt": "2026-07-17T20:29:17.745Z"
 }
