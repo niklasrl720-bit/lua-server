@@ -766,8 +766,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:16:43.732Z",
       "firstSeenMs": 1784247403732,
-      "lastSeen": "2026-07-17T15:45:00.000Z",
-      "lastSeenMs": 1784303100000
+      "lastSeen": "2026-07-17T15:50:00.000Z",
+      "lastSeenMs": 1784303400000
     },
     {
       "userId": "10865199057",
@@ -3102,8 +3102,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T15:45:00.000Z",
-      "lastSeenMs": 1784303100000
+      "lastSeen": "2026-07-17T15:50:00.000Z",
+      "lastSeenMs": 1784303400000
     },
     {
       "userId": "1267528515",
@@ -3166,8 +3166,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:32:58.793Z",
       "firstSeenMs": 1784266378793,
-      "lastSeen": "2026-07-17T15:45:00.000Z",
-      "lastSeenMs": 1784303100000
+      "lastSeen": "2026-07-17T15:50:00.000Z",
+      "lastSeenMs": 1784303400000
     },
     {
       "userId": "1534052061",
@@ -3230,8 +3230,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T15:45:00.000Z",
-      "lastSeenMs": 1784303100000
+      "lastSeen": "2026-07-17T15:50:00.000Z",
+      "lastSeenMs": 1784303400000
     },
     {
       "userId": "1784154449",
@@ -6014,8 +6014,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-17T15:45:00.000Z",
-      "lastSeenMs": 1784303100000
+      "lastSeen": "2026-07-17T15:50:00.000Z",
+      "lastSeenMs": 1784303400000
     },
     {
       "userId": "8554890463",
@@ -6190,8 +6190,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T15:45:00.000Z",
-      "lastSeenMs": 1784303100000
+      "lastSeen": "2026-07-17T15:50:00.000Z",
+      "lastSeenMs": 1784303400000
     },
     {
       "userId": "8808861528",
@@ -6398,8 +6398,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T15:49:37.978Z",
       "firstSeenMs": 1784303377978,
-      "lastSeen": "2026-07-17T15:49:37.978Z",
-      "lastSeenMs": 1784303377978
+      "lastSeen": "2026-07-17T15:50:00.000Z",
+      "lastSeenMs": 1784303400000
     },
     {
       "userId": "9095826838",
@@ -6694,16 +6694,16 @@
       "username": "jghirebq2011",
       "displayName": "jghirebq2011",
       "roleKey": "",
-      "gameName": "[🌊🏎️] +1 Évasion de tsunami en kart de vitesse",
-      "placeId": 72720300838806,
+      "gameName": "Construis et vole des Brainrots!",
+      "placeId": 134879690978154,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:31:02.186Z",
       "firstSeenMs": 1784251862186,
-      "lastSeen": "2026-07-17T03:00:00.000Z",
-      "lastSeenMs": 1784257200000
+      "lastSeen": "2026-07-17T15:50:00.000Z",
+      "lastSeenMs": 1784303400000
     },
     {
       "userId": "9405689037",
@@ -7901,5 +7901,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:50:27.291Z"
+  "updatedAt": "2026-07-17T15:51:33.188Z"
 }
