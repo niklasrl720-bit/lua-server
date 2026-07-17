@@ -206,8 +206,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:59:26.536Z",
       "firstSeenMs": 1784329166536,
-      "lastSeen": "2026-07-17T22:59:26.536Z",
-      "lastSeenMs": 1784329166536
+      "lastSeen": "2026-07-17T23:00:00.000Z",
+      "lastSeenMs": 1784329200000
     },
     {
       "userId": "10135335294",
@@ -526,8 +526,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T22:55:00.000Z",
-      "lastSeenMs": 1784328900000
+      "lastSeen": "2026-07-17T23:00:00.000Z",
+      "lastSeenMs": 1784329200000
     },
     {
       "userId": "10427971366",
@@ -686,8 +686,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:08:40.846Z",
       "firstSeenMs": 1784243320846,
-      "lastSeen": "2026-07-17T22:55:00.000Z",
-      "lastSeenMs": 1784328900000
+      "lastSeen": "2026-07-17T23:00:00.000Z",
+      "lastSeenMs": 1784329200000
     },
     {
       "userId": "10566812830",
@@ -4174,8 +4174,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:44:55.239Z",
       "firstSeenMs": 1784328295239,
-      "lastSeen": "2026-07-17T22:55:00.000Z",
-      "lastSeenMs": 1784328900000
+      "lastSeen": "2026-07-17T23:00:00.000Z",
+      "lastSeenMs": 1784329200000
     },
     {
       "userId": "1177195747",
@@ -6270,8 +6270,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-17T22:55:00.000Z",
-      "lastSeenMs": 1784328900000
+      "lastSeen": "2026-07-17T23:00:00.000Z",
+      "lastSeenMs": 1784329200000
     },
     {
       "userId": "5131378969",
@@ -6690,6 +6690,22 @@
       "lastSeenMs": 1784266803930
     },
     {
+      "userId": "5857406905",
+      "username": "bstgemes2",
+      "displayName": "BSTGamesOfc2026",
+      "roleKey": "",
+      "gameName": "Obby de QI 2",
+      "placeId": 110284271836311,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:01:38.301Z",
+      "firstSeenMs": 1784329298301,
+      "lastSeen": "2026-07-17T23:01:38.301Z",
+      "lastSeenMs": 1784329298301
+    },
+    {
       "userId": "6070402361",
       "username": "qqrtqr1h1o45m1o4",
       "displayName": "qqrtqr1h1o45m1o4",
@@ -6718,8 +6734,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:43:14.567Z",
       "firstSeenMs": 1784234594567,
-      "lastSeen": "2026-07-17T22:55:00.000Z",
-      "lastSeenMs": 1784328900000
+      "lastSeen": "2026-07-17T23:00:00.000Z",
+      "lastSeenMs": 1784329200000
     },
     {
       "userId": "6089503220",
@@ -9150,8 +9166,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:59:42.116Z",
       "firstSeenMs": 1784329182116,
-      "lastSeen": "2026-07-17T22:59:42.116Z",
-      "lastSeenMs": 1784329182116
+      "lastSeen": "2026-07-17T23:00:00.000Z",
+      "lastSeenMs": 1784329200000
     },
     {
       "userId": "9414382754",
@@ -10283,5 +10299,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:00:27.413Z"
+  "updatedAt": "2026-07-17T23:01:43.310Z"
 }
