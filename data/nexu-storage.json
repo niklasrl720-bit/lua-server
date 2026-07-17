@@ -978,6 +978,22 @@
       "lastSeenMs": 1784262515122
     },
     {
+      "userId": "11246652995",
+      "username": "HNKTO_1588",
+      "displayName": "HNKTO_1588",
+      "roleKey": "",
+      "gameName": "Выживание в стихийных бедствиях",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:50:03.845Z",
+      "firstSeenMs": 1784271003845,
+      "lastSeen": "2026-07-17T06:50:03.845Z",
+      "lastSeenMs": 1784271003845
+    },
+    {
       "userId": "11247164747",
       "username": "vessl_111",
       "displayName": "vessl",
@@ -2206,8 +2222,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T06:45:00.000Z",
-      "lastSeenMs": 1784270700000
+      "lastSeen": "2026-07-17T06:50:00.000Z",
+      "lastSeenMs": 1784271000000
     },
     {
       "userId": "3468057790",
@@ -2542,8 +2558,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:26:43.731Z",
       "firstSeenMs": 1784269603731,
-      "lastSeen": "2026-07-17T06:45:00.000Z",
-      "lastSeenMs": 1784270700000
+      "lastSeen": "2026-07-17T06:50:00.000Z",
+      "lastSeenMs": 1784271000000
     },
     {
       "userId": "4549877961",
@@ -2686,8 +2702,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-17T06:45:00.000Z",
-      "lastSeenMs": 1784270700000
+      "lastSeen": "2026-07-17T06:50:00.000Z",
+      "lastSeenMs": 1784271000000
     },
     {
       "userId": "5180933519",
@@ -2830,8 +2846,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:32:02.258Z",
       "firstSeenMs": 1784269922258,
-      "lastSeen": "2026-07-17T06:45:00.000Z",
-      "lastSeenMs": 1784270700000
+      "lastSeen": "2026-07-17T06:50:00.000Z",
+      "lastSeenMs": 1784271000000
     },
     {
       "userId": "5497562572",
@@ -2990,8 +3006,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:09:48.628Z",
       "firstSeenMs": 1784268588628,
-      "lastSeen": "2026-07-17T06:45:00.000Z",
-      "lastSeenMs": 1784270700000
+      "lastSeen": "2026-07-17T06:50:00.000Z",
+      "lastSeenMs": 1784271000000
     },
     {
       "userId": "7080587968",
@@ -3502,8 +3518,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:47:04.529Z",
       "firstSeenMs": 1784270824529,
-      "lastSeen": "2026-07-17T06:47:04.529Z",
-      "lastSeenMs": 1784270824529
+      "lastSeen": "2026-07-17T06:50:00.000Z",
+      "lastSeenMs": 1784271000000
     },
     {
       "userId": "8509283772",
@@ -3854,8 +3870,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:46:28.154Z",
       "firstSeenMs": 1784270788154,
-      "lastSeen": "2026-07-17T06:46:28.154Z",
-      "lastSeenMs": 1784270788154
+      "lastSeen": "2026-07-17T06:50:00.000Z",
+      "lastSeenMs": 1784271000000
     },
     {
       "userId": "9123342097",
@@ -4791,5 +4807,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:49:13.944Z"
+  "updatedAt": "2026-07-17T06:50:08.852Z"
 }
