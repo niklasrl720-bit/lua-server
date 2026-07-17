@@ -702,8 +702,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:16:43.732Z",
       "firstSeenMs": 1784247403732,
-      "lastSeen": "2026-07-17T14:20:00.000Z",
-      "lastSeenMs": 1784298000000
+      "lastSeen": "2026-07-17T14:25:00.000Z",
+      "lastSeenMs": 1784298300000
     },
     {
       "userId": "10865199057",
@@ -2158,8 +2158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T13:55:29.889Z",
       "firstSeenMs": 1784296529889,
-      "lastSeen": "2026-07-17T14:20:00.000Z",
-      "lastSeenMs": 1784298000000
+      "lastSeen": "2026-07-17T14:25:00.000Z",
+      "lastSeenMs": 1784298300000
     },
     {
       "userId": "11287230344",
@@ -2334,8 +2334,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:02:41.381Z",
       "firstSeenMs": 1784296961381,
-      "lastSeen": "2026-07-17T14:20:00.000Z",
-      "lastSeenMs": 1784298000000
+      "lastSeen": "2026-07-17T14:25:00.000Z",
+      "lastSeenMs": 1784298300000
     },
     {
       "userId": "11292693920",
@@ -2910,8 +2910,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T14:23:45.208Z",
-      "lastSeenMs": 1784298225208
+      "lastSeen": "2026-07-17T14:25:00.000Z",
+      "lastSeenMs": 1784298300000
     },
     {
       "userId": "1267528515",
@@ -4270,8 +4270,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T14:20:00.000Z",
-      "lastSeenMs": 1784298000000
+      "lastSeen": "2026-07-17T14:25:00.000Z",
+      "lastSeenMs": 1784298300000
     },
     {
       "userId": "5111527490",
@@ -5126,16 +5126,16 @@
       "username": "Chernosigma_8",
       "displayName": "Chernosigma_8",
       "roleKey": "",
-      "gameName": "nico's nextbots [open world]",
-      "placeId": 12629753855,
+      "gameName": "nico's nextbots 🌸",
+      "placeId": 10118559731,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:16:28.179Z",
       "firstSeenMs": 1784225788179,
-      "lastSeen": "2026-07-17T14:20:00.000Z",
-      "lastSeenMs": 1784298000000
+      "lastSeen": "2026-07-17T14:25:00.000Z",
+      "lastSeenMs": 1784298300000
     },
     {
       "userId": "7926460129",
@@ -5758,8 +5758,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T14:20:00.000Z",
-      "lastSeenMs": 1784298000000
+      "lastSeen": "2026-07-17T14:25:00.000Z",
+      "lastSeenMs": 1784298300000
     },
     {
       "userId": "8808861528",
@@ -5998,8 +5998,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T14:20:00.000Z",
-      "lastSeenMs": 1784298000000
+      "lastSeen": "2026-07-17T14:25:00.000Z",
+      "lastSeenMs": 1784298300000
     },
     {
       "userId": "9134201874",
@@ -7303,5 +7303,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:25:19.052Z"
+  "updatedAt": "2026-07-17T14:25:35.602Z"
 }
