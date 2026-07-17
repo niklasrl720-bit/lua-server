@@ -4350,8 +4350,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:05:17.771Z",
       "firstSeenMs": 1784325917771,
-      "lastSeen": "2026-07-17T22:05:17.771Z",
-      "lastSeenMs": 1784325917771
+      "lastSeen": "2026-07-17T22:10:00.000Z",
+      "lastSeenMs": 1784326200000
     },
     {
       "userId": "1916375036",
@@ -5390,8 +5390,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:18:06.632Z",
       "firstSeenMs": 1784323086632,
-      "lastSeen": "2026-07-17T22:05:00.000Z",
-      "lastSeenMs": 1784325900000
+      "lastSeen": "2026-07-17T22:10:00.000Z",
+      "lastSeenMs": 1784326200000
     },
     {
       "userId": "4009875708",
@@ -7440,6 +7440,22 @@
       "firstSeenMs": 1784254420155,
       "lastSeen": "2026-07-17T02:15:00.000Z",
       "lastSeenMs": 1784254500000
+    },
+    {
+      "userId": "7851814809",
+      "username": "alexanrrrrr4",
+      "displayName": "007n7_idk",
+      "roleKey": "",
+      "gameName": "Torre de Slap de Troll INSANO 😈",
+      "placeId": 110470672231288,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:10:18.812Z",
+      "firstSeenMs": 1784326218812,
+      "lastSeen": "2026-07-17T22:10:18.812Z",
+      "lastSeenMs": 1784326218812
     },
     {
       "userId": "7904205215",
@@ -9937,5 +9953,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:10:15.700Z"
+  "updatedAt": "2026-07-17T22:10:23.819Z"
 }
