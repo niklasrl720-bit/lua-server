@@ -396,10 +396,10 @@
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "IOS",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-17T02:25:47.324Z",
-      "firstSeenMs": 1784255147324,
-      "lastSeen": "2026-07-17T02:25:47.324Z",
-      "lastSeenMs": 1784255147324
+      "firstSeen": "2026-07-17T02:25:54.129Z",
+      "firstSeenMs": 1784255154129,
+      "lastSeen": "2026-07-17T02:25:54.129Z",
+      "lastSeenMs": 1784255154129
     },
     {
       "userId": "11031356766",
@@ -3343,5 +3343,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:25:52.329Z"
+  "updatedAt": "2026-07-17T02:25:59.133Z"
 }
