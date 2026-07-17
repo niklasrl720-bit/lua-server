@@ -942,8 +942,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:23:31.722Z",
       "firstSeenMs": 1784251411722,
-      "lastSeen": "2026-07-17T02:20:00.000Z",
-      "lastSeenMs": 1784254800000
+      "lastSeen": "2026-07-17T02:25:00.000Z",
+      "lastSeenMs": 1784255100000
     },
     {
       "userId": "11284061402",
@@ -1054,8 +1054,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-17T02:20:00.000Z",
-      "lastSeenMs": 1784254800000
+      "lastSeen": "2026-07-17T02:25:00.000Z",
+      "lastSeenMs": 1784255100000
     },
     {
       "userId": "11293835762",
@@ -1646,8 +1646,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T02:20:00.000Z",
-      "lastSeenMs": 1784254800000
+      "lastSeen": "2026-07-17T02:25:00.000Z",
+      "lastSeenMs": 1784255100000
     },
     {
       "userId": "3468057790",
@@ -1678,8 +1678,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T02:20:00.000Z",
-      "lastSeenMs": 1784254800000
+      "lastSeen": "2026-07-17T02:25:00.000Z",
+      "lastSeenMs": 1784255100000
     },
     {
       "userId": "3643100956",
@@ -1934,8 +1934,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:03:34.191Z",
       "firstSeenMs": 1784253814191,
-      "lastSeen": "2026-07-17T02:20:00.000Z",
-      "lastSeenMs": 1784254800000
+      "lastSeen": "2026-07-17T02:25:00.000Z",
+      "lastSeenMs": 1784255100000
     },
     {
       "userId": "4963790387",
@@ -2222,8 +2222,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:09:01.012Z",
       "firstSeenMs": 1784246941012,
-      "lastSeen": "2026-07-17T02:20:00.000Z",
-      "lastSeenMs": 1784254800000
+      "lastSeen": "2026-07-17T02:25:00.000Z",
+      "lastSeenMs": 1784255100000
     },
     {
       "userId": "7256837696",
@@ -2854,16 +2854,16 @@
       "username": "jghirebq2011",
       "displayName": "jghirebq2011",
       "roleKey": "",
-      "gameName": "[FPS] Arène à un tir 🎯",
-      "placeId": 128326169270358,
+      "gameName": "[🧤] Désamorçage",
+      "placeId": 79393329652220,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:31:02.186Z",
       "firstSeenMs": 1784251862186,
-      "lastSeen": "2026-07-17T02:20:00.000Z",
-      "lastSeenMs": 1784254800000
+      "lastSeen": "2026-07-17T02:25:00.000Z",
+      "lastSeenMs": 1784255100000
     },
     {
       "userId": "9405689037",
@@ -3327,5 +3327,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:25:20.994Z"
+  "updatedAt": "2026-07-17T02:25:34.687Z"
 }
