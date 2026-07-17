@@ -386,6 +386,22 @@
       "lastSeenMs": 1784246100000
     },
     {
+      "userId": "11025367411",
+      "username": "Wahwah027",
+      "displayName": "AstagaNaga",
+      "roleKey": "",
+      "gameName": "Hutan [Obrolan Suara]",
+      "placeId": 17577256698,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T02:25:47.324Z",
+      "firstSeenMs": 1784255147324,
+      "lastSeen": "2026-07-17T02:25:47.324Z",
+      "lastSeenMs": 1784255147324
+    },
+    {
       "userId": "11031356766",
       "username": "gagamaru_rogi",
       "displayName": "gagamaru_rogi",
@@ -3327,5 +3343,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:25:34.687Z"
+  "updatedAt": "2026-07-17T02:25:52.329Z"
 }
