@@ -470,16 +470,16 @@
       "username": "Yooouurz12",
       "displayName": "YooBoyyEz_12",
       "roleKey": "",
-      "gameName": "Elytra + Firework",
-      "placeId": 82921739423450,
+      "gameName": "No Man's Land",
+      "placeId": 117090155680637,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:17:21.901Z",
       "firstSeenMs": 1784308641901,
-      "lastSeen": "2026-07-17T17:17:21.901Z",
-      "lastSeenMs": 1784308641901
+      "lastSeen": "2026-07-17T17:25:00.000Z",
+      "lastSeenMs": 1784309100000
     },
     {
       "userId": "1049291677",
@@ -2830,8 +2830,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:02:41.381Z",
       "firstSeenMs": 1784296961381,
-      "lastSeen": "2026-07-17T15:05:00.000Z",
-      "lastSeenMs": 1784300700000
+      "lastSeen": "2026-07-17T17:25:00.000Z",
+      "lastSeenMs": 1784309100000
     },
     {
       "userId": "11292693920",
@@ -8741,5 +8741,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:27:20.113Z"
+  "updatedAt": "2026-07-17T17:27:25.637Z"
 }
