@@ -2258,6 +2258,22 @@
       "lastSeenMs": 1784296130665
     },
     {
+      "userId": "11292571446",
+      "username": "hdh7780166",
+      "displayName": "hdh7780166",
+      "roleKey": "",
+      "gameName": "🔪Survive the Killer!",
+      "placeId": 4580204640,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:02:41.381Z",
+      "firstSeenMs": 1784296961381,
+      "lastSeen": "2026-07-17T14:02:41.381Z",
+      "lastSeenMs": 1784296961381
+    },
+    {
       "userId": "11292693920",
       "username": "tcvybunubhvifRc",
       "displayName": "tcvybunubhvifRc",
@@ -7113,5 +7129,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:01:50.269Z"
+  "updatedAt": "2026-07-17T14:02:46.391Z"
 }
