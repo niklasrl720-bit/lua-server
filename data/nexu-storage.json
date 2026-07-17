@@ -5542,16 +5542,16 @@
       "username": "Richard123477hh",
       "displayName": "Hunter",
       "roleKey": "",
-      "gameName": "☄️No presione el botón 4",
-      "placeId": 5171093784,
+      "gameName": "💀Hazte el muerto o OOF",
+      "placeId": 113312771548101,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:45:52.758Z",
       "firstSeenMs": 1784306752758,
-      "lastSeen": "2026-07-17T21:55:00.000Z",
-      "lastSeenMs": 1784325300000
+      "lastSeen": "2026-07-17T23:30:00.000Z",
+      "lastSeenMs": 1784331000000
     },
     {
       "userId": "3991335398",
@@ -10591,5 +10591,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:33:08.395Z"
+  "updatedAt": "2026-07-17T23:34:21.444Z"
 }
