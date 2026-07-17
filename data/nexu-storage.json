@@ -1602,6 +1602,22 @@
       "lastSeenMs": 1784226000000
     },
     {
+      "userId": "11286358709",
+      "username": "Jsbsjz_2",
+      "displayName": "Dasodxl",
+      "roleKey": "",
+      "gameName": "[🔱ДУЭЛИ] Убийцы против шерифров",
+      "placeId": 135856908115931,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T09:00:43.625Z",
+      "firstSeenMs": 1784278843625,
+      "lastSeen": "2026-07-17T09:00:43.625Z",
+      "lastSeenMs": 1784278843625
+    },
+    {
       "userId": "11288462881",
       "username": "hjggvhnnhgv",
       "displayName": "hjggvhnnhgv",
@@ -5531,5 +5547,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:00:20.229Z"
+  "updatedAt": "2026-07-17T09:00:48.632Z"
 }
