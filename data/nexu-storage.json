@@ -2674,6 +2674,22 @@
       "lastSeenMs": 1784256000000
     },
     {
+      "userId": "8825146444",
+      "username": "joandk12",
+      "displayName": "4x_naoya",
+      "roleKey": "",
+      "gameName": "[MUNDO 3] +1 Escape de teclado de velocidad",
+      "placeId": 93411036959889,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T02:44:47.348Z",
+      "firstSeenMs": 1784256287348,
+      "lastSeen": "2026-07-17T02:44:47.348Z",
+      "lastSeenMs": 1784256287348
+    },
+    {
       "userId": "8852319931",
       "username": "Jose_Lxd117",
       "displayName": "pollito_conpapaxd",
@@ -2702,8 +2718,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:44:54.881Z",
       "firstSeenMs": 1784241894881,
-      "lastSeen": "2026-07-17T02:10:00.000Z",
-      "lastSeenMs": 1784254200000
+      "lastSeen": "2026-07-17T02:40:00.000Z",
+      "lastSeenMs": 1784256000000
     },
     {
       "userId": "8910557706",
@@ -3423,5 +3439,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:41:22.503Z"
+  "updatedAt": "2026-07-17T02:44:52.354Z"
 }
