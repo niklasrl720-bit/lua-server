@@ -6334,8 +6334,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-17T23:10:00.000Z",
-      "lastSeenMs": 1784329800000
+      "lastSeen": "2026-07-17T23:30:00.000Z",
+      "lastSeenMs": 1784331000000
     },
     {
       "userId": "5131378969",
@@ -10504,8 +10504,22 @@
         "moderationScore": 92,
         "sentAt": "2026-07-17T23:31:53.102Z",
         "sentAtMs": 1784331113102
+      },
+      {
+        "id": 1784331122385002,
+        "userId": "10652435106",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "GUNS_nROSESS666",
+        "displayName": "Scorpio_Bejj",
+        "message": "hello",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T23:32:02.385Z",
+        "sentAtMs": 1784331122385
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:31:54.368Z"
+  "updatedAt": "2026-07-17T23:32:03.414Z"
 }
