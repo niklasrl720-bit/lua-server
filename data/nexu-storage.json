@@ -10352,8 +10352,22 @@
         "moderationScore": 100,
         "sentAt": "2026-07-17T23:04:06.561Z",
         "sentAtMs": 1784329446561
+      },
+      {
+        "id": 1784329448849004,
+        "userId": "1012891388",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "KekePika250",
+        "displayName": "gogo",
+        "message": "bruh",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T23:04:08.849Z",
+        "sentAtMs": 1784329448849
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:04:07.595Z"
+  "updatedAt": "2026-07-17T23:04:09.888Z"
 }
