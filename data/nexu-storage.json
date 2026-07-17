@@ -4978,6 +4978,22 @@
       "lastSeenMs": 1784264700000
     },
     {
+      "userId": "7239555530",
+      "username": "thanhbinh718",
+      "displayName": "Taolatao",
+      "roleKey": "",
+      "gameName": "Fling Things and People",
+      "placeId": 6961824067,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:18:01.074Z",
+      "firstSeenMs": 1784301481074,
+      "lastSeen": "2026-07-17T15:18:01.074Z",
+      "lastSeenMs": 1784301481074
+    },
+    {
       "userId": "7256837696",
       "username": "duolingostrike",
       "displayName": "flexvega",
@@ -5806,8 +5822,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-17T10:50:00.000Z",
-      "lastSeenMs": 1784285400000
+      "lastSeen": "2026-07-17T15:15:00.000Z",
+      "lastSeenMs": 1784301300000
     },
     {
       "userId": "8554890463",
@@ -7661,5 +7677,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:16:00.540Z"
+  "updatedAt": "2026-07-17T15:18:06.397Z"
 }
