@@ -450,6 +450,22 @@
       "lastSeenMs": 1784227200000
     },
     {
+      "userId": "10669512379",
+      "username": "lolw228k",
+      "displayName": "AYPA999999",
+      "roleKey": "",
+      "gameName": "[🧤] Обезврежение",
+      "placeId": 79393329652220,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T08:46:49.851Z",
+      "firstSeenMs": 1784278009851,
+      "lastSeen": "2026-07-17T08:46:49.851Z",
+      "lastSeenMs": 1784278009851
+    },
+    {
       "userId": "10736557501",
       "username": "Jdjkdjdjdjxxndnfndnj",
       "displayName": "Bacon",
@@ -1056,6 +1072,22 @@
       "firstSeenMs": 1784275606676,
       "lastSeen": "2026-07-17T08:06:46.676Z",
       "lastSeenMs": 1784275606676
+    },
+    {
+      "userId": "11215263461",
+      "username": "baritonaubpconcua",
+      "displayName": "baritonaubpconcua",
+      "roleKey": "",
+      "gameName": "Bí ẩn giết người 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T08:46:48.700Z",
+      "firstSeenMs": 1784278008700,
+      "lastSeen": "2026-07-17T08:46:48.700Z",
+      "lastSeenMs": 1784278008700
     },
     {
       "userId": "11217236975",
@@ -5437,5 +5469,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:46:36.008Z"
+  "updatedAt": "2026-07-17T08:46:53.708Z"
 }
