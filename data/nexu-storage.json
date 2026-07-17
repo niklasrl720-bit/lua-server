@@ -126,8 +126,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:38:52.317Z",
       "firstSeenMs": 1784259532317,
-      "lastSeen": "2026-07-17T03:38:52.317Z",
-      "lastSeenMs": 1784259532317
+      "lastSeen": "2026-07-17T03:40:00.000Z",
+      "lastSeenMs": 1784259600000
     },
     {
       "userId": "1023658413",
@@ -1406,8 +1406,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:37:45.552Z",
       "firstSeenMs": 1784259465552,
-      "lastSeen": "2026-07-17T03:37:45.552Z",
-      "lastSeenMs": 1784259465552
+      "lastSeen": "2026-07-17T03:40:00.000Z",
+      "lastSeenMs": 1784259600000
     },
     {
       "userId": "11299912346",
@@ -1854,8 +1854,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T03:35:00.000Z",
-      "lastSeenMs": 1784259300000
+      "lastSeen": "2026-07-17T03:40:00.000Z",
+      "lastSeenMs": 1784259600000
     },
     {
       "userId": "3643100956",
@@ -2542,8 +2542,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:37:08.595Z",
       "firstSeenMs": 1784259428595,
-      "lastSeen": "2026-07-17T03:37:08.595Z",
-      "lastSeenMs": 1784259428595
+      "lastSeen": "2026-07-17T03:40:00.000Z",
+      "lastSeenMs": 1784259600000
     },
     {
       "userId": "7741785159",
@@ -3262,8 +3262,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-17T03:35:00.000Z",
-      "lastSeenMs": 1784259300000
+      "lastSeen": "2026-07-17T03:40:00.000Z",
+      "lastSeenMs": 1784259600000
     },
     {
       "userId": "9414382754",
@@ -3780,8 +3780,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T03:11:04.400Z",
         "sentAtMs": 1784257864400
+      },
+      {
+        "id": 1784259615186001,
+        "userId": "10203550652",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "ultraluck275",
+        "displayName": "ultraluck275",
+        "message": "bruh",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T03:40:15.186Z",
+        "sentAtMs": 1784259615186
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:38:57.322Z"
+  "updatedAt": "2026-07-17T03:40:16.277Z"
 }
