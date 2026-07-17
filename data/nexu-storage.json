@@ -2718,8 +2718,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T13:00:00.000Z",
-      "lastSeenMs": 1784293200000
+      "lastSeen": "2026-07-17T13:05:00.000Z",
+      "lastSeenMs": 1784293500000
     },
     {
       "userId": "1784154449",
@@ -4320,6 +4320,22 @@
       "firstSeenMs": 1784232927430,
       "lastSeen": "2026-07-17T01:15:00.000Z",
       "lastSeenMs": 1784250900000
+    },
+    {
+      "userId": "7084113045",
+      "username": "zema_56707865",
+      "displayName": "CAT",
+      "roleKey": "",
+      "gameName": "[BETA] Kalahkan Robloxian!",
+      "placeId": 14713532223,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:07:20.558Z",
+      "firstSeenMs": 1784293640558,
+      "lastSeen": "2026-07-17T13:07:20.558Z",
+      "lastSeenMs": 1784293640558
     },
     {
       "userId": "7088744458",
@@ -6781,5 +6797,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:06:50.324Z"
+  "updatedAt": "2026-07-17T13:07:25.569Z"
 }
