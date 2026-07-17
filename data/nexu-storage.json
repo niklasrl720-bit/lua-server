@@ -2802,6 +2802,22 @@
       "lastSeenMs": 1784290500000
     },
     {
+      "userId": "11301940854",
+      "username": "MikelPlayz5",
+      "displayName": "MikelPlayz5",
+      "roleKey": "",
+      "gameName": "Blox Fruits",
+      "placeId": 2753915549,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:03:40.167Z",
+      "firstSeenMs": 1784297020167,
+      "lastSeen": "2026-07-17T14:03:40.167Z",
+      "lastSeenMs": 1784297020167
+    },
+    {
       "userId": "1267528515",
       "username": "manumacaroni",
       "displayName": "bignoobi",
@@ -7129,5 +7145,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:03:25.202Z"
+  "updatedAt": "2026-07-17T14:03:45.174Z"
 }
