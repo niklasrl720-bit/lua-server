@@ -4930,6 +4930,22 @@
       "lastSeenMs": 1784283110214
     },
     {
+      "userId": "8344207693",
+      "username": "CUVAAAAAAAK",
+      "displayName": "CblPHNK",
+      "roleKey": "",
+      "gameName": "NPC или смерть! 💢",
+      "placeId": 11276071411,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T12:59:14.565Z",
+      "firstSeenMs": 1784293154565,
+      "lastSeen": "2026-07-17T12:59:14.565Z",
+      "lastSeenMs": 1784293154565
+    },
+    {
       "userId": "8345028013",
       "username": "vitinho_p14",
       "displayName": "ANTONi",
@@ -6717,5 +6733,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:57:06.783Z"
+  "updatedAt": "2026-07-17T12:59:19.573Z"
 }
