@@ -2578,6 +2578,22 @@
       "lastSeenMs": 1784259600000
     },
     {
+      "userId": "7581251880",
+      "username": "theblackrip0",
+      "displayName": "theblackrip0",
+      "roleKey": "",
+      "gameName": "Juego de rol fronterizo de San Diego",
+      "placeId": 136020512003847,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:47:35.534Z",
+      "firstSeenMs": 1784260055534,
+      "lastSeen": "2026-07-17T03:47:35.534Z",
+      "lastSeenMs": 1784260055534
+    },
+    {
       "userId": "7741785159",
       "username": "bamegf656r",
       "displayName": "Xxmm2_loverxX",
@@ -3859,5 +3875,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:46:58.300Z"
+  "updatedAt": "2026-07-17T03:47:40.550Z"
 }
