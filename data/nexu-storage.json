@@ -4982,16 +4982,16 @@
       "username": "Beluga13164314",
       "displayName": "primeS1",
       "roleKey": "",
-      "gameName": "эта потрясающая игра",
-      "placeId": 117973911105557,
+      "gameName": "Башня Казахстана 🌟 [💙💛Казахстан💛💙] 🇰🇿",
+      "placeId": 79548014923991,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T12:12:28.508Z",
       "firstSeenMs": 1784290348508,
-      "lastSeen": "2026-07-17T19:20:00.000Z",
-      "lastSeenMs": 1784316000000
+      "lastSeen": "2026-07-17T20:35:00.000Z",
+      "lastSeenMs": 1784320500000
     },
     {
       "userId": "3953958486",
@@ -9847,5 +9847,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:35:26.007Z"
+  "updatedAt": "2026-07-17T20:35:44.776Z"
 }
