@@ -3682,6 +3682,22 @@
       "lastSeenMs": 1784313000000
     },
     {
+      "userId": "11303556724",
+      "username": "3ducationalxpurposes",
+      "displayName": "3ducationalxpurposes",
+      "roleKey": "",
+      "gameName": "MMV",
+      "placeId": 121330469999373,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:53:04.249Z",
+      "firstSeenMs": 1784317984249,
+      "lastSeen": "2026-07-17T19:53:04.249Z",
+      "lastSeenMs": 1784317984249
+    },
+    {
       "userId": "11303590193",
       "username": "Robloxteam951",
       "displayName": "Rob",
@@ -3710,8 +3726,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:40:46.291Z",
       "firstSeenMs": 1784306446291,
-      "lastSeen": "2026-07-17T18:40:00.000Z",
-      "lastSeenMs": 1784313600000
+      "lastSeen": "2026-07-17T19:50:00.000Z",
+      "lastSeenMs": 1784317800000
     },
     {
       "userId": "1267528515",
@@ -9593,5 +9609,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:52:38.059Z"
+  "updatedAt": "2026-07-17T19:53:09.264Z"
 }
