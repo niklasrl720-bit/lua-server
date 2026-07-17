@@ -3426,6 +3426,22 @@
       "lastSeenMs": 1784242401509
     },
     {
+      "userId": "8932001935",
+      "username": "altfromthisguy",
+      "displayName": "Squirrel",
+      "roleKey": "",
+      "gameName": "Fling Things and People",
+      "placeId": 6961824067,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:22:01.664Z",
+      "firstSeenMs": 1784265721664,
+      "lastSeen": "2026-07-17T05:22:01.664Z",
+      "lastSeenMs": 1784265721664
+    },
+    {
       "userId": "8999363560",
       "username": "Higor244006",
       "displayName": "Higor244006",
@@ -4343,5 +4359,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:21:55.898Z"
+  "updatedAt": "2026-07-17T05:22:06.671Z"
 }
