@@ -7570,6 +7570,22 @@
       "lastSeenMs": 1784312401579
     },
     {
+      "userId": "7797125676",
+      "username": "mig_oda",
+      "displayName": "zingo",
+      "roleKey": "",
+      "gameName": "Sobreviva 99 Noites",
+      "placeId": 126509999114328,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:19:47.277Z",
+      "firstSeenMs": 1784330387277,
+      "lastSeen": "2026-07-17T23:19:47.277Z",
+      "lastSeenMs": 1784330387277
+    },
+    {
       "userId": "7803427161",
       "username": "lennepkrl",
       "displayName": "Menotralha7",
@@ -10415,5 +10431,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:19:35.329Z"
+  "updatedAt": "2026-07-17T23:19:52.285Z"
 }
