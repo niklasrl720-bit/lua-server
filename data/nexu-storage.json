@@ -3394,6 +3394,22 @@
       "lastSeenMs": 1784244283900
     },
     {
+      "userId": "8199839279",
+      "username": "simmyboy111",
+      "displayName": "simmyboy111",
+      "roleKey": "",
+      "gameName": "Doomspire Brickbattle",
+      "placeId": 1215581239,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:51:23.332Z",
+      "firstSeenMs": 1784271083332,
+      "lastSeen": "2026-07-17T06:51:23.332Z",
+      "lastSeenMs": 1784271083332
+    },
+    {
       "userId": "8245444026",
       "username": "Rmalvado06",
       "displayName": "Rmalvado06",
@@ -4807,5 +4823,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:51:20.470Z"
+  "updatedAt": "2026-07-17T06:51:27.040Z"
 }
