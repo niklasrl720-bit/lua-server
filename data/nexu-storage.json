@@ -6882,6 +6882,22 @@
       "lastSeenMs": 1784308200000
     },
     {
+      "userId": "7781832003",
+      "username": "daniel1590476",
+      "displayName": "DANIEL",
+      "roleKey": "",
+      "gameName": "[NOVO!🔥] Pinte ou Busque",
+      "placeId": 85245205758607,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:47:45.504Z",
+      "firstSeenMs": 1784321265504,
+      "lastSeen": "2026-07-17T20:47:45.504Z",
+      "lastSeenMs": 1784321265504
+    },
+    {
       "userId": "7786097908",
       "username": "Naturalcruise",
       "displayName": "Naturalcruise",
@@ -9879,5 +9895,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:47:36.873Z"
+  "updatedAt": "2026-07-17T20:47:50.515Z"
 }
