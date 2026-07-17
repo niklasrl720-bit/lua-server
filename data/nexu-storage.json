@@ -10004,8 +10004,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T20:32:44.692Z",
         "sentAtMs": 1784320364692
+      },
+      {
+        "id": 1784322565559001,
+        "userId": "8281397493",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "sniperdefault3",
+        "displayName": "Ichigo Ichie",
+        "message": "balls in my ass 67",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T21:09:25.559Z",
+        "sentAtMs": 1784322565559
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:07:38.294Z"
+  "updatedAt": "2026-07-17T21:09:26.990Z"
 }
