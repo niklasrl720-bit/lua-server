@@ -1094,16 +1094,16 @@
       "username": "epicman1234451",
       "displayName": "epicman1234451",
       "roleKey": "",
-      "gameName": "Natural Disaster Survival",
-      "placeId": 189707,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-17T03:35:00.000Z",
-      "lastSeenMs": 1784259300000
+      "lastSeen": "2026-07-17T03:40:00.000Z",
+      "lastSeenMs": 1784259600000
     },
     {
       "userId": "11293835762",
@@ -3797,5 +3797,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:40:16.277Z"
+  "updatedAt": "2026-07-17T03:41:30.990Z"
 }
