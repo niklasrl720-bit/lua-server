@@ -7456,8 +7456,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T14:51:11.633Z",
         "sentAtMs": 1784299871633
+      },
+      {
+        "id": 1784299886419002,
+        "userId": "4229801191",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "WARGOHDAR",
+        "displayName": "WARGONDAR",
+        "message": "хелоу",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T14:51:26.419Z",
+        "sentAtMs": 1784299886419
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:51:12.683Z"
+  "updatedAt": "2026-07-17T14:51:27.457Z"
 }
