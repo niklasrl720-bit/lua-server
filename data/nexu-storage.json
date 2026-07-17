@@ -4290,6 +4290,22 @@
       "lastSeenMs": 1784293916718
     },
     {
+      "userId": "4195159847",
+      "username": "Jaywowjy",
+      "displayName": "Ryrochallin",
+      "roleKey": "",
+      "gameName": "[🇲🇽] Train Crash Survival",
+      "placeId": 133209214486796,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:14:33.896Z",
+      "firstSeenMs": 1784304873896,
+      "lastSeen": "2026-07-17T16:14:33.896Z",
+      "lastSeenMs": 1784304873896
+    },
+    {
       "userId": "4212061169",
       "username": "candoblo34",
       "displayName": "candoblo34",
@@ -8077,5 +8093,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:14:28.440Z"
+  "updatedAt": "2026-07-17T16:14:38.904Z"
 }
