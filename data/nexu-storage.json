@@ -110,8 +110,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T06:05:00.000Z",
-      "lastSeenMs": 1784268300000
+      "lastSeen": "2026-07-17T06:10:00.000Z",
+      "lastSeenMs": 1784268600000
     },
     {
       "userId": "10203550652",
@@ -2430,8 +2430,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:03:53.427Z",
       "firstSeenMs": 1784264633427,
-      "lastSeen": "2026-07-17T06:05:00.000Z",
-      "lastSeenMs": 1784268300000
+      "lastSeen": "2026-07-17T06:10:00.000Z",
+      "lastSeenMs": 1784268600000
     },
     {
       "userId": "4549877961",
@@ -2494,8 +2494,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-17T06:05:00.000Z",
-      "lastSeenMs": 1784268300000
+      "lastSeen": "2026-07-17T06:10:00.000Z",
+      "lastSeenMs": 1784268600000
     },
     {
       "userId": "5005775489",
@@ -2846,8 +2846,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:09:48.628Z",
       "firstSeenMs": 1784268588628,
-      "lastSeen": "2026-07-17T06:09:48.628Z",
-      "lastSeenMs": 1784268588628
+      "lastSeen": "2026-07-17T06:10:00.000Z",
+      "lastSeenMs": 1784268600000
     },
     {
       "userId": "7080587968",
@@ -3350,16 +3350,16 @@
       "username": "Itndinaha",
       "displayName": "ZAMONTI",
       "roleKey": "",
-      "gameName": "Murderers VS Sheriffs DUELS",
-      "placeId": 12355337193,
+      "gameName": "[TRADING] Murder Duels",
+      "placeId": 120851538706364,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:11:08.754Z",
       "firstSeenMs": 1784265068754,
-      "lastSeen": "2026-07-17T05:55:00.000Z",
-      "lastSeenMs": 1784267700000
+      "lastSeen": "2026-07-17T06:10:00.000Z",
+      "lastSeenMs": 1784268600000
     },
     {
       "userId": "8532047955",
@@ -3582,8 +3582,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:44:54.881Z",
       "firstSeenMs": 1784241894881,
-      "lastSeen": "2026-07-17T06:05:00.000Z",
-      "lastSeenMs": 1784268300000
+      "lastSeen": "2026-07-17T06:10:00.000Z",
+      "lastSeenMs": 1784268600000
     },
     {
       "userId": "8910557706",
@@ -4535,5 +4535,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:09:53.636Z"
+  "updatedAt": "2026-07-17T06:10:30.787Z"
 }
