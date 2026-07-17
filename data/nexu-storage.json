@@ -174,8 +174,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T02:40:00.000Z",
-      "lastSeenMs": 1784256000000
+      "lastSeen": "2026-07-17T02:45:00.000Z",
+      "lastSeenMs": 1784256300000
     },
     {
       "userId": "10427971366",
@@ -1534,8 +1534,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:05:19.977Z",
       "firstSeenMs": 1784228719977,
-      "lastSeen": "2026-07-17T02:40:00.000Z",
-      "lastSeenMs": 1784256000000
+      "lastSeen": "2026-07-17T02:45:00.000Z",
+      "lastSeenMs": 1784256300000
     },
     {
       "userId": "2398075590",
@@ -1710,8 +1710,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T02:40:00.000Z",
-      "lastSeenMs": 1784256000000
+      "lastSeen": "2026-07-17T02:45:00.000Z",
+      "lastSeenMs": 1784256300000
     },
     {
       "userId": "3643100956",
@@ -2670,8 +2670,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T02:40:00.000Z",
-      "lastSeenMs": 1784256000000
+      "lastSeen": "2026-07-17T02:45:00.000Z",
+      "lastSeenMs": 1784256300000
     },
     {
       "userId": "8825146444",
@@ -2686,8 +2686,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:44:47.348Z",
       "firstSeenMs": 1784256287348,
-      "lastSeen": "2026-07-17T02:44:47.348Z",
-      "lastSeenMs": 1784256287348
+      "lastSeen": "2026-07-17T02:45:00.000Z",
+      "lastSeenMs": 1784256300000
     },
     {
       "userId": "8852319931",
@@ -2718,8 +2718,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:44:54.881Z",
       "firstSeenMs": 1784241894881,
-      "lastSeen": "2026-07-17T02:40:00.000Z",
-      "lastSeenMs": 1784256000000
+      "lastSeen": "2026-07-17T02:45:00.000Z",
+      "lastSeenMs": 1784256300000
     },
     {
       "userId": "8910557706",
@@ -2846,8 +2846,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:39:15.520Z",
       "firstSeenMs": 1784255955520,
-      "lastSeen": "2026-07-17T02:40:00.000Z",
-      "lastSeenMs": 1784256000000
+      "lastSeen": "2026-07-17T02:45:00.000Z",
+      "lastSeenMs": 1784256300000
     },
     {
       "userId": "9232921015",
@@ -2950,16 +2950,16 @@
       "username": "jghirebq2011",
       "displayName": "jghirebq2011",
       "roleKey": "",
-      "gameName": "[🧤] Désamorçage",
-      "placeId": 79393329652220,
+      "gameName": "Arène de pistolets",
+      "placeId": 87018676608089,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:31:02.186Z",
       "firstSeenMs": 1784251862186,
-      "lastSeen": "2026-07-17T02:40:00.000Z",
-      "lastSeenMs": 1784256000000
+      "lastSeen": "2026-07-17T02:45:00.000Z",
+      "lastSeenMs": 1784256300000
     },
     {
       "userId": "9405689037",
@@ -3022,8 +3022,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:19:21.399Z",
       "firstSeenMs": 1784236761399,
-      "lastSeen": "2026-07-17T02:40:00.000Z",
-      "lastSeenMs": 1784256000000
+      "lastSeen": "2026-07-17T02:45:00.000Z",
+      "lastSeenMs": 1784256300000
     },
     {
       "userId": "9462151183",
@@ -3214,8 +3214,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:33:59.808Z",
       "firstSeenMs": 1784255639808,
-      "lastSeen": "2026-07-17T02:40:00.000Z",
-      "lastSeenMs": 1784256000000
+      "lastSeen": "2026-07-17T02:45:00.000Z",
+      "lastSeenMs": 1784256300000
     },
     {
       "userId": "9978184567",
@@ -3439,5 +3439,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:44:57.657Z"
+  "updatedAt": "2026-07-17T02:45:16.779Z"
 }
