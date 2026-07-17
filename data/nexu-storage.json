@@ -462,8 +462,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T04:25:00.000Z",
-      "lastSeenMs": 1784262300000
+      "lastSeen": "2026-07-17T19:05:00.000Z",
+      "lastSeenMs": 1784315100000
     },
     {
       "userId": "10427971366",
@@ -8038,16 +8038,16 @@
       "username": "souzattk4",
       "displayName": "souzax",
       "roleKey": "",
-      "gameName": "NewSmith 🏡 RP",
-      "placeId": 16625391970,
+      "gameName": "24 horas durante a noite",
+      "placeId": 122802147482832,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-17T08:50:00.000Z",
-      "lastSeenMs": 1784278200000
+      "lastSeen": "2026-07-17T19:05:00.000Z",
+      "lastSeenMs": 1784315100000
     },
     {
       "userId": "9508855732",
@@ -9279,5 +9279,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:07:16.090Z"
+  "updatedAt": "2026-07-17T19:07:25.322Z"
 }
