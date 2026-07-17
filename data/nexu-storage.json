@@ -2466,6 +2466,22 @@
       "lastSeenMs": 1784231830082
     },
     {
+      "userId": "8345028013",
+      "username": "vitinho_p14",
+      "displayName": "ANTONi",
+      "roleKey": "",
+      "gameName": "Batalha de tijolos Omega Doomspire",
+      "placeId": 84101533240958,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T02:16:57.161Z",
+      "firstSeenMs": 1784254617161,
+      "lastSeen": "2026-07-17T02:16:57.161Z",
+      "lastSeenMs": 1784254617161
+    },
+    {
       "userId": "8455434666",
       "username": "fjvvjvfyvy",
       "displayName": "Guest1338",
@@ -3267,5 +3283,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:16:33.174Z"
+  "updatedAt": "2026-07-17T02:17:02.164Z"
 }
