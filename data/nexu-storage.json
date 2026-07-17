@@ -910,8 +910,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:23:31.722Z",
       "firstSeenMs": 1784251411722,
-      "lastSeen": "2026-07-17T01:40:00.000Z",
-      "lastSeenMs": 1784252400000
+      "lastSeen": "2026-07-17T01:45:00.000Z",
+      "lastSeenMs": 1784252700000
     },
     {
       "userId": "11284061402",
@@ -1614,8 +1614,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T01:40:00.000Z",
-      "lastSeenMs": 1784252400000
+      "lastSeen": "2026-07-17T01:45:00.000Z",
+      "lastSeenMs": 1784252700000
     },
     {
       "userId": "3643100956",
@@ -2430,8 +2430,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:35:11.965Z",
       "firstSeenMs": 1784237711965,
-      "lastSeen": "2026-07-17T01:40:00.000Z",
-      "lastSeenMs": 1784252400000
+      "lastSeen": "2026-07-17T01:45:00.000Z",
+      "lastSeenMs": 1784252700000
     },
     {
       "userId": "8785383597",
@@ -2574,8 +2574,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T01:40:00.000Z",
-      "lastSeenMs": 1784252400000
+      "lastSeen": "2026-07-17T01:45:00.000Z",
+      "lastSeenMs": 1784252700000
     },
     {
       "userId": "9134201874",
@@ -2694,16 +2694,16 @@
       "username": "jghirebq2011",
       "displayName": "jghirebq2011",
       "roleKey": "",
-      "gameName": "Construire pour défendre le butin [nouveaux joueurs]",
-      "placeId": 101840804580458,
+      "gameName": "[FPS] Flick",
+      "placeId": 136801880565837,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:31:02.186Z",
       "firstSeenMs": 1784251862186,
-      "lastSeen": "2026-07-17T01:40:00.000Z",
-      "lastSeenMs": 1784252400000
+      "lastSeen": "2026-07-17T01:45:00.000Z",
+      "lastSeenMs": 1784252700000
     },
     {
       "userId": "9405689037",
@@ -3125,5 +3125,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T01:41:33.253Z"
+  "updatedAt": "2026-07-17T01:45:49.019Z"
 }
