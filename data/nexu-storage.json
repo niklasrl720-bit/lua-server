@@ -1010,6 +1010,22 @@
       "lastSeenMs": 1784260500000
     },
     {
+      "userId": "11208527131",
+      "username": "BSCE_HEHE0",
+      "displayName": "BALASDENDAM",
+      "roleKey": "",
+      "gameName": "Bertahan dari Bencana Alam",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T08:29:49.070Z",
+      "firstSeenMs": 1784276989070,
+      "lastSeen": "2026-07-17T08:29:49.070Z",
+      "lastSeenMs": 1784276989070
+    },
+    {
       "userId": "11213059431",
       "username": "cabra_mods",
       "displayName": "cabra_mods",
@@ -5389,5 +5405,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:27:31.535Z"
+  "updatedAt": "2026-07-17T08:29:54.079Z"
 }
