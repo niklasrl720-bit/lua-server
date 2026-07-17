@@ -4018,6 +4018,22 @@
       "lastSeenMs": 1784228617683
     },
     {
+      "userId": "2892419709",
+      "username": "YEMEALTO2",
+      "displayName": "Mari3",
+      "roleKey": "",
+      "gameName": "Supervivencia de desastres naturales",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:23:43.666Z",
+      "firstSeenMs": 1784309023666,
+      "lastSeen": "2026-07-17T17:23:43.666Z",
+      "lastSeenMs": 1784309023666
+    },
+    {
       "userId": "2986146049",
       "username": "Nsser_11",
       "displayName": "Nasser",
@@ -8679,5 +8695,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:22:22.513Z"
+  "updatedAt": "2026-07-17T17:23:48.677Z"
 }
