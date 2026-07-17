@@ -1890,6 +1890,22 @@
       "lastSeenMs": 1784231100000
     },
     {
+      "userId": "486430964",
+      "username": "System28M",
+      "displayName": "system",
+      "roleKey": "",
+      "gameName": "[🧤] Defusal",
+      "placeId": 79393329652220,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T02:03:34.191Z",
+      "firstSeenMs": 1784253814191,
+      "lastSeen": "2026-07-17T02:03:34.191Z",
+      "lastSeenMs": 1784253814191
+    },
+    {
       "userId": "4963790387",
       "username": "VieristmeinFavorit",
       "displayName": "SeMy_22",
@@ -3187,5 +3203,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:03:12.388Z"
+  "updatedAt": "2026-07-17T02:03:39.194Z"
 }
