@@ -854,16 +854,16 @@
       "username": "lelekoleon",
       "displayName": "lelekoleon",
       "roleKey": "",
-      "gameName": "Deutsche Stimme",
-      "placeId": 136162036182779,
+      "gameName": "[FPS] Mit einem Klick",
+      "placeId": 90568084448279,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-17T10:35:00.000Z",
-      "lastSeenMs": 1784284500000
+      "lastSeen": "2026-07-17T18:25:00.000Z",
+      "lastSeenMs": 1784312700000
     },
     {
       "userId": "10780173311",
@@ -9057,5 +9057,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:25:55.663Z"
+  "updatedAt": "2026-07-17T18:28:10.718Z"
 }
