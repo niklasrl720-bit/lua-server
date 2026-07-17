@@ -1378,6 +1378,22 @@
       "lastSeenMs": 1784256458910
     },
     {
+      "userId": "11299826851",
+      "username": "bananapop0088",
+      "displayName": "Popsicle",
+      "roleKey": "",
+      "gameName": "[SUMMER]❤️Vibe Place",
+      "placeId": 9298624201,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:37:45.552Z",
+      "firstSeenMs": 1784259465552,
+      "lastSeen": "2026-07-17T03:37:45.552Z",
+      "lastSeenMs": 1784259465552
+    },
+    {
       "userId": "11299912346",
       "username": "Gemma_fs",
       "displayName": "Gemma_fs",
@@ -3751,5 +3767,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:37:13.600Z"
+  "updatedAt": "2026-07-17T03:37:50.558Z"
 }
