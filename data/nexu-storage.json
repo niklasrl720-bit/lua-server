@@ -3282,6 +3282,22 @@
       "lastSeenMs": 1784244986009
     },
     {
+      "userId": "11296973446",
+      "username": "Akhskshs20",
+      "displayName": "Akhskshs20",
+      "roleKey": "",
+      "gameName": "Çılgın Troll Slap Kulesi 😈",
+      "placeId": 110470672231288,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:07:33.280Z",
+      "firstSeenMs": 1784322453280,
+      "lastSeen": "2026-07-17T21:07:33.280Z",
+      "lastSeenMs": 1784322453280
+    },
+    {
       "userId": "11297402533",
       "username": "mat_67470",
       "displayName": "mat_67470",
@@ -9991,5 +10007,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:07:25.390Z"
+  "updatedAt": "2026-07-17T21:07:38.294Z"
 }
