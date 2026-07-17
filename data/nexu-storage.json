@@ -2126,8 +2126,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T13:55:29.889Z",
       "firstSeenMs": 1784296529889,
-      "lastSeen": "2026-07-17T14:10:00.000Z",
-      "lastSeenMs": 1784297400000
+      "lastSeen": "2026-07-17T14:15:00.000Z",
+      "lastSeenMs": 1784297700000
     },
     {
       "userId": "11287230344",
@@ -4198,8 +4198,8 @@
       "username": "GhostyAlones",
       "displayName": "plow1k",
       "roleKey": "",
-      "gameName": "Магнат ужасов",
-      "placeId": 5189834468,
+      "gameName": "Брукхейвен 🏡 RP",
+      "placeId": 4924922222,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -7239,5 +7239,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:16:40.060Z"
+  "updatedAt": "2026-07-17T14:18:39.606Z"
 }
