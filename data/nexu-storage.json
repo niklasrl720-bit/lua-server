@@ -878,8 +878,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-17T00:15:00.000Z",
-      "lastSeenMs": 1784247300000
+      "lastSeen": "2026-07-17T00:20:00.000Z",
+      "lastSeenMs": 1784247600000
     },
     {
       "userId": "11293835762",
@@ -1072,6 +1072,22 @@
       "firstSeenMs": 1784242061944,
       "lastSeen": "2026-07-17T00:20:00.000Z",
       "lastSeenMs": 1784247600000
+    },
+    {
+      "userId": "11299297213",
+      "username": "ety76gffdsss",
+      "displayName": "ety76gffdsss",
+      "roleKey": "",
+      "gameName": "+1 Speed Keyboard Escape | Candy & Chocolate",
+      "placeId": 95082159892680,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:20:13.744Z",
+      "firstSeenMs": 1784247613744,
+      "lastSeen": "2026-07-17T00:20:13.744Z",
+      "lastSeenMs": 1784247613744
     },
     {
       "userId": "1267528515",
@@ -1550,8 +1566,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:19:36.084Z",
       "firstSeenMs": 1784247576084,
-      "lastSeen": "2026-07-17T00:19:36.084Z",
-      "lastSeenMs": 1784247576084
+      "lastSeen": "2026-07-17T00:20:00.000Z",
+      "lastSeenMs": 1784247600000
     },
     {
       "userId": "4549877961",
@@ -2655,5 +2671,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:20:13.676Z"
+  "updatedAt": "2026-07-17T00:20:18.746Z"
 }
