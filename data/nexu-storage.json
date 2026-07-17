@@ -2386,6 +2386,22 @@
       "lastSeenMs": 1784282100000
     },
     {
+      "userId": "11272853115",
+      "username": "Vettino22",
+      "displayName": "Vettino22",
+      "roleKey": "",
+      "gameName": "[🔥 UPD] Campeões de Basquete da NBA",
+      "placeId": 101271234790940,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:54:34.598Z",
+      "firstSeenMs": 1784307274598,
+      "lastSeen": "2026-07-17T16:54:34.598Z",
+      "lastSeenMs": 1784307274598
+    },
+    {
       "userId": "11274549088",
       "username": "Kaiju_universe350",
       "displayName": "Spinosaurus",
@@ -5422,8 +5438,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:15:27.430Z",
       "firstSeenMs": 1784232927430,
-      "lastSeen": "2026-07-17T16:45:00.000Z",
-      "lastSeenMs": 1784306700000
+      "lastSeen": "2026-07-17T16:50:00.000Z",
+      "lastSeenMs": 1784307000000
     },
     {
       "userId": "7084113045",
@@ -8439,5 +8455,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:52:06.336Z"
+  "updatedAt": "2026-07-17T16:54:39.612Z"
 }
