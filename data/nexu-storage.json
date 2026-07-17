@@ -482,6 +482,22 @@
       "lastSeenMs": 1784250600000
     },
     {
+      "userId": "10514541446",
+      "username": "363636anraumakoem",
+      "displayName": "363636anraumakoem",
+      "roleKey": "",
+      "gameName": "troll là tháp móng tay 2",
+      "placeId": 83312952548612,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:41:00.211Z",
+      "firstSeenMs": 1784306460211,
+      "lastSeen": "2026-07-17T16:41:00.211Z",
+      "lastSeenMs": 1784306460211
+    },
+    {
       "userId": "10523068842",
       "username": "Sahel0984",
       "displayName": "EL4YOU",
@@ -8299,5 +8315,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:40:51.304Z"
+  "updatedAt": "2026-07-17T16:41:05.220Z"
 }
