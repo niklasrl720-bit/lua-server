@@ -3474,6 +3474,22 @@
       "lastSeenMs": 1784241300000
     },
     {
+      "userId": "8497753067",
+      "username": "johnjohnry1S",
+      "displayName": "Aman",
+      "roleKey": "",
+      "gameName": "The Chosen One",
+      "placeId": 11137575513,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:47:04.529Z",
+      "firstSeenMs": 1784270824529,
+      "lastSeen": "2026-07-17T06:47:04.529Z",
+      "lastSeenMs": 1784270824529
+    },
+    {
       "userId": "8509283772",
       "username": "leandrorivals1234",
       "displayName": "X4_L3O",
@@ -4759,5 +4775,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:46:59.580Z"
+  "updatedAt": "2026-07-17T06:47:09.534Z"
 }
