@@ -2018,6 +2018,22 @@
       "lastSeenMs": 1784296579685
     },
     {
+      "userId": "11179042358",
+      "username": "popkabobra7224",
+      "displayName": "popkabobra7224",
+      "roleKey": "",
+      "gameName": "Ничто",
+      "placeId": 6252985844,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:38:15.764Z",
+      "firstSeenMs": 1784331495764,
+      "lastSeen": "2026-07-17T23:38:15.764Z",
+      "lastSeenMs": 1784331495764
+    },
+    {
       "userId": "11182565790",
       "username": "jsgsjhsghs",
       "displayName": "pas2selem",
@@ -10623,5 +10639,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:36:48.115Z"
+  "updatedAt": "2026-07-17T23:38:20.821Z"
 }
