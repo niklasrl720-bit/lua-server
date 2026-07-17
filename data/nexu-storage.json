@@ -1378,6 +1378,22 @@
       "lastSeenMs": 1784256458910
     },
     {
+      "userId": "11299912346",
+      "username": "Gemma_fs",
+      "displayName": "Gemma_fs",
+      "roleKey": "",
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:20:56.906Z",
+      "firstSeenMs": 1784258456906,
+      "lastSeen": "2026-07-17T03:20:56.906Z",
+      "lastSeenMs": 1784258456906
+    },
+    {
       "userId": "1267528515",
       "username": "manumacaroni",
       "displayName": "bignoobi",
@@ -1790,8 +1806,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T03:15:00.000Z",
-      "lastSeenMs": 1784258100000
+      "lastSeen": "2026-07-17T03:20:00.000Z",
+      "lastSeenMs": 1784258400000
     },
     {
       "userId": "3643100956",
@@ -2734,8 +2750,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:48:31.301Z",
       "firstSeenMs": 1784256511301,
-      "lastSeen": "2026-07-17T03:15:00.000Z",
-      "lastSeenMs": 1784258100000
+      "lastSeen": "2026-07-17T03:20:00.000Z",
+      "lastSeenMs": 1784258400000
     },
     {
       "userId": "8554706348",
@@ -2862,8 +2878,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T03:15:00.000Z",
-      "lastSeenMs": 1784258100000
+      "lastSeen": "2026-07-17T03:20:00.000Z",
+      "lastSeenMs": 1784258400000
     },
     {
       "userId": "8825146444",
@@ -2878,8 +2894,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:44:47.348Z",
       "firstSeenMs": 1784256287348,
-      "lastSeen": "2026-07-17T03:15:00.000Z",
-      "lastSeenMs": 1784258100000
+      "lastSeen": "2026-07-17T03:20:00.000Z",
+      "lastSeenMs": 1784258400000
     },
     {
       "userId": "8852319931",
@@ -3166,8 +3182,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-17T03:15:00.000Z",
-      "lastSeenMs": 1784258100000
+      "lastSeen": "2026-07-17T03:20:00.000Z",
+      "lastSeenMs": 1784258400000
     },
     {
       "userId": "9414382754",
@@ -3687,5 +3703,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:18:28.828Z"
+  "updatedAt": "2026-07-17T03:21:01.213Z"
 }
