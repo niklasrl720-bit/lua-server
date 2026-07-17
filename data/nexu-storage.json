@@ -2406,16 +2406,16 @@
       "username": "CharAlt09",
       "displayName": "BrandonLee",
       "roleKey": "",
-      "gameName": "Phantom Forces",
-      "placeId": 292439477,
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:35:11.965Z",
       "firstSeenMs": 1784237711965,
-      "lastSeen": "2026-07-16T21:35:11.965Z",
-      "lastSeenMs": 1784237711965
+      "lastSeen": "2026-07-17T01:35:00.000Z",
+      "lastSeenMs": 1784252100000
     },
     {
       "userId": "8785383597",
@@ -3109,5 +3109,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T01:36:16.209Z"
+  "updatedAt": "2026-07-17T01:38:46.573Z"
 }
