@@ -1526,16 +1526,16 @@
       "username": "bananapop0088",
       "displayName": "Popsicle",
       "roleKey": "",
-      "gameName": "[SUMMER]❤️Vibe Place",
-      "placeId": 9298624201,
+      "gameName": "Lumina Forest",
+      "placeId": 74100438182555,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:37:45.552Z",
       "firstSeenMs": 1784259465552,
-      "lastSeen": "2026-07-17T03:45:00.000Z",
-      "lastSeenMs": 1784259900000
+      "lastSeen": "2026-07-17T04:50:00.000Z",
+      "lastSeenMs": 1784263800000
     },
     {
       "userId": "11299902948",
@@ -4171,5 +4171,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:51:37.858Z"
+  "updatedAt": "2026-07-17T04:52:33.218Z"
 }
