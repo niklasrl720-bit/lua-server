@@ -30,8 +30,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T13:14:13.628Z",
       "firstSeenMs": 1784294053628,
-      "lastSeen": "2026-07-17T13:14:13.628Z",
-      "lastSeenMs": 1784294053628
+      "lastSeen": "2026-07-17T13:15:00.000Z",
+      "lastSeenMs": 1784294100000
     },
     {
       "userId": "10031062100",
@@ -2430,8 +2430,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T13:10:00.000Z",
-      "lastSeenMs": 1784293800000
+      "lastSeen": "2026-07-17T13:15:00.000Z",
+      "lastSeenMs": 1784294100000
     },
     {
       "userId": "11299297213",
@@ -2766,8 +2766,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T13:10:00.000Z",
-      "lastSeenMs": 1784293800000
+      "lastSeen": "2026-07-17T13:15:00.000Z",
+      "lastSeenMs": 1784294100000
     },
     {
       "userId": "1784154449",
@@ -3646,8 +3646,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:32:11.729Z",
       "firstSeenMs": 1784259131729,
-      "lastSeen": "2026-07-17T13:10:00.000Z",
-      "lastSeenMs": 1784293800000
+      "lastSeen": "2026-07-17T13:15:00.000Z",
+      "lastSeenMs": 1784294100000
     },
     {
       "userId": "4337357751",
@@ -3838,8 +3838,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T12:30:36.302Z",
       "firstSeenMs": 1784291436302,
-      "lastSeen": "2026-07-17T13:10:00.000Z",
-      "lastSeenMs": 1784293800000
+      "lastSeen": "2026-07-17T13:15:00.000Z",
+      "lastSeenMs": 1784294100000
     },
     {
       "userId": "486430964",
@@ -4608,6 +4608,22 @@
       "firstSeenMs": 1784259428595,
       "lastSeen": "2026-07-17T03:40:00.000Z",
       "lastSeenMs": 1784259600000
+    },
+    {
+      "userId": "7568928303",
+      "username": "assooom666111",
+      "displayName": "assooom666111",
+      "roleKey": "",
+      "gameName": "⭐ الرسوم المتحركة للوجه [Demo]",
+      "placeId": 10424585322,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:15:39.810Z",
+      "firstSeenMs": 1784294139810,
+      "lastSeen": "2026-07-17T13:15:39.810Z",
+      "lastSeenMs": 1784294139810
     },
     {
       "userId": "7581251880",
@@ -6877,5 +6893,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:14:18.636Z"
+  "updatedAt": "2026-07-17T13:15:44.819Z"
 }
