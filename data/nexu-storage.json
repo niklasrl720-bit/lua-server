@@ -4866,6 +4866,22 @@
       "lastSeenMs": 1784269500000
     },
     {
+      "userId": "9657874682",
+      "username": "ANIESHA96334",
+      "displayName": "L3mon h3ad",
+      "roleKey": "",
+      "gameName": "Berry Avenue 🏠 RP",
+      "placeId": 8481844229,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T08:52:22.931Z",
+      "firstSeenMs": 1784278342931,
+      "lastSeen": "2026-07-17T08:52:22.931Z",
+      "lastSeenMs": 1784278342931
+    },
+    {
       "userId": "9661855432",
       "username": "capit8836",
       "displayName": "rico_swim",
@@ -5515,5 +5531,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:52:11.832Z"
+  "updatedAt": "2026-07-17T08:52:27.937Z"
 }
