@@ -1326,8 +1326,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T08:49:14.173Z",
       "firstSeenMs": 1784278154173,
-      "lastSeen": "2026-07-17T08:50:00.000Z",
-      "lastSeenMs": 1784278200000
+      "lastSeen": "2026-07-17T08:49:14.173Z",
+      "lastSeenMs": 1784278154173
     },
     {
       "userId": "11250972164",
@@ -4798,8 +4798,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-17T08:50:00.000Z",
-      "lastSeenMs": 1784278200000
+      "lastSeen": "2026-07-17T08:45:00.000Z",
+      "lastSeenMs": 1784277900000
     },
     {
       "userId": "9508855732",
@@ -4998,16 +4998,16 @@
       "username": "shgoo662",
       "displayName": "kyo",
       "roleKey": "",
-      "gameName": "Obby de Wall Hop facile à difficile",
-      "placeId": 85907682116985,
+      "gameName": "[MONDE 2] Devenez un Brainrot",
+      "placeId": 99255447043899,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:32:53.494Z",
       "firstSeenMs": 1784237573494,
-      "lastSeen": "2026-07-17T08:45:00.000Z",
-      "lastSeenMs": 1784277900000
+      "lastSeen": "2026-07-17T08:50:00.000Z",
+      "lastSeenMs": 1784278200000
     },
     {
       "userId": "9953434480",
@@ -5515,5 +5515,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:51:33.376Z"
+  "updatedAt": "2026-07-17T08:51:57.990Z"
 }
