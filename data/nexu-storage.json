@@ -4066,6 +4066,22 @@
       "lastSeenMs": 1784236200000
     },
     {
+      "userId": "9643794203",
+      "username": "ieatk903",
+      "displayName": "Levon james",
+      "roleKey": "",
+      "gameName": "[SQUID GAMES!] Chameleon",
+      "placeId": 110808833601416,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:23:33.518Z",
+      "firstSeenMs": 1784269413518,
+      "lastSeen": "2026-07-17T06:23:33.518Z",
+      "lastSeenMs": 1784269413518
+    },
+    {
       "userId": "9661855432",
       "username": "capit8836",
       "displayName": "rico_swim",
@@ -4599,5 +4615,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:21:41.559Z"
+  "updatedAt": "2026-07-17T06:23:38.523Z"
 }
