@@ -2322,6 +2322,22 @@
       "lastSeenMs": 1784259900000
     },
     {
+      "userId": "5244932422",
+      "username": "boneunused",
+      "displayName": "IHATEYOU",
+      "roleKey": "",
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T04:00:29.187Z",
+      "firstSeenMs": 1784260829187,
+      "lastSeen": "2026-07-17T04:00:29.187Z",
+      "lastSeenMs": 1784260829187
+    },
+    {
       "userId": "5316980228",
       "username": "Tu_chavo503",
       "displayName": "Churrito_STL",
@@ -3953,5 +3969,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:00:11.606Z"
+  "updatedAt": "2026-07-17T04:00:34.193Z"
 }
