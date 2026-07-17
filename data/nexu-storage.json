@@ -802,6 +802,22 @@
       "lastSeenMs": 1784305500000
     },
     {
+      "userId": "10724266851",
+      "username": "JumbleMan16",
+      "displayName": "Tesla_Curtuis",
+      "roleKey": "",
+      "gameName": "Выживание в стихийных бедствиях",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:33:14.208Z",
+      "firstSeenMs": 1784313194208,
+      "lastSeen": "2026-07-17T18:33:14.208Z",
+      "lastSeenMs": 1784313194208
+    },
+    {
       "userId": "10736557501",
       "username": "Jdjkdjdjdjxxndnfndnj",
       "displayName": "Bacon",
@@ -9105,5 +9121,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:33:03.408Z"
+  "updatedAt": "2026-07-17T18:33:19.219Z"
 }
