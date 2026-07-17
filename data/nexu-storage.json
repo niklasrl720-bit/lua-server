@@ -6306,6 +6306,22 @@
       "lastSeenMs": 1784254500000
     },
     {
+      "userId": "7904720390",
+      "username": "DANUIL_YUROCHKO8",
+      "displayName": "danilbloxx",
+      "roleKey": "",
+      "gameName": "Where's Cassie? - Part 2",
+      "placeId": 12874030889,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:11:15.348Z",
+      "firstSeenMs": 1784311875348,
+      "lastSeen": "2026-07-17T18:11:15.348Z",
+      "lastSeenMs": 1784311875348
+    },
+    {
       "userId": "7918165537",
       "username": "Chernosigma_8",
       "displayName": "Chernosigma_8",
@@ -8963,5 +8979,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:10:28.666Z"
+  "updatedAt": "2026-07-17T18:11:20.358Z"
 }
