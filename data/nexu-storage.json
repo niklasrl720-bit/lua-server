@@ -2582,16 +2582,16 @@
       "username": "wow1005788",
       "displayName": "lilly",
       "roleKey": "",
-      "gameName": "📚 Boys And Girls High School Roleplay RP🏫",
-      "placeId": 84114360515326,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:03:53.427Z",
       "firstSeenMs": 1784264633427,
-      "lastSeen": "2026-07-17T06:30:00.000Z",
-      "lastSeenMs": 1784269800000
+      "lastSeen": "2026-07-17T07:05:00.000Z",
+      "lastSeenMs": 1784271900000
     },
     {
       "userId": "4508373870",
@@ -4901,5 +4901,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:06:39.826Z"
+  "updatedAt": "2026-07-17T07:08:07.103Z"
 }
