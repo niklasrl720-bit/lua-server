@@ -4882,6 +4882,22 @@
       "lastSeenMs": 1784301300000
     },
     {
+      "userId": "4818481640",
+      "username": "Naibal14",
+      "displayName": "Naibal14",
+      "roleKey": "",
+      "gameName": "[VOLVO] Império de Condução 🏎️ Corrida de Carros 📦RP",
+      "placeId": 3351674303,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:01:35.756Z",
+      "firstSeenMs": 1784307695756,
+      "lastSeen": "2026-07-17T17:01:35.756Z",
+      "lastSeenMs": 1784307695756
+    },
+    {
       "userId": "486430964",
       "username": "System28M",
       "displayName": "system",
@@ -8519,5 +8535,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:01:23.417Z"
+  "updatedAt": "2026-07-17T17:01:40.769Z"
 }
