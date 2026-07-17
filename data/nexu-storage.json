@@ -7442,6 +7442,22 @@
       "lastSeenMs": 1784260500000
     },
     {
+      "userId": "8547804259",
+      "username": "Espaiqui900",
+      "displayName": "Espaiqui900",
+      "roleKey": "",
+      "gameName": "+1 Speed Keyboard Escape | Candy & Chocolate",
+      "placeId": 95082159892680,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:27:26.878Z",
+      "firstSeenMs": 1784320046878,
+      "lastSeen": "2026-07-17T20:27:26.878Z",
+      "lastSeenMs": 1784320046878
+    },
+    {
       "userId": "8554706348",
       "username": "roblox_user_8554706348",
       "displayName": "MNMNMNM",
@@ -9737,5 +9753,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:26:51.915Z"
+  "updatedAt": "2026-07-17T20:27:31.888Z"
 }
