@@ -894,8 +894,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T13:40:55.014Z",
       "firstSeenMs": 1784295655014,
-      "lastSeen": "2026-07-17T13:40:55.014Z",
-      "lastSeenMs": 1784295655014
+      "lastSeen": "2026-07-17T13:45:00.000Z",
+      "lastSeenMs": 1784295900000
     },
     {
       "userId": "11014149263",
@@ -1614,8 +1614,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T13:18:24.013Z",
       "firstSeenMs": 1784294304013,
-      "lastSeen": "2026-07-17T13:40:00.000Z",
-      "lastSeenMs": 1784295600000
+      "lastSeen": "2026-07-17T13:45:00.000Z",
+      "lastSeenMs": 1784295900000
     },
     {
       "userId": "11249281504",
@@ -1854,8 +1854,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T13:35:34.382Z",
       "firstSeenMs": 1784295334382,
-      "lastSeen": "2026-07-17T13:40:00.000Z",
-      "lastSeenMs": 1784295600000
+      "lastSeen": "2026-07-17T13:45:00.000Z",
+      "lastSeenMs": 1784295900000
     },
     {
       "userId": "11269562679",
@@ -2862,8 +2862,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T13:40:00.000Z",
-      "lastSeenMs": 1784295600000
+      "lastSeen": "2026-07-17T13:45:00.000Z",
+      "lastSeenMs": 1784295900000
     },
     {
       "userId": "1784154449",
@@ -4230,16 +4230,16 @@
       "username": "Msjsjaiiiy",
       "displayName": "VitaminMonkey",
       "roleKey": "",
-      "gameName": "[👮] Arrest Brainrot",
-      "placeId": 108631717812345,
+      "gameName": "Sail Down A River",
+      "placeId": 95319535505764,
       "executionSource": "Delta",
       "executionVersion": "1.0.727.1199",
       "clientPlatform": "IOS",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:32:02.258Z",
       "firstSeenMs": 1784269922258,
-      "lastSeen": "2026-07-17T06:55:00.000Z",
-      "lastSeenMs": 1784271300000
+      "lastSeen": "2026-07-17T13:45:00.000Z",
+      "lastSeenMs": 1784295900000
     },
     {
       "userId": "547595676",
@@ -5694,8 +5694,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T13:31:58.067Z",
       "firstSeenMs": 1784295118067,
-      "lastSeen": "2026-07-17T13:40:00.000Z",
-      "lastSeenMs": 1784295600000
+      "lastSeen": "2026-07-17T13:45:00.000Z",
+      "lastSeenMs": 1784295900000
     },
     {
       "userId": "9025338951",
@@ -5758,8 +5758,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T13:40:00.000Z",
-      "lastSeenMs": 1784295600000
+      "lastSeen": "2026-07-17T13:45:00.000Z",
+      "lastSeenMs": 1784295900000
     },
     {
       "userId": "9134201874",
@@ -7049,5 +7049,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:43:11.722Z"
+  "updatedAt": "2026-07-17T13:45:14.895Z"
 }
