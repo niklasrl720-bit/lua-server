@@ -2710,16 +2710,16 @@
       "username": "Mikey6869",
       "displayName": "Blacktophatsiiiiiiii",
       "roleKey": "",
-      "gameName": "The Strongest Battlegrounds",
-      "placeId": 10449761463,
+      "gameName": "Sheriffs VS Murderers ⚔️",
+      "placeId": 101302512924070,
       "executionSource": "Delta",
       "executionVersion": "1.0.727.1199",
       "clientPlatform": "IOS",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:00:11.581Z",
       "firstSeenMs": 1784264411581,
-      "lastSeen": "2026-07-17T05:00:11.581Z",
-      "lastSeenMs": 1784264411581
+      "lastSeen": "2026-07-17T06:30:00.000Z",
+      "lastSeenMs": 1784269800000
     },
     {
       "userId": "5316980228",
@@ -3550,8 +3550,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:35:11.965Z",
       "firstSeenMs": 1784237711965,
-      "lastSeen": "2026-07-17T06:25:00.000Z",
-      "lastSeenMs": 1784269500000
+      "lastSeen": "2026-07-17T06:30:00.000Z",
+      "lastSeenMs": 1784269800000
     },
     {
       "userId": "8785383597",
@@ -4130,6 +4130,22 @@
       "lastSeenMs": 1784229700064
     },
     {
+      "userId": "9730602928",
+      "username": "andredo_odio",
+      "displayName": "style",
+      "roleKey": "",
+      "gameName": "[UPD👽] MorphUp!",
+      "placeId": 133203197541113,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:33:32.692Z",
+      "firstSeenMs": 1784270012692,
+      "lastSeen": "2026-07-17T06:33:32.692Z",
+      "lastSeenMs": 1784270012692
+    },
+    {
       "userId": "9767130360",
       "username": "lacedgeekycart",
       "displayName": "lacedgeekycart",
@@ -4647,5 +4663,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:32:54.324Z"
+  "updatedAt": "2026-07-17T06:33:37.698Z"
 }
