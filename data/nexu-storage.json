@@ -2866,6 +2866,22 @@
       "lastSeenMs": 1784258400000
     },
     {
+      "userId": "8532047955",
+      "username": "BroadSt4r",
+      "displayName": "Migs_Alencar",
+      "roleKey": "",
+      "gameName": "Exército Brasileiro 🔊",
+      "placeId": 14511049,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:46:53.295Z",
+      "firstSeenMs": 1784260013295,
+      "lastSeen": "2026-07-17T03:46:53.295Z",
+      "lastSeenMs": 1784260013295
+    },
+    {
       "userId": "8554706348",
       "username": "roblox_user_8554706348",
       "displayName": "MNMNMNM",
@@ -3843,5 +3859,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:46:32.982Z"
+  "updatedAt": "2026-07-17T03:46:58.300Z"
 }
