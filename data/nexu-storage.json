@@ -270,8 +270,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:54:59.105Z",
       "firstSeenMs": 1784249699105,
-      "lastSeen": "2026-07-17T09:00:00.000Z",
-      "lastSeenMs": 1784278800000
+      "lastSeen": "2026-07-17T23:55:00.000Z",
+      "lastSeenMs": 1784332500000
     },
     {
       "userId": "10172085694",
@@ -1680,6 +1680,22 @@
       "firstSeenMs": 1784231512196,
       "lastSeen": "2026-07-16T19:51:52.196Z",
       "lastSeenMs": 1784231512196
+    },
+    {
+      "userId": "11084723360",
+      "username": "goob123456092",
+      "displayName": "goobzinho_doidinho",
+      "roleKey": "",
+      "gameName": "PORTAS 👁️",
+      "placeId": 6516141723,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:57:10.574Z",
+      "firstSeenMs": 1784332630574,
+      "lastSeen": "2026-07-17T23:57:10.574Z",
+      "lastSeenMs": 1784332630574
     },
     {
       "userId": "11092895136",
@@ -10747,5 +10763,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:55:56.980Z"
+  "updatedAt": "2026-07-17T23:57:15.593Z"
 }
