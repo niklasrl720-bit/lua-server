@@ -2002,6 +2002,22 @@
       "lastSeenMs": 1784240700000
     },
     {
+      "userId": "8852319931",
+      "username": "Jose_Lxd117",
+      "displayName": "pollito_conpapaxd",
+      "roleKey": "",
+      "gameName": "Duelos de bombas de tiempo [Alfa]",
+      "placeId": 11379739543,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:07:23.505Z",
+      "firstSeenMs": 1784246843505,
+      "lastSeen": "2026-07-17T00:07:23.505Z",
+      "lastSeenMs": 1784246843505
+    },
+    {
       "userId": "8889762632",
       "username": "alain123456741",
       "displayName": "AjavierCx",
@@ -2543,5 +2559,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:06:33.056Z"
+  "updatedAt": "2026-07-17T00:07:28.508Z"
 }
