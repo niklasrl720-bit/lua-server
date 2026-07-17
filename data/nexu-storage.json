@@ -1858,6 +1858,22 @@
       "lastSeenMs": 1784278843625
     },
     {
+      "userId": "11287778854",
+      "username": "wallhackabuser",
+      "displayName": "wallhackabuser",
+      "roleKey": "",
+      "gameName": "[NEBULA] BloxStrike",
+      "placeId": 114234929420007,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T11:52:58.228Z",
+      "firstSeenMs": 1784289178228,
+      "lastSeen": "2026-07-17T11:52:58.228Z",
+      "lastSeenMs": 1784289178228
+    },
+    {
       "userId": "11288462881",
       "username": "hjggvhnnhgv",
       "displayName": "hjggvhnnhgv",
@@ -6383,5 +6399,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T11:51:39.943Z"
+  "updatedAt": "2026-07-17T11:53:03.239Z"
 }
