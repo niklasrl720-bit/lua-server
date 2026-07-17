@@ -5522,6 +5522,22 @@
       "lastSeenMs": 1784286000000
     },
     {
+      "userId": "3718481048",
+      "username": "ehehmem",
+      "displayName": "ehehmem",
+      "roleKey": "",
+      "gameName": "[QOL] Your Bizarre Adventure",
+      "placeId": 2809202155,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:57:36.086Z",
+      "firstSeenMs": 1784332656086,
+      "lastSeen": "2026-07-17T23:57:36.086Z",
+      "lastSeenMs": 1784332656086
+    },
+    {
       "userId": "3725271116",
       "username": "tapitaptap03",
       "displayName": "YL_Quzatr",
@@ -10763,5 +10779,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:57:15.593Z"
+  "updatedAt": "2026-07-17T23:57:41.099Z"
 }
