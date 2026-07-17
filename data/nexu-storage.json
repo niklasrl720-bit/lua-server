@@ -3282,6 +3282,22 @@
       "lastSeenMs": 1784242614201
     },
     {
+      "userId": "2399633590",
+      "username": "cankilerterjj",
+      "displayName": "IIII",
+      "roleKey": "",
+      "gameName": "[💰] Your Bank !",
+      "placeId": 138030613822538,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:32:48.911Z",
+      "firstSeenMs": 1784298768911,
+      "lastSeen": "2026-07-17T14:32:48.911Z",
+      "lastSeenMs": 1784298768911
+    },
+    {
       "userId": "2508758979",
       "username": "facundo300099999",
       "displayName": "Krymoss",
@@ -5942,16 +5958,16 @@
       "username": "Ummilikebryy",
       "displayName": "Monkey",
       "roleKey": "",
-      "gameName": "+1 Speed Keyboard Escape | Candy & Chocolate",
-      "placeId": 95082159892680,
+      "gameName": "Baddies 💅",
+      "placeId": 11158043705,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T13:31:58.067Z",
       "firstSeenMs": 1784295118067,
-      "lastSeen": "2026-07-17T13:45:00.000Z",
-      "lastSeenMs": 1784295900000
+      "lastSeen": "2026-07-17T14:30:00.000Z",
+      "lastSeenMs": 1784298600000
     },
     {
       "userId": "9025338951",
@@ -7335,5 +7351,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:32:42.229Z"
+  "updatedAt": "2026-07-17T14:32:52.317Z"
 }
