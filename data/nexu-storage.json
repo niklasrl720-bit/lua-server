@@ -1324,10 +1324,10 @@
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-17T22:12:00.463Z",
-      "firstSeenMs": 1784326320463,
-      "lastSeen": "2026-07-17T22:12:00.463Z",
-      "lastSeenMs": 1784326320463
+      "firstSeen": "2026-07-17T22:12:15.807Z",
+      "firstSeenMs": 1784326335807,
+      "lastSeen": "2026-07-17T22:12:15.807Z",
+      "lastSeenMs": 1784326335807
     },
     {
       "userId": "10994156036",
@@ -9994,8 +9994,22 @@
         "moderationScore": 100,
         "sentAt": "2026-07-17T22:11:16.194Z",
         "sentAtMs": 1784326276194
+      },
+      {
+        "id": 1784326334818001,
+        "userId": "11168140263",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Steckdose2743",
+        "displayName": "Steckdose2743",
+        "message": "https://xhamster.com/",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T22:12:14.818Z",
+        "sentAtMs": 1784326334818
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:12:05.469Z"
+  "updatedAt": "2026-07-17T22:12:16.313Z"
 }
