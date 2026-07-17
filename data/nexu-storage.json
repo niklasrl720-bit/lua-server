@@ -2658,6 +2658,22 @@
       "lastSeenMs": 1784268452423
     },
     {
+      "userId": "2643166270",
+      "username": "kingporty4",
+      "displayName": "King",
+      "roleKey": "",
+      "gameName": "The Sea",
+      "placeId": 139802517550914,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:18:28.840Z",
+      "firstSeenMs": 1784283508840,
+      "lastSeen": "2026-07-17T10:18:28.840Z",
+      "lastSeenMs": 1784283508840
+    },
+    {
       "userId": "2761369214",
       "username": "cristian778737",
       "displayName": "Cristian778737",
@@ -5911,5 +5927,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:17:30.493Z"
+  "updatedAt": "2026-07-17T10:18:33.849Z"
 }
