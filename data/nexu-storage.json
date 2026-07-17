@@ -10484,8 +10484,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T21:51:50.658Z",
         "sentAtMs": 1784325110658
+      },
+      {
+        "id": 1784325116586004,
+        "userId": "10199760908",
+        "roleKey": "creator",
+        "roleTitle": "MENU CREATOR",
+        "username": "znxklas198",
+        "displayName": "znxklas198",
+        "message": "hdf",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T21:51:56.586Z",
+        "sentAtMs": 1784325116586
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:51:52.161Z"
+  "updatedAt": "2026-07-17T21:51:57.623Z"
 }
