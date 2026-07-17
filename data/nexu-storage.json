@@ -6476,10 +6476,10 @@
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-17T23:31:46.527Z",
-      "firstSeenMs": 1784331106527,
-      "lastSeen": "2026-07-17T23:31:46.527Z",
-      "lastSeenMs": 1784331106527
+      "firstSeen": "2026-07-17T23:31:33.937Z",
+      "firstSeenMs": 1784331093937,
+      "lastSeen": "2026-07-17T23:31:33.937Z",
+      "lastSeenMs": 1784331093937
     },
     {
       "userId": "5238100221",
@@ -10518,22 +10518,8 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T23:32:02.385Z",
         "sentAtMs": 1784331122385
-      },
-      {
-        "id": 1784331129583003,
-        "userId": "10199760908",
-        "roleKey": "creator",
-        "roleTitle": "MENU CREATOR",
-        "username": "znxklas198",
-        "displayName": "znxklas198",
-        "message": "hi",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-07-17T23:32:09.583Z",
-        "sentAtMs": 1784331129583
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:32:10.607Z"
+  "updatedAt": "2026-07-17T23:32:14.775Z"
 }
