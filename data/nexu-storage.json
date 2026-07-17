@@ -1858,6 +1858,22 @@
       "lastSeenMs": 1784305941840
     },
     {
+      "userId": "11168140263",
+      "username": "Steckdose2743",
+      "displayName": "Steckdose2743",
+      "roleKey": "",
+      "gameName": "Deutsche Stimme",
+      "placeId": 136162036182779,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:46:08.433Z",
+      "firstSeenMs": 1784324768433,
+      "lastSeen": "2026-07-17T21:46:08.433Z",
+      "lastSeenMs": 1784324768433
+    },
+    {
       "userId": "11169885571",
       "username": "Viltrumit_001",
       "displayName": "Viltrumite",
@@ -10343,5 +10359,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:45:53.141Z"
+  "updatedAt": "2026-07-17T21:46:13.514Z"
 }
