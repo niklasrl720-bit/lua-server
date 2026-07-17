@@ -3122,6 +3122,22 @@
       "lastSeenMs": 1784251800000
     },
     {
+      "userId": "7548944049",
+      "username": "karsten3837",
+      "displayName": "DetectiveNoob",
+      "roleKey": "",
+      "gameName": "[🦖] 99 Nights in the Forest 🔦",
+      "placeId": 79546208627805,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:46:54.569Z",
+      "firstSeenMs": 1784270814569,
+      "lastSeen": "2026-07-17T06:46:54.569Z",
+      "lastSeenMs": 1784270814569
+    },
+    {
       "userId": "7567669699",
       "username": "cesar271630",
       "displayName": "RX_Ghost",
@@ -4743,5 +4759,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:46:51.122Z"
+  "updatedAt": "2026-07-17T06:46:59.580Z"
 }
