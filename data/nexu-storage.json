@@ -414,8 +414,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-17T19:40:00.000Z",
-      "lastSeenMs": 1784317200000
+      "lastSeen": "2026-07-17T19:45:00.000Z",
+      "lastSeenMs": 1784317500000
     },
     {
       "userId": "10305976438",
@@ -1104,6 +1104,22 @@
       "firstSeenMs": 1784275456627,
       "lastSeen": "2026-07-17T08:05:00.000Z",
       "lastSeenMs": 1784275500000
+    },
+    {
+      "userId": "10936106287",
+      "username": "myboy12_00",
+      "displayName": "myboy12_00",
+      "roleKey": "",
+      "gameName": "+1 ключ к скорости побега на клавиатуре | конфеты и шоколад",
+      "placeId": 95082159892680,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:45:16.939Z",
+      "firstSeenMs": 1784317516939,
+      "lastSeen": "2026-07-17T19:45:16.939Z",
+      "lastSeenMs": 1784317516939
     },
     {
       "userId": "10938747666",
@@ -3598,8 +3614,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T19:40:00.000Z",
-      "lastSeenMs": 1784317200000
+      "lastSeen": "2026-07-17T19:45:00.000Z",
+      "lastSeenMs": 1784317500000
     },
     {
       "userId": "11302817434",
@@ -3870,8 +3886,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:25:16.752Z",
       "firstSeenMs": 1784312716752,
-      "lastSeen": "2026-07-17T19:40:00.000Z",
-      "lastSeenMs": 1784317200000
+      "lastSeen": "2026-07-17T19:45:00.000Z",
+      "lastSeenMs": 1784317500000
     },
     {
       "userId": "1891206840",
@@ -4638,8 +4654,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:36:06.436Z",
       "firstSeenMs": 1784270166436,
-      "lastSeen": "2026-07-17T19:40:00.000Z",
-      "lastSeenMs": 1784317200000
+      "lastSeen": "2026-07-17T19:45:00.000Z",
+      "lastSeenMs": 1784317500000
     },
     {
       "userId": "3687550279",
@@ -4782,8 +4798,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:56:18.242Z",
       "firstSeenMs": 1784314578242,
-      "lastSeen": "2026-07-17T19:40:00.000Z",
-      "lastSeenMs": 1784317200000
+      "lastSeen": "2026-07-17T19:45:00.000Z",
+      "lastSeenMs": 1784317500000
     },
     {
       "userId": "3943834742",
@@ -7950,8 +7966,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.309Z",
       "firstSeenMs": 1784225110309,
-      "lastSeen": "2026-07-17T19:40:00.000Z",
-      "lastSeenMs": 1784317200000
+      "lastSeen": "2026-07-17T19:45:00.000Z",
+      "lastSeenMs": 1784317500000
     },
     {
       "userId": "9247923083",
@@ -8238,8 +8254,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-17T19:40:00.000Z",
-      "lastSeenMs": 1784317200000
+      "lastSeen": "2026-07-17T19:45:00.000Z",
+      "lastSeenMs": 1784317500000
     },
     {
       "userId": "9508855732",
@@ -9515,5 +9531,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:44:30.272Z"
+  "updatedAt": "2026-07-17T19:45:21.953Z"
 }
