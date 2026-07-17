@@ -4722,6 +4722,22 @@
       "lastSeenMs": 1784240443672
     },
     {
+      "userId": "5390659922",
+      "username": "merhabac4",
+      "displayName": "abuzitin",
+      "roleKey": "",
+      "gameName": "Blox Meyveleri",
+      "placeId": 2753915549,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:42:41.940Z",
+      "firstSeenMs": 1784302961940,
+      "lastSeen": "2026-07-17T15:42:41.940Z",
+      "lastSeenMs": 1784302961940
+    },
+    {
       "userId": "5393331248",
       "username": "Msjsjaiiiy",
       "displayName": "VitaminMonkey",
@@ -7821,5 +7837,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:41:01.999Z"
+  "updatedAt": "2026-07-17T15:42:46.948Z"
 }
