@@ -10326,8 +10326,22 @@
         "moderationScore": 100,
         "sentAt": "2026-07-17T21:23:32.815Z",
         "sentAtMs": 1784323412815
+      },
+      {
+        "id": 1784324752027001,
+        "userId": "6093269085",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "GarikMania",
+        "displayName": "kusai",
+        "message": "жопа",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T21:45:52.027Z",
+        "sentAtMs": 1784324752027
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:45:50.418Z"
+  "updatedAt": "2026-07-17T21:45:53.141Z"
 }
