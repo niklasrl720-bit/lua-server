@@ -3798,16 +3798,16 @@
       "username": "RobloxSuporter_11304",
       "displayName": "Niko",
       "roleKey": "",
-      "gameName": "No robes el bollo esponjoso 🥧",
-      "placeId": 126171938168748,
+      "gameName": "Salta para robar slime 🟢",
+      "placeId": 131776241538171,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T20:28:05.004Z",
       "firstSeenMs": 1784320085004,
-      "lastSeen": "2026-07-17T20:30:00.000Z",
-      "lastSeenMs": 1784320200000
+      "lastSeen": "2026-07-17T23:45:00.000Z",
+      "lastSeenMs": 1784331900000
     },
     {
       "userId": "11299297213",
@@ -10703,5 +10703,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:45:44.679Z"
+  "updatedAt": "2026-07-17T23:45:51.786Z"
 }
