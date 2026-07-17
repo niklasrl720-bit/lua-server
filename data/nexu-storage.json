@@ -4950,16 +4950,16 @@
       "username": "Fushiki02",
       "displayName": "HDxMannvia",
       "roleKey": "",
-      "gameName": "[ UPDATE ] Gunung Narayasa",
-      "placeId": 119719188486260,
+      "gameName": "Coin++ X500 [Kami Panggil Rumah🌅] Gunung yang Kesepian",
+      "placeId": 76427490154192,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:36:24.035Z",
       "firstSeenMs": 1784230584035,
-      "lastSeen": "2026-07-16T19:45:00.000Z",
-      "lastSeenMs": 1784231100000
+      "lastSeen": "2026-07-17T12:15:00.000Z",
+      "lastSeenMs": 1784290500000
     },
     {
       "userId": "8559788073",
@@ -6543,5 +6543,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:16:37.330Z"
+  "updatedAt": "2026-07-17T12:19:33.476Z"
 }
