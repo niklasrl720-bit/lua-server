@@ -8354,6 +8354,22 @@
       "lastSeenMs": 1784225400000
     },
     {
+      "userId": "9924892047",
+      "username": "Leo234ka4",
+      "displayName": "License",
+      "roleKey": "",
+      "gameName": "Escape Mr Funny's ToyShop! (SCARY OBBY)",
+      "placeId": 7839281987,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:04:25.968Z",
+      "firstSeenMs": 1784315065968,
+      "lastSeen": "2026-07-17T19:04:25.968Z",
+      "lastSeenMs": 1784315065968
+    },
+    {
       "userId": "9924903401",
       "username": "shgoo662",
       "displayName": "kyo",
@@ -9233,5 +9249,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:03:01.647Z"
+  "updatedAt": "2026-07-17T19:04:30.978Z"
 }
