@@ -2370,6 +2370,22 @@
       "lastSeenMs": 1784227360019
     },
     {
+      "userId": "3725271116",
+      "username": "tapitaptap03",
+      "displayName": "YL_Quzatr",
+      "roleKey": "",
+      "gameName": "The Strongest Battlegrounds",
+      "placeId": 10449761463,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:05:59.107Z",
+      "firstSeenMs": 1784271959107,
+      "lastSeen": "2026-07-17T07:05:59.107Z",
+      "lastSeenMs": 1784271959107
+    },
+    {
       "userId": "3733667059",
       "username": "sarser49013",
       "displayName": "XxKing_BandidoXx",
@@ -4885,5 +4901,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:05:27.542Z"
+  "updatedAt": "2026-07-17T07:06:04.115Z"
 }
