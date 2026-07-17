@@ -4454,16 +4454,16 @@
       "username": "Zero_C4sh",
       "displayName": "Zero_C4sh",
       "roleKey": "",
-      "gameName": "MEGA RAMP FOR SLIME",
-      "placeId": 92700582787930,
+      "gameName": "Draw & Slide",
+      "placeId": 135000370479961,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T10:40:09.622Z",
       "firstSeenMs": 1784284809622,
-      "lastSeen": "2026-07-17T10:40:09.622Z",
-      "lastSeenMs": 1784284809622
+      "lastSeen": "2026-07-17T12:55:00.000Z",
+      "lastSeenMs": 1784292900000
     },
     {
       "userId": "7567669699",
@@ -6717,5 +6717,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:55:59.734Z"
+  "updatedAt": "2026-07-17T12:56:20.682Z"
 }
