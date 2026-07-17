@@ -950,16 +950,16 @@
       "username": "gagamaru_rogi",
       "displayName": "gagamaru_rogi",
       "roleKey": "",
-      "gameName": "Granny: Multiplayer",
-      "placeId": 4480809144,
+      "gameName": "Granny",
+      "placeId": 6000468131,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:21:31.345Z",
       "firstSeenMs": 1784226091345,
-      "lastSeen": "2026-07-17T13:35:00.000Z",
-      "lastSeenMs": 1784295300000
+      "lastSeen": "2026-07-17T13:50:00.000Z",
+      "lastSeenMs": 1784296200000
     },
     {
       "userId": "11031755388",
@@ -7081,5 +7081,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:52:54.023Z"
+  "updatedAt": "2026-07-17T13:53:31.873Z"
 }
