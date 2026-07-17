@@ -158,8 +158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T20:57:53.895Z",
       "firstSeenMs": 1784321873895,
-      "lastSeen": "2026-07-17T21:10:00.000Z",
-      "lastSeenMs": 1784322600000
+      "lastSeen": "2026-07-17T21:15:00.000Z",
+      "lastSeenMs": 1784322900000
     },
     {
       "userId": "10112042881",
@@ -2624,6 +2624,22 @@
       "firstSeenMs": 1784236240199,
       "lastSeen": "2026-07-16T21:10:40.199Z",
       "lastSeenMs": 1784236240199
+    },
+    {
+      "userId": "11264553997",
+      "username": "maxor450",
+      "displayName": "maxor450",
+      "roleKey": "",
+      "gameName": "Supervivencia de desastres naturales",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:15:30.275Z",
+      "firstSeenMs": 1784322930275,
+      "lastSeen": "2026-07-17T21:15:30.275Z",
+      "lastSeenMs": 1784322930275
     },
     {
       "userId": "11265406134",
@@ -10093,5 +10109,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:15:15.369Z"
+  "updatedAt": "2026-07-17T21:15:35.286Z"
 }
