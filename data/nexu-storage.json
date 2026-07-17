@@ -4210,6 +4210,22 @@
       "lastSeenMs": 1784268452423
     },
     {
+      "userId": "2643068736",
+      "username": "doki22811",
+      "displayName": "doki22811",
+      "roleKey": "",
+      "gameName": "💥[Коды + 200X ] SPTS: Легенды",
+      "placeId": 140340279062020,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:52:33.044Z",
+      "firstSeenMs": 1784317953044,
+      "lastSeen": "2026-07-17T19:52:33.044Z",
+      "lastSeenMs": 1784317953044
+    },
+    {
       "userId": "2643166270",
       "username": "kingporty4",
       "displayName": "King",
@@ -9577,5 +9593,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:50:58.303Z"
+  "updatedAt": "2026-07-17T19:52:38.059Z"
 }
