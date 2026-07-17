@@ -3810,6 +3810,22 @@
       "lastSeenMs": 1784319300000
     },
     {
+      "userId": "11303815687",
+      "username": "gamawpedia80",
+      "displayName": "gamawpedia80",
+      "roleKey": "",
+      "gameName": "Steal a Brainrot",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:48:19.509Z",
+      "firstSeenMs": 1784321299509,
+      "lastSeen": "2026-07-17T20:48:19.509Z",
+      "lastSeenMs": 1784321299509
+    },
+    {
       "userId": "1177195747",
       "username": "giovajaket",
       "displayName": "ggiova_101",
@@ -9895,5 +9911,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:47:50.515Z"
+  "updatedAt": "2026-07-17T20:48:24.520Z"
 }
