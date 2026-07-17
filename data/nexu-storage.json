@@ -1474,6 +1474,22 @@
       "lastSeenMs": 1784259900000
     },
     {
+      "userId": "11251777009",
+      "username": "cookied_666666",
+      "displayName": "cookied_666666",
+      "roleKey": "",
+      "gameName": "пыльное путешествие [💀Хардкор]",
+      "placeId": 16389395869,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T11:32:42.112Z",
+      "firstSeenMs": 1784287962112,
+      "lastSeen": "2026-07-17T11:32:42.112Z",
+      "lastSeenMs": 1784287962112
+    },
+    {
       "userId": "11252199541",
       "username": "xyguxuvug",
       "displayName": "xyguxuvug",
@@ -5378,6 +5394,22 @@
       "lastSeenMs": 1784226180949
     },
     {
+      "userId": "9428773712",
+      "username": "INDIANGAMER6977",
+      "displayName": "NOT_IITIAN",
+      "roleKey": "",
+      "gameName": "MIC UP 🔊",
+      "placeId": 6884319169,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T11:32:44.995Z",
+      "firstSeenMs": 1784287964995,
+      "lastSeen": "2026-07-17T11:32:44.995Z",
+      "lastSeenMs": 1784287964995
+    },
+    {
       "userId": "9436180665",
       "username": "groxmc7273",
       "displayName": "alex",
@@ -6287,5 +6319,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T11:31:39.138Z"
+  "updatedAt": "2026-07-17T11:32:47.123Z"
 }
