@@ -7202,6 +7202,22 @@
       "lastSeenMs": 1784303400000
     },
     {
+      "userId": "9079676706",
+      "username": "Adrian1161653",
+      "displayName": "Naoya",
+      "roleKey": "",
+      "gameName": "[Juegos de calamar!] Camaleón",
+      "placeId": 110808833601416,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:59:50.389Z",
+      "firstSeenMs": 1784311190389,
+      "lastSeen": "2026-07-17T17:59:50.389Z",
+      "lastSeenMs": 1784311190389
+    },
+    {
       "userId": "9095826838",
       "username": "5eui6dth5wu",
       "displayName": "5eui6dth5wu",
@@ -8867,5 +8883,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:56:51.495Z"
+  "updatedAt": "2026-07-17T17:59:55.400Z"
 }
