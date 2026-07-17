@@ -7596,8 +7596,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T14:51:26.419Z",
         "sentAtMs": 1784299886419
+      },
+      {
+        "id": 1784300851329001,
+        "userId": "5131378969",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Felix_228362",
+        "displayName": "Felix_225",
+        "message": "идите нахуй",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T15:07:31.329Z",
+        "sentAtMs": 1784300851329
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:07:17.633Z"
+  "updatedAt": "2026-07-17T15:07:32.361Z"
 }
