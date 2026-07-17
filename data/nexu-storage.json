@@ -9528,8 +9528,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T19:29:51.443Z",
         "sentAtMs": 1784316591443
+      },
+      {
+        "id": 1784317587414001,
+        "userId": "10936106287",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "myboy12_00",
+        "displayName": "myboy12_00",
+        "message": "ку всем",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T19:46:27.414Z",
+        "sentAtMs": 1784317587414
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:46:05.512Z"
+  "updatedAt": "2026-07-17T19:46:28.730Z"
 }
