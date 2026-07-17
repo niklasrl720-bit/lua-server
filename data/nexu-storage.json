@@ -1138,6 +1138,22 @@
       "lastSeenMs": 1784228140706
     },
     {
+      "userId": "11260807262",
+      "username": "Shades_Oh5Alt",
+      "displayName": "Shades_Oh5Alt",
+      "roleKey": "",
+      "gameName": "THE DESERT",
+      "placeId": 16389398622,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:11:42.420Z",
+      "firstSeenMs": 1784272302420,
+      "lastSeen": "2026-07-17T07:11:42.420Z",
+      "lastSeenMs": 1784272302420
+    },
+    {
       "userId": "11264362932",
       "username": "Liam_12n6",
       "displayName": "Liam",
@@ -4933,5 +4949,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:11:37.569Z"
+  "updatedAt": "2026-07-17T07:11:47.426Z"
 }
