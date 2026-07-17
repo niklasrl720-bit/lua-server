@@ -3042,6 +3042,22 @@
       "lastSeenMs": 1784227360019
     },
     {
+      "userId": "3708735783",
+      "username": "trapobrothe",
+      "displayName": "trapobrothe",
+      "roleKey": "",
+      "gameName": "Forsaken Combat",
+      "placeId": 126815230666914,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:53:26.240Z",
+      "firstSeenMs": 1784285606240,
+      "lastSeen": "2026-07-17T10:53:26.240Z",
+      "lastSeenMs": 1784285606240
+    },
+    {
       "userId": "3725271116",
       "username": "tapitaptap03",
       "displayName": "YL_Quzatr",
@@ -6145,5 +6161,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:51:04.411Z"
+  "updatedAt": "2026-07-17T10:53:31.248Z"
 }
