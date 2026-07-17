@@ -4306,6 +4306,22 @@
       "lastSeenMs": 1784297700000
     },
     {
+      "userId": "3633568833",
+      "username": "HerkezKerem",
+      "displayName": "Kerem_hacker6662",
+      "roleKey": "",
+      "gameName": "[YUKARI] Sadece bir taban plakası.",
+      "placeId": 123974602339071,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:38:53.288Z",
+      "firstSeenMs": 1784309933288,
+      "lastSeen": "2026-07-17T17:38:53.288Z",
+      "lastSeenMs": 1784309933288
+    },
+    {
       "userId": "3643100956",
       "username": "XxxKingXxx1222",
       "displayName": "0HX",
@@ -8803,5 +8819,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:38:30.667Z"
+  "updatedAt": "2026-07-17T17:38:58.297Z"
 }
