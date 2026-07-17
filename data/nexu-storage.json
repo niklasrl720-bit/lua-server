@@ -6766,8 +6766,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:50:29.911Z",
       "firstSeenMs": 1784242229911,
-      "lastSeen": "2026-07-17T22:10:00.000Z",
-      "lastSeenMs": 1784326200000
+      "lastSeen": "2026-07-17T22:15:00.000Z",
+      "lastSeenMs": 1784326500000
     },
     {
       "userId": "7045525106",
@@ -10108,8 +10108,22 @@
         "moderationScore": 80,
         "sentAt": "2026-07-17T22:14:52.537Z",
         "sentAtMs": 1784326492537
+      },
+      {
+        "id": 1784326499141002,
+        "userId": "11168140263",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Steckdose2743",
+        "displayName": "Steckdose2743",
+        "message": "ich spritze",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T22:14:59.141Z",
+        "sentAtMs": 1784326499141
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:14:53.672Z"
+  "updatedAt": "2026-07-17T22:15:00.172Z"
 }
