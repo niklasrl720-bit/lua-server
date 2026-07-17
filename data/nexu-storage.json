@@ -2270,8 +2270,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:21:51.335Z",
       "firstSeenMs": 1784305311335,
-      "lastSeen": "2026-07-17T17:10:00.000Z",
-      "lastSeenMs": 1784308200000
+      "lastSeen": "2026-07-17T17:15:00.000Z",
+      "lastSeenMs": 1784308500000
     },
     {
       "userId": "11264362932",
@@ -3390,8 +3390,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T17:10:00.000Z",
-      "lastSeenMs": 1784308200000
+      "lastSeen": "2026-07-17T17:15:00.000Z",
+      "lastSeenMs": 1784308500000
     },
     {
       "userId": "11302817434",
@@ -3438,8 +3438,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-17T17:10:00.000Z",
-      "lastSeenMs": 1784308200000
+      "lastSeen": "2026-07-17T17:15:00.000Z",
+      "lastSeenMs": 1784308500000
     },
     {
       "userId": "1177195747",
@@ -4734,8 +4734,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:18:23.880Z",
       "firstSeenMs": 1784305103880,
-      "lastSeen": "2026-07-17T17:10:00.000Z",
-      "lastSeenMs": 1784308200000
+      "lastSeen": "2026-07-17T17:15:00.000Z",
+      "lastSeenMs": 1784308500000
     },
     {
       "userId": "4451091661",
@@ -6342,16 +6342,16 @@
       "username": "olicoli241",
       "displayName": "olicoli241",
       "roleKey": "",
-      "gameName": "+1 Klawisz szybkości ucieczki | Cukierki i czekolada",
-      "placeId": 95082159892680,
+      "gameName": "[🕳️VOID] +1 Bieg dla NEEDOH!",
+      "placeId": 104074184885925,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:14:14.475Z",
       "firstSeenMs": 1784308454475,
-      "lastSeen": "2026-07-17T17:14:14.475Z",
-      "lastSeenMs": 1784308454475
+      "lastSeen": "2026-07-17T17:15:00.000Z",
+      "lastSeenMs": 1784308500000
     },
     {
       "userId": "8273817325",
@@ -6622,8 +6622,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-17T17:10:00.000Z",
-      "lastSeenMs": 1784308200000
+      "lastSeen": "2026-07-17T17:15:00.000Z",
+      "lastSeenMs": 1784308500000
     },
     {
       "userId": "8554890463",
@@ -6814,8 +6814,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T17:10:00.000Z",
-      "lastSeenMs": 1784308200000
+      "lastSeen": "2026-07-17T17:15:00.000Z",
+      "lastSeenMs": 1784308500000
     },
     {
       "userId": "8808861528",
@@ -7006,8 +7006,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:14:26.846Z",
       "firstSeenMs": 1784308466846,
-      "lastSeen": "2026-07-17T17:14:26.846Z",
-      "lastSeenMs": 1784308466846
+      "lastSeen": "2026-07-17T17:15:00.000Z",
+      "lastSeenMs": 1784308500000
     },
     {
       "userId": "9025338951",
@@ -7934,8 +7934,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:05:21.752Z",
       "firstSeenMs": 1784307921752,
-      "lastSeen": "2026-07-17T17:10:00.000Z",
-      "lastSeenMs": 1784308200000
+      "lastSeen": "2026-07-17T17:15:00.000Z",
+      "lastSeenMs": 1784308500000
     }
   ],
   "bans": [],
@@ -8647,5 +8647,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:14:31.860Z"
+  "updatedAt": "2026-07-17T17:15:45.622Z"
 }
