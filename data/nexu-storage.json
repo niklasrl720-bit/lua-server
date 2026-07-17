@@ -1314,6 +1314,22 @@
       "lastSeenMs": 1784230612388
     },
     {
+      "userId": "11249281504",
+      "username": "hack1x1x1198",
+      "displayName": "hack1x1x1",
+      "roleKey": "",
+      "gameName": "Tháp Wallhop Slap 🖐️",
+      "placeId": 110876351628508,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T08:49:14.173Z",
+      "firstSeenMs": 1784278154173,
+      "lastSeen": "2026-07-17T08:49:14.173Z",
+      "lastSeenMs": 1784278154173
+    },
+    {
       "userId": "11250972164",
       "username": "altaccaun165",
       "displayName": "altaccaun165",
@@ -3360,6 +3376,22 @@
       "firstSeenMs": 1784273793079,
       "lastSeen": "2026-07-17T08:00:00.000Z",
       "lastSeenMs": 1784275200000
+    },
+    {
+      "userId": "5664916244",
+      "username": "jacobri132",
+      "displayName": "Jacobri",
+      "roleKey": "",
+      "gameName": "[W3]+1 Speed Moonwalk Escape🌙",
+      "placeId": 108775830475023,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T08:49:12.695Z",
+      "firstSeenMs": 1784278152695,
+      "lastSeen": "2026-07-17T08:49:12.695Z",
+      "lastSeenMs": 1784278152695
     },
     {
       "userId": "5843349211",
@@ -5483,5 +5515,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:48:50.335Z"
+  "updatedAt": "2026-07-17T08:49:17.703Z"
 }
