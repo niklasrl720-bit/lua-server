@@ -562,6 +562,22 @@
       "lastSeenMs": 1784270400000
     },
     {
+      "userId": "11014655499",
+      "username": "kikoridoff",
+      "displayName": "RDFFRN",
+      "roleKey": "",
+      "gameName": "Bertahan dari Bencana Alam",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:59:32.320Z",
+      "firstSeenMs": 1784271572320,
+      "lastSeen": "2026-07-17T06:59:32.320Z",
+      "lastSeenMs": 1784271572320
+    },
+    {
       "userId": "11025367411",
       "username": "Wahwah027",
       "displayName": "AstagaNaga",
@@ -4853,5 +4869,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:57:26.864Z"
+  "updatedAt": "2026-07-17T06:59:37.328Z"
 }
