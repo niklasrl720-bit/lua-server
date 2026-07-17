@@ -1522,6 +1522,22 @@
       "lastSeenMs": 1784245298876
     },
     {
+      "userId": "11271917103",
+      "username": "jwhwhwjdik",
+      "displayName": "jwhwhwjdik",
+      "roleKey": "",
+      "gameName": "Tránh né [💀]",
+      "placeId": 9872472334,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T09:31:20.616Z",
+      "firstSeenMs": 1784280680616,
+      "lastSeen": "2026-07-17T09:31:20.616Z",
+      "lastSeenMs": 1784280680616
+    },
+    {
       "userId": "11274549088",
       "username": "Kaiju_universe350",
       "displayName": "Spinosaurus",
@@ -5657,5 +5673,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:30:31.245Z"
+  "updatedAt": "2026-07-17T09:31:25.623Z"
 }
