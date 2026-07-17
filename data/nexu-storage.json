@@ -414,8 +414,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-17T20:10:00.000Z",
-      "lastSeenMs": 1784319000000
+      "lastSeen": "2026-07-17T20:15:00.000Z",
+      "lastSeenMs": 1784319300000
     },
     {
       "userId": "10305976438",
@@ -3662,8 +3662,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T20:10:00.000Z",
-      "lastSeenMs": 1784319000000
+      "lastSeen": "2026-07-17T20:15:00.000Z",
+      "lastSeenMs": 1784319300000
     },
     {
       "userId": "11302817434",
@@ -3750,16 +3750,16 @@
       "username": "Robloxteam951",
       "displayName": "Rob",
       "roleKey": "",
-      "gameName": "ميادين القتال غير المسماة",
-      "placeId": 84633364434995,
+      "gameName": "أقوى ميادين القتال",
+      "placeId": 10449761463,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T19:08:40.777Z",
       "firstSeenMs": 1784315320777,
-      "lastSeen": "2026-07-17T19:08:40.777Z",
-      "lastSeenMs": 1784315320777
+      "lastSeen": "2026-07-17T20:15:00.000Z",
+      "lastSeenMs": 1784319300000
     },
     {
       "userId": "1177195747",
@@ -3950,8 +3950,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:25:16.752Z",
       "firstSeenMs": 1784312716752,
-      "lastSeen": "2026-07-17T20:10:00.000Z",
-      "lastSeenMs": 1784319000000
+      "lastSeen": "2026-07-17T20:15:00.000Z",
+      "lastSeenMs": 1784319300000
     },
     {
       "userId": "1891206840",
@@ -4278,16 +4278,16 @@
       "username": "doki22811",
       "displayName": "doki22811",
       "roleKey": "",
-      "gameName": "💥[Коды + 200X ] SPTS: Легенды",
-      "placeId": 140340279062020,
+      "gameName": "[WORLD2] +1 Скорость побега на клавиатуре",
+      "placeId": 118941584817777,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-17T20:10:00.000Z",
-      "lastSeenMs": 1784319000000
+      "lastSeen": "2026-07-17T20:15:00.000Z",
+      "lastSeenMs": 1784319300000
     },
     {
       "userId": "2643166270",
@@ -4878,8 +4878,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:56:18.242Z",
       "firstSeenMs": 1784314578242,
-      "lastSeen": "2026-07-17T20:10:00.000Z",
-      "lastSeenMs": 1784319000000
+      "lastSeen": "2026-07-17T20:15:00.000Z",
+      "lastSeenMs": 1784319300000
     },
     {
       "userId": "3943834742",
@@ -5438,8 +5438,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T15:13:00.520Z",
       "firstSeenMs": 1784301180520,
-      "lastSeen": "2026-07-17T20:10:00.000Z",
-      "lastSeenMs": 1784319000000
+      "lastSeen": "2026-07-17T20:15:00.000Z",
+      "lastSeenMs": 1784319300000
     },
     {
       "userId": "479715628",
@@ -8110,8 +8110,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.309Z",
       "firstSeenMs": 1784225110309,
-      "lastSeen": "2026-07-17T20:10:00.000Z",
-      "lastSeenMs": 1784319000000
+      "lastSeen": "2026-07-17T20:15:00.000Z",
+      "lastSeenMs": 1784319300000
     },
     {
       "userId": "9247923083",
@@ -8398,8 +8398,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-17T20:10:00.000Z",
-      "lastSeenMs": 1784319000000
+      "lastSeen": "2026-07-17T20:15:00.000Z",
+      "lastSeenMs": 1784319300000
     },
     {
       "userId": "9508855732",
@@ -9689,5 +9689,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:13:13.297Z"
+  "updatedAt": "2026-07-17T20:15:10.509Z"
 }
