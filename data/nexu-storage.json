@@ -2642,6 +2642,22 @@
       "lastSeenMs": 1784226900000
     },
     {
+      "userId": "5111527490",
+      "username": "luckbillionz",
+      "displayName": "aaa",
+      "roleKey": "",
+      "gameName": "The Normal Elevator",
+      "placeId": 230362888,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:39:41.961Z",
+      "firstSeenMs": 1784270381961,
+      "lastSeen": "2026-07-17T06:39:41.961Z",
+      "lastSeenMs": 1784270381961
+    },
+    {
       "userId": "5180933519",
       "username": "Roughprisonsec2s",
       "displayName": "Timmytoughknuckles",
@@ -4695,5 +4711,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:38:25.701Z"
+  "updatedAt": "2026-07-17T06:39:46.968Z"
 }
