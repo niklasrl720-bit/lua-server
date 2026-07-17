@@ -3138,6 +3138,22 @@
       "lastSeenMs": 1784237573494
     },
     {
+      "userId": "9953434480",
+      "username": "tussia18",
+      "displayName": "tussia18",
+      "roleKey": "",
+      "gameName": "[NUEVA CAJA!] Counter Blox",
+      "placeId": 301549746,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T02:33:59.808Z",
+      "firstSeenMs": 1784255639808,
+      "lastSeen": "2026-07-17T02:33:59.808Z",
+      "lastSeenMs": 1784255639808
+    },
+    {
       "userId": "9978184567",
       "username": "ettu1035",
       "displayName": "00SHINNYP",
@@ -3359,5 +3375,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:31:05.897Z"
+  "updatedAt": "2026-07-17T02:34:04.812Z"
 }
