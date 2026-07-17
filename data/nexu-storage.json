@@ -9138,6 +9138,22 @@
       "lastSeenMs": 1784328000000
     },
     {
+      "userId": "9413846578",
+      "username": "fredisthebest9999",
+      "displayName": "speedkingrblx",
+      "roleKey": "",
+      "gameName": "(NPC FIXED) Artificial Warfare",
+      "placeId": 16069293525,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:59:42.116Z",
+      "firstSeenMs": 1784329182116,
+      "lastSeen": "2026-07-17T22:59:42.116Z",
+      "lastSeenMs": 1784329182116
+    },
+    {
       "userId": "9414382754",
       "username": "tupape477",
       "displayName": "tupape477",
@@ -10267,5 +10283,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:59:31.544Z"
+  "updatedAt": "2026-07-17T22:59:47.126Z"
 }
