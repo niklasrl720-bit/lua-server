@@ -10518,8 +10518,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T23:32:02.385Z",
         "sentAtMs": 1784331122385
+      },
+      {
+        "id": 1784331147859001,
+        "userId": "10652435106",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "GUNS_nROSESS666",
+        "displayName": "Scorpio_Bejj",
+        "message": "how is everyone?",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T23:32:27.859Z",
+        "sentAtMs": 1784331147859
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:32:14.775Z"
+  "updatedAt": "2026-07-17T23:32:29.176Z"
 }
