@@ -1842,6 +1842,22 @@
       "lastSeenMs": 1784237100000
     },
     {
+      "userId": "6223197676",
+      "username": "Hazev226",
+      "displayName": "Toxic",
+      "roleKey": "",
+      "gameName": "Deutsche Stimme",
+      "placeId": 136162036182779,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:43:53.823Z",
+      "firstSeenMs": 1784249033823,
+      "lastSeen": "2026-07-17T00:43:53.823Z",
+      "lastSeenMs": 1784249033823
+    },
+    {
       "userId": "6232305366",
       "username": "tiktosik34",
       "displayName": "tiktosik34",
@@ -1936,6 +1952,22 @@
       "firstSeenMs": 1784225536585,
       "lastSeen": "2026-07-16T18:12:16.585Z",
       "lastSeenMs": 1784225536585
+    },
+    {
+      "userId": "7430490587",
+      "username": "Boni_x00",
+      "displayName": "Boni_x00",
+      "roleKey": "",
+      "gameName": "German Voice",
+      "placeId": 136162036182779,
+      "executionSource": "Potassium",
+      "executionVersion": "v2.3.1",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:43:51.187Z",
+      "firstSeenMs": 1784249031187,
+      "lastSeen": "2026-07-17T00:43:51.187Z",
+      "lastSeenMs": 1784249031187
     },
     {
       "userId": "7741785159",
@@ -2811,5 +2843,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:43:15.754Z"
+  "updatedAt": "2026-07-17T00:43:56.191Z"
 }
