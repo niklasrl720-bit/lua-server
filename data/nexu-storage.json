@@ -8642,6 +8642,22 @@
       "lastSeenMs": 1784275217025
     },
     {
+      "userId": "9520577688",
+      "username": "arpan_35541",
+      "displayName": "Zen_Rx",
+      "roleKey": "",
+      "gameName": "LifeTogether 🏠 RP",
+      "placeId": 13967668166,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:57:59.807Z",
+      "firstSeenMs": 1784321879807,
+      "lastSeen": "2026-07-17T20:57:59.807Z",
+      "lastSeenMs": 1784321879807
+    },
+    {
       "userId": "9527358538",
       "username": "Aguitaenpolvo6",
       "displayName": "サッドガール",
@@ -9943,5 +9959,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:57:58.909Z"
+  "updatedAt": "2026-07-17T20:58:04.820Z"
 }
