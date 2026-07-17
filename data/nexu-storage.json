@@ -194,6 +194,22 @@
       "lastSeenMs": 1784231100000
     },
     {
+      "userId": "10459309594",
+      "username": "fiambre873",
+      "displayName": "fiambre873",
+      "roleKey": "",
+      "gameName": "Brookhaven 🏡 RP",
+      "placeId": 4924922222,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:57:13.467Z",
+      "firstSeenMs": 1784249833467,
+      "lastSeen": "2026-07-17T00:57:13.467Z",
+      "lastSeenMs": 1784249833467
+    },
+    {
       "userId": "1049291677",
       "username": "scvrrzz0",
       "displayName": "kureiji",
@@ -496,6 +512,22 @@
       "firstSeenMs": 1784226878045,
       "lastSeen": "2026-07-16T18:50:00.000Z",
       "lastSeenMs": 1784227800000
+    },
+    {
+      "userId": "11185260337",
+      "username": "michael475424",
+      "displayName": "michael475424",
+      "roleKey": "",
+      "gameName": "⛏️Lucky World! 💚 (EMERALD LUCKY BLOCKS!)",
+      "placeId": 134155884272103,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:57:08.783Z",
+      "firstSeenMs": 1784249828783,
+      "lastSeen": "2026-07-17T00:57:08.783Z",
+      "lastSeenMs": 1784249828783
     },
     {
       "userId": "11203703629",
@@ -2891,5 +2923,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:55:46.616Z"
+  "updatedAt": "2026-07-17T00:57:13.786Z"
 }
