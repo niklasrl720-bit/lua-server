@@ -3026,6 +3026,22 @@
       "lastSeenMs": 1784259300000
     },
     {
+      "userId": "8808861528",
+      "username": "tdofUgw",
+      "displayName": "Rizz",
+      "roleKey": "",
+      "gameName": "(Gakuran désordonné)",
+      "placeId": 128736949265057,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:48:12.108Z",
+      "firstSeenMs": 1784260092108,
+      "lastSeen": "2026-07-17T03:48:12.108Z",
+      "lastSeenMs": 1784260092108
+    },
+    {
       "userId": "8825146444",
       "username": "joandk12",
       "displayName": "4x_naoya",
@@ -3875,5 +3891,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:47:40.550Z"
+  "updatedAt": "2026-07-17T03:48:17.113Z"
 }
