@@ -1910,16 +1910,16 @@
       "username": "bobthebuilder200625",
       "displayName": "bobthebuilder200625",
       "roleKey": "",
-      "gameName": "Tower of Hell",
-      "placeId": 1962086868,
+      "gameName": "Arsenal",
+      "placeId": 286090429,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T13:35:34.382Z",
       "firstSeenMs": 1784295334382,
-      "lastSeen": "2026-07-17T13:45:00.000Z",
-      "lastSeenMs": 1784295900000
+      "lastSeen": "2026-07-17T14:20:00.000Z",
+      "lastSeenMs": 1784298000000
     },
     {
       "userId": "11269562679",
@@ -7271,5 +7271,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:21:37.032Z"
+  "updatedAt": "2026-07-17T14:22:08.840Z"
 }
