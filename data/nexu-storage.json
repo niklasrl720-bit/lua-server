@@ -4092,8 +4092,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T04:29:18.947Z",
         "sentAtMs": 1784262558947
+      },
+      {
+        "id": 1784262566536002,
+        "userId": "11244901654",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "lMrTickIe",
+        "displayName": "Mr Tickle",
+        "message": "######",
+        "moderated": true,
+        "moderationCategory": "HASSREDE",
+        "moderationScore": 100,
+        "sentAt": "2026-07-17T04:29:26.536Z",
+        "sentAtMs": 1784262566536
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:29:20.068Z"
+  "updatedAt": "2026-07-17T04:29:27.550Z"
 }
