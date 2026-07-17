@@ -3106,6 +3106,22 @@
       "lastSeenMs": 1784304000000
     },
     {
+      "userId": "11302817434",
+      "username": "gajassjahga",
+      "displayName": "gajassjahga",
+      "roleKey": "",
+      "gameName": "سرقة Brainrot [خوادم اللاعبين الجدد]",
+      "placeId": 96342491571673,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:03:10.902Z",
+      "firstSeenMs": 1784304190902,
+      "lastSeen": "2026-07-17T16:03:10.902Z",
+      "lastSeenMs": 1784304190902
+    },
+    {
       "userId": "1267528515",
       "username": "manumacaroni",
       "displayName": "bignoobi",
@@ -7965,5 +7981,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:02:38.303Z"
+  "updatedAt": "2026-07-17T16:03:16.020Z"
 }
