@@ -658,6 +658,22 @@
       "lastSeenMs": 1784231512196
     },
     {
+      "userId": "11092895136",
+      "username": "Daoino2",
+      "displayName": "Daoino2",
+      "roleKey": "",
+      "gameName": "クレイジー・トロル・スラップ・タワー2😈",
+      "placeId": 97266672689764,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:48:22.615Z",
+      "firstSeenMs": 1784270902615,
+      "lastSeen": "2026-07-17T06:48:22.615Z",
+      "lastSeenMs": 1784270902615
+    },
+    {
       "userId": "11103697834",
       "username": "ffgj3403",
       "displayName": "ffgj3403",
@@ -4775,5 +4791,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:47:09.534Z"
+  "updatedAt": "2026-07-17T06:48:27.621Z"
 }
