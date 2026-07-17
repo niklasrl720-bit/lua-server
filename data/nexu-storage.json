@@ -354,6 +354,22 @@
       "lastSeenMs": 1784245200000
     },
     {
+      "userId": "10570631020",
+      "username": "cfyhvftyjhj779",
+      "displayName": "Alpha_Bot12321",
+      "roleKey": "",
+      "gameName": "[UP] Solo una placa base.",
+      "placeId": 123974602339071,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:34:48.503Z",
+      "firstSeenMs": 1784273688503,
+      "lastSeen": "2026-07-17T07:34:48.503Z",
+      "lastSeenMs": 1784273688503
+    },
+    {
       "userId": "10600536099",
       "username": "TEUSLZZ0",
       "displayName": "Mateus",
@@ -5107,5 +5123,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:34:37.914Z"
+  "updatedAt": "2026-07-17T07:34:53.783Z"
 }
