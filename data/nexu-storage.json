@@ -1826,6 +1826,22 @@
       "lastSeenMs": 1784235064943
     },
     {
+      "userId": "3705366670",
+      "username": "vipko38",
+      "displayName": "Ismira",
+      "roleKey": "",
+      "gameName": "Grow a Garden 2",
+      "placeId": 97598239454123,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:18:23.824Z",
+      "firstSeenMs": 1784258303824,
+      "lastSeen": "2026-07-17T03:18:23.824Z",
+      "lastSeenMs": 1784258303824
+    },
+    {
       "userId": "3705405966",
       "username": "TinkofFail",
       "displayName": "SpiderMan",
@@ -3671,5 +3687,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:16:42.222Z"
+  "updatedAt": "2026-07-17T03:18:28.828Z"
 }
