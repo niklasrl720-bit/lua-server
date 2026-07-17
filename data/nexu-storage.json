@@ -3826,6 +3826,22 @@
       "lastSeenMs": 1784318400000
     },
     {
+      "userId": "1231105181",
+      "username": "feridtur2",
+      "displayName": "COLDEX",
+      "roleKey": "",
+      "gameName": "Isle of Rupert",
+      "placeId": 5465507265,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:47:31.663Z",
+      "firstSeenMs": 1784321251663,
+      "lastSeen": "2026-07-17T20:47:31.663Z",
+      "lastSeenMs": 1784321251663
+    },
+    {
       "userId": "1267528515",
       "username": "manumacaroni",
       "displayName": "bignoobi",
@@ -9863,5 +9879,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:46:35.765Z"
+  "updatedAt": "2026-07-17T20:47:36.873Z"
 }
