@@ -4726,16 +4726,16 @@
       "username": "Montoxisgoat",
       "displayName": "iloveviolet",
       "roleKey": "",
-      "gameName": "Fight Others For Brainrots!",
-      "placeId": 75646865566926,
+      "gameName": "Surf for Lucky Blocks",
+      "placeId": 98916904742148,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T20:55:00.000Z",
-      "lastSeenMs": 1784321700000
+      "lastSeen": "2026-07-17T21:00:00.000Z",
+      "lastSeenMs": 1784322000000
     },
     {
       "userId": "3420728419",
@@ -9975,5 +9975,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:01:43.477Z"
+  "updatedAt": "2026-07-17T21:02:40.486Z"
 }
