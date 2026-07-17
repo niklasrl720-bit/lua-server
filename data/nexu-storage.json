@@ -174,8 +174,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T10:05:00.000Z",
-      "lastSeenMs": 1784282700000
+      "lastSeen": "2026-07-17T10:00:00.000Z",
+      "lastSeenMs": 1784282400000
     },
     {
       "userId": "10203550652",
@@ -544,6 +544,22 @@
       "firstSeenMs": 1784225115806,
       "lastSeen": "2026-07-16T20:30:00.000Z",
       "lastSeenMs": 1784233800000
+    },
+    {
+      "userId": "10797016541",
+      "username": "Rey_RBX42",
+      "displayName": "ZXC",
+      "roleKey": "",
+      "gameName": "[FREE KJ] Tempat Pertempuran Mistik",
+      "placeId": 17455699549,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:06:33.759Z",
+      "firstSeenMs": 1784282793759,
+      "lastSeen": "2026-07-17T10:06:33.759Z",
+      "lastSeenMs": 1784282793759
     },
     {
       "userId": "10825283505",
@@ -3246,8 +3262,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-17T10:05:00.000Z",
-      "lastSeenMs": 1784282700000
+      "lastSeen": "2026-07-17T10:00:00.000Z",
+      "lastSeenMs": 1784282400000
     },
     {
       "userId": "5005775489",
@@ -5847,5 +5863,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:06:36.224Z"
+  "updatedAt": "2026-07-17T10:06:38.795Z"
 }
