@@ -158,8 +158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T00:25:00.000Z",
-      "lastSeenMs": 1784247900000
+      "lastSeen": "2026-07-17T00:30:00.000Z",
+      "lastSeenMs": 1784248200000
     },
     {
       "userId": "10427971366",
@@ -302,8 +302,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:16:43.732Z",
       "firstSeenMs": 1784247403732,
-      "lastSeen": "2026-07-17T00:25:00.000Z",
-      "lastSeenMs": 1784247900000
+      "lastSeen": "2026-07-17T00:30:00.000Z",
+      "lastSeenMs": 1784248200000
     },
     {
       "userId": "10950493610",
@@ -686,8 +686,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:28:58.157Z",
       "firstSeenMs": 1784248138157,
-      "lastSeen": "2026-07-17T00:28:58.157Z",
-      "lastSeenMs": 1784248138157
+      "lastSeen": "2026-07-17T00:30:00.000Z",
+      "lastSeenMs": 1784248200000
     },
     {
       "userId": "11269562679",
@@ -894,8 +894,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.634Z",
       "firstSeenMs": 1784225110634,
-      "lastSeen": "2026-07-17T00:25:00.000Z",
-      "lastSeenMs": 1784247900000
+      "lastSeen": "2026-07-17T00:30:00.000Z",
+      "lastSeenMs": 1784248200000
     },
     {
       "userId": "11293835762",
@@ -1086,8 +1086,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:29:44.242Z",
       "firstSeenMs": 1784248184242,
-      "lastSeen": "2026-07-17T00:29:44.242Z",
-      "lastSeenMs": 1784248184242
+      "lastSeen": "2026-07-17T00:30:00.000Z",
+      "lastSeenMs": 1784248200000
     },
     {
       "userId": "11299068864",
@@ -1102,8 +1102,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T00:25:00.000Z",
-      "lastSeenMs": 1784247900000
+      "lastSeen": "2026-07-17T00:30:00.000Z",
+      "lastSeenMs": 1784248200000
     },
     {
       "userId": "11299297213",
@@ -1150,8 +1150,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:51:29.415Z",
       "firstSeenMs": 1784245889415,
-      "lastSeen": "2026-07-17T00:25:00.000Z",
-      "lastSeenMs": 1784247900000
+      "lastSeen": "2026-07-17T00:30:00.000Z",
+      "lastSeenMs": 1784248200000
     },
     {
       "userId": "1407975513",
@@ -1854,8 +1854,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:09:01.012Z",
       "firstSeenMs": 1784246941012,
-      "lastSeen": "2026-07-17T00:25:00.000Z",
-      "lastSeenMs": 1784247900000
+      "lastSeen": "2026-07-17T00:30:00.000Z",
+      "lastSeenMs": 1784248200000
     },
     {
       "userId": "7411965264",
@@ -2238,8 +2238,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:47:14.211Z",
       "firstSeenMs": 1784238434211,
-      "lastSeen": "2026-07-17T00:25:00.000Z",
-      "lastSeenMs": 1784247900000
+      "lastSeen": "2026-07-17T00:30:00.000Z",
+      "lastSeenMs": 1784248200000
     },
     {
       "userId": "9123342097",
@@ -2446,8 +2446,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-17T00:25:00.000Z",
-      "lastSeenMs": 1784247900000
+      "lastSeen": "2026-07-17T00:30:00.000Z",
+      "lastSeenMs": 1784248200000
     },
     {
       "userId": "9527358538",
@@ -2700,8 +2700,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-16T23:18:56.790Z",
         "sentAtMs": 1784243936790
+      },
+      {
+        "id": 1784248207685001,
+        "userId": "11298915529",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "that1jailbreakacc",
+        "displayName": "that1jailbreakacc",
+        "message": "#####",
+        "moderated": true,
+        "moderationCategory": "HASSREDE",
+        "moderationScore": 100,
+        "sentAt": "2026-07-17T00:30:07.685Z",
+        "sentAtMs": 1784248207685
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:29:49.245Z"
+  "updatedAt": "2026-07-17T00:30:08.702Z"
 }
