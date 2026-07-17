@@ -7918,8 +7918,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:10.309Z",
       "firstSeenMs": 1784225110309,
-      "lastSeen": "2026-07-16T18:45:00.000Z",
-      "lastSeenMs": 1784227500000
+      "lastSeen": "2026-07-17T19:25:00.000Z",
+      "lastSeenMs": 1784316300000
     },
     {
       "userId": "9247923083",
@@ -9450,8 +9450,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T19:21:15.655Z",
         "sentAtMs": 1784316075655
+      },
+      {
+        "id": 1784316591443001,
+        "userId": "1028623238",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Enchanted_WolfDragon",
+        "displayName": "YounusLaBooness",
+        "message": "67777",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T19:29:51.443Z",
+        "sentAtMs": 1784316591443
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:27:43.336Z"
+  "updatedAt": "2026-07-17T19:29:52.473Z"
 }
