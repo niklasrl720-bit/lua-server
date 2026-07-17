@@ -2930,6 +2930,22 @@
       "lastSeenMs": 1784228617683
     },
     {
+      "userId": "2986146049",
+      "username": "Nsser_11",
+      "displayName": "Nasser",
+      "roleKey": "",
+      "gameName": "The Interview 🔊",
+      "placeId": 18377406184,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T11:56:52.792Z",
+      "firstSeenMs": 1784289412792,
+      "lastSeen": "2026-07-17T11:56:52.792Z",
+      "lastSeenMs": 1784289412792
+    },
+    {
       "userId": "3041449939",
       "username": "Mike4157X",
       "displayName": "Hellhound",
@@ -6431,5 +6447,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T11:56:36.704Z"
+  "updatedAt": "2026-07-17T11:56:57.801Z"
 }
