@@ -2590,8 +2590,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:26:43.731Z",
       "firstSeenMs": 1784269603731,
-      "lastSeen": "2026-07-17T07:00:00.000Z",
-      "lastSeenMs": 1784271600000
+      "lastSeen": "2026-07-17T07:05:00.000Z",
+      "lastSeenMs": 1784271900000
     },
     {
       "userId": "4549877961",
@@ -2734,8 +2734,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-17T07:00:00.000Z",
-      "lastSeenMs": 1784271600000
+      "lastSeen": "2026-07-17T07:05:00.000Z",
+      "lastSeenMs": 1784271900000
     },
     {
       "userId": "5180933519",
@@ -3710,8 +3710,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:35:11.965Z",
       "firstSeenMs": 1784237711965,
-      "lastSeen": "2026-07-17T07:00:00.000Z",
-      "lastSeenMs": 1784271600000
+      "lastSeen": "2026-07-17T07:05:00.000Z",
+      "lastSeenMs": 1784271900000
     },
     {
       "userId": "8785383597",
@@ -3856,6 +3856,22 @@
       "firstSeenMs": 1784265721664,
       "lastSeen": "2026-07-17T05:22:01.664Z",
       "lastSeenMs": 1784265721664
+    },
+    {
+      "userId": "8989281285",
+      "username": "Bylciaweasly",
+      "displayName": "bella",
+      "roleKey": "",
+      "gameName": "fight on a baseplate",
+      "placeId": 130960021905304,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:05:22.537Z",
+      "firstSeenMs": 1784271922537,
+      "lastSeen": "2026-07-17T07:05:22.537Z",
+      "lastSeenMs": 1784271922537
     },
     {
       "userId": "8999363560",
@@ -4869,5 +4885,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:02:30.496Z"
+  "updatedAt": "2026-07-17T07:05:27.542Z"
 }
