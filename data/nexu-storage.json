@@ -1698,6 +1698,22 @@
       "lastSeenMs": 1784228617683
     },
     {
+      "userId": "3041449939",
+      "username": "Mike4157X",
+      "displayName": "Hellhound",
+      "roleKey": "",
+      "gameName": "Фаза первая",
+      "placeId": 92416817362629,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:08:32.006Z",
+      "firstSeenMs": 1784257712006,
+      "lastSeen": "2026-07-17T03:08:32.006Z",
+      "lastSeenMs": 1784257712006
+    },
+    {
       "userId": "3238021023",
       "username": "lusi_wolff",
       "displayName": "lusi_wolff",
@@ -3565,5 +3581,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:08:24.771Z"
+  "updatedAt": "2026-07-17T03:08:37.010Z"
 }
