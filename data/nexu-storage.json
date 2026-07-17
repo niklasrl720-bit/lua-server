@@ -398,8 +398,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-17T18:35:00.000Z",
-      "lastSeenMs": 1784313300000
+      "lastSeen": "2026-07-17T18:40:00.000Z",
+      "lastSeenMs": 1784313600000
     },
     {
       "userId": "10305976438",
@@ -3534,8 +3534,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T18:35:00.000Z",
-      "lastSeenMs": 1784313300000
+      "lastSeen": "2026-07-17T18:40:00.000Z",
+      "lastSeenMs": 1784313600000
     },
     {
       "userId": "11302817434",
@@ -3790,8 +3790,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:25:16.752Z",
       "firstSeenMs": 1784312716752,
-      "lastSeen": "2026-07-17T18:35:00.000Z",
-      "lastSeenMs": 1784313300000
+      "lastSeen": "2026-07-17T18:40:00.000Z",
+      "lastSeenMs": 1784313600000
     },
     {
       "userId": "1891206840",
@@ -5006,8 +5006,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:39:54.984Z",
       "firstSeenMs": 1784313594984,
-      "lastSeen": "2026-07-17T18:39:54.984Z",
-      "lastSeenMs": 1784313594984
+      "lastSeen": "2026-07-17T18:40:00.000Z",
+      "lastSeenMs": 1784313600000
     },
     {
       "userId": "4475862032",
@@ -7270,16 +7270,16 @@
       "username": "joandk12",
       "displayName": "4x_naoya",
       "roleKey": "",
-      "gameName": "🐒 +1 Escape de mono de velocidad",
-      "placeId": 114697347887839,
+      "gameName": "[MUNDO 3] +1 Escape de teclado de velocidad",
+      "placeId": 93411036959889,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "IOS",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:44:47.348Z",
       "firstSeenMs": 1784256287348,
-      "lastSeen": "2026-07-17T04:00:00.000Z",
-      "lastSeenMs": 1784260800000
+      "lastSeen": "2026-07-17T18:40:00.000Z",
+      "lastSeenMs": 1784313600000
     },
     {
       "userId": "8852319931",
@@ -8190,8 +8190,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-17T18:35:00.000Z",
-      "lastSeenMs": 1784313300000
+      "lastSeen": "2026-07-17T18:40:00.000Z",
+      "lastSeenMs": 1784313600000
     },
     {
       "userId": "9786800904",
@@ -9169,5 +9169,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:39:59.998Z"
+  "updatedAt": "2026-07-17T18:40:08.312Z"
 }
