@@ -5266,6 +5266,22 @@
       "lastSeenMs": 1784237100000
     },
     {
+      "userId": "6148125989",
+      "username": "Awaad87",
+      "displayName": "AK077",
+      "roleKey": "",
+      "gameName": "Metro Life 🏡 City RP",
+      "placeId": 12985361032,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:42:54.075Z",
+      "firstSeenMs": 1784306574075,
+      "lastSeen": "2026-07-17T16:42:54.075Z",
+      "lastSeenMs": 1784306574075
+    },
+    {
       "userId": "6161019961",
       "username": "sniffingdogbals",
       "displayName": "sniffingdogbals",
@@ -8331,5 +8347,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:42:38.620Z"
+  "updatedAt": "2026-07-17T16:42:59.085Z"
 }
