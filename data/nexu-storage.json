@@ -4288,6 +4288,22 @@
       "firstSeenMs": 1784228934064,
       "lastSeen": "2026-07-16T19:08:54.064Z",
       "lastSeenMs": 1784228934064
+    },
+    {
+      "userId": "9979131523",
+      "username": "67ggqprf",
+      "displayName": "Jaxelhola",
+      "roleKey": "",
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:35:43.830Z",
+      "firstSeenMs": 1784270143830,
+      "lastSeen": "2026-07-17T06:35:43.830Z",
+      "lastSeenMs": 1784270143830
     }
   ],
   "bans": [],
@@ -4663,5 +4679,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:35:33.744Z"
+  "updatedAt": "2026-07-17T06:35:48.836Z"
 }
