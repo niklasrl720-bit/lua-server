@@ -206,8 +206,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T13:25:00.000Z",
-      "lastSeenMs": 1784294700000
+      "lastSeen": "2026-07-17T13:30:00.000Z",
+      "lastSeenMs": 1784295000000
     },
     {
       "userId": "10203550652",
@@ -3950,8 +3950,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-17T13:25:00.000Z",
-      "lastSeenMs": 1784294700000
+      "lastSeen": "2026-07-17T13:30:00.000Z",
+      "lastSeenMs": 1784295000000
     },
     {
       "userId": "5005775489",
@@ -5634,6 +5634,22 @@
       "lastSeenMs": 1784230344217
     },
     {
+      "userId": "9016440351",
+      "username": "Ummilikebryy",
+      "displayName": "Monkey",
+      "roleKey": "",
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:31:58.067Z",
+      "firstSeenMs": 1784295118067,
+      "lastSeen": "2026-07-17T13:31:58.067Z",
+      "lastSeenMs": 1784295118067
+    },
+    {
       "userId": "9025338951",
       "username": "NoTsu4e",
       "displayName": "NoTsu4e",
@@ -6971,5 +6987,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:31:00.893Z"
+  "updatedAt": "2026-07-17T13:31:59.121Z"
 }
