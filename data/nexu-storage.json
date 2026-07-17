@@ -2302,8 +2302,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:03:53.427Z",
       "firstSeenMs": 1784264633427,
-      "lastSeen": "2026-07-17T05:05:00.000Z",
-      "lastSeenMs": 1784264700000
+      "lastSeen": "2026-07-17T05:10:00.000Z",
+      "lastSeenMs": 1784265000000
     },
     {
       "userId": "4549877961",
@@ -2446,8 +2446,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:09:58.185Z",
       "firstSeenMs": 1784264998185,
-      "lastSeen": "2026-07-17T05:09:58.185Z",
-      "lastSeenMs": 1784264998185
+      "lastSeen": "2026-07-17T05:10:00.000Z",
+      "lastSeenMs": 1784265000000
     },
     {
       "userId": "5181708696",
@@ -3136,6 +3136,22 @@
       "firstSeenMs": 1784256511301,
       "lastSeen": "2026-07-17T03:20:00.000Z",
       "lastSeenMs": 1784258400000
+    },
+    {
+      "userId": "8524462511",
+      "username": "Itndinaha",
+      "displayName": "ZAMONTI",
+      "roleKey": "",
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:11:08.754Z",
+      "firstSeenMs": 1784265068754,
+      "lastSeen": "2026-07-17T05:11:08.754Z",
+      "lastSeenMs": 1784265068754
     },
     {
       "userId": "8532047955",
@@ -4279,5 +4295,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:10:14.215Z"
+  "updatedAt": "2026-07-17T05:11:13.760Z"
 }
