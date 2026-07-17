@@ -66,6 +66,22 @@
       "lastSeenMs": 1784244300000
     },
     {
+      "userId": "10083891904",
+      "username": "fakelag226",
+      "displayName": "Noob",
+      "roleKey": "",
+      "gameName": "트롤은 못깨는 타워 2",
+      "placeId": 83312952548612,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T09:49:05.967Z",
+      "firstSeenMs": 1784281745967,
+      "lastSeen": "2026-07-17T09:49:05.967Z",
+      "lastSeenMs": 1784281745967
+    },
+    {
       "userId": "10100984799",
       "username": "CARRILOMOTORZINHO",
       "displayName": "Alien_stalker",
@@ -5705,5 +5721,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:48:46.159Z"
+  "updatedAt": "2026-07-17T09:49:10.976Z"
 }
