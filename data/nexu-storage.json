@@ -5966,8 +5966,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-17T21:55:00.000Z",
-      "lastSeenMs": 1784325300000
+      "lastSeen": "2026-07-17T22:00:00.000Z",
+      "lastSeenMs": 1784325600000
     },
     {
       "userId": "5005775489",
@@ -8028,8 +8028,8 @@
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-17T21:59:49.824Z",
-      "firstSeenMs": 1784325589824,
+      "firstSeen": "2026-07-17T21:59:39.215Z",
+      "firstSeenMs": 1784325579215,
       "lastSeen": "2026-07-17T22:00:00.000Z",
       "lastSeenMs": 1784325600000
     },
@@ -9528,5 +9528,5 @@
     "resetAtMs": 1784325601625,
     "messages": []
   },
-  "updatedAt": "2026-07-17T22:00:04.122Z"
+  "updatedAt": "2026-07-17T22:00:32.158Z"
 }
