@@ -1938,6 +1938,22 @@
       "lastSeenMs": 1784283300000
     },
     {
+      "userId": "11234818850",
+      "username": "7bby8",
+      "displayName": "7bby8",
+      "roleKey": "",
+      "gameName": "Voler un Brainrot",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:23:55.960Z",
+      "firstSeenMs": 1784309035960,
+      "lastSeen": "2026-07-17T17:23:55.960Z",
+      "lastSeenMs": 1784309035960
+    },
+    {
       "userId": "11239120216",
       "username": "Lasalchipapareal123",
       "displayName": "Lasalchipapareal123",
@@ -7906,6 +7922,22 @@
       "lastSeenMs": 1784256600000
     },
     {
+      "userId": "9976689243",
+      "username": "eeerrr6634",
+      "displayName": "eeerrr6634",
+      "roleKey": "",
+      "gameName": "سرقة دورة الدماغ",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:23:55.511Z",
+      "firstSeenMs": 1784309035511,
+      "lastSeen": "2026-07-17T17:23:55.511Z",
+      "lastSeenMs": 1784309035511
+    },
+    {
       "userId": "9978184567",
       "username": "ettu1035",
       "displayName": "00SHINNYP",
@@ -8695,5 +8727,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:23:48.677Z"
+  "updatedAt": "2026-07-17T17:24:00.521Z"
 }
