@@ -4642,6 +4642,22 @@
       "lastSeenMs": 1784285133671
     },
     {
+      "userId": "39196932",
+      "username": "Ferelune",
+      "displayName": "Ruibee",
+      "roleKey": "",
+      "gameName": "😈 Split or Steal Brainrot",
+      "placeId": 70959844973091,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:56:18.242Z",
+      "firstSeenMs": 1784314578242,
+      "lastSeen": "2026-07-17T18:56:18.242Z",
+      "lastSeenMs": 1784314578242
+    },
+    {
       "userId": "3943834742",
       "username": "Beluga13164314",
       "displayName": "primeS1",
@@ -9185,5 +9201,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:55:59.700Z"
+  "updatedAt": "2026-07-17T18:56:23.253Z"
 }
