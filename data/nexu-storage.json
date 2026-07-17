@@ -5394,6 +5394,22 @@
       "lastSeenMs": 1784230941722
     },
     {
+      "userId": "3913477797",
+      "username": "roblox_user_3913477797",
+      "displayName": "Faceless",
+      "roleKey": "",
+      "gameName": "Spider",
+      "placeId": 5118969548,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:59:12.497Z",
+      "firstSeenMs": 1784329152497,
+      "lastSeen": "2026-07-17T22:59:12.497Z",
+      "lastSeenMs": 1784329152497
+    },
+    {
       "userId": "3918188164",
       "username": "mya_luv146",
       "displayName": "BabyLj",
@@ -10235,5 +10251,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:56:35.054Z"
+  "updatedAt": "2026-07-17T22:59:17.511Z"
 }
