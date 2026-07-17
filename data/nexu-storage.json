@@ -4966,16 +4966,16 @@
       "username": "shgoo662",
       "displayName": "kyo",
       "roleKey": "",
-      "gameName": "Vie de prison",
-      "placeId": 155615604,
+      "gameName": "Obby de Wall Hop facile à difficile",
+      "placeId": 85907682116985,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:32:53.494Z",
       "firstSeenMs": 1784237573494,
-      "lastSeen": "2026-07-17T05:20:00.000Z",
-      "lastSeenMs": 1784265600000
+      "lastSeen": "2026-07-17T08:45:00.000Z",
+      "lastSeenMs": 1784277900000
     },
     {
       "userId": "9953434480",
@@ -5469,5 +5469,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:46:53.708Z"
+  "updatedAt": "2026-07-17T08:48:22.571Z"
 }
