@@ -1158,16 +1158,16 @@
       "username": "Shades_Oh5Alt",
       "displayName": "Shades_Oh5Alt",
       "roleKey": "",
-      "gameName": "THE DESERT",
-      "placeId": 16389398622,
+      "gameName": "Main Game",
+      "placeId": 12826198243,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T07:11:42.420Z",
       "firstSeenMs": 1784272302420,
-      "lastSeen": "2026-07-17T07:15:00.000Z",
-      "lastSeenMs": 1784272500000
+      "lastSeen": "2026-07-17T07:25:00.000Z",
+      "lastSeenMs": 1784273100000
     },
     {
       "userId": "11264362932",
@@ -5043,5 +5043,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:27:18.536Z"
+  "updatedAt": "2026-07-17T07:28:49.477Z"
 }
