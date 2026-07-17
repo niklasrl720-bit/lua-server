@@ -178,6 +178,22 @@
       "lastSeenMs": 1784231100000
     },
     {
+      "userId": "1049291677",
+      "username": "scvrrzz0",
+      "displayName": "kureiji",
+      "roleKey": "",
+      "gameName": "Blocky Parti Main",
+      "placeId": 108772269317636,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:54:32.630Z",
+      "firstSeenMs": 1784249672630,
+      "lastSeen": "2026-07-17T00:54:32.630Z",
+      "lastSeenMs": 1784249672630
+    },
+    {
       "userId": "10551580357",
       "username": "BMENOVO444",
       "displayName": "BMENOVO444",
@@ -1198,8 +1214,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:51:29.415Z",
       "firstSeenMs": 1784245889415,
-      "lastSeen": "2026-07-17T00:45:00.000Z",
-      "lastSeenMs": 1784249100000
+      "lastSeen": "2026-07-17T00:50:00.000Z",
+      "lastSeenMs": 1784249400000
     },
     {
       "userId": "1407975513",
@@ -1470,8 +1486,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T00:45:00.000Z",
-      "lastSeenMs": 1784249100000
+      "lastSeen": "2026-07-17T00:50:00.000Z",
+      "lastSeenMs": 1784249400000
     },
     {
       "userId": "3649742821",
@@ -2859,5 +2875,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:53:51.004Z"
+  "updatedAt": "2026-07-17T00:54:37.633Z"
 }
