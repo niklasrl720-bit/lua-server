@@ -4946,6 +4946,22 @@
       "lastSeenMs": 1784320200000
     },
     {
+      "userId": "3232992051",
+      "username": "7qvzy",
+      "displayName": "isaac",
+      "roleKey": "",
+      "gameName": "Speedsters Infinite ⚡",
+      "placeId": 79658956070105,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:12:26.213Z",
+      "firstSeenMs": 1784326346213,
+      "lastSeen": "2026-07-17T22:12:26.213Z",
+      "lastSeenMs": 1784326346213
+    },
+    {
       "userId": "3238021023",
       "username": "lusi_wolff",
       "displayName": "lusi_wolff",
@@ -10011,5 +10027,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:12:16.313Z"
+  "updatedAt": "2026-07-17T22:12:31.318Z"
 }
