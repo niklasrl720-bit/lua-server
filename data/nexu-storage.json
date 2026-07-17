@@ -3282,6 +3282,22 @@
       "lastSeenMs": 1784243747080
     },
     {
+      "userId": "9135500529",
+      "username": "fikrifrost37",
+      "displayName": "r0st",
+      "roleKey": "",
+      "gameName": "Bertahan Hidup 99 Malam",
+      "placeId": 126509999114328,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T04:21:21.343Z",
+      "firstSeenMs": 1784262081343,
+      "lastSeen": "2026-07-17T04:21:21.343Z",
+      "lastSeenMs": 1784262081343
+    },
+    {
       "userId": "9139865779",
       "username": "migo9mg_409",
       "displayName": "Ragnarok",
@@ -4017,5 +4033,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T04:21:01.728Z"
+  "updatedAt": "2026-07-17T04:21:26.348Z"
 }
