@@ -4274,6 +4274,22 @@
       "lastSeenMs": 1784231100000
     },
     {
+      "userId": "4741745396",
+      "username": "im_chiter68",
+      "displayName": "larper333folk",
+      "roleKey": "",
+      "gameName": "[ВЕРХ] Просто базовая пластина.",
+      "placeId": 123974602339071,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:12:07.294Z",
+      "firstSeenMs": 1784301127294,
+      "lastSeen": "2026-07-17T15:12:07.294Z",
+      "lastSeenMs": 1784301127294
+    },
+    {
       "userId": "4751595298",
       "username": "Ax7_nathanzin11",
       "displayName": "JJmaybank",
@@ -7629,5 +7645,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:11:59.205Z"
+  "updatedAt": "2026-07-17T15:12:12.302Z"
 }
