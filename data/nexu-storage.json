@@ -1638,16 +1638,16 @@
       "username": "asg24624",
       "displayName": "BlackVenom",
       "roleKey": "",
-      "gameName": "+1 مفتاح الهروب بالسرعة على لوحة المفاتيح | الحلوى والشوكولاتة",
-      "placeId": 95082159892680,
+      "gameName": "[العالم2] +1 مفتاح الهروب بالسرعة على لوحة المفاتيح",
+      "placeId": 118941584817777,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:33:59.071Z",
       "firstSeenMs": 1784313239071,
-      "lastSeen": "2026-07-17T18:33:59.071Z",
-      "lastSeenMs": 1784313239071
+      "lastSeen": "2026-07-17T18:40:00.000Z",
+      "lastSeenMs": 1784313600000
     },
     {
       "userId": "11158826634",
@@ -9169,5 +9169,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:40:08.312Z"
+  "updatedAt": "2026-07-17T18:40:58.713Z"
 }
