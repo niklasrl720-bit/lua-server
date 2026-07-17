@@ -674,6 +674,22 @@
       "lastSeenMs": 1784302373175
     },
     {
+      "userId": "10717295463",
+      "username": "faster12kg",
+      "displayName": "faster12kg",
+      "roleKey": "",
+      "gameName": "Обби для бесплатных наград 🎁",
+      "placeId": 103719498213854,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:24:47.024Z",
+      "firstSeenMs": 1784305487024,
+      "lastSeen": "2026-07-17T16:24:47.024Z",
+      "lastSeenMs": 1784305487024
+    },
+    {
       "userId": "10736557501",
       "username": "Jdjkdjdjdjxxndnfndnj",
       "displayName": "Bacon",
@@ -5618,6 +5634,22 @@
       "lastSeenMs": 1784282178823
     },
     {
+      "userId": "7633954526",
+      "username": "Romanrebwar95",
+      "displayName": "Landa2017landa",
+      "roleKey": "",
+      "gameName": "[🦖] 99 Nights in the Forest 🔦",
+      "placeId": 79546208627805,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:24:46.850Z",
+      "firstSeenMs": 1784305486850,
+      "lastSeen": "2026-07-17T16:24:46.850Z",
+      "lastSeenMs": 1784305486850
+    },
+    {
       "userId": "7642952845",
       "username": "Pangi_p07",
       "displayName": "Pangi_p07",
@@ -8203,5 +8235,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:24:07.568Z"
+  "updatedAt": "2026-07-17T16:24:51.863Z"
 }
