@@ -658,6 +658,22 @@
       "lastSeenMs": 1784247053166
     },
     {
+      "userId": "11059757904",
+      "username": "Perryjazxon3368",
+      "displayName": "Jennyside23",
+      "roleKey": "",
+      "gameName": "Blind Shot Beginner",
+      "placeId": 111176938448555,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:31:55.643Z",
+      "firstSeenMs": 1784273515643,
+      "lastSeen": "2026-07-17T07:31:55.643Z",
+      "lastSeenMs": 1784273515643
+    },
+    {
       "userId": "11060863501",
       "username": "wni938",
       "displayName": "wni938",
@@ -5043,5 +5059,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:31:34.603Z"
+  "updatedAt": "2026-07-17T07:32:00.650Z"
 }
