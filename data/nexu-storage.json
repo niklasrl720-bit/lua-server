@@ -110,8 +110,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-17T06:25:00.000Z",
-      "lastSeenMs": 1784269500000
+      "lastSeen": "2026-07-17T06:30:00.000Z",
+      "lastSeenMs": 1784269800000
     },
     {
       "userId": "10203550652",
@@ -1214,8 +1214,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:23:31.722Z",
       "firstSeenMs": 1784251411722,
-      "lastSeen": "2026-07-17T06:25:00.000Z",
-      "lastSeenMs": 1784269500000
+      "lastSeen": "2026-07-17T06:30:00.000Z",
+      "lastSeenMs": 1784269800000
     },
     {
       "userId": "11284061402",
@@ -2558,8 +2558,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-07-17T06:25:00.000Z",
-      "lastSeenMs": 1784269500000
+      "lastSeen": "2026-07-17T06:30:00.000Z",
+      "lastSeenMs": 1784269800000
     },
     {
       "userId": "5005775489",
@@ -2902,16 +2902,16 @@
       "username": "MrPancakeMan556",
       "displayName": "MrPancakeMan556",
       "roleKey": "",
-      "gameName": "KNIFE DUELS",
-      "placeId": 112731528776884,
+      "gameName": "[SQUID GAMES!] Chameleon",
+      "placeId": 110808833601416,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:09:48.628Z",
       "firstSeenMs": 1784268588628,
-      "lastSeen": "2026-07-17T06:25:00.000Z",
-      "lastSeenMs": 1784269500000
+      "lastSeen": "2026-07-17T06:30:00.000Z",
+      "lastSeenMs": 1784269800000
     },
     {
       "userId": "7080587968",
@@ -4631,5 +4631,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:29:47.922Z"
+  "updatedAt": "2026-07-17T06:30:20.687Z"
 }
