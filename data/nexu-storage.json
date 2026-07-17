@@ -3314,6 +3314,22 @@
       "lastSeenMs": 1784285133671
     },
     {
+      "userId": "3943834742",
+      "username": "Beluga13164314",
+      "displayName": "primeS1",
+      "roleKey": "",
+      "gameName": "Станьте невидимым для мозговых червей",
+      "placeId": 96070927741281,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T12:12:28.508Z",
+      "firstSeenMs": 1784290348508,
+      "lastSeen": "2026-07-17T12:12:28.508Z",
+      "lastSeenMs": 1784290348508
+    },
+    {
       "userId": "4009875708",
       "username": "LUFFYBRAZILEIR9",
       "displayName": "Kennedy_Gabs",
@@ -3710,8 +3726,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T12:05:00.000Z",
-      "lastSeenMs": 1784289900000
+      "lastSeen": "2026-07-17T12:10:00.000Z",
+      "lastSeenMs": 1784290200000
     },
     {
       "userId": "5111527490",
@@ -6495,5 +6511,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:12:02.638Z"
+  "updatedAt": "2026-07-17T12:12:33.515Z"
 }
