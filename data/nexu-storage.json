@@ -1042,6 +1042,22 @@
       "lastSeenMs": 1784249828783
     },
     {
+      "userId": "11187370108",
+      "username": "Asxat_rutu19",
+      "displayName": "Asxat_rutu19",
+      "roleKey": "",
+      "gameName": "Первый является владельцем",
+      "placeId": 130496219537579,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:53:51.424Z",
+      "firstSeenMs": 1784285631424,
+      "lastSeen": "2026-07-17T10:53:51.424Z",
+      "lastSeenMs": 1784285631424
+    },
+    {
       "userId": "11190140397",
       "username": "valplist",
       "displayName": "valp",
@@ -6161,5 +6177,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:53:31.248Z"
+  "updatedAt": "2026-07-17T10:53:56.432Z"
 }
