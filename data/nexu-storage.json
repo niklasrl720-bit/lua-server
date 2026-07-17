@@ -2486,16 +2486,16 @@
       "username": "rotedief2s",
       "displayName": "Rty",
       "roleKey": "",
-      "gameName": "Ugc",
-      "placeId": 93978595733734,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T09:25:52.078Z",
       "firstSeenMs": 1784280352078,
-      "lastSeen": "2026-07-17T10:25:00.000Z",
-      "lastSeenMs": 1784283900000
+      "lastSeen": "2026-07-17T10:50:00.000Z",
+      "lastSeenMs": 1784285400000
     },
     {
       "userId": "1891206840",
@@ -3470,8 +3470,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T10:45:00.000Z",
-      "lastSeenMs": 1784285100000
+      "lastSeen": "2026-07-17T10:50:00.000Z",
+      "lastSeenMs": 1784285400000
     },
     {
       "userId": "5111527490",
@@ -4606,8 +4606,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-17T10:45:00.000Z",
-      "lastSeenMs": 1784285100000
+      "lastSeen": "2026-07-17T10:50:00.000Z",
+      "lastSeenMs": 1784285400000
     },
     {
       "userId": "8554890463",
@@ -6145,5 +6145,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:49:25.957Z"
+  "updatedAt": "2026-07-17T10:50:10.829Z"
 }
