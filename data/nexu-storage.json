@@ -3502,8 +3502,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-17T17:55:00.000Z",
-      "lastSeenMs": 1784310900000
+      "lastSeen": "2026-07-17T18:00:00.000Z",
+      "lastSeenMs": 1784311200000
     },
     {
       "userId": "1177195747",
@@ -4846,8 +4846,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:18:23.880Z",
       "firstSeenMs": 1784305103880,
-      "lastSeen": "2026-07-17T17:55:00.000Z",
-      "lastSeenMs": 1784310900000
+      "lastSeen": "2026-07-17T18:00:00.000Z",
+      "lastSeenMs": 1784311200000
     },
     {
       "userId": "4451091661",
@@ -5552,6 +5552,22 @@
       "firstSeenMs": 1784234594567,
       "lastSeen": "2026-07-16T21:25:00.000Z",
       "lastSeenMs": 1784237100000
+    },
+    {
+      "userId": "6089503220",
+      "username": "nomelft",
+      "displayName": "NomeGh",
+      "roleKey": "",
+      "gameName": "RP DE PRISÃO - Público",
+      "placeId": 102718061120016,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:00:52.701Z",
+      "firstSeenMs": 1784311252701,
+      "lastSeen": "2026-07-17T18:00:52.701Z",
+      "lastSeenMs": 1784311252701
     },
     {
       "userId": "6146966137",
@@ -6974,8 +6990,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T17:55:00.000Z",
-      "lastSeenMs": 1784310900000
+      "lastSeen": "2026-07-17T18:00:00.000Z",
+      "lastSeenMs": 1784311200000
     },
     {
       "userId": "8808861528",
@@ -7278,8 +7294,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T17:55:00.000Z",
-      "lastSeenMs": 1784310900000
+      "lastSeen": "2026-07-17T18:00:00.000Z",
+      "lastSeenMs": 1784311200000
     },
     {
       "userId": "9134201874",
@@ -7918,8 +7934,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-17T17:55:00.000Z",
-      "lastSeenMs": 1784310900000
+      "lastSeen": "2026-07-17T18:00:00.000Z",
+      "lastSeenMs": 1784311200000
     },
     {
       "userId": "9786800904",
@@ -8883,5 +8899,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:00:34.951Z"
+  "updatedAt": "2026-07-17T18:00:57.710Z"
 }
