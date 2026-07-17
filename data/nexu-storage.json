@@ -1238,16 +1238,16 @@
       "username": "Yrys_pyrys9",
       "displayName": "Yrys_pyrys9",
       "roleKey": "",
-      "gameName": "+1 Скорость побега супергероя",
-      "placeId": 92937726498067,
+      "gameName": "+1 ключ к скорости побега на клавиатуре | конфеты и шоколад",
+      "placeId": 95082159892680,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T07:19:09.530Z",
       "firstSeenMs": 1784272749530,
-      "lastSeen": "2026-07-17T09:30:00.000Z",
-      "lastSeenMs": 1784280600000
+      "lastSeen": "2026-07-17T10:10:00.000Z",
+      "lastSeenMs": 1784283000000
     },
     {
       "userId": "11239120216",
@@ -5879,5 +5879,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:12:28.069Z"
+  "updatedAt": "2026-07-17T10:13:50.765Z"
 }
