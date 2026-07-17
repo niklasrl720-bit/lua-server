@@ -174,8 +174,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T23:36:43.105Z",
       "firstSeenMs": 1784331403105,
-      "lastSeen": "2026-07-17T23:36:43.105Z",
-      "lastSeenMs": 1784331403105
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "10112042881",
@@ -510,8 +510,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:21:03.905Z",
       "firstSeenMs": 1784312463905,
-      "lastSeen": "2026-07-17T23:35:00.000Z",
-      "lastSeenMs": 1784331300000
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "10342998762",
@@ -670,8 +670,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T23:27:23.739Z",
       "firstSeenMs": 1784330843739,
-      "lastSeen": "2026-07-17T23:35:00.000Z",
-      "lastSeenMs": 1784331300000
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "10534661561",
@@ -2030,8 +2030,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T23:38:15.764Z",
       "firstSeenMs": 1784331495764,
-      "lastSeen": "2026-07-17T23:38:15.764Z",
-      "lastSeenMs": 1784331495764
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "11182565790",
@@ -3006,8 +3006,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T09:31:20.616Z",
       "firstSeenMs": 1784280680616,
-      "lastSeen": "2026-07-17T23:35:00.000Z",
-      "lastSeenMs": 1784331300000
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "11272853115",
@@ -4142,8 +4142,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-17T23:35:00.000Z",
-      "lastSeenMs": 1784331300000
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "11303186538",
@@ -5230,8 +5230,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T23:35:40.347Z",
       "firstSeenMs": 1784331340347,
-      "lastSeen": "2026-07-17T23:35:40.347Z",
-      "lastSeenMs": 1784331340347
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "3419187651",
@@ -5776,6 +5776,22 @@
       "firstSeenMs": 1784293916718,
       "lastSeen": "2026-07-17T13:11:56.718Z",
       "lastSeenMs": 1784293916718
+    },
+    {
+      "userId": "4171999215",
+      "username": "matias182737",
+      "displayName": "matias182737",
+      "roleKey": "",
+      "gameName": "Mega Mansión Tycoon 🌴🛥️",
+      "placeId": 8328351891,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:40:47.512Z",
+      "firstSeenMs": 1784331647512,
+      "lastSeen": "2026-07-17T23:40:47.512Z",
+      "lastSeenMs": 1784331647512
     },
     {
       "userId": "4192386391",
@@ -7422,8 +7438,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T03:47:35.534Z",
       "firstSeenMs": 1784260055534,
-      "lastSeen": "2026-07-17T23:35:00.000Z",
-      "lastSeenMs": 1784331300000
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "7582741183",
@@ -9710,8 +9726,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-17T23:35:00.000Z",
-      "lastSeenMs": 1784331300000
+      "lastSeen": "2026-07-17T23:40:00.000Z",
+      "lastSeenMs": 1784331600000
     },
     {
       "userId": "9812944983",
@@ -10639,5 +10655,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:40:44.762Z"
+  "updatedAt": "2026-07-17T23:40:52.522Z"
 }
