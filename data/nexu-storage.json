@@ -2334,8 +2334,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:03:53.427Z",
       "firstSeenMs": 1784264633427,
-      "lastSeen": "2026-07-17T05:20:00.000Z",
-      "lastSeenMs": 1784265600000
+      "lastSeen": "2026-07-17T05:25:00.000Z",
+      "lastSeenMs": 1784265900000
     },
     {
       "userId": "4549877961",
@@ -2478,8 +2478,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:09:58.185Z",
       "firstSeenMs": 1784264998185,
-      "lastSeen": "2026-07-17T05:20:00.000Z",
-      "lastSeenMs": 1784265600000
+      "lastSeen": "2026-07-17T05:25:00.000Z",
+      "lastSeenMs": 1784265900000
     },
     {
       "userId": "5181708696",
@@ -2542,8 +2542,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:24:04.780Z",
       "firstSeenMs": 1784265844780,
-      "lastSeen": "2026-07-17T05:24:04.780Z",
-      "lastSeenMs": 1784265844780
+      "lastSeen": "2026-07-17T05:25:00.000Z",
+      "lastSeenMs": 1784265900000
     },
     {
       "userId": "5274996342",
@@ -2654,8 +2654,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:02:53.513Z",
       "firstSeenMs": 1784253773513,
-      "lastSeen": "2026-07-17T05:20:00.000Z",
-      "lastSeenMs": 1784265600000
+      "lastSeen": "2026-07-17T05:25:00.000Z",
+      "lastSeenMs": 1784265900000
     },
     {
       "userId": "6074258353",
@@ -3214,8 +3214,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:11:08.754Z",
       "firstSeenMs": 1784265068754,
-      "lastSeen": "2026-07-17T05:20:00.000Z",
-      "lastSeenMs": 1784265600000
+      "lastSeen": "2026-07-17T05:25:00.000Z",
+      "lastSeenMs": 1784265900000
     },
     {
       "userId": "8532047955",
@@ -3408,6 +3408,22 @@
       "firstSeenMs": 1784246843505,
       "lastSeen": "2026-07-17T00:07:23.505Z",
       "lastSeenMs": 1784246843505
+    },
+    {
+      "userId": "8888373140",
+      "username": "ian_ian164",
+      "displayName": "iannnn",
+      "roleKey": "",
+      "gameName": "+1 Speed Keyboard Escape | Candy & Chocolate",
+      "placeId": 95082159892680,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:26:16.812Z",
+      "firstSeenMs": 1784265976812,
+      "lastSeen": "2026-07-17T05:26:16.812Z",
+      "lastSeenMs": 1784265976812
     },
     {
       "userId": "8889762632",
@@ -4375,5 +4391,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:25:15.145Z"
+  "updatedAt": "2026-07-17T05:26:21.819Z"
 }
