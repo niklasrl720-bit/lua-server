@@ -2962,6 +2962,22 @@
       "lastSeenMs": 1784286600000
     },
     {
+      "userId": "3420728419",
+      "username": "germantitanik",
+      "displayName": "Not_German",
+      "roleKey": "",
+      "gameName": "when the",
+      "placeId": 7057417395,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T11:12:31.624Z",
+      "firstSeenMs": 1784286751624,
+      "lastSeen": "2026-07-17T11:12:31.624Z",
+      "lastSeenMs": 1784286751624
+    },
+    {
       "userId": "3468057790",
       "username": "c0sta43",
       "displayName": "c0sta43",
@@ -6239,5 +6255,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T11:11:34.762Z"
+  "updatedAt": "2026-07-17T11:12:36.634Z"
 }
