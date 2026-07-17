@@ -6098,6 +6098,22 @@
       "lastSeenMs": 1784300218510
     },
     {
+      "userId": "8321393734",
+      "username": "Samsanti_92",
+      "displayName": "Samsanti_92",
+      "roleKey": "",
+      "gameName": "[X2] +1 Teclado de velocidad para escapar del castillo",
+      "placeId": 113980779438852,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:36:30.834Z",
+      "firstSeenMs": 1784306190834,
+      "lastSeen": "2026-07-17T16:36:30.834Z",
+      "lastSeenMs": 1784306190834
+    },
+    {
       "userId": "8332856019",
       "username": "loveulove50",
       "displayName": "loveulove50",
@@ -8267,5 +8283,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:36:01.251Z"
+  "updatedAt": "2026-07-17T16:36:35.847Z"
 }
