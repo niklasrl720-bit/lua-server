@@ -2402,6 +2402,22 @@
       "lastSeenMs": 1784242024412
     },
     {
+      "userId": "11289705587",
+      "username": "alina2014676",
+      "displayName": "alina_izb",
+      "roleKey": "",
+      "gameName": "this awesome game",
+      "placeId": 117973911105557,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:46:43.482Z",
+      "firstSeenMs": 1784303203482,
+      "lastSeen": "2026-07-17T15:46:43.482Z",
+      "lastSeenMs": 1784303203482
+    },
+    {
       "userId": "11289730633",
       "username": "holayosoyjoaquin1",
       "displayName": "holayosoyjoaquin1",
@@ -4750,8 +4766,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T15:42:41.940Z",
       "firstSeenMs": 1784302961940,
-      "lastSeen": "2026-07-17T15:42:41.940Z",
-      "lastSeenMs": 1784302961940
+      "lastSeen": "2026-07-17T15:45:00.000Z",
+      "lastSeenMs": 1784303100000
     },
     {
       "userId": "5393331248",
@@ -5998,8 +6014,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-17T15:40:00.000Z",
-      "lastSeenMs": 1784302800000
+      "lastSeen": "2026-07-17T15:45:00.000Z",
+      "lastSeenMs": 1784303100000
     },
     {
       "userId": "8554890463",
@@ -7869,5 +7885,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:45:50.819Z"
+  "updatedAt": "2026-07-17T15:46:48.496Z"
 }
