@@ -4150,16 +4150,16 @@
       "username": "wow1005788",
       "displayName": "lilly",
       "roleKey": "",
-      "gameName": "LifeTogether 🏠 RP",
-      "placeId": 13967668166,
+      "gameName": "Job Site",
+      "placeId": 18794863104,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:03:53.427Z",
       "firstSeenMs": 1784264633427,
-      "lastSeen": "2026-07-17T09:15:00.000Z",
-      "lastSeenMs": 1784279700000
+      "lastSeen": "2026-07-17T15:10:00.000Z",
+      "lastSeenMs": 1784301000000
     },
     {
       "userId": "4508373870",
@@ -7645,5 +7645,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:12:12.302Z"
+  "updatedAt": "2026-07-17T15:12:40.971Z"
 }
