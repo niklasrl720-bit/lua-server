@@ -510,8 +510,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T22:05:00.000Z",
-      "lastSeenMs": 1784325900000
+      "lastSeen": "2026-07-17T22:10:00.000Z",
+      "lastSeenMs": 1784326200000
     },
     {
       "userId": "10427971366",
@@ -1918,8 +1918,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:46:08.433Z",
       "firstSeenMs": 1784324768433,
-      "lastSeen": "2026-07-17T22:05:00.000Z",
-      "lastSeenMs": 1784325900000
+      "lastSeen": "2026-07-17T22:10:00.000Z",
+      "lastSeenMs": 1784326200000
     },
     {
       "userId": "11169885571",
@@ -1950,8 +1950,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:29:16.628Z",
       "firstSeenMs": 1784323756628,
-      "lastSeen": "2026-07-17T22:05:00.000Z",
-      "lastSeenMs": 1784325900000
+      "lastSeen": "2026-07-17T22:10:00.000Z",
+      "lastSeenMs": 1784326200000
     },
     {
       "userId": "11185260337",
@@ -2238,8 +2238,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:45:45.404Z",
       "firstSeenMs": 1784324745404,
-      "lastSeen": "2026-07-17T22:05:00.000Z",
-      "lastSeenMs": 1784325900000
+      "lastSeen": "2026-07-17T22:10:00.000Z",
+      "lastSeenMs": 1784326200000
     },
     {
       "userId": "1122148912",
@@ -4094,8 +4094,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:53:06.722Z",
       "firstSeenMs": 1784325186722,
-      "lastSeen": "2026-07-17T22:05:00.000Z",
-      "lastSeenMs": 1784325900000
+      "lastSeen": "2026-07-17T22:10:00.000Z",
+      "lastSeenMs": 1784326200000
     },
     {
       "userId": "11304100750",
@@ -5006,8 +5006,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:04:21.859Z",
       "firstSeenMs": 1784325861859,
-      "lastSeen": "2026-07-17T22:05:00.000Z",
-      "lastSeenMs": 1784325900000
+      "lastSeen": "2026-07-17T22:10:00.000Z",
+      "lastSeenMs": 1784326200000
     },
     {
       "userId": "3392387740",
@@ -6082,6 +6082,22 @@
       "lastSeenMs": 1784244976792
     },
     {
+      "userId": "5059616640",
+      "username": "Kronnoz_exe",
+      "displayName": "Sxbastian",
+      "roleKey": "",
+      "gameName": "[🌴] DUELIST: PvP (BETA)",
+      "placeId": 122310270867133,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:10:10.583Z",
+      "firstSeenMs": 1784326210583,
+      "lastSeen": "2026-07-17T22:10:10.583Z",
+      "lastSeenMs": 1784326210583
+    },
+    {
       "userId": "5067029649",
       "username": "fer_tra33",
       "displayName": "fer_tra33",
@@ -6718,8 +6734,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:50:29.911Z",
       "firstSeenMs": 1784242229911,
-      "lastSeen": "2026-07-17T21:45:00.000Z",
-      "lastSeenMs": 1784324700000
+      "lastSeen": "2026-07-17T22:10:00.000Z",
+      "lastSeenMs": 1784326200000
     },
     {
       "userId": "7045525106",
@@ -8654,8 +8670,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T22:05:00.000Z",
-      "lastSeenMs": 1784325900000
+      "lastSeen": "2026-07-17T22:10:00.000Z",
+      "lastSeenMs": 1784326200000
     },
     {
       "userId": "9123569216",
@@ -9921,5 +9937,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:10:09.513Z"
+  "updatedAt": "2026-07-17T22:10:15.700Z"
 }
