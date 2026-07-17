@@ -3890,6 +3890,22 @@
       "lastSeenMs": 1784231966174
     },
     {
+      "userId": "8026576948",
+      "username": "KOT_300520",
+      "displayName": "KOT_300520",
+      "roleKey": "",
+      "gameName": "[Игры кальмаров!] Хамелеон",
+      "placeId": 110808833601416,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T09:08:16.592Z",
+      "firstSeenMs": 1784279296592,
+      "lastSeen": "2026-07-17T09:08:16.592Z",
+      "lastSeenMs": 1784279296592
+    },
+    {
       "userId": "8082164894",
       "username": "bloxy3547",
       "displayName": "pan_conchicharron",
@@ -5547,5 +5563,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:07:01.089Z"
+  "updatedAt": "2026-07-17T09:08:21.602Z"
 }
