@@ -2034,6 +2034,22 @@
       "lastSeenMs": 1784237711965
     },
     {
+      "userId": "8785383597",
+      "username": "cheater200311",
+      "displayName": "HFM",
+      "roleKey": "",
+      "gameName": "Безумный лифт!",
+      "placeId": 4104106043,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:17:02.316Z",
+      "firstSeenMs": 1784247422316,
+      "lastSeen": "2026-07-17T00:17:02.316Z",
+      "lastSeenMs": 1784247422316
+    },
+    {
       "userId": "8796766857",
       "username": "ImTheBestAtMath123",
       "displayName": "Hello",
@@ -2607,5 +2623,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:16:48.734Z"
+  "updatedAt": "2026-07-17T00:17:07.318Z"
 }
