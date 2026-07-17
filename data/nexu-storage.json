@@ -6562,6 +6562,22 @@
       "lastSeenMs": 1784250300000
     },
     {
+      "userId": "9262341195",
+      "username": "nezooz3",
+      "displayName": "elmaskouI",
+      "roleKey": "",
+      "gameName": "Fluxo PVP [DUELS]",
+      "placeId": 99001115434148,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:43:12.673Z",
+      "firstSeenMs": 1784302992673,
+      "lastSeen": "2026-07-17T15:43:12.673Z",
+      "lastSeenMs": 1784302992673
+    },
+    {
       "userId": "9273382764",
       "username": "wil777326",
       "displayName": "wil777",
@@ -7837,5 +7853,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:42:46.948Z"
+  "updatedAt": "2026-07-17T15:43:17.681Z"
 }
