@@ -2318,8 +2318,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T12:15:00.000Z",
-      "lastSeenMs": 1784290500000
+      "lastSeen": "2026-07-17T12:20:00.000Z",
+      "lastSeenMs": 1784290800000
     },
     {
       "userId": "11299297213",
@@ -2638,8 +2638,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T12:15:00.000Z",
-      "lastSeenMs": 1784290500000
+      "lastSeen": "2026-07-17T12:20:00.000Z",
+      "lastSeenMs": 1784290800000
     },
     {
       "userId": "1784154449",
@@ -3440,6 +3440,22 @@
       "firstSeenMs": 1784267034496,
       "lastSeen": "2026-07-17T05:43:54.496Z",
       "lastSeenMs": 1784267034496
+    },
+    {
+      "userId": "4167371493",
+      "username": "e24ien",
+      "displayName": "superdaden",
+      "roleKey": "",
+      "gameName": "Infectious Smile [SPRING 🌻]",
+      "placeId": 5985232436,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T12:20:07.747Z",
+      "firstSeenMs": 1784290807747,
+      "lastSeen": "2026-07-17T12:20:07.747Z",
+      "lastSeenMs": 1784290807747
     },
     {
       "userId": "4212061169",
@@ -4958,8 +4974,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:36:24.035Z",
       "firstSeenMs": 1784230584035,
-      "lastSeen": "2026-07-17T12:15:00.000Z",
-      "lastSeenMs": 1784290500000
+      "lastSeen": "2026-07-17T12:20:00.000Z",
+      "lastSeenMs": 1784290800000
     },
     {
       "userId": "8559788073",
@@ -5854,8 +5870,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-17T12:15:00.000Z",
-      "lastSeenMs": 1784290500000
+      "lastSeen": "2026-07-17T12:20:00.000Z",
+      "lastSeenMs": 1784290800000
     },
     {
       "userId": "9812944983",
@@ -6543,5 +6559,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T12:20:05.163Z"
+  "updatedAt": "2026-07-17T12:20:12.755Z"
 }
