@@ -2354,6 +2354,22 @@
       "lastSeenMs": 1784273127009
     },
     {
+      "userId": "11301058323",
+      "username": "raezm_2",
+      "displayName": "raezm_2",
+      "roleKey": "",
+      "gameName": "بروكهافن 🏡 RP",
+      "placeId": 4924922222,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T11:11:07.730Z",
+      "firstSeenMs": 1784286667730,
+      "lastSeen": "2026-07-17T11:11:07.730Z",
+      "lastSeenMs": 1784286667730
+    },
+    {
       "userId": "11301355337",
       "username": "kaiiu75",
       "displayName": "kaiiu75",
@@ -6223,5 +6239,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T11:11:01.966Z"
+  "updatedAt": "2026-07-17T11:11:12.736Z"
 }
