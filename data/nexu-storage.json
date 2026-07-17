@@ -3702,16 +3702,16 @@
       "username": "CharAlt09",
       "displayName": "BrandonLee",
       "roleKey": "",
-      "gameName": "Doomspire Brickbattle",
-      "placeId": 1215581239,
+      "gameName": "[🌴] Speed Run 4",
+      "placeId": 183364845,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:35:11.965Z",
       "firstSeenMs": 1784237711965,
-      "lastSeen": "2026-07-17T06:50:00.000Z",
-      "lastSeenMs": 1784271000000
+      "lastSeen": "2026-07-17T06:55:00.000Z",
+      "lastSeenMs": 1784271300000
     },
     {
       "userId": "8785383597",
@@ -4869,5 +4869,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:59:37.328Z"
+  "updatedAt": "2026-07-17T06:59:42.628Z"
 }
