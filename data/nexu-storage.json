@@ -7474,6 +7474,22 @@
       "lastSeenMs": 1784280900000
     },
     {
+      "userId": "8930668316",
+      "username": "roblox_user_8930668316",
+      "displayName": "Shadow",
+      "roleKey": "",
+      "gameName": "💣 Bomba de Tempo",
+      "placeId": 114786176505608,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:15:19.853Z",
+      "firstSeenMs": 1784315719853,
+      "lastSeen": "2026-07-17T19:15:19.853Z",
+      "lastSeenMs": 1784315719853
+    },
+    {
       "userId": "8932001935",
       "username": "altfromthisguy",
       "displayName": "Squirrel",
@@ -9343,5 +9359,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:15:16.805Z"
+  "updatedAt": "2026-07-17T19:15:24.867Z"
 }
