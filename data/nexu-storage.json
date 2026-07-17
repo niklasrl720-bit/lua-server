@@ -1074,6 +1074,22 @@
       "lastSeenMs": 1784231700000
     },
     {
+      "userId": "11298915529",
+      "username": "that1jailbreakacc",
+      "displayName": "that1jailbreakacc",
+      "roleKey": "",
+      "gameName": "🎉 [CH 4] Jailbreak",
+      "placeId": 606849621,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:29:44.242Z",
+      "firstSeenMs": 1784248184242,
+      "lastSeen": "2026-07-17T00:29:44.242Z",
+      "lastSeenMs": 1784248184242
+    },
+    {
       "userId": "11299068864",
       "username": "Flasche47200",
       "displayName": "Flasche47200",
@@ -2687,5 +2703,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:29:03.160Z"
+  "updatedAt": "2026-07-17T00:29:49.245Z"
 }
