@@ -4902,16 +4902,16 @@
       "username": "Nsser_11",
       "displayName": "Nasser",
       "roleKey": "",
-      "gameName": "VOICE CHAT USERS ONLY",
-      "placeId": 7987504318,
+      "gameName": "Ugc",
+      "placeId": 18169009346,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T11:56:52.792Z",
       "firstSeenMs": 1784289412792,
-      "lastSeen": "2026-07-17T15:55:00.000Z",
-      "lastSeenMs": 1784303700000
+      "lastSeen": "2026-07-17T22:45:00.000Z",
+      "lastSeenMs": 1784328300000
     },
     {
       "userId": "3041449939",
@@ -5182,8 +5182,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-17T22:40:00.000Z",
-      "lastSeenMs": 1784328000000
+      "lastSeen": "2026-07-17T22:45:00.000Z",
+      "lastSeenMs": 1784328300000
     },
     {
       "userId": "3579384057",
@@ -10205,5 +10205,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:47:38.301Z"
+  "updatedAt": "2026-07-17T22:48:35.912Z"
 }
