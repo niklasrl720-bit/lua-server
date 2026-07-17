@@ -6674,6 +6674,22 @@
       "lastSeenMs": 1784247000000
     },
     {
+      "userId": "9786601041",
+      "username": "KingXD4081",
+      "displayName": "KingXD4081",
+      "roleKey": "",
+      "gameName": "[🏆⚽] FIFA Super Soccer",
+      "placeId": 12177325772,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:57:45.227Z",
+      "firstSeenMs": 1784300265227,
+      "lastSeen": "2026-07-17T14:57:45.227Z",
+      "lastSeenMs": 1784300265227
+    },
+    {
       "userId": "9786800904",
       "username": "jeanfils2354",
       "displayName": "jeanfils2354",
@@ -7503,5 +7519,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:57:32.807Z"
+  "updatedAt": "2026-07-17T14:57:50.238Z"
 }
