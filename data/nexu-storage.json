@@ -5474,6 +5474,22 @@
       "lastSeenMs": 1784254342431
     },
     {
+      "userId": "5190544013",
+      "username": "jvhp_8",
+      "displayName": "thukuna_gugugaga",
+      "roleKey": "",
+      "gameName": "História de animais de estimação 2",
+      "placeId": 135039459976817,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:04:53.191Z",
+      "firstSeenMs": 1784315093191,
+      "lastSeen": "2026-07-17T19:04:53.191Z",
+      "lastSeenMs": 1784315093191
+    },
+    {
       "userId": "5204147332",
       "username": "erururu0670",
       "displayName": "erururu0670",
@@ -9249,5 +9265,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:04:45.146Z"
+  "updatedAt": "2026-07-17T19:04:58.204Z"
 }
