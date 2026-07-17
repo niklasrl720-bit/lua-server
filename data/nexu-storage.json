@@ -578,6 +578,22 @@
       "lastSeenMs": 1784227224256
     },
     {
+      "userId": "11071463510",
+      "username": "Travel_Telepathy",
+      "displayName": "Travel_Telepathy",
+      "roleKey": "",
+      "gameName": "Bab 1: Rumah Ilmuwan Gila",
+      "placeId": 99300844802654,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:53:21.611Z",
+      "firstSeenMs": 1784267601611,
+      "lastSeen": "2026-07-17T05:53:21.611Z",
+      "lastSeenMs": 1784267601611
+    },
+    {
       "userId": "11073896038",
       "username": "ttttjfjdjff",
       "displayName": "ttttjfjdjff",
@@ -2262,16 +2278,16 @@
       "username": "Aaronboss600u",
       "displayName": "Macaronii",
       "roleKey": "",
-      "gameName": "Southwest Florida Beta",
-      "placeId": 5104202731,
+      "gameName": "[🚓 POLICE] Roanoke, VA Driving RP",
+      "placeId": 2418863943,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:39:03.817Z",
       "firstSeenMs": 1784248743817,
-      "lastSeen": "2026-07-17T01:00:00.000Z",
-      "lastSeenMs": 1784250000000
+      "lastSeen": "2026-07-17T05:50:00.000Z",
+      "lastSeenMs": 1784267400000
     },
     {
       "userId": "4166676692",
@@ -4471,5 +4487,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:51:34.270Z"
+  "updatedAt": "2026-07-17T05:53:26.617Z"
 }
