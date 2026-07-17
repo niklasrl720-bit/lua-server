@@ -510,8 +510,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-17T21:55:00.000Z",
-      "lastSeenMs": 1784325300000
+      "lastSeen": "2026-07-17T22:00:00.000Z",
+      "lastSeenMs": 1784325600000
     },
     {
       "userId": "10427971366",
@@ -4046,8 +4046,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T21:53:06.722Z",
       "firstSeenMs": 1784325186722,
-      "lastSeen": "2026-07-17T21:55:00.000Z",
-      "lastSeenMs": 1784325300000
+      "lastSeen": "2026-07-17T22:00:00.000Z",
+      "lastSeenMs": 1784325600000
     },
     {
       "userId": "11304100750",
@@ -6046,8 +6046,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-17T21:55:00.000Z",
-      "lastSeenMs": 1784325300000
+      "lastSeen": "2026-07-17T22:00:00.000Z",
+      "lastSeenMs": 1784325600000
     },
     {
       "userId": "5131378969",
@@ -9526,7 +9526,22 @@
     "dayKey": "2026-07-18",
     "resetRevision": 2,
     "resetAtMs": 1784325601625,
-    "messages": []
+    "messages": [
+      {
+        "id": 1784325671951001,
+        "userId": "11168140263",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Steckdose2743",
+        "displayName": "Steckdose2743",
+        "message": "N|G|E|R|I|A",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T22:01:11.951Z",
+        "sentAtMs": 1784325671951
+      }
+    ]
   },
-  "updatedAt": "2026-07-17T22:00:32.158Z"
+  "updatedAt": "2026-07-17T22:01:13.075Z"
 }
