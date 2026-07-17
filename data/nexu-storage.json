@@ -418,6 +418,22 @@
       "lastSeenMs": 1784245050646
     },
     {
+      "userId": "1032380742",
+      "username": "dacher1983",
+      "displayName": "SONAR",
+      "roleKey": "",
+      "gameName": "Catalog Avatar Creator",
+      "placeId": 7041939546,
+      "executionSource": "Arceus X",
+      "executionVersion": "2.2.7",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:21:03.905Z",
+      "firstSeenMs": 1784312463905,
+      "lastSeen": "2026-07-17T18:21:03.905Z",
+      "lastSeenMs": 1784312463905
+    },
+    {
       "userId": "10368308763",
       "username": "ZzZsonec",
       "displayName": "BBello_Vsynca",
@@ -9025,5 +9041,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:21:02.223Z"
+  "updatedAt": "2026-07-17T18:21:08.914Z"
 }
