@@ -126,8 +126,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:54:59.105Z",
       "firstSeenMs": 1784249699105,
-      "lastSeen": "2026-07-17T08:05:00.000Z",
-      "lastSeenMs": 1784275500000
+      "lastSeen": "2026-07-17T08:10:00.000Z",
+      "lastSeenMs": 1784275800000
     },
     {
       "userId": "10172085694",
@@ -2158,8 +2158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T08:05:00.000Z",
-      "lastSeenMs": 1784275500000
+      "lastSeen": "2026-07-17T08:10:00.000Z",
+      "lastSeenMs": 1784275800000
     },
     {
       "userId": "1784154449",
@@ -5324,8 +5324,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T08:01:45.276Z",
         "sentAtMs": 1784275305276
+      },
+      {
+        "id": 1784275819085001,
+        "userId": "10248156830",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "ryoo_yamaadaa",
+        "displayName": "orangkheche",
+        "message": "hh",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T08:10:19.085Z",
+        "sentAtMs": 1784275819085
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:10:05.099Z"
+  "updatedAt": "2026-07-17T08:10:20.107Z"
 }
