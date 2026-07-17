@@ -10170,8 +10170,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T21:15:06.490Z",
         "sentAtMs": 1784322906490
+      },
+      {
+        "id": 1784323356843001,
+        "userId": "3991335398",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "neonblade20o",
+        "displayName": "Idk",
+        "message": "#####",
+        "moderated": true,
+        "moderationCategory": "HASSREDE",
+        "moderationScore": 100,
+        "sentAt": "2026-07-17T21:22:36.843Z",
+        "sentAtMs": 1784323356843
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:22:26.904Z"
+  "updatedAt": "2026-07-17T21:22:37.872Z"
 }
