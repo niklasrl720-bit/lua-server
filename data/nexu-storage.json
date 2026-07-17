@@ -4766,8 +4766,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T12:12:28.508Z",
       "firstSeenMs": 1784290348508,
-      "lastSeen": "2026-07-17T19:15:00.000Z",
-      "lastSeenMs": 1784315700000
+      "lastSeen": "2026-07-17T19:20:00.000Z",
+      "lastSeenMs": 1784316000000
     },
     {
       "userId": "3953958486",
@@ -5590,8 +5590,8 @@
       "username": "Crazy_Shark2350",
       "displayName": "cyashmelon",
       "roleKey": "",
-      "gameName": "[🔥] More Aura? 😎",
-      "placeId": 119144727737197,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
@@ -9437,5 +9437,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:21:37.840Z"
+  "updatedAt": "2026-07-17T19:23:48.563Z"
 }
