@@ -4406,8 +4406,8 @@
       "username": "Eddie_Bobe",
       "displayName": "Eddie_Bis",
       "roleKey": "",
-      "gameName": "Fluxo PVP [DUELS]",
-      "placeId": 99001115434148,
+      "gameName": "Fluxo PVP [FFA]",
+      "placeId": 133451168835128,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -9137,5 +9137,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:35:17.299Z"
+  "updatedAt": "2026-07-17T18:35:45.300Z"
 }
