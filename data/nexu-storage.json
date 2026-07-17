@@ -3938,6 +3938,22 @@
       "lastSeenMs": 1784276400000
     },
     {
+      "userId": "4541165957",
+      "username": "HzmgXpzCkxt",
+      "displayName": "tubers93",
+      "roleKey": "",
+      "gameName": "TRÒ CHƠI CHÍNH",
+      "placeId": 77634959918754,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.725.1142",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T14:08:32.395Z",
+      "firstSeenMs": 1784297312395,
+      "lastSeen": "2026-07-17T14:08:32.395Z",
+      "lastSeenMs": 1784297312395
+    },
+    {
       "userId": "454430858",
       "username": "JENKIGAS",
       "displayName": "マーー仁了二二二二フ",
@@ -7161,5 +7177,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T14:08:24.212Z"
+  "updatedAt": "2026-07-17T14:08:37.403Z"
 }
