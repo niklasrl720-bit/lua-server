@@ -2382,8 +2382,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T13:00:00.000Z",
-      "lastSeenMs": 1784293200000
+      "lastSeen": "2026-07-17T13:05:00.000Z",
+      "lastSeenMs": 1784293500000
     },
     {
       "userId": "11299297213",
@@ -2526,8 +2526,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T13:03:27.326Z",
       "firstSeenMs": 1784293407326,
-      "lastSeen": "2026-07-17T13:03:27.326Z",
-      "lastSeenMs": 1784293407326
+      "lastSeen": "2026-07-17T13:05:00.000Z",
+      "lastSeenMs": 1784293500000
     },
     {
       "userId": "11300587875",
@@ -2606,8 +2606,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:37:53.346Z",
       "firstSeenMs": 1784234273346,
-      "lastSeen": "2026-07-17T13:00:00.000Z",
-      "lastSeenMs": 1784293200000
+      "lastSeen": "2026-07-17T13:05:00.000Z",
+      "lastSeenMs": 1784293500000
     },
     {
       "userId": "1356739077",
@@ -3666,6 +3666,22 @@
       "lastSeenMs": 1784276400000
     },
     {
+      "userId": "454430858",
+      "username": "JENKIGAS",
+      "displayName": "マーー仁了二二二二フ",
+      "roleKey": "",
+      "gameName": "[🏚️] Survive the Cold",
+      "placeId": 134750290201751,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:05:34.519Z",
+      "firstSeenMs": 1784293534519,
+      "lastSeen": "2026-07-17T13:05:34.519Z",
+      "lastSeenMs": 1784293534519
+    },
+    {
       "userId": "4549877961",
       "username": "momololbob",
       "displayName": "Vnucek_portala",
@@ -3742,8 +3758,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T12:30:36.302Z",
       "firstSeenMs": 1784291436302,
-      "lastSeen": "2026-07-17T13:00:00.000Z",
-      "lastSeenMs": 1784293200000
+      "lastSeen": "2026-07-17T13:05:00.000Z",
+      "lastSeenMs": 1784293500000
     },
     {
       "userId": "486430964",
@@ -6749,5 +6765,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:03:32.336Z"
+  "updatedAt": "2026-07-17T13:05:39.530Z"
 }
