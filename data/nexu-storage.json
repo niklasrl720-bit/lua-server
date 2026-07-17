@@ -7248,6 +7248,22 @@
       "firstSeenMs": 1784270143830,
       "lastSeen": "2026-07-17T06:35:43.830Z",
       "lastSeenMs": 1784270143830
+    },
+    {
+      "userId": "9983409738",
+      "username": "dadang_10837",
+      "displayName": "123",
+      "roleKey": "",
+      "gameName": "Menara tombol troll",
+      "placeId": 136550348026129,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:53:58.988Z",
+      "firstSeenMs": 1784303638988,
+      "lastSeen": "2026-07-17T15:53:58.988Z",
+      "lastSeenMs": 1784303638988
     }
   ],
   "bans": [],
@@ -7917,5 +7933,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:53:35.002Z"
+  "updatedAt": "2026-07-17T15:54:04.283Z"
 }
