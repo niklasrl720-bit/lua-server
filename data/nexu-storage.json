@@ -434,6 +434,22 @@
       "lastSeenMs": 1784251800000
     },
     {
+      "userId": "10897779490",
+      "username": "Rip_Collkid133",
+      "displayName": "c00lkid",
+      "roleKey": "",
+      "gameName": "troll adalah menara tak berujung 2",
+      "placeId": 83312952548612,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T06:14:09.362Z",
+      "firstSeenMs": 1784268849362,
+      "lastSeen": "2026-07-17T06:14:09.362Z",
+      "lastSeenMs": 1784268849362
+    },
+    {
       "userId": "10898667066",
       "username": "zzzzzasd5",
       "displayName": "TGR",
@@ -4551,5 +4567,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T06:13:31.956Z"
+  "updatedAt": "2026-07-17T06:14:14.368Z"
 }
