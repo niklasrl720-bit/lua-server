@@ -958,8 +958,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T10:39:59.395Z",
       "firstSeenMs": 1784284799395,
-      "lastSeen": "2026-07-17T10:39:59.395Z",
-      "lastSeenMs": 1784284799395
+      "lastSeen": "2026-07-17T10:40:00.000Z",
+      "lastSeenMs": 1784284800000
     },
     {
       "userId": "11103697834",
@@ -3422,8 +3422,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T10:35:00.000Z",
-      "lastSeenMs": 1784284500000
+      "lastSeen": "2026-07-17T10:40:00.000Z",
+      "lastSeenMs": 1784284800000
     },
     {
       "userId": "5111527490",
@@ -3968,6 +3968,22 @@
       "firstSeenMs": 1784270814569,
       "lastSeen": "2026-07-17T06:46:54.569Z",
       "lastSeenMs": 1784270814569
+    },
+    {
+      "userId": "7561684449",
+      "username": "Zero_C4sh",
+      "displayName": "Zero_C4sh",
+      "roleKey": "",
+      "gameName": "MEGA RAMP FOR SLIME",
+      "placeId": 92700582787930,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:40:09.622Z",
+      "firstSeenMs": 1784284809622,
+      "lastSeen": "2026-07-17T10:40:09.622Z",
+      "lastSeenMs": 1784284809622
     },
     {
       "userId": "7567669699",
@@ -6065,5 +6081,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:40:04.404Z"
+  "updatedAt": "2026-07-17T10:40:14.631Z"
 }
