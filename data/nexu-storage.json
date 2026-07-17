@@ -3602,6 +3602,22 @@
       "lastSeenMs": 1784313000000
     },
     {
+      "userId": "11303590193",
+      "username": "Robloxteam951",
+      "displayName": "Rob",
+      "roleKey": "",
+      "gameName": "ميادين القتال غير المسماة",
+      "placeId": 84633364434995,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:08:34.448Z",
+      "firstSeenMs": 1784315314448,
+      "lastSeen": "2026-07-17T19:08:34.448Z",
+      "lastSeenMs": 1784315314448
+    },
+    {
       "userId": "1177195747",
       "username": "giovajaket",
       "displayName": "ggiova_101",
@@ -9295,5 +9311,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:08:12.980Z"
+  "updatedAt": "2026-07-17T19:08:39.462Z"
 }
