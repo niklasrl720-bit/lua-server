@@ -4342,16 +4342,16 @@
       "username": "doki22811",
       "displayName": "doki22811",
       "roleKey": "",
-      "gameName": "[WORLD2] +1 Скорость побега на клавиатуре",
-      "placeId": 118941584817777,
+      "gameName": "Постройте мост к Brainrots",
+      "placeId": 88207898227053,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-17T20:25:00.000Z",
-      "lastSeenMs": 1784319900000
+      "lastSeen": "2026-07-17T20:35:00.000Z",
+      "lastSeenMs": 1784320500000
     },
     {
       "userId": "2643166270",
@@ -9847,5 +9847,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:36:06.396Z"
+  "updatedAt": "2026-07-17T20:36:46.729Z"
 }
