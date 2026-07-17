@@ -6066,6 +6066,22 @@
       "lastSeenMs": 1784300700000
     },
     {
+      "userId": "5137203777",
+      "username": "Ghost1864953",
+      "displayName": "GHOST14hsjrjw",
+      "roleKey": "",
+      "gameName": "Freeze for UGC 🧊",
+      "placeId": 18138682962,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T22:03:01.857Z",
+      "firstSeenMs": 1784325781857,
+      "lastSeen": "2026-07-17T22:03:01.857Z",
+      "lastSeenMs": 1784325781857
+    },
+    {
       "userId": "5138110179",
       "username": "pphdoyhy",
       "displayName": "Hazzard",
@@ -9612,8 +9628,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T22:01:48.561Z",
         "sentAtMs": 1784325708561
+      },
+      {
+        "id": 1784325783961001,
+        "userId": "11168140263",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Steckdose2743",
+        "displayName": "Steckdose2743",
+        "message": "D",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T22:03:03.961Z",
+        "sentAtMs": 1784325783961
       }
     ]
   },
-  "updatedAt": "2026-07-17T22:02:08.773Z"
+  "updatedAt": "2026-07-17T22:03:05.080Z"
 }
