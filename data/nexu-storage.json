@@ -1238,8 +1238,8 @@
       "username": "Yrys_pyrys9",
       "displayName": "Yrys_pyrys9",
       "roleKey": "",
-      "gameName": "+1 ключ к скорости побега на клавиатуре | конфеты и шоколад",
-      "placeId": 95082159892680,
+      "gameName": "[WORLD2] +1 Скорость побега на клавиатуре",
+      "placeId": 118941584817777,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
@@ -2576,6 +2576,22 @@
       "firstSeenMs": 1784228719977,
       "lastSeen": "2026-07-17T03:00:00.000Z",
       "lastSeenMs": 1784257200000
+    },
+    {
+      "userId": "2220756623",
+      "username": "liansiri",
+      "displayName": "wood",
+      "roleKey": "",
+      "gameName": "Брукхейвен 🏡 RP",
+      "placeId": 4924922222,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:17:09.809Z",
+      "firstSeenMs": 1784283429809,
+      "lastSeen": "2026-07-17T10:17:09.809Z",
+      "lastSeenMs": 1784283429809
     },
     {
       "userId": "2398075590",
@@ -5895,5 +5911,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:16:09.006Z"
+  "updatedAt": "2026-07-17T10:17:14.403Z"
 }
