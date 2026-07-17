@@ -86,16 +86,16 @@
       "username": "happy_hasif516",
       "displayName": "tentara_ganung99",
       "roleKey": "",
-      "gameName": "Shoot Noobs and Eat Foods😋",
-      "placeId": 14410213941,
+      "gameName": "💥 Flag Wars!",
+      "placeId": 3214114884,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:54:59.105Z",
       "firstSeenMs": 1784249699105,
-      "lastSeen": "2026-07-17T02:20:00.000Z",
-      "lastSeenMs": 1784254800000
+      "lastSeen": "2026-07-17T07:10:00.000Z",
+      "lastSeenMs": 1784272200000
     },
     {
       "userId": "10172085694",
@@ -3394,6 +3394,22 @@
       "lastSeenMs": 1784265288231
     },
     {
+      "userId": "7957137706",
+      "username": "uerujr2",
+      "displayName": "Ishan",
+      "roleKey": "",
+      "gameName": "Blox Fruits | Third Sea",
+      "placeId": 100117331123089,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:11:16.906Z",
+      "firstSeenMs": 1784272276906,
+      "lastSeen": "2026-07-17T07:11:16.906Z",
+      "lastSeenMs": 1784272276906
+    },
+    {
       "userId": "7975307214",
       "username": "ezioles54",
       "displayName": "ezioles54",
@@ -4917,5 +4933,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:11:01.278Z"
+  "updatedAt": "2026-07-17T07:11:19.481Z"
 }
