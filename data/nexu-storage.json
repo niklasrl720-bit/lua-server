@@ -4422,16 +4422,16 @@
       "username": "Nateawenum",
       "displayName": "Nateawenum",
       "roleKey": "",
-      "gameName": "[INT] Classmate",
-      "placeId": 127525231549271,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:23:45.015Z",
       "firstSeenMs": 1784327025015,
-      "lastSeen": "2026-07-17T22:50:00.000Z",
-      "lastSeenMs": 1784328600000
+      "lastSeen": "2026-07-17T23:45:00.000Z",
+      "lastSeenMs": 1784331900000
     },
     {
       "userId": "1746266119",
@@ -10703,5 +10703,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:45:51.786Z"
+  "updatedAt": "2026-07-17T23:47:25.577Z"
 }
