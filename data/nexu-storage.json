@@ -2290,6 +2290,22 @@
       "lastSeenMs": 1784247600000
     },
     {
+      "userId": "4475862032",
+      "username": "wow1005788",
+      "displayName": "lilly",
+      "roleKey": "",
+      "gameName": "Highschool Experience RP",
+      "placeId": 112333343527957,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T05:03:53.427Z",
+      "firstSeenMs": 1784264633427,
+      "lastSeen": "2026-07-17T05:03:53.427Z",
+      "lastSeenMs": 1784264633427
+    },
+    {
       "userId": "4549877961",
       "username": "momololbob",
       "displayName": "Vnucek_portala",
@@ -3830,16 +3846,16 @@
       "username": "shgoo662",
       "displayName": "kyo",
       "roleKey": "",
-      "gameName": "Créateur d'Avatar de Catalogue",
-      "placeId": 7041939546,
+      "gameName": "Volume 1",
+      "placeId": 74672283292083,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:32:53.494Z",
       "firstSeenMs": 1784237573494,
-      "lastSeen": "2026-07-17T04:55:00.000Z",
-      "lastSeenMs": 1784264100000
+      "lastSeen": "2026-07-17T05:00:00.000Z",
+      "lastSeenMs": 1784264400000
     },
     {
       "userId": "9953434480",
@@ -4233,5 +4249,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T05:03:17.331Z"
+  "updatedAt": "2026-07-17T05:03:55.119Z"
 }
