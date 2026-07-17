@@ -1474,6 +1474,22 @@
       "lastSeenMs": 1784232900000
     },
     {
+      "userId": "1966898198",
+      "username": "lRAQ2008",
+      "displayName": "Ronaldo",
+      "roleKey": "",
+      "gameName": "سرقة دورة الدماغ",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T02:28:59.820Z",
+      "firstSeenMs": 1784255339820,
+      "lastSeen": "2026-07-17T02:28:59.820Z",
+      "lastSeenMs": 1784255339820
+    },
+    {
       "userId": "1969914820",
       "username": "whyauserter",
       "displayName": "Gabe_Owners",
@@ -3343,5 +3359,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T02:25:59.133Z"
+  "updatedAt": "2026-07-17T02:29:04.823Z"
 }
