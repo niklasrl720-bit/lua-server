@@ -1538,6 +1538,22 @@
       "lastSeenMs": 1784249700000
     },
     {
+      "userId": "3643100956",
+      "username": "XxxKingXxx1222",
+      "displayName": "0HX",
+      "roleKey": "",
+      "gameName": "트롤은 못깨는 타워 X",
+      "placeId": 72820531076504,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:59:30.862Z",
+      "firstSeenMs": 1784249970862,
+      "lastSeen": "2026-07-17T00:59:30.862Z",
+      "lastSeenMs": 1784249970862
+    },
+    {
       "userId": "3649742821",
       "username": "Tryty600",
       "displayName": "Henry",
@@ -2923,5 +2939,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:59:10.402Z"
+  "updatedAt": "2026-07-17T00:59:35.865Z"
 }
