@@ -734,8 +734,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:30:28.378Z",
       "firstSeenMs": 1784305828378,
-      "lastSeen": "2026-07-17T17:40:00.000Z",
-      "lastSeenMs": 1784310000000
+      "lastSeen": "2026-07-17T17:45:00.000Z",
+      "lastSeenMs": 1784310300000
     },
     {
       "userId": "10717295463",
@@ -1968,6 +1968,22 @@
       "firstSeenMs": 1784309035960,
       "lastSeen": "2026-07-17T17:25:00.000Z",
       "lastSeenMs": 1784309100000
+    },
+    {
+      "userId": "11237009615",
+      "username": "TevlIl",
+      "displayName": "TevlIl",
+      "roleKey": "",
+      "gameName": "100 graczy Mega Hide and Seek! 💯",
+      "placeId": 6063653725,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T17:46:27.667Z",
+      "firstSeenMs": 1784310387667,
+      "lastSeen": "2026-07-17T17:46:27.667Z",
+      "lastSeenMs": 1784310387667
     },
     {
       "userId": "11239120216",
@@ -3438,8 +3454,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:23:45.208Z",
       "firstSeenMs": 1784298225208,
-      "lastSeen": "2026-07-17T17:40:00.000Z",
-      "lastSeenMs": 1784310000000
+      "lastSeen": "2026-07-17T17:45:00.000Z",
+      "lastSeenMs": 1784310300000
     },
     {
       "userId": "11302817434",
@@ -3486,8 +3502,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-17T17:40:00.000Z",
-      "lastSeenMs": 1784310000000
+      "lastSeen": "2026-07-17T17:45:00.000Z",
+      "lastSeenMs": 1784310300000
     },
     {
       "userId": "1177195747",
@@ -4830,8 +4846,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:18:23.880Z",
       "firstSeenMs": 1784305103880,
-      "lastSeen": "2026-07-17T17:40:00.000Z",
-      "lastSeenMs": 1784310000000
+      "lastSeen": "2026-07-17T17:45:00.000Z",
+      "lastSeenMs": 1784310300000
     },
     {
       "userId": "4451091661",
@@ -6926,8 +6942,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-17T17:40:00.000Z",
-      "lastSeenMs": 1784310000000
+      "lastSeen": "2026-07-17T17:45:00.000Z",
+      "lastSeenMs": 1784310300000
     },
     {
       "userId": "8808861528",
@@ -7214,8 +7230,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T17:40:00.000Z",
-      "lastSeenMs": 1784310000000
+      "lastSeen": "2026-07-17T17:45:00.000Z",
+      "lastSeenMs": 1784310300000
     },
     {
       "userId": "9134201874",
@@ -8819,5 +8835,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T17:45:17.063Z"
+  "updatedAt": "2026-07-17T17:46:32.705Z"
 }
