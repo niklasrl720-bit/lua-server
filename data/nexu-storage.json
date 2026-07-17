@@ -3170,6 +3170,22 @@
       "lastSeenMs": 1784286449262
     },
     {
+      "userId": "11301549756",
+      "username": "jkvgujyuyvuk",
+      "displayName": "jkvgujyuyvuk",
+      "roleKey": "",
+      "gameName": "شكل SCP",
+      "placeId": 71599043035739,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:23:48.351Z",
+      "firstSeenMs": 1784305428351,
+      "lastSeen": "2026-07-17T16:23:48.351Z",
+      "lastSeenMs": 1784305428351
+    },
+    {
       "userId": "11301617517",
       "username": "notyourl_girl3883",
       "displayName": "notyourl_girl3883",
@@ -8171,5 +8187,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:21:56.343Z"
+  "updatedAt": "2026-07-17T16:23:53.362Z"
 }
