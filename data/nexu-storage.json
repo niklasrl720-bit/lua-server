@@ -3910,8 +3910,8 @@
       "username": "THE_ULIBULO2008",
       "displayName": "grabba",
       "roleKey": "",
-      "gameName": "[🔱DUELS] Murderers VS Sheriffs",
-      "placeId": 135856908115931,
+      "gameName": "[DUELS] 2v2",
+      "placeId": 92876937625630,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -9279,5 +9279,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:06:08.557Z"
+  "updatedAt": "2026-07-17T19:07:16.090Z"
 }
