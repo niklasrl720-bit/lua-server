@@ -2254,8 +2254,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T11:40:00.000Z",
-      "lastSeenMs": 1784288400000
+      "lastSeen": "2026-07-17T11:45:00.000Z",
+      "lastSeenMs": 1784288700000
     },
     {
       "userId": "11299297213",
@@ -2558,8 +2558,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T11:40:00.000Z",
-      "lastSeenMs": 1784288400000
+      "lastSeen": "2026-07-17T11:45:00.000Z",
+      "lastSeenMs": 1784288700000
     },
     {
       "userId": "1784154449",
@@ -3614,8 +3614,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T11:40:00.000Z",
-      "lastSeenMs": 1784288400000
+      "lastSeen": "2026-07-17T11:45:00.000Z",
+      "lastSeenMs": 1784288700000
     },
     {
       "userId": "5111527490",
@@ -4366,8 +4366,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:16:28.179Z",
       "firstSeenMs": 1784225788179,
-      "lastSeen": "2026-07-17T11:40:00.000Z",
-      "lastSeenMs": 1784288400000
+      "lastSeen": "2026-07-17T11:45:00.000Z",
+      "lastSeenMs": 1784288700000
     },
     {
       "userId": "7926460129",
@@ -5474,6 +5474,22 @@
       "lastSeenMs": 1784256900000
     },
     {
+      "userId": "9441593469",
+      "username": "JOAQUIM48992",
+      "displayName": "Renjiro",
+      "roleKey": "",
+      "gameName": "Exército Brasileiro 🔊",
+      "placeId": 14511049,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T11:45:33.921Z",
+      "firstSeenMs": 1784288733921,
+      "lastSeen": "2026-07-17T11:45:33.921Z",
+      "lastSeenMs": 1784288733921
+    },
+    {
       "userId": "9458104776",
       "username": "Zuppanorte65710",
       "displayName": "Dookiewaffles67",
@@ -5678,8 +5694,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-17T11:40:00.000Z",
-      "lastSeenMs": 1784288400000
+      "lastSeen": "2026-07-17T11:45:00.000Z",
+      "lastSeenMs": 1784288700000
     },
     {
       "userId": "9812944983",
@@ -6367,5 +6383,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T11:41:51.077Z"
+  "updatedAt": "2026-07-17T11:45:38.929Z"
 }
