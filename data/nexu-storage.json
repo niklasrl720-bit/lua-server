@@ -786,6 +786,22 @@
       "lastSeenMs": 1784230612388
     },
     {
+      "userId": "11250972164",
+      "username": "altaccaun165",
+      "displayName": "altaccaun165",
+      "roleKey": "",
+      "gameName": "SHARP - Starter",
+      "placeId": 105834187369271,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:43:08.923Z",
+      "firstSeenMs": 1784259788923,
+      "lastSeen": "2026-07-17T03:43:08.923Z",
+      "lastSeenMs": 1784259788923
+    },
+    {
       "userId": "11256172063",
       "username": "ryanjayamu",
       "displayName": "ryanjayamu",
@@ -2240,6 +2256,22 @@
       "firstSeenMs": 1784254342431,
       "lastSeen": "2026-07-17T02:12:22.431Z",
       "lastSeenMs": 1784254342431
+    },
+    {
+      "userId": "5204147332",
+      "username": "erururu0670",
+      "displayName": "erururu0670",
+      "roleKey": "",
+      "gameName": "Construa um barco para tesouros",
+      "placeId": 537413528,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T03:43:04.830Z",
+      "firstSeenMs": 1784259784830,
+      "lastSeen": "2026-07-17T03:43:04.830Z",
+      "lastSeenMs": 1784259784830
     },
     {
       "userId": "5316980228",
@@ -3811,5 +3843,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T03:43:03.225Z"
+  "updatedAt": "2026-07-17T03:43:09.834Z"
 }
