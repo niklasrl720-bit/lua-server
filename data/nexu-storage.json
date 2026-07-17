@@ -2678,16 +2678,16 @@
       "username": "jghirebq2011",
       "displayName": "jghirebq2011",
       "roleKey": "",
-      "gameName": "VOLER UN AVION ✈️",
-      "placeId": 86049244548458,
+      "gameName": "Construire pour défendre le butin [nouveaux joueurs]",
+      "placeId": 101840804580458,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:31:02.186Z",
       "firstSeenMs": 1784251862186,
-      "lastSeen": "2026-07-17T01:31:02.186Z",
-      "lastSeenMs": 1784251862186
+      "lastSeen": "2026-07-17T01:35:00.000Z",
+      "lastSeenMs": 1784252100000
     },
     {
       "userId": "9405689037",
@@ -3109,5 +3109,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T01:38:46.573Z"
+  "updatedAt": "2026-07-17T01:38:55.621Z"
 }
