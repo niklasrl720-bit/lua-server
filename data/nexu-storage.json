@@ -8992,8 +8992,22 @@
         "moderationScore": 0,
         "sentAt": "2026-07-17T17:34:56.118Z",
         "sentAtMs": 1784309696118
+      },
+      {
+        "id": 1784312358629001,
+        "userId": "7904720390",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "DANUIL_YUROCHKO8",
+        "displayName": "danilbloxx",
+        "message": "ruuuuuuuuuuuuuuuuuuun",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-17T18:19:18.629Z",
+        "sentAtMs": 1784312358629
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:18:06.862Z"
+  "updatedAt": "2026-07-17T18:19:19.655Z"
 }
