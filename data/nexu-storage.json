@@ -1198,8 +1198,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T07:19:09.530Z",
       "firstSeenMs": 1784272749530,
-      "lastSeen": "2026-07-17T09:25:00.000Z",
-      "lastSeenMs": 1784280300000
+      "lastSeen": "2026-07-17T09:30:00.000Z",
+      "lastSeenMs": 1784280600000
     },
     {
       "userId": "11239120216",
@@ -2014,8 +2014,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T09:25:00.000Z",
-      "lastSeenMs": 1784280300000
+      "lastSeen": "2026-07-17T09:30:00.000Z",
+      "lastSeenMs": 1784280600000
     },
     {
       "userId": "11299297213",
@@ -2318,8 +2318,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T09:25:52.078Z",
       "firstSeenMs": 1784280352078,
-      "lastSeen": "2026-07-17T09:25:52.078Z",
-      "lastSeenMs": 1784280352078
+      "lastSeen": "2026-07-17T09:30:00.000Z",
+      "lastSeenMs": 1784280600000
     },
     {
       "userId": "1891206840",
@@ -4466,6 +4466,22 @@
       "lastSeenMs": 1784242401509
     },
     {
+      "userId": "8917924668",
+      "username": "qoop_539",
+      "displayName": "4LC_Managers",
+      "roleKey": "",
+      "gameName": "謀殺派對",
+      "placeId": 5611648039,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T09:30:26.239Z",
+      "firstSeenMs": 1784280626239,
+      "lastSeen": "2026-07-17T09:30:26.239Z",
+      "lastSeenMs": 1784280626239
+    },
+    {
       "userId": "8932001935",
       "username": "altfromthisguy",
       "displayName": "Squirrel",
@@ -5038,8 +5054,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-17T09:25:00.000Z",
-      "lastSeenMs": 1784280300000
+      "lastSeen": "2026-07-17T09:30:00.000Z",
+      "lastSeenMs": 1784280600000
     },
     {
       "userId": "9812944983",
@@ -5118,8 +5134,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:32:53.494Z",
       "firstSeenMs": 1784237573494,
-      "lastSeen": "2026-07-17T09:25:00.000Z",
-      "lastSeenMs": 1784280300000
+      "lastSeen": "2026-07-17T09:30:00.000Z",
+      "lastSeenMs": 1784280600000
     },
     {
       "userId": "9953434480",
@@ -5641,5 +5657,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:30:15.709Z"
+  "updatedAt": "2026-07-17T09:30:31.245Z"
 }
