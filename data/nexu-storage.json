@@ -1026,6 +1026,22 @@
       "lastSeenMs": 1784297299204
     },
     {
+      "userId": "10807998517",
+      "username": "alexito2037480",
+      "displayName": "Juan",
+      "roleKey": "",
+      "gameName": "La Cámara",
+      "placeId": 4719070407,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:17:09.846Z",
+      "firstSeenMs": 1784323029846,
+      "lastSeen": "2026-07-17T21:17:09.846Z",
+      "lastSeenMs": 1784323029846
+    },
+    {
       "userId": "10825283505",
       "username": "wos404767",
       "displayName": "wos404767",
@@ -10141,5 +10157,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:17:07.031Z"
+  "updatedAt": "2026-07-17T21:17:16.323Z"
 }
