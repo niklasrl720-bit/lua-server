@@ -3474,6 +3474,22 @@
       "lastSeenMs": 1784304300000
     },
     {
+      "userId": "11303015033",
+      "username": "Megaforever0",
+      "displayName": "Megaforever0",
+      "roleKey": "",
+      "gameName": "[🏜️] Torre de vuelo",
+      "placeId": 84830451404494,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:00:57.733Z",
+      "firstSeenMs": 1784311257733,
+      "lastSeen": "2026-07-17T18:00:57.733Z",
+      "lastSeenMs": 1784311257733
+    },
+    {
       "userId": "11303023991",
       "username": "ANGEL09977468",
       "displayName": "ANGEL09977468",
@@ -4704,6 +4720,22 @@
       "firstSeenMs": 1784293916718,
       "lastSeen": "2026-07-17T13:11:56.718Z",
       "lastSeenMs": 1784293916718
+    },
+    {
+      "userId": "4192386391",
+      "username": "TPyCNK154",
+      "displayName": "GAMWIX",
+      "roleKey": "",
+      "gameName": "Exploding Mayhem",
+      "placeId": 6471551922,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T18:00:58.953Z",
+      "firstSeenMs": 1784311258953,
+      "lastSeen": "2026-07-17T18:00:58.953Z",
+      "lastSeenMs": 1784311258953
     },
     {
       "userId": "4195159847",
@@ -8899,5 +8931,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T18:00:57.710Z"
+  "updatedAt": "2026-07-17T18:01:02.747Z"
 }
