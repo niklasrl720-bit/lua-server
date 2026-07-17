@@ -3474,6 +3474,22 @@
       "lastSeenMs": 1784273127009
     },
     {
+      "userId": "11300895771",
+      "username": "Radio228nt",
+      "displayName": "Radio228nt",
+      "roleKey": "",
+      "gameName": "SCP: Место аномалии",
+      "placeId": 103506116893376,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T19:42:50.041Z",
+      "firstSeenMs": 1784317370041,
+      "lastSeen": "2026-07-17T19:42:50.041Z",
+      "lastSeenMs": 1784317370041
+    },
+    {
       "userId": "11301058323",
       "username": "raezm_2",
       "displayName": "raezm_2",
@@ -9499,5 +9515,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:41:07.002Z"
+  "updatedAt": "2026-07-17T19:42:55.054Z"
 }
