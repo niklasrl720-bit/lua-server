@@ -866,6 +866,22 @@
       "lastSeenMs": 1784270902615
     },
     {
+      "userId": "11095812656",
+      "username": "0cw_0p",
+      "displayName": "SaKUrA_SamA",
+      "roleKey": "",
+      "gameName": "شااالية رعد | الاصلي",
+      "placeId": 98436449846968,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T09:24:24.429Z",
+      "firstSeenMs": 1784280264429,
+      "lastSeen": "2026-07-17T09:24:24.429Z",
+      "lastSeenMs": 1784280264429
+    },
+    {
       "userId": "11103697834",
       "username": "ffgj3403",
       "displayName": "ffgj3403",
@@ -5593,5 +5609,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:21:30.827Z"
+  "updatedAt": "2026-07-17T09:24:29.436Z"
 }
