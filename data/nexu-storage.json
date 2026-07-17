@@ -766,8 +766,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:16:43.732Z",
       "firstSeenMs": 1784247403732,
-      "lastSeen": "2026-07-17T15:35:00.000Z",
-      "lastSeenMs": 1784302500000
+      "lastSeen": "2026-07-17T15:40:00.000Z",
+      "lastSeenMs": 1784302800000
     },
     {
       "userId": "10865199057",
@@ -3198,8 +3198,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T15:35:00.000Z",
-      "lastSeenMs": 1784302500000
+      "lastSeen": "2026-07-17T15:40:00.000Z",
+      "lastSeenMs": 1784302800000
     },
     {
       "userId": "1784154449",
@@ -4158,8 +4158,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:46:45.139Z",
       "firstSeenMs": 1784299605139,
-      "lastSeen": "2026-07-17T15:35:00.000Z",
-      "lastSeenMs": 1784302500000
+      "lastSeen": "2026-07-17T15:40:00.000Z",
+      "lastSeenMs": 1784302800000
     },
     {
       "userId": "4242993477",
@@ -5810,6 +5810,22 @@
       "lastSeenMs": 1784254617161
     },
     {
+      "userId": "8395352720",
+      "username": "Asdip580",
+      "displayName": "sigma",
+      "roleKey": "",
+      "gameName": "Survive 99 Nights",
+      "placeId": 126509999114328,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T15:40:58.654Z",
+      "firstSeenMs": 1784302858654,
+      "lastSeen": "2026-07-17T15:40:58.654Z",
+      "lastSeenMs": 1784302858654
+    },
+    {
       "userId": "8424600103",
       "username": "NICO125666778",
       "displayName": "MOROCHITOCHOCOLATOSO",
@@ -5950,8 +5966,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:57:25.824Z",
       "firstSeenMs": 1784228245824,
-      "lastSeen": "2026-07-17T15:35:00.000Z",
-      "lastSeenMs": 1784302500000
+      "lastSeen": "2026-07-17T15:40:00.000Z",
+      "lastSeenMs": 1784302800000
     },
     {
       "userId": "8554890463",
@@ -7805,5 +7821,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T15:36:18.026Z"
+  "updatedAt": "2026-07-17T15:41:01.999Z"
 }
