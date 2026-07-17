@@ -1526,8 +1526,8 @@
       "username": "jwhwhwjdik",
       "displayName": "jwhwhwjdik",
       "roleKey": "",
-      "gameName": "+1 Phím tốc độ thoát | Kẹo ngọt và Sô cô la",
-      "placeId": 95082159892680,
+      "gameName": "[V8] +1 Tháp tiến hóp nhảy",
+      "placeId": 71706515477118,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
@@ -5705,5 +5705,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:46:40.633Z"
+  "updatedAt": "2026-07-17T09:48:46.159Z"
 }
