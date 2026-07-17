@@ -6786,6 +6786,22 @@
       "lastSeenMs": 1784275200000
     },
     {
+      "userId": "5646812359",
+      "username": "Thegoatgod470",
+      "displayName": "yk_bray",
+      "roleKey": "",
+      "gameName": "MIC UP 🔊",
+      "placeId": 6884319169,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T23:43:06.090Z",
+      "firstSeenMs": 1784331786090,
+      "lastSeen": "2026-07-17T23:43:06.090Z",
+      "lastSeenMs": 1784331786090
+    },
+    {
       "userId": "5654547044",
       "username": "haks959",
       "displayName": "Dogday",
@@ -10671,5 +10687,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T23:42:23.765Z"
+  "updatedAt": "2026-07-17T23:43:11.102Z"
 }
