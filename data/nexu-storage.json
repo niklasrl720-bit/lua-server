@@ -8150,8 +8150,8 @@
       "username": "souzattk4",
       "displayName": "souzax",
       "roleKey": "",
-      "gameName": "Sobreviva durante a noite em uma Mega Loja",
-      "placeId": 127380660530951,
+      "gameName": "Jogo",
+      "placeId": 121418861436763,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -9391,5 +9391,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T19:16:23.454Z"
+  "updatedAt": "2026-07-17T19:17:16.347Z"
 }
