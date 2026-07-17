@@ -2514,6 +2514,22 @@
       "lastSeenMs": 1784262900000
     },
     {
+      "userId": "11300453800",
+      "username": "emmcnc",
+      "displayName": "emmcnc",
+      "roleKey": "",
+      "gameName": "النجاة من الكوارث الطبيعية",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:03:27.326Z",
+      "firstSeenMs": 1784293407326,
+      "lastSeen": "2026-07-17T13:03:27.326Z",
+      "lastSeenMs": 1784293407326
+    },
+    {
       "userId": "11300587875",
       "username": "djdjdjdjdjdjdjdn42",
       "displayName": "djdjdjdjdjdjdjdn42",
@@ -6733,5 +6749,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:01:35.216Z"
+  "updatedAt": "2026-07-17T13:03:32.336Z"
 }
