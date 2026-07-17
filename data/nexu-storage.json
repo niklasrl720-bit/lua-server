@@ -3410,6 +3410,22 @@
       "lastSeenMs": 1784297400000
     },
     {
+      "userId": "11299202217",
+      "username": "RobloxSuporter_11304",
+      "displayName": "Niko",
+      "roleKey": "",
+      "gameName": "Brookhaven 🏡 RP",
+      "placeId": 4924922222,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T20:28:05.004Z",
+      "firstSeenMs": 1784320085004,
+      "lastSeen": "2026-07-17T20:28:05.004Z",
+      "lastSeenMs": 1784320085004
+    },
+    {
       "userId": "11299297213",
       "username": "ety76gffdsss",
       "displayName": "ety76gffdsss",
@@ -9753,5 +9769,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T20:27:31.888Z"
+  "updatedAt": "2026-07-17T20:28:10.063Z"
 }
