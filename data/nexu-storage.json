@@ -1762,6 +1762,22 @@
       "lastSeenMs": 1784234844274
     },
     {
+      "userId": "11282939234",
+      "username": "komar00287",
+      "displayName": "komar00287",
+      "roleKey": "",
+      "gameName": "+1 Speed Keyboard Escape | Candy & Chocolate",
+      "placeId": 95082159892680,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T11:30:54.962Z",
+      "firstSeenMs": 1784287854962,
+      "lastSeen": "2026-07-17T11:30:54.962Z",
+      "lastSeenMs": 1784287854962
+    },
+    {
       "userId": "11283537416",
       "username": "wsgwiththeguys",
       "displayName": "wsgwiththeguys",
@@ -2206,8 +2222,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T22:47:41.944Z",
       "firstSeenMs": 1784242061944,
-      "lastSeen": "2026-07-17T11:25:00.000Z",
-      "lastSeenMs": 1784287500000
+      "lastSeen": "2026-07-17T11:30:00.000Z",
+      "lastSeenMs": 1784287800000
     },
     {
       "userId": "11299297213",
@@ -2510,8 +2526,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T11:25:00.000Z",
-      "lastSeenMs": 1784287500000
+      "lastSeen": "2026-07-17T11:30:00.000Z",
+      "lastSeenMs": 1784287800000
     },
     {
       "userId": "1784154449",
@@ -3854,8 +3870,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:02:53.513Z",
       "firstSeenMs": 1784253773513,
-      "lastSeen": "2026-07-17T11:25:00.000Z",
-      "lastSeenMs": 1784287500000
+      "lastSeen": "2026-07-17T11:30:00.000Z",
+      "lastSeenMs": 1784287800000
     },
     {
       "userId": "6074258353",
@@ -3886,8 +3902,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T11:25:48.328Z",
       "firstSeenMs": 1784287548328,
-      "lastSeen": "2026-07-17T11:25:48.328Z",
-      "lastSeenMs": 1784287548328
+      "lastSeen": "2026-07-17T11:30:00.000Z",
+      "lastSeenMs": 1784287800000
     },
     {
       "userId": "6223197676",
@@ -6271,5 +6287,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T11:26:30.209Z"
+  "updatedAt": "2026-07-17T11:31:00.178Z"
 }
