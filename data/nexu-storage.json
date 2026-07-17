@@ -2690,6 +2690,22 @@
       "lastSeenMs": 1784263800000
     },
     {
+      "userId": "4948559177",
+      "username": "jrheehehhe",
+      "displayName": "Dung",
+      "roleKey": "",
+      "gameName": "Tấn công trả đũa [⚡Mùa 4]",
+      "placeId": 124143542106350,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T07:17:15.167Z",
+      "firstSeenMs": 1784272635167,
+      "lastSeen": "2026-07-17T07:17:15.167Z",
+      "lastSeenMs": 1784272635167
+    },
+    {
       "userId": "4963790387",
       "username": "VieristmeinFavorit",
       "displayName": "SeMy_22",
@@ -4949,5 +4965,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T07:16:34.827Z"
+  "updatedAt": "2026-07-17T07:17:20.172Z"
 }
