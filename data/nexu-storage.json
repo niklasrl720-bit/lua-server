@@ -2306,6 +2306,22 @@
       "lastSeenMs": 1784252478250
     },
     {
+      "userId": "1792768847",
+      "username": "rotedief2s",
+      "displayName": "Rty",
+      "roleKey": "",
+      "gameName": "MMZ",
+      "placeId": 112549989144807,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T09:25:52.078Z",
+      "firstSeenMs": 1784280352078,
+      "lastSeen": "2026-07-17T09:25:52.078Z",
+      "lastSeenMs": 1784280352078
+    },
+    {
       "userId": "1891206840",
       "username": "Denasia_123",
       "displayName": "nae",
@@ -5609,5 +5625,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T09:25:06.558Z"
+  "updatedAt": "2026-07-17T09:25:57.088Z"
 }
