@@ -5586,6 +5586,22 @@
       "lastSeenMs": 1784231100000
     },
     {
+      "userId": "4656891186",
+      "username": "Rock24kp_m",
+      "displayName": "nuuni",
+      "roleKey": "",
+      "gameName": "[FIXED] Blocks n' Props",
+      "placeId": 2537430692,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T21:22:21.706Z",
+      "firstSeenMs": 1784323341706,
+      "lastSeen": "2026-07-17T21:22:21.706Z",
+      "lastSeenMs": 1784323341706
+    },
+    {
       "userId": "4666151778",
       "username": "issadday4me",
       "displayName": "issadday4me",
@@ -10157,5 +10173,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T21:21:38.803Z"
+  "updatedAt": "2026-07-17T21:22:26.904Z"
 }
