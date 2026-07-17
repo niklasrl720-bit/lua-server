@@ -1186,6 +1186,22 @@
       "lastSeenMs": 1784294753190
     },
     {
+      "userId": "11169885571",
+      "username": "Viltrumit_001",
+      "displayName": "Viltrumite",
+      "roleKey": "",
+      "gameName": "Мертвые рельсы [Волна тепла]",
+      "placeId": 116495829188952,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:56:19.685Z",
+      "firstSeenMs": 1784296579685,
+      "lastSeen": "2026-07-17T13:56:19.685Z",
+      "lastSeenMs": 1784296579685
+    },
+    {
       "userId": "11185260337",
       "username": "michael475424",
       "displayName": "michael475424",
@@ -5806,8 +5822,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T13:45:00.000Z",
-      "lastSeenMs": 1784295900000
+      "lastSeen": "2026-07-17T13:55:00.000Z",
+      "lastSeenMs": 1784296500000
     },
     {
       "userId": "9134201874",
@@ -7097,5 +7113,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:55:34.901Z"
+  "updatedAt": "2026-07-17T13:56:24.696Z"
 }
