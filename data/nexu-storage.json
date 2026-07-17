@@ -126,8 +126,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:54:59.105Z",
       "firstSeenMs": 1784249699105,
-      "lastSeen": "2026-07-17T08:15:00.000Z",
-      "lastSeenMs": 1784276100000
+      "lastSeen": "2026-07-17T08:20:00.000Z",
+      "lastSeenMs": 1784276400000
     },
     {
       "userId": "10172085694",
@@ -2910,8 +2910,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:26:43.731Z",
       "firstSeenMs": 1784269603731,
-      "lastSeen": "2026-07-17T08:15:00.000Z",
-      "lastSeenMs": 1784276100000
+      "lastSeen": "2026-07-17T08:20:00.000Z",
+      "lastSeenMs": 1784276400000
     },
     {
       "userId": "4549877961",
@@ -3054,8 +3054,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T08:15:00.000Z",
-      "lastSeenMs": 1784276100000
+      "lastSeen": "2026-07-17T08:20:00.000Z",
+      "lastSeenMs": 1784276400000
     },
     {
       "userId": "5111527490",
@@ -5373,5 +5373,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T08:19:03.726Z"
+  "updatedAt": "2026-07-17T08:21:00.903Z"
 }
