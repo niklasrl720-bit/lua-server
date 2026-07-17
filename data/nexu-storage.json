@@ -1106,6 +1106,22 @@
       "lastSeenMs": 1784248311406
     },
     {
+      "userId": "11208130071",
+      "username": "oranggila12349229",
+      "displayName": "oranggila12349229",
+      "roleKey": "",
+      "gameName": "Bangunan - Dunia Saya",
+      "placeId": 138161475056874,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T10:49:20.949Z",
+      "firstSeenMs": 1784285360949,
+      "lastSeen": "2026-07-17T10:49:20.949Z",
+      "lastSeenMs": 1784285360949
+    },
+    {
       "userId": "11208288124",
       "username": "minhcaychayhuhu",
       "displayName": "minhcaychayhuhu",
@@ -6129,5 +6145,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T10:47:00.809Z"
+  "updatedAt": "2026-07-17T10:49:25.957Z"
 }
