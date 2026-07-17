@@ -4418,6 +4418,22 @@
       "lastSeenMs": 1784240100000
     },
     {
+      "userId": "444276081",
+      "username": "NAGVH",
+      "displayName": "Maltermaltymalta",
+      "roleKey": "",
+      "gameName": "PARASITE RESTORED",
+      "placeId": 112963627511236,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T16:18:23.880Z",
+      "firstSeenMs": 1784305103880,
+      "lastSeen": "2026-07-17T16:18:23.880Z",
+      "lastSeenMs": 1784305103880
+    },
+    {
       "userId": "4451091661",
       "username": "baritonaubp",
       "displayName": "Long_Bell",
@@ -5214,8 +5230,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:15:27.430Z",
       "firstSeenMs": 1784232927430,
-      "lastSeen": "2026-07-17T15:00:00.000Z",
-      "lastSeenMs": 1784300400000
+      "lastSeen": "2026-07-17T16:15:00.000Z",
+      "lastSeenMs": 1784304900000
     },
     {
       "userId": "7084113045",
@@ -8123,5 +8139,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:16:47.462Z"
+  "updatedAt": "2026-07-17T16:18:28.890Z"
 }
