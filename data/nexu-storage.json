@@ -1554,6 +1554,22 @@
       "lastSeenMs": 1784230612388
     },
     {
+      "userId": "11248971207",
+      "username": "ThemightyGre3ntea",
+      "displayName": "ThemightyGre3ntea",
+      "roleKey": "",
+      "gameName": "Touch Football Tournament",
+      "placeId": 10034808900,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:18:24.013Z",
+      "firstSeenMs": 1784294304013,
+      "lastSeen": "2026-07-17T13:18:24.013Z",
+      "lastSeenMs": 1784294304013
+    },
+    {
       "userId": "11249281504",
       "username": "hack1x1x1198",
       "displayName": "hack1x1x1",
@@ -3872,6 +3888,22 @@
       "firstSeenMs": 1784253814191,
       "lastSeen": "2026-07-17T04:50:00.000Z",
       "lastSeenMs": 1784263800000
+    },
+    {
+      "userId": "4916414575",
+      "username": "FieryPheonx_XsALT",
+      "displayName": "FieryPheonx_XsALT",
+      "roleKey": "",
+      "gameName": "IQ Obby",
+      "placeId": 12805830692,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T13:18:21.599Z",
+      "firstSeenMs": 1784294301599,
+      "lastSeen": "2026-07-17T13:18:21.599Z",
+      "lastSeenMs": 1784294301599
     },
     {
       "userId": "4948559177",
@@ -6909,5 +6941,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T13:18:09.634Z"
+  "updatedAt": "2026-07-17T13:18:26.610Z"
 }
