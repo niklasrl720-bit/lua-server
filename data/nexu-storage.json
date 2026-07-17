@@ -578,6 +578,22 @@
       "lastSeenMs": 1784248862006
     },
     {
+      "userId": "11239120216",
+      "username": "Lasalchipapareal123",
+      "displayName": "Lasalchipapareal123",
+      "roleKey": "",
+      "gameName": "CSNEO2026",
+      "placeId": 90237569061788,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-17T00:43:10.751Z",
+      "firstSeenMs": 1784248990751,
+      "lastSeen": "2026-07-17T00:43:10.751Z",
+      "lastSeenMs": 1784248990751
+    },
+    {
       "userId": "11243688312",
       "username": "LoveOnlyMe675",
       "displayName": "LoveOnlyMe675",
@@ -2318,8 +2334,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-16T23:00:00.000Z",
-      "lastSeenMs": 1784242800000
+      "lastSeen": "2026-07-17T00:40:00.000Z",
+      "lastSeenMs": 1784248800000
     },
     {
       "userId": "9134201874",
@@ -2795,5 +2811,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T00:41:33.266Z"
+  "updatedAt": "2026-07-17T00:43:15.754Z"
 }
