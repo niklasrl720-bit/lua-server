@@ -684,10 +684,10 @@
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-17T16:24:47.024Z",
-      "firstSeenMs": 1784305487024,
-      "lastSeen": "2026-07-17T16:24:47.024Z",
-      "lastSeenMs": 1784305487024
+      "firstSeen": "2026-07-17T16:25:06.617Z",
+      "firstSeenMs": 1784305506617,
+      "lastSeen": "2026-07-17T16:25:06.617Z",
+      "lastSeenMs": 1784305506617
     },
     {
       "userId": "10736557501",
@@ -830,8 +830,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:16:43.732Z",
       "firstSeenMs": 1784247403732,
-      "lastSeen": "2026-07-17T16:20:00.000Z",
-      "lastSeenMs": 1784305200000
+      "lastSeen": "2026-07-17T16:25:00.000Z",
+      "lastSeenMs": 1784305500000
     },
     {
       "userId": "10865199057",
@@ -2174,8 +2174,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:21:51.335Z",
       "firstSeenMs": 1784305311335,
-      "lastSeen": "2026-07-17T16:21:51.335Z",
-      "lastSeenMs": 1784305311335
+      "lastSeen": "2026-07-17T16:25:00.000Z",
+      "lastSeenMs": 1784305500000
     },
     {
       "userId": "11264362932",
@@ -3214,8 +3214,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:23:48.351Z",
       "firstSeenMs": 1784305428351,
-      "lastSeen": "2026-07-17T16:23:48.351Z",
-      "lastSeenMs": 1784305428351
+      "lastSeen": "2026-07-17T16:25:00.000Z",
+      "lastSeenMs": 1784305500000
     },
     {
       "userId": "11301617517",
@@ -3422,8 +3422,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:12.728Z",
       "firstSeenMs": 1784225112728,
-      "lastSeen": "2026-07-17T16:20:00.000Z",
-      "lastSeenMs": 1784305200000
+      "lastSeen": "2026-07-17T16:25:00.000Z",
+      "lastSeenMs": 1784305500000
     },
     {
       "userId": "1784154449",
@@ -3870,8 +3870,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T15:21:04.529Z",
       "firstSeenMs": 1784301664529,
-      "lastSeen": "2026-07-17T16:20:00.000Z",
-      "lastSeenMs": 1784305200000
+      "lastSeen": "2026-07-17T16:25:00.000Z",
+      "lastSeenMs": 1784305500000
     },
     {
       "userId": "3104796288",
@@ -4510,8 +4510,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:18:23.880Z",
       "firstSeenMs": 1784305103880,
-      "lastSeen": "2026-07-17T16:20:00.000Z",
-      "lastSeenMs": 1784305200000
+      "lastSeen": "2026-07-17T16:25:00.000Z",
+      "lastSeenMs": 1784305500000
     },
     {
       "userId": "4451091661",
@@ -5310,8 +5310,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:15:27.430Z",
       "firstSeenMs": 1784232927430,
-      "lastSeen": "2026-07-17T16:20:00.000Z",
-      "lastSeenMs": 1784305200000
+      "lastSeen": "2026-07-17T16:25:00.000Z",
+      "lastSeenMs": 1784305500000
     },
     {
       "userId": "7084113045",
@@ -5644,10 +5644,10 @@
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-17T16:24:46.850Z",
-      "firstSeenMs": 1784305486850,
-      "lastSeen": "2026-07-17T16:24:46.850Z",
-      "lastSeenMs": 1784305486850
+      "firstSeen": "2026-07-17T16:25:06.402Z",
+      "firstSeenMs": 1784305506402,
+      "lastSeen": "2026-07-17T16:25:06.402Z",
+      "lastSeenMs": 1784305506402
     },
     {
       "userId": "7642952845",
@@ -6750,8 +6750,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T16:20:00.000Z",
-      "lastSeenMs": 1784305200000
+      "lastSeen": "2026-07-17T16:25:00.000Z",
+      "lastSeenMs": 1784305500000
     },
     {
       "userId": "9134201874",
@@ -7006,8 +7006,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:45:47.132Z",
       "firstSeenMs": 1784227547132,
-      "lastSeen": "2026-07-17T16:20:00.000Z",
-      "lastSeenMs": 1784305200000
+      "lastSeen": "2026-07-17T16:25:00.000Z",
+      "lastSeenMs": 1784305500000
     },
     {
       "userId": "9414382754",
@@ -8235,5 +8235,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-17T16:24:51.863Z"
+  "updatedAt": "2026-07-17T16:25:11.445Z"
 }
