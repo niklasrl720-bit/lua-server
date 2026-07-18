@@ -19,6 +19,23 @@
       "lastSeenMs": 1784235652820
     },
     {
+      "userId": "10006888686",
+      "username": "HIAM_RR",
+      "displayName": "7BAN7",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[WORLD2] +1 Escape de teclado de velocidad",
+      "placeId": 118941584817777,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T20:04:15.666Z",
+      "firstSeenMs": 1784405055666,
+      "lastSeen": "2026-07-18T20:04:15.666Z",
+      "lastSeenMs": 1784405055666
+    },
+    {
       "userId": "10015844305",
       "username": "labar716",
       "displayName": "Lucian",
@@ -11961,5 +11978,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:00:08.768Z"
+  "updatedAt": "2026-07-18T20:04:20.675Z"
 }
