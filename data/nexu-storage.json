@@ -3871,11 +3871,11 @@
       "executionSource": "Madium",
       "executionVersion": "1.3.8.0",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T20:53:21.242Z",
       "firstSeenMs": 1784235201242,
-      "lastSeen": "2026-07-16T21:45:00.000Z",
-      "lastSeenMs": 1784238300000
+      "lastSeen": "2026-07-18T21:35:00.000Z",
+      "lastSeenMs": 1784410500000
     },
     {
       "userId": "11291339681",
@@ -12376,5 +12376,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:36:02.699Z"
+  "updatedAt": "2026-07-18T21:36:22.583Z"
 }
