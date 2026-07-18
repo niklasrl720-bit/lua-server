@@ -2858,6 +2858,23 @@
       "lastSeenMs": 1784248990751
     },
     {
+      "userId": "11242459156",
+      "username": "THEchudNugget",
+      "displayName": "THEchudNugget",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "The Wild West",
+      "placeId": 2317712696,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T21:49:15.412Z",
+      "firstSeenMs": 1784411355412,
+      "lastSeen": "2026-07-18T21:49:15.412Z",
+      "lastSeenMs": 1784411355412
+    },
+    {
       "userId": "11242727349",
       "username": "zkuzwbwisu",
       "displayName": "zkuzwbwisu",
@@ -12410,5 +12427,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:48:12.687Z"
+  "updatedAt": "2026-07-18T21:49:20.466Z"
 }
