@@ -3691,6 +3691,23 @@
       "lastSeenMs": 1784236745149
     },
     {
+      "userId": "11276802319",
+      "username": "udsgbyddgh",
+      "displayName": "udsgbyddgh",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Estúdio Lite",
+      "placeId": 10959918411,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T23:51:30.133Z",
+      "firstSeenMs": 1784418690133,
+      "lastSeen": "2026-07-18T23:51:30.133Z",
+      "lastSeenMs": 1784418690133
+    },
+    {
       "userId": "11277307439",
       "username": "ShawtyEasy11",
       "displayName": "ShawtyEasy11",
@@ -12293,5 +12310,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:51:00.407Z"
+  "updatedAt": "2026-07-18T23:51:35.139Z"
 }
