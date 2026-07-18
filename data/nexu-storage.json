@@ -7227,6 +7227,23 @@
       "lastSeenMs": 1784295900000
     },
     {
+      "userId": "5403505788",
+      "username": "nazar890hghghg",
+      "displayName": "sigma_CRAL",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Выживание в стихийных бедствиях",
+      "placeId": 189707,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:07:29.635Z",
+      "firstSeenMs": 1784401649635,
+      "lastSeen": "2026-07-18T19:07:29.635Z",
+      "lastSeenMs": 1784401649635
+    },
+    {
       "userId": "5465354094",
       "username": "OSMAN_92741",
       "displayName": "Baby",
@@ -11576,5 +11593,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:06:50.744Z"
+  "updatedAt": "2026-07-18T19:07:34.648Z"
 }
