@@ -3245,8 +3245,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:21:51.335Z",
       "firstSeenMs": 1784305311335,
-      "lastSeen": "2026-07-17T17:20:00.000Z",
-      "lastSeenMs": 1784308800000
+      "lastSeen": "2026-07-18T21:50:00.000Z",
+      "lastSeenMs": 1784411400000
     },
     {
       "userId": "11264362932",
@@ -3891,8 +3891,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T20:53:21.242Z",
       "firstSeenMs": 1784235201242,
-      "lastSeen": "2026-07-18T21:45:00.000Z",
-      "lastSeenMs": 1784411100000
+      "lastSeen": "2026-07-18T21:50:00.000Z",
+      "lastSeenMs": 1784411400000
     },
     {
       "userId": "11291339681",
@@ -6783,6 +6783,23 @@
       "firstSeenMs": 1784299605139,
       "lastSeen": "2026-07-18T20:20:00.000Z",
       "lastSeenMs": 1784406000000
+    },
+    {
+      "userId": "4235802081",
+      "username": "paulelo10",
+      "displayName": "溶解した",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Campos de Batalha Definitivos",
+      "placeId": 11815767793,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T21:51:39.777Z",
+      "firstSeenMs": 1784411499777,
+      "lastSeen": "2026-07-18T21:51:39.777Z",
+      "lastSeenMs": 1784411499777
     },
     {
       "userId": "4242993477",
@@ -12444,5 +12461,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:50:34.783Z"
+  "updatedAt": "2026-07-18T21:51:44.972Z"
 }
