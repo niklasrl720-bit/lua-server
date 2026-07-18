@@ -789,16 +789,16 @@
       "displayName": "BMENOVO444",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "DUELOS",
-      "placeId": 72387437800091,
+      "gameName": "DUELOS DE ATIRADORES DE ELITE",
+      "placeId": 109397169461300,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:08:40.846Z",
       "firstSeenMs": 1784243320846,
-      "lastSeen": "2026-07-17T23:05:00.000Z",
-      "lastSeenMs": 1784329500000
+      "lastSeen": "2026-07-18T23:10:00.000Z",
+      "lastSeenMs": 1784416200000
     },
     {
       "userId": "10566812830",
@@ -12159,5 +12159,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:11:13.421Z"
+  "updatedAt": "2026-07-18T23:12:38.020Z"
 }
