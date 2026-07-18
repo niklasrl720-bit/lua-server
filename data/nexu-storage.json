@@ -1073,6 +1073,23 @@
       "lastSeenMs": 1784317200000
     },
     {
+      "userId": "10706452451",
+      "username": "xaomingi",
+      "displayName": "bro",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[UP] Just a baseplate.",
+      "placeId": 123974602339071,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T23:06:31.856Z",
+      "firstSeenMs": 1784415991856,
+      "lastSeen": "2026-07-18T23:06:31.856Z",
+      "lastSeenMs": 1784415991856
+    },
+    {
       "userId": "10711884461",
       "username": "NomAleatoire_5",
       "displayName": "NomAleatoire_5",
@@ -12108,5 +12125,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:06:24.060Z"
+  "updatedAt": "2026-07-18T23:06:36.860Z"
 }
