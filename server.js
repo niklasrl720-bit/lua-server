@@ -8818,7 +8818,7 @@ function nexuV201OverviewSidebarHtml() {
     return String.raw`
 <aside class="nx-overview-sidebar" aria-label="Serverzentrale">
     <div class="nx-server-head">
-        <div class="nx-server-logo">N</div>
+        <div class="nx-server-logo" role="img" aria-label="Nexu Logo" style="background-image:url(${NEXU_BRAND_LOGO_DATA_URI});background-size:cover;background-position:center;background-repeat:no-repeat;color:transparent !important;font-size:0 !important;overflow:hidden;text-indent:-9999px;">N</div>
         <div class="nx-server-copy">
             <span>Serverzentrale</span>
             <strong>${escapeHtml(process.env.RENDER_SERVICE_NAME || "Nexu Server")}</strong>
