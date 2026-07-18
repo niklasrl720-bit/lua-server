@@ -5090,8 +5090,8 @@
       "displayName": "saturogojo",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Regretevator [ ELEVATOR SIMULATOR ]",
-      "placeId": 4972273297,
+      "gameName": "Place 117596343548805",
+      "placeId": 117596343548805,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
@@ -11659,5 +11659,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:22:20.597Z"
+  "updatedAt": "2026-07-18T19:23:24.425Z"
 }
