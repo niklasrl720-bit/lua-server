@@ -1803,6 +1803,13 @@ function getBanMutationAuthorization(req, body) {
     return { authorized: false, source: "" };
 }
 
+const DASHBOARD_ACCOUNT_LANGUAGES = new Set(["en", "de"]);
+
+function normalizeDashboardLanguage(value) {
+    const language = String(value || "").trim().toLowerCase().split(/[-_]/, 1)[0];
+    return DASHBOARD_ACCOUNT_LANGUAGES.has(language) ? language : "en";
+}
+
 function normalizeDashboardAccount(raw) {
     const username = cleanDashboardUsername(raw && raw.username);
     const email = cleanDashboardEmail(raw && raw.email) || internalDashboardEmailForUsername(username);
@@ -1822,6 +1829,7 @@ function normalizeDashboardAccount(raw) {
         robloxUserId,
         robloxUsername: cleanText(raw && (raw.robloxUsername || raw.linkedRobloxUsername), 40),
         robloxDisplayName: cleanText(raw && (raw.robloxDisplayName || raw.linkedRobloxDisplayName), 80),
+        language: normalizeDashboardLanguage(raw && (raw.language || raw.locale || raw.accountLanguage)),
         access,
         createdAt: cleanText(raw && raw.createdAt, 64) || new Date().toISOString(),
         updatedAt: cleanText(raw && raw.updatedAt, 64) || "",
@@ -1943,6 +1951,7 @@ function serializeDashboardAccountForStorage(raw) {
         robloxUserId: account.robloxUserId,
         robloxUsername: account.robloxUsername,
         robloxDisplayName: account.robloxDisplayName,
+        language: normalizeDashboardLanguage(account.language),
         access,
         createdAt: account.createdAt,
         updatedAt: account.updatedAt,
@@ -5051,7 +5060,7 @@ button,.button-link{border-radius:15px;}
 </body>
 </html>`;}
 
-function homeHtml(notice = "", error = "", account = null) {const loaderCommandJson = JSON.stringify(NEXU_LOADER_COMMAND);const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = isOwnerDashboardAccount(accountData);const accountRobloxUserId = cleanNumericId(accountData.robloxUserId);const hasRobloxLink = Boolean(accountRobloxUserId);const accountAvatarUrl = accountRobloxUserId ? "/api/roblox-avatar?userId=" + encodeURIComponent(accountRobloxUserId) : NEXU_BRAND_LOGO_DATA_URI;const accountAvatarFallback = JSON.stringify(NEXU_BRAND_LOGO_DATA_URI);const canOpenMenuServer = canAccessMenuServer(accountData);const canManageAccounts = canManageDashboardAccounts(accountData);const usernameReadonly = isOwnerAccount ? "readonly" : "";const deleteAccountBlock = isOwnerAccount
+function homeHtml(notice = "", error = "", account = null) {const loaderCommandJson = JSON.stringify(NEXU_LOADER_COMMAND);const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL, language: "en"};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const accountLanguage = normalizeDashboardLanguage(accountData.language);const isOwnerAccount = isOwnerDashboardAccount(accountData);const accountRobloxUserId = cleanNumericId(accountData.robloxUserId);const hasRobloxLink = Boolean(accountRobloxUserId);const accountAvatarUrl = accountRobloxUserId ? "/api/roblox-avatar?userId=" + encodeURIComponent(accountRobloxUserId) : NEXU_BRAND_LOGO_DATA_URI;const accountAvatarFallback = JSON.stringify(NEXU_BRAND_LOGO_DATA_URI);const canOpenMenuServer = canAccessMenuServer(accountData);const canManageAccounts = canManageDashboardAccounts(accountData);const usernameReadonly = isOwnerAccount ? "readonly" : "";const deleteAccountBlock = isOwnerAccount
     ? '<section class="modal-card"><div class="danger-zone"><h3>OwnerAccount geschützt</h3><p>Der OwnerAccount kann hier nicht gelöscht werden, damit du den Hauptzugriff nicht verlierst.</p></div></section>'
     : '<form class="modal-card" method="post" action="/account/delete" autocomplete="off"><div class="danger-zone"><h3>Konto löschen</h3><p>Dieses Konto wird dauerhaft aus der Übersicht entfernt. Danach wirst du abgemeldet.</p><div class="field"><label for="deletePassword">Passwort bestätigen</label><input id="deletePassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div><div class="modal-actions"><button type="submit">KONTO LÖSCHEN</button></div></div></form>';const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = canOpenMenuServer
     ? '<a class="primary-tile menu-server" href="/uebersicht"><span>ÜBERSICHT</span><strong>Serverübersicht öffnen</strong><small>' + (isOwnerAccount ? 'OwnerAccount Zugriff' : 'Vom Owner freigegeben') + '</small></a>'
@@ -5125,8 +5134,8 @@ button.primary-tile { width:100%; text-align:left; font:inherit; cursor:pointer;
 .modal-card h2 { margin:8px 0 8px; }
 .field { margin-top:14px; }
 .field label { display:block; margin-bottom:7px; color:#9bb8c9; font-size:11px; letter-spacing:.11em; text-transform:uppercase; }
-.field input { width:100%; height:44px; border:1px solid rgba(74,178,230,.24); border-radius:13px; outline:none; padding:0 13px; color:var(--text); background:rgba(3,8,15,.78); font:inherit; }
-.field input:focus { border-color:rgba(0,200,255,.68); box-shadow:0 0 0 3px rgba(0,200,255,.08); }
+.field input,.field select { width:100%; height:44px; border:1px solid rgba(74,178,230,.24); border-radius:13px; outline:none; padding:0 13px; color:var(--text); background:rgba(3,8,15,.78); font:inherit; }
+.field input:focus,.field select:focus { border-color:rgba(0,200,255,.68); box-shadow:0 0 0 3px rgba(0,200,255,.08); }
 .modal-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:18px; }
 .modal-actions button { min-height:42px; padding:0 14px; border:1px solid rgba(74,178,230,.28); border-radius:13px; color:var(--text); background:rgba(10,18,31,.78); font:inherit; font-size:12px; font-weight:850; letter-spacing:.06em; cursor:pointer; }
 .modal-actions .save { border-color:rgba(0,200,255,.5); background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(111,70,255,.16)); }.danger-zone { margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,77,120,.22); }.danger-zone h3 { margin:0 0 8px; color:#ffb3c2; }.danger-zone button { border-color:rgba(255,77,120,.4); background:rgba(55,7,20,.62); color:#ffd6df; }
@@ -5203,8 +5212,9 @@ html,body{background:
     <form class="modal-card" method="post" action="/account/settings" autocomplete="on">
         <div class="eyebrow">KONTOEINSTELLUNGEN</div>
         <h2>Konto bearbeiten</h2>
-        <p>Benutzername und Passwort werden serverseitig gespeichert. Die Registrierung funktioniert ohne Bestätigungscode.${isOwnerAccount ? " Der OwnerAccount-Name ist geschützt." : ""}</p>
+        <p>Benutzername, Sprache und Passwort werden serverseitig am Account gespeichert. Die Registrierung funktioniert ohne Bestätigungscode.${isOwnerAccount ? " Der OwnerAccount-Name ist geschützt." : ""}</p>
         <div class="field"><label for="newUsername">Benutzername</label><input id="newUsername" name="newUsername" type="text" maxlength="80" value="${escapeHtml(accountName)}" autocomplete="username" ${usernameReadonly} required></div>
+        <div class="field"><label for="accountLanguage">Sprache</label><select id="accountLanguage" name="language" autocomplete="language"><option value="en" ${accountLanguage === "en" ? "selected" : ""}>English (Standard)</option><option value="de" ${accountLanguage === "de" ? "selected" : ""}>Deutsch</option></select></div>
         <div class="field"><label for="currentPassword">Aktuelles Passwort</label><input id="currentPassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div>
         <div class="field"><label for="newPassword">Neues Passwort</label><input id="newPassword" name="newPassword" type="password" maxlength="200" autocomplete="new-password" placeholder="Leer lassen, wenn gleich bleiben soll"></div>
         <div class="field"><label for="confirmPassword">Neues Passwort bestätigen</label><input id="confirmPassword" name="confirmPassword" type="password" maxlength="200" autocomplete="new-password"></div>
@@ -5305,6 +5315,7 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
             + '<input type="hidden" name="accountEmail" value="' + escapeHtml(entry.email) + '">'
             + '<div class="grid">'
             + '<label>Benutzername<input name="username" maxlength="80" value="' + escapeHtml(entry.username) + '" ' + usernameReadonly + ' required></label>'
+            + '<label>Sprache<select name="language"><option value="en"' + (normalizeDashboardLanguage(entry.language) === "en" ? " selected" : "") + '>English (Standard)</option><option value="de"' + (normalizeDashboardLanguage(entry.language) === "de" ? " selected" : "") + '>Deutsch</option></select></label>'
             + '<label>Roblox User-ID<input name="robloxUserId" inputmode="numeric" pattern="[0-9]+" maxlength="30" value="' + escapeHtml(robloxUserId) + '" placeholder="Roblox User-ID" required></label>'
             + '<label>Neues Passwort<input name="newPassword" type="password" maxlength="200" placeholder="Leer lassen = bleibt gleich"></label>'
             + '<label>Passwort bestätigen<input name="confirmPassword" type="password" maxlength="200"></label>'
@@ -5358,8 +5369,8 @@ a.back { min-height:40px; display:inline-flex; align-items:center; padding:0 13p
 .badge.owner { color:#fff2a8; border:1px solid rgba(255,194,45,.42); background:rgba(47,27,3,.7); }
 .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
 label { display:block; color:#9bb8c9; font-size:10px; letter-spacing:.1em; text-transform:uppercase; font-weight:850; }
-label input { width:100%; height:42px; margin-top:7px; border:1px solid rgba(74,178,230,.24); border-radius:12px; outline:none; padding:0 12px; color:var(--text); background:rgba(3,8,15,.78); font:inherit; font-size:13px; text-transform:none; letter-spacing:0; }
-label input:focus { border-color:rgba(0,200,255,.68); box-shadow:0 0 0 3px rgba(0,200,255,.08); }
+label input,label select { width:100%; height:42px; margin-top:7px; border:1px solid rgba(74,178,230,.24); border-radius:12px; outline:none; padding:0 12px; color:var(--text); background:rgba(3,8,15,.78); font:inherit; font-size:13px; text-transform:none; letter-spacing:0; }
+label input:focus,label select:focus { border-color:rgba(0,200,255,.68); box-shadow:0 0 0 3px rgba(0,200,255,.08); }
 input[readonly] { opacity:.72; }
 .access-box { margin-top:12px; padding:13px; display:grid; grid-template-columns:minmax(210px,.55fr) 1fr; gap:14px; align-items:start; border:1px solid rgba(74,178,230,.18); border-radius:16px; background:rgba(3,8,15,.45); }
 .access-box b { display:block; margin-bottom:3px; }
@@ -12224,9 +12235,113 @@ function nexuV208HomeScript() {
 </script>`;
 }
 
+
+function translateNexuAccountHomeHtml(html, language) {
+    if (normalizeDashboardLanguage(language) === "de") return html;
+    const replacements = [
+        ["<html lang=\"de\">", "<html lang=\"en\">"],
+        ["Nexu Startseite", "Nexu Home"],
+        ["System online und einsatzbereit", "System online and ready"],
+        ["System derzeit im Offline-Modus", "System currently offline"],
+        ["Dein Nexu.<br>Direkt bereit.", "Your Nexu.<br>Ready now."],
+        ["Eine klare Startseite für den schnellen Einstieg: Loader kopieren, Community öffnen und dein Nexu-Konto zentral verwalten.", "A clear homepage for a fast start: copy the loader, open the community, and manage your Nexu account in one place."],
+        ["Loader anzeigen", "View loader"],
+        ["Discord öffnen", "Open Discord"],
+        ["Ein Klick zum Kopieren", "One-click copy"],
+        ["Roblox-Konto verknüpft", "Roblox account linked"],
+        ["Übersicht freigeschaltet", "Overview unlocked"],
+        ["Öffentliche Startseite", "Public homepage"],
+        ["Persönliches Konto aktiv", "Personal account active"],
+        ["Globaler Laufzeitstatus", "Global runtime status"],
+        ["Aktueller Nexu-Startbefehl", "Current Nexu launch command"],
+        ["Offizieller Nexu Discord", "Official Nexu Discord"],
+        ["Nexu in wenigen Sekunden starten.", "Launch Nexu in seconds."],
+        ["Der aktuelle Startbefehl liegt immer zentral bereit. Kopiere ihn und füge ihn in deiner unterstützten Roblox-Umgebung ein.", "The current launch command is always available here. Copy it and paste it into your supported Roblox environment."],
+        ["Aktueller Ladebefehl", "Current loader command"],
+        ["Loader kopieren", "Copy loader"],
+        ["Der vollständige Befehl wird in deine Zwischenablage kopiert.", "The full command will be copied to your clipboard."],
+        ["Schnellstart", "Quick start"],
+        ["Nutze den großen Kopierbutton auf dieser Seite.", "Use the large copy button on this page."],
+        ["In Roblox einfügen", "Paste into Roblox"],
+        ["Füge den kopierten Befehl in deine unterstützte Umgebung ein.", "Paste the copied command into your supported environment."],
+        ["Nexu öffnen", "Open Nexu"],
+        ["Das Menü lädt die aktuelle Version automatisch.", "The menu loads the current version automatically."],
+        ["Neuigkeiten, Hilfe und die Nexu-Community an einem Ort. Die Einladung führt direkt auf den offiziellen Server.", "News, help, and the Nexu community in one place. The invitation opens the official server directly."],
+        ["Discord beitreten", "Join Discord"],
+        ["03 // Plattform", "03 // Platform"],
+        ["Alles Wichtige klar organisiert.", "Everything important, clearly organized."],
+        ["Die Startseite konzentriert sich auf den Einstieg. Geschützte Steuerfunktionen bleiben sauber im persönlichen Konto- und Owner-Bereich getrennt.", "The homepage focuses on getting started. Protected control features remain separated in the personal account and owner areas."],
+        ["Immer der aktuelle Nexu-Startbefehl, direkt kopierbar und ohne unnötige Zwischenschritte.", "Always the current Nexu launch command, ready to copy without unnecessary steps."],
+        ["Profilbild, Benutzerkonto und persönliche Einstellungen bleiben zentral oben rechts erreichbar.", "Your profile image, account, and personal settings remain available in the top-right corner."],
+        ["Direkte Verbindung zum offiziellen Discord für Support, Austausch und neue Informationen.", "Direct access to the official Discord for support, discussion, and updates."],
+        ["Owner-Funktionen und Serverübersicht bleiben geschützt und nur im berechtigten Profilmenü sichtbar.", "Owner features and the server overview remain protected and visible only in authorized profile menus."],
+        ["Aktueller Systemzustand", "Current system status"],
+        ["Nexu ist online", "Nexu is online"],
+        ["Nexu ist offline", "Nexu is offline"],
+        ["Spielerprofile", "Player profiles"],
+        ["Konten", "Accounts"],
+        ["Sitzung", "Session"],
+        ["Startseite · V208", "Homepage · V208"],
+        [">Funktionen<", ">Features<"],
+        [">Start<", ">Home<"],
+        [">Gast<", ">Guest<"],
+        [">Aktiv<", ">Active<"],
+        [">Offen<", ">Open<"],
+        [">Bereit<", ">Ready<"],
+        ["Einstellungen <span>", "Settings <span>"],
+        ["Abmelden <span>", "Sign out <span>"],
+        ["KONTOEINSTELLUNGEN", "ACCOUNT SETTINGS"],
+        ["Konto bearbeiten", "Edit account"],
+        ["Benutzername, Sprache und Passwort werden serverseitig am Account gespeichert. Die Registrierung funktioniert ohne Bestätigungscode.", "Username, language, and password are stored securely with your account. Registration works without a confirmation code."],
+        [" Der OwnerAccount-Name ist geschützt.", " The OwnerAccount name is protected."],
+        [">Benutzername<", ">Username<"],
+        [">Sprache<", ">Language<"],
+        [">Aktuelles Passwort<", ">Current password<"],
+        [">Neues Passwort<", ">New password<"],
+        [">Neues Passwort bestätigen<", ">Confirm new password<"],
+        ["Leer lassen, wenn gleich bleiben soll", "Leave blank to keep the current password"],
+        [">ABBRECHEN<", ">CANCEL<"],
+        [">SPEICHERN<", ">SAVE<"],
+        ["OwnerAccount geschützt", "OwnerAccount protected"],
+        ["Der OwnerAccount kann hier nicht gelöscht werden, damit du den Hauptzugriff nicht verlierst.", "The OwnerAccount cannot be deleted here, ensuring the main access is never lost."],
+        [">Konto löschen<", ">Delete account<"],
+        ["Dieses Konto wird dauerhaft aus der Übersicht entfernt. Danach wirst du abgemeldet.", "This account will be permanently removed. You will then be signed out."],
+        ["Passwort bestätigen", "Confirm password"],
+        [">KONTO LÖSCHEN<", ">DELETE ACCOUNT<"],
+        ["Willkommen zurück", "Welcome back"],
+        ["Melde dich mit deinem Nexu-Konto an.", "Sign in with your Nexu account."],
+        [">Passwort<", ">Password<"],
+        [">ANMELDEN<", ">SIGN IN<"],
+        ["Die Anmeldung wird automatisch für dieses Gerät gespeichert.", "Sign-in is remembered automatically on this device."],
+        ["Konto erstellen", "Create account"],
+        ["Erstelle direkt dein persönliches Nexu-Konto.", "Create your personal Nexu account directly."],
+        ["Roblox User-ID", "Roblox User ID"],
+        ["Passwort bestätigen", "Confirm password"],
+        [">KONTO ERSTELLEN<", ">CREATE ACCOUNT<"],
+        ["Die Roblox-ID wird geprüft und eindeutig mit diesem Konto verbunden.", "The Roblox ID is verified and linked uniquely to this account."],
+        [">REGISTRIEREN<", ">REGISTER<"],
+        ["Übersicht <span>", "Overview <span>"],
+        ["Owner-Verwaltung <span>", "Owner management <span>"],
+        ["Kontoeinstellungen wurden gespeichert.", "Account settings were saved."],
+        ["Konto wurde gelöscht.", "Account was deleted."],
+        ["Du wurdest erfolgreich abgemeldet.", "You have been signed out successfully."],
+        ["Kopiert", "Copied"],
+        ["Kopieren fehlgeschlagen", "Copy failed"],
+        ["Der Nexu-Loader ist jetzt in deiner Zwischenablage.", "The Nexu loader is now in your clipboard."],
+        ["Bitte Browser-Berechtigung für die Zwischenablage erlauben.", "Please allow clipboard access in your browser."],
+        ["Skript kopieren", "Copy script"],
+        ["Kopiert den aktuellen Nexu-Ladebefehl in die Zwischenablage.", "Copies the current Nexu loader command to your clipboard."],
+        ["KOPIEREN", "COPY"]
+    ];
+    replacements.sort((left, right) => right[0].length - left[0].length);
+    for (const [source, target] of replacements) html = html.split(source).join(target);
+    return html;
+}
+
 homeHtml = function(notice = "", error = "", account = null, options = {}) {
     const isGuest = !account || !cleanDashboardUsername(account.username);
     const accountData = isGuest ? nexuV206GuestAccount() : account;
+    const accountLanguage = normalizeDashboardLanguage(accountData.language);
     const accountName = accountData.username || "Gast";
     const accountRobloxUserId = cleanNumericId(accountData.robloxUserId);
     const accountAvatarUrl = accountRobloxUserId
@@ -12365,7 +12480,7 @@ homeHtml = function(notice = "", error = "", account = null, options = {}) {
     });
     html = html.replace("</style>", nexuV208HomeCss() + "</style>");
     html = html.replace("</body>", nexuV208HomeScript() + "</body>");
-    return html;
+    return translateNexuAccountHomeHtml(html, accountLanguage);
 };
 
 
@@ -12842,6 +12957,555 @@ dashboardHtml = function(account = null, notice = "") {
     return html;
 };
 
+
+/* --------------------------------------------------------------------------
+ * NEXU V222 // MODERN MOTION SYSTEM
+ *
+ * Globale, GPU-freundliche Animationen für Startseite, Anmeldung,
+ * Kontoverwaltung und Übersicht. Bewegungen werden bei
+ * prefers-reduced-motion vollständig reduziert.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V222_BASE_LOGIN_HTML = loginHtml;
+const NEXU_V222_BASE_HOME_HTML = homeHtml;
+const NEXU_V222_BASE_ACCOUNTS_HTML = dashboardAccountsHtml;
+const NEXU_V222_BASE_OVERVIEW_HTML = dashboardHtml;
+
+function nexuV222MotionCss() {
+    return String.raw`
+/* NEXU V222 // MODERN MOTION SYSTEM */
+html{scroll-behavior:smooth;}
+body.nexu-motion-v222{
+    --nx-motion-fast:180ms;
+    --nx-motion-base:360ms;
+    --nx-motion-slow:720ms;
+    --nx-motion-ease:cubic-bezier(.2,.8,.2,1);
+    --nx-motion-spring:cubic-bezier(.16,1,.3,1);
+    --nx-motion-x:0px;
+    --nx-motion-y:0px;
+    animation:nxV222PageIn .62s var(--nx-motion-spring) both;
+}
+body.nexu-motion-v222.nx-motion-ready{opacity:1;transform:none;}
+@keyframes nxV222PageIn{from{opacity:0;transform:translateY(7px) scale(.998)}to{opacity:1;transform:none}}
+body.nexu-motion-v222::before{
+    animation:nxV222GridDrift 24s linear infinite;
+    will-change:background-position;
+}
+@keyframes nxV222GridDrift{to{background-position:52px 52px;}}
+
+.nx-motion-progress{
+    position:fixed;left:0;top:0;z-index:2147483646;
+    width:100%;height:2px;pointer-events:none;
+    transform:scaleX(0);transform-origin:left center;
+    background:linear-gradient(90deg,#20d7ff,#3a8cff 52%,#8063ff);
+    box-shadow:0 0 18px rgba(32,215,255,.72);
+    transition:transform 80ms linear;
+}
+
+.nx-motion-reveal{
+    opacity:0;
+    transform:translate3d(0,24px,0) scale(.985);
+    filter:blur(5px);
+    transition:
+        opacity var(--nx-motion-slow) var(--nx-motion-ease),
+        transform var(--nx-motion-slow) var(--nx-motion-spring),
+        filter var(--nx-motion-base) ease;
+    transition-delay:var(--nx-motion-delay,0ms);
+    will-change:transform,opacity;
+}
+.nx-motion-reveal.nx-motion-visible{opacity:1;transform:none;filter:none;}
+.nx-motion-reveal[data-nx-motion-direction="left"]{transform:translate3d(-28px,0,0) scale(.99);}
+.nx-motion-reveal[data-nx-motion-direction="right"]{transform:translate3d(28px,0,0) scale(.99);}
+.nx-motion-reveal[data-nx-motion-direction="scale"]{transform:scale(.94);}
+.nx-motion-reveal.nx-motion-visible[data-nx-motion-direction]{transform:none;}
+
+/* Header und Navigation */
+body.nexu-motion-v222 header,
+body.nexu-motion-v222 .topbar,
+body.nexu-motion-v222 .nx-v208-header{
+    transition:transform var(--nx-motion-base) var(--nx-motion-spring),
+               border-color var(--nx-motion-base) ease,
+               box-shadow var(--nx-motion-base) ease,
+               background-color var(--nx-motion-base) ease;
+}
+body.nexu-motion-v222.nx-motion-scrolled header,
+body.nexu-motion-v222.nx-motion-scrolled .topbar,
+body.nexu-motion-v222.nx-motion-scrolled .nx-v208-header{
+    transform:translateY(0);
+    border-color:rgba(76,211,255,.22)!important;
+    box-shadow:0 16px 50px rgba(0,0,0,.28),0 0 28px rgba(32,215,255,.04);
+}
+body.nexu-motion-v222 nav a,
+body.nexu-motion-v222 .nx-overview-nav a{
+    position:relative;
+    transition:color var(--nx-motion-fast) ease,
+               background-color var(--nx-motion-fast) ease,
+               border-color var(--nx-motion-fast) ease,
+               transform var(--nx-motion-fast) var(--nx-motion-spring);
+}
+body.nexu-motion-v222 nav a:hover,
+body.nexu-motion-v222 .nx-overview-nav a:hover{transform:translateY(-1px);}
+body.nexu-motion-v222 .nx-v208-nav a::after{
+    content:"";position:absolute;left:12%;right:12%;bottom:-7px;height:2px;
+    border-radius:999px;background:linear-gradient(90deg,#20d7ff,#8063ff);
+    transform:scaleX(0);transform-origin:center;
+    transition:transform var(--nx-motion-base) var(--nx-motion-spring);
+}
+body.nexu-motion-v222 .nx-v208-nav a:hover::after,
+body.nexu-motion-v222 .nx-v208-nav a.nx-motion-nav-active::after{transform:scaleX(1);}
+
+/* Logos und Avatare */
+body.nexu-motion-v222 .logo,
+body.nexu-motion-v222 .nx-v208-brand-logo,
+body.nexu-motion-v222 .nx-v208-console-logo,
+body.nexu-motion-v222 .nx-server-logo{
+    transition:transform .5s var(--nx-motion-spring),filter .45s ease,box-shadow .45s ease;
+    will-change:transform;
+}
+body.nexu-motion-v222 .logo:hover,
+body.nexu-motion-v222 .nx-v208-brand:hover .nx-v208-brand-logo,
+body.nexu-motion-v222 .nx-server-logo:hover{
+    transform:translateY(-2px) rotate(-3deg) scale(1.055);
+    filter:saturate(1.16) brightness(1.08);
+}
+body.nexu-motion-v222 .account-avatar{
+    transition:transform .45s var(--nx-motion-spring),filter .35s ease,box-shadow .35s ease;
+}
+body.nexu-motion-v222 .account-button:hover .account-avatar{
+    transform:scale(1.09) rotate(2deg);
+    filter:saturate(1.16) brightness(1.08);
+    box-shadow:0 0 0 2px rgba(32,215,255,.28),0 0 22px rgba(32,215,255,.22);
+}
+
+/* Karten und Flächen */
+body.nexu-motion-v222 .panel,
+body.nexu-motion-v222 .hero,
+body.nexu-motion-v222 .primary-tile,
+body.nexu-motion-v222 .info-card,
+body.nexu-motion-v222 .account-card,
+body.nexu-motion-v222 .auth-panel,
+body.nexu-motion-v222 .remembered-list,
+body.nexu-motion-v222 .directory,
+body.nexu-motion-v222 .menu-status-panel,
+body.nexu-motion-v222 .update-status,
+body.nexu-motion-v222 .nx-sidebar-section,
+body.nexu-motion-v222 .nx-live-tile,
+body.nexu-motion-v222 .nx-v208-console,
+body.nexu-motion-v222 .nx-v208-codebox,
+body.nexu-motion-v222 .nx-v208-feature,
+body.nexu-motion-v222 .nx-v208-step,
+body.nexu-motion-v222 .nx-v208-community-card,
+body.nexu-motion-v222 .player,
+body.nexu-motion-v222 .banned-card{
+    transition:
+        transform .36s var(--nx-motion-spring),
+        border-color .3s ease,
+        box-shadow .38s ease,
+        background-color .3s ease,
+        filter .3s ease;
+    backface-visibility:hidden;
+}
+@media (hover:hover) and (pointer:fine){
+    body.nexu-motion-v222 .primary-tile:hover,
+    body.nexu-motion-v222 .info-card:hover,
+    body.nexu-motion-v222 .account-card:hover,
+    body.nexu-motion-v222 .nx-live-tile:hover,
+    body.nexu-motion-v222 .nx-v208-feature:hover,
+    body.nexu-motion-v222 .nx-v208-step:hover,
+    body.nexu-motion-v222 .nx-v208-community-card:hover,
+    body.nexu-motion-v222 .player:hover,
+    body.nexu-motion-v222 .banned-card:hover{
+        transform:translateY(-5px) scale(1.008);
+        border-color:rgba(55,216,255,.30)!important;
+        box-shadow:0 20px 48px rgba(0,0,0,.28),0 0 34px rgba(32,215,255,.07);
+    }
+}
+
+/* Buttons mit Lichtlauf und Klickwelle */
+body.nexu-motion-v222 button,
+body.nexu-motion-v222 .button-link,
+body.nexu-motion-v222 .nx-v208-button,
+body.nexu-motion-v222 .logout-button,
+body.nexu-motion-v222 .action-button,
+body.nexu-motion-v222 .menu-item{
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+    transition:
+        transform var(--nx-motion-fast) var(--nx-motion-spring),
+        border-color var(--nx-motion-fast) ease,
+        box-shadow var(--nx-motion-base) ease,
+        filter var(--nx-motion-fast) ease,
+        background-position var(--nx-motion-slow) ease!important;
+}
+@media (hover:hover) and (pointer:fine){
+    body.nexu-motion-v222 button:not(:disabled):hover,
+    body.nexu-motion-v222 .button-link:hover,
+    body.nexu-motion-v222 .nx-v208-button:hover,
+    body.nexu-motion-v222 .logout-button:hover,
+    body.nexu-motion-v222 .action-button:hover,
+    body.nexu-motion-v222 .menu-item:hover{
+        transform:translateY(-2px);
+        filter:brightness(1.08) saturate(1.08);
+    }
+}
+body.nexu-motion-v222 button:not(:disabled):active,
+body.nexu-motion-v222 .button-link:active,
+body.nexu-motion-v222 .nx-v208-button:active,
+body.nexu-motion-v222 .action-button:active{transform:translateY(0) scale(.975)!important;}
+.nx-motion-ripple{
+    position:absolute;z-index:-1;width:12px;height:12px;border-radius:50%;
+    pointer-events:none;background:rgba(255,255,255,.34);
+    transform:translate(-50%,-50%) scale(0);
+    animation:nxV222Ripple .62s ease-out forwards;
+}
+@keyframes nxV222Ripple{to{opacity:0;transform:translate(-50%,-50%) scale(22);}}
+
+/* Laufzeit-, Status- und Ladeanimationen */
+body.nexu-motion-v222 .nx-v208-runtime-state i,
+body.nexu-motion-v222 .live-pill i,
+body.nexu-motion-v222 .menu-status-badge i,
+body.nexu-motion-v222 .nx-server-copy small i,
+body.nexu-motion-v222 .nx-web-chat-state::before{
+    animation:nxV222StatusPulse 2s ease-in-out infinite;
+    box-shadow:0 0 0 0 rgba(69,245,177,.4);
+}
+@keyframes nxV222StatusPulse{
+    0%,100%{opacity:.72;transform:scale(.92);box-shadow:0 0 0 0 rgba(69,245,177,.32)}
+    50%{opacity:1;transform:scale(1.12);box-shadow:0 0 0 7px rgba(69,245,177,0)}
+}
+body.nexu-motion-v222 .nx-v208-window-dots i:nth-child(1){animation:nxV222Dot 2.2s ease-in-out infinite 0s;}
+body.nexu-motion-v222 .nx-v208-window-dots i:nth-child(2){animation:nxV222Dot 2.2s ease-in-out infinite .18s;}
+body.nexu-motion-v222 .nx-v208-window-dots i:nth-child(3){animation:nxV222Dot 2.2s ease-in-out infinite .36s;}
+@keyframes nxV222Dot{0%,65%,100%{transform:translateY(0);opacity:.7}35%{transform:translateY(-3px);opacity:1}}
+body.nexu-motion-v222 .nx-v208-console{
+    animation:nxV222ConsoleFloat 6s ease-in-out infinite;
+    transform-origin:center;
+}
+@keyframes nxV222ConsoleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+body.nexu-motion-v222 .nx-health-ring::before{animation:nxV222Spin 9s linear infinite;}
+@keyframes nxV222Spin{to{transform:rotate(360deg)}}
+body.nexu-motion-v222 .nx-v208-codebox{position:relative;overflow:hidden;}
+body.nexu-motion-v222 .nx-v208-codebox::after{
+    content:"";position:absolute;left:-20%;right:-20%;top:-60%;height:45%;pointer-events:none;
+    background:linear-gradient(180deg,transparent,rgba(32,215,255,.06),transparent);
+    animation:nxV222Scan 5.5s linear infinite;
+}
+@keyframes nxV222Scan{to{transform:translateY(520%)}}
+body.nexu-motion-v222 .copy-command{
+    background-size:220% 100%;
+    animation:nxV222CodeGlow 8s ease-in-out infinite;
+}
+@keyframes nxV222CodeGlow{0%,100%{filter:brightness(.95)}50%{filter:brightness(1.08)}}
+
+/* Profilmenü, Dropdowns und Dialoge */
+body.nexu-motion-v222 .account-menu,
+body.nexu-motion-v222 .role-dropdown{
+    transform-origin:top right;
+    transition:opacity .22s ease,transform .3s var(--nx-motion-spring),visibility .22s ease!important;
+}
+body.nexu-motion-v222 .account:not(.open) .account-menu{
+    opacity:0;
+    transform:translateY(-7px) scale(.96);
+}
+body.nexu-motion-v222 .account.open .account-menu,
+body.nexu-motion-v222 .role-menu-open .role-dropdown,
+body.nexu-motion-v222 .role-dropdown.open,
+body.nexu-motion-v222 .role-dropdown[data-open="true"]{
+    opacity:1;
+    transform:none;
+}
+body.nexu-motion-v222 .modal-backdrop,
+body.nexu-motion-v222 .account-confirm-backdrop,
+body.nexu-motion-v222 .nx-v206-auth-modal{
+    transition:opacity .28s ease,backdrop-filter .35s ease!important;
+}
+body.nexu-motion-v222 .modal-card,
+body.nexu-motion-v222 .account-confirm-card,
+body.nexu-motion-v222 .nx-v206-auth-dialog{
+    transform-origin:center;
+    animation:nxV222DialogIn .46s var(--nx-motion-spring) both;
+}
+@keyframes nxV222DialogIn{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
+body.nexu-motion-v222 .home-notice,
+body.nexu-motion-v222 .toast,
+body.nexu-motion-v222 [class*="notice"]{
+    animation:nxV222NoticeIn .48s var(--nx-motion-spring) both;
+}
+@keyframes nxV222NoticeIn{from{opacity:0;transform:translateY(-12px) scale(.97)}to{opacity:1;transform:none}}
+
+/* Felder */
+body.nexu-motion-v222 input,
+body.nexu-motion-v222 textarea,
+body.nexu-motion-v222 select{
+    transition:border-color .22s ease,box-shadow .28s ease,background-color .22s ease,transform .22s ease!important;
+}
+body.nexu-motion-v222 input:focus,
+body.nexu-motion-v222 textarea:focus,
+body.nexu-motion-v222 select:focus{
+    transform:translateY(-1px);
+    box-shadow:0 0 0 3px rgba(32,215,255,.09),0 10px 26px rgba(0,0,0,.16)!important;
+}
+
+/* Dynamisch geänderte Kennzahlen */
+.nx-motion-number-pop{animation:nxV222NumberPop .42s var(--nx-motion-spring);}
+@keyframes nxV222NumberPop{0%{transform:translateY(4px) scale(.9);opacity:.55}65%{transform:translateY(-1px) scale(1.06)}100%{transform:none;opacity:1}}
+
+/* Sanfte Hintergrundbewegung */
+body.nexu-motion-v222 .nx-ambient-orb,
+body.nexu-motion-v222 .nx-hero-orbit .ring{
+    animation-duration:12s!important;
+    animation-timing-function:ease-in-out!important;
+}
+body.nexu-motion-v222 .nx-v208-brand-logo,
+body.nexu-motion-v222 .nx-v208-console-logo{
+    animation:nxV222LogoBreath 5.8s ease-in-out infinite;
+}
+@keyframes nxV222LogoBreath{0%,100%{filter:saturate(1) brightness(1);transform:scale(1)}50%{filter:saturate(1.14) brightness(1.08);transform:scale(1.025)}}
+
+/* Barrierefreiheit und Leistung */
+@media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto!important;}
+    body.nexu-motion-v222,
+    body.nexu-motion-v222 *,
+    body.nexu-motion-v222 *::before,
+    body.nexu-motion-v222 *::after{
+        animation-duration:.001ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.001ms!important;
+        scroll-behavior:auto!important;
+    }
+    body.nexu-motion-v222{opacity:1!important;transform:none!important;}
+    .nx-motion-reveal{opacity:1!important;transform:none!important;filter:none!important;}
+    .nx-motion-progress{display:none!important;}
+}
+@media(max-width:760px){
+    body.nexu-motion-v222 .nx-v208-console{animation:none;}
+    .nx-motion-reveal{transform:translate3d(0,14px,0) scale(.99);filter:blur(2px);}
+}
+`;
+}
+
+function nexuV222MotionClientScript(pageType) {
+    return String.raw`<script>
+(function(){
+    "use strict";
+    var body=document.body;
+    if(!body||body.dataset.nxMotionV222==="1")return;
+    body.dataset.nxMotionV222="1";
+    body.classList.add("nexu-motion-v222");
+    var reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var finePointer=window.matchMedia&&window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+
+    function all(selector,root){return Array.prototype.slice.call((root||document).querySelectorAll(selector));}
+    function one(selector,root){return (root||document).querySelector(selector);}
+
+    var progress=document.createElement("div");
+    progress.className="nx-motion-progress";
+    progress.setAttribute("aria-hidden","true");
+    body.appendChild(progress);
+    var scrollFrame=0;
+    function syncScroll(){
+        scrollFrame=0;
+        var root=document.documentElement;
+        var maximum=Math.max(1,root.scrollHeight-window.innerHeight);
+        var ratio=Math.max(0,Math.min(1,window.scrollY/maximum));
+        progress.style.transform="scaleX("+ratio+")";
+        body.classList.toggle("nx-motion-scrolled",window.scrollY>18);
+    }
+    function requestScrollSync(){if(scrollFrame)return;scrollFrame=requestAnimationFrame(syncScroll);}
+    window.addEventListener("scroll",requestScrollSync,{passive:true});
+    window.addEventListener("resize",requestScrollSync,{passive:true});
+    syncScroll();
+
+    var revealSelector=[
+        ".nx-v208-hero-copy",".nx-v208-console",".nx-v208-section-head",
+        ".nx-v208-loader-main",".nx-v208-loader-side",".nx-v208-community-card",
+        ".nx-v208-feature",".nx-v208-step",".nx-v208-status-card",
+        ".hero",".directory",".menu-status-panel",".update-status",
+        ".nx-v204-command-center",".nx-v204-control-grid",".nx-sidebar-section",
+        ".account-card",".auth-panel",".remembered-list",".brand-card",
+        ".player",".banned-card",".info-card",".primary-tile"
+    ].join(",");
+    var revealObserver=null;
+    if(!reduced&&"IntersectionObserver" in window){
+        revealObserver=new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+                if(!entry.isIntersecting)return;
+                entry.target.classList.add("nx-motion-visible");
+                revealObserver.unobserve(entry.target);
+            });
+        },{rootMargin:"0px 0px -6% 0px",threshold:.055});
+    }
+    var revealSerial=0;
+    function registerReveal(root){
+        var nodes=[];
+        if(root&&root.nodeType===1&&root.matches&&root.matches(revealSelector))nodes.push(root);
+        nodes=nodes.concat(all(revealSelector,root||document));
+        nodes.forEach(function(node){
+            if(node.dataset.nxMotionReveal==="1")return;
+            node.dataset.nxMotionReveal="1";
+            node.classList.add("nx-motion-reveal");
+            var order=revealSerial++;
+            node.style.setProperty("--nx-motion-delay",Math.min(order%8,7)*42+"ms");
+            if(node.classList.contains("nx-v208-hero-copy"))node.dataset.nxMotionDirection="left";
+            else if(node.classList.contains("nx-v208-console"))node.dataset.nxMotionDirection="right";
+            else if(node.classList.contains("nx-v208-feature")||node.classList.contains("nx-v208-step"))node.dataset.nxMotionDirection="scale";
+            if(reduced||!revealObserver)node.classList.add("nx-motion-visible");
+            else revealObserver.observe(node);
+        });
+    }
+
+    var interactiveSelector=[
+        "button",".button-link",".nx-v208-button",".logout-button",
+        ".action-button",".menu-item",".directory-tab",".role-option"
+    ].join(",");
+    function addRipple(event,node){
+        if(reduced||!node||node.disabled)return;
+        var rect=node.getBoundingClientRect();
+        var ripple=document.createElement("span");
+        ripple.className="nx-motion-ripple";
+        ripple.style.left=(event.clientX-rect.left)+"px";
+        ripple.style.top=(event.clientY-rect.top)+"px";
+        node.appendChild(ripple);
+        setTimeout(function(){if(ripple.parentNode)ripple.parentNode.removeChild(ripple);},700);
+    }
+    function registerInteractive(root){
+        var nodes=[];
+        if(root&&root.nodeType===1&&root.matches&&root.matches(interactiveSelector))nodes.push(root);
+        nodes=nodes.concat(all(interactiveSelector,root||document));
+        nodes.forEach(function(node){
+            if(node.dataset.nxMotionInteractive==="1")return;
+            node.dataset.nxMotionInteractive="1";
+            node.addEventListener("pointerdown",function(event){addRipple(event,node);},{passive:true});
+        });
+    }
+
+    var tiltSelector=[
+        ".nx-v208-console",".nx-v208-community-card",".nx-v208-feature",
+        ".primary-tile",".info-card",".account-card",".nx-live-tile"
+    ].join(",");
+    function registerTilt(root){
+        if(reduced||!finePointer)return;
+        var nodes=[];
+        if(root&&root.nodeType===1&&root.matches&&root.matches(tiltSelector))nodes.push(root);
+        nodes=nodes.concat(all(tiltSelector,root||document));
+        nodes.forEach(function(node){
+            if(node.dataset.nxMotionTilt==="1")return;
+            node.dataset.nxMotionTilt="1";
+            var frame=0;
+            node.addEventListener("pointermove",function(event){
+                if(frame)return;
+                frame=requestAnimationFrame(function(){
+                    frame=0;
+                    if(!node.classList.contains("nx-motion-visible")&&node.classList.contains("nx-motion-reveal"))return;
+                    var rect=node.getBoundingClientRect();
+                    var x=(event.clientX-rect.left)/Math.max(1,rect.width)-.5;
+                    var y=(event.clientY-rect.top)/Math.max(1,rect.height)-.5;
+                    node.style.transform="perspective(900px) rotateX("+(-y*3.2)+"deg) rotateY("+(x*4.2)+"deg) translateY(-3px)";
+                });
+            },{passive:true});
+            node.addEventListener("pointerleave",function(){
+                if(frame){cancelAnimationFrame(frame);frame=0;}
+                node.style.transform="";
+            },{passive:true});
+        });
+    }
+
+    function registerNav(){
+        all('a[href^="#"]').forEach(function(link){
+            if(link.dataset.nxMotionAnchor==="1")return;
+            link.dataset.nxMotionAnchor="1";
+            link.addEventListener("click",function(event){
+                var id=link.getAttribute("href");
+                if(!id||id==="#")return;
+                var target=document.querySelector(id);
+                if(!target)return;
+                event.preventDefault();
+                target.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
+                if(history&&history.replaceState)history.replaceState(null,"",id);
+            });
+        });
+        var sections=all("main section[id]");
+        var navLinks=all('.nx-v208-nav a[href^="#"]');
+        if(!sections.length||!navLinks.length||reduced||!("IntersectionObserver" in window))return;
+        var sectionObserver=new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+                if(!entry.isIntersecting)return;
+                navLinks.forEach(function(link){link.classList.toggle("nx-motion-nav-active",link.getAttribute("href")==="#"+entry.target.id);});
+            });
+        },{rootMargin:"-35% 0px -55% 0px",threshold:0});
+        sections.forEach(function(section){sectionObserver.observe(section);});
+    }
+
+    function registerNumberAnimations(){
+        var ids=["onlineCount","offlineCount","knownCount","bannedCount","nxSideOnline","nxSideOffline","nxSideKnown","nxSideBanned","nxHealthScore","nxSessions","nxRss","nxUptime","chatTabCount"];
+        ids.forEach(function(id){
+            var node=document.getElementById(id);
+            if(!node||node.dataset.nxMotionNumber==="1")return;
+            node.dataset.nxMotionNumber="1";
+            if(!window.MutationObserver)return;
+            new MutationObserver(function(){
+                node.classList.remove("nx-motion-number-pop");
+                void node.offsetWidth;
+                node.classList.add("nx-motion-number-pop");
+            }).observe(node,{childList:true,subtree:true,characterData:true});
+        });
+    }
+
+    function registerAll(root){
+        registerReveal(root);
+        registerInteractive(root);
+        registerTilt(root);
+        registerNumberAnimations();
+    }
+    registerAll(document);
+    registerNav();
+
+    if(window.MutationObserver){
+        var mutationQueued=false;
+        var pendingRoots=[];
+        new MutationObserver(function(records){
+            records.forEach(function(record){
+                Array.prototype.forEach.call(record.addedNodes,function(node){if(node.nodeType===1)pendingRoots.push(node);});
+            });
+            if(mutationQueued||!pendingRoots.length)return;
+            mutationQueued=true;
+            requestAnimationFrame(function(){
+                mutationQueued=false;
+                var roots=pendingRoots.splice(0,pendingRoots.length);
+                roots.forEach(registerAll);
+            });
+        }).observe(body,{childList:true,subtree:true});
+    }
+
+    requestAnimationFrame(function(){
+        body.classList.add("nx-motion-ready");
+        registerReveal(document);
+    });
+})();
+</script>`;
+}
+
+function enhanceNexuV222Motion(html,pageType){
+    if(typeof html!=="string"||html.includes("NEXU V222 // MODERN MOTION SYSTEM"))return html;
+    html=html.replace(/<body([^>]*)>/i,function(match,attributes){
+        var next=attributes||"";
+        if(/\bclass\s*=\s*"[^"]*"/i.test(next)){
+            next=next.replace(/\bclass\s*=\s*"([^"]*)"/i,function(_,current){return 'class="'+current+' nexu-motion-v222"';});
+        }else next+=' class="nexu-motion-v222"';
+        return "<body"+next+">";
+    });
+    html=html.replace("</style>",nexuV222MotionCss()+"</style>");
+    html=html.replace("</body>",nexuV222MotionClientScript(pageType)+"</body>");
+    return html;
+}
+
+loginHtml=function(...args){return enhanceNexuV222Motion(NEXU_V222_BASE_LOGIN_HTML(...args),"login");};
+homeHtml=function(...args){return enhanceNexuV222Motion(NEXU_V222_BASE_HOME_HTML(...args),"home");};
+dashboardAccountsHtml=function(...args){return enhanceNexuV222Motion(NEXU_V222_BASE_ACCOUNTS_HTML(...args),"accounts");};
+dashboardHtml=function(...args){return enhanceNexuV222Motion(NEXU_V222_BASE_OVERVIEW_HTML(...args),"overview");};
+
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
 if (req.method === "GET" && pathname === "/api/health") {
@@ -13015,6 +13679,7 @@ if (req.method === "POST" && pathname === "/accounts/update") {
             robloxUserId: robloxIdentity.userId,
             robloxUsername: robloxIdentity.username,
             robloxDisplayName: robloxIdentity.displayName,
+            language: normalizeDashboardLanguage(form.language || target.language),
             access: targetIsOwner
                 ? normalizeDashboardAccess({}, OWNER_ACCOUNT_USERNAME, DASHBOARD_DEFAULT_EMAIL)
                 : normalizeDashboardAccess({
@@ -13203,6 +13868,7 @@ if (req.method === "POST" && pathname === "/account/settings") {
         const form = await readFormBody(req);
         const requestedUsername = cleanDashboardUsername(form.newUsername);
         const nextUsername = isOwnerDashboardAccount(session.account) ? OWNER_ACCOUNT_USERNAME : requestedUsername;
+        const nextLanguage = normalizeDashboardLanguage(form.language);
         const currentPassword = String(form.currentPassword || "");
         const nextPassword = String(form.newPassword || "");
         const confirmPassword = String(form.confirmPassword || "");
@@ -13231,7 +13897,7 @@ if (req.method === "POST" && pathname === "/account/settings") {
             }
             nextPasswordHash = sha256Hex(nextPassword);
         }
-        const updated = normalizeDashboardAccount({...session.account, username: nextUsername, passwordHash: nextPasswordHash, updatedAt: new Date().toISOString()});
+        const updated = normalizeDashboardAccount({...session.account, username: nextUsername, language: nextLanguage, passwordHash: nextPasswordHash, updatedAt: new Date().toISOString()});
         if (!updated) {
             sendHtml(res, 500, homeHtml("", "Account konnte nicht gespeichert werden.", session.account));
             return;
@@ -13325,7 +13991,7 @@ if (req.method === "POST" && pathname === "/register/request") {
             return;
         }
         if (!robloxIdentity) {sendHtml(res, 400, homeHtml("", "Unter dieser Roblox User-ID wurde kein Benutzer gefunden.", null, { authMode: "register" }));return;}
-        const account = putDashboardAccount({username,email: internalDashboardEmailForUsername(username),passwordHash: sha256Hex(password),robloxUserId:robloxIdentity.userId,robloxUsername:robloxIdentity.username,robloxDisplayName:robloxIdentity.displayName,createdAt: new Date().toISOString(),updatedAt: new Date().toISOString()});
+        const account = putDashboardAccount({username,email: internalDashboardEmailForUsername(username),passwordHash: sha256Hex(password),language:"en",robloxUserId:robloxIdentity.userId,robloxUsername:robloxIdentity.username,robloxDisplayName:robloxIdentity.displayName,createdAt: new Date().toISOString(),updatedAt: new Date().toISOString()});
         if (!account || !saveDashboardAccount()) {sendHtml(res, 500, homeHtml("", "Konto konnte nicht gespeichert werden.", null, { authMode: "register" }));return;}
         clearLoginAttempts(req);
         const token = createDashboardSession(account);
