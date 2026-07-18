@@ -2574,16 +2574,16 @@
       "displayName": "TUFF2211w",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Natural Disaster Survival",
-      "placeId": 189707,
+      "gameName": "[UP] Just a baseplate.",
+      "placeId": 123974602339071,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:11:58.789Z",
       "firstSeenMs": 1784297518789,
-      "lastSeen": "2026-07-17T14:15:00.000Z",
-      "lastSeenMs": 1784297700000
+      "lastSeen": "2026-07-18T21:00:00.000Z",
+      "lastSeenMs": 1784408400000
     },
     {
       "userId": "11213059431",
@@ -12199,5 +12199,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:03:14.972Z"
+  "updatedAt": "2026-07-18T21:04:02.882Z"
 }
