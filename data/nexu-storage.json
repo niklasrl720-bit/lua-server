@@ -1039,6 +1039,23 @@
       "lastSeenMs": 1784317200000
     },
     {
+      "userId": "10711884461",
+      "username": "NomAleatoire_5",
+      "displayName": "NomAleatoire_5",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Grimpez la tour de vers effrayante 3",
+      "placeId": 136070094363960,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T20:11:30.884Z",
+      "firstSeenMs": 1784405490884,
+      "lastSeen": "2026-07-18T20:11:30.884Z",
+      "lastSeenMs": 1784405490884
+    },
+    {
       "userId": "10717295463",
       "username": "faster12kg",
       "displayName": "faster12kg",
@@ -12012,5 +12029,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:11:01.766Z"
+  "updatedAt": "2026-07-18T20:11:36.864Z"
 }
