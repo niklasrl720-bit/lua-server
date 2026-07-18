@@ -37,6 +37,7 @@ const NEXU_BRAND_LOGO_INLINE_STYLE = "background-image:url(" + NEXU_BRAND_LOGO_D
 // V162: Persistenter globaler Menüstatus ONLINE/OFFLINE mit sofortiger Sperre aller Lua-Clients.
 // V163: Eigene Nexu-Bestätigungsdialoge und Toast-Benachrichtigungen statt Browser-Popups.
 // V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
+// V224: Ränge sind zeitgestempelt, warten auf den Startabgleich und werden vor Erfolg dauerhaft gespeichert.
 
 const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const DEFAULT_VIP_USER_IDS = new Set([]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter", "vip"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER", vip: "VIP"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 3_200;const GHOST_SYNC_MIN_INTERVAL_MS = 80;const GHOST_MAX_VISIBLE_STATES = 24;const GHOST_HISTORY_LIMIT = 10;const GHOST_HISTORY_WINDOW_MS = 1_900;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const NEXU_DATA_DIRECTORY = String(process.env.NEXU_DATA_DIRECTORY || path.join(process.cwd(), "data"));const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || process.env.NEXU_STORAGE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-storage.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || process.env.NEXU_ACCOUNTS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-accounts.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-status.json"));
 
@@ -402,6 +403,7 @@ function serializePersistentKnownPlayer(raw) {
         username: cleanText(source.username, 40) || `User${userId}`,
         displayName: cleanText(source.displayName, 80) || cleanText(source.username, 40) || `User ${userId}`,
         roleKey: cleanPlayerRoleAssignment(source.roleKey || source.role || source.assignedRole),
+        roleUpdatedAtMs: cleanInteger(source.roleUpdatedAtMs || source.roleChangedAtMs || source.roleAssignedAtMs),
         gameName: cleanText(source.gameName, 120),
         placeId: cleanInteger(source.placeId),
         executionSource: cleanText(source.executionSource, 80),
@@ -614,6 +616,30 @@ function applyGitHubStorageSnapshot(payload) {
         const existingLastSeenMs = cleanInteger(existing.lastSeenMs);
         const remoteLastSeenMs = cleanInteger(playerEntry.lastSeenMs);
         const newest = remoteLastSeenMs >= existingLastSeenMs ? playerEntry : existing;
+        const existingRoleKey = cleanPlayerRoleAssignment(existing.roleKey || existing.role || existing.assignedRole);
+        const remoteRoleKey = cleanPlayerRoleAssignment(playerEntry.roleKey || playerEntry.role || playerEntry.assignedRole);
+        const existingRoleUpdatedAtMs = cleanInteger(existing.roleUpdatedAtMs || existing.roleChangedAtMs || existing.roleAssignedAtMs);
+        const remoteRoleUpdatedAtMs = cleanInteger(playerEntry.roleUpdatedAtMs || playerEntry.roleChangedAtMs || playerEntry.roleAssignedAtMs);
+        let mergedRoleKey = existingRoleKey || remoteRoleKey || "";
+        let mergedRoleUpdatedAtMs = Math.max(existingRoleUpdatedAtMs, remoteRoleUpdatedAtMs);
+
+        if (remoteRoleUpdatedAtMs > existingRoleUpdatedAtMs) {
+            mergedRoleKey = remoteRoleKey || mergedRoleKey;
+        } else if (existingRoleUpdatedAtMs > remoteRoleUpdatedAtMs) {
+            mergedRoleKey = existingRoleKey || mergedRoleKey;
+        } else if (!existingRoleKey && remoteRoleKey) {
+            mergedRoleKey = remoteRoleKey;
+        } else if (existingRoleKey && remoteRoleKey && existingRoleKey !== remoteRoleKey) {
+            // Legacy-Datensätze besitzen noch keinen Rang-Zeitstempel. Während der
+            // verzögerten GitHub-Startladung darf ein alter Remote-PLAYER-Wert einen
+            // gerade lokal gesetzten Supporter-/VIP-Rang niemals überschreiben.
+            if (existingRoleKey !== "player") {
+                mergedRoleKey = existingRoleKey;
+            } else if (remoteRoleKey !== "player") {
+                mergedRoleKey = remoteRoleKey;
+            }
+        }
+
         const firstSeenMs = Math.min(
             cleanInteger(existing.firstSeenMs) || Date.now(),
             cleanInteger(playerEntry.firstSeenMs) || Date.now()
@@ -625,7 +651,8 @@ function applyGitHubStorageSnapshot(payload) {
             userId: playerEntry.userId,
             username: newest.username || existing.username || playerEntry.username,
             displayName: newest.displayName || existing.displayName || playerEntry.displayName,
-            roleKey: playerEntry.roleKey || existing.roleKey || "",
+            roleKey: mergedRoleKey,
+            roleUpdatedAtMs: mergedRoleUpdatedAtMs,
             firstSeen: new Date(firstSeenMs).toISOString(),
             firstSeenMs,
             lastSeen: new Date(lastSeenMs).toISOString(),
@@ -1480,7 +1507,7 @@ function getShutdownCommandForClient(userId, sessionId, sessionStartedAtMs = 0) 
     return { active: false };
 }
 
-function normalizeKnownPlayer(raw, now = Date.now()) {const userId = cleanNumericId(raw && raw.userId);if (!userId) {return null;}const firstSeenMs = cleanInteger(raw && raw.firstSeenMs) || now;const lastSeenMs = cleanInteger(raw && raw.lastSeenMs) || firstSeenMs;const roleKey = cleanPlayerRoleAssignment(raw && (raw.roleKey || raw.role || raw.assignedRole));return {userId,username: cleanText(raw && raw.username, 40) || `User${userId}`,displayName: cleanText(raw && raw.displayName, 80) || cleanText(raw && raw.username, 40) || `User ${userId}`,gameName: cleanText(raw && raw.gameName, 120),placeId: cleanInteger(raw && raw.placeId),jobId: cleanText(raw && raw.jobId, 100),sessionId: cleanText(raw && raw.sessionId, 100),executionSource: cleanText(raw && raw.executionSource, 80),executionVersion: cleanText(raw && raw.executionVersion, 80),clientPlatform: cleanText(raw && raw.clientPlatform, 40),scriptBuild: cleanText(raw && raw.scriptBuild, 120),roleKey,firstSeen: cleanText(raw && raw.firstSeen, 64) || new Date(firstSeenMs).toISOString(),lastSeen: cleanText(raw && raw.lastSeen, 64) || new Date(lastSeenMs).toISOString(),firstSeenMs,lastSeenMs,};}
+function normalizeKnownPlayer(raw, now = Date.now()) {const userId = cleanNumericId(raw && raw.userId);if (!userId) {return null;}const firstSeenMs = cleanInteger(raw && raw.firstSeenMs) || now;const lastSeenMs = cleanInteger(raw && raw.lastSeenMs) || firstSeenMs;const roleKey = cleanPlayerRoleAssignment(raw && (raw.roleKey || raw.role || raw.assignedRole));const roleUpdatedAtMs = cleanInteger(raw && (raw.roleUpdatedAtMs || raw.roleChangedAtMs || raw.roleAssignedAtMs));return {userId,username: cleanText(raw && raw.username, 40) || `User${userId}`,displayName: cleanText(raw && raw.displayName, 80) || cleanText(raw && raw.username, 40) || `User ${userId}`,gameName: cleanText(raw && raw.gameName, 120),placeId: cleanInteger(raw && raw.placeId),jobId: cleanText(raw && raw.jobId, 100),sessionId: cleanText(raw && raw.sessionId, 100),executionSource: cleanText(raw && raw.executionSource, 80),executionVersion: cleanText(raw && raw.executionVersion, 80),clientPlatform: cleanText(raw && raw.clientPlatform, 40),scriptBuild: cleanText(raw && raw.scriptBuild, 120),roleKey,roleUpdatedAtMs,firstSeen: cleanText(raw && raw.firstSeen, 64) || new Date(firstSeenMs).toISOString(),lastSeen: cleanText(raw && raw.lastSeen, 64) || new Date(lastSeenMs).toISOString(),firstSeenMs,lastSeenMs,};}
 
 function buildKnownPlayersDiskCore() {
     const players = [...knownPlayers.values()]
@@ -2344,6 +2371,7 @@ function rememberKnownPlayer(raw, now = Date.now()) {
         username: cleanText(source.username, 40) || (existing && existing.username) || `User${userId}`,
         displayName: cleanText(source.displayName, 80) || (existing && existing.displayName) || cleanText(source.username, 40) || `User ${userId}`,
         roleKey: (existing && cleanPlayerRoleAssignment(existing.roleKey || existing.role || existing.assignedRole)) || cleanPlayerRoleAssignment(source.roleKey || source.role || source.assignedRole),
+        roleUpdatedAtMs: cleanInteger(existing && (existing.roleUpdatedAtMs || existing.roleChangedAtMs || existing.roleAssignedAtMs)) || cleanInteger(source.roleUpdatedAtMs || source.roleChangedAtMs || source.roleAssignedAtMs),
         firstSeen: (existing && existing.firstSeen) || new Date(firstSeenMs).toISOString(),
         firstSeenMs,
         gameName: cleanText(source.gameName, 120) || (existing && existing.gameName) || "",
@@ -15588,6 +15616,11 @@ if (req.method === "POST" && pathname === "/api/admin/role") {
     }
 
     try {
+        // Die GitHub-Startladung läuft absichtlich im Hintergrund. Ohne dieses
+        // Warten konnte ein frisch gesetzter Rang anschließend von einem älteren
+        // Remote-Snapshot wieder auf PLAYER zurückgesetzt werden.
+        await githubStorageStartupPromise;
+
         const body = await readJsonBody(req);
         const userId = cleanNumericId(body.userId);
         const roleKey = cleanPlayerRoleAssignment(body.role || body.roleKey);
@@ -15625,23 +15658,78 @@ if (req.method === "POST" && pathname === "/api/admin/role") {
             return;
         }
 
+        const roleUpdatedAtMs = Date.now();
         const next = {
             ...existing,
             roleKey,
+            roleUpdatedAtMs,
         };
         knownPlayers.set(userId, next);
+
         const persisted = saveKnownPlayers(false);
-        scheduleGitHubStorageSave("player-role", 2_500);
-        // V168: Aktive Lua-Clients müssen sofort einen neuen Snapshot-Token sehen.
-        // Die Rangfarbe des Ingame-Banners wird dadurch ohne Script-Neustart aktualisiert.
+        if (!persisted) {
+            knownPlayers.set(userId, existing);
+            sendJson(res, 500, {
+                success: false,
+                error: "Der Rang konnte nicht lokal gespeichert werden.",
+            });
+            return;
+        }
+
+        let githubPersisted = !isGitHubStorageConfigured();
+        if (isGitHubStorageConfigured()) {
+            if (!GITHUB_STORAGE_WRITES_ALLOWED) {
+                knownPlayers.set(userId, existing);
+                saveKnownPlayers(false);
+                sendJson(res, 503, {
+                    success: false,
+                    error:
+                        `Ränge können nicht dauerhaft gespeichert werden, weil der GitHub-Datenbranch ` +
+                        `"${GITHUB_DATA_BRANCH}" als Deploy-Branch geschützt ist. ` +
+                        `Setze GITHUB_DATA_BRANCH=nexu-data.`,
+                });
+                return;
+            }
+
+            if (githubStorageTimer) {
+                clearTimeout(githubStorageTimer);
+                githubStorageTimer = null;
+                githubStorageDueAtMs = 0;
+            }
+            githubStorageDirty = true;
+            githubStorageReasons.add("player-role");
+            githubStorageWriteChain = githubStorageWriteChain.then(() => writeGitHubStorageNow());
+            const wroteGitHubRole = await githubStorageWriteChain;
+            githubPersisted = wroteGitHubRole === true || githubStorageDirty === false;
+
+            if (!githubPersisted) {
+                knownPlayers.set(userId, existing);
+                saveKnownPlayers(false);
+                githubStorageDirty = true;
+                githubStorageReasons.add("player-role-rollback");
+                sendJson(res, 502, {
+                    success: false,
+                    error: "Der Rang konnte nicht dauerhaft in GitHub gespeichert werden und wurde deshalb nicht übernommen.",
+                });
+                return;
+            }
+        }
+
+        // V224: Aktive Lua-Clients müssen sofort einen neuen Snapshot-Token sehen.
+        // Der Rang ist zu diesem Zeitpunkt bereits lokal und – sofern konfiguriert –
+        // im getrennten GitHub-Datenbranch dauerhaft gespeichert.
         syncPresenceRevision();
         const role = getNexuRoleInfo(userId);
 
-        console.log(`[NEXU] RANG ${userId} -> ${role.key}`);
+        console.log(
+            `[NEXU] RANG ${userId} -> ${role.key} // lokal=JA // github=${githubPersisted ? "JA" : "NICHT KONFIGURIERT"}`
+        );
 
         sendJson(res, 200, {
             success: true,
-            persisted,
+            persisted: true,
+            githubPersisted,
+            roleUpdatedAtMs,
             userId,
             roleKey: role.key,
             roleTitle: role.title,
