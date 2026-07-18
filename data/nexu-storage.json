@@ -576,8 +576,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-18T19:50:00.000Z",
-      "lastSeenMs": 1784404200000
+      "lastSeen": "2026-07-18T19:55:00.000Z",
+      "lastSeenMs": 1784404500000
     },
     {
       "userId": "10427971366",
@@ -1154,8 +1154,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-18T19:50:00.000Z",
-      "lastSeenMs": 1784404200000
+      "lastSeen": "2026-07-18T19:55:00.000Z",
+      "lastSeenMs": 1784404500000
     },
     {
       "userId": "10780173311",
@@ -3551,8 +3551,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:51:48.575Z",
       "firstSeenMs": 1784404308575,
-      "lastSeen": "2026-07-18T19:51:48.575Z",
-      "lastSeenMs": 1784404308575
+      "lastSeen": "2026-07-18T19:55:00.000Z",
+      "lastSeenMs": 1784404500000
     },
     {
       "userId": "11286358709",
@@ -3755,8 +3755,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T19:35:00.281Z",
       "firstSeenMs": 1784230500281,
-      "lastSeen": "2026-07-18T19:50:00.000Z",
-      "lastSeenMs": 1784404200000
+      "lastSeen": "2026-07-18T19:55:00.000Z",
+      "lastSeenMs": 1784404500000
     },
     {
       "userId": "11290775764",
@@ -4571,8 +4571,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-18T19:50:00.000Z",
-      "lastSeenMs": 1784404200000
+      "lastSeen": "2026-07-18T19:55:00.000Z",
+      "lastSeenMs": 1784404500000
     },
     {
       "userId": "11303186538",
@@ -5302,8 +5302,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:45:08.743Z",
       "firstSeenMs": 1784403908743,
-      "lastSeen": "2026-07-18T19:50:00.000Z",
-      "lastSeenMs": 1784404200000
+      "lastSeen": "2026-07-18T19:55:00.000Z",
+      "lastSeenMs": 1784404500000
     },
     {
       "userId": "2361831889",
@@ -11927,5 +11927,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:51:53.585Z"
+  "updatedAt": "2026-07-18T19:56:00.409Z"
 }
