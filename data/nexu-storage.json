@@ -11701,7 +11701,23 @@
     "dayKey": "2026-07-19",
     "resetRevision": 3,
     "resetAtMs": 1784412000096,
-    "messages": []
+    "messages": [
+      {
+        "id": 1784412951993009,
+        "userId": "11216301477",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "sangr66662",
+        "displayName": "sangr66662",
+        "message": "عاش",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-18T22:15:51.993Z",
+        "sentAtMs": 1784412951993
+      }
+    ]
   },
-  "updatedAt": "2026-07-18T22:15:40.602Z"
+  "updatedAt": "2026-07-18T22:15:53.070Z"
 }
