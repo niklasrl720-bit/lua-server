@@ -43,6 +43,7 @@ const DM_DISPLAY_DEFAULT_SECONDS = 8;
 const CHAT_MODERATION_CONTEXT_WINDOW_MS = 60_000;
 const CHAT_MODERATION_CONTEXT_LIMIT = 12;
 const CHAT_MODERATION_UPDATE_LIMIT = 600;
+const CHAT_MUTATION_UPDATE_LIMIT = 600;
 const PLAYER_PERSISTENCE_GRANULARITY_MS = 5 * 60_000;
 const CHAT_MODERATION_STRICT = String(process.env.CHAT_MODERATION_STRICT || "true").trim().toLowerCase() !== "false";
 
@@ -96,6 +97,7 @@ let globalChatMidnightTimer = null;
 const chatModerationContexts = new Map();
 const chatModerationUpdates = [];
 let chatModerationRevision = 0;
+const chatMutationUpdates = [];
 let latestGlobalShutdownCommand = null;
 let presenceRevision = 1;
 let presenceSnapshotSignature = "";
@@ -2845,6 +2847,74 @@ function getGlobalChatResetToken() {
     return `${globalChatDayKey || getGlobalChatDayKey()}:${globalChatResetRevision}`;
 }
 
+function recordChatMutationUpdate(type, messageId = 0, nowMs = Date.now()) {
+    const revision = Math.max(0, Number(globalChatResetRevision) || 0);
+    if (!revision) return null;
+    const update = {
+        revision,
+        type: type === "delete" ? "delete" : "clear",
+        messageId: Math.max(0, Number(messageId) || 0),
+        changedAtMs: Math.max(0, Number(nowMs) || Date.now()),
+    };
+    chatMutationUpdates.push(update);
+    while (chatMutationUpdates.length > CHAT_MUTATION_UPDATE_LIMIT) chatMutationUpdates.shift();
+    return update;
+}
+
+function parseGlobalChatResetToken(value) {
+    const match = /^(\d{4}-\d{2}-\d{2}):(\d+)$/.exec(cleanText(value, 160));
+    if (!match) return null;
+    return {
+        dayKey: match[1],
+        revision: Math.max(0, Number(match[2]) || 0),
+    };
+}
+
+function resolveChatMutationDelta(clientResetToken) {
+    const currentToken = getGlobalChatResetToken();
+    const suppliedToken = cleanText(clientResetToken, 160);
+    if (!suppliedToken || suppliedToken === currentToken) {
+        return { fullSync: false, deletedIds: [] };
+    }
+
+    const parsed = parseGlobalChatResetToken(suppliedToken);
+    const currentDayKey = globalChatDayKey || getGlobalChatDayKey();
+    if (
+        !parsed ||
+        parsed.dayKey !== currentDayKey ||
+        parsed.revision > globalChatResetRevision
+    ) {
+        return { fullSync: true, deletedIds: [] };
+    }
+
+    const updates = chatMutationUpdates.filter(
+        (entry) => Number(entry && entry.revision) > parsed.revision
+    );
+    if (updates.length === 0) {
+        return { fullSync: true, deletedIds: [] };
+    }
+
+    const firstRevision = Number(updates[0] && updates[0].revision) || 0;
+    const lastRevision = Number(updates[updates.length - 1] && updates[updates.length - 1].revision) || 0;
+    if (
+        firstRevision !== parsed.revision + 1 ||
+        lastRevision !== globalChatResetRevision ||
+        updates.some((entry) => entry && entry.type === "clear")
+    ) {
+        return { fullSync: true, deletedIds: [] };
+    }
+
+    return {
+        fullSync: false,
+        deletedIds: [...new Set(
+            updates
+                .filter((entry) => entry && entry.type === "delete")
+                .map((entry) => Math.max(0, Number(entry.messageId) || 0))
+                .filter(Boolean)
+        )],
+    };
+}
+
 function clearGlobalChat(reason = "manual", nowMs = Date.now()) {
     const removed = globalChatMessages.length;
     globalChatMessages.length = 0;
@@ -2855,6 +2925,8 @@ function clearGlobalChat(reason = "manual", nowMs = Date.now()) {
     globalChatDayKey = getGlobalChatDayKey(nowMs);
     globalChatResetRevision += 1;
     globalChatResetAtMs = nowMs;
+    chatMutationUpdates.length = 0;
+    recordChatMutationUpdate("clear", 0, nowMs);
     saveKnownPlayers(false);
     scheduleGitHubStorageSave(`chat-clear-${cleanText(reason, 40) || "manual"}`, 750);
     console.log(`[NEXU] Globaler Chat geleert (${reason}, ${removed} Nachrichten, Zeitzone ${CHAT_TIME_ZONE}).`);
@@ -2880,6 +2952,7 @@ function deleteGlobalChatMessage(messageId, deletedBy = "OwnerAccount", nowMs = 
     globalChatDayKey = getGlobalChatDayKey(nowMs);
     globalChatResetRevision += 1;
     globalChatResetAtMs = nowMs;
+    recordChatMutationUpdate("delete", numericMessageId, nowMs);
 
     saveKnownPlayers(false);
     scheduleGitHubStorageSave("chat-message-delete", 750);
@@ -11658,18 +11731,36 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId, ownerCanReveal
         if(badge)badge.textContent='ZENSIERT · '+String(update.moderationCategory||'INHALT');
         displayMessageForRow(row);
     }
+    function removeMessageById(messageId){
+        var key=String(messageId||'');
+        if(!key)return false;
+        var row=list.querySelector('[data-message-id="'+key+'"]');
+        state.seen.delete(key);
+        if(!row)return false;
+        var shouldFollow=state.followLatest||isNearBottom();
+        row.remove();
+        state.rows=Math.max(0,state.rows-1);
+        if(tabCount)tabCount.textContent=String(state.rows);
+        if(state.rows===0&&!list.querySelector('.nx-web-chat-empty')){
+            var empty=document.createElement('div');empty.className='nx-web-chat-empty';empty.innerHTML='Noch keine Nachrichten vorhanden.<br>Der Chat wird täglich um 00:00 Uhr geleert. Beleidigungen, Hassrede, Drohungen und sexuelle Inhalte werden automatisch vollständig zensiert.';list.appendChild(empty);
+        }
+        if(shouldFollow){state.followLatest=true;scrollBottom(false);}
+        return true;
+    }
     function consume(payload,options){
         options=options||{};
         var forceLatest=options.forceLatest===true;
         var shouldFollow=forceLatest||state.followLatest||isNearBottom();
         var appended=false;
         var incomingResetToken=String(payload&&payload.chatResetToken||'');
-        if(incomingResetToken&&state.resetToken&&incomingResetToken!==state.resetToken){
+        var tokenChanged=Boolean(incomingResetToken&&state.resetToken&&incomingResetToken!==state.resetToken);
+        if(tokenChanged&&payload&&payload.fullSync===true){
             resetChatView(incomingResetToken);
             shouldFollow=true;
-        }else if(incomingResetToken&&!state.resetToken){
+        }else if(incomingResetToken){
             state.resetToken=incomingResetToken;
         }
+        (Array.isArray(payload&&payload.deletedIds)?payload.deletedIds:[]).forEach(removeMessageById);
         (Array.isArray(payload&&payload.messages)?payload.messages:[]).forEach(function(entry){
             appended=appendMessage(entry)===true||appended;
         });
@@ -13346,8 +13437,8 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
         await attachAvatarUrlsToChatMessages([chatMessage]);
         const ownerCanReveal = Boolean(websiteSession && isOwnerDashboardAccount(websiteSession.account));
         const responseChatMessage = serializeGlobalChatMessage(chatMessage, { includeOriginal: ownerCanReveal });
-        const currentResetToken = getGlobalChatResetToken();
-        const fullSync = Boolean(clientResetToken && clientResetToken !== currentResetToken);
+        const mutationDelta = resolveChatMutationDelta(clientResetToken);
+        const fullSync = mutationDelta.fullSync === true;
         const resyncMessages = fullSync
             ? getGlobalChatMessages(0, { includeOriginal: ownerCanReveal, limit: CHAT_HISTORY_LIMIT })
             : [];
@@ -13357,6 +13448,7 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
             success: true,
             messages: resyncMessages,
             fullSync,
+            deletedIds: mutationDelta.deletedIds,
             chatMessage: responseChatMessage,
             latestId: chatMessage.id,
             chatResetToken: getGlobalChatResetToken(),
@@ -13394,8 +13486,13 @@ if (req.method === "POST" && pathname === "/api/chat/delete") {
             return;
         }
 
-        const messages = getGlobalChatMessages(0, { includeOriginal: true, limit: CHAT_HISTORY_LIMIT });
-        await attachAvatarUrlsToChatMessages(messages);
+        const ownerCanReveal = true;
+        const mutationDelta = resolveChatMutationDelta(cleanText(body.chatResetToken, 160));
+        const fullSync = mutationDelta.fullSync === true;
+        const messages = fullSync
+            ? getGlobalChatMessages(0, { includeOriginal: ownerCanReveal, limit: CHAT_HISTORY_LIMIT })
+            : [];
+        if (messages.length > 0) await attachAvatarUrlsToChatMessages(messages);
         const latestId = globalChatMessages.length > 0
             ? Number(globalChatMessages[globalChatMessages.length - 1].id || 0)
             : 0;
@@ -13404,8 +13501,9 @@ if (req.method === "POST" && pathname === "/api/chat/delete") {
             deletedId: messageId,
             removedCount: 1,
             messages,
+            deletedIds: fullSync ? [] : mutationDelta.deletedIds,
             latestId,
-            fullSync: true,
+            fullSync,
             canSend: true,
             currentRobloxUserId: cleanNumericId(ownerSession.account && ownerSession.account.robloxUserId),
             chatResetToken: getGlobalChatResetToken(),
@@ -13442,6 +13540,7 @@ if (req.method === "POST" && pathname === "/api/chat/clear") {
             success: true,
             removedCount,
             messages: [],
+            deletedIds: [],
             latestId: 0,
             fullSync: true,
             canSend: true,
@@ -13499,8 +13598,8 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
         }
 
         const ownerCanReveal = Boolean(websiteSession && isOwnerDashboardAccount(websiteSession.account));
-        const currentResetToken = getGlobalChatResetToken();
-        const fullSync = Boolean(clientResetToken && clientResetToken !== currentResetToken);
+        const mutationDelta = resolveChatMutationDelta(clientResetToken);
+        const fullSync = mutationDelta.fullSync === true;
         const messages = getGlobalChatMessages(fullSync ? 0 : afterId, {
             includeOriginal: ownerCanReveal,
             limit: fullSync ? CHAT_HISTORY_LIMIT : CHAT_POLL_LIMIT,
@@ -13513,6 +13612,7 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
             success: true,
             messages,
             fullSync,
+            deletedIds: mutationDelta.deletedIds,
             latestId,
             canSend: Boolean(websiteSession && cleanNumericId(websiteSession.account && websiteSession.account.robloxUserId) && canAccessMenuServer(websiteSession.account)),
             currentRobloxUserId: cleanNumericId(websiteSession && websiteSession.account && websiteSession.account.robloxUserId),
