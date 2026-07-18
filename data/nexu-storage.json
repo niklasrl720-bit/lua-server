@@ -593,8 +593,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-18T20:00:00.000Z",
-      "lastSeenMs": 1784404800000
+      "lastSeen": "2026-07-18T20:05:00.000Z",
+      "lastSeenMs": 1784405100000
     },
     {
       "userId": "10427971366",
@@ -1171,8 +1171,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-18T20:00:00.000Z",
-      "lastSeenMs": 1784404800000
+      "lastSeen": "2026-07-18T20:05:00.000Z",
+      "lastSeenMs": 1784405100000
     },
     {
       "userId": "10780173311",
@@ -2431,6 +2431,23 @@
       "firstSeenMs": 1784248311406,
       "lastSeen": "2026-07-17T00:31:51.406Z",
       "lastSeenMs": 1784248311406
+    },
+    {
+      "userId": "11207775602",
+      "username": "FresitaPro7881",
+      "displayName": "FresitaPro7881",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "TORRE DE GOLPE DE TROLL INSANO 😈",
+      "placeId": 110470672231288,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T20:05:17.034Z",
+      "firstSeenMs": 1784405117034,
+      "lastSeen": "2026-07-18T20:05:17.034Z",
+      "lastSeenMs": 1784405117034
     },
     {
       "userId": "11208130071",
@@ -3772,8 +3789,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T19:35:00.281Z",
       "firstSeenMs": 1784230500281,
-      "lastSeen": "2026-07-18T20:00:00.000Z",
-      "lastSeenMs": 1784404800000
+      "lastSeen": "2026-07-18T20:05:00.000Z",
+      "lastSeenMs": 1784405100000
     },
     {
       "userId": "11290775764",
@@ -4588,8 +4605,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-18T20:00:00.000Z",
-      "lastSeenMs": 1784404800000
+      "lastSeen": "2026-07-18T20:05:00.000Z",
+      "lastSeenMs": 1784405100000
     },
     {
       "userId": "11303186538",
@@ -5319,8 +5336,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:45:08.743Z",
       "firstSeenMs": 1784403908743,
-      "lastSeen": "2026-07-18T20:00:00.000Z",
-      "lastSeenMs": 1784404800000
+      "lastSeen": "2026-07-18T20:05:00.000Z",
+      "lastSeenMs": 1784405100000
     },
     {
       "userId": "2361831889",
@@ -8073,8 +8090,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T20:00:03.756Z",
       "firstSeenMs": 1784404803756,
-      "lastSeen": "2026-07-18T20:00:03.756Z",
-      "lastSeenMs": 1784404803756
+      "lastSeen": "2026-07-18T20:05:00.000Z",
+      "lastSeenMs": 1784405100000
     },
     {
       "userId": "7156284451",
@@ -10712,6 +10729,23 @@
       "lastSeenMs": 1784295300000
     },
     {
+      "userId": "9597660305",
+      "username": "Tu_hermano699",
+      "displayName": "ARM_HERMANO",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[🌴] DUELIST: PvP (BETA)",
+      "placeId": 122310270867133,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T20:05:18.482Z",
+      "firstSeenMs": 1784405118482,
+      "lastSeen": "2026-07-18T20:05:18.482Z",
+      "lastSeenMs": 1784405118482
+    },
+    {
       "userId": "9599103995",
       "username": "Mini_leozinn",
       "displayName": "mega_leozinnn",
@@ -11978,5 +12012,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:04:20.675Z"
+  "updatedAt": "2026-07-18T20:05:22.044Z"
 }
