@@ -35,7 +35,7 @@ const NEXU_IS_MAIN_MODULE = require.main === module;
 // V163: Eigene Nexu-Bestätigungsdialoge und Toast-Benachrichtigungen statt Browser-Popups.
 // V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 3_200;const GHOST_SYNC_MIN_INTERVAL_MS = 80;const GHOST_MAX_VISIBLE_STATES = 24;const GHOST_HISTORY_LIMIT = 10;const GHOST_HISTORY_WINDOW_MS = 1_900;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const NEXU_DATA_DIRECTORY = String(process.env.NEXU_DATA_DIRECTORY || path.join(process.cwd(), "data"));const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || process.env.NEXU_STORAGE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-storage.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || process.env.NEXU_ACCOUNTS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-accounts.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-status.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const DEFAULT_VIP_USER_IDS = new Set([]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter", "vip"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER", vip: "VIP"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 3_200;const GHOST_SYNC_MIN_INTERVAL_MS = 80;const GHOST_MAX_VISIBLE_STATES = 24;const GHOST_HISTORY_LIMIT = 10;const GHOST_HISTORY_WINDOW_MS = 1_900;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const NEXU_DATA_DIRECTORY = String(process.env.NEXU_DATA_DIRECTORY || path.join(process.cwd(), "data"));const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || process.env.NEXU_STORAGE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-storage.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || process.env.NEXU_ACCOUNTS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-accounts.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-status.json"));
 
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
@@ -852,11 +852,59 @@ function scheduleGitHubStorageSave(reason = "change", delayMs = GITHUB_STORAGE_D
 
 function cleanPlayerRoleAssignment(value) {const role = String(value ?? "").trim().toLowerCase();if (role === "players") {return "player";}return PLAYER_ROLE_KEYS.has(role) ? role : "";}
 
-function getAssignedPlayerRoleKey(userId) {const id = cleanNumericId(userId);if (!id) {return "player";}const stored = knownPlayers.get(id);const assigned = cleanPlayerRoleAssignment(stored && (stored.roleKey || stored.role || stored.assignedRole));if (assigned) {return assigned;}return DEFAULT_SUPPORTER_USER_IDS.has(id) ? "supporter" : "player";}
+function getAssignedPlayerRoleKey(userId) {const id = cleanNumericId(userId);if (!id) {return "player";}const stored = knownPlayers.get(id);const assigned = cleanPlayerRoleAssignment(stored && (stored.roleKey || stored.role || stored.assignedRole));if (assigned) {return assigned;}if (DEFAULT_VIP_USER_IDS.has(id)) {return "vip";}return DEFAULT_SUPPORTER_USER_IDS.has(id) ? "supporter" : "player";}
 
-function getNexuRoleInfo(userId) {const id = cleanNumericId(userId);if (MENU_CREATOR_RANK_ENABLED && id === MENU_CREATOR_USER_ID) {return {title: "MENU CREATOR", key: "creator", canBring: true};}const key = getAssignedPlayerRoleKey(id);if (key === "supporter") {return {title: "SUPPORTER", key: "supporter", canBring: true};}return {title: PLAYER_ROLE_TITLES.player, key: "player", canBring: false};}
+function getNexuRoleInfo(userId) {
+    const id = cleanNumericId(userId);
+    if (MENU_CREATOR_RANK_ENABLED && id === MENU_CREATOR_USER_ID) {
+        return {title: "MENU CREATOR", key: "creator", level: 3, canBring: true};
+    }
+    const key = getAssignedPlayerRoleKey(id);
+    if (key === "vip") {
+        return {title: "VIP", key: "vip", level: 2, canBring: true};
+    }
+    if (key === "supporter") {
+        return {title: "SUPPORTER", key: "supporter", level: 1, canBring: true};
+    }
+    return {title: PLAYER_ROLE_TITLES.player, key: "player", level: 0, canBring: false};
+}
 
-function canUseNexuBringRole(userId) {const role = getNexuRoleInfo(userId);return role.key === "creator" || role.key === "supporter" || role.canBring === true;}
+function getNexuRolePermissions(userId) {
+    const role = getNexuRoleInfo(userId);
+    const level = Number(role.level) || 0;
+    return {
+        // Vorhandene Menüfunktionen bleiben für alle Rollen verfügbar.
+        antiTroll: true,
+        teleportBlock: true,
+        sharedGhostView: true,
+        sharedGhostShare: true,
+        godMode: true,
+
+        // Bring war bereits ein Supporter-/Creator-Vorteil.
+        bring: level >= 1,
+
+        // Neue Supporter-Extras.
+        supporterTools: level >= 1,
+        supporterExtras: level >= 1,
+        supporterSafePoint: level >= 1,
+        supporterAutoReturn: level >= 1,
+
+        // Neue VIP-Extras.
+        vip: level >= 2,
+        vipTools: level >= 2,
+        vipExtras: level >= 2,
+        vipBlink: level >= 2,
+        vipAura: level >= 2,
+        vipWaypoint: level >= 2,
+        vipRadar: level >= 2,
+        vipTheme: level >= 2,
+        priorityPresence: level >= 2,
+
+        menuCreator: role.key === "creator",
+    };
+}
+
+function canUseNexuBringRole(userId) {return getNexuRolePermissions(userId).bring === true;}
 
 function readRawBody(req) {return new Promise((resolve, reject) => {let raw = "";let tooLarge = false;
 
@@ -4559,6 +4607,11 @@ const playerRows = [...mergedByUserId.values()].sort((a, b) => {
     if ((a.online === true) !== (b.online === true)) {
         return a.online === true ? -1 : 1;
     }
+    const rolePriority = { creator: 3, vip: 2, supporter: 1, player: 0 };
+    const aRole = getNexuRoleInfo(a.userId).key;
+    const bRole = getNexuRoleInfo(b.userId).key;
+    const priorityDifference = (rolePriority[bRole] || 0) - (rolePriority[aRole] || 0);
+    if (priorityDifference !== 0) return priorityDifference;
     return (a.displayName || a.username || a.userId).localeCompare(
         b.displayName || b.username || b.userId,
         "de",
@@ -5579,12 +5632,14 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .player-state.banned { color:var(--red); }
 .role-badge { display:inline-flex; align-items:center; justify-content:center; margin-top:7px; width:max-content; max-width:100%; border:1px solid rgba(66,255,145,.42); border-radius:999px; padding:4px 9px; font-size:9px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#42ff91; background:rgba(7,38,24,.72); box-shadow:0 0 14px rgba(66,255,145,.12); }
 .role-badge.creator { border-color:rgba(255,194,45,.72); color:#fff6ae; background:linear-gradient(115deg,rgba(47,27,3,.9),rgba(255,194,45,.18),rgba(47,27,3,.9)); box-shadow:0 0 20px rgba(255,194,45,.28); }
+.role-badge.vip { border-color:rgba(235,205,92,.82); color:#fff7c7; background:linear-gradient(115deg,rgba(42,34,8,.94),rgba(235,205,92,.24),rgba(72,50,8,.92)); box-shadow:0 0 24px rgba(235,205,92,.30),0 0 0 1px rgba(255,246,174,.08) inset; }
 .role-badge.supporter { border-color:rgba(245,250,255,.78); color:#ffffff; background:linear-gradient(115deg,rgba(23,28,38,.92),rgba(245,250,255,.24),rgba(23,28,38,.92)); box-shadow:0 0 22px rgba(245,250,255,.25); }
 .role-controls { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:8px; }
 .role-button { min-height:24px; border:1px solid rgba(74,178,230,.25); border-radius:999px; padding:0 9px; color:#b8d0df; background:rgba(5,12,22,.78); font:inherit; font-size:9px; font-weight:850; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:transform .16s ease,border-color .16s ease,color .16s ease,background .16s ease; }
 .role-button:hover { transform:translateY(-1px); border-color:rgba(0,200,255,.55); color:#8cecff; }
 .role-button.active { cursor:default; color:#91ffd2; border-color:rgba(45,255,165,.45); background:rgba(4,35,24,.74); transform:none; }
 .role-button.supporter.active { color:#ffffff; border-color:rgba(245,250,255,.7); background:rgba(245,250,255,.16); }
+.role-button.vip.active { color:#fff7c7; border-color:rgba(235,205,92,.76); background:rgba(235,205,92,.16); }
 .role-button:disabled { opacity:.86; }
 .action-button {
     min-height:34px;
@@ -5880,6 +5935,7 @@ header::before{content:"";position:absolute;inset:0;border-radius:inherit;backgr
 .role-option:disabled{cursor:default;opacity:1;}
 .role-option.current{border-color:rgba(45,255,165,.30);background:linear-gradient(180deg,rgba(45,255,165,.09),rgba(5,35,24,.26));}
 .role-option.supporter.current{border-color:rgba(245,250,255,.34);background:linear-gradient(180deg,rgba(245,250,255,.11),rgba(23,28,38,.34));}
+.role-option.vip.current{border-color:rgba(235,205,92,.44);background:linear-gradient(180deg,rgba(235,205,92,.14),rgba(42,34,8,.42));box-shadow:0 10px 24px rgba(235,205,92,.08);}
 .role-option-icon{width:26px;height:26px;display:grid;place-items:center;border:1px solid rgba(108,223,255,.13);border-radius:9px;color:#7f9eb2;background:rgba(3,8,15,.42);font-size:12px;font-weight:900;}
 .role-option.current .role-option-icon{border-color:rgba(45,255,165,.36);color:#7dffc0;background:rgba(5,42,28,.52);}
 .role-option-copy{min-width:0;}
@@ -6072,8 +6128,9 @@ const state = {
     roleSearchQuery:"",
 };
 const PLAYER_ROLE_OPTIONS = [
-    { key:"player", title:"SPIELER", description:"Standardrang für normale Nutzer" },
-    { key:"supporter", title:"UNTERSTÜTZER", description:"Erweiterter Rang mit Berechtigung zum Herbeiholen" },
+    { key:"player", title:"SPIELER", description:"Standardrang mit den allgemeinen Menüfunktionen" },
+    { key:"supporter", title:"SUPPORTER", description:"Bring sowie neuer Safepoint mit manueller und automatischer Respawn-Rückkehr" },
+    { key:"vip", title:"VIP", description:"Alle Supporter-Extras plus Blink, Gold-Aura, zweiter Waypoint, Radar und VIP-Golddesign" },
 ];
 let presenceRefreshInFlight = false;
 
@@ -6464,7 +6521,7 @@ function renderPlayer(player,banned) {
     const joinable = actionableOnline && /^\d+$/.test(placeId) && placeId !== "0" && jobId !== "-" && !jobId.startsWith("LOCAL-");
     const bringable = actionableOnline && String(player.userId || "") !== "${MENU_CREATOR_USER_ID}";
     const roleKey = String(player.roleKey || "player").replace(/[^a-z0-9_-]/gi,"").toLowerCase() || "player";
-    const roleTitle = player.roleTitle === "PLAYERS" ? "SPIELER" : player.roleTitle === "SUPPORTER" ? "UNTERSTÜTZER" : player.roleTitle === "MENU CREATOR" ? "MENÜ-ERSTELLER" : (player.roleTitle || "SPIELER");
+    const roleTitle = player.roleTitle === "PLAYERS" ? "SPIELER" : player.roleTitle === "SUPPORTER" ? "UNTERSTÜTZER" : player.roleTitle === "VIP" ? "VIP" : player.roleTitle === "MENU CREATOR" ? "MENÜ-ERSTELLER" : (player.roleTitle || "SPIELER");
     const stateClass = banned ? "banned" : (online ? "online" : "offline");
     const stateText = banned ? "Gesperrt" : (reconnecting ? "Letzter Stand" : (online ? "Online" : "Offline"));
     const canManageRole = !banned && roleKey !== "creator" && state.permissions.managePlayerRoles === true;
@@ -8094,6 +8151,7 @@ function nexuV201GermanizeHtml(html) {
         ["Render-Web-Service", "Render-Webdienst"],
         ["PLAYERS", "SPIELER"],
         ["SUPPORTER", "UNTERSTÜTZER"],
+        ["VIP", "VIP"],
         ["MENU CREATOR", "MENÜ-ERSTELLER"],
         ["CONTROL MODULES", "STEUERMODULE"],
     ];
@@ -12550,10 +12608,7 @@ if (req.method === "GET" && pathname === "/api/menu/access") {
         userId,
         roleKey: role.key,
         roleTitle: role.title,
-        permissions: {
-            bring: canUseNexuBringRole(userId),
-            menuCreator: role.key === "creator",
-        },
+        permissions: getNexuRolePermissions(userId),
         reason: ban ? ban.reason : (menuStatus.online ? "" : "Das Nexu-Menü ist derzeit offline."),
         bannedAt: ban ? ban.bannedAt : "",
         timestamp: new Date().toISOString(),
@@ -13227,10 +13282,7 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
             blockedUserIds,
             roleKey: selfRole ? selfRole.key : "",
             roleTitle: selfRole ? selfRole.title : "",
-            permissions: selfUserId ? {
-                bring: canUseNexuBringRole(selfUserId),
-                menuCreator: selfRole && selfRole.key === "creator",
-            } : {},
+            permissions: selfUserId ? getNexuRolePermissions(selfUserId) : {},
             menuOnline: finalMenuStatus.online,
             menuOffline: finalMenuStatus.online !== true,
             menuStatus: finalMenuStatus,
@@ -13326,8 +13378,9 @@ if (req.method === "POST" && pathname === "/api/ghost/sync") {
             return;
         }
 
+        const rolePermissions = getNexuRolePermissions(userId);
         let sharing = false;
-        if (body.share === true) {
+        if (body.share === true && rolePermissions.sharedGhostShare === true) {
             sharing = Boolean(upsertSharedGhostState(live, body.state, now));
             if (!sharing) removeSharedGhostState(userId, sessionId);
         } else {
@@ -13340,11 +13393,15 @@ if (req.method === "POST" && pathname === "/api/ghost/sync") {
             if (accepted) removeSharedGhostState(userId, sessionId);
         }
 
-        const states = body.receive === false ? [] : getSharedGhostStatesForViewer(live, now);
+        const canReceive = rolePermissions.sharedGhostView === true;
+        const states = body.receive === false || !canReceive
+            ? []
+            : getSharedGhostStatesForViewer(live, now);
         sendJson(res, 200, {
             success: true,
             sharing,
             states,
+            permissions: rolePermissions,
             ttlMs: GHOST_STATE_TTL_MS,
             historyLimit: GHOST_HISTORY_LIMIT,
             timestampMs: now,
@@ -13852,7 +13909,7 @@ if (req.method === "POST" && pathname === "/api/admin/role") {
         if (!roleKey) {
             sendJson(res, 400, {
                 success: false,
-                error: "Ungültiger Rang. Erlaubt: players oder supporter",
+                error: "Ungültiger Rang. Erlaubt: players, supporter oder vip",
             });
             return;
         }
@@ -13896,10 +13953,7 @@ if (req.method === "POST" && pathname === "/api/admin/role") {
             roleTitle: role.title,
             revision: presenceRevision,
             snapshotToken: getPresenceSnapshotToken(),
-            permissions: {
-                bring: canUseNexuBringRole(userId),
-                menuCreator: role.key === "creator",
-            },
+            permissions: getNexuRolePermissions(userId),
         });
     } catch (error) {
         sendJson(
