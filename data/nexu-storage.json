@@ -1583,6 +1583,23 @@
       "lastSeenMs": 1784326320463
     },
     {
+      "userId": "10993091033",
+      "username": "King_Nasir305k",
+      "displayName": "King_Nasir",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Épisode 1 - Niveau 2",
+      "placeId": 14371559467,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:21:15.116Z",
+      "firstSeenMs": 1784413275116,
+      "lastSeen": "2026-07-18T22:21:15.116Z",
+      "lastSeenMs": 1784413275116
+    },
+    {
       "userId": "10994156036",
       "username": "Sanzhar_ff01",
       "displayName": "Sanzhar_ff01",
@@ -11821,5 +11838,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:20:19.186Z"
+  "updatedAt": "2026-07-18T22:21:20.120Z"
 }
