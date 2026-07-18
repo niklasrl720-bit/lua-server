@@ -1307,8 +1307,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T23:01:41.653Z",
       "firstSeenMs": 1784415701653,
-      "lastSeen": "2026-07-18T23:01:41.653Z",
-      "lastSeenMs": 1784415701653
+      "lastSeen": "2026-07-18T23:05:00.000Z",
+      "lastSeenMs": 1784415900000
     },
     {
       "userId": "10825283505",
@@ -1598,6 +1598,23 @@
       "firstSeenMs": 1784302477225,
       "lastSeen": "2026-07-17T15:34:37.225Z",
       "lastSeenMs": 1784302477225
+    },
+    {
+      "userId": "10975864989",
+      "username": "josue72828338",
+      "displayName": "josue72828338",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "TORRE DE GOLPE DE TROLL INSANO 😈",
+      "placeId": 110470672231288,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T23:05:34.504Z",
+      "firstSeenMs": 1784415934504,
+      "lastSeen": "2026-07-18T23:05:34.504Z",
+      "lastSeenMs": 1784415934504
     },
     {
       "userId": "10984741887",
@@ -6254,8 +6271,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T22:44:39.056Z",
       "firstSeenMs": 1784414679056,
-      "lastSeen": "2026-07-18T23:00:00.000Z",
-      "lastSeenMs": 1784415600000
+      "lastSeen": "2026-07-18T23:05:00.000Z",
+      "lastSeenMs": 1784415900000
     },
     {
       "userId": "3419187651",
@@ -7019,8 +7036,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:46:45.139Z",
       "firstSeenMs": 1784299605139,
-      "lastSeen": "2026-07-18T23:00:00.000Z",
-      "lastSeenMs": 1784415600000
+      "lastSeen": "2026-07-18T23:05:00.000Z",
+      "lastSeenMs": 1784415900000
     },
     {
       "userId": "4235802081",
@@ -9467,8 +9484,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:16:28.179Z",
       "firstSeenMs": 1784225788179,
-      "lastSeen": "2026-07-18T23:00:00.000Z",
-      "lastSeenMs": 1784415600000
+      "lastSeen": "2026-07-18T23:05:00.000Z",
+      "lastSeenMs": 1784415900000
     },
     {
       "userId": "7926460129",
@@ -11388,8 +11405,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-18T23:00:00.000Z",
-      "lastSeenMs": 1784415600000
+      "lastSeen": "2026-07-18T23:05:00.000Z",
+      "lastSeenMs": 1784415900000
     },
     {
       "userId": "9508855732",
@@ -12074,5 +12091,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:01:46.657Z"
+  "updatedAt": "2026-07-18T23:05:39.507Z"
 }
