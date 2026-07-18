@@ -9267,6 +9267,23 @@
       "lastSeenMs": 1784252100000
     },
     {
+      "userId": "7814069455",
+      "username": "emanuel_jk77",
+      "displayName": "chefinho",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Mistério Assassino 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:37:34.497Z",
+      "firstSeenMs": 1784414254497,
+      "lastSeen": "2026-07-18T22:37:34.497Z",
+      "lastSeenMs": 1784414254497
+    },
+    {
       "userId": "7844998205",
       "username": "Supeman680",
       "displayName": "Soinc",
@@ -11989,5 +12006,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:37:03.807Z"
+  "updatedAt": "2026-07-18T22:37:39.501Z"
 }
