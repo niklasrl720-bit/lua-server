@@ -6156,6 +6156,23 @@
       "lastSeenMs": 1784297700000
     },
     {
+      "userId": "3623345816",
+      "username": "arsenaldanub123",
+      "displayName": "Owner",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "MIC UP 🔊",
+      "placeId": 6884319169,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T21:21:53.607Z",
+      "firstSeenMs": 1784409713607,
+      "lastSeen": "2026-07-18T21:21:53.607Z",
+      "lastSeenMs": 1784409713607
+    },
+    {
       "userId": "3633568833",
       "username": "HerkezKerem",
       "displayName": "Kerem_hacker6662",
@@ -12297,5 +12314,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:21:00.537Z"
+  "updatedAt": "2026-07-18T21:21:58.617Z"
 }
