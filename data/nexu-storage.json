@@ -500,16 +500,16 @@
       "displayName": "YounusLaBooness",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Murder Mystery 2",
-      "placeId": 142823291,
+      "gameName": "[INT] Classmate",
+      "placeId": 127525231549271,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-18T21:40:00.000Z",
-      "lastSeenMs": 1784410800000
+      "lastSeen": "2026-07-18T23:05:00.000Z",
+      "lastSeenMs": 1784415900000
     },
     {
       "userId": "10305976438",
@@ -12125,5 +12125,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:06:36.860Z"
+  "updatedAt": "2026-07-18T23:07:48.216Z"
 }
