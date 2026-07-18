@@ -14,6 +14,7 @@
 // V211: Owner-Aktion zum sicheren Leeren aller gespeicherten Spieler mit lokaler und GitHub-Persistenz.
 // V210: Experimentelle Endpunkte für geteilte Geistdarstellung entfernt. Alle V207-Funktionen bleiben erhalten.
 // V207: Rundsendungen unterstützen frei wählbare Anzeigedauer in Sekunden oder Minuten.
+// V208: Vollständig neue professionelle Startseite mit Hero, Loader, Community, Funktionen und Live-Status.
 // V206: Öffentliche Startseite ohne Login-Zwang, direkte Aufbauanimation, persistente Anmeldung und Owner-Verwaltung außerhalb der Startkacheln.
 // V205: Einheitliches Button- und Bedienelement-System mit festen Höhen, konsistenten Schriftgrößen und sauberem Aktionsraster.
 // V204: Vollständiger professioneller Neuaufbau aller Seiten mit klarer Informationsarchitektur, ruhigerem Design und unveränderten Funktionen.
@@ -11651,6 +11652,719 @@ homeHtml = function(notice = "", error = "", account = null, options = {}) {
     });
     html = html.replace("</style>", nexuV206HomeCss() + "</style>");
     html = html.replace("</body>", nexuV206HomeScript(isGuest, isOwner, authMode) + "</body>");
+    return html;
+};
+
+/* --------------------------------------------------------------------------
+ * NEXU V208 // COMPLETE HOME EXPERIENCE
+ *
+ * Vollständig neuer Startseitenaufbau. Bestehende Authentifizierung,
+ * Kontoeinstellungen, Loader-Kopierfunktion und Owner-Menü bleiben erhalten.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V208_BASE_HOME_HTML = homeHtml;
+
+function nexuV208HomeCss() {
+    return String.raw`
+/* NEXU V208 // COMPLETE HOME EXPERIENCE */
+body.page-home.nx-v208-home{
+    --v208-bg:#02060b;
+    --v208-surface:#07111b;
+    --v208-surface-2:#0a1724;
+    --v208-line:rgba(138,205,235,.14);
+    --v208-line-strong:rgba(91,218,255,.30);
+    --v208-text:#f2f9fc;
+    --v208-muted:#87a2b4;
+    --v208-cyan:#20d7ff;
+    --v208-blue:#3889ff;
+    --v208-violet:#8063ff;
+    --v208-green:#45f5b1;
+    overflow-x:hidden !important;
+    color:var(--v208-text) !important;
+    background:
+        radial-gradient(circle at 12% -8%,rgba(32,215,255,.18),transparent 31rem),
+        radial-gradient(circle at 92% 7%,rgba(128,99,255,.15),transparent 34rem),
+        linear-gradient(180deg,#02070d 0%,#030910 48%,#02060b 100%) !important;
+}
+body.page-home.nx-v208-home::before{
+    opacity:.11 !important;
+    background-size:52px 52px !important;
+    mask-image:linear-gradient(to bottom,black 0%,rgba(0,0,0,.8) 42%,transparent 90%) !important;
+}
+body.page-home.nx-v208-home::after{
+    width:700px !important;
+    height:700px !important;
+    left:auto !important;
+    right:-300px !important;
+    bottom:-380px !important;
+    background:radial-gradient(circle,rgba(32,215,255,.08),transparent 64%) !important;
+}
+body.page-home.nx-v208-home .scan,
+body.page-home.nx-v208-home .nx-progress-line{display:none !important;}
+body.page-home.nx-v208-home .nx-ambient{opacity:.58;}
+body.page-home.nx-v208-home .nx-ambient-orb{filter:blur(90px) !important;}
+body.page-home.nx-v208-home .shell.nx-v208-shell{
+    position:relative;
+    z-index:3;
+    width:min(1240px,calc(100% - 36px)) !important;
+    margin:0 auto !important;
+    padding:18px 0 34px !important;
+}
+body.page-home.nx-v208-home .nx-v208-header{
+    position:sticky !important;
+    top:14px !important;
+    z-index:15000 !important;
+    min-height:70px;
+    display:grid !important;
+    grid-template-columns:auto 1fr auto;
+    align-items:center;
+    gap:24px;
+    margin:0 0 22px !important;
+    padding:10px 12px 10px 14px !important;
+    border:1px solid var(--v208-line) !important;
+    border-radius:20px !important;
+    background:rgba(4,11,18,.78) !important;
+    box-shadow:0 18px 55px rgba(0,0,0,.34),0 1px 0 rgba(255,255,255,.045) inset !important;
+    backdrop-filter:blur(22px) saturate(135%) !important;
+}
+body.page-home.nx-v208-home .nx-v208-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-width:max-content;
+    text-decoration:none;
+    color:var(--v208-text);
+}
+body.page-home.nx-v208-home .nx-v208-brand-logo{
+    width:46px;
+    height:46px;
+    flex:0 0 46px;
+    border-radius:14px;
+    background-size:cover;
+    background-position:center;
+    box-shadow:0 10px 30px rgba(32,215,255,.17),0 0 0 1px rgba(255,255,255,.10) inset;
+}
+body.page-home.nx-v208-home .nx-v208-brand-copy strong{
+    display:block;
+    color:#f7fcff;
+    font-size:17px;
+    line-height:1;
+    letter-spacing:-.025em;
+}
+body.page-home.nx-v208-home .nx-v208-brand-copy span{
+    display:block;
+    margin-top:5px;
+    color:#668499;
+    font-size:8px;
+    font-weight:900;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+}
+body.page-home.nx-v208-home .nx-v208-nav{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:5px;
+}
+body.page-home.nx-v208-home .nx-v208-nav a{
+    min-height:38px;
+    display:flex;
+    align-items:center;
+    padding:0 14px;
+    border:1px solid transparent;
+    border-radius:11px;
+    color:#7895a8;
+    font-size:11px;
+    font-weight:850;
+    letter-spacing:.04em;
+    text-decoration:none;
+    transition:color .18s ease,border-color .18s ease,background .18s ease,transform .18s ease;
+}
+body.page-home.nx-v208-home .nx-v208-nav a:hover{
+    color:#e9f8ff;
+    border-color:rgba(91,218,255,.14);
+    background:rgba(32,215,255,.055);
+    transform:translateY(-1px);
+}
+body.page-home.nx-v208-home .account{justify-self:end;}
+body.page-home.nx-v208-home .account-button{
+    min-height:46px !important;
+    padding:0 14px 0 7px !important;
+    border:1px solid rgba(91,218,255,.19) !important;
+    border-radius:14px !important;
+    background:#08131e !important;
+    box-shadow:none !important;
+}
+body.page-home.nx-v208-home .account-button:hover{
+    border-color:rgba(91,218,255,.36) !important;
+    background:#0a1825 !important;
+}
+body.page-home.nx-v208-home .account-avatar{
+    width:34px !important;
+    height:34px !important;
+    flex-basis:34px !important;
+    border-radius:10px !important;
+}
+body.page-home.nx-v208-home .account-menu{
+    top:55px !important;
+    width:245px !important;
+    padding:9px !important;
+    border-radius:16px !important;
+    border-color:rgba(91,218,255,.19) !important;
+    background:rgba(5,13,21,.985) !important;
+}
+body.page-home.nx-v208-home .nx-v206-auth-actions{
+    justify-self:end;
+    margin:0 !important;
+}
+body.page-home.nx-v208-home .nx-v208-main{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+body.page-home.nx-v208-home .nx-v208-hero{
+    position:relative;
+    min-height:610px;
+    display:grid;
+    grid-template-columns:minmax(0,1.12fr) minmax(370px,.88fr);
+    gap:18px;
+    padding:clamp(38px,5vw,72px);
+    overflow:hidden;
+    border:1px solid var(--v208-line);
+    border-radius:30px;
+    background:
+        linear-gradient(120deg,rgba(32,215,255,.065),transparent 38%),
+        radial-gradient(circle at 82% 72%,rgba(128,99,255,.14),transparent 36%),
+        rgba(5,13,21,.90);
+    box-shadow:0 35px 100px rgba(0,0,0,.40),0 1px 0 rgba(255,255,255,.045) inset;
+}
+body.page-home.nx-v208-home .nx-v208-hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px);
+    background-size:64px 64px;
+    mask-image:linear-gradient(90deg,black,transparent 76%);
+}
+body.page-home.nx-v208-home .nx-v208-hero-copy{
+    position:relative;
+    z-index:2;
+    align-self:center;
+    max-width:680px;
+}
+body.page-home.nx-v208-home .nx-v208-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    min-height:30px;
+    padding:0 12px;
+    border:1px solid rgba(69,245,177,.22);
+    border-radius:999px;
+    color:#a9fbd6;
+    background:rgba(69,245,177,.055);
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:.17em;
+    text-transform:uppercase;
+}
+body.page-home.nx-v208-home .nx-v208-kicker i{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--v208-green);
+    box-shadow:0 0 14px rgba(69,245,177,.72);
+}
+body.page-home.nx-v208-home .nx-v208-hero h1{
+    margin:25px 0 22px !important;
+    max-width:760px;
+    font-size:clamp(58px,7.4vw,104px) !important;
+    line-height:.88 !important;
+    letter-spacing:-.075em !important;
+    color:#fff !important;
+    background:linear-gradient(135deg,#fff 9%,#aeeeff 46%,#c8bfff 87%) !important;
+    -webkit-background-clip:text !important;
+    background-clip:text !important;
+    -webkit-text-fill-color:transparent;
+}
+body.page-home.nx-v208-home .nx-v208-hero-copy > p{
+    max-width:610px;
+    color:#8ca9ba !important;
+    font-size:16px;
+    line-height:1.75 !important;
+}
+body.page-home.nx-v208-home .nx-v208-hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:29px;
+}
+body.page-home.nx-v208-home .nx-v208-button{
+    min-height:49px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:0 19px;
+    border:1px solid rgba(91,218,255,.20);
+    border-radius:13px;
+    color:#d9edf7;
+    background:#091623;
+    font:inherit;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.06em;
+    text-decoration:none;
+    cursor:pointer;
+    transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;
+}
+body.page-home.nx-v208-home .nx-v208-button:hover{
+    transform:translateY(-2px);
+    border-color:rgba(91,218,255,.40);
+    box-shadow:0 16px 34px rgba(0,0,0,.24);
+}
+body.page-home.nx-v208-home .nx-v208-button.primary{
+    color:#031019;
+    border-color:transparent;
+    background:linear-gradient(135deg,var(--v208-cyan),#55b7ff 58%,#9681ff);
+    box-shadow:0 14px 34px rgba(32,215,255,.18);
+}
+body.page-home.nx-v208-home .nx-v208-button.primary:hover{
+    box-shadow:0 18px 42px rgba(32,215,255,.28);
+}
+body.page-home.nx-v208-home .nx-v208-proof{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-top:31px;
+    color:#6f8b9d;
+    font-size:10px;
+    font-weight:780;
+}
+body.page-home.nx-v208-home .nx-v208-proof span{display:flex;align-items:center;gap:7px;}
+body.page-home.nx-v208-home .nx-v208-proof i{
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:var(--v208-cyan);
+    box-shadow:0 0 9px rgba(32,215,255,.58);
+}
+body.page-home.nx-v208-home .nx-v208-console{
+    position:relative;
+    z-index:2;
+    align-self:center;
+    min-height:420px;
+    padding:14px;
+    border:1px solid rgba(91,218,255,.17);
+    border-radius:24px;
+    background:rgba(3,9,15,.72);
+    box-shadow:0 30px 75px rgba(0,0,0,.42),0 1px 0 rgba(255,255,255,.035) inset;
+    transform:perspective(1100px) rotateY(-4deg) rotateX(1.5deg);
+}
+body.page-home.nx-v208-home .nx-v208-console-head{
+    height:45px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 5px 0 7px;
+    color:#6f8b9d;
+    font-size:8px;
+    font-weight:900;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+}
+body.page-home.nx-v208-home .nx-v208-window-dots{display:flex;gap:5px;}
+body.page-home.nx-v208-home .nx-v208-window-dots i{width:7px;height:7px;border-radius:50%;background:#243746;}
+body.page-home.nx-v208-home .nx-v208-window-dots i:nth-child(1){background:#ff6c86;}
+body.page-home.nx-v208-home .nx-v208-window-dots i:nth-child(2){background:#ffd16e;}
+body.page-home.nx-v208-home .nx-v208-window-dots i:nth-child(3){background:#54edaf;}
+body.page-home.nx-v208-home .nx-v208-console-body{
+    min-height:345px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    padding:18px;
+    border:1px solid rgba(91,218,255,.11);
+    border-radius:17px;
+    background:linear-gradient(160deg,rgba(11,25,38,.96),rgba(5,13,21,.98));
+}
+body.page-home.nx-v208-home .nx-v208-console-brand{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+body.page-home.nx-v208-home .nx-v208-console-logo{
+    width:48px;height:48px;flex:0 0 48px;border-radius:14px;background-size:cover;background-position:center;
+    box-shadow:0 10px 25px rgba(32,215,255,.16);
+}
+body.page-home.nx-v208-home .nx-v208-console-brand strong{display:block;font-size:15px;letter-spacing:-.02em;}
+body.page-home.nx-v208-home .nx-v208-console-brand span{display:block;margin-top:4px;color:#638095;font-size:8px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;}
+body.page-home.nx-v208-home .nx-v208-runtime-row{
+    min-height:62px;
+    display:grid;
+    grid-template-columns:38px 1fr auto;
+    align-items:center;
+    gap:12px;
+    padding:10px;
+    border:1px solid rgba(91,218,255,.10);
+    border-radius:13px;
+    background:rgba(255,255,255,.018);
+}
+body.page-home.nx-v208-home .nx-v208-runtime-icon{
+    width:38px;height:38px;display:grid;place-items:center;border-radius:11px;color:#9eeeff;background:rgba(32,215,255,.08);font-size:9px;font-weight:950;
+}
+body.page-home.nx-v208-home .nx-v208-runtime-row strong{display:block;font-size:11px;}
+body.page-home.nx-v208-home .nx-v208-runtime-row small{display:block;margin-top:4px;color:#607e91;font-size:8px;}
+body.page-home.nx-v208-home .nx-v208-runtime-state{
+    display:flex;align-items:center;gap:6px;color:#99b1c0;font-size:8px;font-weight:900;text-transform:uppercase;
+}
+body.page-home.nx-v208-home .nx-v208-runtime-state i{width:6px;height:6px;border-radius:50%;background:var(--v208-green);box-shadow:0 0 10px rgba(69,245,177,.6);}
+body.page-home.nx-v208-home .nx-v208-runtime-state.offline i{background:#ff6986;box-shadow:0 0 10px rgba(255,105,134,.55);}
+body.page-home.nx-v208-home .nx-v208-section{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--v208-line);
+    border-radius:26px;
+    background:rgba(5,13,21,.86);
+    box-shadow:0 24px 70px rgba(0,0,0,.28),0 1px 0 rgba(255,255,255,.035) inset;
+}
+body.page-home.nx-v208-home .nx-v208-loader-section{
+    display:grid;
+    grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);
+    gap:0;
+}
+body.page-home.nx-v208-home .nx-v208-loader-main{padding:clamp(28px,4vw,48px);border-right:1px solid var(--v208-line);}
+body.page-home.nx-v208-home .nx-v208-section-head{max-width:660px;}
+body.page-home.nx-v208-home .nx-v208-section-label{
+    color:var(--v208-cyan);font-size:9px;font-weight:950;letter-spacing:.18em;text-transform:uppercase;
+}
+body.page-home.nx-v208-home .nx-v208-section-head h2{
+    margin:11px 0 10px;
+    color:#eef9ff;
+    font-size:clamp(30px,4vw,48px);
+    line-height:1;
+    letter-spacing:-.05em;
+}
+body.page-home.nx-v208-home .nx-v208-section-head p{color:#7f9bad;line-height:1.7;}
+body.page-home.nx-v208-home .nx-v208-codebox{
+    margin-top:28px;
+    overflow:hidden;
+    border:1px solid rgba(91,218,255,.17);
+    border-radius:18px;
+    background:#030a10;
+}
+body.page-home.nx-v208-home .nx-v208-codebar{
+    min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 15px;border-bottom:1px solid rgba(91,218,255,.10);color:#607e91;font-size:8px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+}
+body.page-home.nx-v208-home .nx-v208-codebar span{display:flex;align-items:center;gap:7px;}
+body.page-home.nx-v208-home .nx-v208-codebar i{width:6px;height:6px;border-radius:50%;background:var(--v208-green);box-shadow:0 0 8px rgba(69,245,177,.55);}
+body.page-home.nx-v208-home .nx-v208-codebox code{
+    display:block;
+    min-height:105px;
+    padding:23px;
+    overflow:auto;
+    color:#a8dcef;
+    font:11px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;
+    white-space:pre-wrap;
+    word-break:break-word;
+    user-select:text !important;
+}
+body.page-home.nx-v208-home .primary-tile.nx-v208-copy-card{
+    width:100% !important;
+    min-height:74px !important;
+    display:grid !important;
+    grid-template-columns:46px 1fr auto !important;
+    align-items:center !important;
+    gap:14px !important;
+    margin-top:12px !important;
+    padding:12px 14px !important;
+    border:1px solid rgba(69,245,177,.23) !important;
+    border-radius:16px !important;
+    background:rgba(69,245,177,.052) !important;
+    box-shadow:none !important;
+    text-align:left !important;
+}
+body.page-home.nx-v208-home .primary-tile.nx-v208-copy-card::before,
+body.page-home.nx-v208-home .primary-tile.nx-v208-copy-card::after{display:none !important;}
+body.page-home.nx-v208-home .nx-v208-copy-icon{
+    width:46px;height:46px;display:grid;place-items:center;border-radius:13px;color:#aefbd7;background:rgba(69,245,177,.10);font-size:10px;font-weight:950;
+}
+body.page-home.nx-v208-home .nx-v208-copy-text strong{display:block !important;color:#eafbf4;font-size:13px !important;}
+body.page-home.nx-v208-home .nx-v208-copy-text small{display:block !important;margin-top:4px;color:#6f9282 !important;font-size:9px !important;}
+body.page-home.nx-v208-home .nx-v208-copy-action{color:#9cf2cb;font-size:9px;font-weight:950;letter-spacing:.11em;}
+body.page-home.nx-v208-home .nx-v208-steps{padding:clamp(28px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:10px;}
+body.page-home.nx-v208-home .nx-v208-step{
+    display:grid;grid-template-columns:38px 1fr;gap:12px;padding:15px;border:1px solid rgba(91,218,255,.10);border-radius:15px;background:rgba(255,255,255,.018);
+}
+body.page-home.nx-v208-home .nx-v208-step b{
+    width:38px;height:38px;display:grid;place-items:center;border-radius:11px;color:#91eaff;background:rgba(32,215,255,.08);font-size:10px;
+}
+body.page-home.nx-v208-home .nx-v208-step strong{display:block;margin-top:2px;font-size:11px;}
+body.page-home.nx-v208-home .nx-v208-step p{margin-top:5px;color:#668396;font-size:9px;line-height:1.55;}
+body.page-home.nx-v208-home .nx-v208-community{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:center;
+    gap:30px;
+    padding:clamp(30px,5vw,55px);
+    background:
+        radial-gradient(circle at 90% 15%,rgba(88,101,242,.22),transparent 34%),
+        linear-gradient(120deg,rgba(128,99,255,.10),rgba(32,215,255,.025)),
+        rgba(6,13,23,.92);
+}
+body.page-home.nx-v208-home .nx-v208-community-copy{display:grid;grid-template-columns:64px 1fr;align-items:center;gap:20px;}
+body.page-home.nx-v208-home .nx-v208-discord-icon{
+    width:64px;height:64px;display:grid;place-items:center;border-radius:19px;color:#fff;background:linear-gradient(145deg,#5865f2,#7a61ff);box-shadow:0 16px 38px rgba(88,101,242,.26);font-size:12px;font-weight:950;letter-spacing:-.03em;
+}
+body.page-home.nx-v208-home .nx-v208-community h2{margin:7px 0 8px;font-size:clamp(25px,3.3vw,40px);line-height:1;letter-spacing:-.045em;}
+body.page-home.nx-v208-home .nx-v208-community p{max-width:690px;color:#829bb0;line-height:1.65;}
+body.page-home.nx-v208-home .nx-v208-community .nx-v208-button{min-width:190px;background:linear-gradient(135deg,#5865f2,#8063ff);border-color:transparent;color:white;}
+body.page-home.nx-v208-home .nx-v208-features{padding:clamp(28px,4vw,48px);}
+body.page-home.nx-v208-home .nx-v208-feature-grid{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:28px;
+}
+body.page-home.nx-v208-home .nx-v208-feature{
+    min-height:190px;padding:20px;border:1px solid rgba(91,218,255,.10);border-radius:17px;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.012));
+}
+body.page-home.nx-v208-home .nx-v208-feature-num{color:#42677d;font-size:8px;font-weight:950;letter-spacing:.15em;}
+body.page-home.nx-v208-home .nx-v208-feature-icon{
+    width:43px;height:43px;display:grid;place-items:center;margin:21px 0 17px;border-radius:12px;color:#9aeaff;background:rgba(32,215,255,.075);font-size:9px;font-weight:950;
+}
+body.page-home.nx-v208-home .nx-v208-feature h3{margin:0 0 8px;font-size:14px;letter-spacing:-.025em;}
+body.page-home.nx-v208-home .nx-v208-feature p{color:#668296;font-size:10px;line-height:1.6;}
+body.page-home.nx-v208-home .nx-v208-statusbar{
+    display:grid;grid-template-columns:1.4fr repeat(3,minmax(0,.55fr));gap:1px;overflow:hidden;border:1px solid var(--v208-line);border-radius:20px;background:var(--v208-line);
+}
+body.page-home.nx-v208-home .nx-v208-status-cell{
+    min-height:105px;padding:20px;display:flex;flex-direction:column;justify-content:center;background:#06101a;
+}
+body.page-home.nx-v208-home .nx-v208-status-cell span{color:#607d90;font-size:8px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;}
+body.page-home.nx-v208-home .nx-v208-status-cell strong{display:block;margin-top:8px;color:#e8f7fd;font-size:18px;letter-spacing:-.025em;}
+body.page-home.nx-v208-home .nx-v208-status-cell.lead{flex-direction:row;align-items:center;justify-content:flex-start;gap:14px;}
+body.page-home.nx-v208-home .nx-v208-status-dot{width:12px;height:12px;flex:0 0 12px;border-radius:50%;background:var(--v208-green);box-shadow:0 0 18px rgba(69,245,177,.65);}
+body.page-home.nx-v208-home .nx-v208-status-dot.offline{background:#ff6986;box-shadow:0 0 18px rgba(255,105,134,.55);}
+body.page-home.nx-v208-home .nx-v208-footer{
+    min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 8px;color:#4d6b7d;font-size:9px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;
+}
+body.page-home.nx-v208-home .nx-v208-footer strong{color:#94adbc;}
+body.page-home.nx-v208-home .home-notice{position:relative;z-index:4;margin:0 0 14px;border-radius:14px;}
+body.page-home.nx-v208-home .modal-backdrop{backdrop-filter:blur(18px);}
+body.page-home.nx-v208-home .modal-card{border-radius:21px !important;}
+@media(max-width:1020px){
+    body.page-home.nx-v208-home .nx-v208-nav{display:none;}
+    body.page-home.nx-v208-home .nx-v208-header{grid-template-columns:1fr auto;}
+    body.page-home.nx-v208-home .nx-v208-hero{grid-template-columns:1fr;min-height:0;}
+    body.page-home.nx-v208-home .nx-v208-console{width:min(100%,560px);justify-self:center;transform:none;}
+    body.page-home.nx-v208-home .nx-v208-loader-section{grid-template-columns:1fr;}
+    body.page-home.nx-v208-home .nx-v208-loader-main{border-right:0;border-bottom:1px solid var(--v208-line);}
+    body.page-home.nx-v208-home .nx-v208-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    body.page-home.nx-v208-home .nx-v208-statusbar{grid-template-columns:repeat(3,1fr);}
+    body.page-home.nx-v208-home .nx-v208-status-cell.lead{grid-column:1/-1;}
+}
+@media(max-width:680px){
+    body.page-home.nx-v208-home .shell.nx-v208-shell{width:min(100% - 16px,1240px) !important;padding-top:8px !important;}
+    body.page-home.nx-v208-home .nx-v208-header{top:7px !important;min-height:60px;padding:7px 8px !important;border-radius:16px !important;gap:8px;}
+    body.page-home.nx-v208-home .nx-v208-brand-logo{width:40px;height:40px;flex-basis:40px;border-radius:12px;}
+    body.page-home.nx-v208-home .nx-v208-brand-copy span{display:none;}
+    body.page-home.nx-v208-home .nx-v208-brand-copy strong{font-size:15px;}
+    body.page-home.nx-v208-home .account-name{display:none;}
+    body.page-home.nx-v208-home .account-button{padding:0 6px !important;}
+    body.page-home.nx-v208-home .nx-v206-auth-actions{gap:5px !important;}
+    body.page-home.nx-v208-home .nx-v206-auth-button{min-height:39px !important;padding:0 10px !important;font-size:8px !important;}
+    body.page-home.nx-v208-home .nx-v208-main{gap:10px;}
+    body.page-home.nx-v208-home .nx-v208-hero{padding:29px 22px;border-radius:22px;}
+    body.page-home.nx-v208-home .nx-v208-hero h1{font-size:55px !important;margin:20px 0 17px !important;}
+    body.page-home.nx-v208-home .nx-v208-hero-copy > p{font-size:13px;}
+    body.page-home.nx-v208-home .nx-v208-hero-actions{flex-direction:column;}
+    body.page-home.nx-v208-home .nx-v208-button{width:100%;}
+    body.page-home.nx-v208-home .nx-v208-proof{gap:9px;flex-direction:column;}
+    body.page-home.nx-v208-home .nx-v208-console{display:none;}
+    body.page-home.nx-v208-home .nx-v208-section{border-radius:20px;}
+    body.page-home.nx-v208-home .nx-v208-loader-main,body.page-home.nx-v208-home .nx-v208-steps,body.page-home.nx-v208-home .nx-v208-features{padding:24px 19px;}
+    body.page-home.nx-v208-home .primary-tile.nx-v208-copy-card{grid-template-columns:40px 1fr !important;}
+    body.page-home.nx-v208-home .nx-v208-copy-icon{width:40px;height:40px;}
+    body.page-home.nx-v208-home .nx-v208-copy-action{display:none;}
+    body.page-home.nx-v208-home .nx-v208-community{grid-template-columns:1fr;padding:27px 20px;}
+    body.page-home.nx-v208-home .nx-v208-community-copy{grid-template-columns:48px 1fr;gap:13px;}
+    body.page-home.nx-v208-home .nx-v208-discord-icon{width:48px;height:48px;border-radius:14px;}
+    body.page-home.nx-v208-home .nx-v208-community .nx-v208-button{width:100%;}
+    body.page-home.nx-v208-home .nx-v208-feature-grid{grid-template-columns:1fr;}
+    body.page-home.nx-v208-home .nx-v208-feature{min-height:0;}
+    body.page-home.nx-v208-home .nx-v208-statusbar{grid-template-columns:1fr 1fr;}
+    body.page-home.nx-v208-home .nx-v208-status-cell.lead{grid-column:1/-1;}
+    body.page-home.nx-v208-home .nx-v208-status-cell:last-child{grid-column:1/-1;}
+    body.page-home.nx-v208-home .nx-v208-footer{align-items:flex-start;flex-direction:column;justify-content:center;padding:18px 4px;}
+}
+@media(prefers-reduced-motion:reduce){
+    body.page-home.nx-v208-home *{scroll-behavior:auto !important;}
+}
+`;
+}
+
+function nexuV208HomeScript() {
+    return String.raw`<script>
+(function(){
+    "use strict";
+    var links=Array.prototype.slice.call(document.querySelectorAll(".nx-v208-nav a,.nx-v208-scroll-link"));
+    links.forEach(function(link){
+        var href=String(link.getAttribute("href")||"");
+        if(href.charAt(0)!=="#") return;
+        link.addEventListener("click",function(event){
+            var target=document.querySelector(href);
+            if(!target) return;
+            event.preventDefault();
+            target.scrollIntoView({behavior:"smooth",block:"start"});
+        });
+    });
+    var cards=Array.prototype.slice.call(document.querySelectorAll(".nx-v208-feature,.nx-v208-step,.nx-v208-runtime-row"));
+    cards.forEach(function(card){
+        card.addEventListener("pointermove",function(event){
+            var rect=card.getBoundingClientRect();
+            card.style.setProperty("--mx",String(event.clientX-rect.left)+"px");
+            card.style.setProperty("--my",String(event.clientY-rect.top)+"px");
+        },{passive:true});
+    });
+})();
+</script>`;
+}
+
+homeHtml = function(notice = "", error = "", account = null, options = {}) {
+    const isGuest = !account || !cleanDashboardUsername(account.username);
+    const accountData = isGuest ? nexuV206GuestAccount() : account;
+    const accountName = accountData.username || "Gast";
+    const accountRobloxUserId = cleanNumericId(accountData.robloxUserId);
+    const accountAvatarUrl = accountRobloxUserId
+        ? "/api/roblox-avatar?userId=" + encodeURIComponent(accountRobloxUserId)
+        : NEXU_BRAND_LOGO_DATA_URI;
+    const accountAvatarFallback = JSON.stringify(NEXU_BRAND_LOGO_DATA_URI);
+    const status = getMenuAvailabilityStatus();
+    const isOnline = status.online === true;
+    const hasOverviewAccess = !isGuest && canAccessMenuServer(accountData);
+    let html = NEXU_V208_BASE_HOME_HTML(notice, error, account, options);
+
+    const accountMarkup = String.raw`
+        <div id="account" class="account">
+            <button id="accountButton" class="account-button" type="button" aria-haspopup="true" aria-expanded="false">
+                <img class="account-avatar" src="${escapeHtml(accountAvatarUrl)}" alt="Roblox-Profilbild von ${escapeHtml(accountName)}" loading="eager" decoding="async" referrerpolicy="no-referrer" onerror='this.onerror=null;this.src=${accountAvatarFallback}'>
+                <span class="account-name">${escapeHtml(accountName)}</span>
+            </button>
+            <div class="account-menu" role="menu">
+                <button id="openSettings" class="menu-item" type="button">Einstellungen <span>›</span></button>
+                <form class="menu-item-form" method="post" action="/logout"><button class="menu-item danger" type="submit">Abmelden <span>×</span></button></form>
+            </div>
+        </div>`;
+
+    const homeMarkup = String.raw`
+<main class="shell nx-v208-shell">
+    <header class="nx-v208-header">
+        <a class="nx-v208-brand" href="#start" aria-label="Nexu Startseite">
+            <span class="nx-v208-brand-logo" style="background-image:url(${NEXU_BRAND_LOGO_DATA_URI})"></span>
+            <span class="nx-v208-brand-copy"><strong>Nexu</strong><span>Menu Control Network</span></span>
+        </a>
+        <nav class="nx-v208-nav" aria-label="Startseitennavigation">
+            <a href="#start">Start</a>
+            <a href="#loader">Loader</a>
+            <a href="#community">Community</a>
+            <a href="#funktionen">Funktionen</a>
+        </nav>
+        ${accountMarkup}
+    </header>
+    ${notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : ''}
+    ${error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : ''}
+    <div class="nx-v208-main">
+        <section id="start" class="nx-v208-hero">
+            <div class="nx-v208-hero-copy">
+                <div class="nx-v208-kicker"><i></i><span>${isOnline ? 'System online und einsatzbereit' : 'System derzeit im Offline-Modus'}</span></div>
+                <h1>Dein Nexu.<br>Direkt bereit.</h1>
+                <p>Eine klare Startseite für den schnellen Einstieg: Loader kopieren, Community öffnen und dein Nexu-Konto zentral verwalten.</p>
+                <div class="nx-v208-hero-actions">
+                    <a class="nx-v208-button primary nx-v208-scroll-link" href="#loader"><span>Loader anzeigen</span><b>↓</b></a>
+                    <a class="nx-v208-button" href="https://discord.gg/gV4fJkteKj"><span>Discord öffnen</span><b>↗</b></a>
+                </div>
+                <div class="nx-v208-proof">
+                    <span><i></i>Ein Klick zum Kopieren</span>
+                    <span><i></i>Roblox-Konto verknüpft</span>
+                    <span><i></i>${hasOverviewAccess ? 'Übersicht freigeschaltet' : isGuest ? 'Öffentliche Startseite' : 'Persönliches Konto aktiv'}</span>
+                </div>
+            </div>
+            <aside class="nx-v208-console" aria-label="Nexu Systemstatus">
+                <div class="nx-v208-console-head"><span class="nx-v208-window-dots"><i></i><i></i><i></i></span><span>nexu://control-network</span></div>
+                <div class="nx-v208-console-body">
+                    <div class="nx-v208-console-brand">
+                        <span class="nx-v208-console-logo" style="background-image:url(${NEXU_BRAND_LOGO_DATA_URI})"></span>
+                        <span><strong>Nexu Runtime</strong><span>Secure client delivery</span></span>
+                    </div>
+                    <div class="nx-v208-runtime-row"><span class="nx-v208-runtime-icon">01</span><span><strong>Menu Network</strong><small>Globaler Laufzeitstatus</small></span><span class="nx-v208-runtime-state${isOnline ? '' : ' offline'}"><i></i>${isOnline ? 'Online' : 'Offline'}</span></div>
+                    <div class="nx-v208-runtime-row"><span class="nx-v208-runtime-icon">02</span><span><strong>Loader Delivery</strong><small>Aktueller Nexu-Startbefehl</small></span><span class="nx-v208-runtime-state"><i></i>Bereit</span></div>
+                    <div class="nx-v208-runtime-row"><span class="nx-v208-runtime-icon">03</span><span><strong>Account Session</strong><small>${escapeHtml(accountName)}</small></span><span class="nx-v208-runtime-state"><i></i>${isGuest ? 'Gast' : 'Aktiv'}</span></div>
+                    <div class="nx-v208-runtime-row"><span class="nx-v208-runtime-icon">04</span><span><strong>Community Link</strong><small>Offizieller Nexu Discord</small></span><span class="nx-v208-runtime-state"><i></i>Offen</span></div>
+                </div>
+            </aside>
+        </section>
+
+        <section id="loader" class="nx-v208-section nx-v208-loader-section">
+            <div class="nx-v208-loader-main">
+                <div class="nx-v208-section-head">
+                    <div class="nx-v208-section-label">01 // Loader</div>
+                    <h2>Nexu in wenigen Sekunden starten.</h2>
+                    <p>Der aktuelle Startbefehl liegt immer zentral bereit. Kopiere ihn und füge ihn in deiner unterstützten Roblox-Umgebung ein.</p>
+                </div>
+                <div class="nx-v208-codebox">
+                    <div class="nx-v208-codebar"><span><i></i>Aktueller Ladebefehl</span><b>LUau</b></div>
+                    <code class="copy-command">${escapeHtml(NEXU_LOADER_COMMAND)}</code>
+                </div>
+                <button id="copyScriptButton" class="primary-tile nx-v208-copy-card copy-script" type="button">
+                    <span class="nx-v208-copy-icon">COPY</span>
+                    <span class="nx-v208-copy-text"><strong id="copyScriptTitle">Loader kopieren</strong><small id="copyScriptHint">Der vollständige Befehl wird in deine Zwischenablage kopiert.</small></span>
+                    <span class="nx-v208-copy-action">KOPIEREN</span>
+                </button>
+            </div>
+            <aside class="nx-v208-steps">
+                <div class="nx-v208-section-label">Schnellstart</div>
+                <article class="nx-v208-step"><b>01</b><div><strong>Loader kopieren</strong><p>Nutze den großen Kopierbutton auf dieser Seite.</p></div></article>
+                <article class="nx-v208-step"><b>02</b><div><strong>In Roblox einfügen</strong><p>Füge den kopierten Befehl in deine unterstützte Umgebung ein.</p></div></article>
+                <article class="nx-v208-step"><b>03</b><div><strong>Nexu öffnen</strong><p>Das Menü lädt die aktuelle Version automatisch.</p></div></article>
+            </aside>
+        </section>
+
+        <section id="community" class="nx-v208-section nx-v208-community">
+            <div class="nx-v208-community-copy">
+                <div class="nx-v208-discord-icon">DC</div>
+                <div><div class="nx-v208-section-label">02 // Community</div><h2>Offizieller Nexu Discord</h2><p>Neuigkeiten, Hilfe und die Nexu-Community an einem Ort. Die Einladung führt direkt auf den offiziellen Server.</p></div>
+            </div>
+            <a class="nx-v208-button" href="https://discord.gg/gV4fJkteKj"><span>Discord beitreten</span><b>↗</b></a>
+        </section>
+
+        <section id="funktionen" class="nx-v208-section nx-v208-features">
+            <div class="nx-v208-section-head">
+                <div class="nx-v208-section-label">03 // Plattform</div>
+                <h2>Alles Wichtige klar organisiert.</h2>
+                <p>Die Startseite konzentriert sich auf den Einstieg. Geschützte Steuerfunktionen bleiben sauber im persönlichen Konto- und Owner-Bereich getrennt.</p>
+            </div>
+            <div class="nx-v208-feature-grid">
+                <article class="nx-v208-feature"><span class="nx-v208-feature-num">MODUL 01</span><div class="nx-v208-feature-icon">LD</div><h3>Loader Delivery</h3><p>Immer der aktuelle Nexu-Startbefehl, direkt kopierbar und ohne unnötige Zwischenschritte.</p></article>
+                <article class="nx-v208-feature"><span class="nx-v208-feature-num">MODUL 02</span><div class="nx-v208-feature-icon">AC</div><h3>Account Control</h3><p>Profilbild, Benutzerkonto und persönliche Einstellungen bleiben zentral oben rechts erreichbar.</p></article>
+                <article class="nx-v208-feature"><span class="nx-v208-feature-num">MODUL 03</span><div class="nx-v208-feature-icon">CM</div><h3>Community</h3><p>Direkte Verbindung zum offiziellen Discord für Support, Austausch und neue Informationen.</p></article>
+                <article class="nx-v208-feature"><span class="nx-v208-feature-num">MODUL 04</span><div class="nx-v208-feature-icon">SC</div><h3>Secure Control</h3><p>Owner-Funktionen und Serverübersicht bleiben geschützt und nur im berechtigten Profilmenü sichtbar.</p></article>
+            </div>
+        </section>
+
+        <section class="nx-v208-statusbar" aria-label="Nexu Live-Status">
+            <div class="nx-v208-status-cell lead"><span class="nx-v208-status-dot${isOnline ? '' : ' offline'}"></span><div><span>Aktueller Systemzustand</span><strong>${isOnline ? 'Nexu ist online' : 'Nexu ist offline'}</strong></div></div>
+            <div class="nx-v208-status-cell"><span>Spielerprofile</span><strong>${knownPlayers.size}</strong></div>
+            <div class="nx-v208-status-cell"><span>Konten</span><strong>${dashboardAccounts.size}</strong></div>
+            <div class="nx-v208-status-cell"><span>Sitzung</span><strong>${isGuest ? 'Gast' : 'Aktiv'}</strong></div>
+        </section>
+    </div>
+    <footer class="nx-v208-footer"><span><strong>Nexu</strong> · Menu Control Network</span><span>Startseite · V208</span></footer>
+</main>`;
+
+    html = html.replace(/<main class="shell">[\s\S]*?<\/main>/i, homeMarkup);
+    html = html.replace(/<body([^>]*)>/i, function(match, attributes) {
+        let next = attributes || "";
+        if (/\bclass\s*=\s*"[^"]*"/i.test(next)) {
+            next = next.replace(/\bclass\s*=\s*"([^"]*)"/i, function(_, current) {return `class="${current} nx-v208-home"`;});
+        } else next += ' class="nx-v208-home"';
+        return `<body${next}>`;
+    });
+    html = html.replace("</style>", nexuV208HomeCss() + "</style>");
+    html = html.replace("</body>", nexuV208HomeScript() + "</body>");
     return html;
 };
 
