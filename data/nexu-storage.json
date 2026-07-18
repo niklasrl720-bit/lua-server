@@ -2365,6 +2365,23 @@
       "lastSeenMs": 1784304979376
     },
     {
+      "userId": "11201446015",
+      "username": "iguinho123purga",
+      "displayName": "iguinho123purga",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Blox Fruits | Terceiro Mar",
+      "placeId": 100117331123089,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:44:14.445Z",
+      "firstSeenMs": 1784403854445,
+      "lastSeen": "2026-07-18T19:44:14.445Z",
+      "lastSeenMs": 1784403854445
+    },
+    {
       "userId": "11203703629",
       "username": "Ichbin13I",
       "displayName": "Vadim",
@@ -11841,8 +11858,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-18T19:41:15.067Z",
         "sentAtMs": 1784403675067
+      },
+      {
+        "id": 1784403853883003,
+        "userId": "11290702208",
+        "roleKey": "vip",
+        "roleTitle": "VIP",
+        "username": "Flasche7200",
+        "displayName": "Flasche7200",
+        "message": "hi",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-18T19:44:13.883Z",
+        "sentAtMs": 1784403853883
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:41:16.104Z"
+  "updatedAt": "2026-07-18T19:44:14.986Z"
 }
