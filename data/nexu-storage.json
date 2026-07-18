@@ -4592,6 +4592,23 @@
       "lastSeenMs": 1784329500000
     },
     {
+      "userId": "11304590139",
+      "username": "ggezzsavage",
+      "displayName": "Harvey",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[UP] Solo una placa base.",
+      "placeId": 123974602339071,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:18:11.186Z",
+      "firstSeenMs": 1784402291186,
+      "lastSeen": "2026-07-18T19:18:11.186Z",
+      "lastSeenMs": 1784402291186
+    },
+    {
       "userId": "11305727417",
       "username": "HZ15762",
       "displayName": "HZ15762",
@@ -11627,5 +11644,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:17:28.169Z"
+  "updatedAt": "2026-07-18T19:18:16.198Z"
 }
