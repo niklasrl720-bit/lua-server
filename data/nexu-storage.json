@@ -602,16 +602,16 @@
       "displayName": "BBello_Vsynca",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[Jogos de Squid!] Camaleão",
-      "placeId": 110808833601416,
+      "gameName": "Brookhaven 🏡 RP",
+      "placeId": 4924922222,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-18T23:35:00.000Z",
-      "lastSeenMs": 1784417700000
+      "lastSeen": "2026-07-18T23:45:00.000Z",
+      "lastSeenMs": 1784418300000
     },
     {
       "userId": "10427971366",
@@ -12276,5 +12276,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:45:26.402Z"
+  "updatedAt": "2026-07-18T23:46:28.911Z"
 }
