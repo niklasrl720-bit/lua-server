@@ -1,3 +1,5 @@
+// Link- und Werbeschutz: URLs, Einladungen und eindeutige Werbung werden vollständig zensiert.
+// V222: Erweiterte mehrsprachige Chatmoderation, sexuelle Zeichen-/Emoji-Erkennung und sichere OwnerAccount-Originalansicht.
 // V221: Stabilitätsfix – GitHub-Daten standardmäßig auf separatem Branch, kein Render-Redeploy durch Chat-/Spielerspeicherung, sofortiger Serverstart.
 // V220: Globaler Chat bleibt beim Menü-/Serverneustart erhalten und wird ausschließlich beim Tageswechsel um 00:00 Europe/Berlin geleert.
 // V219: Robuste Zwei-Dateien-Persistenz und strikte Chatmoderation mit Fuzzy-/Vertauschungs-, Obfuskations- und Nachrichtenkontext-Erkennung.
@@ -459,6 +461,9 @@ function normalizePersistentChatEntry(raw) {
         username: cleanText(source.username, 40) || `User${userId}`,
         displayName: cleanText(source.displayName, 80) || cleanText(source.username, 40) || `User ${userId}`,
         message,
+        originalMessage: source.moderated === true
+            ? cleanText(source.originalMessage, CHAT_MAX_LENGTH)
+            : "",
         moderated: source.moderated === true,
         moderationCategory: cleanText(source.moderationCategory, 40),
         moderationScore: Math.max(0, Number(source.moderationScore) || 0),
@@ -2991,6 +2996,30 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         "veux", "envoie", "montre", "vuoi", "manda", "mostra",
         "quero", "envie", "mostre", "iste", "gönder", "gonder"
     ]);
+    for (const value of [
+        "vous", "vous-mêmes", "ustedes", "vosotros", "vocês", "voces",
+        "voi", "tu", "te", "ti", "din", "dig", "du", "dere",
+        "jij", "je", "jou", "jullie", "sen", "siz", "sana", "seni",
+        "ty", "tobie", "ciebie", "wy", "vy", "tebe", "ti", "voi",
+        "tu", "tine", "te", "ti", "εσύ", "εσυ", "σου",
+        "ти", "тебе", "вас", "ви", "אתה", "את", "אתם",
+        "तुम", "तू", "आप", "너", "당신", "お前", "あなた", "你", "你们"
+    ]) directTargets.add(value);
+    for (const value of [
+        "eres", "es", "sois", "êtes", "etes", "sei", "siete", "és", "e",
+        "bent", "zijn", "ben", "siniz", "jesteś", "jestes", "jste", "si",
+        "ești", "esti", "vagy", "är", "ar", "er", "είσαι", "εισαι",
+        "є", "ти", "هو", "هي", "אתה", "את", "है", "हो", "이다", "是"
+    ]) hostileCopulas.add(value);
+    for (const value of [
+        "envía", "envia", "mostrame", "muéstrame", "muestrame", "manda",
+        "montre", "envoie", "mostra", "invia", "mostre", "envie",
+        "göster", "goster", "wyslij", "wyślij", "pokaż", "pokaz",
+        "покажи", "пришли", "ارسلي", "ارسل", "στείλε", "στειλε",
+        "pokazi", "pošalji", "posalji", "trimite", "arată", "arata",
+        "देखाओ", "भेजो", "送って", "見せて", "보내", "보여줘"
+    ]) solicitationWords.add(value);
+
     const reportingPatterns = [
         "das wort", "dieses wort", "bedeutet", "übersetzung", "uebersetzung", "zitat", "zitiert", "genannt", "beleidigung melden", "nicht beleidigen", "sexualkunde", "aufklärung", "aufklaerung", "biologie", "medizinisch",
         "the word", "means", "translation", "quoted", "called me", "reporting", "do not insult", "dont insult", "sex education", "sexual health", "biology", "medical context",
@@ -3046,6 +3075,220 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         "sexual", "sexuell", "erotic", "erotisch", "orgasmus", "orgasm", "masturbation", "masturbieren"
     ];
 
+    // Zusätzliche Sprachpakete. Eine vollständig lückenlose Erkennung jeder
+    // Sprache ist technisch nicht möglich, aber diese Listen decken verbreitete
+    // Beleidigungen, Drohungen und sexuelle Ausdrücke aus vielen Schriftsystemen ab.
+    severeTerms.push(
+        "sieg heil", "1488", "nazi scum", "racial slur",
+        "macaco", "preto imundo", "monkey negro", "sale arabe", "terroriste arabe",
+        "çingene", "cingene", "yahudi köpek", "yahudi kopek",
+        "черный ублюдок", "жид", "хохол", "москаль",
+        "μαύρε πίθηκε", "μαυρε πιθηκε", "يهودي كلب", "عبد",
+        "ยิวสกปรก", "깜둥이", "짱깨", "쪽바리", "支那人", "黑鬼"
+    );
+    threatPhrases.push(
+        "ich bringe dich um", "ich werde dich töten", "ich werde dich toeten", "erschieß dich", "erschiess dich",
+        "ill kill you", "i'll kill you", "imma kill you", "end your life", "hang yourself",
+        "te mataré", "te matare", "vas a morir", "suicídate", "suicidate",
+        "je te tue", "va mourir", "suicide toi", "ti ucciderò", "ti uccidero",
+        "vou matar você", "vou matar voce", "se mata", "ik vermoord je", "ga dood",
+        "seni geberteceğim", "seni gebertecegim", "geber", "zdechnij",
+        "zabiju tě", "zabiju te", "zabi sa", "zabijem ťa", "zabijem ta",
+        "te omor", "omoară te", "omoara te", "megöllek", "megolek",
+        "jag dödar dig", "jag dodar dig", "jeg dreper deg", "jeg slår dig ihjel",
+        "я убью тебя", "я тебе убью", "помри", "убий се", "ще те убия",
+        "سوف اقتلك", "راح اقتلك", "موت", "اقتل حالك",
+        "θα σε σκοτώσω", "θα σε σκοτωσω", "ψόφα", "ψοφα",
+        "मैं तुम्हें मार दूंगा", "मर जा", "死ね", "殺すぞ", "죽어", "죽여버릴거야", "去死", "我杀了你"
+    );
+    explicitSexualTerms.push(
+        "dildo", "vibrator", "vibrateur", "vibrador", "sexspielzeug", "sex toy", "sextoy",
+        "analplug", "buttplug", "butt plug", "strapon", "strap on", "fleischpenis", "kunstpenis",
+        "tittenbild", "tittenbilder", "brustbild", "oben ohne", "nacktvideo", "sexvideo",
+        "oral sex", "analsex", "anal sex", "doggystyle", "doggy style", "missionarsstellung",
+        "sperma", "ejakulation", "ejaculate", "horny", "geil auf dich", "wichsen", "wixen",
+        "masturbate", "masturbating", "jerk off", "finger me", "fingern", "lecken",
+        "sexo oral", "sexo anal", "juguete sexual", "consolador", "polla", "coño", "cono",
+        "sexe oral", "sexe anal", "godemichet",
+        "sesso orale", "sesso anale", "vibratore", "cazzo",
+        "sexo oral", "sexo anal", "consolo", "buceta",
+        "orale seks", "anale seks", "neuken", "piemel", "kut",
+        "oral seks", "anal seks", "seks oyuncağı", "seks oyuncagi", "yarrak", "amcık", "amcik",
+        "seks oralny", "seks analny", "wibrator", "dildo", "chuj", "cipka",
+        "оральный секс", "анальный секс", "вибратор", "дилдо", "минет", "куни", "член", "пизда",
+        "орален секс", "анален секс", "вибратор", "дилдо",
+        "sex oral", "sex anal", "vibrator", "penis", "pizdă", "pizda",
+        "orale sex", "anale sex", "vibrátor", "vibrator",
+        "στοματικό σεξ", "στοματικο σεξ", "πρωκτικό σεξ", "πρωκτικο σεξ", "δονητής", "δονητης",
+        "جنس فموي", "جنس شرجي", "قضيب صناعي", "هزاز", "زب", "كس",
+        "ओरल सेक्स", "गुदा मैथुन", "डिल्डो", "वाइब्रेटर",
+        "フェラ", "アナルセックス", "ディルド", "バイブ", "ちんこ", "まんこ",
+        "오럴 섹스", "애널 섹스", "딜도", "바이브레이터", "자지", "보지",
+        "口交", "肛交", "假阳具", "振动棒", "鸡巴", "阴道"
+    );
+    strongInsults.push(
+        "arschgeige", "dreckstück", "dreckstueck", "scheißkerl", "scheisskerl", "hohlkopf", "hirnamputiert",
+        "fuckface", "shithead", "prick", "twat", "cunt", "wanker", "knobhead", "bellend",
+        "malparido", "mamón", "mamon", "culero", "pinche idiota", "huevón", "huevon",
+        "enculé", "encule", "trou du cul", "grosse merde", "crétin", "cretin",
+        "testa di cazzo", "pezzo di merda", "deficiente", "cornuto",
+        "filha da puta", "arrombado", "fdp", "merdinha",
+        "teringlijer", "eikel", "debiel",
+        "piç", "pic", "şerefsiz", "serefsiz", "aptal", "yavşak", "yavsak",
+        "pierdolony", "cham", "gnida", "szmata", "idioto",
+        "čurák", "curak", "debil", "kretén", "kreten", "zmrd",
+        "kokot", "debil", "sprostý", "sprosty", "kurva",
+        "muist", "tâmpit", "tampit",
+        "seggfej", "hülye", "hulye", "barom", "kurva",
+        "din idiot", "jävla idiot", "javla idiot", "rövhål", "rovhal",
+        "jævla idiot", "jaevla idiot", "rasshøl", "rasshol", "idiot",
+        "perkeleen idiootti", "paska pää", "paskapaa",
+        "μαλάκας", "μαλακας", "ηλίθιος", "ηλιθιος", "σκατόψυχος", "σκατοψυχος",
+        "долбоёб", "долбоеб", "гандон", "мразь", "тварь", "урод", "лох",
+        "курво", "дебіл", "ідіот", "виродок", "покидьок",
+        "кретен", "копеле", "боклук", "педал",
+        "кретену", "идиот", "будала", "говно",
+        "قحبة", "عرص", "خنزير", "حيوان", "زبالة", "يا غبي",
+        "מטומטם", "אידיוט", "בן זונה", "כלבה",
+        "बेवकूफ", "कमीना", "हरामी", "चूतिया", "गांडू",
+        "ばか", "馬鹿", "アホ", "くそ野郎", "死ね",
+        "병신", "바보", "미친놈", "개새끼", "씨발놈",
+        "傻逼", "蠢货", "白痴", "混蛋", "狗东西",
+        "โง่", "ไอ้ควาย", "เหี้ย", "สัส",
+        "bodoh", "goblok", "tolol", "bangsat", "anjing",
+        "bobo", "tanga", "gago", "putang ina", "ulol",
+        "budala", "kreten", "idiot", "majmune", "govno", "pička", "picka"
+    );
+    weakProfanity.push(
+        "verdammt", "scheiß", "scheiss", "fuckin", "fucking", "bloody hell",
+        "joder", "coño", "cono", "hostia", "bordel", "mince", "merda",
+        "puta que pariu", "kanker", "godverdomme", "amk", "aq",
+        "бля", "блять", "хуй", "нахуй", "пиздец", "ебать",
+        "يلعن", "خرا", "كس امك", "γαμώ", "γαμω", "くそ", "씨발", "操", "妈的"
+    );
+    neutralSexualWords.push(
+        "dildo", "vibrator", "vibrador", "vibratore", "vibrátor", "vibrateur", "vibrator",
+        "buttplug", "strapon", "fetisch", "fetish", "bdsm", "bondage",
+        "sperma", "semen", "ejakulat", "ejaculate",
+        "brüste", "brueste", "titten", "möpse", "moepse", "busen", "nippel", "nipples"
+    );
+
+    const sexualSymbolPatterns = [
+        /\(\s*[.•o0°*]\s*\)\s*\(\s*[.•o0°*]\s*\)/iu,
+        /\(\s*[.•o0°*]\s*[yYvV]\s*[.•o0°*]\s*\)/u,
+        /8\s*[=\-~]{1,10}\s*[dD>]/u,
+        /[cC]\s*[=\-~]{2,10}\s*3/u,
+        /(?:🍆\s*(?:💦|🍑|👌|👄|👅)|🍑\s*(?:🍆|👅|💦)|👉\s*👌|👅\s*(?:🍑|🍆)|💦\s*(?:🍆|🍑))/u,
+        /(?:\bboob(?:s)?\b|\btitt(?:en|ies|y)?\b)\s*[=:;xX-]*\s*(?:\(\s*[.•o0°*]\s*\)){1,2}/iu
+    ];
+
+
+    // Links werden unabhängig vom Inhalt vollständig zensiert. Vor der Prüfung
+    // werden übliche Umgehungen wie "punkt", "dot", [dot], getrennte Buchstaben
+    // sowie Leerzeichen um URL-Zeichen wieder zusammengesetzt.
+    const linkPatterns = [
+        /\b(?:h\s*t\s*t\s*p\s*s?|f\s*t\s*p)\s*:\s*\/\s*\//iu,
+        /\b(?:https?|ftp|mailto|file|roblox|rbxasset|rbxassetid):\/\//iu,
+        /\bw\s*w\s*w\s*\./iu,
+        /\b(?:discord(?:app)?\.com\/invite|discord\.gg|t\.me|telegram\.me|youtu\.be)\b/iu,
+        /\b(?:discord\s*(?:gg|invite)|telegram\s*(?:me|invite))\b/iu,
+        /\b[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?\.(?:com|net|org|de|gg|io|co|me|xyz|dev|app|ai|tv|cc|ru|to|ly|be|info|online|cloud|pro|biz|eu|us|uk|fr|es|it|nl|pl|tr|at|ch|ca|au|jp|kr|cn|in|site|shop|store|tech|games|game|live|link|vip|club|top|space|fun|one|world|digital|agency|network|social)(?:\b|\/|:)/iu,
+        /\b(?:\d{1,3}\.){3}\d{1,3}(?::\d{2,5})?(?:\/[^\s]*)?/u,
+        /\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,24}\b/iu
+    ];
+
+    const advertisingHardPhrases = [
+        "kauf jetzt", "jetzt kaufen", "bestell jetzt", "jetzt bestellen", "bei mir kaufen", "bei uns kaufen",
+        "ich verkaufe", "wir verkaufen", "zu verkaufen", "verkaufe günstig", "verkaufe billig",
+        "nutze meinen code", "nutzt meinen code", "benutze meinen code", "rabattcode", "promo code", "promocode", "gutscheincode",
+        "komm auf meinen server", "kommt auf meinen server", "tritt meinem server bei", "tretet meinem server bei", "join my server", "join our server", "join meinen server", "join den server",
+        "komm in meine gruppe", "tritt meiner gruppe bei", "join my group", "join our group",
+        "abonniere mich", "abonniert mich", "abonniere meinen kanal", "folgt mir", "folge mir", "subscribe to me", "subscribe my channel", "follow me",
+        "schau mein video", "schaut mein video", "check my video", "check out my channel", "check out my game", "check out my shop",
+        "besuche meinen shop", "besucht meinen shop", "visit my shop", "visit our shop", "visit my website",
+        "dm me to buy", "dm for price", "message me to buy", "contact me to buy", "pn für preis", "pn fuer preis", "schreib mir für preis", "schreib mir fuer preis",
+        "kostenlose robux", "gratis robux", "free robux", "cheap robux", "billige robux", "robux kaufen",
+        "gewinnspiel", "verlosung", "giveaway", "limited offer", "nur heute rabatt", "nur heute angebot",
+        "buy now", "order now", "for sale", "i am selling", "we are selling", "use my code", "use code", "discount code", "coupon code",
+        "únete a mi servidor", "unete a mi servidor", "compra ahora", "vendo barato", "código de descuento", "codigo de descuento", "sígueme", "sigueme",
+        "rejoins mon serveur", "achetez maintenant", "j utilise mon code", "code promo", "abonne toi", "suivez moi",
+        "entra nel mio server", "compra ora", "codice sconto", "seguimi", "iscriviti al mio canale",
+        "entre no meu servidor", "compre agora", "código de desconto", "codigo de desconto", "me siga", "inscreva se",
+        "sunucuma katıl", "sunucuma katil", "şimdi satın al", "simdi satin al", "indirim kodu", "beni takip et",
+        "присоединяйся к моему серверу", "купи сейчас", "продаю", "промокод", "подпишись на меня",
+        "انضم إلى خادمي", "اشتر الآن", "كود خصم", "تابعني"
+    ];
+
+    const advertisingCalls = [
+        "kauf", "kauft", "bestell", "bestellt", "hol dir", "holt euch", "besuch", "besucht", "join", "tritt bei", "tretet bei",
+        "abonniere", "abonniert", "folge", "folgt", "schau", "schaut", "check", "download", "lade herunter", "nutze", "verwendet",
+        "buy", "order", "visit", "join", "subscribe", "follow", "check out", "download", "use",
+        "compra", "compre", "visita", "únete", "unete", "sígueme", "sigueme",
+        "achete", "rejoins", "visite", "abonne", "suis",
+        "compra", "entra", "visita", "seguimi", "iscriviti",
+        "compre", "entre", "visite", "siga", "inscreva",
+        "satın al", "satin al", "katıl", "katil", "takip et",
+        "купи", "закажи", "заходи", "подпишись", "اشتر", "انضم", "تابع"
+    ];
+
+    const advertisingSelfPromotion = [
+        "mein shop", "meinen shop", "unser shop", "unsere website", "meine website", "mein server", "meinen server", "unser server",
+        "meine gruppe", "unsere gruppe", "mein kanal", "meinen kanal", "mein video", "mein spiel", "mein game", "mein script",
+        "mein produkt", "meinen service", "mein angebot", "mein discord", "unser discord", "bei mir", "bei uns",
+        "my shop", "our shop", "my website", "our website", "my server", "our server", "my group", "our group", "my channel", "our channel",
+        "my video", "my game", "my script", "my product", "my service", "my offer", "my discord", "from me", "from us",
+        "mi tienda", "mi sitio", "mi servidor", "mi grupo", "mi canal", "mi juego", "mi producto",
+        "ma boutique", "mon site", "mon serveur", "mon groupe", "ma chaîne", "ma chaine", "mon jeu", "mon produit",
+        "il mio negozio", "il mio sito", "il mio server", "il mio canale", "il mio gioco", "il mio prodotto",
+        "minha loja", "meu site", "meu servidor", "meu canal", "meu jogo", "meu produto",
+        "mağazam", "magazam", "sitem", "sunucum", "kanalım", "kanalim", "oyunum",
+        "мой магазин", "мой сайт", "мой сервер", "мой канал", "моя игра", "منتجي", "متجري", "موقعي", "خادمي", "قناتي"
+    ];
+
+    const advertisingOwnershipTokens = new Set([
+        "mein", "meine", "meinen", "meinem", "unser", "unsere", "unseren",
+        "my", "our", "mi", "mis", "mon", "ma", "mes", "mio", "mia", "meu", "minha",
+        "benim", "мой", "моя", "моё", "мое", "متجري", "خادمي", "قناتي"
+    ]);
+
+    const advertisingSaleIntent = [
+        "verkaufe", "verkaufen", "zu verkaufen", "angebot", "sonderangebot", "rabatt", "gutschein", "coupon", "promocode", "promo code",
+        "selling", "for sale", "sale", "discount", "coupon", "promo", "deal",
+        "vendo", "en venta", "descuento", "oferta", "je vends", "à vendre", "a vendre", "réduction", "reduction", "offre",
+        "vendo", "in vendita", "sconto", "offerta", "vendo", "à venda", "a venda", "desconto", "oferta",
+        "satıyorum", "satiyorum", "indirim", "kampanya", "продаю", "продажа", "скидка", "акция", "للبيع", "خصم", "عرض"
+    ];
+
+    const advertisingCommercialSubjects = [
+        "robux", "account", "konto", "accounts", "gamepass", "script", "executor", "shop", "store", "produkt", "product", "service",
+        "commission", "gfx", "logo", "design", "website", "server", "discord", "gruppe", "group", "kanal", "channel", "video", "game", "spiel"
+    ];
+
+    const advertisingContactPhrases = [
+        "dm me", "message me", "contact me", "schreib mir", "schreibt mir", "pn an mich", "privat schreiben", "add me",
+        "escríbeme", "escribeme", "contáctame", "contactame", "écris moi", "ecris moi", "contacte moi",
+        "scrivimi", "contattami", "me chama", "mande mensagem", "bana yaz", "mesaj at", "напиши мне", "راسلني"
+    ];
+
+    const advertisingUrgency = [
+        "nur heute", "nur kurz", "letzte chance", "solange der vorrat reicht", "limitiert", "jetzt sichern",
+        "today only", "limited time", "last chance", "while supplies last", "act now",
+        "solo hoy", "última oportunidad", "ultima oportunidad", "offre limitée", "offre limitee",
+        "solo oggi", "só hoje", "so hoje", "son fırsat", "son firsat", "только сегодня", "آخر فرصة"
+    ];
+
+    const recommendationPhrases = [
+        "ich empfehle", "kann ich empfehlen", "würde ich empfehlen", "wuerde ich empfehlen", "meine empfehlung", "als empfehlung", "empfehlen", "empfehlung", "empfohlen",
+        "i recommend", "can recommend", "my recommendation", "would recommend", "recommend", "recommendation",
+        "te recomiendo", "je recommande", "consiglio", "recomendo", "tavsiye ederim", "рекомендую", "أنصح"
+    ];
+
+    const advertisingPricePatterns = [
+        /(?:€|\$|£|¥)\s*\d{1,7}(?:[.,]\d{1,2})?/u,
+        /\b\d{1,7}(?:[.,]\d{1,2})?\s*(?:€|eur|euro|\$|usd|dollar|£|gbp|¥|yen|rub|₽|try|tl)\b/iu,
+        /\b\d{1,3}\s*%\s*(?:rabatt|discount|off|descuento|réduction|reduction|sconto|desconto|indirim|скидка|خصم)\b/iu
+    ];
+
     const confusables = {
         "а":"a", "е":"e", "ё":"e", "о":"o", "р":"p", "с":"c", "у":"y", "х":"x", "к":"k", "м":"m", "т":"t", "в":"b", "н":"h", "і":"i", "ј":"j", "ѕ":"s", "ԁ":"d", "һ":"h", "ӏ":"l",
         "α":"a", "β":"b", "ε":"e", "ζ":"z", "η":"h", "ι":"i", "κ":"k", "μ":"m", "ν":"n", "ο":"o", "ρ":"p", "τ":"t", "υ":"y", "χ":"x"
@@ -3053,6 +3296,7 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
     const leet = {"0":"o", "1":"i", "2":"z", "3":"e", "4":"a", "5":"s", "6":"g", "7":"t", "8":"b", "9":"g", "@":"a", "$":"s", "!":"i", "+":"t", "|":"i", "€":"e", "£":"l", "¥":"y", "§":"s", "×":"x"};
 
     const normalizedTermCache = new Map();
+    const exactTermCache = new Map();
 
     function collapseRepeated(value) {
         return String(value || "").replace(/(.)\1+/gu, "$1");
@@ -3064,11 +3308,12 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
             .replace(/[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u202a-\u202e\u2060\ufeff]/gu, "")
             .normalize("NFKD")
             .replace(/[\u0300-\u036f]/gu, "")
+            .normalize("NFC")
             .toLowerCase();
         text = Array.from(text).map((character) => confusables[character] || leet[character] || character).join("");
         text = text.replace(/(.)\1{2,}/gu, "$1$1");
         text = text
-            .replace(/[^a-z0-9\u00c0-\u024f\u0400-\u04ff\u0600-\u06ff]+/gu, " ")
+            .replace(/[^a-z0-9\u00c0-\u024f\u0370-\u03ff\u0400-\u04ff\u0590-\u05ff\u0600-\u06ff\u0900-\u097f\u0e00-\u0e7f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]+/gu, " ")
             .replace(/\s+/g, " ")
             .trim();
 
@@ -3208,7 +3453,9 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         if (!candidate || !term) return false;
         if (candidate === term) return true;
         if (term.length >= 5 && candidate.includes(term)) return true;
-        if (candidate.length < 4 || term.length < 4) return false;
+        // Sehr kurze Wörter werden nur exakt erkannt. Fuzzy-Matching bei vier
+        // Buchstaben würde harmlose Wörter wie „moral“/„oral“ verwechseln.
+        if (candidate.length < 5 || term.length < 5) return false;
 
         const maximumDistance = term.length >= 12 ? 2 : 1;
         if (Math.abs(candidate.length - term.length) <= maximumDistance &&
@@ -3225,6 +3472,10 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         const compactTerm = termData.collapsedCompact;
         if (!term || !compactTerm) return false;
         if (data.padded.includes(` ${term} `)) return true;
+        // Chinesisch, Japanisch, Koreanisch und Thai setzen nicht zuverlässig
+        // Leerzeichen zwischen Wörtern. Dort ist eine direkte Teilzeichenfolge
+        // nötig, damit z. B. „你是傻逼“ den Ausdruck „傻逼“ erkennt.
+        if (/[\u0e00-\u0e7f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/u.test(term) && data.spaced.includes(term)) return true;
         if (data.variants.has(compactTerm)) return true;
         for (const candidate of data.candidates) {
             if (fuzzyMatches(candidate, compactTerm)) return true;
@@ -3244,6 +3495,61 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         return { count, first };
     }
 
+    function normalizeExactText(value) {
+        let text = cleanText(value, CHAT_MAX_LENGTH)
+            .replace(/[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u202a-\u202e\u2060\ufeff]/gu, "")
+            .normalize("NFKD")
+            .replace(/[\u0300-\u036f]/gu, "")
+            .normalize("NFC")
+            .toLowerCase();
+        text = Array.from(text).map((character) => confusables[character] || character).join("");
+        return text
+            .replace(/[^a-z0-9\u00c0-\u024f\u0370-\u03ff\u0400-\u04ff\u0590-\u05ff\u0600-\u06ff\u0900-\u097f\u0e00-\u0e7f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]+/gu, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
+    function getExactSpaced(data) {
+        if (typeof data.exactSpaced !== "string") {
+            data.exactSpaced = normalizeExactText(data.original);
+            data.exactPadded = ` ${data.exactSpaced} `;
+            data.exactTokens = data.exactSpaced ? data.exactSpaced.split(/\s+/).filter(Boolean) : [];
+        }
+        return data.exactSpaced;
+    }
+
+    function normalizeExactTerm(value) {
+        const cacheKey = String(value || "");
+        if (!exactTermCache.has(cacheKey)) exactTermCache.set(cacheKey, normalizeExactText(cacheKey));
+        return exactTermCache.get(cacheKey);
+    }
+
+    function containsExactTerm(data, value) {
+        const source = getExactSpaced(data);
+        const term = normalizeExactTerm(value);
+        if (!term) return false;
+        if (data.exactPadded.includes(` ${term} `)) return true;
+        return /[\u0e00-\u0e7f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/u.test(term) && source.includes(term);
+    }
+
+    function hasExactAnyToken(data, set) {
+        getExactSpaced(data);
+        for (const token of data.exactTokens) if (set.has(token)) return true;
+        return false;
+    }
+
+    function countExactTerms(data, terms, stopAt = 3) {
+        let count = 0;
+        let first = "";
+        for (const term of terms) {
+            if (!containsExactTerm(data, term)) continue;
+            count += 1;
+            if (!first) first = term;
+            if (count >= stopAt) break;
+        }
+        return { count, first };
+    }
+
     function hasAnyToken(data, set) {
         for (const token of data.variants) if (set.has(token)) return true;
         return false;
@@ -3251,6 +3557,75 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
 
     function hasReportingContext(data) {
         return reportingPatterns.some((pattern) => containsTerm(data, pattern));
+    }
+
+    function containsSexualSymbol(value) {
+        const text = cleanText(value, CHAT_MAX_LENGTH);
+        return sexualSymbolPatterns.some((pattern) => pattern.test(text));
+    }
+
+    function buildLinkProbe(value) {
+        let probe = cleanText(value, CHAT_MAX_LENGTH)
+            .replace(/[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u202a-\u202e\u2060\ufeff]/gu, "")
+            .normalize("NFKC")
+            .toLowerCase();
+        probe = probe
+            .replace(/\[\s*(?:dot|punkt)\s*\]|\(\s*(?:dot|punkt)\s*\)|\{\s*(?:dot|punkt)\s*\}/giu, ".")
+            .replace(/\b(?:dot|punkt)\b/giu, ".")
+            .replace(/\b(?:slash)\b/giu, "/")
+            .replace(/\b(?:at)\b/giu, "@");
+        // Mehrere einzeln geschriebene Buchstaben zusammenziehen, z. B.
+        // "h t t p s" oder "e x a m p l e".
+        for (let pass = 0; pass < 3; pass += 1) {
+            probe = probe.replace(/\b(?:[a-z0-9]\s+){2,}[a-z0-9]\b/giu, (match) => match.replace(/\s+/g, ""));
+        }
+        return probe
+            .replace(/\s*([.:/@_-])\s*/g, "$1")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
+    function containsLink(value) {
+        const original = cleanText(value, CHAT_MAX_LENGTH);
+        if (!original) return false;
+        const probe = buildLinkProbe(original);
+        return linkPatterns.some((pattern) => pattern.test(original) || pattern.test(probe));
+    }
+
+    function hasPriceSignal(value) {
+        const text = cleanText(value, CHAT_MAX_LENGTH);
+        return advertisingPricePatterns.some((pattern) => pattern.test(text));
+    }
+
+    function containsAdvertising(data) {
+        // Werbephrasen werden absichtlich exakt nach der Normalisierung geprüft.
+        // Das allgemeine Fuzzy-Matching wäre hier zu aggressiv und könnte etwa
+        // „einen Shop empfehlen“ mit „meinen Shop“ verwechseln.
+        const hard = countExactTerms(data, advertisingHardPhrases, 1).count > 0;
+        if (hard) return true;
+
+        const call = countExactTerms(data, advertisingCalls, 2).count > 0;
+        const selfPromotion = countExactTerms(data, advertisingSelfPromotion, 2).count > 0;
+        const saleIntent = countExactTerms(data, advertisingSaleIntent, 2).count > 0;
+        const commercialSubject = countExactTerms(data, advertisingCommercialSubjects, 2).count > 0;
+        const contact = countExactTerms(data, advertisingContactPhrases, 1).count > 0;
+        const urgency = countExactTerms(data, advertisingUrgency, 1).count > 0;
+        const recommendation = countExactTerms(data, recommendationPhrases, 1).count > 0;
+        const ownership = hasExactAnyToken(data, advertisingOwnershipTokens);
+        const ownedCommercial = ownership && commercialSubject;
+        const price = hasPriceSignal(data.original);
+
+        if (recommendation && (selfPromotion || ownedCommercial)) return true;
+        if (recommendation && !selfPromotion && !ownedCommercial && !contact && !urgency) return false;
+
+        if (call && (selfPromotion || ownedCommercial)) return true;
+        if (saleIntent && (selfPromotion || ownedCommercial)) return true;
+        if (contact && (saleIntent || selfPromotion || commercialSubject || price)) return true;
+        if (price && (selfPromotion || contact || urgency || call)) return true;
+        if (urgency && (saleIntent || selfPromotion || commercialSubject || price)) return true;
+        if (saleIntent && call && commercialSubject) return true;
+
+        return false;
     }
 
     function censorWithHashes(value) {
@@ -3272,6 +3647,9 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         const data = normalize(value);
         if (!data.original) return { moderated: false, message: "", category: "", score: 0, normalized: "" };
 
+        if (containsLink(data.original)) return result(data, "LINK", 100);
+        if (containsAdvertising(data)) return result(data, "WERBUNG", 100);
+        if (containsSexualSymbol(data.original)) return result(data, "SEXUELL", 100);
         const severe = countTerms(data, severeTerms, 1);
         if (severe.count > 0) return result(data, "HASSREDE", 100);
         const threat = countTerms(data, threatPhrases, 1);
@@ -3281,6 +3659,9 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
 
         const strong = countTerms(data, strongInsults, 3);
         const weak = countTerms(data, weakProfanity, 3);
+        const exactStrong = countExactTerms(data, strongInsults, 1);
+        const exactWeak = countExactTerms(data, weakProfanity, 1);
+        const recommendationContext = countExactTerms(data, recommendationPhrases, 1).count > 0;
         const sexual = countTerms(data, neutralSexualWords, 3);
         const targeted = hasAnyToken(data, directTargets);
         const hostileSentence = hasAnyToken(data, hostileCopulas);
@@ -3293,12 +3674,17 @@ const NEXU_CHAT_MODERATION_V2 = (() => {
         // Zitat-/Meldekontext oder Satzbau zensiert. Damit kann ein Nutzer eine
         // Beleidigung nicht durch „ich meine niemanden“ oder ein vorgeschobenes
         // Zitat freischalten.
-        if ((CHAT_MODERATION_STRICT || !reporting) && strong.count > 0) {
+        if (
+            (CHAT_MODERATION_STRICT || !reporting) &&
+            strong.count > 0 &&
+            !(recommendationContext && exactStrong.count === 0)
+        ) {
             return result(data, "BELEIDIGUNG", 95);
         }
         if (
             (CHAT_MODERATION_STRICT || !reporting) &&
             weak.count > 0 &&
+            !(recommendationContext && exactWeak.count === 0) &&
             (CHAT_MODERATION_STRICT || tokenCount <= 2 || (targeted && hostileSentence))
         ) {
             return result(data, "BELEIDIGUNG", CHAT_MODERATION_STRICT ? 92 : 75);
@@ -3341,6 +3727,7 @@ function recordChatModerationUpdate(entry) {
         message: cleanText(entry.message, CHAT_MAX_LENGTH),
         moderated: entry.moderated === true,
         moderationCategory: cleanText(entry.moderationCategory, 40),
+        originalMessage: entry.moderated === true ? cleanText(entry.originalMessage, CHAT_MAX_LENGTH) : "",
     };
     chatModerationUpdates.push(update);
     while (chatModerationUpdates.length > CHAT_MODERATION_UPDATE_LIMIT) chatModerationUpdates.shift();
@@ -3353,12 +3740,14 @@ function applyChatModerationToMessageIds(messageIds, category = "BELEIDIGUNG") {
     let changed = 0;
     for (const entry of globalChatMessages) {
         if (!wanted.has(Number(entry && entry.id) || 0)) continue;
+        const originalBeforeCensor = cleanText(entry.originalMessage || entry.message, CHAT_MAX_LENGTH);
         const nextMessage = NEXU_CHAT_MODERATION_V2.censorWithHashes(entry.message);
         if (
             entry.moderated === true &&
             entry.message === nextMessage &&
             entry.moderationCategory === category
         ) continue;
+        entry.originalMessage = originalBeforeCensor;
         entry.message = nextMessage;
         entry.moderated = true;
         entry.moderationCategory = category;
@@ -3369,7 +3758,8 @@ function applyChatModerationToMessageIds(messageIds, category = "BELEIDIGUNG") {
     return changed;
 }
 
-function getChatModerationUpdates(afterRevision) {
+function getChatModerationUpdates(afterRevision, options = {}) {
+    const includeOriginal = options && options.includeOriginal === true;
     const requestedRevision = Math.max(0, Number(afterRevision) || 0);
     if (requestedRevision >= chatModerationRevision) return [];
     const oldestAvailable = chatModerationUpdates.length > 0
@@ -3384,9 +3774,19 @@ function getChatModerationUpdates(afterRevision) {
                 message: cleanText(entry.message, CHAT_MAX_LENGTH),
                 moderated: true,
                 moderationCategory: cleanText(entry.moderationCategory, 40),
+                ...(includeOriginal ? { originalMessage: cleanText(entry.originalMessage, CHAT_MAX_LENGTH) } : {}),
             }));
     }
-    return chatModerationUpdates.filter((entry) => Number(entry.revision || 0) > requestedRevision);
+    return chatModerationUpdates
+        .filter((entry) => Number(entry.revision || 0) > requestedRevision)
+        .map((entry) => ({
+            revision: entry.revision,
+            id: entry.id,
+            message: entry.message,
+            moderated: entry.moderated === true,
+            moderationCategory: entry.moderationCategory,
+            ...(includeOriginal ? { originalMessage: cleanText(entry.originalMessage, CHAT_MAX_LENGTH) } : {}),
+        }));
 }
 
 function getChatModerationContext(userId, now = Date.now()) {
@@ -3433,6 +3833,55 @@ function analyzeChatMessageWithContext(userId, message, messageId, now = Date.no
 
     const normalizedData = NEXU_CHAT_MODERATION_V2.normalize(message);
     const normalized = normalizedData.spaced;
+
+    // Links und Werbung können ebenfalls auf mehrere kurze Nachrichten verteilt
+    // werden, z. B. „example“ + „.com“ oder „kommt auf“ + „meinen Server“.
+    // Diese Sonderprüfung läuft vor dem normalen Fragmentfilter, weil ein reines
+    // „.com“ dort aus Sicherheitsgründen nicht als Sprachfragment gilt.
+    if (key) {
+        const promotionContext = getChatModerationContext(key, now);
+        const recent = promotionContext.messages.concat([{
+            id: messageId,
+            original: cleanText(message, CHAT_MAX_LENGTH),
+            normalized,
+            compact: normalizedData.collapsedCompact,
+            sentAtMs: now,
+        }]).slice(-4);
+
+        for (let start = recent.length - 2; start >= 0; start -= 1) {
+            const suffix = recent.slice(start);
+            let timingValid = true;
+            for (let index = 1; index < suffix.length; index += 1) {
+                if (Number(suffix[index].sentAtMs || 0) - Number(suffix[index - 1].sentAtMs || 0) > 15_000) {
+                    timingValid = false;
+                    break;
+                }
+            }
+            if (!timingValid) continue;
+
+            const spacedSource = suffix.map((entry) => String(entry.original || "")).join(" ");
+            const compactSource = suffix.map((entry) => String(entry.original || "")).join("");
+            const spacedResult = moderateNexuChatMessage(spacedSource);
+            const combinedResult =
+                spacedResult.moderated === true && (spacedResult.category === "LINK" || spacedResult.category === "WERBUNG")
+                    ? spacedResult
+                    : moderateNexuChatMessage(compactSource);
+            if (
+                combinedResult.moderated === true &&
+                (combinedResult.category === "LINK" || combinedResult.category === "WERBUNG")
+            ) {
+                chatModerationContexts.delete(key);
+                return {
+                    moderated: true,
+                    message: NEXU_CHAT_MODERATION_V2.censorWithHashes(message),
+                    category: combinedResult.category,
+                    score: Number(combinedResult.score) || 100,
+                    affectedIds: suffix.map((entry) => entry.id),
+                };
+            }
+        }
+    }
+
     if (!key || !isChatModerationFragment(message, normalized)) {
         if (key) chatModerationContexts.delete(key);
         return { ...standalone, affectedIds: [] };
@@ -3527,6 +3976,7 @@ function queueGlobalChatMessage(liveEntry, message) {
             cleanText(liveEntry && (liveEntry.username || liveEntry.name), 40) ||
             `User ${userId}`,
         message: moderation.message,
+        originalMessage: moderation.moderated === true ? cleanText(message, CHAT_MAX_LENGTH) : "",
         moderated: moderation.moderated === true,
         moderationCategory: moderation.category || "",
         moderationScore: Number(moderation.score) || 0,
@@ -3544,32 +3994,39 @@ function queueGlobalChatMessage(liveEntry, message) {
     return entry;
 }
 
-function getGlobalChatMessages(afterId) {
+function serializeGlobalChatMessage(entry, options = {}) {
+    const includeOriginal = options && options.includeOriginal === true;
+    const role = getNexuRoleInfo(entry && entry.userId);
+    const moderation = entry && entry.moderated === true
+        ? { moderated: true, message: cleanText(entry.message, CHAT_MAX_LENGTH), category: cleanText(entry.moderationCategory, 40), score: Number(entry.moderationScore) || 0 }
+        : moderateNexuChatMessage(entry && entry.message);
+    const result = {
+        id: entry && entry.id,
+        userId: entry && entry.userId,
+        roleKey: role.key,
+        roleTitle: role.title,
+        username: entry && entry.username,
+        displayName: entry && entry.displayName,
+        avatarUrl: (entry && entry.avatarUrl) || (avatarCache.get(String(entry && entry.userId || "")) || {}).url || "",
+        message: moderation.message,
+        moderated: moderation.moderated === true,
+        moderationCategory: moderation.category || "",
+        sentAt: entry && entry.sentAt,
+        sentAtMs: entry && entry.sentAtMs,
+    };
+    if (includeOriginal && result.moderated) {
+        result.originalMessage = cleanText(entry && entry.originalMessage, CHAT_MAX_LENGTH);
+    }
+    return result;
+}
+
+function getGlobalChatMessages(afterId, options = {}) {
     pruneGlobalChat();
     const numericAfterId = Math.max(0, Number(afterId) || 0);
     return globalChatMessages
         .filter((entry) => Number(entry.id || 0) > numericAfterId)
         .slice(-CHAT_POLL_LIMIT)
-        .map((entry) => {
-            const role = getNexuRoleInfo(entry.userId);
-            const moderation = entry.moderated === true
-                ? { moderated: true, message: cleanText(entry.message, CHAT_MAX_LENGTH), category: cleanText(entry.moderationCategory, 40), score: Number(entry.moderationScore) || 0 }
-                : moderateNexuChatMessage(entry.message);
-            return {
-                id: entry.id,
-                userId: entry.userId,
-                roleKey: role.key,
-                roleTitle: role.title,
-                username: entry.username,
-                displayName: entry.displayName,
-                avatarUrl: (avatarCache.get(String(entry.userId || "")) || {}).url || "",
-                message: moderation.message,
-                moderated: moderation.moderated === true,
-                moderationCategory: moderation.category || "",
-                sentAt: entry.sentAt,
-                sentAtMs: entry.sentAtMs,
-            };
-        });
+        .map((entry) => serializeGlobalChatMessage(entry, options));
 }
 
 
@@ -10955,6 +11412,10 @@ function nexuV213OverviewChatCss() {
 .nx-web-chat-state{display:inline-flex;align-items:center;gap:8px;color:#8faabd;font-size:11px;font-weight:850;letter-spacing:.07em;text-transform:uppercase;}
 .nx-web-chat-state::before{content:"";width:8px;height:8px;border-radius:50%;background:#2dffa5;box-shadow:0 0 14px rgba(45,255,165,.55);}
 .nx-web-chat-state.error::before{background:#ff4d78;box-shadow:0 0 14px rgba(255,77,120,.55);}
+.nx-web-chat-head-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
+.nx-web-chat-reveal{min-height:34px;padding:0 12px;border:1px solid rgba(255,184,76,.28);border-radius:10px;color:#ffd79c;background:rgba(255,151,46,.08);font-size:10px;font-weight:900;letter-spacing:.05em;cursor:pointer;}
+.nx-web-chat-reveal.active{border-color:rgba(255,102,102,.48);color:#ffd0d0;background:rgba(255,72,72,.13);box-shadow:0 0 0 3px rgba(255,72,72,.05);}
+.nx-web-chat-moderated-badge{display:inline-flex;margin-top:8px;padding:3px 7px;border-radius:999px;border:1px solid rgba(255,184,76,.2);color:#d6a85f;background:rgba(255,151,46,.06);font-size:8px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;}
 .nx-web-chat-messages{min-height:330px;max-height:560px;overflow:auto;display:flex;flex-direction:column;gap:11px;padding:18px;border:1px solid rgba(108,223,255,.12);border-radius:20px;background:linear-gradient(180deg,rgba(2,8,15,.7),rgba(4,10,18,.58));scrollbar-gutter:stable;}
 .nx-web-chat-empty{margin:auto;color:#69889d;font-size:13px;text-align:center;line-height:1.6;}
 .nx-web-chat-row{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:start;gap:10px;max-width:min(760px,86%);}
@@ -10981,13 +11442,16 @@ function nexuV213OverviewChatCss() {
 `;
 }
 
-function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
+function nexuV213OverviewChatScript(canSend, currentRobloxUserId, ownerCanReveal) {
     const currentUserIdJson = JSON.stringify(cleanNumericId(currentRobloxUserId));
     const canSendJson = canSend === true ? "true" : "false";
+    const ownerCanRevealJson = ownerCanReveal === true ? "true" : "false";
     return String.raw`<script>
 (function(){
     var CURRENT_ROBLOX_USER_ID=${currentUserIdJson};
     var canSend=${canSendJson};
+    var ownerCanReveal=${ownerCanRevealJson};
+    var revealModerated=false;
     var panel=document.querySelector('[data-directory-panel="chat"]');
     var list=document.getElementById('websiteGlobalChatMessages');
     var input=document.getElementById('websiteGlobalChatInput');
@@ -10995,6 +11459,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
     var stateLabel=document.getElementById('websiteGlobalChatState');
     var countLabel=document.getElementById('websiteGlobalChatCount');
     var tabCount=document.getElementById('chatTabCount');
+    var revealButton=document.getElementById('websiteGlobalChatReveal');
     if(!panel||!list||!input||!sendButton) return;
 
     var state={lastId:0,seen:new Set(),sending:false,polling:false,rows:0,resetToken:"",moderationRevision:0,followLatest:true};
@@ -11058,6 +11523,21 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         if(tabCount)tabCount.textContent='0';
         scrollBottom(true);
     }
+    function displayMessageForRow(row){
+        if(!row)return;
+        var message=row.querySelector('.nx-web-chat-text');
+        if(!message)return;
+        var moderated=row.dataset.moderated==='true';
+        var original=String(row.dataset.originalMessage||'');
+        var censored=String(row.dataset.censoredMessage||'');
+        message.textContent=(ownerCanReveal&&revealModerated&&moderated&&original)?original:censored;
+    }
+    function refreshRevealButton(){
+        if(!revealButton)return;
+        revealButton.classList.toggle('active',revealModerated);
+        revealButton.textContent=revealModerated?'ORIGINAL SICHTBAR':'ZENSUR AUFDECKEN';
+        revealButton.setAttribute('aria-pressed',revealModerated?'true':'false');
+    }
     function appendMessage(entry){
         if(!entry||!entry.id||state.seen.has(String(entry.id)))return;
         state.seen.add(String(entry.id));
@@ -11069,6 +11549,10 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         var row=document.createElement('article');
         row.className='nx-web-chat-row'+(own?' own':'');
         row.dataset.messageId=String(entry.id);
+        row.dataset.moderated=entry.moderated===true?'true':'false';
+        row.dataset.censoredMessage=String(entry.message||'');
+        row.dataset.originalMessage=ownerCanReveal?String(entry.originalMessage||''):'';
+        row.dataset.moderationCategory=String(entry.moderationCategory||'');
         var avatar=document.createElement('img');
         avatar.className='nx-web-chat-avatar';
         avatar.alt='';
@@ -11092,10 +11576,16 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         time.textContent=formatTime(entry.sentAt);
         var message=document.createElement('div');
         message.className='nx-web-chat-text';
-        message.textContent=String(entry.message||'');
         meta.append(name,time);
         bubble.append(meta,message);
+        if(entry.moderated===true){
+            var badge=document.createElement('span');
+            badge.className='nx-web-chat-moderated-badge';
+            badge.textContent='ZENSIERT · '+String(entry.moderationCategory||'INHALT');
+            bubble.appendChild(badge);
+        }
         row.append(avatar,bubble);
+        displayMessageForRow(row);
         list.appendChild(row);
         if(tabCount)tabCount.textContent=String(state.rows);
         return true;
@@ -11104,10 +11594,19 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
         if(!update||!update.id)return;
         var row=list.querySelector('[data-message-id="'+String(update.id)+'"]');
         if(!row)return;
-        var message=row.querySelector('.nx-web-chat-text');
-        if(message)message.textContent=String(update.message||'');
+        row.dataset.censoredMessage=String(update.message||'');
+        if(ownerCanReveal&&Object.prototype.hasOwnProperty.call(update,'originalMessage')){
+            row.dataset.originalMessage=String(update.originalMessage||'');
+        }
         row.dataset.moderated=update.moderated===true?'true':'false';
         row.dataset.moderationCategory=String(update.moderationCategory||'');
+        var badge=row.querySelector('.nx-web-chat-moderated-badge');
+        if(update.moderated===true&&!badge){
+            badge=document.createElement('span');badge.className='nx-web-chat-moderated-badge';
+            var bubble=row.querySelector('.nx-web-chat-bubble');if(bubble)bubble.appendChild(badge);
+        }
+        if(badge)badge.textContent='ZENSIERT · '+String(update.moderationCategory||'INHALT');
+        displayMessageForRow(row);
     }
     function consume(payload,options){
         options=options||{};
@@ -11136,6 +11635,12 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
             scrollBottom(forceLatest);
         }
         if(payload&&Object.prototype.hasOwnProperty.call(payload,'currentRobloxUserId')){CURRENT_ROBLOX_USER_ID=String(payload.currentRobloxUserId||'');}
+        if(payload&&typeof payload.ownerCanReveal==='boolean'){
+            ownerCanReveal=payload.ownerCanReveal===true;
+            if(!ownerCanReveal)revealModerated=false;
+            if(revealButton)revealButton.hidden=!ownerCanReveal;
+            refreshRevealButton();
+        }
         if(payload&&typeof payload.canSend==='boolean'){
             canSend=payload.canSend;
             input.disabled=!canSend;
@@ -11189,6 +11694,16 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId) {
 
     input.disabled=!canSend;
     sendButton.disabled=!canSend;
+    if(revealButton){
+        revealButton.hidden=!ownerCanReveal;
+        revealButton.addEventListener('click',function(){
+            if(!ownerCanReveal)return;
+            revealModerated=!revealModerated;
+            refreshRevealButton();
+            list.querySelectorAll('.nx-web-chat-row').forEach(displayMessageForRow);
+        });
+        refreshRevealButton();
+    }
     input.addEventListener('input',updateCount);
     input.addEventListener('keydown',function(event){if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();}});
     sendButton.addEventListener('click',send);
@@ -11201,6 +11716,7 @@ dashboardHtml = function(account = null, notice = "") {
     let html = NEXU_V213_BASE_OVERVIEW_HTML(account, notice);
     const currentRobloxUserId = cleanNumericId(account && account.robloxUserId);
     const canSend = Boolean(currentRobloxUserId && canAccessMenuServer(account));
+    const ownerCanReveal = isOwnerDashboardAccount(account);
 
     html = html.replace(
         '<button class="directory-tab" type="button" data-directory-tab="banned" role="tab" aria-selected="false">Gesperrt <b id="bannedTabCount">0</b></button>',
@@ -11212,7 +11728,7 @@ dashboardHtml = function(account = null, notice = "") {
     </div>
     <div class="directory-panel hidden nx-web-chat-panel" data-directory-panel="chat" role="tabpanel">
         <div class="nx-web-chat-shell">
-            <div class="nx-web-chat-head"><div><div class="eyebrow">NEXU // GLOBALER CHAT</div><h2>Chat für alle Nexu-Nutzer</h2></div><div id="websiteGlobalChatState" class="nx-web-chat-state">Verbindung wird hergestellt</div></div>
+            <div class="nx-web-chat-head"><div><div class="eyebrow">NEXU // GLOBALER CHAT</div><h2>Chat für alle Nexu-Nutzer</h2></div><div class="nx-web-chat-head-actions">${ownerCanReveal ? '<button id="websiteGlobalChatReveal" class="nx-web-chat-reveal" type="button" aria-pressed="false">ZENSUR AUFDECKEN</button>' : ''}<div id="websiteGlobalChatState" class="nx-web-chat-state">Verbindung wird hergestellt</div></div></div>
             <div id="websiteGlobalChatMessages" class="nx-web-chat-messages" aria-live="polite"><div class="nx-web-chat-empty">Noch keine Nachrichten vorhanden.<br>Schreibe die erste Nachricht aus der Übersicht oder dem Lua-Menü.</div></div>
             <div class="nx-web-chat-composer">
                 <div class="nx-web-chat-input-wrap"><textarea id="websiteGlobalChatInput" class="nx-web-chat-input" maxlength="300" placeholder="Nachricht an alle Nexu-Nutzer schreiben …"></textarea><span id="websiteGlobalChatCount" class="nx-web-chat-count">0 / 300</span></div>
@@ -11225,7 +11741,7 @@ dashboardHtml = function(account = null, notice = "") {
     html = html.replace(bannedPanelEnd, chatPanel);
     html = html.replace('["online","offline","banned"].includes(name)', '["online","offline","banned","chat"].includes(name)');
     html = html.replace('</style>', nexuV213OverviewChatCss() + '</style>');
-    html = html.replace('</body>', nexuV213OverviewChatScript(canSend, currentRobloxUserId) + '</body>');
+    html = html.replace('</body>', nexuV213OverviewChatScript(canSend, currentRobloxUserId, ownerCanReveal) + '</body>');
     return html;
 };
 
@@ -12717,17 +13233,20 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
             return;
         }
         await attachAvatarUrlsToChatMessages([chatMessage]);
+        const ownerCanReveal = Boolean(websiteSession && isOwnerDashboardAccount(websiteSession.account));
+        const responseChatMessage = serializeGlobalChatMessage(chatMessage, { includeOriginal: ownerCanReveal });
         console.log(`[NEXU] CHAT ${userId}${websiteIdentity ? " (WEBSITE)" : ""}: ${chatMessage.moderated ? `[ZENSIERT:${chatMessage.moderationCategory || "INHALT"}]` : chatMessage.message.slice(0, 80)}`);
         sendJson(res, 200, {
             success: true,
-            chatMessage,
+            chatMessage: responseChatMessage,
             latestId: chatMessage.id,
             chatResetToken: getGlobalChatResetToken(),
             chatDayKey: globalChatDayKey,
             chatResetAtMs: globalChatResetAtMs,
             chatNextResetAtMs: findNextGlobalChatMidnightMs(),
             moderationRevision: chatModerationRevision,
-            moderationUpdates: getChatModerationUpdates(clientModerationRevision),
+            moderationUpdates: getChatModerationUpdates(clientModerationRevision, { includeOriginal: ownerCanReveal }),
+            ownerCanReveal,
         });
     } catch (error) {
         sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
@@ -12771,7 +13290,8 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
             }
         }
 
-        const messages = getGlobalChatMessages(afterId);
+        const ownerCanReveal = Boolean(websiteSession && isOwnerDashboardAccount(websiteSession.account));
+        const messages = getGlobalChatMessages(afterId, { includeOriginal: ownerCanReveal });
         await attachAvatarUrlsToChatMessages(messages);
         const latestId = globalChatMessages.length > 0
             ? Number(globalChatMessages[globalChatMessages.length - 1].id || 0)
@@ -12787,7 +13307,8 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
             chatResetAtMs: globalChatResetAtMs,
             chatNextResetAtMs: findNextGlobalChatMidnightMs(),
             moderationRevision: chatModerationRevision,
-            moderationUpdates: getChatModerationUpdates(clientModerationRevision),
+            moderationUpdates: getChatModerationUpdates(clientModerationRevision, { includeOriginal: ownerCanReveal }),
+            ownerCanReveal,
             timestamp: new Date().toISOString(),
         });
     } catch (error) {
@@ -13284,7 +13805,7 @@ async function startNexuServer() {
         console.log("Skript-Aktualisierung-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
         console.log("Skript-Aktualisierung:", getMenuUpdateStatus().active ? "AKTIV" : "INAKTIV");
-        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SKRIPTE AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V220 LOKAL + GITHUB // AES-256-GCM // ATOMAR");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Ingame-Moderation: V172 AKTIVE CREATOR-SESSION + BAN/UNBAN");console.log("Rang-Banner-Sync: V168 LIVE SNAPSHOT INVALIDATION + INGAME COLOR REFRESH");console.log("Rang-Auswahl: V167 SUCHBARES DROPDOWN AM AKTUELLEN RANG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: V220 SPIELER + TAGESCHAT + 5-MINUTEN-DEDUPE + BACKUP");console.log("Chat-Zensur:", CHAT_MODERATION_STRICT ? "V220 MAXIMAL STRENG" : "V220 KONTEXTMODUS");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? `AKTIV AUF ${GITHUB_DATA_BRANCH}` : `GESPERRT AUF ${GITHUB_DATA_BRANCH}`);console.log("Deploy-Neustart-Schutz:", GITHUB_DATA_IS_DEPLOY_BRANCH && !GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV" : (GITHUB_DATA_IS_DEPLOY_BRANCH ? "DEAKTIVIERT DURCH ENV" : "SEPARATER DATENBRANCH"));
+        console.log("Globales Deaktivieren: /api/admin/shutdown/all");console.log("Dashboard-Button-Fix: V156 ALLE SKRIPTE AUS SICHTBAR");console.log("Menüstatus: V162 PERSISTENT ONLINE/OFFLINE + STARTSPERRE");console.log("Dashboard-Aktionsfeedback: V163 EIGENE DIALOGE + TOASTS // KEINE BROWSER-POPUPS");console.log("Account-Persistenz: V220 LOKAL + GITHUB // AES-256-GCM // ATOMAR");console.log("Design-Refresh: V165 MODERNE GLASS UI + VISUELLE AUFWERTUNG");console.log("Design-Refresh: V166 ULTRA MODERN HEADER + PREMIUM DASHBOARD VISUALS");console.log("Ingame-Moderation: V172 AKTIVE CREATOR-SESSION + BAN/UNBAN");console.log("Rang-Banner-Sync: V168 LIVE SNAPSHOT INVALIDATION + INGAME COLOR REFRESH");console.log("Rang-Auswahl: V167 SUCHBARES DROPDOWN AM AKTUELLEN RANG");console.log("Owner-Session-Fix: V148 SIGNIERT UND NEUSTARTFEST");console.log("Global-Shutdown-Fix: V149 SESSION-SNAPSHOT + SOFORT-OFFLINE");console.log("Presence-Abgleich: V154 STABILE USER-LEASE + RESTART-WARMUP");console.log("Persistenz: V220 SPIELER + TAGESCHAT + 5-MINUTEN-DEDUPE + BACKUP");console.log("Chat-Zensur:", CHAT_MODERATION_STRICT ? "MAXIMAL STRENG + LINK-/WERBESCHUTZ" : "KONTEXTMODUS + LINK-/WERBESCHUTZ");console.log("GitHub-Deduplizierung: INHALTSHASH // KEIN COMMIT OHNE DATENÄNDERUNG");console.log("Dashboard-Ausfallschutz: LETZTEN SNAPSHOT BEHALTEN");console.log("Aktiv-Fenster:", Math.round(ACTIVE_PRESENCE_WINDOW_MS / 1000), "Sekunden");console.log("Server-Instanz:", SERVER_INSTANCE_ID);console.log("GitHub-Schreiben:", GITHUB_STORAGE_WRITES_ALLOWED ? `AKTIV AUF ${GITHUB_DATA_BRANCH}` : `GESPERRT AUF ${GITHUB_DATA_BRANCH}`);console.log("Deploy-Neustart-Schutz:", GITHUB_DATA_IS_DEPLOY_BRANCH && !GITHUB_STORAGE_WRITES_ALLOWED ? "AKTIV" : (GITHUB_DATA_IS_DEPLOY_BRANCH ? "DEAKTIVIERT DURCH ENV" : "SEPARATER DATENBRANCH"));
         console.log("========================================");
     });
 }
