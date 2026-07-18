@@ -5119,6 +5119,23 @@
       "lastSeenMs": 1784413214180
     },
     {
+      "userId": "1579346105",
+      "username": "Emilia93300",
+      "displayName": "kinder",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Voler un Brainrot",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:24:15.970Z",
+      "firstSeenMs": 1784413455970,
+      "lastSeen": "2026-07-18T22:24:15.970Z",
+      "lastSeenMs": 1784413455970
+    },
+    {
       "userId": "1671961077",
       "username": "DEAD_MIKIII",
       "displayName": "FOE_deadMIKIII",
@@ -11855,5 +11872,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:21:40.968Z"
+  "updatedAt": "2026-07-18T22:24:20.973Z"
 }
