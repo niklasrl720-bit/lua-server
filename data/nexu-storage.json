@@ -7737,6 +7737,23 @@
       "lastSeenMs": 1784271000000
     },
     {
+      "userId": "7050793518",
+      "username": "vackob7",
+      "displayName": "BLC_ST4R",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Misterio de asesinato 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:33:10.271Z",
+      "firstSeenMs": 1784403190271,
+      "lastSeen": "2026-07-18T19:33:10.271Z",
+      "lastSeenMs": 1784403190271
+    },
+    {
       "userId": "7056416091",
       "username": "nanndyot13",
       "displayName": "Egor",
@@ -11693,5 +11710,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:32:33.370Z"
+  "updatedAt": "2026-07-18T19:33:15.280Z"
 }
