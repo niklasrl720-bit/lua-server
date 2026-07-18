@@ -7907,6 +7907,23 @@
       "lastSeenMs": 1784401239195
     },
     {
+      "userId": "5738765025",
+      "username": "HELIOlagado66",
+      "displayName": "ヘリオド31",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Campos de Batalha Definitivos",
+      "placeId": 11815767793,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T21:50:29.768Z",
+      "firstSeenMs": 1784411429768,
+      "lastSeen": "2026-07-18T21:50:29.768Z",
+      "lastSeenMs": 1784411429768
+    },
+    {
       "userId": "5814344507",
       "username": "vandaligafb",
       "displayName": "ICE_Felps",
@@ -12427,5 +12444,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:50:09.678Z"
+  "updatedAt": "2026-07-18T21:50:34.783Z"
 }
