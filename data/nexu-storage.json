@@ -2863,16 +2863,16 @@
       "displayName": "THEchudNugget",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Mortem Metallum Beginner Servers",
-      "placeId": 78901891296081,
+      "gameName": "💣 100 Players Bomb Tag",
+      "placeId": 120534052146421,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T21:49:15.412Z",
       "firstSeenMs": 1784411355412,
-      "lastSeen": "2026-07-18T21:55:00.000Z",
-      "lastSeenMs": 1784411700000
+      "lastSeen": "2026-07-18T22:00:00.000Z",
+      "lastSeenMs": 1784412000000
     },
     {
       "userId": "11242727349",
@@ -11652,5 +11652,5 @@
     "resetAtMs": 1784412000096,
     "messages": []
   },
-  "updatedAt": "2026-07-18T22:01:02.180Z"
+  "updatedAt": "2026-07-18T22:01:36.417Z"
 }
