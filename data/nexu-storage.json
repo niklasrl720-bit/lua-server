@@ -5085,6 +5085,23 @@
       "lastSeenMs": 1784402400000
     },
     {
+      "userId": "11307058434",
+      "username": "gdyhrvvtudhtvrjjs",
+      "displayName": "gdyhrvvtudhtvrjjs",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Guess the Slapper",
+      "placeId": 106683702021527,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T23:41:04.535Z",
+      "firstSeenMs": 1784418064535,
+      "lastSeen": "2026-07-18T23:41:04.535Z",
+      "lastSeenMs": 1784418064535
+    },
+    {
       "userId": "11310829120",
       "username": "Hacker_ExecutorX",
       "displayName": "Executor",
@@ -12225,5 +12242,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:40:36.437Z"
+  "updatedAt": "2026-07-18T23:41:09.539Z"
 }
