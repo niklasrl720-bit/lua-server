@@ -5387,8 +5387,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:45:08.743Z",
       "firstSeenMs": 1784403908743,
-      "lastSeen": "2026-07-18T20:30:00.000Z",
-      "lastSeenMs": 1784406600000
+      "lastSeen": "2026-07-18T20:40:00.000Z",
+      "lastSeenMs": 1784407200000
     },
     {
       "userId": "2361831889",
@@ -8298,6 +8298,23 @@
       "lastSeenMs": 1784254700808
     },
     {
+      "userId": "7378400138",
+      "username": "Perroel_Diablo",
+      "displayName": "オマル",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Duelos de bombas de tiempo [Alfa]",
+      "placeId": 11379739543,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T20:42:36.468Z",
+      "firstSeenMs": 1784407356468,
+      "lastSeen": "2026-07-18T20:42:36.468Z",
+      "lastSeenMs": 1784407356468
+    },
+    {
       "userId": "7388918205",
       "username": "eapcDc_68",
       "displayName": "Lord",
@@ -8991,8 +9008,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T20:27:08.463Z",
       "firstSeenMs": 1784406428463,
-      "lastSeen": "2026-07-18T20:27:08.463Z",
-      "lastSeenMs": 1784406428463
+      "lastSeen": "2026-07-18T20:40:00.000Z",
+      "lastSeenMs": 1784407200000
     },
     {
       "userId": "7957137706",
@@ -12131,5 +12148,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:41:29.292Z"
+  "updatedAt": "2026-07-18T20:42:39.828Z"
 }
