@@ -3813,8 +3813,8 @@
       "userId": "11290702208",
       "username": "Flasche7200",
       "displayName": "Flasche7200",
-      "roleKey": "vip",
-      "roleUpdatedAtMs": 1784401085154,
+      "roleKey": "player",
+      "roleUpdatedAtMs": 1784406685978,
       "gameName": "Deutsche Stimme",
       "placeId": 136162036182779,
       "executionSource": "Madium",
@@ -12097,5 +12097,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:30:12.973Z"
+  "updatedAt": "2026-07-18T20:31:26.072Z"
 }
