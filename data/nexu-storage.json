@@ -5935,6 +5935,23 @@
       "lastSeenMs": 1784284500000
     },
     {
+      "userId": "3344756126",
+      "username": "cherresade",
+      "displayName": "bro",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "LÍNEA FUERTE",
+      "placeId": 14313259147,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T21:14:30.892Z",
+      "firstSeenMs": 1784409270892,
+      "lastSeen": "2026-07-18T21:14:30.892Z",
+      "lastSeenMs": 1784409270892
+    },
+    {
       "userId": "3353928966",
       "username": "amigod_823838",
       "displayName": "Slk_num1compensa001",
@@ -12263,5 +12280,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:13:27.099Z"
+  "updatedAt": "2026-07-18T21:14:35.904Z"
 }
