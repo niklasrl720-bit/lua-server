@@ -13506,6 +13506,191 @@ homeHtml=function(...args){return enhanceNexuV222Motion(NEXU_V222_BASE_HOME_HTML
 dashboardAccountsHtml=function(...args){return enhanceNexuV222Motion(NEXU_V222_BASE_ACCOUNTS_HTML(...args),"accounts");};
 dashboardHtml=function(...args){return enhanceNexuV222Motion(NEXU_V222_BASE_OVERVIEW_HTML(...args),"overview");};
 
+
+/* --------------------------------------------------------------------------
+ * NEXU V223 // ACCOUNT SETTINGS INTERACTION FIX
+ * Entkoppelt Profilmenü und Einstellungsdialog von globalen Animationen.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V223_BASE_HOME_HTML = homeHtml;
+
+function nexuV223SettingsFixCss() {
+    return String.raw`
+/* NEXU V223 // SETTINGS INTERACTION FIX */
+body.page-home.nexu-motion-v222{
+    animation:nxV223PageFade .46s var(--nx-motion-spring) both !important;
+}
+@keyframes nxV223PageFade{from{opacity:0}to{opacity:1}}
+
+body.page-home .account{
+    position:relative !important;
+    z-index:2147482000 !important;
+    overflow:visible !important;
+}
+body.page-home .account-menu{
+    z-index:2147482100 !important;
+    overflow:visible !important;
+}
+body.page-home .account:not(.open) .account-menu{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+}
+body.page-home .account.open .account-menu{
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    pointer-events:auto !important;
+    transform:none !important;
+}
+body.page-home .account-menu .menu-item,
+body.page-home .account-menu .menu-item-form{
+    position:relative !important;
+    z-index:1 !important;
+    pointer-events:auto !important;
+}
+
+body.page-home #settingsModal.modal-backdrop{
+    position:fixed !important;
+    inset:0 !important;
+    z-index:2147483000 !important;
+    width:100vw !important;
+    min-height:100vh !important;
+    padding:18px !important;
+    place-items:center !important;
+    overflow:auto !important;
+    visibility:visible !important;
+    pointer-events:auto !important;
+    opacity:1 !important;
+    transform:none !important;
+    isolation:isolate !important;
+}
+body.page-home #settingsModal.modal-backdrop.hidden{
+    display:none !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+    opacity:0 !important;
+}
+body.page-home #settingsModal.modal-backdrop:not(.hidden){
+    display:grid !important;
+}
+body.page-home #settingsModal .modal-card{
+    position:relative !important;
+    z-index:2 !important;
+    pointer-events:auto !important;
+    transform:none;
+}
+body.page-home #settingsModal:not(.hidden) .modal-card{
+    animation:nxV223SettingsDialogIn .34s cubic-bezier(.16,1,.3,1) both !important;
+}
+@keyframes nxV223SettingsDialogIn{
+    from{opacity:0;transform:translateY(16px) scale(.96)}
+    to{opacity:1;transform:none}
+}
+`;
+}
+
+function nexuV223SettingsFixScript() {
+    return String.raw`<script>
+(function(){
+    "use strict";
+    if(document.documentElement.dataset.nxSettingsFixV223==="1")return;
+    document.documentElement.dataset.nxSettingsFixV223="1";
+
+    function getAccount(){return document.getElementById("account");}
+    function getAccountButton(){return document.getElementById("accountButton");}
+    function getModal(){return document.getElementById("settingsModal");}
+    function setMenu(open){
+        var account=getAccount();
+        var button=getAccountButton();
+        if(!account)return;
+        account.classList.toggle("open",open===true);
+        if(button)button.setAttribute("aria-expanded",open===true?"true":"false");
+    }
+    function openSettings(){
+        var modal=getModal();
+        if(!modal)return;
+        setMenu(false);
+        modal.classList.remove("hidden");
+        modal.setAttribute("aria-hidden","false");
+        document.documentElement.classList.add("nx-settings-open");
+        document.documentElement.style.overflow="hidden";
+        window.requestAnimationFrame(function(){
+            var field=document.getElementById("currentPassword")||modal.querySelector("input,select,button");
+            if(field&&typeof field.focus==="function")field.focus({preventScroll:true});
+        });
+    }
+    function closeSettings(){
+        var modal=getModal();
+        if(!modal)return;
+        modal.classList.add("hidden");
+        modal.setAttribute("aria-hidden","true");
+        document.documentElement.classList.remove("nx-settings-open");
+        document.documentElement.style.overflow="";
+    }
+
+    document.addEventListener("click",function(event){
+        var target=event.target&&event.target.nodeType===1?event.target:event.target&&event.target.parentElement;
+        if(!target)return;
+
+        var settingsTrigger=target.closest&&target.closest("#openSettings");
+        if(settingsTrigger){
+            event.preventDefault();
+            event.stopPropagation();
+            openSettings();
+            return;
+        }
+
+        var closeTrigger=target.closest&&target.closest("#closeSettings");
+        if(closeTrigger){
+            event.preventDefault();
+            event.stopPropagation();
+            closeSettings();
+            return;
+        }
+
+        var accountButton=target.closest&&target.closest("#accountButton");
+        if(accountButton){
+            event.preventDefault();
+            event.stopPropagation();
+            var account=getAccount();
+            setMenu(!(account&&account.classList.contains("open")));
+            return;
+        }
+
+        var modal=getModal();
+        if(modal&&target===modal){
+            event.preventDefault();
+            event.stopPropagation();
+            closeSettings();
+            return;
+        }
+
+        var account=getAccount();
+        if(account&&!account.contains(target))setMenu(false);
+    },true);
+
+    document.addEventListener("keydown",function(event){
+        if(event.key!=="Escape")return;
+        var modal=getModal();
+        if(modal&&!modal.classList.contains("hidden")){
+            event.preventDefault();
+            closeSettings();
+        }else setMenu(false);
+    },true);
+})();
+</script>`;
+}
+
+homeHtml = function(...args) {
+    let html = NEXU_V223_BASE_HOME_HTML(...args);
+    if (typeof html !== "string" || html.includes("NEXU V223 // SETTINGS INTERACTION FIX")) return html;
+    html = html.replace("</style>", nexuV223SettingsFixCss() + "</style>");
+    html = html.replace("</body>", nexuV223SettingsFixScript() + "</body>");
+    return html;
+};
+
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
 if (req.method === "GET" && pathname === "/api/health") {
