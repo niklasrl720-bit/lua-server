@@ -6059,8 +6059,8 @@
       "displayName": "saturno",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Saturno",
-      "placeId": 99527221614188,
+      "gameName": "🪓Campblood de Verão",
+      "placeId": 105962277487044,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -8600,8 +8600,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:15:27.430Z",
       "firstSeenMs": 1784232927430,
-      "lastSeen": "2026-07-18T22:50:00.000Z",
-      "lastSeenMs": 1784415000000
+      "lastSeen": "2026-07-18T23:10:00.000Z",
+      "lastSeenMs": 1784416200000
     },
     {
       "userId": "7084113045",
@@ -12159,5 +12159,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:12:38.020Z"
+  "updatedAt": "2026-07-18T23:13:11.065Z"
 }
