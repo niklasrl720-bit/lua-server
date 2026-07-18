@@ -4954,8 +4954,8 @@
       "displayName": "Executor",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Vida de Prisión",
-      "placeId": 155615604,
+      "gameName": "Supervivencia de desastres naturales",
+      "placeId": 189707,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -11940,5 +11940,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:31:00.172Z"
+  "updatedAt": "2026-07-18T22:32:34.703Z"
 }
