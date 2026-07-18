@@ -5578,6 +5578,23 @@
       "lastSeenMs": 1784268452423
     },
     {
+      "userId": "2639316345",
+      "username": "coolbananahennyv2",
+      "displayName": "banana",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Ring 1: Limbo",
+      "placeId": 9070657865,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T21:26:31.558Z",
+      "firstSeenMs": 1784409991558,
+      "lastSeen": "2026-07-18T21:26:31.558Z",
+      "lastSeenMs": 1784409991558
+    },
+    {
       "userId": "2643068736",
       "username": "doki22811",
       "displayName": "doki22811",
@@ -12329,5 +12346,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:26:00.324Z"
+  "updatedAt": "2026-07-18T21:26:36.569Z"
 }
