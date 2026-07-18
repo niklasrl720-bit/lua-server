@@ -1906,6 +1906,23 @@
       "lastSeenMs": 1784285100000
     },
     {
+      "userId": "11102688538",
+      "username": "10TN079",
+      "displayName": "10TN079",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "LÜTFEN BAĞIŞ YAPIN 💸",
+      "placeId": 8737602449,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:10:38.264Z",
+      "firstSeenMs": 1784401838264,
+      "lastSeen": "2026-07-18T19:10:38.264Z",
+      "lastSeenMs": 1784401838264
+    },
+    {
       "userId": "11103697834",
       "username": "ffgj3403",
       "displayName": "ffgj3403",
@@ -11610,5 +11627,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:10:07.891Z"
+  "updatedAt": "2026-07-18T19:10:43.273Z"
 }
