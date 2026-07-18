@@ -10768,16 +10768,16 @@
       "displayName": "alex",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🔥] Murderers VS Sheriffs",
-      "placeId": 130786301959777,
+      "gameName": "[🏖️] Wall Hop Practice",
+      "placeId": 5044920251,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:19:21.399Z",
       "firstSeenMs": 1784236761399,
-      "lastSeen": "2026-07-17T02:55:00.000Z",
-      "lastSeenMs": 1784256900000
+      "lastSeen": "2026-07-18T21:10:00.000Z",
+      "lastSeenMs": 1784409000000
     },
     {
       "userId": "9441593469",
@@ -12246,5 +12246,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:11:09.026Z"
+  "updatedAt": "2026-07-18T21:12:48.173Z"
 }
