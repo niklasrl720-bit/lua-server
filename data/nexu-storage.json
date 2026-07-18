@@ -6156,6 +6156,23 @@
       "lastSeenMs": 1784299800000
     },
     {
+      "userId": "3433559475",
+      "username": "Frezy5529",
+      "displayName": "Frezy5529",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[РПГ] Деревня: Эмбер",
+      "placeId": 4601350214,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:19:21.373Z",
+      "firstSeenMs": 1784413161373,
+      "lastSeen": "2026-07-18T22:19:21.373Z",
+      "lastSeenMs": 1784413161373
+    },
+    {
       "userId": "3468057790",
       "username": "c0sta43",
       "displayName": "c0sta43",
@@ -11787,5 +11804,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:18:29.110Z"
+  "updatedAt": "2026-07-18T22:19:26.465Z"
 }
