@@ -4218,6 +4218,23 @@
       "lastSeenMs": 1784243779647
     },
     {
+      "userId": "11298201395",
+      "username": "kzz244j",
+      "displayName": "kzz244j",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Hospital de Animais (Anomalia)",
+      "placeId": 78515283254292,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:17:52.196Z",
+      "firstSeenMs": 1784413072196,
+      "lastSeen": "2026-07-18T22:17:52.196Z",
+      "lastSeenMs": 1784413072196
+    },
+    {
       "userId": "11298226444",
       "username": "pepeelmaspro_34576",
       "displayName": "pepeelmaspro_34576",
@@ -11736,5 +11753,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:17:29.903Z"
+  "updatedAt": "2026-07-18T22:17:57.199Z"
 }
