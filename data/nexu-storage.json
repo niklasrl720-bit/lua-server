@@ -576,8 +576,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-18T19:35:00.000Z",
-      "lastSeenMs": 1784403300000
+      "lastSeen": "2026-07-18T19:40:00.000Z",
+      "lastSeenMs": 1784403600000
     },
     {
       "userId": "10427971366",
@@ -1052,8 +1052,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:39:08.866Z",
       "firstSeenMs": 1784403548866,
-      "lastSeen": "2026-07-18T19:39:08.866Z",
-      "lastSeenMs": 1784403548866
+      "lastSeen": "2026-07-18T19:40:00.000Z",
+      "lastSeenMs": 1784403600000
     },
     {
       "userId": "10724266851",
@@ -1154,8 +1154,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-18T19:35:00.000Z",
-      "lastSeenMs": 1784403300000
+      "lastSeen": "2026-07-18T19:40:00.000Z",
+      "lastSeenMs": 1784403600000
     },
     {
       "userId": "10780173311",
@@ -2616,8 +2616,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:38:30.315Z",
       "firstSeenMs": 1784403510315,
-      "lastSeen": "2026-07-18T19:38:30.315Z",
-      "lastSeenMs": 1784403510315
+      "lastSeen": "2026-07-18T19:40:00.000Z",
+      "lastSeenMs": 1784403600000
     },
     {
       "userId": "11225341564",
@@ -3721,8 +3721,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T19:35:00.281Z",
       "firstSeenMs": 1784230500281,
-      "lastSeen": "2026-07-18T19:35:00.000Z",
-      "lastSeenMs": 1784403300000
+      "lastSeen": "2026-07-18T19:40:00.000Z",
+      "lastSeenMs": 1784403600000
     },
     {
       "userId": "11290775764",
@@ -4537,8 +4537,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-18T19:35:00.000Z",
-      "lastSeenMs": 1784403300000
+      "lastSeen": "2026-07-18T19:40:00.000Z",
+      "lastSeenMs": 1784403600000
     },
     {
       "userId": "11303186538",
@@ -4673,8 +4673,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:18:11.186Z",
       "firstSeenMs": 1784402291186,
-      "lastSeen": "2026-07-18T19:35:00.000Z",
-      "lastSeenMs": 1784403300000
+      "lastSeen": "2026-07-18T19:40:00.000Z",
+      "lastSeenMs": 1784403600000
     },
     {
       "userId": "11305727417",
@@ -6475,8 +6475,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:46:45.139Z",
       "firstSeenMs": 1784299605139,
-      "lastSeen": "2026-07-18T19:35:00.000Z",
-      "lastSeenMs": 1784403300000
+      "lastSeen": "2026-07-18T19:40:00.000Z",
+      "lastSeenMs": 1784403600000
     },
     {
       "userId": "4242993477",
@@ -7822,6 +7822,23 @@
       "lastSeenMs": 1784330400000
     },
     {
+      "userId": "7022983388",
+      "username": "PA3PAB_01",
+      "displayName": "You",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[W2] +1 Случайный фактор скорости смерти",
+      "placeId": 92685337648800,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:40:04.018Z",
+      "firstSeenMs": 1784403604018,
+      "lastSeen": "2026-07-18T19:40:04.018Z",
+      "lastSeenMs": 1784403604018
+    },
+    {
       "userId": "7045525106",
       "username": "MrPancakeMan556",
       "displayName": "MrPancakeMan556",
@@ -8991,8 +9008,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:14:14.475Z",
       "firstSeenMs": 1784308454475,
-      "lastSeen": "2026-07-18T19:35:00.000Z",
-      "lastSeenMs": 1784403300000
+      "lastSeen": "2026-07-18T19:40:00.000Z",
+      "lastSeenMs": 1784403600000
     },
     {
       "userId": "8273817325",
@@ -11812,5 +11829,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:39:13.878Z"
+  "updatedAt": "2026-07-18T19:40:09.028Z"
 }
