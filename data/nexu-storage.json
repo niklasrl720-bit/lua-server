@@ -2637,6 +2637,23 @@
       "lastSeenMs": 1784278008700
     },
     {
+      "userId": "11216301477",
+      "username": "sangr66662",
+      "displayName": "sangr66662",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "عيد 2026 🕌|محاكي الصلاة والمدينة RP",
+      "placeId": 15105194325,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:12:03.819Z",
+      "firstSeenMs": 1784412723819,
+      "lastSeen": "2026-07-18T22:12:03.819Z",
+      "lastSeenMs": 1784412723819
+    },
+    {
       "userId": "11217236975",
       "username": "hackr9547",
       "displayName": "hackr9547",
@@ -11669,5 +11686,5 @@
     "resetAtMs": 1784412000096,
     "messages": []
   },
-  "updatedAt": "2026-07-18T22:11:00.291Z"
+  "updatedAt": "2026-07-18T22:12:08.823Z"
 }
