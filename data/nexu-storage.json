@@ -2863,8 +2863,8 @@
       "displayName": "THEchudNugget",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "The Wild West",
-      "placeId": 2317712696,
+      "gameName": "Mortem Metallum Beginner Servers",
+      "placeId": 78901891296081,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
@@ -12478,5 +12478,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:54:09.375Z"
+  "updatedAt": "2026-07-18T21:54:20.540Z"
 }
