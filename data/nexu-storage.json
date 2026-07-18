@@ -593,8 +593,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-18T20:25:00.000Z",
-      "lastSeenMs": 1784406300000
+      "lastSeen": "2026-07-18T20:30:00.000Z",
+      "lastSeenMs": 1784406600000
     },
     {
       "userId": "10427971366",
@@ -1188,8 +1188,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-18T20:25:00.000Z",
-      "lastSeenMs": 1784406300000
+      "lastSeen": "2026-07-18T20:30:00.000Z",
+      "lastSeenMs": 1784406600000
     },
     {
       "userId": "10780173311",
@@ -2769,8 +2769,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T07:19:09.530Z",
       "firstSeenMs": 1784272749530,
-      "lastSeen": "2026-07-18T20:25:00.000Z",
-      "lastSeenMs": 1784406300000
+      "lastSeen": "2026-07-18T20:30:00.000Z",
+      "lastSeenMs": 1784406600000
     },
     {
       "userId": "11232754419",
@@ -3823,8 +3823,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T19:35:00.281Z",
       "firstSeenMs": 1784230500281,
-      "lastSeen": "2026-07-18T20:25:00.000Z",
-      "lastSeenMs": 1784406300000
+      "lastSeen": "2026-07-18T20:30:00.000Z",
+      "lastSeenMs": 1784406600000
     },
     {
       "userId": "11290775764",
@@ -4639,8 +4639,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-18T20:25:00.000Z",
-      "lastSeenMs": 1784406300000
+      "lastSeen": "2026-07-18T20:30:00.000Z",
+      "lastSeenMs": 1784406600000
     },
     {
       "userId": "11303186538",
@@ -5294,16 +5294,16 @@
       "displayName": "saturogojo",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Place 117596343548805",
-      "placeId": 117596343548805,
+      "gameName": "[X10] +1 Speed Keyboard Escape | Candy & Chocolate",
+      "placeId": 95082159892680,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:05:19.977Z",
       "firstSeenMs": 1784228719977,
-      "lastSeen": "2026-07-18T20:25:00.000Z",
-      "lastSeenMs": 1784406300000
+      "lastSeen": "2026-07-18T20:30:00.000Z",
+      "lastSeenMs": 1784406600000
     },
     {
       "userId": "2066693321",
@@ -5370,8 +5370,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:45:08.743Z",
       "firstSeenMs": 1784403908743,
-      "lastSeen": "2026-07-18T20:25:00.000Z",
-      "lastSeenMs": 1784406300000
+      "lastSeen": "2026-07-18T20:30:00.000Z",
+      "lastSeenMs": 1784406600000
     },
     {
       "userId": "2361831889",
@@ -8005,8 +8005,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:40:04.018Z",
       "firstSeenMs": 1784403604018,
-      "lastSeen": "2026-07-18T20:25:00.000Z",
-      "lastSeenMs": 1784406300000
+      "lastSeen": "2026-07-18T20:30:00.000Z",
+      "lastSeenMs": 1784406600000
     },
     {
       "userId": "7045525106",
@@ -12097,5 +12097,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:28:46.975Z"
+  "updatedAt": "2026-07-18T20:30:12.973Z"
 }
