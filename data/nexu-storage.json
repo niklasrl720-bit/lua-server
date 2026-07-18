@@ -4949,6 +4949,23 @@
       "lastSeenMs": 1784402400000
     },
     {
+      "userId": "11310829120",
+      "username": "Hacker_ExecutorX",
+      "displayName": "Executor",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Vida de Prisión",
+      "placeId": 155615604,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:24:22.515Z",
+      "firstSeenMs": 1784413462515,
+      "lastSeen": "2026-07-18T22:24:22.515Z",
+      "lastSeenMs": 1784413462515
+    },
+    {
       "userId": "1177195747",
       "username": "giovajaket",
       "displayName": "ggiova_101",
@@ -11872,5 +11889,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:24:20.973Z"
+  "updatedAt": "2026-07-18T22:24:27.670Z"
 }
