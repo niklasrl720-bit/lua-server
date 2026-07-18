@@ -7079,16 +7079,16 @@
       "displayName": "system",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🧤] Defusal",
-      "placeId": 79393329652220,
+      "gameName": "[NEW CASE!] Counter Blox",
+      "placeId": 301549746,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:03:34.191Z",
       "firstSeenMs": 1784253814191,
-      "lastSeen": "2026-07-17T23:25:00.000Z",
-      "lastSeenMs": 1784330700000
+      "lastSeen": "2026-07-18T20:30:00.000Z",
+      "lastSeenMs": 1784406600000
     },
     {
       "userId": "4916414575",
@@ -12097,5 +12097,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:31:26.072Z"
+  "updatedAt": "2026-07-18T20:33:08.773Z"
 }
