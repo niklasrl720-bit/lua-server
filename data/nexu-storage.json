@@ -7635,6 +7635,23 @@
       "lastSeenMs": 1784290373386
     },
     {
+      "userId": "5171117457",
+      "username": "Aadhza6",
+      "displayName": "light",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Event",
+      "placeId": 113701727405636,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:25:48.619Z",
+      "firstSeenMs": 1784413548619,
+      "lastSeen": "2026-07-18T22:25:48.619Z",
+      "lastSeenMs": 1784413548619
+    },
+    {
       "userId": "5180933519",
       "username": "Roughprisonsec2s",
       "displayName": "Timmytoughknuckles",
@@ -11906,5 +11923,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:25:09.402Z"
+  "updatedAt": "2026-07-18T22:25:53.623Z"
 }
