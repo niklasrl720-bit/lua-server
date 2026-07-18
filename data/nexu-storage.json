@@ -2586,6 +2586,23 @@
       "lastSeenMs": 1784274600000
     },
     {
+      "userId": "11224831448",
+      "username": "azizofficial88",
+      "displayName": "azizofficial88",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[UPD3] +1 Fan per Step",
+      "placeId": 139177199868845,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:38:30.315Z",
+      "firstSeenMs": 1784403510315,
+      "lastSeen": "2026-07-18T19:38:30.315Z",
+      "lastSeenMs": 1784403510315
+    },
+    {
       "userId": "11225341564",
       "username": "ALEX_6780985",
       "displayName": "ALEX_6780985",
@@ -11761,5 +11778,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:37:45.839Z"
+  "updatedAt": "2026-07-18T19:38:35.329Z"
 }
