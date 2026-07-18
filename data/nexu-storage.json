@@ -2229,6 +2229,23 @@
       "lastSeenMs": 1784326025053
     },
     {
+      "userId": "11151972176",
+      "username": "JACKET_6699",
+      "displayName": "JACKET_6699",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Azerbaijan Vc Game",
+      "placeId": 73405236409268,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:48:04.236Z",
+      "firstSeenMs": 1784414884236,
+      "lastSeen": "2026-07-18T22:48:04.236Z",
+      "lastSeenMs": 1784414884236
+    },
+    {
       "userId": "11155260092",
       "username": "airanth_1",
       "displayName": "airanth",
@@ -12023,5 +12040,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:46:01.244Z"
+  "updatedAt": "2026-07-18T22:48:09.241Z"
 }
