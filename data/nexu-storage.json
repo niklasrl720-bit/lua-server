@@ -3538,6 +3538,23 @@
       "lastSeenMs": 1784325900000
     },
     {
+      "userId": "11286142674",
+      "username": "EmmaStar1935",
+      "displayName": "EmmaStar1935",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[X10] +1 Geschwindigkeit Tastatur-Flucht | Süßigkeiten und Schokolade",
+      "placeId": 95082159892680,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:51:48.575Z",
+      "firstSeenMs": 1784404308575,
+      "lastSeen": "2026-07-18T19:51:48.575Z",
+      "lastSeenMs": 1784404308575
+    },
+    {
       "userId": "11286358709",
       "username": "Jsbsjz_2",
       "displayName": "Dasodxl",
@@ -11910,5 +11927,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:51:47.665Z"
+  "updatedAt": "2026-07-18T19:51:53.585Z"
 }
