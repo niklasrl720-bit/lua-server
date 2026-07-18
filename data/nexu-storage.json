@@ -508,8 +508,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-18T21:00:00.000Z",
-      "lastSeenMs": 1784408400000
+      "lastSeen": "2026-07-18T21:05:00.000Z",
+      "lastSeenMs": 1784408700000
     },
     {
       "userId": "10305976438",
@@ -593,8 +593,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-18T21:00:00.000Z",
-      "lastSeenMs": 1784408400000
+      "lastSeen": "2026-07-18T21:05:00.000Z",
+      "lastSeenMs": 1784408700000
     },
     {
       "userId": "10427971366",
@@ -1188,8 +1188,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-18T21:00:00.000Z",
-      "lastSeenMs": 1784408400000
+      "lastSeen": "2026-07-18T21:05:00.000Z",
+      "lastSeenMs": 1784408700000
     },
     {
       "userId": "10780173311",
@@ -2582,8 +2582,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:11:58.789Z",
       "firstSeenMs": 1784297518789,
-      "lastSeen": "2026-07-18T21:00:00.000Z",
-      "lastSeenMs": 1784408400000
+      "lastSeen": "2026-07-18T21:05:00.000Z",
+      "lastSeenMs": 1784408700000
     },
     {
       "userId": "11213059431",
@@ -4648,16 +4648,16 @@
       "displayName": "Marvey_Specter",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "INSANE Troll Slap Tower 😈",
-      "placeId": 110470672231288,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-18T21:00:00.000Z",
-      "lastSeenMs": 1784408400000
+      "lastSeen": "2026-07-18T21:05:00.000Z",
+      "lastSeenMs": 1784408700000
     },
     {
       "userId": "11303186538",
@@ -5030,8 +5030,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T22:23:45.015Z",
       "firstSeenMs": 1784327025015,
-      "lastSeen": "2026-07-18T21:00:00.000Z",
-      "lastSeenMs": 1784408400000
+      "lastSeen": "2026-07-18T21:05:00.000Z",
+      "lastSeenMs": 1784408700000
     },
     {
       "userId": "1718889736",
@@ -7138,8 +7138,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:03:34.191Z",
       "firstSeenMs": 1784253814191,
-      "lastSeen": "2026-07-18T21:00:00.000Z",
-      "lastSeenMs": 1784408400000
+      "lastSeen": "2026-07-18T21:05:00.000Z",
+      "lastSeenMs": 1784408700000
     },
     {
       "userId": "4916414575",
@@ -12214,5 +12214,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:04:09.372Z"
+  "updatedAt": "2026-07-18T21:05:11.580Z"
 }
