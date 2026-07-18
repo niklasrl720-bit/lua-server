@@ -7721,8 +7721,9 @@ body.nexu-v200 input:focus,body.nexu-v200 textarea:focus,body.nexu-v200 select:f
 .nx-hero-orbit .ring::before{content:"";position:absolute;left:50%;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--nx-cyan);box-shadow:0 0 16px var(--nx-cyan);}
 .nx-hero-orbit .ring.r2::before{background:var(--nx-violet);box-shadow:0 0 16px var(--nx-violet);}
 .nx-hero-orbit .ring.r3::before{background:var(--nx-green);box-shadow:0 0 16px var(--nx-green);}
-.nx-hero-orbit .core{position:absolute;inset:91px;display:grid;place-items:center;border-radius:24px;transform:rotate(45deg);background:linear-gradient(135deg,rgba(25,214,255,.22),rgba(139,99,255,.20));border:1px solid rgba(255,255,255,.14);box-shadow:0 0 36px rgba(25,214,255,.15) inset;}
-.nx-hero-orbit .core b{transform:rotate(-45deg);font-size:38px;letter-spacing:-.1em;}
+.nx-hero-orbit .core{position:absolute;inset:91px;display:grid;place-items:center;border-radius:24px;transform:rotate(45deg);background:linear-gradient(135deg,rgba(25,214,255,.22),rgba(139,99,255,.20));border:1px solid rgba(255,255,255,.14);box-shadow:0 0 36px rgba(25,214,255,.15) inset;overflow:hidden;}
+.nx-hero-orbit .core::before{content:"";position:absolute;inset:8px;background-image:url(${NEXU_BRAND_LOGO_DATA_URI});background-size:contain;background-position:center;background-repeat:no-repeat;transform:rotate(-45deg);}
+.nx-hero-orbit .core b{display:none;}
 @keyframes nxOrbit{to{transform:rotate(360deg)}}
 .nx-home-introline{position:absolute;left:54px;top:40px;display:flex;align-items:center;gap:10px;color:#6e8ba0;font-size:10px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;}
 .nx-home-introline i{width:36px;height:1px;background:linear-gradient(90deg,var(--nx-cyan),transparent);}
@@ -7756,10 +7757,10 @@ body.nexu-v200 input:focus,body.nexu-v200 textarea:focus,body.nexu-v200 select:f
 .nx-startup-grid{position:absolute;inset:0;opacity:.35;background-image:linear-gradient(rgba(25,214,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(25,214,255,.08) 1px,transparent 1px);background-size:54px 54px;perspective:700px;mask-image:radial-gradient(circle at center,black,transparent 74%);}
 .nx-startup-grid::after{content:"";position:absolute;left:0;right:0;top:-2px;height:2px;background:linear-gradient(90deg,transparent,var(--nx-cyan),transparent);box-shadow:0 0 28px var(--nx-cyan);animation:nxStartupScan 1.7s ease-in-out infinite;}
 .nx-startup-content{position:relative;z-index:2;width:min(430px,calc(100% - 44px));text-align:center;}
-.nx-startup-mark{position:relative;width:112px;height:112px;margin:0 auto 28px;display:grid;place-items:center;border-radius:32px;background:linear-gradient(145deg,rgba(25,214,255,.18),rgba(139,99,255,.18));border:1px solid rgba(255,255,255,.14);box-shadow:0 0 0 10px rgba(25,214,255,.025),0 0 70px rgba(25,214,255,.19);animation:nxStartupMark .8s cubic-bezier(.18,.9,.2,1) both;}
+.nx-startup-mark{position:relative;width:112px;height:112px;margin:0 auto 28px;display:grid;place-items:center;border-radius:32px;background-image:url(${NEXU_BRAND_LOGO_DATA_URI}),linear-gradient(145deg,rgba(25,214,255,.18),rgba(139,99,255,.18));background-size:86% auto,cover;background-position:center,center;background-repeat:no-repeat,no-repeat;border:1px solid rgba(255,255,255,.14);box-shadow:0 0 0 10px rgba(25,214,255,.025),0 0 70px rgba(25,214,255,.19);animation:nxStartupMark .8s cubic-bezier(.18,.9,.2,1) both;}
 .nx-startup-mark::before,.nx-startup-mark::after{content:"";position:absolute;inset:-18px;border:1px solid rgba(25,214,255,.20);border-radius:42px;animation:nxStartupRing 2.4s linear infinite;}
 .nx-startup-mark::after{inset:-34px;border-color:rgba(139,99,255,.14);animation-direction:reverse;animation-duration:3.2s;}
-.nx-startup-mark b{font-size:48px;letter-spacing:-.13em;}
+.nx-startup-mark b{display:none;}
 .nx-startup-kicker{color:#718ca1;font-size:10px;font-weight:900;letter-spacing:.28em;text-transform:uppercase;}
 .nx-startup-title{margin:10px 0 20px;font-size:34px;font-weight:950;letter-spacing:-.055em;background:linear-gradient(135deg,#fff,#9eeeff 48%,#c0b3ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
 .nx-startup-track{height:3px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;}
@@ -7875,6 +7876,16 @@ body.page-home:not(.nx-booting) > main{animation:nxLandingReveal .9s cubic-bezie
     body.page-home.nx-booting{overflow:auto;}
     body.page-home.nx-booting > *{opacity:1 !important;}
 }
+/* HARD FIX: BRAND LOGO + ROLE DROPDOWN STACKING */
+.logo{background-image:url(${NEXU_BRAND_LOGO_DATA_URI}) !important;background-size:cover !important;background-position:center !important;background-repeat:no-repeat !important;color:transparent !important;font-size:0 !important;line-height:0 !important;overflow:hidden !important;text-indent:-9999px !important;}
+.players,.directory,.directory-panel,.player,.identity,.player-actions,.role-picker{overflow:visible !important;}
+.page-dashboard .player{position:relative !important;z-index:1 !important;isolation:isolate !important;}
+.page-dashboard .identity{position:relative !important;z-index:5 !important;}
+.page-dashboard .player-actions,.page-dashboard .player .button-row,.page-dashboard .player .action-button{position:relative !important;z-index:1 !important;}
+.page-dashboard .player.role-menu-open,.page-dashboard.nexu-v204 .player.role-menu-open{z-index:9990 !important;}
+.page-dashboard .player.role-menu-open .identity,.page-dashboard.nexu-v204 .player.role-menu-open .identity{z-index:9991 !important;}
+.page-dashboard .player .role-picker,.page-dashboard.nexu-v204 .player .role-picker{position:relative !important;z-index:9992 !important;}
+.page-dashboard .role-dropdown,.page-dashboard.nexu-v204 .role-dropdown{z-index:9993 !important;}
 `;
 }
 
