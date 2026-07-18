@@ -1039,6 +1039,23 @@
       "lastSeenMs": 1784305500000
     },
     {
+      "userId": "10717969040",
+      "username": "pepitoinsano177",
+      "displayName": "Dodecahedron_Dave",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Creador de Avatar de Catálogo",
+      "placeId": 7041939546,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:39:08.866Z",
+      "firstSeenMs": 1784403548866,
+      "lastSeen": "2026-07-18T19:39:08.866Z",
+      "lastSeenMs": 1784403548866
+    },
+    {
       "userId": "10724266851",
       "username": "JumbleMan16",
       "displayName": "Tesla_Curtuis",
@@ -4250,6 +4267,23 @@
       "firstSeenMs": 1784260611301,
       "lastSeen": "2026-07-17T04:00:00.000Z",
       "lastSeenMs": 1784260800000
+    },
+    {
+      "userId": "11299903924",
+      "username": "antony283787",
+      "displayName": "antony283787",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Roba un Brainrot [Servidores de Nuevos Jugadores]",
+      "placeId": 96342491571673,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:39:09.278Z",
+      "firstSeenMs": 1784403549278,
+      "lastSeen": "2026-07-18T19:39:09.278Z",
+      "lastSeenMs": 1784403549278
     },
     {
       "userId": "11299912346",
@@ -11778,5 +11812,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:38:41.546Z"
+  "updatedAt": "2026-07-18T19:39:13.878Z"
 }
