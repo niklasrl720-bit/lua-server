@@ -7997,16 +7997,16 @@
       "displayName": "You",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[W2] +1 Случайный фактор скорости смерти",
-      "placeId": 92685337648800,
+      "gameName": "Захватите для магии!",
+      "placeId": 118952094447715,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:40:04.018Z",
       "firstSeenMs": 1784403604018,
-      "lastSeen": "2026-07-18T19:45:00.000Z",
-      "lastSeenMs": 1784403900000
+      "lastSeen": "2026-07-18T20:25:00.000Z",
+      "lastSeenMs": 1784406300000
     },
     {
       "userId": "7045525106",
@@ -12080,5 +12080,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:26:00.664Z"
+  "updatedAt": "2026-07-18T20:26:18.203Z"
 }
