@@ -11971,8 +11971,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-18T22:15:51.993Z",
         "sentAtMs": 1784412951993
+      },
+      {
+        "id": 1784414059856010,
+        "userId": "10526504253",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Usernamecomedanmn",
+        "displayName": "Aquatic",
+        "message": "Sup",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-18T22:34:19.856Z",
+        "sentAtMs": 1784414059856
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:33:55.524Z"
+  "updatedAt": "2026-07-18T22:34:20.876Z"
 }
