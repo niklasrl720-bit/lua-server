@@ -338,8 +338,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-18T23:35:00.000Z",
-      "lastSeenMs": 1784417700000
+      "lastSeen": "2026-07-18T23:40:00.000Z",
+      "lastSeenMs": 1784418000000
     },
     {
       "userId": "10203550652",
@@ -508,8 +508,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-18T23:35:00.000Z",
-      "lastSeenMs": 1784417700000
+      "lastSeen": "2026-07-18T23:40:00.000Z",
+      "lastSeenMs": 1784418000000
     },
     {
       "userId": "10305976438",
@@ -1989,6 +1989,23 @@
       "firstSeenMs": 1784406222682,
       "lastSeen": "2026-07-18T20:25:00.000Z",
       "lastSeenMs": 1784406300000
+    },
+    {
+      "userId": "11072728428",
+      "username": "micaiaspcc",
+      "displayName": "paq",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Blox Frutas",
+      "placeId": 2753915549,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T23:40:31.434Z",
+      "firstSeenMs": 1784418031434,
+      "lastSeen": "2026-07-18T23:40:31.434Z",
+      "lastSeenMs": 1784418031434
     },
     {
       "userId": "11073896038",
@@ -6781,8 +6798,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:56:18.242Z",
       "firstSeenMs": 1784314578242,
-      "lastSeen": "2026-07-18T23:35:00.000Z",
-      "lastSeenMs": 1784417700000
+      "lastSeen": "2026-07-18T23:40:00.000Z",
+      "lastSeenMs": 1784418000000
     },
     {
       "userId": "3943834742",
@@ -7087,8 +7104,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:46:45.139Z",
       "firstSeenMs": 1784299605139,
-      "lastSeen": "2026-07-18T23:35:00.000Z",
-      "lastSeenMs": 1784417700000
+      "lastSeen": "2026-07-18T23:40:00.000Z",
+      "lastSeenMs": 1784418000000
     },
     {
       "userId": "4235802081",
@@ -8617,8 +8634,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:15:27.430Z",
       "firstSeenMs": 1784232927430,
-      "lastSeen": "2026-07-18T23:35:00.000Z",
-      "lastSeenMs": 1784417700000
+      "lastSeen": "2026-07-18T23:40:00.000Z",
+      "lastSeenMs": 1784418000000
     },
     {
       "userId": "7084113045",
@@ -11507,8 +11524,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:52:09.008Z",
       "firstSeenMs": 1784235129008,
-      "lastSeen": "2026-07-18T23:35:00.000Z",
-      "lastSeenMs": 1784417700000
+      "lastSeen": "2026-07-18T23:40:00.000Z",
+      "lastSeenMs": 1784418000000
     },
     {
       "userId": "9508855732",
@@ -12208,5 +12225,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:39:41.272Z"
+  "updatedAt": "2026-07-18T23:40:36.437Z"
 }
