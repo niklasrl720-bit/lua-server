@@ -6348,16 +6348,16 @@
       "displayName": "primeS1",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Башня Казахстана 🌟 [💙💛Казахстан💛💙] 🇰🇿",
-      "placeId": 79548014923991,
+      "gameName": "[UPD] Поход для Brainrot!",
+      "placeId": 105094274942273,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T12:12:28.508Z",
       "firstSeenMs": 1784290348508,
-      "lastSeen": "2026-07-17T20:35:00.000Z",
-      "lastSeenMs": 1784320500000
+      "lastSeen": "2026-07-18T20:25:00.000Z",
+      "lastSeenMs": 1784406300000
     },
     {
       "userId": "3953958486",
@@ -12097,5 +12097,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:27:14.276Z"
+  "updatedAt": "2026-07-18T20:28:46.975Z"
 }
