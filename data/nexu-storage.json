@@ -4694,6 +4694,23 @@
       "lastSeenMs": 1784319300000
     },
     {
+      "userId": "11303597513",
+      "username": "Djdjjdkdjdir2",
+      "displayName": "Djdjjdkdjdir2",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Midnight Burger [GAME]",
+      "placeId": 18132499044,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T20:36:05.293Z",
+      "firstSeenMs": 1784406965293,
+      "lastSeen": "2026-07-18T20:36:05.293Z",
+      "lastSeenMs": 1784406965293
+    },
+    {
       "userId": "11303815687",
       "username": "gamawpedia80",
       "displayName": "gamawpedia80",
@@ -12114,5 +12131,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:36:01.074Z"
+  "updatedAt": "2026-07-18T20:36:10.307Z"
 }
