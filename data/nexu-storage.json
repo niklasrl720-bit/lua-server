@@ -9199,6 +9199,23 @@
       "lastSeenMs": 1784284760859
     },
     {
+      "userId": "8025320188",
+      "username": "panconqueso168268",
+      "displayName": "panconqueso168268",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Furry Infection juego [Furinfection]",
+      "placeId": 10679239752,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T21:19:18.724Z",
+      "firstSeenMs": 1784409558724,
+      "lastSeen": "2026-07-18T21:19:18.724Z",
+      "lastSeenMs": 1784409558724
+    },
+    {
       "userId": "8026576948",
       "username": "KOT_300520",
       "displayName": "KOT_300520",
@@ -12280,5 +12297,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:16:00.172Z"
+  "updatedAt": "2026-07-18T21:19:23.735Z"
 }
