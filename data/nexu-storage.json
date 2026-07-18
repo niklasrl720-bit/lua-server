@@ -3254,16 +3254,16 @@
       "displayName": "666hyb1",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "O Hospital Animal",
-      "placeId": 104522435597696,
+      "gameName": "matar npcs ou algo de teste",
+      "placeId": 104859949601542,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T16:21:51.335Z",
       "firstSeenMs": 1784305311335,
-      "lastSeen": "2026-07-18T22:10:00.000Z",
-      "lastSeenMs": 1784412600000
+      "lastSeen": "2026-07-18T22:15:00.000Z",
+      "lastSeenMs": 1784412900000
     },
     {
       "userId": "11264362932",
@@ -11719,5 +11719,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:15:53.070Z"
+  "updatedAt": "2026-07-18T22:17:13.713Z"
 }
