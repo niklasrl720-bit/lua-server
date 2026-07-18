@@ -12343,8 +12343,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-18T21:24:32.905Z",
         "sentAtMs": 1784409872905
+      },
+      {
+        "id": 1784410090512007,
+        "userId": "2639316345",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "coolbananahennyv2",
+        "displayName": "banana",
+        "message": "yo kids",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-18T21:28:10.512Z",
+        "sentAtMs": 1784410090512
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:26:36.569Z"
+  "updatedAt": "2026-07-18T21:28:11.599Z"
 }
