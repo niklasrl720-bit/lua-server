@@ -576,8 +576,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-18T19:40:00.000Z",
-      "lastSeenMs": 1784403600000
+      "lastSeen": "2026-07-18T19:45:00.000Z",
+      "lastSeenMs": 1784403900000
     },
     {
       "userId": "10427971366",
@@ -1154,8 +1154,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-18T19:40:00.000Z",
-      "lastSeenMs": 1784403600000
+      "lastSeen": "2026-07-18T19:45:00.000Z",
+      "lastSeenMs": 1784403900000
     },
     {
       "userId": "10780173311",
@@ -2378,8 +2378,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:44:14.445Z",
       "firstSeenMs": 1784403854445,
-      "lastSeen": "2026-07-18T19:44:14.445Z",
-      "lastSeenMs": 1784403854445
+      "lastSeen": "2026-07-18T19:45:00.000Z",
+      "lastSeenMs": 1784403900000
     },
     {
       "userId": "11203703629",
@@ -3738,8 +3738,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T19:35:00.281Z",
       "firstSeenMs": 1784230500281,
-      "lastSeen": "2026-07-18T19:40:00.000Z",
-      "lastSeenMs": 1784403600000
+      "lastSeen": "2026-07-18T19:45:00.000Z",
+      "lastSeenMs": 1784403900000
     },
     {
       "userId": "11290775764",
@@ -4554,8 +4554,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-18T19:40:00.000Z",
-      "lastSeenMs": 1784403600000
+      "lastSeen": "2026-07-18T19:45:00.000Z",
+      "lastSeenMs": 1784403900000
     },
     {
       "userId": "11303186538",
@@ -4690,8 +4690,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:18:11.186Z",
       "firstSeenMs": 1784402291186,
-      "lastSeen": "2026-07-18T19:40:00.000Z",
-      "lastSeenMs": 1784403600000
+      "lastSeen": "2026-07-18T19:45:00.000Z",
+      "lastSeenMs": 1784403900000
     },
     {
       "userId": "11305727417",
@@ -5270,6 +5270,23 @@
       "firstSeenMs": 1784301662853,
       "lastSeen": "2026-07-17T15:21:02.853Z",
       "lastSeenMs": 1784301662853
+    },
+    {
+      "userId": "2325471187",
+      "username": "54kskitdemandz",
+      "displayName": "Lenna",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "(学乱) Gakuran",
+      "placeId": 128736949265057,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:45:08.743Z",
+      "firstSeenMs": 1784403908743,
+      "lastSeen": "2026-07-18T19:45:08.743Z",
+      "lastSeenMs": 1784403908743
     },
     {
       "userId": "2361831889",
@@ -6492,8 +6509,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:46:45.139Z",
       "firstSeenMs": 1784299605139,
-      "lastSeen": "2026-07-18T19:40:00.000Z",
-      "lastSeenMs": 1784403600000
+      "lastSeen": "2026-07-18T19:45:00.000Z",
+      "lastSeenMs": 1784403900000
     },
     {
       "userId": "4242993477",
@@ -7852,8 +7869,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:40:04.018Z",
       "firstSeenMs": 1784403604018,
-      "lastSeen": "2026-07-18T19:40:04.018Z",
-      "lastSeenMs": 1784403604018
+      "lastSeen": "2026-07-18T19:45:00.000Z",
+      "lastSeenMs": 1784403900000
     },
     {
       "userId": "7045525106",
@@ -9025,8 +9042,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:14:14.475Z",
       "firstSeenMs": 1784308454475,
-      "lastSeen": "2026-07-18T19:40:00.000Z",
-      "lastSeenMs": 1784403600000
+      "lastSeen": "2026-07-18T19:45:00.000Z",
+      "lastSeenMs": 1784403900000
     },
     {
       "userId": "8273817325",
@@ -11876,5 +11893,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:44:14.986Z"
+  "updatedAt": "2026-07-18T19:45:13.760Z"
 }
