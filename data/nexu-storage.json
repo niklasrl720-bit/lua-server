@@ -12358,8 +12358,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-18T21:28:10.512Z",
         "sentAtMs": 1784410090512
+      },
+      {
+        "id": 1784410108112008,
+        "userId": "2639316345",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "coolbananahennyv2",
+        "displayName": "banana",
+        "message": "why are all of yall AI bro",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-18T21:28:28.112Z",
+        "sentAtMs": 1784410108112
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:28:11.599Z"
+  "updatedAt": "2026-07-18T21:28:29.677Z"
 }
