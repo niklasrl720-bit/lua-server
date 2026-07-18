@@ -3840,8 +3840,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T19:35:00.281Z",
       "firstSeenMs": 1784230500281,
-      "lastSeen": "2026-07-18T20:40:00.000Z",
-      "lastSeenMs": 1784407200000
+      "lastSeen": "2026-07-18T20:45:00.000Z",
+      "lastSeenMs": 1784407500000
     },
     {
       "userId": "11290775764",
@@ -8485,6 +8485,23 @@
       "lastSeenMs": 1784251800000
     },
     {
+      "userId": "7541078462",
+      "username": "narutinho123962",
+      "displayName": "Lamine_Yamal",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Mistério Assassino 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T20:49:18.017Z",
+      "firstSeenMs": 1784407758017,
+      "lastSeen": "2026-07-18T20:49:18.017Z",
+      "lastSeenMs": 1784407758017
+    },
+    {
       "userId": "7548944049",
       "username": "karsten3837",
       "displayName": "DetectiveNoob",
@@ -12165,5 +12182,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:48:12.771Z"
+  "updatedAt": "2026-07-18T20:49:23.029Z"
 }
