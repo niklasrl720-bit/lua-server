@@ -10547,16 +10547,16 @@
       "displayName": "lejusdu91",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Forest",
-      "placeId": 109025676702094,
+      "gameName": "Danny's Airport",
+      "placeId": 138145699008779,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.530Z",
       "firstSeenMs": 1784225113530,
-      "lastSeen": "2026-07-16T22:25:00.000Z",
-      "lastSeenMs": 1784240700000
+      "lastSeen": "2026-07-18T21:20:00.000Z",
+      "lastSeenMs": 1784409600000
     },
     {
       "userId": "9234385232",
@@ -12329,5 +12329,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:24:34.277Z"
+  "updatedAt": "2026-07-18T21:24:56.071Z"
 }
