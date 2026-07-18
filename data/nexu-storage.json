@@ -576,8 +576,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-18T19:55:00.000Z",
-      "lastSeenMs": 1784404500000
+      "lastSeen": "2026-07-18T20:00:00.000Z",
+      "lastSeenMs": 1784404800000
     },
     {
       "userId": "10427971366",
@@ -1154,8 +1154,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-18T19:55:00.000Z",
-      "lastSeenMs": 1784404500000
+      "lastSeen": "2026-07-18T20:00:00.000Z",
+      "lastSeenMs": 1784404800000
     },
     {
       "userId": "10780173311",
@@ -3755,8 +3755,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T19:35:00.281Z",
       "firstSeenMs": 1784230500281,
-      "lastSeen": "2026-07-18T19:55:00.000Z",
-      "lastSeenMs": 1784404500000
+      "lastSeen": "2026-07-18T20:00:00.000Z",
+      "lastSeenMs": 1784404800000
     },
     {
       "userId": "11290775764",
@@ -4571,8 +4571,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-18T19:55:00.000Z",
-      "lastSeenMs": 1784404500000
+      "lastSeen": "2026-07-18T20:00:00.000Z",
+      "lastSeenMs": 1784404800000
     },
     {
       "userId": "11303186538",
@@ -5234,8 +5234,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:05:19.977Z",
       "firstSeenMs": 1784228719977,
-      "lastSeen": "2026-07-18T19:55:00.000Z",
-      "lastSeenMs": 1784404500000
+      "lastSeen": "2026-07-18T20:00:00.000Z",
+      "lastSeenMs": 1784404800000
     },
     {
       "userId": "2066693321",
@@ -5302,8 +5302,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:45:08.743Z",
       "firstSeenMs": 1784403908743,
-      "lastSeen": "2026-07-18T19:55:00.000Z",
-      "lastSeenMs": 1784404500000
+      "lastSeen": "2026-07-18T20:00:00.000Z",
+      "lastSeenMs": 1784404800000
     },
     {
       "userId": "2361831889",
@@ -8041,6 +8041,23 @@
       "firstSeenMs": 1784313021732,
       "lastSeen": "2026-07-17T18:30:21.732Z",
       "lastSeenMs": 1784313021732
+    },
+    {
+      "userId": "7153858132",
+      "username": "Serenityrabbit_9",
+      "displayName": "Haru_Alt",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Archive Protocol",
+      "placeId": 87015419655956,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.1.5",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T20:00:03.756Z",
+      "firstSeenMs": 1784404803756,
+      "lastSeen": "2026-07-18T20:00:03.756Z",
+      "lastSeenMs": 1784404803756
     },
     {
       "userId": "7156284451",
@@ -11944,5 +11961,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:59:12.817Z"
+  "updatedAt": "2026-07-18T20:00:08.768Z"
 }
