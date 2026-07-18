@@ -91,7 +91,7 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
     .digest("hex");
 const DASHBOARD_ACCOUNT_STORAGE_SECRET = String(process.env.DASHBOARD_ACCOUNT_STORAGE_SECRET || "").trim() || DASHBOARD_SESSION_SIGNING_SECRET;
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const sharedGhostStates = new Map();const ghostSyncRateLimits = new Map();const ghostLastSequences = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxAvatarImageCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const sharedGhostStates = new Map();const ghostSyncRateLimits = new Map();const ghostLastSequences = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 let globalChatDayKey = "";
 let globalChatResetRevision = 0;
 let globalChatResetAtMs = 0;
@@ -4586,6 +4586,97 @@ return result;
 
 }
 
+function sendNexuBrandLogoImage(res, statusCode = 200) {
+    const separatorIndex = NEXU_BRAND_LOGO_DATA_URI.indexOf(",");
+    const encoded = separatorIndex >= 0
+        ? NEXU_BRAND_LOGO_DATA_URI.slice(separatorIndex + 1)
+        : "";
+    const image = Buffer.from(encoded, "base64");
+    res.writeHead(statusCode, {
+        "Content-Type": "image/png",
+        "Content-Length": image.length,
+        "Cache-Control": "public, max-age=600, stale-while-revalidate=86400",
+        "X-Content-Type-Options": "nosniff",
+    });
+    res.end(image);
+}
+
+async function sendRobloxAvatarImage(res, rawUserId) {
+    const userId = cleanNumericId(rawUserId);
+    if (!userId) {
+        sendNexuBrandLogoImage(res, 400);
+        return;
+    }
+
+    const now = Date.now();
+    const cachedImage = robloxAvatarImageCache.get(userId);
+    if (cachedImage
+        && now - cachedImage.cachedAtMs < AVATAR_CACHE_MS
+        && Buffer.isBuffer(cachedImage.body)
+        && cachedImage.body.length > 0
+    ) {
+        res.writeHead(200, {
+            "Content-Type": cachedImage.contentType || "image/png",
+            "Content-Length": cachedImage.body.length,
+            "Cache-Control": "public, max-age=600, stale-while-revalidate=86400",
+            "X-Content-Type-Options": "nosniff",
+        });
+        res.end(cachedImage.body);
+        return;
+    }
+
+    try {
+        const urls = await fetchAvatarUrls([userId]);
+        const avatarUrl = String(urls.get(userId) || "").trim();
+        const parsedUrl = new URL(avatarUrl);
+        const allowedHost = parsedUrl.hostname === "tr.rbxcdn.com"
+            || parsedUrl.hostname === "www.roblox.com"
+            || parsedUrl.hostname.endsWith(".rbxcdn.com");
+        if (parsedUrl.protocol !== "https:" || !allowedHost) {
+            throw new Error("Ungültige Roblox-Avatar-URL");
+        }
+
+        const response = await fetch(parsedUrl, {
+            redirect: "follow",
+            headers: {
+                "User-Agent": "Nexu-Presence-Dashboard/3.0",
+                Accept: "image/avif,image/webp,image/png,image/*,*/*;q=0.8",
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Roblox avatar image HTTP ${response.status}`);
+        }
+
+        const contentType = String(response.headers.get("content-type") || "image/png")
+            .split(";", 1)[0]
+            .trim();
+        if (!contentType.startsWith("image/")) {
+            throw new Error("Roblox lieferte kein Bild");
+        }
+
+        const body = Buffer.from(await response.arrayBuffer());
+        if (body.length < 32 || body.length > 5 * 1024 * 1024) {
+            throw new Error("Ungültige Roblox-Bildgröße");
+        }
+
+        robloxAvatarImageCache.set(userId, {
+            body,
+            contentType,
+            cachedAtMs: now,
+        });
+        res.writeHead(200, {
+            "Content-Type": contentType,
+            "Content-Length": body.length,
+            "Cache-Control": "public, max-age=600, stale-while-revalidate=86400",
+            "X-Content-Type-Options": "nosniff",
+        });
+        res.end(body);
+    } catch (error) {
+        console.warn(`[NEXU] Roblox-Profilbild ${userId} konnte nicht geladen werden:`, error.message);
+        sendNexuBrandLogoImage(res, 200);
+    }
+}
+
 async function getPublicPresence() {prunePresence();
 
 const snapshotGeneratedAtMs = Date.now();
@@ -4959,7 +5050,7 @@ button,.button-link{border-radius:15px;}
 </body>
 </html>`;}
 
-function homeHtml(notice = "", error = "", account = null) {const loaderCommandJson = JSON.stringify(NEXU_LOADER_COMMAND);const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = isOwnerDashboardAccount(accountData);const hasRobloxLink = Boolean(cleanNumericId(accountData.robloxUserId));const canOpenMenuServer = canAccessMenuServer(accountData);const canManageAccounts = canManageDashboardAccounts(accountData);const usernameReadonly = isOwnerAccount ? "readonly" : "";const deleteAccountBlock = isOwnerAccount
+function homeHtml(notice = "", error = "", account = null) {const loaderCommandJson = JSON.stringify(NEXU_LOADER_COMMAND);const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || {username: OWNER_ACCOUNT_USERNAME, email: DASHBOARD_DEFAULT_EMAIL};const accountName = accountData.username || OWNER_ACCOUNT_USERNAME;const accountEmail = accountData.email || "";const isOwnerAccount = isOwnerDashboardAccount(accountData);const accountRobloxUserId = cleanNumericId(accountData.robloxUserId);const hasRobloxLink = Boolean(accountRobloxUserId);const accountAvatarUrl = accountRobloxUserId ? "/api/roblox-avatar?userId=" + encodeURIComponent(accountRobloxUserId) : NEXU_BRAND_LOGO_DATA_URI;const accountAvatarFallback = JSON.stringify(NEXU_BRAND_LOGO_DATA_URI);const canOpenMenuServer = canAccessMenuServer(accountData);const canManageAccounts = canManageDashboardAccounts(accountData);const usernameReadonly = isOwnerAccount ? "readonly" : "";const deleteAccountBlock = isOwnerAccount
     ? '<section class="modal-card"><div class="danger-zone"><h3>OwnerAccount geschützt</h3><p>Der OwnerAccount kann hier nicht gelöscht werden, damit du den Hauptzugriff nicht verlierst.</p></div></section>'
     : '<form class="modal-card" method="post" action="/account/delete" autocomplete="off"><div class="danger-zone"><h3>Konto löschen</h3><p>Dieses Konto wird dauerhaft aus der Übersicht entfernt. Danach wirst du abgemeldet.</p><div class="field"><label for="deletePassword">Passwort bestätigen</label><input id="deletePassword" name="currentPassword" type="password" maxlength="200" autocomplete="current-password" required></div><div class="modal-actions"><button type="submit">KONTO LÖSCHEN</button></div></div></form>';const noticeBlock = notice ? '<div class="home-notice success">' + escapeHtml(notice) + '</div>' : "";const errorBlock = error ? '<div class="home-notice error">' + escapeHtml(error) + '</div>' : "";const menuServerButton = canOpenMenuServer
     ? '<a class="primary-tile menu-server" href="/uebersicht"><span>ÜBERSICHT</span><strong>Serverübersicht öffnen</strong><small>' + (isOwnerAccount ? 'OwnerAccount Zugriff' : 'Vom Owner freigegeben') + '</small></a>'
@@ -4992,7 +5083,7 @@ body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity
 .brand span { color:var(--muted); font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
 .account { position:relative; z-index:10000; }
 .account-button { display:flex; align-items:center; gap:11px; min-height:44px; padding:0 13px 0 8px; border:1px solid var(--border); border-radius:999px; color:var(--text); background:rgba(7,13,23,.78); font:inherit; cursor:pointer; }
-.account-avatar { width:30px; height:30px; border-radius:50%; display:grid; place-items:center; color:white; font-weight:900; background:linear-gradient(135deg,var(--cyan),var(--violet)); }
+.account-avatar { width:30px; height:30px; flex:0 0 30px; border-radius:50%; display:block; object-fit:cover; object-position:center; color:white; font-weight:900; background:linear-gradient(135deg,var(--cyan),var(--violet)); border:1px solid rgba(255,255,255,.18); box-shadow:0 4px 14px rgba(0,0,0,.28); }
 .account-name { max-width:170px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:13px; font-weight:800; }
 .account-menu { position:absolute; z-index:10001; right:0; top:54px; width:235px; padding:10px; border:1px solid rgba(74,178,230,.25); border-radius:18px; background:rgba(6,12,21,.98); box-shadow:0 22px 70px rgba(0,0,0,.62); display:none; }
 .account.open .account-menu { display:block; }
@@ -5083,7 +5174,7 @@ html,body{background:
     <div class="header">
         <div class="brand"><div class="logo" role="img" aria-label="Nexu Logo" style="${NEXU_BRAND_LOGO_INLINE_STYLE}">N</div><div><strong>Nexu</strong><span>Steuerzentrale</span></div></div>
         <div id="account" class="account">
-            <button id="accountButton" class="account-button" type="button" aria-haspopup="true" aria-expanded="false"><span class="account-avatar">N</span><span class="account-name">${escapeHtml(accountName)}</span></button>
+            <button id="accountButton" class="account-button" type="button" aria-haspopup="true" aria-expanded="false"><img class="account-avatar" src="${escapeHtml(accountAvatarUrl)}" alt="Roblox-Profilbild von ${escapeHtml(accountName)}" loading="eager" decoding="async" referrerpolicy="no-referrer" onerror='this.onerror=null;this.src=${accountAvatarFallback}'><span class="account-name">${escapeHtml(accountName)}</span></button>
             <div class="account-menu" role="menu">
                 <button id="openSettings" class="menu-item" type="button">Einstellungen <span>›</span></button>
                 <form class="menu-item-form" method="post" action="/logout"><button class="menu-item danger" type="submit">Abmelden <span>×</span></button></form>
@@ -5186,7 +5277,7 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
         const robloxUserId = cleanNumericId(entry.robloxUserId);
         const robloxUsername = cleanText(entry.robloxUsername, 40);
         const robloxDisplayName = cleanText(entry.robloxDisplayName, 80) || robloxUsername;
-        const robloxAvatar = robloxUserId ? `https://www.roblox.com/headshot-thumbnail/image?userId=${encodeURIComponent(robloxUserId)}&width=150&height=150&format=png` : "";
+        const robloxAvatar = robloxUserId ? `/api/roblox-avatar?userId=${encodeURIComponent(robloxUserId)}` : "";
         const robloxStatus = robloxUserId
             ? `${robloxDisplayName || `Roblox ${robloxUserId}`}${robloxUsername ? ` @${robloxUsername}` : ""} · ID ${robloxUserId}`
             : "Noch nicht mit Roblox verbunden";
@@ -5208,7 +5299,7 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
             ? '<div class="owner-note">OwnerAccount kann nicht gelöscht oder vom Hauptzugriff getrennt werden.</div>'
             : '<form class="delete-account-form" method="post" action="/accounts/delete"><input type="hidden" name="accountEmail" value="' + escapeHtml(entry.email) + '"><button class="danger" type="submit">Konto löschen</button></form>';
         return '<article class="account-card">'
-            + '<div class="account-card-head"><div class="account-identity">' + (robloxAvatar ? '<img class="account-avatar" src="' + escapeHtml(robloxAvatar) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' : '<div class="account-avatar account-avatar-empty">?</div>') + '<div><strong>' + escapeHtml(entry.username) + '</strong><small>' + escapeHtml(entry.email) + '</small><em class="account-roblox">' + escapeHtml(robloxStatus) + '</em></div></div>' + ownerBadge + '</div>'
+            + '<div class="account-card-head"><div class="account-identity">' + (robloxAvatar ? '<img class="account-avatar" src="' + escapeHtml(robloxAvatar) + '" alt="Roblox-Profilbild" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'' + escapeHtml(NEXU_BRAND_LOGO_DATA_URI) + '\'">' : '<div class="account-avatar account-avatar-empty">?</div>') + '<div><strong>' + escapeHtml(entry.username) + '</strong><small>' + escapeHtml(entry.email) + '</small><em class="account-roblox">' + escapeHtml(robloxStatus) + '</em></div></div>' + ownerBadge + '</div>'
             + '<form method="post" action="/accounts/update" autocomplete="off">'
             + '<input type="hidden" name="accountEmail" value="' + escapeHtml(entry.email) + '">'
             + '<div class="grid">'
@@ -12047,6 +12138,11 @@ if (req.method === "GET" && pathname === "/api/health") {
         chatMessages: globalChatMessages.length,
         timestamp: new Date().toISOString(),
     });
+    return;
+}
+
+if (req.method === "GET" && pathname === "/api/roblox-avatar") {
+    await sendRobloxAvatarImage(res, requestUrl.searchParams.get("userId"));
     return;
 }
 
