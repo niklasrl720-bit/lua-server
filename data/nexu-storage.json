@@ -7138,6 +7138,22 @@
       "lastSeenMs": 1784271000000
     },
     {
+      "userId": "7056416091",
+      "username": "nanndyot13",
+      "displayName": "Egor",
+      "roleKey": "",
+      "gameName": "First Is Owner",
+      "placeId": 130496219537579,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T00:17:47.149Z",
+      "firstSeenMs": 1784333867149,
+      "lastSeen": "2026-07-18T00:17:47.149Z",
+      "lastSeenMs": 1784333867149
+    },
+    {
       "userId": "7080587968",
       "username": "OKEJ_436",
       "displayName": "STARPAK",
@@ -7868,10 +7884,10 @@
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
-      "firstSeen": "2026-07-18T00:17:25.232Z",
-      "firstSeenMs": 1784333845232,
-      "lastSeen": "2026-07-18T00:17:25.232Z",
-      "lastSeenMs": 1784333845232
+      "firstSeen": "2026-07-18T00:17:05.312Z",
+      "firstSeenMs": 1784333825312,
+      "lastSeen": "2026-07-18T00:17:05.312Z",
+      "lastSeenMs": 1784333825312
     },
     {
       "userId": "7904205215",
@@ -10811,5 +10827,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T00:17:30.242Z"
+  "updatedAt": "2026-07-18T00:17:49.174Z"
 }
