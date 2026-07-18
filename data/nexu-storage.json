@@ -4444,16 +4444,16 @@
       "displayName": "Marvey_Specter",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "INSANE Troll Slap Tower 😈",
-      "placeId": 110470672231288,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-18T00:15:00.000Z",
-      "lastSeenMs": 1784333700000
+      "lastSeen": "2026-07-18T19:05:00.000Z",
+      "lastSeenMs": 1784401500000
     },
     {
       "userId": "11303186538",
@@ -11576,5 +11576,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:06:38.585Z"
+  "updatedAt": "2026-07-18T19:06:50.744Z"
 }
