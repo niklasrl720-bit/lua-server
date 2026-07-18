@@ -2856,9 +2856,37 @@ function clearGlobalChat(reason = "manual", nowMs = Date.now()) {
     globalChatResetRevision += 1;
     globalChatResetAtMs = nowMs;
     saveKnownPlayers(false);
-    scheduleGitHubStorageSave("chat-daily-reset", 750);
+    scheduleGitHubStorageSave(`chat-clear-${cleanText(reason, 40) || "manual"}`, 750);
     console.log(`[NEXU] Globaler Chat geleert (${reason}, ${removed} Nachrichten, Zeitzone ${CHAT_TIME_ZONE}).`);
     return removed;
+}
+
+function deleteGlobalChatMessage(messageId, deletedBy = "OwnerAccount", nowMs = Date.now()) {
+    const numericMessageId = Math.max(0, Number(messageId) || 0);
+    if (!numericMessageId) return null;
+
+    const index = globalChatMessages.findIndex(
+        (entry) => Number(entry && entry.id) === numericMessageId
+    );
+    if (index < 0) return null;
+
+    const [removed] = globalChatMessages.splice(index, 1);
+
+    // Kontext- und Update-Zwischenspeicher werden zurückgesetzt, damit eine
+    // gelöschte Nachricht nicht durch eine spätere Kontextzensur erneut auftaucht.
+    chatModerationContexts.clear();
+    chatModerationUpdates.length = 0;
+    chatModerationRevision = 0;
+    globalChatDayKey = getGlobalChatDayKey(nowMs);
+    globalChatResetRevision += 1;
+    globalChatResetAtMs = nowMs;
+
+    saveKnownPlayers(false);
+    scheduleGitHubStorageSave("chat-message-delete", 750);
+    console.log(
+        `[NEXU] Chat-Nachricht ${numericMessageId} durch ${cleanText(deletedBy, 80) || "OwnerAccount"} gelöscht.`
+    );
+    return removed || null;
 }
 
 function ensureGlobalChatDay(nowMs = Date.now()) {
@@ -4023,9 +4051,13 @@ function serializeGlobalChatMessage(entry, options = {}) {
 function getGlobalChatMessages(afterId, options = {}) {
     pruneGlobalChat();
     const numericAfterId = Math.max(0, Number(afterId) || 0);
+    const requestedLimit = Number(options && options.limit);
+    const limit = Number.isFinite(requestedLimit)
+        ? Math.max(1, Math.min(CHAT_HISTORY_LIMIT, Math.floor(requestedLimit)))
+        : CHAT_POLL_LIMIT;
     return globalChatMessages
         .filter((entry) => Number(entry.id || 0) > numericAfterId)
-        .slice(-CHAT_POLL_LIMIT)
+        .slice(-limit)
         .map((entry) => serializeGlobalChatMessage(entry, options));
 }
 
@@ -11415,6 +11447,9 @@ function nexuV213OverviewChatCss() {
 .nx-web-chat-head-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
 .nx-web-chat-reveal{min-height:34px;padding:0 12px;border:1px solid rgba(255,184,76,.28);border-radius:10px;color:#ffd79c;background:rgba(255,151,46,.08);font-size:10px;font-weight:900;letter-spacing:.05em;cursor:pointer;}
 .nx-web-chat-reveal.active{border-color:rgba(255,102,102,.48);color:#ffd0d0;background:rgba(255,72,72,.13);box-shadow:0 0 0 3px rgba(255,72,72,.05);}
+.nx-web-chat-clear{min-height:34px;padding:0 12px;border:1px solid rgba(255,92,108,.34);border-radius:10px;color:#ffd2d7;background:rgba(255,54,78,.09);font-size:10px;font-weight:900;letter-spacing:.05em;cursor:pointer;}
+.nx-web-chat-clear:hover,.nx-web-chat-delete:hover{border-color:rgba(255,105,119,.62);background:rgba(255,54,78,.16);box-shadow:0 8px 24px rgba(255,28,58,.10);}
+.nx-web-chat-clear:disabled,.nx-web-chat-delete:disabled{opacity:.48;cursor:not-allowed;box-shadow:none;}
 .nx-web-chat-moderated-badge{display:inline-flex;margin-top:8px;padding:3px 7px;border-radius:999px;border:1px solid rgba(255,184,76,.2);color:#d6a85f;background:rgba(255,151,46,.06);font-size:8px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;}
 .nx-web-chat-messages{min-height:330px;max-height:560px;overflow:auto;display:flex;flex-direction:column;gap:11px;padding:18px;border:1px solid rgba(108,223,255,.12);border-radius:20px;background:linear-gradient(180deg,rgba(2,8,15,.7),rgba(4,10,18,.58));scrollbar-gutter:stable;}
 .nx-web-chat-empty{margin:auto;color:#69889d;font-size:13px;text-align:center;line-height:1.6;}
@@ -11429,6 +11464,8 @@ function nexuV213OverviewChatCss() {
 .nx-web-chat-name{min-width:0;color:#dff7ff;font-size:12px;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .nx-web-chat-name small{color:#7895aa;font-size:10px;font-weight:700;}
 .nx-web-chat-time{flex:0 0 auto;color:#617e92;font-size:9px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;}
+.nx-web-chat-message-actions{display:flex;align-items:center;gap:7px;flex:0 0 auto;}
+.nx-web-chat-delete{min-height:24px;padding:0 8px;border:1px solid rgba(255,92,108,.28);border-radius:8px;color:#ffbdc5;background:rgba(255,54,78,.07);font-size:8px;font-weight:900;letter-spacing:.05em;cursor:pointer;}
 .nx-web-chat-text{color:#dcecf5;font-size:13px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text !important;-webkit-user-select:text !important;}
 .nx-web-chat-composer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:12px;border:1px solid rgba(108,223,255,.13);border-radius:18px;background:linear-gradient(180deg,rgba(10,17,29,.9),rgba(6,13,23,.82));}
 .nx-web-chat-input-wrap{position:relative;min-width:0;}
@@ -11460,9 +11497,10 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId, ownerCanReveal
     var countLabel=document.getElementById('websiteGlobalChatCount');
     var tabCount=document.getElementById('chatTabCount');
     var revealButton=document.getElementById('websiteGlobalChatReveal');
+    var clearButton=document.getElementById('websiteGlobalChatClear');
     if(!panel||!list||!input||!sendButton) return;
 
-    var state={lastId:0,seen:new Set(),sending:false,polling:false,rows:0,resetToken:"",moderationRevision:0,followLatest:true};
+    var state={lastId:0,seen:new Set(),sending:false,polling:false,mutating:false,rows:0,resetToken:"",moderationRevision:0,followLatest:true};
     function setStatus(text,error){
         if(!stateLabel)return;
         stateLabel.textContent=String(text||'');
@@ -11574,9 +11612,21 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId, ownerCanReveal
         var time=document.createElement('time');
         time.className='nx-web-chat-time';
         time.textContent=formatTime(entry.sentAt);
+        var messageActions=document.createElement('div');
+        messageActions.className='nx-web-chat-message-actions';
+        messageActions.appendChild(time);
+        if(ownerCanReveal){
+            var deleteButton=document.createElement('button');
+            deleteButton.type='button';
+            deleteButton.className='nx-web-chat-delete';
+            deleteButton.textContent='LÖSCHEN';
+            deleteButton.setAttribute('aria-label','Nachricht '+String(entry.id)+' löschen');
+            deleteButton.addEventListener('click',function(){deleteMessage(entry.id,deleteButton);});
+            messageActions.appendChild(deleteButton);
+        }
         var message=document.createElement('div');
         message.className='nx-web-chat-text';
-        meta.append(name,time);
+        meta.append(name,messageActions);
         bubble.append(meta,message);
         if(entry.moderated===true){
             var badge=document.createElement('span');
@@ -11639,6 +11689,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId, ownerCanReveal
             ownerCanReveal=payload.ownerCanReveal===true;
             if(!ownerCanReveal)revealModerated=false;
             if(revealButton)revealButton.hidden=!ownerCanReveal;
+            if(clearButton)clearButton.hidden=!ownerCanReveal;
             refreshRevealButton();
         }
         if(payload&&typeof payload.canSend==='boolean'){
@@ -11651,7 +11702,7 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId, ownerCanReveal
         if(state.polling)return;
         state.polling=true;
         try{
-            var response=await fetch('/api/chat/poll',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({afterId:state.lastId,moderationRevision:state.moderationRevision})});
+            var response=await fetch('/api/chat/poll',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({afterId:state.lastId,moderationRevision:state.moderationRevision,chatResetToken:state.resetToken})});
             var payload=await response.json().catch(function(){return {};});
             if(!response.ok||payload.success===false)throw new Error(payload.error||('HTTP '+response.status));
             consume(payload);
@@ -11665,12 +11716,67 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId, ownerCanReveal
         if(!message)return;
         state.sending=true;sendButton.disabled=true;setStatus('Wird gesendet …',false);
         try{
-            var response=await fetch('/api/chat/send',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:message,moderationRevision:state.moderationRevision})});
+            var response=await fetch('/api/chat/send',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:message,moderationRevision:state.moderationRevision,chatResetToken:state.resetToken})});
             var payload=await response.json().catch(function(){return {};});
             if(!response.ok||payload.success===false)throw new Error(payload.error||('HTTP '+response.status));
             input.value='';updateCount();state.followLatest=true;consume(payload,{forceLatest:true});setStatus('Gesendet',false);
         }catch(error){setStatus(error&&error.message?error.message:'Senden fehlgeschlagen',true);}
         finally{state.sending=false;sendButton.disabled=!canSend;}
+    }
+    function askOwnerConfirmation(options){
+        if(typeof openActionConfirm==='function')return openActionConfirm(options||{});
+        return Promise.resolve(false);
+    }
+    function notifyOwner(message,type){
+        if(typeof showToast==='function')showToast(message,type||'info');
+        else setStatus(message,type==='error');
+    }
+    function setMutationDisabled(disabled){
+        state.mutating=disabled===true;
+        if(clearButton)clearButton.disabled=state.mutating;
+        list.querySelectorAll('.nx-web-chat-delete').forEach(function(button){button.disabled=state.mutating;});
+    }
+    async function runOwnerMutation(url,body,successMessage){
+        if(!ownerCanReveal||state.mutating)return false;
+        setMutationDisabled(true);
+        setStatus('Chat wird aktualisiert …',false);
+        try{
+            var response=await fetch(url,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{})});
+            var payload=await response.json().catch(function(){return {};});
+            if(!response.ok||payload.success===false)throw new Error(payload.error||('HTTP '+response.status));
+            state.followLatest=true;
+            consume(payload,{forceLatest:true});
+            setStatus('Live verbunden',false);
+            notifyOwner(successMessage||'Chat wurde aktualisiert.','success');
+            return true;
+        }catch(error){
+            var message=error&&error.message?error.message:'Chat konnte nicht aktualisiert werden';
+            setStatus(message,true);notifyOwner(message,'error');return false;
+        }finally{setMutationDisabled(false);}
+    }
+    async function deleteMessage(messageId,button){
+        if(!ownerCanReveal||state.mutating)return;
+        var row=button&&button.closest?button.closest('.nx-web-chat-row'):null;
+        var name=row&&row.querySelector('.nx-web-chat-name');
+        var approved=await askOwnerConfirmation({
+            tone:'danger',
+            title:'Nachricht löschen',
+            message:'Diese Nachricht'+(name?' von '+String(name.firstChild&&name.firstChild.textContent||'diesem Nutzer'):'')+' wird dauerhaft aus Website und Lua-Chat entfernt.',
+            confirmText:'NACHRICHT LÖSCHEN'
+        });
+        if(!approved)return;
+        await runOwnerMutation('/api/chat/delete',{messageId:Number(messageId)||0,chatResetToken:state.resetToken},'Nachricht wurde überall gelöscht.');
+    }
+    async function clearAllMessages(){
+        if(!ownerCanReveal||state.mutating)return;
+        var approved=await askOwnerConfirmation({
+            tone:'danger',
+            title:'Gesamten Chat leeren',
+            message:'Alle heutigen Chat-Nachrichten werden dauerhaft gelöscht. Die Löschung wird sofort an alle geöffneten Lua-Menüs übertragen.',
+            confirmText:'ALLE NACHRICHTEN LÖSCHEN'
+        });
+        if(!approved)return;
+        await runOwnerMutation('/api/chat/clear',{chatResetToken:state.resetToken},'Der gesamte Chat wurde überall geleert.');
     }
     function updateCount(){if(countLabel)countLabel.textContent=String(input.value.length)+' / 300';}
     input.maxLength=300;
@@ -11704,6 +11810,10 @@ function nexuV213OverviewChatScript(canSend, currentRobloxUserId, ownerCanReveal
         });
         refreshRevealButton();
     }
+    if(clearButton){
+        clearButton.hidden=!ownerCanReveal;
+        clearButton.addEventListener('click',clearAllMessages);
+    }
     input.addEventListener('input',updateCount);
     input.addEventListener('keydown',function(event){if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();}});
     sendButton.addEventListener('click',send);
@@ -11728,7 +11838,7 @@ dashboardHtml = function(account = null, notice = "") {
     </div>
     <div class="directory-panel hidden nx-web-chat-panel" data-directory-panel="chat" role="tabpanel">
         <div class="nx-web-chat-shell">
-            <div class="nx-web-chat-head"><div><div class="eyebrow">NEXU // GLOBALER CHAT</div><h2>Chat für alle Nexu-Nutzer</h2></div><div class="nx-web-chat-head-actions">${ownerCanReveal ? '<button id="websiteGlobalChatReveal" class="nx-web-chat-reveal" type="button" aria-pressed="false">ZENSUR AUFDECKEN</button>' : ''}<div id="websiteGlobalChatState" class="nx-web-chat-state">Verbindung wird hergestellt</div></div></div>
+            <div class="nx-web-chat-head"><div><div class="eyebrow">NEXU // GLOBALER CHAT</div><h2>Chat für alle Nexu-Nutzer</h2></div><div class="nx-web-chat-head-actions">${ownerCanReveal ? '<button id="websiteGlobalChatReveal" class="nx-web-chat-reveal" type="button" aria-pressed="false">ZENSUR AUFDECKEN</button><button id="websiteGlobalChatClear" class="nx-web-chat-clear" type="button">CHAT LEEREN</button>' : ''}<div id="websiteGlobalChatState" class="nx-web-chat-state">Verbindung wird hergestellt</div></div></div>
             <div id="websiteGlobalChatMessages" class="nx-web-chat-messages" aria-live="polite"><div class="nx-web-chat-empty">Noch keine Nachrichten vorhanden.<br>Schreibe die erste Nachricht aus der Übersicht oder dem Lua-Menü.</div></div>
             <div class="nx-web-chat-composer">
                 <div class="nx-web-chat-input-wrap"><textarea id="websiteGlobalChatInput" class="nx-web-chat-input" maxlength="300" placeholder="Nachricht an alle Nexu-Nutzer schreiben …"></textarea><span id="websiteGlobalChatCount" class="nx-web-chat-count">0 / 300</span></div>
@@ -13188,6 +13298,7 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
     try {
         const body = await readJsonBody(req);
         const clientModerationRevision = Math.max(0, Number(body.moderationRevision) || 0);
+        const clientResetToken = cleanText(body.chatResetToken, 160);
         const message = cleanText(body.message, CHAT_MAX_LENGTH);
         let userId = cleanNumericId(body.userId);
         let sessionId = cleanText(body.sessionId, 120);
@@ -13235,9 +13346,17 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
         await attachAvatarUrlsToChatMessages([chatMessage]);
         const ownerCanReveal = Boolean(websiteSession && isOwnerDashboardAccount(websiteSession.account));
         const responseChatMessage = serializeGlobalChatMessage(chatMessage, { includeOriginal: ownerCanReveal });
+        const currentResetToken = getGlobalChatResetToken();
+        const fullSync = Boolean(clientResetToken && clientResetToken !== currentResetToken);
+        const resyncMessages = fullSync
+            ? getGlobalChatMessages(0, { includeOriginal: ownerCanReveal, limit: CHAT_HISTORY_LIMIT })
+            : [];
+        if (resyncMessages.length > 0) await attachAvatarUrlsToChatMessages(resyncMessages);
         console.log(`[NEXU] CHAT ${userId}${websiteIdentity ? " (WEBSITE)" : ""}: ${chatMessage.moderated ? `[ZENSIERT:${chatMessage.moderationCategory || "INHALT"}]` : chatMessage.message.slice(0, 80)}`);
         sendJson(res, 200, {
             success: true,
+            messages: resyncMessages,
+            fullSync,
             chatMessage: responseChatMessage,
             latestId: chatMessage.id,
             chatResetToken: getGlobalChatResetToken(),
@@ -13247,6 +13366,94 @@ if (req.method === "POST" && pathname === "/api/chat/send") {
             moderationRevision: chatModerationRevision,
             moderationUpdates: getChatModerationUpdates(clientModerationRevision, { includeOriginal: ownerCanReveal }),
             ownerCanReveal,
+        });
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+            success: false,
+            error: error.message === "BODY_TOO_LARGE" ? "Anfrage zu groß" : "Ungültiges JSON",
+        });
+    }
+    return;
+}
+
+if (req.method === "POST" && pathname === "/api/chat/delete") {
+    const ownerSession = getDashboardSession(req);
+    if (!ownerSession || !isOwnerDashboardAccount(ownerSession.account)) {
+        sendJson(res, 403, { success: false, error: "Nur der OwnerAccount darf Chat-Nachrichten löschen." });
+        return;
+    }
+    try {
+        const body = await readJsonBody(req);
+        const messageId = Math.max(0, Number(body.messageId) || 0);
+        const removed = deleteGlobalChatMessage(
+            messageId,
+            ownerSession.username || OWNER_ACCOUNT_USERNAME
+        );
+        if (!removed) {
+            sendJson(res, 404, { success: false, error: "Die Nachricht wurde nicht gefunden oder bereits gelöscht." });
+            return;
+        }
+
+        const messages = getGlobalChatMessages(0, { includeOriginal: true, limit: CHAT_HISTORY_LIMIT });
+        await attachAvatarUrlsToChatMessages(messages);
+        const latestId = globalChatMessages.length > 0
+            ? Number(globalChatMessages[globalChatMessages.length - 1].id || 0)
+            : 0;
+        sendJson(res, 200, {
+            success: true,
+            deletedId: messageId,
+            removedCount: 1,
+            messages,
+            latestId,
+            fullSync: true,
+            canSend: true,
+            currentRobloxUserId: cleanNumericId(ownerSession.account && ownerSession.account.robloxUserId),
+            chatResetToken: getGlobalChatResetToken(),
+            chatDayKey: globalChatDayKey,
+            chatResetAtMs: globalChatResetAtMs,
+            chatNextResetAtMs: findNextGlobalChatMidnightMs(),
+            moderationRevision: chatModerationRevision,
+            moderationUpdates: [],
+            ownerCanReveal: true,
+            timestamp: new Date().toISOString(),
+        });
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+            success: false,
+            error: error.message === "BODY_TOO_LARGE" ? "Anfrage zu groß" : "Ungültiges JSON",
+        });
+    }
+    return;
+}
+
+if (req.method === "POST" && pathname === "/api/chat/clear") {
+    const ownerSession = getDashboardSession(req);
+    if (!ownerSession || !isOwnerDashboardAccount(ownerSession.account)) {
+        sendJson(res, 403, { success: false, error: "Nur der OwnerAccount darf den Chat leeren." });
+        return;
+    }
+    try {
+        await readJsonBody(req);
+        const removedCount = clearGlobalChat(
+            "owner-clear-all",
+            Date.now()
+        );
+        sendJson(res, 200, {
+            success: true,
+            removedCount,
+            messages: [],
+            latestId: 0,
+            fullSync: true,
+            canSend: true,
+            currentRobloxUserId: cleanNumericId(ownerSession.account && ownerSession.account.robloxUserId),
+            chatResetToken: getGlobalChatResetToken(),
+            chatDayKey: globalChatDayKey,
+            chatResetAtMs: globalChatResetAtMs,
+            chatNextResetAtMs: findNextGlobalChatMidnightMs(),
+            moderationRevision: chatModerationRevision,
+            moderationUpdates: [],
+            ownerCanReveal: true,
+            timestamp: new Date().toISOString(),
         });
     } catch (error) {
         sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
@@ -13271,6 +13478,7 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
         const body = await readJsonBody(req);
         const afterId = Math.max(0, Number(body.afterId) || 0);
         const clientModerationRevision = Math.max(0, Number(body.moderationRevision) || 0);
+        const clientResetToken = cleanText(body.chatResetToken, 160);
 
         if (!websiteAllowed) {
             const userId = cleanNumericId(body.userId);
@@ -13291,7 +13499,12 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
         }
 
         const ownerCanReveal = Boolean(websiteSession && isOwnerDashboardAccount(websiteSession.account));
-        const messages = getGlobalChatMessages(afterId, { includeOriginal: ownerCanReveal });
+        const currentResetToken = getGlobalChatResetToken();
+        const fullSync = Boolean(clientResetToken && clientResetToken !== currentResetToken);
+        const messages = getGlobalChatMessages(fullSync ? 0 : afterId, {
+            includeOriginal: ownerCanReveal,
+            limit: fullSync ? CHAT_HISTORY_LIMIT : CHAT_POLL_LIMIT,
+        });
         await attachAvatarUrlsToChatMessages(messages);
         const latestId = globalChatMessages.length > 0
             ? Number(globalChatMessages[globalChatMessages.length - 1].id || 0)
@@ -13299,6 +13512,7 @@ if (req.method === "POST" && pathname === "/api/chat/poll") {
         sendJson(res, 200, {
             success: true,
             messages,
+            fullSync,
             latestId,
             canSend: Boolean(websiteSession && cleanNumericId(websiteSession.account && websiteSession.account.robloxUserId) && canAccessMenuServer(websiteSession.account)),
             currentRobloxUserId: cleanNumericId(websiteSession && websiteSession.account && websiteSession.account.robloxUserId),
