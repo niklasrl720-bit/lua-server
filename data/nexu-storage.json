@@ -1855,6 +1855,23 @@
       "lastSeenMs": 1784267601611
     },
     {
+      "userId": "11072047697",
+      "username": "Qwensky66",
+      "displayName": "Qwensky66",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Naval Warfare",
+      "placeId": 2210085102,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T20:23:42.682Z",
+      "firstSeenMs": 1784406222682,
+      "lastSeen": "2026-07-18T20:23:42.682Z",
+      "lastSeenMs": 1784406222682
+    },
+    {
       "userId": "11073896038",
       "username": "ttttjfjdjff",
       "displayName": "ttttjfjdjff",
@@ -12063,5 +12080,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:21:55.640Z"
+  "updatedAt": "2026-07-18T20:23:47.694Z"
 }
