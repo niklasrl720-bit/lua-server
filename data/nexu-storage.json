@@ -576,8 +576,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-18T00:15:00.000Z",
-      "lastSeenMs": 1784333700000
+      "lastSeen": "2026-07-18T18:55:00.000Z",
+      "lastSeenMs": 1784400900000
     },
     {
       "userId": "10427971366",
@@ -1112,16 +1112,16 @@
       "displayName": "lelekoleon",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Deutsch",
-      "placeId": 109628589312466,
+      "gameName": "Deutsche Stimme",
+      "placeId": 136162036182779,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-17T21:50:00.000Z",
-      "lastSeenMs": 1784325000000
+      "lastSeen": "2026-07-18T18:55:00.000Z",
+      "lastSeenMs": 1784400900000
     },
     {
       "userId": "10780173311",
@@ -4930,6 +4930,23 @@
       "firstSeenMs": 1784262427691,
       "lastSeen": "2026-07-17T04:30:00.000Z",
       "lastSeenMs": 1784262600000
+    },
+    {
+      "userId": "1983720994",
+      "username": "JOY9415",
+      "displayName": "JOY9415",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "עולם הכיף 🎉 - בואו לכיף ישראל",
+      "placeId": 7999948656,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T18:56:59.270Z",
+      "firstSeenMs": 1784401019270,
+      "lastSeen": "2026-07-18T18:56:59.270Z",
+      "lastSeenMs": 1784401019270
     },
     {
       "userId": "1989339160",
@@ -11508,5 +11525,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T18:56:58.705Z"
+  "updatedAt": "2026-07-18T18:57:04.280Z"
 }
