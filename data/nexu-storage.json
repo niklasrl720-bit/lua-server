@@ -6054,6 +6054,23 @@
       "lastSeenMs": 1784305500000
     },
     {
+      "userId": "3094716420",
+      "username": "vSaturnno",
+      "displayName": "saturno",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Saturno",
+      "placeId": 99527221614188,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T23:09:29.904Z",
+      "firstSeenMs": 1784416169904,
+      "lastSeen": "2026-07-18T23:09:29.904Z",
+      "lastSeenMs": 1784416169904
+    },
+    {
       "userId": "3104796288",
       "username": "ianiaff",
       "displayName": "904",
@@ -12125,5 +12142,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:07:48.216Z"
+  "updatedAt": "2026-07-18T23:09:34.909Z"
 }
