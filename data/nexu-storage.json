@@ -5578,6 +5578,23 @@
       "lastSeenMs": 1784251200000
     },
     {
+      "userId": "2788006747",
+      "username": "invito370",
+      "displayName": "rayo_pro",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "En el Área 51 [ALFA] [🎙️]",
+      "placeId": 3117860193,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T20:13:10.484Z",
+      "firstSeenMs": 1784405590484,
+      "lastSeen": "2026-07-18T20:13:10.484Z",
+      "lastSeenMs": 1784405590484
+    },
+    {
       "userId": "2821234045",
       "username": "sneidertest",
       "displayName": "Bmw2007",
@@ -12029,5 +12046,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:12:16.812Z"
+  "updatedAt": "2026-07-18T20:13:15.500Z"
 }
