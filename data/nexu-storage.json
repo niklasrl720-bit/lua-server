@@ -4524,6 +4524,23 @@
       "lastSeenMs": 1784264002868
     },
     {
+      "userId": "11299574643",
+      "username": "HunterBidens_Laptop",
+      "displayName": "HunterBidens_Laptop",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Drive World 🏎️ Drifting & Racing",
+      "placeId": 10704789056,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T23:32:27.237Z",
+      "firstSeenMs": 1784417547237,
+      "lastSeen": "2026-07-18T23:32:27.237Z",
+      "lastSeenMs": 1784417547237
+    },
+    {
       "userId": "11299578304",
       "username": "Mateproxe0098",
       "displayName": "Mateproxe0098",
@@ -12176,5 +12193,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:31:00.285Z"
+  "updatedAt": "2026-07-18T23:32:32.242Z"
 }
