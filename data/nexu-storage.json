@@ -818,6 +818,22 @@
       "lastSeenMs": 1784246275601
     },
     {
+      "userId": "10615181032",
+      "username": "punkzinho12q",
+      "displayName": "zVoided",
+      "roleKey": "",
+      "gameName": "[UP] Apenas uma base.",
+      "placeId": 123974602339071,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T00:14:04.728Z",
+      "firstSeenMs": 1784333644728,
+      "lastSeen": "2026-07-18T00:14:04.728Z",
+      "lastSeenMs": 1784333644728
+    },
+    {
       "userId": "10644365347",
       "username": "sakooruclu",
       "displayName": "hacker",
@@ -10779,5 +10795,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T00:13:18.589Z"
+  "updatedAt": "2026-07-18T00:14:09.740Z"
 }
