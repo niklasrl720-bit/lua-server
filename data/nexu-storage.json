@@ -2914,16 +2914,16 @@
       "displayName": "THEchudNugget",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Super Hero Tycoon",
-      "placeId": 574407221,
+      "gameName": "Daybreak",
+      "placeId": 6870736769,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T21:49:15.412Z",
       "firstSeenMs": 1784411355412,
-      "lastSeen": "2026-07-18T22:15:00.000Z",
-      "lastSeenMs": 1784412900000
+      "lastSeen": "2026-07-18T22:20:00.000Z",
+      "lastSeenMs": 1784413200000
     },
     {
       "userId": "11242727349",
@@ -11855,5 +11855,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:21:30.158Z"
+  "updatedAt": "2026-07-18T22:21:40.968Z"
 }
