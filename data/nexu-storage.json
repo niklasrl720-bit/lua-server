@@ -262,16 +262,16 @@
       "username": "happy_hasif516",
       "displayName": "tentara_ganung99",
       "roleKey": "",
-      "gameName": "The Animal Hospital",
-      "placeId": 104522435597696,
+      "gameName": "💥 Flag Wars!",
+      "placeId": 3214114884,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T00:54:59.105Z",
       "firstSeenMs": 1784249699105,
-      "lastSeen": "2026-07-18T00:10:00.000Z",
-      "lastSeenMs": 1784333400000
+      "lastSeen": "2026-07-18T00:15:00.000Z",
+      "lastSeenMs": 1784333700000
     },
     {
       "userId": "10172085694",
@@ -302,8 +302,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-18T00:10:00.000Z",
-      "lastSeenMs": 1784333400000
+      "lastSeen": "2026-07-18T00:15:00.000Z",
+      "lastSeenMs": 1784333700000
     },
     {
       "userId": "10203550652",
@@ -542,8 +542,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-18T00:10:00.000Z",
-      "lastSeenMs": 1784333400000
+      "lastSeen": "2026-07-18T00:15:00.000Z",
+      "lastSeenMs": 1784333700000
     },
     {
       "userId": "10427971366",
@@ -830,8 +830,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T00:14:04.728Z",
       "firstSeenMs": 1784333644728,
-      "lastSeen": "2026-07-18T00:14:04.728Z",
-      "lastSeenMs": 1784333644728
+      "lastSeen": "2026-07-18T00:15:00.000Z",
+      "lastSeenMs": 1784333700000
     },
     {
       "userId": "10644365347",
@@ -4190,8 +4190,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-18T00:10:00.000Z",
-      "lastSeenMs": 1784333400000
+      "lastSeen": "2026-07-18T00:15:00.000Z",
+      "lastSeenMs": 1784333700000
     },
     {
       "userId": "11303186538",
@@ -5358,8 +5358,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-07-18T00:10:00.000Z",
-      "lastSeenMs": 1784333400000
+      "lastSeen": "2026-07-18T00:15:00.000Z",
+      "lastSeenMs": 1784333700000
     },
     {
       "userId": "3579384057",
@@ -6974,8 +6974,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:43:14.567Z",
       "firstSeenMs": 1784234594567,
-      "lastSeen": "2026-07-18T00:10:00.000Z",
-      "lastSeenMs": 1784333400000
+      "lastSeen": "2026-07-18T00:15:00.000Z",
+      "lastSeenMs": 1784333700000
     },
     {
       "userId": "6089503220",
@@ -7150,8 +7150,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:15:27.430Z",
       "firstSeenMs": 1784232927430,
-      "lastSeen": "2026-07-18T00:10:00.000Z",
-      "lastSeenMs": 1784333400000
+      "lastSeen": "2026-07-18T00:15:00.000Z",
+      "lastSeenMs": 1784333700000
     },
     {
       "userId": "7084113045",
@@ -10795,5 +10795,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T00:14:09.740Z"
+  "updatedAt": "2026-07-18T00:16:01.732Z"
 }
