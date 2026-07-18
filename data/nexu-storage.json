@@ -10355,6 +10355,23 @@
       "lastSeenMs": 1784303400000
     },
     {
+      "userId": "9066194839",
+      "username": "Flemir10",
+      "displayName": "Flemir10",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[🌎] Real Futbol",
+      "placeId": 14004668761,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T21:38:21.134Z",
+      "firstSeenMs": 1784410701134,
+      "lastSeen": "2026-07-18T21:38:21.134Z",
+      "lastSeenMs": 1784410701134
+    },
+    {
       "userId": "9079676706",
       "username": "Adrian1161653",
       "displayName": "Naoya",
@@ -12376,5 +12393,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:37:21.968Z"
+  "updatedAt": "2026-07-18T21:38:26.364Z"
 }
