@@ -529,6 +529,23 @@
       "lastSeenMs": 1784418300000
     },
     {
+      "userId": "10302526420",
+      "username": "ilyas1245030",
+      "displayName": "ilyas1245030",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[🏠UPD] RP à la frontière de San Diego",
+      "placeId": 136020512003847,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T23:47:01.952Z",
+      "firstSeenMs": 1784418421952,
+      "lastSeen": "2026-07-18T23:47:01.952Z",
+      "lastSeenMs": 1784418421952
+    },
+    {
       "userId": "10305976438",
       "username": "builddsKaiella47",
       "displayName": "rip_laygt",
@@ -12276,5 +12293,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:46:28.911Z"
+  "updatedAt": "2026-07-18T23:47:06.956Z"
 }
