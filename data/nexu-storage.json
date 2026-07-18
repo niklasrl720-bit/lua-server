@@ -1396,6 +1396,23 @@
       "lastSeenMs": 1784301300000
     },
     {
+      "userId": "10912873299",
+      "username": "lingpox",
+      "displayName": "anti_hacker",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Lurking Giants [VERITY]",
+      "placeId": 6328880674,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:32:35.735Z",
+      "firstSeenMs": 1784413955735,
+      "lastSeen": "2026-07-18T22:32:35.735Z",
+      "lastSeenMs": 1784413955735
+    },
+    {
       "userId": "10934367952",
       "username": "glitchure_vIp",
       "displayName": "Life_NoTE",
@@ -11940,5 +11957,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:32:34.703Z"
+  "updatedAt": "2026-07-18T22:32:40.740Z"
 }
