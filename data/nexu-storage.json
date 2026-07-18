@@ -4716,16 +4716,16 @@
       "displayName": "Djdjjdkdjdir2",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Midnight Burger [GAME]",
-      "placeId": 18132499044,
+      "gameName": "MIC UP 🔊",
+      "placeId": 6884319169,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "IOS",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T20:36:05.293Z",
       "firstSeenMs": 1784406965293,
-      "lastSeen": "2026-07-18T20:40:00.000Z",
-      "lastSeenMs": 1784407200000
+      "lastSeen": "2026-07-18T20:50:00.000Z",
+      "lastSeenMs": 1784407800000
     },
     {
       "userId": "11303815687",
@@ -12182,5 +12182,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:51:00.081Z"
+  "updatedAt": "2026-07-18T20:52:14.458Z"
 }
