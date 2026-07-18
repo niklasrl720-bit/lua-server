@@ -7858,6 +7858,22 @@
       "lastSeenMs": 1784326500000
     },
     {
+      "userId": "7860816256",
+      "username": "baguest_RBLX",
+      "displayName": "Baconz_THSH",
+      "roleKey": "",
+      "gameName": "IQ Obby",
+      "placeId": 12805830692,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T00:17:05.312Z",
+      "firstSeenMs": 1784333825312,
+      "lastSeen": "2026-07-18T00:17:05.312Z",
+      "lastSeenMs": 1784333825312
+    },
+    {
       "userId": "7904205215",
       "username": "RIJNSBURGSEBOYS1930",
       "displayName": "ARP_Bram",
@@ -10795,5 +10811,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T00:16:33.566Z"
+  "updatedAt": "2026-07-18T00:17:10.321Z"
 }
