@@ -721,8 +721,8 @@
       "displayName": "Aquatic",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Steal a Brainrot",
-      "placeId": 109983668079237,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "IOS",
@@ -11989,5 +11989,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:36:00.676Z"
+  "updatedAt": "2026-07-18T22:37:03.807Z"
 }
