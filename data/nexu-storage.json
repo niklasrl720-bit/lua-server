@@ -9624,6 +9624,23 @@
       "lastSeenMs": 1784298000000
     },
     {
+      "userId": "8722514497",
+      "username": "Andrislohs12345",
+      "displayName": "YT_Dobroginer",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "(5 MINUTES)+1 Speed Aqua Escape",
+      "placeId": 106824790598613,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:56:57.824Z",
+      "firstSeenMs": 1784404617824,
+      "lastSeen": "2026-07-18T19:56:57.824Z",
+      "lastSeenMs": 1784404617824
+    },
+    {
       "userId": "8723106331",
       "username": "Kotik_21074",
       "displayName": "Who_Im",
@@ -11927,5 +11944,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:56:00.409Z"
+  "updatedAt": "2026-07-18T19:57:02.834Z"
 }
