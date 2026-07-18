@@ -11826,8 +11826,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-18T19:19:53.589Z",
         "sentAtMs": 1784402393589
+      },
+      {
+        "id": 1784403675067002,
+        "userId": "10717969040",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "pepitoinsano177",
+        "displayName": "Dodecahedron_Dave",
+        "message": "hello",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-18T19:41:15.067Z",
+        "sentAtMs": 1784403675067
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:40:09.028Z"
+  "updatedAt": "2026-07-18T19:41:16.104Z"
 }
