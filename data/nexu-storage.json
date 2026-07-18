@@ -12190,8 +12190,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-18T22:34:19.856Z",
         "sentAtMs": 1784414059856
+      },
+      {
+        "id": 1784417980251011,
+        "userId": "11299574643",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "HunterBidens_Laptop",
+        "displayName": "HunterBidens_Laptop",
+        "message": "asdf",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-18T23:39:40.251Z",
+        "sentAtMs": 1784417980251
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:36:00.993Z"
+  "updatedAt": "2026-07-18T23:39:41.272Z"
 }
