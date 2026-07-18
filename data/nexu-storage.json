@@ -7300,8 +7300,8 @@
       "displayName": "sigma_CRAL",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Выживание в стихийных бедствиях",
-      "placeId": 189707,
+      "gameName": "подожди, но это KMM?",
+      "placeId": 80625849508539,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -11710,5 +11710,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:33:15.280Z"
+  "updatedAt": "2026-07-18T19:33:32.325Z"
 }
