@@ -4839,6 +4839,9 @@ function loginHtml(errorMessage = "", rememberedAccount = null, options = {}) {c
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="${NEXU_BRAND_LOGO_DATA_URI}">
+<link rel="shortcut icon" type="image/png" href="${NEXU_BRAND_LOGO_DATA_URI}">
+<link rel="apple-touch-icon" href="${NEXU_BRAND_LOGO_DATA_URI}">
 <title>Nexu Anmeldung</title>
 <style>
 * { box-sizing:border-box; }
@@ -4966,6 +4969,9 @@ return String.raw`<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="${NEXU_BRAND_LOGO_DATA_URI}">
+<link rel="shortcut icon" type="image/png" href="${NEXU_BRAND_LOGO_DATA_URI}">
+<link rel="apple-touch-icon" href="${NEXU_BRAND_LOGO_DATA_URI}">
 <meta name="theme-color" content="#03070e">
 <title>Nexu Startseite</title>
 <style>
@@ -5220,6 +5226,9 @@ function dashboardAccountsHtml(notice = "", error = "", account = null) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="${NEXU_BRAND_LOGO_DATA_URI}">
+<link rel="shortcut icon" type="image/png" href="${NEXU_BRAND_LOGO_DATA_URI}">
+<link rel="apple-touch-icon" href="${NEXU_BRAND_LOGO_DATA_URI}">
 <meta name="theme-color" content="#03070e">
 <title>Nexu Kontoverwaltung</title>
 <style>
@@ -5432,6 +5441,9 @@ return String.raw`<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="${NEXU_BRAND_LOGO_DATA_URI}">
+<link rel="shortcut icon" type="image/png" href="${NEXU_BRAND_LOGO_DATA_URI}">
+<link rel="apple-touch-icon" href="${NEXU_BRAND_LOGO_DATA_URI}">
 <meta name="theme-color" content="#03070e">
 <title>Nexu Übersicht</title>
 <style>
