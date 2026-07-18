@@ -9947,6 +9947,23 @@
       "lastSeenMs": 1784302858654
     },
     {
+      "userId": "8409494426",
+      "username": "nosoyilo2071",
+      "displayName": "JOSE",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "💣 Pase o Explosión",
+      "placeId": 134424372433341,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:48:38.522Z",
+      "firstSeenMs": 1784414918522,
+      "lastSeen": "2026-07-18T22:48:38.522Z",
+      "lastSeenMs": 1784414918522
+    },
+    {
       "userId": "8424600103",
       "username": "NICO125666778",
       "displayName": "MOROCHITOCHOCOLATOSO",
@@ -12040,5 +12057,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:48:09.241Z"
+  "updatedAt": "2026-07-18T22:48:43.525Z"
 }
