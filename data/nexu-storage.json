@@ -6207,6 +6207,23 @@
       "lastSeenMs": 1784331600000
     },
     {
+      "userId": "3401274247",
+      "username": "RestingFather",
+      "displayName": "RestingFather",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Lurking Giants [VERITY]",
+      "placeId": 6328880674,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:44:39.056Z",
+      "firstSeenMs": 1784414679056,
+      "lastSeen": "2026-07-18T22:44:39.056Z",
+      "lastSeenMs": 1784414679056
+    },
+    {
       "userId": "3419187651",
       "username": "Montoxisgoat",
       "displayName": "iloveviolet",
@@ -6433,16 +6450,16 @@
       "displayName": "Henry",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Singing Heads Roleplay 2 (ALLIANCE UPDATE 2)",
-      "placeId": 134704797217526,
+      "gameName": "Toilet Retribution Universe : UPD 0.75 PART 2 FULL",
+      "placeId": 116763278039595,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T20:51:04.943Z",
       "firstSeenMs": 1784235064943,
-      "lastSeen": "2026-07-16T20:51:04.943Z",
-      "lastSeenMs": 1784235064943
+      "lastSeen": "2026-07-18T22:40:00.000Z",
+      "lastSeenMs": 1784414400000
     },
     {
       "userId": "3670027748",
@@ -12006,5 +12023,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:43:29.462Z"
+  "updatedAt": "2026-07-18T22:44:40.966Z"
 }
