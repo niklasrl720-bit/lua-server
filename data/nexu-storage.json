@@ -6348,7 +6348,7 @@
       "displayName": "Ruibee",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "😈 Split or Steal Brainrot",
+      "gameName": "😈 Split or Steal Brainrot [AUCTION Mode]",
       "placeId": 70959844973091,
       "executionSource": "Solara",
       "executionVersion": "3.0",
@@ -6356,8 +6356,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:56:18.242Z",
       "firstSeenMs": 1784314578242,
-      "lastSeen": "2026-07-17T20:20:00.000Z",
-      "lastSeenMs": 1784319600000
+      "lastSeen": "2026-07-18T20:35:00.000Z",
+      "lastSeenMs": 1784406900000
     },
     {
       "userId": "3943834742",
@@ -12131,5 +12131,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:36:10.307Z"
+  "updatedAt": "2026-07-18T20:38:58.908Z"
 }
