@@ -8490,8 +8490,8 @@
       "displayName": "Chernosigma_8",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[✈CARRIER] Military Tycoon ®",
-      "placeId": 7180042682,
+      "gameName": "nico's nextbots [open world]",
+      "placeId": 12629753855,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -11576,5 +11576,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:06:11.493Z"
+  "updatedAt": "2026-07-18T19:06:38.585Z"
 }
