@@ -5014,6 +5014,10 @@ p { margin:0; color:var(--muted); line-height:1.65; }
 button.primary-tile { width:100%; text-align:left; font:inherit; cursor:pointer; }
 .primary-tile.copy-script { border-color:rgba(45,255,165,.34); background:linear-gradient(135deg,rgba(45,255,165,.11),rgba(0,200,255,.08)); }
 .primary-tile.copy-script span { color:var(--green); }
+.primary-tile.discord-community { grid-column:1 / -1; border-color:rgba(139,99,255,.38); background:linear-gradient(135deg,rgba(88,101,242,.18),rgba(111,70,255,.12),rgba(0,200,255,.06)); }
+.primary-tile.discord-community span { color:#aeb7ff; }
+.primary-tile.discord-community strong { color:#f1f4ff; }
+.primary-tile.discord-community small { color:#9aa8c4; }
 .copy-command { display:block; max-width:100%; overflow:hidden; color:#8fb3c8; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
 .copy-feedback { color:#9effd1 !important; }
 .quick-info { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
@@ -5091,12 +5095,11 @@ html,body{background:
         <div class="panel welcome">
             <div class="eyebrow">NEXU // STARTSEITE</div>
             <h1>Nexu</h1>
-            <p>Willkommen auf der Startseite. Von hier aus öffnest du die geschützte Serverübersicht oder änderst oben rechts über dein Profil deine Kontodaten.</p>
+            <p>Willkommen auf der Startseite. Hier kopierst du den aktuellen Nexu-Loader, öffnest den offiziellen Discord-Server oder änderst oben rechts über dein Profil deine Kontodaten.</p>
         </div>
         <div class="panel action-grid">
-            ${menuServerButton}
-            ${accountManagerButton}
             <button id="copyScriptButton" class="primary-tile copy-script" type="button"><span>SKRIPT STARTEN</span><strong id="copyScriptTitle">Skript kopieren</strong><small id="copyScriptHint">Kopiert den aktuellen Nexu-Ladebefehl in die Zwischenablage.</small><code class="copy-command">loadstring(game:HttpGet(&quot;…/Nexu%20Main&quot;))()</code></button>
+            <a class="primary-tile discord-community" href="https://discord.gg/gV4fJkteKj"><span>NEXU COMMUNITY</span><strong>Discord-Server öffnen</strong><small>Öffnet die offizielle Nexu-Community und leitet dich direkt zur Einladung weiter.</small></a>
             <div class="quick-info">
                 <article class="info-card"><div class="info-label">Konto</div><div class="info-value">${escapeHtml(accountName)}</div><p>Benutzername-Login aktiv</p></article>
                 <article class="info-card"><div class="info-label">Menu Server Zugriff</div><div class="info-value">${canOpenMenuServer ? "Erlaubt" : "Gesperrt"}</div></article>
@@ -7724,6 +7727,7 @@ body.nexu-v200 input:focus,body.nexu-v200 textarea:focus,body.nexu-v200 select:f
 .page-home .primary-tile strong{font-size:25px !important;letter-spacing:-.035em;}
 .page-home .primary-tile small{line-height:1.55;}
 .page-home .primary-tile.copy-script{grid-column:span 2;min-height:168px !important;background:linear-gradient(135deg,rgba(69,255,176,.10),rgba(25,214,255,.07),rgba(139,99,255,.04)) !important;}
+.page-home .primary-tile.discord-community{grid-column:span 2;min-height:156px !important;background:linear-gradient(135deg,rgba(88,101,242,.17),rgba(139,99,255,.10),rgba(25,214,255,.045)) !important;}
 .page-home .quick-info{grid-column:span 2;gap:12px !important;}
 .page-home .info-card{min-height:118px !important;padding:18px !important;border-radius:20px !important;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)) !important;}
 .nx-hero-orbit{position:absolute;right:36px;bottom:34px;width:258px;aspect-ratio:1;z-index:1;pointer-events:none;filter:drop-shadow(0 0 28px rgba(25,214,255,.13));}
@@ -11524,6 +11528,9 @@ function nexuV206HomeScript(isGuest, isOwner, initialAuthMode) {
     }else if(isOwner){
         var menu=document.querySelector("#account .account-menu");
         var logoutForm=menu&&menu.querySelector(".menu-item-form");
+        if(menu&&!menu.querySelector(".nx-v206-overview-link")){
+            var overviewLink=create("a","menu-item nx-v206-overview-link");overviewLink.href="/uebersicht";overviewLink.innerHTML='Übersicht <span>›</span>';menu.insertBefore(overviewLink,logoutForm||null);
+        }
         if(menu&&!menu.querySelector(".nx-v206-owner-link")){
             var ownerLink=create("a","menu-item nx-v206-owner-link");ownerLink.href="/accounts";ownerLink.innerHTML='Owner-Verwaltung <span>›</span>';menu.insertBefore(ownerLink,logoutForm||null);
         }
