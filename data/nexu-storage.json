@@ -4750,16 +4750,16 @@
       "displayName": "Harvey",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[UP] Solo una placa base.",
-      "placeId": 123974602339071,
+      "gameName": "[🔱DUELS] Asesinos VS Sheriffs",
+      "placeId": 135856908115931,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T19:18:11.186Z",
       "firstSeenMs": 1784402291186,
-      "lastSeen": "2026-07-18T19:45:00.000Z",
-      "lastSeenMs": 1784403900000
+      "lastSeen": "2026-07-18T20:15:00.000Z",
+      "lastSeenMs": 1784405700000
     },
     {
       "userId": "11305727417",
@@ -12063,5 +12063,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:16:00.317Z"
+  "updatedAt": "2026-07-18T20:16:26.363Z"
 }
