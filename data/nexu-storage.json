@@ -8031,8 +8031,8 @@
       "displayName": "You",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Территория.io",
-      "placeId": 136391741306783,
+      "gameName": "🌎 Мир.io",
+      "placeId": 86089763581353,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
@@ -12182,5 +12182,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:54:15.737Z"
+  "updatedAt": "2026-07-18T20:54:41.470Z"
 }
