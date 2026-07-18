@@ -5251,8 +5251,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:14.687Z",
       "firstSeenMs": 1784225114687,
-      "lastSeen": "2026-07-16T18:25:00.000Z",
-      "lastSeenMs": 1784226300000
+      "lastSeen": "2026-07-18T21:50:00.000Z",
+      "lastSeenMs": 1784411400000
     },
     {
       "userId": "1970487042",
@@ -9964,6 +9964,23 @@
       "lastSeenMs": 1784257628140
     },
     {
+      "userId": "8665300618",
+      "username": "nay221239",
+      "displayName": "nay221239",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Brookhaven 🏡 RP",
+      "placeId": 4924922222,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T21:51:47.869Z",
+      "firstSeenMs": 1784411507869,
+      "lastSeen": "2026-07-18T21:51:47.869Z",
+      "lastSeenMs": 1784411507869
+    },
+    {
       "userId": "8703565839",
       "username": "CharAlt09",
       "displayName": "BrandonLee",
@@ -12461,5 +12478,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:51:44.972Z"
+  "updatedAt": "2026-07-18T21:51:53.075Z"
 }
