@@ -886,6 +886,23 @@
       "lastSeenMs": 1784333700000
     },
     {
+      "userId": "10628796060",
+      "username": "sah739m",
+      "displayName": "beta",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Sword Fighting Pit ⚔️",
+      "placeId": 119265221596002,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:29:32.025Z",
+      "firstSeenMs": 1784402972025,
+      "lastSeen": "2026-07-18T19:29:32.025Z",
+      "lastSeenMs": 1784402972025
+    },
+    {
       "userId": "10644365347",
       "username": "sakooruclu",
       "displayName": "hacker",
@@ -11659,5 +11676,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:26:00.012Z"
+  "updatedAt": "2026-07-18T19:29:37.571Z"
 }
