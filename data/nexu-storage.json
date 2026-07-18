@@ -593,8 +593,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-18T21:45:00.000Z",
-      "lastSeenMs": 1784411100000
+      "lastSeen": "2026-07-18T21:50:00.000Z",
+      "lastSeenMs": 1784411400000
     },
     {
       "userId": "10427971366",
@@ -1188,8 +1188,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:15.806Z",
       "firstSeenMs": 1784225115806,
-      "lastSeen": "2026-07-18T21:45:00.000Z",
-      "lastSeenMs": 1784411100000
+      "lastSeen": "2026-07-18T21:50:00.000Z",
+      "lastSeenMs": 1784411400000
     },
     {
       "userId": "10780173311",
@@ -2871,8 +2871,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T21:49:15.412Z",
       "firstSeenMs": 1784411355412,
-      "lastSeen": "2026-07-18T21:49:15.412Z",
-      "lastSeenMs": 1784411355412
+      "lastSeen": "2026-07-18T21:50:00.000Z",
+      "lastSeenMs": 1784411400000
     },
     {
       "userId": "11242727349",
@@ -4690,8 +4690,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T17:01:18.405Z",
       "firstSeenMs": 1784307678405,
-      "lastSeen": "2026-07-18T21:45:00.000Z",
-      "lastSeenMs": 1784411100000
+      "lastSeen": "2026-07-18T21:50:00.000Z",
+      "lastSeenMs": 1784411400000
     },
     {
       "userId": "11303186538",
@@ -8609,16 +8609,16 @@
       "displayName": "Lamine_Yamal",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Mistério Assassino 2",
-      "placeId": 142823291,
+      "gameName": "[🏆⚽] Super Futebol da FIFA",
+      "placeId": 12177325772,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T20:49:18.017Z",
       "firstSeenMs": 1784407758017,
-      "lastSeen": "2026-07-18T20:49:18.017Z",
-      "lastSeenMs": 1784407758017
+      "lastSeen": "2026-07-18T21:50:00.000Z",
+      "lastSeenMs": 1784411400000
     },
     {
       "userId": "7548944049",
@@ -12427,5 +12427,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:49:20.466Z"
+  "updatedAt": "2026-07-18T21:50:09.678Z"
 }
