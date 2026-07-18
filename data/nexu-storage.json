@@ -11103,6 +11103,23 @@
       "lastSeenMs": 1784295300000
     },
     {
+      "userId": "9560485554",
+      "username": "Mickeymouse0838",
+      "displayName": "alex",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Arena de Pistolas",
+      "placeId": 87018676608089,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:04:50.575Z",
+      "firstSeenMs": 1784412290575,
+      "lastSeen": "2026-07-18T22:04:50.575Z",
+      "lastSeenMs": 1784412290575
+    },
+    {
       "userId": "9597660305",
       "username": "Tu_hermano699",
       "displayName": "ARM_HERMANO",
@@ -11652,5 +11669,5 @@
     "resetAtMs": 1784412000096,
     "messages": []
   },
-  "updatedAt": "2026-07-18T22:01:36.417Z"
+  "updatedAt": "2026-07-18T22:04:55.579Z"
 }
