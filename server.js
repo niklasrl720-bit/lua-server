@@ -130,6 +130,8 @@ function escapeHtml(value) {return String(value ?? "").replaceAll("&", "&amp;").
 
 function cleanText(value, maxLength) {return typeof value === "string"? value.trim().slice(0, maxLength): "";}
 
+function cleanBannerColorHex(value, fallback = "#19D6FF") {const text = String(value ?? "").trim().toUpperCase();const normalized = text.startsWith("#") ? text : `#${text}`;return /^#[0-9A-F]{6}$/.test(normalized) ? normalized : fallback;}
+
 function cleanNumericId(value) {const text = String(value ?? "").trim();return /^\d{1,30}$/.test(text) ? text : "";}
 
 function cleanInteger(value) {const number = Number(value);return Number.isSafeInteger(number) && number >= 0 ? number : 0;}
@@ -1000,6 +1002,8 @@ function buildPresenceSnapshotSignature(now = Date.now()) {
             row.jobId,
             row.gameName,
             row.scriptBuild,
+            row.bannerColor,
+            row.bannerColorSecondary,
             getNexuRoleInfo(row.userId).key,
         ].map((value) => String(value ?? "")).join("|"))
         .join("\n");
@@ -4783,6 +4787,8 @@ const players = playerRows.map((row) => {
         executionVersion: row.executionVersion || "",
         clientPlatform: row.clientPlatform || "",
         scriptBuild: row.scriptBuild || "",
+        bannerColor: cleanBannerColorHex(row.bannerColor, "#19D6FF"),
+        bannerColorSecondary: cleanBannerColorHex(row.bannerColorSecondary, "#6F46FF"),
         joinedAt: new Date(joinedAtMs).toISOString(),
         firstSeen: new Date(cleanInteger(row.firstSeenMs) || joinedAtMs).toISOString(),
         lastSeen: new Date(lastSeenMs).toISOString(),
@@ -4847,6 +4853,8 @@ return {
             executorVersion: body.executorVersion,
             platform: body.platform,
             buildId: body.buildId,
+            bannerColor: body.bannerColor,
+            bannerColorSecondary: body.bannerColorSecondary,
             clientInfo: body.clientInfo,
         },
     ],
@@ -14941,6 +14949,14 @@ if (req.method === "POST" && pathname === "/api/presence/heartbeat") {
                     (rawPlayer.clientInfo && (rawPlayer.clientInfo.build || rawPlayer.clientInfo.scriptBuild)),
                     120
                 ) || (existing && existing.scriptBuild) || "",
+                bannerColor: cleanBannerColorHex(
+                    rawPlayer.bannerColor,
+                    (existing && existing.bannerColor) || "#19D6FF"
+                ),
+                bannerColorSecondary: cleanBannerColorHex(
+                    rawPlayer.bannerColorSecondary,
+                    (existing && existing.bannerColorSecondary) || "#6F46FF"
+                ),
                 joinedAtMs: sameSession ? existing.joinedAtMs : now,
                 lastSeenMs: now,
             };
