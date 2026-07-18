@@ -818,6 +818,23 @@
       "lastSeenMs": 1784273688503
     },
     {
+      "userId": "10574229502",
+      "username": "518_Wx",
+      "displayName": "Aljuhani",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[WORLD3] +1 Speed Keyboard Escape",
+      "placeId": 93411036959889,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T22:17:24.898Z",
+      "firstSeenMs": 1784413044898,
+      "lastSeen": "2026-07-18T22:17:24.898Z",
+      "lastSeenMs": 1784413044898
+    },
+    {
       "userId": "10590519988",
       "username": "PLATANITO9047",
       "displayName": "PLATANITO9047",
@@ -11719,5 +11736,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T22:17:13.713Z"
+  "updatedAt": "2026-07-18T22:17:29.903Z"
 }
