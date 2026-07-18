@@ -2744,8 +2744,8 @@
       "displayName": "Yrys_pyrys9",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[X10] +1 Скорость сбега с клавиатуры | Конфеты и шоколад",
-      "placeId": 95082159892680,
+      "gameName": "[WORLD2] +1 Скорость побега на клавиатуре",
+      "placeId": 118941584817777,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
@@ -12046,5 +12046,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:13:15.500Z"
+  "updatedAt": "2026-07-18T20:13:25.567Z"
 }
