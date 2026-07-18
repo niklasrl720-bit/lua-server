@@ -11822,16 +11822,16 @@
       "displayName": "jeanfils2354",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[NÉBULEUSE] BloxStrike",
-      "placeId": 114234929420007,
+      "gameName": "Créateur d'Avatar de Catalogue",
+      "placeId": 7041939546,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-18T19:10:00.000Z",
-      "lastSeenMs": 1784401800000
+      "lastSeen": "2026-07-18T23:30:00.000Z",
+      "lastSeenMs": 1784417400000
     },
     {
       "userId": "9812944983",
@@ -12193,5 +12193,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:32:32.242Z"
+  "updatedAt": "2026-07-18T23:33:03.530Z"
 }
