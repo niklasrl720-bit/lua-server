@@ -7516,6 +7516,23 @@
       "lastSeenMs": 1784401239195
     },
     {
+      "userId": "5814344507",
+      "username": "vandaligafb",
+      "displayName": "ICE_Felps",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Batalhas Base 🔫 Tiro com Armas",
+      "placeId": 5326405001,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:36:26.980Z",
+      "firstSeenMs": 1784403386980,
+      "lastSeen": "2026-07-18T19:36:26.980Z",
+      "lastSeenMs": 1784403386980
+    },
+    {
       "userId": "5843349211",
       "username": "mc_saponn",
       "displayName": "afrodite",
@@ -11727,5 +11744,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:36:23.277Z"
+  "updatedAt": "2026-07-18T19:36:31.990Z"
 }
