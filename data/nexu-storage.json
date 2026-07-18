@@ -4741,8 +4741,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T20:36:05.293Z",
       "firstSeenMs": 1784406965293,
-      "lastSeen": "2026-07-18T21:05:00.000Z",
-      "lastSeenMs": 1784408700000
+      "lastSeen": "2026-07-18T21:20:00.000Z",
+      "lastSeenMs": 1784409600000
     },
     {
       "userId": "11303815687",
@@ -12311,8 +12311,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-18T21:07:29.672Z",
         "sentAtMs": 1784408849672
+      },
+      {
+        "id": 1784409872905006,
+        "userId": "11303597513",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Djdjjdkdjdir2",
+        "displayName": "Djdjjdkdjdir2",
+        "message": "Uh is this real",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-18T21:24:32.905Z",
+        "sentAtMs": 1784409872905
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:21:58.617Z"
+  "updatedAt": "2026-07-18T21:24:34.277Z"
 }
