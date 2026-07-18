@@ -8944,6 +8944,23 @@
       "lastSeenMs": 1784285100000
     },
     {
+      "userId": "7941742478",
+      "username": "ilyas_29487",
+      "displayName": "hacki_iy123",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[VOLVO] Driving Empire 🏎️ Autorennen 📦 RP",
+      "placeId": 3351674303,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T20:27:08.463Z",
+      "firstSeenMs": 1784406428463,
+      "lastSeen": "2026-07-18T20:27:08.463Z",
+      "lastSeenMs": 1784406428463
+    },
+    {
       "userId": "7957137706",
       "username": "uerujr2",
       "displayName": "Ishan",
@@ -12080,5 +12097,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T20:26:18.203Z"
+  "updatedAt": "2026-07-18T20:27:14.276Z"
 }
