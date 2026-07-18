@@ -2880,16 +2880,16 @@
       "displayName": "THEchudNugget",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Age of Heroes",
-      "placeId": 4866692557,
+      "gameName": "Super Hero Tycoon",
+      "placeId": 574407221,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T21:49:15.412Z",
       "firstSeenMs": 1784411355412,
-      "lastSeen": "2026-07-18T22:10:00.000Z",
-      "lastSeenMs": 1784412600000
+      "lastSeen": "2026-07-18T22:15:00.000Z",
+      "lastSeenMs": 1784412900000
     },
     {
       "userId": "11242727349",
@@ -11703,5 +11703,5 @@
     "resetAtMs": 1784412000096,
     "messages": []
   },
-  "updatedAt": "2026-07-18T22:15:29.908Z"
+  "updatedAt": "2026-07-18T22:15:40.602Z"
 }
