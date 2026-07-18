@@ -5425,6 +5425,23 @@
       "lastSeenMs": 1784293800000
     },
     {
+      "userId": "236976807",
+      "username": "Matthieuadent",
+      "displayName": "martoz",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Îles 👩‍🌾",
+      "placeId": 4872321990,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T21:03:09.768Z",
+      "firstSeenMs": 1784408589768,
+      "lastSeen": "2026-07-18T21:03:09.768Z",
+      "lastSeenMs": 1784408589768
+    },
+    {
       "userId": "2398075590",
       "username": "20mayo1994",
       "displayName": "ジャジエル",
@@ -12182,5 +12199,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T21:01:00.497Z"
+  "updatedAt": "2026-07-18T21:03:14.972Z"
 }
