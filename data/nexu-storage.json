@@ -5634,16 +5634,16 @@
       "displayName": "iloveviolet",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Fight Others For Brainrots!",
-      "placeId": 75646865566926,
+      "gameName": "+1 Jetpack for Brainrots",
+      "placeId": 80234914611737,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-17T23:40:00.000Z",
-      "lastSeenMs": 1784331600000
+      "lastSeen": "2026-07-18T19:00:00.000Z",
+      "lastSeenMs": 1784401200000
     },
     {
       "userId": "3420728419",
@@ -11542,5 +11542,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:00:44.204Z"
+  "updatedAt": "2026-07-18T19:01:27.584Z"
 }
