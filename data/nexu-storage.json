@@ -376,6 +376,23 @@
       "lastSeenMs": 1784302042384
     },
     {
+      "userId": "10228847559",
+      "username": "TestAcco774",
+      "displayName": "TestAcco774",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "🚋TRANSPORT SIMULATOR 🚌",
+      "placeId": 5219501836,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T23:43:52.381Z",
+      "firstSeenMs": 1784418232381,
+      "lastSeen": "2026-07-18T23:43:52.381Z",
+      "lastSeenMs": 1784418232381
+    },
+    {
       "userId": "10232348197",
       "username": "antirprobloxrampage",
       "displayName": "ima",
@@ -12242,5 +12259,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T23:43:13.171Z"
+  "updatedAt": "2026-07-18T23:43:57.385Z"
 }
