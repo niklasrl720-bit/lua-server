@@ -4711,6 +4711,23 @@
       "lastSeenMs": 1784293800000
     },
     {
+      "userId": "1342925542",
+      "username": "eryck100001",
+      "displayName": "TungTungTungSahur",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Reality",
+      "placeId": 108798177610650,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-18T19:37:40.827Z",
+      "firstSeenMs": 1784403460827,
+      "lastSeen": "2026-07-18T19:37:40.827Z",
+      "lastSeenMs": 1784403460827
+    },
+    {
       "userId": "1356739077",
       "username": "XxjavierXx251clon",
       "displayName": "Javier_gamer",
@@ -11744,5 +11761,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-18T19:36:31.990Z"
+  "updatedAt": "2026-07-18T19:37:45.839Z"
 }
