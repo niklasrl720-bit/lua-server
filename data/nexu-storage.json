@@ -1804,6 +1804,23 @@
       "lastSeenMs": 1784276133682
     },
     {
+      "userId": "10997712573",
+      "username": "godxfather_5",
+      "displayName": "dark_soul",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Blox Fruits | Second Sea",
+      "placeId": 79091703265657,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T02:07:16.300Z",
+      "firstSeenMs": 1784426836300,
+      "lastSeen": "2026-07-19T02:07:16.300Z",
+      "lastSeenMs": 1784426836300
+    },
+    {
       "userId": "10998491696",
       "username": "blockspin1234498",
       "displayName": "Jesus",
@@ -11932,8 +11949,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-19T01:30:00.000Z",
-      "lastSeenMs": 1784424600000
+      "lastSeen": "2026-07-19T02:05:00.000Z",
+      "lastSeenMs": 1784426700000
     },
     {
       "userId": "9262341195",
@@ -13135,5 +13152,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T02:06:00.022Z"
+  "updatedAt": "2026-07-19T02:07:21.328Z"
 }
