@@ -206,6 +206,23 @@
       "lastSeenMs": 1784323200000
     },
     {
+      "userId": "10106185347",
+      "username": "powe5073",
+      "displayName": "GoldenZeroCJ",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[🤑EARN] Pop For Free",
+      "placeId": 99715891575923,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:48:25.321Z",
+      "firstSeenMs": 1784422105321,
+      "lastSeen": "2026-07-19T00:48:25.321Z",
+      "lastSeenMs": 1784422105321
+    },
+    {
       "userId": "10111631181",
       "username": "50_cent7v",
       "displayName": "50_cent7v",
@@ -8298,6 +8315,23 @@
       "lastSeenMs": 1784227800000
     },
     {
+      "userId": "5530552598",
+      "username": "roblox_user_5530552598",
+      "displayName": "MOON_START",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "MM2 Treinador de Mira 2",
+      "placeId": 135193469413243,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:48:29.174Z",
+      "firstSeenMs": 1784422109174,
+      "lastSeen": "2026-07-19T00:48:29.174Z",
+      "lastSeenMs": 1784422109174
+    },
+    {
       "userId": "553726178",
       "username": "cookiemanbenny",
       "displayName": "Donald",
@@ -12561,5 +12595,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:45:41.743Z"
+  "updatedAt": "2026-07-19T00:48:30.663Z"
 }
