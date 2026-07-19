@@ -372,8 +372,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-19T01:00:00.000Z",
-      "lastSeenMs": 1784422800000
+      "lastSeen": "2026-07-19T01:05:00.000Z",
+      "lastSeenMs": 1784423100000
     },
     {
       "userId": "10203550652",
@@ -559,8 +559,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-19T01:00:00.000Z",
-      "lastSeenMs": 1784422800000
+      "lastSeen": "2026-07-19T01:05:00.000Z",
+      "lastSeenMs": 1784423100000
     },
     {
       "userId": "10302526420",
@@ -7172,8 +7172,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:04:38.674Z",
       "firstSeenMs": 1784423078674,
-      "lastSeen": "2026-07-19T01:04:38.674Z",
-      "lastSeenMs": 1784423078674
+      "lastSeen": "2026-07-19T01:05:00.000Z",
+      "lastSeenMs": 1784423100000
     },
     {
       "userId": "4164618378",
@@ -7325,8 +7325,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T00:53:54.557Z",
       "firstSeenMs": 1784422434557,
-      "lastSeen": "2026-07-19T01:00:00.000Z",
-      "lastSeenMs": 1784422800000
+      "lastSeen": "2026-07-19T01:05:00.000Z",
+      "lastSeenMs": 1784423100000
     },
     {
       "userId": "4212061169",
@@ -7907,6 +7907,23 @@
       "lastSeenMs": 1784230500000
     },
     {
+      "userId": "5008535375",
+      "username": "fairwelladmi",
+      "displayName": "fairwelladmi",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Adventure Builder 2",
+      "placeId": 82581651416800,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:05:55.210Z",
+      "firstSeenMs": 1784423155210,
+      "lastSeen": "2026-07-19T01:05:55.210Z",
+      "lastSeenMs": 1784423155210
+    },
+    {
       "userId": "5047269433",
       "username": "Death_Stroky",
       "displayName": "Death_Stroky",
@@ -8090,8 +8107,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:09:58.185Z",
       "firstSeenMs": 1784264998185,
-      "lastSeen": "2026-07-19T01:00:00.000Z",
-      "lastSeenMs": 1784422800000
+      "lastSeen": "2026-07-19T01:05:00.000Z",
+      "lastSeenMs": 1784423100000
     },
     {
       "userId": "5181708696",
@@ -11575,8 +11592,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-19T01:00:00.000Z",
-      "lastSeenMs": 1784422800000
+      "lastSeen": "2026-07-19T01:05:00.000Z",
+      "lastSeenMs": 1784423100000
     },
     {
       "userId": "9262341195",
@@ -12680,5 +12697,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:04:43.680Z"
+  "updatedAt": "2026-07-19T01:06:00.161Z"
 }
