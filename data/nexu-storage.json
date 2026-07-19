@@ -5340,6 +5340,23 @@
       "lastSeenMs": 1784405700000
     },
     {
+      "userId": "11305711565",
+      "username": "eagefqwrwdfw",
+      "displayName": "eagefqwrwdfw",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Tài xế xe buýt Việt Nam 2",
+      "placeId": 13705777238,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T02:23:33.443Z",
+      "firstSeenMs": 1784427813443,
+      "lastSeen": "2026-07-19T02:23:33.443Z",
+      "lastSeenMs": 1784427813443
+    },
+    {
       "userId": "11305727417",
       "username": "HZ15762",
       "displayName": "HZ15762",
@@ -13203,5 +13220,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T02:22:34.203Z"
+  "updatedAt": "2026-07-19T02:23:38.447Z"
 }
