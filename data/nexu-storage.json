@@ -2637,6 +2637,23 @@
       "lastSeenMs": 1784403900000
     },
     {
+      "userId": "11201854858",
+      "username": "multiversezkane2024",
+      "displayName": "multiversezkane2024",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "A Social baseplate 💬",
+      "placeId": 107040115024757,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:12:31.408Z",
+      "firstSeenMs": 1784419951408,
+      "lastSeen": "2026-07-19T00:12:31.408Z",
+      "lastSeenMs": 1784419951408
+    },
+    {
       "userId": "11203703629",
       "username": "Ichbin13I",
       "displayName": "Vadim",
@@ -12344,5 +12361,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:10:18.423Z"
+  "updatedAt": "2026-07-19T00:12:36.412Z"
 }
