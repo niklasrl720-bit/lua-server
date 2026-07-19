@@ -372,8 +372,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-19T00:45:00.000Z",
-      "lastSeenMs": 1784421900000
+      "lastSeen": "2026-07-19T00:50:00.000Z",
+      "lastSeenMs": 1784422200000
     },
     {
       "userId": "10203550652",
@@ -559,8 +559,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-19T00:45:00.000Z",
-      "lastSeenMs": 1784421900000
+      "lastSeen": "2026-07-19T00:50:00.000Z",
+      "lastSeenMs": 1784422200000
     },
     {
       "userId": "10302526420",
@@ -661,8 +661,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-19T00:45:00.000Z",
-      "lastSeenMs": 1784421900000
+      "lastSeen": "2026-07-19T00:50:00.000Z",
+      "lastSeenMs": 1784422200000
     },
     {
       "userId": "10427971366",
@@ -7920,8 +7920,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-19T00:45:00.000Z",
-      "lastSeenMs": 1784421900000
+      "lastSeen": "2026-07-19T00:50:00.000Z",
+      "lastSeenMs": 1784422200000
     },
     {
       "userId": "5131378969",
@@ -8022,8 +8022,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:09:58.185Z",
       "firstSeenMs": 1784264998185,
-      "lastSeen": "2026-07-19T00:45:00.000Z",
-      "lastSeenMs": 1784421900000
+      "lastSeen": "2026-07-19T00:50:00.000Z",
+      "lastSeenMs": 1784422200000
     },
     {
       "userId": "5181708696",
@@ -8328,8 +8328,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T00:48:29.174Z",
       "firstSeenMs": 1784422109174,
-      "lastSeen": "2026-07-19T00:48:29.174Z",
-      "lastSeenMs": 1784422109174
+      "lastSeen": "2026-07-19T00:50:00.000Z",
+      "lastSeenMs": 1784422200000
     },
     {
       "userId": "553726178",
@@ -9724,6 +9724,23 @@
       "firstSeenMs": 1784326218812,
       "lastSeen": "2026-07-17T22:15:00.000Z",
       "lastSeenMs": 1784326500000
+    },
+    {
+      "userId": "7857911516",
+      "username": "DEKUBOPDOMNEM5",
+      "displayName": "toast",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[UP] Just a baseplate.",
+      "placeId": 123974602339071,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:50:07.560Z",
+      "firstSeenMs": 1784422207560,
+      "lastSeen": "2026-07-19T00:50:07.560Z",
+      "lastSeenMs": 1784422207560
     },
     {
       "userId": "7860816256",
@@ -12595,5 +12612,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:48:30.663Z"
+  "updatedAt": "2026-07-19T00:50:12.566Z"
 }
