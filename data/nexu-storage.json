@@ -11431,8 +11431,8 @@
       "displayName": "Femto",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Português",
-      "placeId": 88401347674707,
+      "gameName": "MushYO! 🔊",
+      "placeId": 17274762379,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -12527,5 +12527,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:39:36.991Z"
+  "updatedAt": "2026-07-19T00:39:58.331Z"
 }
