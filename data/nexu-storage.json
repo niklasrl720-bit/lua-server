@@ -1464,6 +1464,23 @@
       "lastSeenMs": 1784233274515
     },
     {
+      "userId": "10826596737",
+      "username": "Luisito91278123",
+      "displayName": "Luisito91278123",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[NETHERITE🌑] Mundo de la Suerte (BLOQUES DE SUERTE DE VÓRTICE)",
+      "placeId": 98780924632701,
+      "executionSource": "Delta",
+      "executionVersion": "1.0.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T02:31:36.365Z",
+      "firstSeenMs": 1784428296365,
+      "lastSeen": "2026-07-19T02:31:36.365Z",
+      "lastSeenMs": 1784428296365
+    },
+    {
       "userId": "10860088451",
       "username": "noname2r50",
       "displayName": "noname2r50",
@@ -13303,5 +13320,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T02:30:09.483Z"
+  "updatedAt": "2026-07-19T02:31:41.615Z"
 }
