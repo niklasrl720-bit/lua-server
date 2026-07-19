@@ -372,8 +372,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-19T01:40:00.000Z",
-      "lastSeenMs": 1784425200000
+      "lastSeen": "2026-07-19T01:45:00.000Z",
+      "lastSeenMs": 1784425500000
     },
     {
       "userId": "10203550652",
@@ -559,8 +559,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-19T01:40:00.000Z",
-      "lastSeenMs": 1784425200000
+      "lastSeen": "2026-07-19T01:45:00.000Z",
+      "lastSeenMs": 1784425500000
     },
     {
       "userId": "10302526420",
@@ -5880,8 +5880,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:39:54.772Z",
       "firstSeenMs": 1784425194772,
-      "lastSeen": "2026-07-19T01:40:00.000Z",
-      "lastSeenMs": 1784425200000
+      "lastSeen": "2026-07-19T01:45:00.000Z",
+      "lastSeenMs": 1784425500000
     },
     {
       "userId": "2065199494",
@@ -10266,8 +10266,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:37:32.519Z",
       "firstSeenMs": 1784425052519,
-      "lastSeen": "2026-07-19T01:40:00.000Z",
-      "lastSeenMs": 1784425200000
+      "lastSeen": "2026-07-19T01:45:00.000Z",
+      "lastSeenMs": 1784425500000
     },
     {
       "userId": "8084788172",
@@ -10972,16 +10972,16 @@
       "displayName": "iamjeffy",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Murderers VS Sheriffs DUELS",
-      "placeId": 12355337193,
+      "gameName": "Hide and Seek Extreme",
+      "placeId": 205224386,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T22:15:24.905Z",
       "firstSeenMs": 1784412924905,
-      "lastSeen": "2026-07-18T22:15:24.905Z",
-      "lastSeenMs": 1784412924905
+      "lastSeen": "2026-07-19T01:45:00.000Z",
+      "lastSeenMs": 1784425500000
     },
     {
       "userId": "8637145710",
@@ -11201,8 +11201,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-19T01:40:00.000Z",
-      "lastSeenMs": 1784425200000
+      "lastSeen": "2026-07-19T01:45:00.000Z",
+      "lastSeenMs": 1784425500000
     },
     {
       "userId": "8808861528",
@@ -12255,8 +12255,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:40:08.755Z",
       "firstSeenMs": 1784425208755,
-      "lastSeen": "2026-07-19T01:40:08.755Z",
-      "lastSeenMs": 1784425208755
+      "lastSeen": "2026-07-19T01:45:00.000Z",
+      "lastSeenMs": 1784425500000
     },
     {
       "userId": "9553753879",
@@ -12965,5 +12965,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:41:46.782Z"
+  "updatedAt": "2026-07-19T01:45:42.480Z"
 }
