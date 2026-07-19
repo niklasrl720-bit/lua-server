@@ -10266,8 +10266,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:37:32.519Z",
       "firstSeenMs": 1784425052519,
-      "lastSeen": "2026-07-19T01:37:32.519Z",
-      "lastSeenMs": 1784425052519
+      "lastSeen": "2026-07-19T01:40:00.000Z",
+      "lastSeenMs": 1784425200000
     },
     {
       "userId": "8084788172",
@@ -12932,8 +12932,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-19T00:30:25.561Z",
         "sentAtMs": 1784421025561
+      },
+      {
+        "id": 1784425296950014,
+        "userId": "8083348343",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Anderson_212112",
+        "displayName": "c00lkid",
+        "message": "sup",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-19T01:41:36.950Z",
+        "sentAtMs": 1784425296950
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:40:13.760Z"
+  "updatedAt": "2026-07-19T01:41:37.971Z"
 }
