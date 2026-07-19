@@ -87,6 +87,23 @@
       "lastSeenMs": 1784257589715
     },
     {
+      "userId": "10045046840",
+      "username": "talonte866",
+      "displayName": "talonte866",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[CURE] Violence District",
+      "placeId": 93978595733734,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:38:02.746Z",
+      "firstSeenMs": 1784421482746,
+      "lastSeen": "2026-07-19T00:38:02.746Z",
+      "lastSeenMs": 1784421482746
+    },
+    {
       "userId": "10063862509",
       "username": "ssbcmatgthkmrjbkr",
       "displayName": "System",
@@ -12510,5 +12527,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:37:35.620Z"
+  "updatedAt": "2026-07-19T00:38:07.751Z"
 }
