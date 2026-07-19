@@ -12026,16 +12026,16 @@
       "displayName": "Femto",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "MushYO! 🔊",
-      "placeId": 17274762379,
+      "gameName": "[⚽] 18+ Conheça Pessoas ao Redor do Mundo 🔊",
+      "placeId": 110570058234582,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-19T02:10:00.000Z",
-      "lastSeenMs": 1784427000000
+      "lastSeen": "2026-07-19T02:25:00.000Z",
+      "lastSeenMs": 1784427900000
     },
     {
       "userId": "9262341195",
@@ -13269,5 +13269,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T02:25:59.223Z"
+  "updatedAt": "2026-07-19T02:26:38.080Z"
 }
