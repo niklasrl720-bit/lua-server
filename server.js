@@ -14067,9 +14067,9 @@ homeHtml = function(...args) {
 
 
 /* --------------------------------------------------------------------------
- * NEXU V224 // PUBLIC LUA OBFUSCATOR
- * Öffentlicher Startseiten-Obfuscator mit eigenem Upload-Limit, serverseitiger
- * Zufallsverschlüsselung, Integritätsprüfung und missbrauchsarmem Rate-Limit.
+ * NEXU V226 // NUMERIC XTEA-ARX LUA/LUAU OBFUSCATOR
+ * Öffentlicher Startseiten-Obfuscator mit eigenem Upload-Limit, numerischer XTEA-/ARX-Verschlüsselung, Zahlenblöcken, Blockmischung,
+ * mehrstufiger Integritätsprüfung und Rate-Limit.
  * -------------------------------------------------------------------------- */
 
 const NEXU_V224_BASE_HOME_HTML = homeHtml;
@@ -14190,88 +14190,468 @@ function shuffleNexuArray(values) {
     return values;
 }
 
+function nexuRandomUInt32(nonZero = false) {
+    let value = 0;
+    do value = crypto.randomBytes(4).readUInt32LE(0); while (nonZero && value === 0);
+    return value >>> 0;
+}
+
+function nexuRotateLeft32(value, shift) {
+    const normalizedShift = shift & 31;
+    const unsignedValue = value >>> 0;
+    if (normalizedShift === 0) return unsignedValue;
+    return ((unsignedValue << normalizedShift) | (unsignedValue >>> (32 - normalizedShift))) >>> 0;
+}
+
+function nexuXorShift32(value) {
+    let state = value >>> 0;
+    state = (state ^ (state << 13)) >>> 0;
+    state = (state ^ (state >>> 17)) >>> 0;
+    state = (state ^ (state << 5)) >>> 0;
+    return state >>> 0;
+}
+
+function nexuCreateRandomBase64Alphabet() {
+    return shuffleNexuArray(Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/" )).join("");
+}
+
+function nexuEncodeWithAlphabet(buffer, alphabet) {
+    const output = [];
+    for (let index = 0; index < buffer.length; index += 3) {
+        const a = buffer[index];
+        const hasB = index + 1 < buffer.length;
+        const hasC = index + 2 < buffer.length;
+        const b = hasB ? buffer[index + 1] : 0;
+        const c = hasC ? buffer[index + 2] : 0;
+        const packed = (a << 16) | (b << 8) | c;
+        output.push(
+            alphabet[(packed >>> 18) & 63],
+            alphabet[(packed >>> 12) & 63],
+            hasB ? alphabet[(packed >>> 6) & 63] : "=",
+            hasC ? alphabet[packed & 63] : "="
+        );
+    }
+    return output.join("");
+}
+
+function nexuMixPayloadBlock(buffer, mode, shift) {
+    if (buffer.length < 2) return Buffer.from(buffer);
+    const normalizedShift = shift % buffer.length;
+    let transformed = Buffer.from(buffer);
+
+    if (mode === 0 || mode === 2) transformed.reverse();
+    if ((mode === 1 || mode === 2) && normalizedShift > 0) {
+        transformed = Buffer.concat([
+            transformed.subarray(normalizedShift),
+            transformed.subarray(0, normalizedShift),
+        ]);
+    }
+    return transformed;
+}
+
 function obfuscateNexuLuaSource(source) {
     const sourceBuffer = Buffer.from(source, "utf8");
-    const seed = crypto.randomInt(1, 2_147_483_647);
-    const key = buildNexuObfuscatorKey(seed);
-    const encryptedReversed = Buffer.allocUnsafe(sourceBuffer.length);
-    let checksum = 0;
+    const originalLength = sourceBuffer.length;
+    const paddedLength = Math.ceil(Math.max(1, originalLength) / 8) * 8;
+    const padded = Buffer.allocUnsafe(paddedLength);
+    sourceBuffer.copy(padded, 0);
+    if (paddedLength > originalLength) crypto.randomFillSync(padded, originalLength);
 
-    for (let index = 0; index < sourceBuffer.length; index += 1) {
-        const sourceByte = sourceBuffer[index];
-        checksum = (checksum * 131 + sourceByte) % 2_147_483_647;
-        const saltA = (index * 29 + 71) % 256;
-        const saltB = ((index % 251) * (index % 17) + 13) % 256;
-        const encryptedByte = (sourceByte + key[index % key.length] + saltA + saltB) % 256;
-        encryptedReversed[sourceBuffer.length - index - 1] = encryptedByte;
+    const MODULO = 0x1_0000_0000;
+    const XTEA_DELTA = 0x9E3779B9 >>> 0;
+    const XTEA_ROUNDS = 32;
+    const keyWords = Array.from({ length: 4 }, () => nexuRandomUInt32());
+    const streamSeedA = nexuRandomUInt32(true);
+    const streamSeedB = nexuRandomUInt32(true);
+    const streamStep = nexuRandomUInt32(true) | 1;
+    const streamConstant = nexuRandomUInt32(true);
+    const postKeyA = nexuRandomUInt32();
+    const postKeyB = nexuRandomUInt32();
+
+    function add32(...values) {
+        let result = 0;
+        for (const value of values) result = (result + (Number(value) >>> 0)) >>> 0;
+        return result >>> 0;
     }
 
-    const encoded = encryptedReversed.toString("base64");
-    const payloadChunks = [];
-    for (let offset = 0; offset < encoded.length;) {
-        let chunkLength = crypto.randomInt(3_072, 6_145);
-        chunkLength -= chunkLength % 4;
-        if (chunkLength < 4) chunkLength = 4;
-        payloadChunks.push(encoded.slice(offset, offset + chunkLength));
-        offset += chunkLength;
+    function sub32(a, b) {
+        return ((a >>> 0) - (b >>> 0)) >>> 0;
     }
 
-    const usedKeys = new Set();
-    function nextTableKey() {
+    function readUInt32LE(buffer, offset) {
+        return (
+            buffer[offset]
+            + buffer[offset + 1] * 0x100
+            + buffer[offset + 2] * 0x1_0000
+            + buffer[offset + 3] * 0x100_0000
+        ) >>> 0;
+    }
+
+    function xteaEncryptPair(leftValue, rightValue) {
+        let left = leftValue >>> 0;
+        let right = rightValue >>> 0;
+        let sum = 0;
+        for (let round = 0; round < XTEA_ROUNDS; round += 1) {
+            const firstMix = (
+                ((((right << 4) ^ (right >>> 5)) + right) >>> 0)
+                ^ add32(sum, keyWords[sum & 3])
+            ) >>> 0;
+            left = add32(left, firstMix);
+            sum = add32(sum, XTEA_DELTA);
+            const secondMix = (
+                ((((left << 4) ^ (left >>> 5)) + left) >>> 0)
+                ^ add32(sum, keyWords[(sum >>> 11) & 3])
+            ) >>> 0;
+            right = add32(right, secondMix);
+        }
+        return [left >>> 0, right >>> 0];
+    }
+
+    function calculatePlainChecksums(buffer) {
+        let first = nexuRandomUInt32();
+        let second = nexuRandomUInt32();
+        const firstSeed = first;
+        const secondSeed = second;
+        for (let index = 0; index < buffer.length; index += 1) {
+            const byte = buffer[index];
+            first = add32(first, byte, (index + 1) % 65_521);
+            second = (nexuRotateLeft32(second, 7) ^ byte ^ (index >>> 0)) >>> 0;
+        }
+        return { first, second, firstSeed, secondSeed };
+    }
+
+    const plainChecksums = calculatePlainChecksums(sourceBuffer);
+    const encryptedWords = [];
+    let stateAValue = streamSeedA;
+    let stateBValue = streamSeedB;
+
+    for (let offset = 0, pairIndex = 0; offset < padded.length; offset += 8, pairIndex += 1) {
+        stateAValue = nexuXorShift32(add32(stateAValue, streamConstant, pairIndex));
+        stateBValue = nexuXorShift32(add32(
+            stateBValue,
+            stateAValue,
+            Math.imul(pairIndex + 1, streamStep) >>> 0
+        ));
+
+        const plainLeft = readUInt32LE(padded, offset);
+        const plainRight = readUInt32LE(padded, offset + 4);
+        const whiteLeft = (plainLeft ^ stateAValue) >>> 0;
+        const whiteRight = (plainRight ^ nexuRotateLeft32(stateBValue, (pairIndex % 29) + 1)) >>> 0;
+        const [cipherLeft, cipherRight] = xteaEncryptPair(whiteLeft, whiteRight);
+        const storedLeft = add32(
+            cipherLeft,
+            nexuRotateLeft32((stateAValue ^ postKeyA) >>> 0, (pairIndex % 13) + 3)
+        );
+        const storedRight = (
+            cipherRight
+            ^ add32(stateBValue, postKeyB, Math.imul(pairIndex, streamStep) >>> 0)
+        ) >>> 0;
+        encryptedWords.push(storedLeft, storedRight);
+    }
+
+    let encryptedChecksumA = nexuRandomUInt32();
+    let encryptedChecksumB = nexuRandomUInt32();
+    const encryptedChecksumSeedA = encryptedChecksumA;
+    const encryptedChecksumSeedB = encryptedChecksumB;
+    for (let index = 0; index < encryptedWords.length; index += 1) {
+        const word = encryptedWords[index] >>> 0;
+        encryptedChecksumA = add32(nexuRotateLeft32(encryptedChecksumA, 3), word, (index + 1) * 17);
+        encryptedChecksumB = (nexuRotateLeft32(encryptedChecksumB, 11) ^ word ^ index) >>> 0;
+    }
+
+    function encodeNumericChunk(words) {
+        const mode = crypto.randomInt(0, 8);
+        const shift = words.length > 1 ? crypto.randomInt(1, words.length) : 0;
+        const seed = nexuRandomUInt32(true);
+        const addValue = nexuRandomUInt32();
+        const rotation = crypto.randomInt(1, 32);
+        const oddStep = crypto.randomInt(3_001, 65_521) | 1;
+        const salt = nexuRandomUInt32();
+        const xorValue = nexuRandomUInt32();
+        let state = seed;
+        let values = words.map((word, index) => {
+            state = nexuXorShift32(add32(state, index, salt));
+            const mask = nexuRotateLeft32((state ^ xorValue) >>> 0, ((index + rotation) % 31) + 1);
+            const mixed = add32((word ^ mask) >>> 0, addValue, Math.imul(index, oddStep) >>> 0);
+            return nexuRotateLeft32(mixed, rotation);
+        });
+
+        if (mode & 1) values.reverse();
+        if ((mode & 2) && values.length > 1 && shift) {
+            values = values.slice(shift).concat(values.slice(0, shift));
+        }
+        if (mode & 4) {
+            for (let index = 0; index + 1 < values.length; index += 2) {
+                [values[index], values[index + 1]] = [values[index + 1], values[index]];
+            }
+        }
+
+        return {
+            mode,
+            shift,
+            seed,
+            addValue,
+            rotation,
+            oddStep,
+            count: words.length,
+            salt,
+            xorValue,
+            values,
+        };
+    }
+
+    const usedChunkKeys = new Set();
+    function nextChunkKey() {
         let value = 0;
-        do value = crypto.randomInt(100_000, 9_999_999); while (usedKeys.has(value));
-        usedKeys.add(value);
+        do value = crypto.randomInt(100_000, 999_999_999); while (usedChunkKeys.has(value));
+        usedChunkKeys.add(value);
         return value;
     }
 
-    const orderKeys = payloadChunks.map(() => nextTableKey());
-    const tableEntries = payloadChunks.map((chunk, index) => ({ key: orderKeys[index], chunk }));
-    const decoyCount = crypto.randomInt(3, 7);
-    for (let index = 0; index < decoyCount; index += 1) {
-        tableEntries.push({
-            key: nextTableKey(),
-            chunk: crypto.randomBytes(crypto.randomInt(36, 120)).toString("base64"),
-        });
+    const payloadRows = [];
+    const realChunkKeys = [];
+    for (let offset = 0; offset < encryptedWords.length;) {
+        const remaining = encryptedWords.length - offset;
+        const chunkLength = Math.min(remaining, crypto.randomInt(384, 1_281));
+        const key = nextChunkKey();
+        realChunkKeys.push(key);
+        payloadRows.push({ key, chunk: encodeNumericChunk(encryptedWords.slice(offset, offset + chunkLength)) });
+        offset += chunkLength;
     }
-    shuffleNexuArray(tableEntries);
 
-    const names = Array.from({ length: 21 }, () => nexuRandomLuaName());
-    const [payloadTable, orderTable, alphabet, lookup, decodeFunction, inputValue, outputTable, outputCount,
-        accumulator, bitCount, loopIndex, characterCode, decodedValue, divisor, orderedParts, encryptedData,
-        stateName, keyTable, sourceTable, sourceChecksum, sourceLength] = names;
-
-    const payloadLines = tableEntries.map((entry) => ` [${entry.key}]=\"${entry.chunk}\",`).join("\n");
-    const orderLine = orderKeys.join(",");
-    const seedExpression = nexuLuaNumberExpression(seed);
-    const lengthExpression = nexuLuaNumberExpression(sourceBuffer.length);
-    const checksumExpression = nexuLuaNumberExpression(checksum);
-
-    const code = `--[[NEXU OBFUSCATED // V224]]\nreturn(function(...)\nlocal ${payloadTable}={\n${payloadLines}\n}\nlocal ${orderTable}={${orderLine}}\nlocal ${orderedParts}={}\nfor ${loopIndex}=1,#${orderTable} do ${orderedParts}[${loopIndex}]=${payloadTable}[${orderTable}[${loopIndex}]] end\nlocal ${alphabet}=\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/\"\nlocal ${lookup}={}\nfor ${loopIndex}=1,#${alphabet} do ${lookup}[string.byte(${alphabet},${loopIndex})]=${loopIndex}-1 end\nlocal function ${decodeFunction}(${inputValue})\n local ${outputTable},${outputCount},{acc},{bits}={},0,0,0\n for ${loopIndex}=1,#${inputValue} do\n  local ${characterCode}=string.byte(${inputValue},${loopIndex})\n  if ${characterCode}==61 then break end\n  local ${decodedValue}=${lookup}[${characterCode}]\n  if ${decodedValue}~=nil then\n   {acc}={acc}*64+${decodedValue};{bits}={bits}+6\n   if {bits}>=8 then\n    {bits}={bits}-8\n    local ${divisor}=2^{bits}\n    ${outputCount}=${outputCount}+1\n    ${outputTable}[${outputCount}]=string.char(math.floor({acc}/${divisor})%256)\n    {acc}={acc}%${divisor}\n   end\n  end\n end\n return table.concat(${outputTable})\nend\nlocal ${encryptedData}=${decodeFunction}(table.concat(${orderedParts}))\nlocal ${stateName}=${seedExpression}\nlocal ${keyTable}={}\nfor ${loopIndex}=1,64 do ${stateName}=(${stateName}*48271)%2147483647;${keyTable}[${loopIndex}]=${stateName}%256 end\nlocal ${sourceTable},${sourceChecksum},{n}={},0,#${encryptedData}\nfor ${loopIndex}=1,{n} do\n local {j}=${loopIndex}-1\n local {x}=string.byte(${encryptedData},{n}-${loopIndex}+1)\n local {b}=({x}-${keyTable}[({j}%64)+1]-(({j}*29+71)%256)-((({j}%251)*({j}%17)+13)%256))%256\n ${sourceTable}[${loopIndex}]=string.char({b})\n ${sourceChecksum}=(${sourceChecksum}*131+{b})%2147483647\nend\nif {n}~=${lengthExpression} or ${sourceChecksum}~=${checksumExpression} then error(\"NEXU payload integrity error\",0) end\nlocal ${sourceLength}=table.concat(${sourceTable})\nlocal {loader}=loadstring or load\nif type({loader})~=\"function\" then error(\"loadstring is required to run this obfuscated script\",0) end\nlocal {compiled},{compileError}={loader}(${sourceLength})\nif not {compiled} then error({compileError} or \"NEXU compile error\",0) end\nreturn {compiled}(...)\nend)(...)`;
-
-    const replacementNames = {
-        acc: accumulator,
-        bits: bitCount,
-        n: nexuRandomLuaName(),
-        j: nexuRandomLuaName(),
-        x: nexuRandomLuaName(),
-        b: nexuRandomLuaName(),
-        loader: nexuRandomLuaName(),
-        compiled: nexuRandomLuaName(),
-        compileError: nexuRandomLuaName(),
-    };
-    let finalizedCode = code;
-    for (const [placeholder, replacement] of Object.entries(replacementNames)) {
-        finalizedCode = finalizedCode.split(`{${placeholder}}`).join(replacement);
+    const averageChunkSize = Math.max(64, Math.min(512, Math.ceil(encryptedWords.length / Math.max(1, realChunkKeys.length))));
+    const decoyChunkCount = crypto.randomInt(9, 18);
+    for (let decoyIndex = 0; decoyIndex < decoyChunkCount; decoyIndex += 1) {
+        const decoyLength = crypto.randomInt(24, averageChunkSize + 25);
+        const decoyWords = Array.from({ length: decoyLength }, () => nexuRandomUInt32());
+        payloadRows.push({ key: nextChunkKey(), chunk: encodeNumericChunk(decoyWords) });
     }
+    shuffleNexuArray(payloadRows);
+
+    const orderMask = nexuRandomUInt32();
+    const orderAdd = crypto.randomInt(4_001, 60_001) | 1;
+    const encodedOrder = realChunkKeys.map((key, index) => (
+        ((key ^ orderMask) >>> 0) + Math.imul(index + 1, orderAdd)
+    ) >>> 0);
+
+    function luaUInt32Literal(value) {
+        return String(Number(value) >>> 0);
+    }
+
+    function formatNumericValues(values, indent = "  ", perLine = 18) {
+        const lines = [];
+        for (let index = 0; index < values.length; index += perLine) {
+            lines.push(indent + values.slice(index, index + perLine).map(luaUInt32Literal).join(",") + ",");
+        }
+        return lines.join("\n");
+    }
+
+    function formatChunkRow(row) {
+        const chunk = row.chunk;
+        const metadata = [
+            chunk.mode,
+            chunk.shift,
+            chunk.seed,
+            chunk.addValue,
+            chunk.rotation,
+            chunk.oddStep,
+            chunk.count,
+            chunk.salt,
+            chunk.xorValue,
+        ].map(luaUInt32Literal).join(",");
+        return ` [${luaUInt32Literal(row.key)}]={${metadata},\n${formatNumericValues(chunk.values, "  ", 16)}\n },`;
+    }
+
+    const payloadLines = payloadRows.map(formatChunkRow).join("\n");
+    const orderLines = formatNumericValues(encodedOrder, " ", 14);
+    const names = Array.from({ length: 140 }, () => nexuRandomLuaName());
+    const [payloadTable, orderTable, moduloName, floorName, concatName, charName, globalName, bitLibName,
+        bxorName, bandName, lshiftName, rshiftName, normalizeName, bitPairName, bitAName, bitBName,
+        bitResultName, bitPowerName, bitIndexName, bitAAName, bitBBName, rotateLeftName, rotateRightName,
+        rotateValueName, rotateAmountName, xorshiftName, xorshiftValueName, unpermuteName, rowName,
+        countName, valuesName, indexName, shiftName, rotatedName, decodedChunkName, chunkOutputName,
+        chunkStateName, chunkMaskName, chunkTempName, chunkWordName, wordsName, wordsCountName,
+        orderMaskName, orderAddName, encodedKeyName, chunkKeyName, cipherCheckAName, cipherCheckBName,
+        keyTableName, stateAName, stateBName, streamStepName, streamConstantName, postKeyAName,
+        postKeyBName, deltaName, roundsName, pairIndexName, leftName, rightName, sumName, roundName,
+        mixName, keyIndexName, outputName, outputCountName, byteOneName, byteTwoName, byteThreeName,
+        byteFourName, plainCheckAName, plainCheckBName, originalLengthName, sourceName, loaderName,
+        compiledName, compileErrorName, pairCountName, storedLeftName, storedRightName, whiteLeftName,
+        whiteRightName, sourceIndexName, pureBitModeName, chunkDataIndexName, modeName, saltName,
+        xorValueName, oddStepName, addName, rotationName, payloadCountName, expectedWordsName,
+        cipherSeedAName, cipherSeedBName, plainSeedAName, plainSeedBName, temporaryTableName,
+        temporaryIndexName, expectedChunkCountName, decodedChunkResultName] = names;
+
+    const finalizedCode = `--[[NEXU OBFUSCATED // V226 NUMERIC XTEA-ARX // LUA 5.1+ & LUAU]]
+return(function(...)
+local ${payloadTable}={
+${payloadLines}
+}
+local ${orderTable}={
+${orderLines}
+}
+local ${moduloName}=4294967296
+local ${floorName},${concatName},${charName}=math.floor,table.concat,string.char
+local ${globalName}=(_G or {})
+local ${bitLibName}=rawget(${globalName},"bit32") or rawget(${globalName},"bit")
+local ${bxorName},${bandName},${lshiftName},${rshiftName}
+local function ${normalizeName}(x)return x%${moduloName} end
+if type(${bitLibName})=="table" and type(${bitLibName}.bxor)=="function" then
+ ${bxorName}=function(a,b)return ${normalizeName}(${bitLibName}.bxor(a,b))end
+ ${bandName}=function(a,b)return ${normalizeName}(${bitLibName}.band(a,b))end
+ ${lshiftName}=function(a,b)return ${normalizeName}(${bitLibName}.lshift(a,b))end
+ ${rshiftName}=function(a,b)return ${normalizeName}(${bitLibName}.rshift(a,b))end
+else
+ local function ${bitPairName}(${bitAName},${bitBName},${pureBitModeName})
+  ${bitAName}=${normalizeName}(${bitAName});${bitBName}=${normalizeName}(${bitBName})
+  local ${bitResultName},${bitPowerName}=0,1
+  for ${bitIndexName}=1,32 do
+   local ${bitAAName},${bitBBName}=${bitAName}%2,${bitBName}%2
+   if (${pureBitModeName}==1 and ${bitAAName}~=${bitBBName}) or (${pureBitModeName}==2 and ${bitAAName}==1 and ${bitBBName}==1) then ${bitResultName}=${bitResultName}+${bitPowerName} end
+   ${bitAName}=(${bitAName}-${bitAAName})/2;${bitBName}=(${bitBName}-${bitBBName})/2;${bitPowerName}=${bitPowerName}*2
+  end
+  return ${bitResultName}
+ end
+ ${bxorName}=function(a,b)return ${bitPairName}(a,b,1)end
+ ${bandName}=function(a,b)return ${bitPairName}(a,b,2)end
+ ${lshiftName}=function(a,b)b=b%32;if b==0 then return ${normalizeName}(a) end;return (a%(2^(32-b)))*(2^b)end
+ ${rshiftName}=function(a,b)b=b%32;if b==0 then return ${normalizeName}(a) end;return ${floorName}(${normalizeName}(a)/(2^b))end
+end
+local function ${rotateLeftName}(${rotateValueName},${rotateAmountName})
+ ${rotateAmountName}=${rotateAmountName}%32
+ if ${rotateAmountName}==0 then return ${normalizeName}(${rotateValueName}) end
+ return ${normalizeName}(${lshiftName}(${rotateValueName},${rotateAmountName})+${rshiftName}(${rotateValueName},32-${rotateAmountName}))
+end
+local function ${rotateRightName}(${rotateValueName},${rotateAmountName})
+ ${rotateAmountName}=${rotateAmountName}%32
+ if ${rotateAmountName}==0 then return ${normalizeName}(${rotateValueName}) end
+ return ${normalizeName}(${rshiftName}(${rotateValueName},${rotateAmountName})+${lshiftName}(${rotateValueName},32-${rotateAmountName}))
+end
+local function ${xorshiftName}(${xorshiftValueName})
+ ${xorshiftValueName}=${bxorName}(${xorshiftValueName},${lshiftName}(${xorshiftValueName},13))
+ ${xorshiftValueName}=${bxorName}(${xorshiftValueName},${rshiftName}(${xorshiftValueName},17))
+ ${xorshiftValueName}=${bxorName}(${xorshiftValueName},${lshiftName}(${xorshiftValueName},5))
+ return ${normalizeName}(${xorshiftValueName})
+end
+local function ${unpermuteName}(${rowName})
+ local ${countName}=${rowName}[7]
+ local ${valuesName}={}
+ for ${indexName}=1,${countName} do ${valuesName}[${indexName}]=${normalizeName}(${rowName}[${indexName}+9]) end
+ local ${modeName}=${rowName}[1]
+ if ${floorName}(${modeName}/4)%2==1 then
+  for ${indexName}=1,${countName}-1,2 do ${valuesName}[${indexName}],${valuesName}[${indexName}+1]=${valuesName}[${indexName}+1],${valuesName}[${indexName}] end
+ end
+ if ${floorName}(${modeName}/2)%2==1 and ${countName}>1 then
+  local ${shiftName}=${rowName}[2]%${countName}
+  if ${shiftName}~=0 then
+   local ${rotatedName}={}
+   for ${indexName}=1,${countName} do ${rotatedName}[${indexName}]=${valuesName}[((${indexName}-${shiftName}-1)%${countName})+1] end
+   ${valuesName}=${rotatedName}
+  end
+ end
+ if ${modeName}%2==1 then
+  local ${temporaryTableName}={}
+  for ${temporaryIndexName}=1,${countName} do ${temporaryTableName}[${temporaryIndexName}]=${valuesName}[${countName}-${temporaryIndexName}+1] end
+  ${valuesName}=${temporaryTableName}
+ end
+ return ${valuesName}
+end
+local function ${decodedChunkName}(${rowName})
+ local ${valuesName}=${unpermuteName}(${rowName})
+ local ${chunkOutputName}={}
+ local ${chunkStateName},${addName},${rotationName},${oddStepName},${saltName},${xorValueName}=${rowName}[3],${rowName}[4],${rowName}[5],${rowName}[6],${rowName}[8],${rowName}[9]
+ for ${indexName}=1,${rowName}[7] do
+  local ${sourceIndexName}=${indexName}-1
+  ${chunkStateName}=${xorshiftName}((${chunkStateName}+${sourceIndexName}+${saltName})%${moduloName})
+  local ${chunkMaskName}=${rotateLeftName}(${bxorName}(${chunkStateName},${xorValueName}),((${sourceIndexName}+${rotationName})%31)+1)
+  local ${chunkTempName}=${rotateRightName}(${valuesName}[${indexName}],${rotationName})
+  local ${chunkWordName}=${bxorName}((${chunkTempName}-${addName}-(${sourceIndexName}*${oddStepName}))%${moduloName},${chunkMaskName})
+  ${chunkOutputName}[${indexName}]=${chunkWordName}
+ end
+ return ${chunkOutputName}
+end
+local ${wordsName},${wordsCountName}={},0
+local ${orderMaskName},${orderAddName}=${luaUInt32Literal(orderMask)},${luaUInt32Literal(orderAdd)}
+for ${indexName}=1,#${orderTable} do
+ local ${encodedKeyName}=${normalizeName}(${orderTable}[${indexName}]-${indexName}*${orderAddName})
+ local ${chunkKeyName}=${bxorName}(${encodedKeyName},${orderMaskName})
+ local ${rowName}=${payloadTable}[${chunkKeyName}]
+ if type(${rowName})~="table" then error("NEXU numeric payload map error",0) end
+ local ${decodedChunkResultName}=${decodedChunkName}(${rowName})
+ for ${chunkDataIndexName}=1,#${decodedChunkResultName} do ${wordsCountName}=${wordsCountName}+1;${wordsName}[${wordsCountName}]=${decodedChunkResultName}[${chunkDataIndexName}] end
+end
+local ${expectedWordsName}=${luaUInt32Literal(encryptedWords.length)}
+local ${expectedChunkCountName}=${luaUInt32Literal(realChunkKeys.length)}
+if ${wordsCountName}~=${expectedWordsName} or #${orderTable}~=${expectedChunkCountName} then error("NEXU numeric payload length error",0) end
+local ${cipherCheckAName},${cipherCheckBName}=${luaUInt32Literal(encryptedChecksumSeedA)},${luaUInt32Literal(encryptedChecksumSeedB)}
+for ${indexName}=1,${wordsCountName} do
+ local ${chunkWordName}=${wordsName}[${indexName}]
+ ${cipherCheckAName}=(${rotateLeftName}(${cipherCheckAName},3)+${chunkWordName}+${indexName}*17)%${moduloName}
+ ${cipherCheckBName}=${bxorName}(${bxorName}(${rotateLeftName}(${cipherCheckBName},11),${chunkWordName}),${indexName}-1)
+end
+if ${cipherCheckAName}~=${luaUInt32Literal(encryptedChecksumA)} or ${cipherCheckBName}~=${luaUInt32Literal(encryptedChecksumB)} then error("NEXU encrypted numeric integrity error",0) end
+local ${keyTableName}={${keyWords.map(luaUInt32Literal).join(",")}}
+local ${stateAName},${stateBName}=${luaUInt32Literal(streamSeedA)},${luaUInt32Literal(streamSeedB)}
+local ${streamStepName},${streamConstantName},${postKeyAName},${postKeyBName}=${luaUInt32Literal(streamStep)},${luaUInt32Literal(streamConstant)},${luaUInt32Literal(postKeyA)},${luaUInt32Literal(postKeyB)}
+local ${deltaName},${roundsName}=${luaUInt32Literal(XTEA_DELTA)},${luaUInt32Literal(XTEA_ROUNDS)}
+local ${originalLengthName}=${luaUInt32Literal(originalLength)}
+local ${plainCheckAName},${plainCheckBName}=${luaUInt32Literal(plainChecksums.firstSeed)},${luaUInt32Literal(plainChecksums.secondSeed)}
+local ${outputName},${outputCountName}={},0
+local function ${payloadCountName}(w)
+ return w%256,${floorName}(w/256)%256,${floorName}(w/65536)%256,${floorName}(w/16777216)%256
+end
+local ${pairCountName}=${wordsCountName}/2
+for ${pairIndexName}=0,${pairCountName}-1 do
+ ${stateAName}=${xorshiftName}((${stateAName}+${streamConstantName}+${pairIndexName})%${moduloName})
+ ${stateBName}=${xorshiftName}((${stateBName}+${stateAName}+((${pairIndexName}+1)*${streamStepName}))%${moduloName})
+ local ${storedLeftName},${storedRightName}=${wordsName}[${pairIndexName}*2+1],${wordsName}[${pairIndexName}*2+2]
+ local ${leftName}=(${storedLeftName}-${rotateLeftName}(${bxorName}(${stateAName},${postKeyAName}),(${pairIndexName}%13)+3))%${moduloName}
+ local ${rightName}=${bxorName}(${storedRightName},(${stateBName}+${postKeyBName}+${pairIndexName}*${streamStepName})%${moduloName})
+ local ${sumName}=(${deltaName}*${roundsName})%${moduloName}
+ for ${roundName}=1,${roundsName} do
+  local ${keyIndexName}=${bandName}(${rshiftName}(${sumName},11),3)+1
+  local ${mixName}=${bxorName}((${bxorName}(${lshiftName}(${leftName},4),${rshiftName}(${leftName},5))+${leftName})%${moduloName},(${sumName}+${keyTableName}[${keyIndexName}])%${moduloName})
+  ${rightName}=(${rightName}-${mixName})%${moduloName}
+  ${sumName}=(${sumName}-${deltaName})%${moduloName}
+  ${keyIndexName}=${bandName}(${sumName},3)+1
+  ${mixName}=${bxorName}((${bxorName}(${lshiftName}(${rightName},4),${rshiftName}(${rightName},5))+${rightName})%${moduloName},(${sumName}+${keyTableName}[${keyIndexName}])%${moduloName})
+  ${leftName}=(${leftName}-${mixName})%${moduloName}
+ end
+ local ${whiteLeftName}=${bxorName}(${leftName},${stateAName})
+ local ${whiteRightName}=${bxorName}(${rightName},${rotateLeftName}(${stateBName},(${pairIndexName}%29)+1))
+ local ${byteOneName},${byteTwoName},${byteThreeName},${byteFourName}=${payloadCountName}(${whiteLeftName})
+ local ${bitAName},${bitBName},${bitAAName},${bitBBName}=${payloadCountName}(${whiteRightName})
+ local ${temporaryTableName}={${byteOneName},${byteTwoName},${byteThreeName},${byteFourName},${bitAName},${bitBName},${bitAAName},${bitBBName}}
+ for ${temporaryIndexName}=1,8 do
+  if ${outputCountName}<${originalLengthName} then
+   local ${sourceIndexName}=${outputCountName}
+   local ${chunkWordName}=${temporaryTableName}[${temporaryIndexName}]
+   ${outputCountName}=${outputCountName}+1
+   ${outputName}[${outputCountName}]=${charName}(${chunkWordName})
+   ${plainCheckAName}=(${plainCheckAName}+${chunkWordName}+((${sourceIndexName}+1)%65521))%${moduloName}
+   ${plainCheckBName}=${bxorName}(${bxorName}(${rotateLeftName}(${plainCheckBName},7),${chunkWordName}),${sourceIndexName})
+  end
+ end
+end
+if ${outputCountName}~=${originalLengthName} or ${plainCheckAName}~=${luaUInt32Literal(plainChecksums.first)} or ${plainCheckBName}~=${luaUInt32Literal(plainChecksums.second)} then error("NEXU decrypted source integrity error",0) end
+local ${sourceName}=${concatName}(${outputName})
+local ${loaderName}=loadstring or load
+if type(${loaderName})~="function" then error("This Lua/Luau runtime does not expose loadstring/load",0) end
+local ${compiledName},${compileErrorName}=${loaderName}(${sourceName})
+if not ${compiledName} then error(${compileErrorName} or "NEXU protected script compile error",0) end
+return ${compiledName}(...)
+end)(...)`;
 
     return {
         code: finalizedCode,
         inputBytes: sourceBuffer.length,
         outputBytes: Buffer.byteLength(finalizedCode, "utf8"),
+        numericWords: encryptedWords.length,
+        engine: "V226-NUMERIC-XTEA-ARX",
+        target: "Lua 5.1+ / Luau",
         fingerprint: crypto.createHash("sha256").update(sourceBuffer).digest("hex").slice(0, 16),
     };
 }
-
 function nexuV224ObfuscatorCss() {
     return String.raw`
 /* NEXU V224 // PUBLIC LUA OBFUSCATOR */
@@ -14322,9 +14702,9 @@ body.nx-v224-modal-open{overflow:hidden !important;}
 
 function nexuV224ObfuscatorMarkup(english = false) {
     const text = english ? {
-        label: "PUBLIC TOOL // LUAU",
-        title: "Nexu Lua Obfuscator",
-        note: "Paste a Lua/Luau script with up to 150,000 lines. The result replaces the editor content and can then be copied. The payload is encrypted and randomized, but no client-side obfuscation is absolutely irreversible.",
+        label: "PUBLIC TOOL // LUA 5.1+ & LUAU",
+        title: "Nexu Lua/Luau Numeric Obfuscator",
+        note: "Paste a Lua/Luau script with up to 150,000 lines. The source is packed into encrypted 32-bit numbers, protected with numeric XTEA/ARX layers, randomized block masks, permutations, decoy blocks and integrity checks. Dynamic execution requires loadstring or load.",
         placeholder: "Paste your Lua/Luau script here...",
         lines: "Lines",
         bytes: "Size",
@@ -14333,9 +14713,9 @@ function nexuV224ObfuscatorMarkup(english = false) {
         obfuscate: "Obfuscate",
         copy: "Copy result",
     } : {
-        label: "ÖFFENTLICHES TOOL // LUAU",
-        title: "Nexu Lua Obfuscator",
-        note: "Füge ein Lua-/Luau-Skript mit bis zu 150.000 Zeilen ein. Das Ergebnis ersetzt anschließend den Inhalt des Editors und kann kopiert werden. Der Payload wird verschlüsselt und zufällig aufgebaut; keine clientseitige Obfuskation ist jedoch absolut unknackbar.",
+        label: "ÖFFENTLICHES TOOL // LUA 5.1+ & LUAU",
+        title: "Nexu Lua/Luau Numeric Obfuscator",
+        note: "Füge ein Lua-/Luau-Skript mit bis zu 150.000 Zeilen ein. Der Quelltext wird in verschlüsselte 32-Bit-Zahlen gepackt und mit numerischen XTEA-/ARX-Schichten, zufälligen Blockmasken, Permutationen, Täuschungsblöcken und Integritätsprüfungen geschützt. Zur dynamischen Ausführung wird loadstring oder load benötigt.",
         placeholder: "Lua-/Luau-Skript hier einfügen ...",
         lines: "Zeilen",
         bytes: "Größe",
@@ -14370,16 +14750,16 @@ function nexuV224ObfuscatorMarkup(english = false) {
 function nexuV224ObfuscatorScript(english = false) {
     const messages = english ? {
         open: "Paste a script to begin.", empty: "Please paste a Lua/Luau script first.", tooManyLines: "The script exceeds the limit of 150,000 lines.",
-        tooLarge: "The script exceeds the maximum size of 20 MB.", working: "Encrypting and obfuscating the script...",
-        failed: "Obfuscation failed.", complete: "Obfuscation complete. The editor now contains the protected output.",
+        tooLarge: "The script exceeds the maximum size of 20 MB.", working: "Encrypting the script as numeric XTEA/ARX blocks and generating a polymorphic Lua/Luau decoder...",
+        failed: "Obfuscation failed.", complete: "Numeric Lua/Luau obfuscation complete. The editor now contains the protected output.",
         copied: "The obfuscated script was copied.", copyFailed: "Copying failed. Select the editor content manually.",
-        lines: "Lines", size: "Size", output: "Output", resultChanged: "The result was edited. Obfuscate again before using the result button.",
+        lines: "Lines", size: "Size", output: "Output", numbers: "32-bit numbers", resultChanged: "The result was edited. Obfuscate again before using the result button.",
     } : {
         open: "Füge ein Skript ein, um zu beginnen.", empty: "Bitte füge zuerst ein Lua-/Luau-Skript ein.", tooManyLines: "Das Skript überschreitet das Limit von 150.000 Zeilen.",
-        tooLarge: "Das Skript überschreitet die maximale Größe von 20 MB.", working: "Das Skript wird verschlüsselt und obfuskiert ...",
-        failed: "Die Obfuskation ist fehlgeschlagen.", complete: "Obfuskation abgeschlossen. Im Editor steht jetzt das geschützte Ergebnis.",
+        tooLarge: "Das Skript überschreitet die maximale Größe von 20 MB.", working: "Das Skript wird als numerische XTEA-/ARX-Zahlenblöcke verschlüsselt und polymorph obfuskiert ...",
+        failed: "Die Obfuskation ist fehlgeschlagen.", complete: "Numerische Lua-/Luau-Obfuskation abgeschlossen. Im Editor steht jetzt das geschützte Ergebnis.",
         copied: "Das obfuskierte Skript wurde kopiert.", copyFailed: "Kopieren fehlgeschlagen. Markiere den Editorinhalt bitte manuell.",
-        lines: "Zeilen", size: "Größe", output: "Ausgabe", resultChanged: "Das Ergebnis wurde verändert. Obfuskiere erneut, bevor du den Ergebnis-Button verwendest.",
+        lines: "Zeilen", size: "Größe", output: "Ausgabe", numbers: "32-Bit-Zahlen", resultChanged: "Das Ergebnis wurde verändert. Obfuskiere erneut, bevor du den Ergebnis-Button verwendest.",
     };
     return String.raw`<script>
 (function(){
@@ -14461,7 +14841,7 @@ function nexuV224ObfuscatorScript(english = false) {
             editor.value=data.code;
             state.result=true;
             updateStats();
-            setStatus(messages.complete+" "+messages.output+": "+formatBytes(Number(data.outputBytes)||byteLength(data.code))+".","success");
+            setStatus(messages.complete+" "+messages.output+": "+formatBytes(Number(data.outputBytes)||byteLength(data.code))+" · "+messages.numbers+": "+Number(data.numericWords||0).toLocaleString()+".","success");
         }catch(error){
             state.result=false;
             setStatus(String(error&&error.message||messages.failed),"error");
@@ -14567,6 +14947,9 @@ if (req.method === "POST" && pathname === "/api/obfuscator") {
             inputBytes: result.inputBytes,
             outputBytes: result.outputBytes,
             fingerprint: result.fingerprint,
+            engine: result.engine,
+            target: result.target,
+            numericWords: result.numericWords,
         });
     } catch (error) {
         const message = error && error.message === "BODY_TOO_LARGE"
@@ -16980,7 +17363,7 @@ async function startNexuServer() {
         console.log("Dashboard-Anmeldung: /");
         console.log("Übersichts-Konten:", dashboardAccounts.size);
         console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V148 SIGNIERT UND NEUSTARTFEST");
-        console.log("Öffentlicher Lua-Obfuscator: /api/obfuscator // 150.000 ZEILEN // 20 MB");
+        console.log("Öffentlicher Lua/Luau-Obfuscator: /api/obfuscator // V226 NUMERIC XTEA-ARX // 150.000 ZEILEN // 20 MB");
         console.log("Presence: /api/presence");
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
