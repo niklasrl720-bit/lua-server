@@ -6807,16 +6807,16 @@
       "displayName": "iloveviolet",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Paranormal",
-      "placeId": 97755839340841,
+      "gameName": "Lucky Block Rush",
+      "placeId": 84575720768520,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-19T02:25:00.000Z",
-      "lastSeenMs": 1784427900000
+      "lastSeen": "2026-07-19T23:10:00.000Z",
+      "lastSeenMs": 1784502600000
     },
     {
       "userId": "3420728419",
@@ -13284,5 +13284,5 @@
     "resetAtMs": 1784498400125,
     "messages": []
   },
-  "updatedAt": "2026-07-19T23:11:02.770Z"
+  "updatedAt": "2026-07-19T23:11:12.712Z"
 }
