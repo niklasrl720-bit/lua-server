@@ -971,6 +971,23 @@
       "lastSeenMs": 1784319126010
     },
     {
+      "userId": "10595029626",
+      "username": "lexie_luz",
+      "displayName": "candyB",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Balloon Game 🎈[UPDATE🔥]",
+      "placeId": 18458777099,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T02:29:48.718Z",
+      "firstSeenMs": 1784428188718,
+      "lastSeen": "2026-07-19T02:29:48.718Z",
+      "lastSeenMs": 1784428188718
+    },
+    {
       "userId": "10600244081",
       "username": "gerald100121",
       "displayName": "121001dlareg",
@@ -13269,5 +13286,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T02:27:42.259Z"
+  "updatedAt": "2026-07-19T02:29:53.724Z"
 }
