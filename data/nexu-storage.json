@@ -7278,6 +7278,23 @@
       "lastSeenMs": 1784305200000
     },
     {
+      "userId": "41980106",
+      "username": "lolfollowme",
+      "displayName": "lolfollowme",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Zee [MACRO!]",
+      "placeId": 109555340497701,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:53:54.557Z",
+      "firstSeenMs": 1784422434557,
+      "lastSeen": "2026-07-19T00:53:54.557Z",
+      "lastSeenMs": 1784422434557
+    },
+    {
       "userId": "4212061169",
       "username": "candoblo34",
       "displayName": "candoblo34",
@@ -12629,5 +12646,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:53:53.451Z"
+  "updatedAt": "2026-07-19T00:53:59.561Z"
 }
