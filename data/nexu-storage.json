@@ -3844,6 +3844,23 @@
       "lastSeenMs": 1784409064013
     },
     {
+      "userId": "11277666791",
+      "username": "FHJA6887",
+      "displayName": "FHJA6887",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[UP] Apenas uma base.",
+      "placeId": 123974602339071,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:13:10.897Z",
+      "firstSeenMs": 1784423590897,
+      "lastSeen": "2026-07-19T01:13:10.897Z",
+      "lastSeenMs": 1784423590897
+    },
+    {
       "userId": "11278003896",
       "username": "bin_eifDA15",
       "displayName": "bin_eifDA15",
@@ -12748,5 +12765,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:11:33.409Z"
+  "updatedAt": "2026-07-19T01:13:15.905Z"
 }
