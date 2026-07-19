@@ -39,7 +39,7 @@ const NEXU_BRAND_LOGO_INLINE_STYLE = "background-image:url(" + NEXU_BRAND_LOGO_D
 // V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
 // V224: Ränge sind zeitgestempelt, warten auf den Startabgleich und werden vor Erfolg dauerhaft gespeichert.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const DEFAULT_VIP_USER_IDS = new Set([]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter", "vip"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER", vip: "VIP"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const SCARE_COMMAND_TTL_MS = 2 * 60_000;const SCARE_AUDIO_ASSET_ID = "134262192520482";const SCARE_IMAGE_ASSET_ID = "2296760924";const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 3_200;const GHOST_SYNC_MIN_INTERVAL_MS = 80;const GHOST_MAX_VISIBLE_STATES = 24;const GHOST_HISTORY_LIMIT = 10;const GHOST_HISTORY_WINDOW_MS = 1_900;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const NEXU_DATA_DIRECTORY = String(process.env.NEXU_DATA_DIRECTORY || path.join(process.cwd(), "data"));const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || process.env.NEXU_STORAGE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-storage.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || process.env.NEXU_ACCOUNTS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-accounts.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-status.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const SCARE_IMAGE_FILE_PATH = String(process.env.SCARE_IMAGE_FILE_PATH || path.join(process.cwd(), "scare-image.png")).trim();const SCARE_IMAGE_REMOTE_URL = String(process.env.SCARE_IMAGE_URL || "").trim();const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const DEFAULT_VIP_USER_IDS = new Set([]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter", "vip"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER", vip: "VIP"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const SCARE_COMMAND_TTL_MS = 2 * 60_000;const SCARE_AUDIO_ASSET_ID = "134262192520482";const SCARE_IMAGE_ASSET_ID = "2296760924";const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 3_200;const GHOST_SYNC_MIN_INTERVAL_MS = 80;const GHOST_MAX_VISIBLE_STATES = 24;const GHOST_HISTORY_LIMIT = 10;const GHOST_HISTORY_WINDOW_MS = 1_900;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const NEXU_DATA_DIRECTORY = String(process.env.NEXU_DATA_DIRECTORY || path.join(process.cwd(), "data"));const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || process.env.NEXU_STORAGE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-storage.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || process.env.NEXU_ACCOUNTS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-accounts.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-status.json"));
 
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
@@ -5041,6 +5041,46 @@ async function resolveScareImageAsset() {
 
     scareImageFetchPromise = (async () => {
         const assetId = SCARE_IMAGE_ASSET_ID;
+
+        // Zuverlässigste Variante: eine echte Bilddatei liegt direkt im Repository.
+        // Standardpfad: <Projektwurzel>/scare-image.png
+        if (SCARE_IMAGE_FILE_PATH) {
+            try {
+                const localBuffer = await fs.promises.readFile(SCARE_IMAGE_FILE_PATH);
+                if (isImageBuffer(localBuffer)) {
+                    return {
+                        buffer: localBuffer,
+                        contentType: detectImageContentType(localBuffer),
+                        source: "local-file",
+                    };
+                }
+                console.warn(
+                    "[NEXU] scare-image.png wurde gefunden, ist aber kein gültiges PNG/JPG/GIF/WebP:",
+                    SCARE_IMAGE_FILE_PATH
+                );
+            } catch (error) {
+                if (!error || error.code !== "ENOENT") {
+                    console.warn(
+                        "[NEXU] Lokales Erschrecken-Bild konnte nicht gelesen werden:",
+                        error && error.message ? error.message : error
+                    );
+                }
+            }
+        }
+
+        // Optional: direkte öffentliche Bild-URL über Render-Variable SCARE_IMAGE_URL.
+        if (SCARE_IMAGE_REMOTE_URL) {
+            const remoteImage = await fetchImageCandidate(SCARE_IMAGE_REMOTE_URL);
+            if (remoteImage) {
+                return {
+                    ...remoteImage,
+                    source: "remote-url",
+                };
+            }
+            console.warn(
+                "[NEXU] SCARE_IMAGE_URL lieferte keine gültige öffentliche Bilddatei."
+            );
+        }
 
         // Roblox-Thumbnail-API.
         try {
@@ -15061,8 +15101,11 @@ if (req.method === "GET" && pathname === "/api/scare/image") {
     if (!resolvedImage) {
         sendJson(res, 404, {
             success: false,
-            error: "Roblox-Bildasset konnte serverseitig nicht aufgelöst werden",
+            error: "Kein verwendbares Erschrecken-Bild gefunden",
             assetId: SCARE_IMAGE_ASSET_ID,
+            requiredFile: path.basename(SCARE_IMAGE_FILE_PATH || "scare-image.png"),
+            expectedPath: SCARE_IMAGE_FILE_PATH,
+            fix: "Lege eine echte PNG/JPG-Datei als scare-image.png in die Projektwurzel oder setze SCARE_IMAGE_URL auf eine direkte öffentliche Bilddatei.",
         });
         return;
     }
@@ -16447,6 +16490,16 @@ async function startNexuServer() {
         console.log("Global Chat: /api/chat/send + /api/chat/poll");console.log("Chat-Tagesreset:", `00:00 ${CHAT_TIME_ZONE}`);console.log("Geteilte Geister: /api/ghost/sync + /api/ghost/stop");
         console.log("Website-Chat: ÜBERSICHT // VIERTER REITER // ACCOUNT-ROBLOX-ID VERKNÜPFUNG");
         console.log("Website Join: /api/join/send + /api/join/poll");
+console.log("Owner-Erschrecken: /api/scare/send + /api/scare/poll + /api/scare/image");
+console.log(
+    "Erschrecken-Bilddatei:",
+    SCARE_IMAGE_FILE_PATH,
+    fs.existsSync(SCARE_IMAGE_FILE_PATH) ? "// GEFUNDEN" : "// FEHLT"
+);
+console.log(
+    "Erschrecken-Bild-URL:",
+    SCARE_IMAGE_REMOTE_URL ? "KONFIGURIERT" : "NICHT KONFIGURIERT"
+);
         console.log("Access: /api/menu/access?userId=...");
         console.log("Skript-Aktualisierung-Datei:", MENU_UPDATE_FILE_PATH);
         console.log("Menüstatus-Datei:", MENU_STATUS_FILE_PATH);
