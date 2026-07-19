@@ -7305,11 +7305,11 @@
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T18:56:18.242Z",
       "firstSeenMs": 1784314578242,
-      "lastSeen": "2026-07-19T00:15:00.000Z",
-      "lastSeenMs": 1784420100000
+      "lastSeen": "2026-07-19T23:15:00.000Z",
+      "lastSeenMs": 1784502900000
     },
     {
       "userId": "3943834742",
@@ -13284,5 +13284,5 @@
     "resetAtMs": 1784498400125,
     "messages": []
   },
-  "updatedAt": "2026-07-19T23:16:01.850Z"
+  "updatedAt": "2026-07-19T23:18:18.303Z"
 }
