@@ -1838,6 +1838,23 @@
       "lastSeenMs": 1784295900000
     },
     {
+      "userId": "11012226917",
+      "username": "ppp_4580",
+      "displayName": "ppp_4580",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Steal a Brainrot [New Players Servers]",
+      "placeId": 96342491571673,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:21:44.193Z",
+      "firstSeenMs": 1784424104193,
+      "lastSeen": "2026-07-19T01:21:44.193Z",
+      "lastSeenMs": 1784424104193
+    },
+    {
       "userId": "11014149263",
       "username": "c00lkiddfropsa",
       "displayName": "Pizzakidd",
@@ -12765,5 +12782,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:21:00.247Z"
+  "updatedAt": "2026-07-19T01:21:49.197Z"
 }
