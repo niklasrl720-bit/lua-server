@@ -7057,6 +7057,23 @@
       "lastSeenMs": 1784267400000
     },
     {
+      "userId": "4116981317",
+      "username": "afren123v",
+      "displayName": "YT_DANI",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "FUSIÓN| +1 Escape de teclado de velocidad | Caramelos y chocolate",
+      "placeId": 95082159892680,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:24:11.711Z",
+      "firstSeenMs": 1784420651711,
+      "lastSeen": "2026-07-19T00:24:11.711Z",
+      "lastSeenMs": 1784420651711
+    },
+    {
       "userId": "4164618378",
       "username": "Becon_Darklord",
       "displayName": "Phet",
@@ -12393,5 +12410,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:21:26.552Z"
+  "updatedAt": "2026-07-19T00:24:16.715Z"
 }
