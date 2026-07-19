@@ -2123,8 +2123,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:09:57.406Z",
       "firstSeenMs": 1784423397406,
-      "lastSeen": "2026-07-19T01:09:57.406Z",
-      "lastSeenMs": 1784423397406
+      "lastSeen": "2026-07-19T01:10:00.000Z",
+      "lastSeenMs": 1784423400000
     },
     {
       "userId": "11084723360",
@@ -7057,6 +7057,23 @@
       "lastSeenMs": 1784328600000
     },
     {
+      "userId": "3999014180",
+      "username": "RAJ240727",
+      "displayName": "DripMaster",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Underground War 2.0 ⚔️ [NUKE]",
+      "placeId": 9791603388,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:10:27.291Z",
+      "firstSeenMs": 1784423427291,
+      "lastSeen": "2026-07-19T01:10:27.291Z",
+      "lastSeenMs": 1784423427291
+    },
+    {
       "userId": "4009875708",
       "username": "LUFFYBRAZILEIR9",
       "displayName": "Kennedy_Gabs",
@@ -7342,8 +7359,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T00:53:54.557Z",
       "firstSeenMs": 1784422434557,
-      "lastSeen": "2026-07-19T01:05:00.000Z",
-      "lastSeenMs": 1784423100000
+      "lastSeen": "2026-07-19T01:10:00.000Z",
+      "lastSeenMs": 1784423400000
     },
     {
       "userId": "4212061169",
@@ -12714,5 +12731,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:10:02.412Z"
+  "updatedAt": "2026-07-19T01:10:32.298Z"
 }
