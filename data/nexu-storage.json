@@ -7266,16 +7266,16 @@
       "displayName": "DripMaster",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Underground War 2.0 ⚔️ [NUKE]",
-      "placeId": 9791603388,
+      "gameName": "⚔️Build to Defend Loot",
+      "placeId": 96280251181127,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:10:27.291Z",
       "firstSeenMs": 1784423427291,
-      "lastSeen": "2026-07-19T02:05:00.000Z",
-      "lastSeenMs": 1784426700000
+      "lastSeen": "2026-07-19T02:20:00.000Z",
+      "lastSeenMs": 1784427600000
     },
     {
       "userId": "4009875708",
@@ -13186,5 +13186,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T02:21:00.203Z"
+  "updatedAt": "2026-07-19T02:21:45.614Z"
 }
