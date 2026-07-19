@@ -8281,6 +8281,23 @@
       "lastSeenMs": 1784413548619
     },
     {
+      "userId": "5178371959",
+      "username": "Dnd_Calvin",
+      "displayName": "nolimitrisefein",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "FORTBLOX ⭐",
+      "placeId": 70386316385228,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:51:35.006Z",
+      "firstSeenMs": 1784425895006,
+      "lastSeen": "2026-07-19T01:51:35.006Z",
+      "lastSeenMs": 1784425895006
+    },
+    {
       "userId": "5180933519",
       "username": "Roughprisonsec2s",
       "displayName": "m1Ll9",
@@ -13016,5 +13033,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:50:26.464Z"
+  "updatedAt": "2026-07-19T01:51:40.120Z"
 }
