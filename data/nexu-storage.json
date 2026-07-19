@@ -7159,6 +7159,23 @@
       "lastSeenMs": 1784421300000
     },
     {
+      "userId": "4129594807",
+      "username": "FuelGiraffes",
+      "displayName": "Sonic",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "(RANKED) 1v1 OBBY",
+      "placeId": 129219405790154,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:04:38.674Z",
+      "firstSeenMs": 1784423078674,
+      "lastSeen": "2026-07-19T01:04:38.674Z",
+      "lastSeenMs": 1784423078674
+    },
+    {
       "userId": "4164618378",
       "username": "Becon_Darklord",
       "displayName": "Phet",
@@ -12663,5 +12680,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:01:00.054Z"
+  "updatedAt": "2026-07-19T01:04:43.680Z"
 }
