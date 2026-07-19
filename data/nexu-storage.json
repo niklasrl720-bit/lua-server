@@ -10015,6 +10015,23 @@
       "lastSeenMs": 1784248500000
     },
     {
+      "userId": "8259125141",
+      "username": "Caxzper",
+      "displayName": "Ick",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Conflicto de balas [Accesorios]",
+      "placeId": 133589298489078,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:28:20.132Z",
+      "firstSeenMs": 1784420900132,
+      "lastSeen": "2026-07-19T00:28:20.132Z",
+      "lastSeenMs": 1784420900132
+    },
+    {
       "userId": "8259138108",
       "username": "kokushibolua51",
       "displayName": "PinkLeaf",
@@ -12427,5 +12444,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:26:52.889Z"
+  "updatedAt": "2026-07-19T00:28:25.137Z"
 }
