@@ -525,8 +525,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-19T00:30:00.000Z",
-      "lastSeenMs": 1784421000000
+      "lastSeen": "2026-07-19T00:35:00.000Z",
+      "lastSeenMs": 1784421300000
     },
     {
       "userId": "10302526420",
@@ -7159,6 +7159,23 @@
       "lastSeenMs": 1784293916718
     },
     {
+      "userId": "4170867542",
+      "username": "belatrixz2015",
+      "displayName": "isabbzx_ll7",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Roube um Brainrot",
+      "placeId": 109983668079237,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:37:30.616Z",
+      "firstSeenMs": 1784421450616,
+      "lastSeen": "2026-07-19T00:37:30.616Z",
+      "lastSeenMs": 1784421450616
+    },
+    {
       "userId": "4171999215",
       "username": "matias182737",
       "displayName": "matias182737",
@@ -12493,5 +12510,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:36:47.674Z"
+  "updatedAt": "2026-07-19T00:37:35.620Z"
 }
