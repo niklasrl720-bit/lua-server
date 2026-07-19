@@ -7895,16 +7895,16 @@
       "displayName": "aaa",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "The Normal Elevator",
-      "placeId": 230362888,
+      "gameName": "RetroStudio: Player",
+      "placeId": 5867227007,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-17T23:30:00.000Z",
-      "lastSeenMs": 1784331000000
+      "lastSeen": "2026-07-19T00:35:00.000Z",
+      "lastSeenMs": 1784421300000
     },
     {
       "userId": "5131378969",
@@ -12527,5 +12527,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:38:07.751Z"
+  "updatedAt": "2026-07-19T00:39:36.991Z"
 }
