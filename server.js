@@ -39,7 +39,7 @@ const NEXU_BRAND_LOGO_INLINE_STYLE = "background-image:url(" + NEXU_BRAND_LOGO_D
 // V164: Separate, verschlüsselte GitHub-Accountdatei mit vollständigen Berechtigungen und Change-only-Speicherung.
 // V224: Ränge sind zeitgestempelt, warten auf den Startabgleich und werden vor Erfolg dauerhaft gespeichert.
 
-const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const DEFAULT_VIP_USER_IDS = new Set([]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter", "vip"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER", vip: "VIP"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const SCARE_COMMAND_TTL_MS = 2 * 60_000;const SCARE_AUDIO_ASSET_ID = "134262192520482";const SCARE_IMAGE_ASSET_ID = "2296760924";const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 3_200;const GHOST_SYNC_MIN_INTERVAL_MS = 80;const GHOST_MAX_VISIBLE_STATES = 24;const GHOST_HISTORY_LIMIT = 10;const GHOST_HISTORY_WINDOW_MS = 1_900;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const NEXU_DATA_DIRECTORY = String(process.env.NEXU_DATA_DIRECTORY || path.join(process.cwd(), "data"));const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || process.env.NEXU_STORAGE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-storage.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || process.env.NEXU_ACCOUNTS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-accounts.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-status.json"));
+const PORT = Number(process.env.PORT || 3000);const HEARTBEAT_TOKEN = String(process.env.HEARTBEAT_TOKEN || "");const NEXU_INGAME_ADMIN_KEY = String(process.env.NEXU_INGAME_ADMIN_KEY || process.env.NEXU_ADMIN_KEY || "");const ONLINE_TIMEOUT_MS = (() => {const configured = Number(process.env.PRESENCE_TIMEOUT_MS || 2 * 60_000);return Number.isFinite(configured) ? Math.min(10 * 60_000, Math.max(60_000, Math.floor(configured))) : 2 * 60_000;})();const ACTIVE_PRESENCE_WINDOW_MS = (() => {const configured = Number(process.env.ACTIVE_PRESENCE_WINDOW_MS || 120_000);return Number.isFinite(configured) ? Math.min(5 * 60_000, Math.max(120_000, Math.floor(configured))) : 120_000;})();const PRESENCE_ENTRY_RETENTION_MS = Math.max(ONLINE_TIMEOUT_MS, ACTIVE_PRESENCE_WINDOW_MS + 30_000);const SERVER_STARTED_AT_MS = Date.now();const SERVER_INSTANCE_ID = crypto.randomUUID();const PRESENCE_RESTART_GRACE_MS = 25_000;const PRESENCE_RESTORE_WINDOW_MS = Math.max(PRESENCE_ENTRY_RETENTION_MS, 5 * 60_000);const MAX_BODY_BYTES = 100_000;const AVATAR_CACHE_MS = 10 * 60_000;const GLOBAL_SHUTDOWN_COMMAND_TTL_MS = 5 * 60_000;const NEXU_LOADER_COMMAND = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/niklasrl720-bit/Nexu-Menu/refs/heads/main/Nexu%20Main"))()';const MAX_MENU_UPDATE_MINUTES = 24 * 60;const MENU_CREATOR_USER_ID = "10199760908";const MENU_CREATOR_RANK_ENABLED = true;const DEFAULT_SUPPORTER_USER_IDS = new Set(["11203703629"]);const DEFAULT_VIP_USER_IDS = new Set([]);const PLAYER_ROLE_KEYS = new Set(["player", "supporter", "vip"]);const PLAYER_ROLE_TITLES = {player: "PLAYERS", supporter: "SUPPORTER", vip: "VIP"};const BRING_COMMAND_TTL_MS = 2 * 60_000;const DM_MAX_LENGTH = 240;const DM_TTL_MS = 10 * 60_000;const DM_QUEUE_LIMIT = 12;const DM_RATE_WINDOW_MS = 30_000;const DM_RATE_LIMIT = 10;const CHAT_MAX_LENGTH = 300;const CHAT_TIME_ZONE = String(process.env.CHAT_TIME_ZONE || "Europe/Berlin").trim() || "Europe/Berlin";const CHAT_HISTORY_LIMIT = 240;const CHAT_POLL_LIMIT = 100;const CHAT_RATE_WINDOW_MS = 12_000;const CHAT_RATE_LIMIT = 5;const GHOST_STATE_TTL_MS = 3_200;const GHOST_SYNC_MIN_INTERVAL_MS = 80;const GHOST_MAX_VISIBLE_STATES = 24;const GHOST_HISTORY_LIMIT = 10;const GHOST_HISTORY_WINDOW_MS = 1_900;const OWNER_ACCOUNT_ROBLOX_USER_ID = "10199760908";const OWNER_ACCOUNT_USERNAME = "OwnerAccount";const DASHBOARD_DEFAULT_USERNAME = String(process.env.DASHBOARD_USERNAME || OWNER_ACCOUNT_USERNAME);const DASHBOARD_DEFAULT_EMAIL = String(process.env.DASHBOARD_EMAIL || "owner@nexu.local");const DASHBOARD_DEFAULT_PASSWORD_HASH = String(process.env.DASHBOARD_PASSWORD_HASH ||"df3b0f6227afa43d620dc1c5c639dab7036878674a3c7e699c9583be6425f2d8").toLowerCase();const DASHBOARD_SESSION_COOKIE = "nexu_dashboard_session";const DASHBOARD_REMEMBER_COOKIE = "nexu_dashboard_remember";const DASHBOARD_SESSION_TTL_MS = 12 * 60 * 60_000;const DASHBOARD_REMEMBER_TTL_MS = 30 * 24 * 60 * 60_000;const LOGIN_RATE_WINDOW_MS = 10 * 60_000;const LOGIN_RATE_LIMIT = 8;const JOIN_COMMAND_TTL_MS = 2 * 60_000;const NEXU_DATA_DIRECTORY = String(process.env.NEXU_DATA_DIRECTORY || path.join(process.cwd(), "data"));const BAN_FILE_PATH = String(process.env.BAN_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-bans.json"));const REMEMBER_FILE_PATH = String(process.env.REMEMBER_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-remembered-accounts.json"));const KNOWN_PLAYERS_FILE_PATH = String(process.env.KNOWN_PLAYERS_FILE_PATH || process.env.NEXU_STORAGE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-storage.json"));const DASHBOARD_ACCOUNT_FILE_PATH = String(process.env.DASHBOARD_ACCOUNT_FILE_PATH || process.env.NEXU_ACCOUNTS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-accounts.json"));const MENU_UPDATE_FILE_PATH = String(process.env.MENU_UPDATE_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-update.json"));const MENU_STATUS_FILE_PATH = String(process.env.MENU_STATUS_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-menu-status.json"));
 
 const DM_DISPLAY_MIN_SECONDS = 1;
 const DM_DISPLAY_MAX_SECONDS = 10 * 60;
@@ -93,7 +93,7 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
     .digest("hex");
 const DASHBOARD_ACCOUNT_STORAGE_SECRET = String(process.env.DASHBOARD_ACCOUNT_STORAGE_SECRET || "").trim() || DASHBOARD_SESSION_SIGNING_SECRET;
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxAvatarImageCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const sharedGhostStates = new Map();const ghostSyncRateLimits = new Map();const ghostLastSequences = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const scareCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextScareCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxAvatarImageCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const sharedGhostStates = new Map();const ghostSyncRateLimits = new Map();const ghostLastSequences = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 let globalChatDayKey = "";
 let globalChatResetRevision = 0;
 let globalChatResetAtMs = 0;
@@ -4953,53 +4953,6 @@ return { command };
 
 }
 
-function pruneScareCommands() {const now = Date.now();for (const [userId, command] of scareCommands) {if (!command || now >= command.expiresAtMs) {scareCommands.delete(userId);}}}
-
-function queueScareCommand(targetUserId, targetPresence, ownerPresence = null) {pruneScareCommands();
-
-const now = Date.now();
-const command = {
-    id: String(nextScareCommandId++),
-    targetUserId: targetPresence.userId,
-    targetUsername: targetPresence.username,
-    targetDisplayName: targetPresence.displayName,
-    ownerUserId: ownerPresence && ownerPresence.userId ? ownerPresence.userId : MENU_CREATOR_USER_ID,
-    ownerUsername: ownerPresence && ownerPresence.username ? ownerPresence.username : OWNER_ACCOUNT_USERNAME,
-    ownerDisplayName: ownerPresence && ownerPresence.displayName ? ownerPresence.displayName : "Owner",
-    audioAssetId: SCARE_AUDIO_ASSET_ID,
-    imageAssetId: SCARE_IMAGE_ASSET_ID,
-    durationSeconds: 8,
-    createdAt: new Date(now).toISOString(),
-    expiresAt: new Date(now + SCARE_COMMAND_TTL_MS).toISOString(),
-    createdAtMs: now,
-    expiresAtMs: now + SCARE_COMMAND_TTL_MS,
-};
-
-scareCommands.set(targetUserId, command);
-return command;
-
-}
-
-function takeScareCommand(userId, sessionId) {pruneScareCommands();
-
-const activeSession = findLatestPresenceForUser(userId);
-if (!activeSession) {
-    return { error: "Keine aktive Nexu-Sitzung gefunden" };
-}
-
-if (!sessionId || activeSession.sessionId !== sessionId) {
-    return { error: "Nexu-Sitzung stimmt nicht überein" };
-}
-
-const command = scareCommands.get(userId) || null;
-if (command) {
-    scareCommands.delete(userId);
-}
-
-return { command };
-
-}
-
 function loginHtml(errorMessage = "", rememberedAccount = null, options = {}) {const errorBlock = errorMessage ? `<div class="login-error" role="alert">${escapeHtml(errorMessage)}</div>` : "";const noticeBlock = options.notice ? `<div class="login-notice" role="status">${escapeHtml(options.notice)}</div>` : "";const rememberedAccounts = Array.isArray(rememberedAccount) ? rememberedAccount : (rememberedAccount ? [rememberedAccount] : []);const rememberedBlock = rememberedAccounts.length ? `<section class="remembered-list" aria-label="Gespeicherte Konten">
             <h2>Gespeicherte Konten</h2>
             <p>Konten, mit denen du auf diesem Browser angemeldet warst.</p>
@@ -5869,8 +5822,6 @@ h1 { margin:8px 0; max-width:760px; font-size:clamp(30px,5vw,52px); line-height:
 .action-button.join:hover { border-color:var(--green); }
 .action-button.bring { border-color:rgba(0,200,255,.48); color:#8cecff; background:rgba(3,28,42,.78); }
 .action-button.bring:hover { border-color:var(--cyan); }
-.action-button.scare { border-color:rgba(255,110,140,.48); color:#ffd0d8; background:rgba(45,8,18,.82); }
-.action-button.scare:hover { border-color:#ff6e8c; }
 .broadcast-button { border-color:rgba(0,200,255,.46) !important; color:#bcefff !important; background:rgba(2,38,55,.62) !important; }
 .broadcast-button:hover { border-color:rgba(0,200,255,.8) !important; box-shadow:0 0 24px rgba(0,200,255,.16); }
 .update-button { border-color:rgba(255,190,70,.42) !important; color:#ffe5a8 !important; background:rgba(55,35,4,.56) !important; }
@@ -6782,16 +6733,12 @@ function renderPlayer(player,banned) {
     const dmButton = actionableOnline && state.permissions.dm === true
         ? '<button class="action-button dm" data-action="dm" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">NACHRICHT</button>'
         : "";
-    const scareButton = actionableOnline && state.permissions.accountManager === true && String(player.userId || "") !== "${MENU_CREATOR_USER_ID}"
-        ? '<button class="action-button scare" data-action="scare" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">ERSCHRECKEN</button>'
-        : "";
     const actionButtons = banned
         ? (state.permissions.banPlayers === true ? '<button class="action-button unban" data-action="unban" data-user-id="' + escapeHtml(player.userId) + '">ENTSPERREN</button>' : '')
         : '<div class="button-row">' +
             joinButton +
             bringButton +
             dmButton +
-            scareButton +
             (state.permissions.banPlayers === true ? '<button class="action-button ban" data-action="ban" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">SPERREN</button>' : '') +
         '</div>';
 
@@ -7210,25 +7157,6 @@ async function queueBring(targetUserId) {
     return data;
 }
 
-async function queueScare(targetUserId) {
-    const response = await fetch("/api/scare/send", {
-        method:"POST",
-        headers:{
-            Accept:"application/json",
-            "Content-Type":"application/json",
-        },
-        body:JSON.stringify({
-            userId:String(targetUserId || "").trim(),
-        }),
-    });
-
-    const data = await response.json().catch(function () { return {}; });
-    if (!response.ok || data.success !== true) {
-        throw new Error(data.error || ("HTTP " + response.status));
-    }
-    return data;
-}
-
 async function setPlayerRole(targetUserId,roleKey) {
     const response = await fetch("/api/admin/role", {
         method:"POST",
@@ -7578,27 +7506,6 @@ document.addEventListener("click",async function (event) {
             button.dataset.displayName,
             button.dataset.username
         );
-        return;
-    }
-
-    if (button.dataset.action === "scare") {
-        const originalText = button.textContent;
-        button.disabled = true;
-        button.textContent = "SENDE …";
-        try {
-            await queueScare(button.dataset.userId);
-            button.textContent = "ERSCHRECKT";
-            showToast("Der Erschrecken-Befehl wurde an den Spieler gesendet.", "success");
-        } catch (error) {
-            showToast(error.message || "Der Erschrecken-Befehl konnte nicht gesendet werden.", "error");
-            button.textContent = "FEHLER";
-        }
-        setTimeout(function () {
-            if (button.isConnected) {
-                button.disabled = false;
-                button.textContent = originalText;
-            }
-        },2200);
         return;
     }
 
@@ -14847,166 +14754,6 @@ if (req.method === "POST" && pathname === "/api/bring/poll") {
         sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
             success: false,
             error: "Bring-Poll konnte nicht verarbeitet werden",
-        });
-    }
-    return;
-}
-
-if (req.method === "POST" && pathname === "/api/scare/send") {
-    try {
-        const body = await readJsonBody(req);
-        const targetPlayerId = cleanNumericId(body.userId);
-        const dashboardAuthenticated = isDashboardPermissionSession(req, "accountManager");
-        const menuCreatorAuthenticated = isActiveMenuCreatorModerationSession(req, {
-            actorUserId: body.requesterUserId,
-            actorSessionId: body.requesterSessionId,
-            actorJobId: body.requesterJobId,
-        });
-
-        if (!dashboardAuthenticated && !menuCreatorAuthenticated) {
-            sendJson(res, 403, {
-                success: false,
-                error: "Nur der Owner kann Erschrecken auslösen.",
-            });
-            return;
-        }
-
-        if (!targetPlayerId) {
-            sendJson(res, 400, {
-                success: false,
-                error: "Ungültige Ziel-Spieler-ID",
-            });
-            return;
-        }
-
-        if (targetPlayerId === MENU_CREATOR_USER_ID) {
-            sendJson(res, 400, {
-                success: false,
-                error: "Du kannst den Owner nicht selbst erschrecken.",
-            });
-            return;
-        }
-
-        if (bans.has(targetPlayerId)) {
-            sendJson(res, 409, {
-                success: false,
-                error: "Der Spieler ist vom Menü gebannt.",
-            });
-            return;
-        }
-
-        prunePresence();
-        const targetPresence = findLatestPresenceForUser(targetPlayerId);
-
-        if (!targetPresence) {
-            sendJson(res, 404, {
-                success: false,
-                error: "Zielspieler ist nicht mehr online",
-            });
-            return;
-        }
-
-        let ownerPresence = null;
-        if (menuCreatorAuthenticated) {
-            const requesterUserId = cleanNumericId(body.requesterUserId) || MENU_CREATOR_USER_ID;
-            ownerPresence = findLatestPresenceForUser(requesterUserId);
-        } else {
-            ownerPresence = findLatestPresenceForUser(MENU_CREATOR_USER_ID);
-        }
-
-        const command = queueScareCommand(
-            targetPlayerId,
-            targetPresence,
-            ownerPresence
-        );
-
-        console.log(
-            `[NEXU] Owner-Scare: ${command.ownerDisplayName} -> ${targetPresence.displayName} // ` +
-                `Audio ${command.audioAssetId} // Bild ${command.imageAssetId}`
-        );
-
-        sendJson(res, 200, {
-            success: true,
-            queued: true,
-            commandId: command.id,
-            target: {
-                userId: targetPresence.userId,
-                username: targetPresence.username,
-                displayName: targetPresence.displayName,
-            },
-            owner: {
-                userId: command.ownerUserId,
-                username: command.ownerUsername,
-                displayName: command.ownerDisplayName,
-            },
-            audioAssetId: command.audioAssetId,
-            imageAssetId: command.imageAssetId,
-            expiresAt: command.expiresAt,
-        });
-    } catch (error) {
-        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
-            success: false,
-            error: error.message === "INVALID_JSON"
-                ? "Ungültige JSON-Daten"
-                : "Erschrecken-Auftrag konnte nicht erstellt werden",
-        });
-    }
-    return;
-}
-
-if (req.method === "POST" && pathname === "/api/scare/poll") {
-    if (!isHeartbeatAuthorized(req)) {
-        sendJson(res, 401, {
-            success: false,
-            error: "Ungültiger Heartbeat-Token",
-        });
-        return;
-    }
-
-    try {
-        const body = await readJsonBody(req);
-        const userId = cleanNumericId(body.userId);
-        const sessionId = cleanText(body.sessionId, 100);
-
-        if (!userId) {
-            sendJson(res, 400, {
-                success: false,
-                error: "Ungültige User-ID",
-            });
-            return;
-        }
-
-        const result = takeScareCommand(userId, sessionId);
-        if (result.error) {
-            sendJson(res, 403, {
-                success: false,
-                error: result.error,
-            });
-            return;
-        }
-
-        const command = result.command;
-        sendJson(res, 200, {
-            success: true,
-            command: command ? {
-                id: command.id,
-                targetUserId: command.targetUserId,
-                targetUsername: command.targetUsername,
-                targetDisplayName: command.targetDisplayName,
-                ownerUserId: command.ownerUserId,
-                ownerUsername: command.ownerUsername,
-                ownerDisplayName: command.ownerDisplayName,
-                audioAssetId: command.audioAssetId,
-                imageAssetId: command.imageAssetId,
-                durationSeconds: command.durationSeconds,
-                createdAt: command.createdAt,
-                expiresAt: command.expiresAt,
-            } : null,
-        });
-    } catch (error) {
-        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
-            success: false,
-            error: "Erschrecken-Poll konnte nicht verarbeitet werden",
         });
     }
     return;
