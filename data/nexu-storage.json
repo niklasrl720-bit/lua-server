@@ -7189,8 +7189,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T14:46:45.139Z",
       "firstSeenMs": 1784299605139,
-      "lastSeen": "2026-07-18T23:55:00.000Z",
-      "lastSeenMs": 1784418900000
+      "lastSeen": "2026-07-19T00:00:00.000Z",
+      "lastSeenMs": 1784419200000
     },
     {
       "userId": "4235802081",
@@ -10763,6 +10763,23 @@
       "lastSeenMs": 1784314500000
     },
     {
+      "userId": "8844988424",
+      "username": "Ethan112550",
+      "displayName": "00KMG_OTF",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[🦖] 99 Nights in the Forest 🔦",
+      "placeId": 79546208627805,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:02:07.631Z",
+      "firstSeenMs": 1784419327631,
+      "lastSeen": "2026-07-19T00:02:07.631Z",
+      "lastSeenMs": 1784419327631
+    },
+    {
       "userId": "8852319931",
       "username": "Jose_Lxd117",
       "displayName": "pollito_conpapaxd",
@@ -12327,5 +12344,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:01:00.488Z"
+  "updatedAt": "2026-07-19T00:02:12.636Z"
 }
