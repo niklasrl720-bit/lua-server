@@ -372,8 +372,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-19T02:20:00.000Z",
-      "lastSeenMs": 1784427600000
+      "lastSeen": "2026-07-19T02:25:00.000Z",
+      "lastSeenMs": 1784427900000
     },
     {
       "userId": "10203550652",
@@ -559,8 +559,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-19T02:20:00.000Z",
-      "lastSeenMs": 1784427600000
+      "lastSeen": "2026-07-19T02:25:00.000Z",
+      "lastSeenMs": 1784427900000
     },
     {
       "userId": "10302526420",
@@ -661,8 +661,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-19T02:20:00.000Z",
-      "lastSeenMs": 1784427600000
+      "lastSeen": "2026-07-19T02:25:00.000Z",
+      "lastSeenMs": 1784427900000
     },
     {
       "userId": "10427971366",
@@ -5353,8 +5353,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T02:23:33.443Z",
       "firstSeenMs": 1784427813443,
-      "lastSeen": "2026-07-19T02:23:33.443Z",
-      "lastSeenMs": 1784427813443
+      "lastSeen": "2026-07-19T02:25:00.000Z",
+      "lastSeenMs": 1784427900000
     },
     {
       "userId": "11305727417",
@@ -5540,8 +5540,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:51:29.415Z",
       "firstSeenMs": 1784245889415,
-      "lastSeen": "2026-07-19T02:20:00.000Z",
-      "lastSeenMs": 1784427600000
+      "lastSeen": "2026-07-19T02:25:00.000Z",
+      "lastSeenMs": 1784427900000
     },
     {
       "userId": "1407975513",
@@ -6730,8 +6730,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-19T02:20:00.000Z",
-      "lastSeenMs": 1784427600000
+      "lastSeen": "2026-07-19T02:25:00.000Z",
+      "lastSeenMs": 1784427900000
     },
     {
       "userId": "3420728419",
@@ -7172,8 +7172,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:22:35.798Z",
       "firstSeenMs": 1784424155798,
-      "lastSeen": "2026-07-19T02:20:00.000Z",
-      "lastSeenMs": 1784427600000
+      "lastSeen": "2026-07-19T02:25:00.000Z",
+      "lastSeenMs": 1784427900000
     },
     {
       "userId": "3913477797",
@@ -8024,6 +8024,23 @@
       "firstSeenMs": 1784291436302,
       "lastSeen": "2026-07-17T13:20:00.000Z",
       "lastSeenMs": 1784294400000
+    },
+    {
+      "userId": "4771189114",
+      "username": "666inferno666pint",
+      "displayName": "SL_Victor",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Arremessando coisas e pessoas",
+      "placeId": 6961824067,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T02:25:21.024Z",
+      "firstSeenMs": 1784427921024,
+      "lastSeen": "2026-07-19T02:25:21.024Z",
+      "lastSeenMs": 1784427921024
     },
     {
       "userId": "4776702487",
@@ -8957,8 +8974,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:52:26.443Z",
       "firstSeenMs": 1784425946443,
-      "lastSeen": "2026-07-19T02:20:00.000Z",
-      "lastSeenMs": 1784427600000
+      "lastSeen": "2026-07-19T02:25:00.000Z",
+      "lastSeenMs": 1784427900000
     },
     {
       "userId": "5843349211",
@@ -11813,8 +11830,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-17T22:30:00.000Z",
-      "lastSeenMs": 1784327400000
+      "lastSeen": "2026-07-19T02:25:00.000Z",
+      "lastSeenMs": 1784427900000
     },
     {
       "userId": "9123569216",
@@ -13217,8 +13234,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-19T01:41:45.700Z",
         "sentAtMs": 1784425305700
+      },
+      {
+        "id": 1784427925677001,
+        "userId": "11305711565",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "eagefqwrwdfw",
+        "displayName": "eagefqwrwdfw",
+        "message": "ban",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-19T02:25:25.677Z",
+        "sentAtMs": 1784427925677
       }
     ]
   },
-  "updatedAt": "2026-07-19T02:23:52.587Z"
+  "updatedAt": "2026-07-19T02:25:26.029Z"
 }
