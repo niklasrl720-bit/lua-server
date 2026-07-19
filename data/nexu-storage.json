@@ -8451,6 +8451,23 @@
       "lastSeenMs": 1784403386980
     },
     {
+      "userId": "5816418514",
+      "username": "YAN10_14",
+      "displayName": "The_guybanana",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[🤚] Impossível Slap Tower",
+      "placeId": 109071420974939,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:32:27.775Z",
+      "firstSeenMs": 1784421147775,
+      "lastSeen": "2026-07-19T00:32:27.775Z",
+      "lastSeenMs": 1784421147775
+    },
+    {
       "userId": "5843349211",
       "username": "mc_saponn",
       "displayName": "afrodite",
@@ -12459,5 +12476,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:30:26.586Z"
+  "updatedAt": "2026-07-19T00:32:32.781Z"
 }
