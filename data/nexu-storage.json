@@ -7805,6 +7805,23 @@
       "lastSeenMs": 1784231100000
     },
     {
+      "userId": "4725881145",
+      "username": "kha_hunter1",
+      "displayName": "The_King",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Shindo Life",
+      "placeId": 4616652839,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:29:19.819Z",
+      "firstSeenMs": 1784424559819,
+      "lastSeen": "2026-07-19T01:29:19.819Z",
+      "lastSeenMs": 1784424559819
+    },
+    {
       "userId": "4741745396",
       "username": "im_chiter68",
       "displayName": "larper333folk",
@@ -12816,5 +12833,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:27:15.844Z"
+  "updatedAt": "2026-07-19T01:29:24.823Z"
 }
