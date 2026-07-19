@@ -6671,16 +6671,16 @@
       "displayName": "iloveviolet",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Fight Others For Brainrots!",
-      "placeId": 75646865566926,
+      "gameName": "Place 102210951574195",
+      "placeId": 102210951574195,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T01:26:14.048Z",
       "firstSeenMs": 1784251574048,
-      "lastSeen": "2026-07-18T23:45:00.000Z",
-      "lastSeenMs": 1784418300000
+      "lastSeen": "2026-07-19T01:55:00.000Z",
+      "lastSeenMs": 1784426100000
     },
     {
       "userId": "3420728419",
@@ -13067,5 +13067,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:56:00.628Z"
+  "updatedAt": "2026-07-19T01:57:22.419Z"
 }
