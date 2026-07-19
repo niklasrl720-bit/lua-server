@@ -11074,16 +11074,16 @@
       "displayName": "Hello",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Murder Mystery 2",
-      "placeId": 142823291,
+      "gameName": "👑 Admin",
+      "placeId": 101543096151101,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-18T22:25:00.000Z",
-      "lastSeenMs": 1784413500000
+      "lastSeen": "2026-07-19T01:20:00.000Z",
+      "lastSeenMs": 1784424000000
     },
     {
       "userId": "8808861528",
@@ -12782,5 +12782,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:21:49.197Z"
+  "updatedAt": "2026-07-19T01:22:15.022Z"
 }
