@@ -5974,16 +5974,16 @@
       "displayName": "saturogojo",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Place 117596343548805",
-      "placeId": 117596343548805,
+      "gameName": "[OPTIMIZED] Iron Man Battlegrounds",
+      "placeId": 5890606049,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:05:19.977Z",
       "firstSeenMs": 1784228719977,
-      "lastSeen": "2026-07-19T01:55:00.000Z",
-      "lastSeenMs": 1784426100000
+      "lastSeen": "2026-07-19T02:10:00.000Z",
+      "lastSeenMs": 1784427000000
     },
     {
       "userId": "2066693321",
@@ -11983,8 +11983,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-19T02:05:00.000Z",
-      "lastSeenMs": 1784426700000
+      "lastSeen": "2026-07-19T02:10:00.000Z",
+      "lastSeenMs": 1784427000000
     },
     {
       "userId": "9262341195",
@@ -13186,5 +13186,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T02:12:59.729Z"
+  "updatedAt": "2026-07-19T02:14:02.000Z"
 }
