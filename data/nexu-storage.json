@@ -11409,6 +11409,23 @@
       "lastSeenMs": 1784303400000
     },
     {
+      "userId": "9044424204",
+      "username": "carlosdelapapa",
+      "displayName": "Benito",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "🛍️ ¡Mi Avatar!",
+      "placeId": 75387700043737,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:27:10.835Z",
+      "firstSeenMs": 1784424430835,
+      "lastSeen": "2026-07-19T01:27:10.835Z",
+      "lastSeenMs": 1784424430835
+    },
+    {
       "userId": "9066194839",
       "username": "Flemir10",
       "displayName": "Flemir10",
@@ -12799,5 +12816,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:26:04.451Z"
+  "updatedAt": "2026-07-19T01:27:15.844Z"
 }
