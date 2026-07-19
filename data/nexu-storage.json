@@ -11817,6 +11817,23 @@
       "lastSeenMs": 1784262000000
     },
     {
+      "userId": "9189338143",
+      "username": "Zaskiaaaxxz",
+      "displayName": "rahayuReal",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Menara Wallhop Squishy ASMR",
+      "placeId": 124536519436305,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:59:42.368Z",
+      "firstSeenMs": 1784426382368,
+      "lastSeen": "2026-07-19T01:59:42.368Z",
+      "lastSeenMs": 1784426382368
+    },
+    {
       "userId": "9223593357",
       "username": "Th6DarkSide66",
       "displayName": "Toxic",
@@ -13067,5 +13084,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:58:39.235Z"
+  "updatedAt": "2026-07-19T01:59:47.420Z"
 }
