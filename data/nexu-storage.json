@@ -3385,6 +3385,23 @@
       "lastSeenMs": 1784278200000
     },
     {
+      "userId": "11249368464",
+      "username": "H4CK3RIN1",
+      "displayName": "H4CK3RIN1",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Escondite y Busca Extremo",
+      "placeId": 205224386,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:39:54.510Z",
+      "firstSeenMs": 1784425194510,
+      "lastSeen": "2026-07-19T01:39:54.510Z",
+      "lastSeenMs": 1784425194510
+    },
+    {
       "userId": "11250972164",
       "username": "altaccaun165",
       "displayName": "altaccaun165",
@@ -5848,6 +5865,23 @@
       "firstSeenMs": 1784231454982,
       "lastSeen": "2026-07-16T19:50:54.982Z",
       "lastSeenMs": 1784231454982
+    },
+    {
+      "userId": "2043776839",
+      "username": "bellky322",
+      "displayName": "VOJllSJ",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "แข็งแกร่ง +1 ต่อวินาที 💪",
+      "placeId": 11298617267,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:39:54.772Z",
+      "firstSeenMs": 1784425194772,
+      "lastSeen": "2026-07-19T01:39:54.772Z",
+      "lastSeenMs": 1784425194772
     },
     {
       "userId": "2065199494",
@@ -12884,5 +12918,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:37:42.745Z"
+  "updatedAt": "2026-07-19T01:39:59.516Z"
 }
