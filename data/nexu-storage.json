@@ -6331,16 +6331,16 @@
       "displayName": "doki22811",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Постройте мост к Brainrots",
-      "placeId": 88207898227053,
-      "executionSource": "Solara",
-      "executionVersion": "3.0",
+      "gameName": "Переживите 99 ночей",
+      "placeId": 126509999114328,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-17T20:40:00.000Z",
-      "lastSeenMs": 1784320800000
+      "lastSeen": "2026-07-19T22:30:00.000Z",
+      "lastSeenMs": 1784500200000
     },
     {
       "userId": "2643166270",
@@ -13284,5 +13284,5 @@
     "resetAtMs": 1784498400125,
     "messages": []
   },
-  "updatedAt": "2026-07-19T22:31:02.448Z"
+  "updatedAt": "2026-07-19T22:34:33.593Z"
 }
