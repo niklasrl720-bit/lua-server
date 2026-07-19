@@ -10955,16 +10955,16 @@
       "displayName": "nay221239",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Brookhaven 🏡 RP",
-      "placeId": 4924922222,
+      "gameName": "☀️ Estúdio de Dança KOYA",
+      "placeId": 16962279458,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T21:51:47.869Z",
       "firstSeenMs": 1784411507869,
-      "lastSeen": "2026-07-19T00:05:00.000Z",
-      "lastSeenMs": 1784419500000
+      "lastSeen": "2026-07-19T01:30:00.000Z",
+      "lastSeenMs": 1784424600000
     },
     {
       "userId": "8703565839",
@@ -12833,5 +12833,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:30:43.798Z"
+  "updatedAt": "2026-07-19T01:32:22.637Z"
 }
