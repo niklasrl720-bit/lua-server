@@ -7754,6 +7754,23 @@
       "lastSeenMs": 1784333100000
     },
     {
+      "userId": "4282677389",
+      "username": "MiguelMiglia14",
+      "displayName": "Miguel",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Combate",
+      "placeId": 136052135950344,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T02:39:23.229Z",
+      "firstSeenMs": 1784428763229,
+      "lastSeen": "2026-07-19T02:39:23.229Z",
+      "lastSeenMs": 1784428763229
+    },
+    {
       "userId": "4305233614",
       "username": "QRXJLDT",
       "displayName": "QRXJLDT",
@@ -13371,5 +13388,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T02:38:57.062Z"
+  "updatedAt": "2026-07-19T02:39:28.234Z"
 }
