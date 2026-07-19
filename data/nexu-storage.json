@@ -12358,8 +12358,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-18T23:39:40.251Z",
         "sentAtMs": 1784417980251
+      },
+      {
+        "id": 1784420021609012,
+        "userId": "11201854858",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "multiversezkane2024",
+        "displayName": "multiversezkane2024",
+        "message": "#########",
+        "originalMessage": "niggerrrr",
+        "moderated": true,
+        "moderationCategory": "HASSREDE",
+        "moderationScore": 100,
+        "sentAt": "2026-07-19T00:13:41.609Z",
+        "sentAtMs": 1784420021609
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:12:36.412Z"
+  "updatedAt": "2026-07-19T00:13:42.631Z"
 }
