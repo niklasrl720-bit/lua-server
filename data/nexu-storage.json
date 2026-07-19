@@ -5544,6 +5544,23 @@
       "lastSeenMs": 1784318400000
     },
     {
+      "userId": "121836899",
+      "username": "joshuansantiago",
+      "displayName": "Emo_FadedPR",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "😈 Split or Steal Brainrot [AUCTION Mode]",
+      "placeId": 70959844973091,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-19T23:18:37.449Z",
+      "firstSeenMs": 1784503117449,
+      "lastSeen": "2026-07-19T23:18:37.449Z",
+      "lastSeenMs": 1784503117449
+    },
+    {
       "userId": "1231105181",
       "username": "feridtur2",
       "displayName": "COLDEX",
@@ -13284,5 +13301,5 @@
     "resetAtMs": 1784498400125,
     "messages": []
   },
-  "updatedAt": "2026-07-19T23:18:18.303Z"
+  "updatedAt": "2026-07-19T23:18:42.453Z"
 }
