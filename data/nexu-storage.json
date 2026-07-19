@@ -1348,8 +1348,8 @@
       "userId": "10771145154",
       "username": "lelekoleon",
       "displayName": "lelekoleon",
-      "roleKey": "supporter",
-      "roleUpdatedAtMs": 1784401807816,
+      "roleKey": "vip",
+      "roleUpdatedAtMs": 1784504638249,
       "gameName": "Deutsche Stimme",
       "placeId": 136162036182779,
       "executionSource": "Solara",
@@ -13301,5 +13301,5 @@
     "resetAtMs": 1784498400125,
     "messages": []
   },
-  "updatedAt": "2026-07-19T23:41:02.614Z"
+  "updatedAt": "2026-07-19T23:43:58.260Z"
 }
