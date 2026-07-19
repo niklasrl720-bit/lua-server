@@ -372,8 +372,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-19T02:25:00.000Z",
-      "lastSeenMs": 1784427900000
+      "lastSeen": "2026-07-19T02:30:00.000Z",
+      "lastSeenMs": 1784428200000
     },
     {
       "userId": "10203550652",
@@ -559,8 +559,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-19T02:25:00.000Z",
-      "lastSeenMs": 1784427900000
+      "lastSeen": "2026-07-19T02:30:00.000Z",
+      "lastSeenMs": 1784428200000
     },
     {
       "userId": "10302526420",
@@ -661,8 +661,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-19T02:25:00.000Z",
-      "lastSeenMs": 1784427900000
+      "lastSeen": "2026-07-19T02:30:00.000Z",
+      "lastSeenMs": 1784428200000
     },
     {
       "userId": "10427971366",
@@ -5455,8 +5455,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-18T22:24:22.515Z",
       "firstSeenMs": 1784413462515,
-      "lastSeen": "2026-07-19T02:25:00.000Z",
-      "lastSeenMs": 1784427900000
+      "lastSeen": "2026-07-19T02:30:00.000Z",
+      "lastSeenMs": 1784428200000
     },
     {
       "userId": "1177195747",
@@ -5557,8 +5557,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T23:51:29.415Z",
       "firstSeenMs": 1784245889415,
-      "lastSeen": "2026-07-19T02:25:00.000Z",
-      "lastSeenMs": 1784427900000
+      "lastSeen": "2026-07-19T02:30:00.000Z",
+      "lastSeenMs": 1784428200000
     },
     {
       "userId": "1407975513",
@@ -7533,6 +7533,23 @@
       "lastSeenMs": 1784421450616
     },
     {
+      "userId": "4171866153",
+      "username": "SuperKho1234",
+      "displayName": "Icantchat",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "AFK Aura farming 🤫",
+      "placeId": 125384092144955,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T02:30:04.476Z",
+      "firstSeenMs": 1784428204476,
+      "lastSeen": "2026-07-19T02:30:04.476Z",
+      "lastSeenMs": 1784428204476
+    },
+    {
       "userId": "4171999215",
       "username": "matias182737",
       "displayName": "matias182737",
@@ -9059,8 +9076,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T02:02:53.513Z",
       "firstSeenMs": 1784253773513,
-      "lastSeen": "2026-07-19T02:25:00.000Z",
-      "lastSeenMs": 1784427900000
+      "lastSeen": "2026-07-19T02:30:00.000Z",
+      "lastSeenMs": 1784428200000
     },
     {
       "userId": "6074258353",
@@ -11864,8 +11881,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-19T02:25:00.000Z",
-      "lastSeenMs": 1784427900000
+      "lastSeen": "2026-07-19T02:30:00.000Z",
+      "lastSeenMs": 1784428200000
     },
     {
       "userId": "9123569216",
@@ -12816,8 +12833,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:59:16.005Z",
       "firstSeenMs": 1784228356005,
-      "lastSeen": "2026-07-19T02:25:00.000Z",
-      "lastSeenMs": 1784427900000
+      "lastSeen": "2026-07-19T02:30:00.000Z",
+      "lastSeenMs": 1784428200000
     },
     {
       "userId": "9812944983",
@@ -13286,5 +13303,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T02:30:01.698Z"
+  "updatedAt": "2026-07-19T02:30:09.483Z"
 }
