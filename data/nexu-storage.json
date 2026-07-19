@@ -9981,6 +9981,23 @@
       "lastSeenMs": 1784296500000
     },
     {
+      "userId": "8136951187",
+      "username": "Gatitofeyito2040",
+      "displayName": "Gatitofeyito2040",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[🔱DUELS] Murderers VS Sheriffs",
+      "placeId": 135856908115931,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "IOS",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:36:42.668Z",
+      "firstSeenMs": 1784421402668,
+      "lastSeen": "2026-07-19T00:36:42.668Z",
+      "lastSeenMs": 1784421402668
+    },
+    {
       "userId": "8138428775",
       "username": "XAVIER_X55",
       "displayName": "FNcities",
@@ -12476,5 +12493,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:36:00.336Z"
+  "updatedAt": "2026-07-19T00:36:47.674Z"
 }
