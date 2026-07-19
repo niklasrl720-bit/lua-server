@@ -10202,6 +10202,23 @@
       "lastSeenMs": 1784233500000
     },
     {
+      "userId": "8083348343",
+      "username": "Anderson_212112",
+      "displayName": "c00lkid",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Hide and Seek Extreme",
+      "placeId": 205224386,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.1.5",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:37:32.519Z",
+      "firstSeenMs": 1784425052519,
+      "lastSeen": "2026-07-19T01:37:32.519Z",
+      "lastSeenMs": 1784425052519
+    },
+    {
       "userId": "8084788172",
       "username": "tanakad05",
       "displayName": "sd00elementaltaiga",
@@ -12850,5 +12867,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:36:45.546Z"
+  "updatedAt": "2026-07-19T01:37:37.526Z"
 }
