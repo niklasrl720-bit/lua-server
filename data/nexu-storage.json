@@ -372,8 +372,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-19T01:35:00.000Z",
-      "lastSeenMs": 1784424900000
+      "lastSeen": "2026-07-19T01:40:00.000Z",
+      "lastSeenMs": 1784425200000
     },
     {
       "userId": "10203550652",
@@ -559,8 +559,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-19T01:35:00.000Z",
-      "lastSeenMs": 1784424900000
+      "lastSeen": "2026-07-19T01:40:00.000Z",
+      "lastSeenMs": 1784425200000
     },
     {
       "userId": "10302526420",
@@ -3398,8 +3398,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:39:54.510Z",
       "firstSeenMs": 1784425194510,
-      "lastSeen": "2026-07-19T01:39:54.510Z",
-      "lastSeenMs": 1784425194510
+      "lastSeen": "2026-07-19T01:40:00.000Z",
+      "lastSeenMs": 1784425200000
     },
     {
       "userId": "11250972164",
@@ -5880,8 +5880,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:39:54.772Z",
       "firstSeenMs": 1784425194772,
-      "lastSeen": "2026-07-19T01:39:54.772Z",
-      "lastSeenMs": 1784425194772
+      "lastSeen": "2026-07-19T01:40:00.000Z",
+      "lastSeenMs": 1784425200000
     },
     {
       "userId": "2065199494",
@@ -10385,8 +10385,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:36:40.539Z",
       "firstSeenMs": 1784425000539,
-      "lastSeen": "2026-07-19T01:36:40.539Z",
-      "lastSeenMs": 1784425000539
+      "lastSeen": "2026-07-19T01:40:00.000Z",
+      "lastSeenMs": 1784425200000
     },
     {
       "userId": "8245444026",
@@ -11201,8 +11201,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T18:05:11.673Z",
       "firstSeenMs": 1784225111673,
-      "lastSeen": "2026-07-19T01:35:00.000Z",
-      "lastSeenMs": 1784424900000
+      "lastSeen": "2026-07-19T01:40:00.000Z",
+      "lastSeenMs": 1784425200000
     },
     {
       "userId": "8808861528",
@@ -12242,6 +12242,23 @@
       "lastSeenMs": 1784292786075
     },
     {
+      "userId": "9548343376",
+      "username": "RN251780",
+      "displayName": "carlo_evade",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Brookhaven 🏡RP",
+      "placeId": 4924922222,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:40:08.755Z",
+      "firstSeenMs": 1784425208755,
+      "lastSeen": "2026-07-19T01:40:08.755Z",
+      "lastSeenMs": 1784425208755
+    },
+    {
       "userId": "9553753879",
       "username": "LOL_PRO22714",
       "displayName": "LOL_PRO22714",
@@ -12918,5 +12935,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:39:59.516Z"
+  "updatedAt": "2026-07-19T01:40:13.760Z"
 }
