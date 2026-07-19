@@ -355,8 +355,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-19T00:40:00.000Z",
-      "lastSeenMs": 1784421600000
+      "lastSeen": "2026-07-19T00:45:00.000Z",
+      "lastSeenMs": 1784421900000
     },
     {
       "userId": "10203550652",
@@ -7903,8 +7903,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T06:39:41.961Z",
       "firstSeenMs": 1784270381961,
-      "lastSeen": "2026-07-19T00:40:00.000Z",
-      "lastSeenMs": 1784421600000
+      "lastSeen": "2026-07-19T00:45:00.000Z",
+      "lastSeenMs": 1784421900000
     },
     {
       "userId": "5131378969",
@@ -8005,8 +8005,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T05:09:58.185Z",
       "firstSeenMs": 1784264998185,
-      "lastSeen": "2026-07-19T00:40:00.000Z",
-      "lastSeenMs": 1784421600000
+      "lastSeen": "2026-07-19T00:45:00.000Z",
+      "lastSeenMs": 1784421900000
     },
     {
       "userId": "5181708696",
@@ -11800,6 +11800,23 @@
       "lastSeenMs": 1784419500000
     },
     {
+      "userId": "9505102613",
+      "username": "roblox_user_9505102613",
+      "displayName": "roblox_user_9505102613",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Выживание в стихийных бедствиях",
+      "placeId": 189707,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:44:58.884Z",
+      "firstSeenMs": 1784421898884,
+      "lastSeen": "2026-07-19T00:44:58.884Z",
+      "lastSeenMs": 1784421898884
+    },
+    {
       "userId": "9508855732",
       "username": "zian_fan7",
       "displayName": "mas_oren123",
@@ -12527,5 +12544,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:41:00.434Z"
+  "updatedAt": "2026-07-19T00:45:03.889Z"
 }
