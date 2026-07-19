@@ -14064,6 +14064,449 @@ homeHtml = function(...args) {
     return html;
 };
 
+
+
+/* --------------------------------------------------------------------------
+ * NEXU V224 // PUBLIC LUA OBFUSCATOR
+ * Öffentlicher Startseiten-Obfuscator mit eigenem Upload-Limit, serverseitiger
+ * Zufallsverschlüsselung, Integritätsprüfung und missbrauchsarmem Rate-Limit.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V224_BASE_HOME_HTML = homeHtml;
+const NEXU_OBFUSCATOR_MAX_LINES = 150_000;
+const NEXU_OBFUSCATOR_MAX_INPUT_BYTES = 20 * 1024 * 1024;
+const NEXU_OBFUSCATOR_MAX_REQUEST_BYTES = 48 * 1024 * 1024;
+const NEXU_OBFUSCATOR_RATE_WINDOW_MS = 60_000;
+const NEXU_OBFUSCATOR_RATE_LIMIT = 6;
+const nexuObfuscatorRateLimits = new Map();
+
+function readNexuRawBodyLimited(req, maxBytes) {
+    return new Promise((resolve, reject) => {
+        const declaredLength = Number(req.headers["content-length"] || 0);
+        if (Number.isFinite(declaredLength) && declaredLength > maxBytes) {
+            req.resume();
+            reject(new Error("BODY_TOO_LARGE"));
+            return;
+        }
+
+        const chunks = [];
+        let totalBytes = 0;
+        let tooLarge = false;
+        req.on("data", (chunk) => {
+            const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+            totalBytes += buffer.length;
+            if (totalBytes > maxBytes) {
+                tooLarge = true;
+                return;
+            }
+            chunks.push(buffer);
+        });
+        req.on("end", () => {
+            if (tooLarge) {
+                reject(new Error("BODY_TOO_LARGE"));
+                return;
+            }
+            resolve(Buffer.concat(chunks, totalBytes).toString("utf8"));
+        });
+        req.on("error", reject);
+    });
+}
+
+async function readNexuJsonBodyLimited(req, maxBytes) {
+    const raw = await readNexuRawBodyLimited(req, maxBytes);
+    try {
+        return raw ? JSON.parse(raw) : {};
+    } catch {
+        throw new Error("INVALID_JSON");
+    }
+}
+
+function countNexuSourceLines(source) {
+    if (!source) return 0;
+    let lines = 1;
+    for (let index = 0; index < source.length; index += 1) {
+        const code = source.charCodeAt(index);
+        if (code === 10 || (code === 13 && source.charCodeAt(index + 1) !== 10)) lines += 1;
+    }
+    return lines;
+}
+
+function getNexuObfuscatorClientKey(req) {
+    const forwarded = String(req.headers["cf-connecting-ip"] || req.headers["x-forwarded-for"] || "").trim();
+    if (forwarded) return forwarded.split(",")[0].trim().slice(0, 120);
+    return String(req.socket && req.socket.remoteAddress || "unknown").slice(0, 120);
+}
+
+function consumeNexuObfuscatorRateLimit(req) {
+    const now = Date.now();
+    const key = getNexuObfuscatorClientKey(req);
+    let entry = nexuObfuscatorRateLimits.get(key);
+    if (!entry || now - entry.startedAtMs >= NEXU_OBFUSCATOR_RATE_WINDOW_MS) {
+        entry = { startedAtMs: now, count: 0 };
+    }
+    if (entry.count >= NEXU_OBFUSCATOR_RATE_LIMIT) {
+        const retryAfterMs = Math.max(1_000, NEXU_OBFUSCATOR_RATE_WINDOW_MS - (now - entry.startedAtMs));
+        nexuObfuscatorRateLimits.set(key, entry);
+        return { allowed: false, retryAfterSeconds: Math.ceil(retryAfterMs / 1000) };
+    }
+    entry.count += 1;
+    nexuObfuscatorRateLimits.set(key, entry);
+
+    if (nexuObfuscatorRateLimits.size > 2_000) {
+        for (const [storedKey, storedEntry] of nexuObfuscatorRateLimits) {
+            if (now - Number(storedEntry.startedAtMs || 0) > NEXU_OBFUSCATOR_RATE_WINDOW_MS * 2) {
+                nexuObfuscatorRateLimits.delete(storedKey);
+            }
+        }
+    }
+    return { allowed: true, retryAfterSeconds: 0 };
+}
+
+function nexuRandomLuaName() {
+    return "_n" + crypto.randomBytes(7).toString("hex");
+}
+
+function nexuLuaNumberExpression(value) {
+    const safeValue = Math.max(0, Math.floor(Number(value) || 0));
+    const delta = crypto.randomInt(10_000, 900_000);
+    return `(${safeValue + delta}-${delta})`;
+}
+
+function buildNexuObfuscatorKey(seed, length = 64) {
+    const key = Buffer.allocUnsafe(length);
+    let state = seed;
+    for (let index = 0; index < length; index += 1) {
+        state = (state * 48_271) % 2_147_483_647;
+        key[index] = state % 256;
+    }
+    return key;
+}
+
+function shuffleNexuArray(values) {
+    for (let index = values.length - 1; index > 0; index -= 1) {
+        const swapIndex = crypto.randomInt(0, index + 1);
+        [values[index], values[swapIndex]] = [values[swapIndex], values[index]];
+    }
+    return values;
+}
+
+function obfuscateNexuLuaSource(source) {
+    const sourceBuffer = Buffer.from(source, "utf8");
+    const seed = crypto.randomInt(1, 2_147_483_647);
+    const key = buildNexuObfuscatorKey(seed);
+    const encryptedReversed = Buffer.allocUnsafe(sourceBuffer.length);
+    let checksum = 0;
+
+    for (let index = 0; index < sourceBuffer.length; index += 1) {
+        const sourceByte = sourceBuffer[index];
+        checksum = (checksum * 131 + sourceByte) % 2_147_483_647;
+        const saltA = (index * 29 + 71) % 256;
+        const saltB = ((index % 251) * (index % 17) + 13) % 256;
+        const encryptedByte = (sourceByte + key[index % key.length] + saltA + saltB) % 256;
+        encryptedReversed[sourceBuffer.length - index - 1] = encryptedByte;
+    }
+
+    const encoded = encryptedReversed.toString("base64");
+    const payloadChunks = [];
+    for (let offset = 0; offset < encoded.length;) {
+        let chunkLength = crypto.randomInt(3_072, 6_145);
+        chunkLength -= chunkLength % 4;
+        if (chunkLength < 4) chunkLength = 4;
+        payloadChunks.push(encoded.slice(offset, offset + chunkLength));
+        offset += chunkLength;
+    }
+
+    const usedKeys = new Set();
+    function nextTableKey() {
+        let value = 0;
+        do value = crypto.randomInt(100_000, 9_999_999); while (usedKeys.has(value));
+        usedKeys.add(value);
+        return value;
+    }
+
+    const orderKeys = payloadChunks.map(() => nextTableKey());
+    const tableEntries = payloadChunks.map((chunk, index) => ({ key: orderKeys[index], chunk }));
+    const decoyCount = crypto.randomInt(3, 7);
+    for (let index = 0; index < decoyCount; index += 1) {
+        tableEntries.push({
+            key: nextTableKey(),
+            chunk: crypto.randomBytes(crypto.randomInt(36, 120)).toString("base64"),
+        });
+    }
+    shuffleNexuArray(tableEntries);
+
+    const names = Array.from({ length: 21 }, () => nexuRandomLuaName());
+    const [payloadTable, orderTable, alphabet, lookup, decodeFunction, inputValue, outputTable, outputCount,
+        accumulator, bitCount, loopIndex, characterCode, decodedValue, divisor, orderedParts, encryptedData,
+        stateName, keyTable, sourceTable, sourceChecksum, sourceLength] = names;
+
+    const payloadLines = tableEntries.map((entry) => ` [${entry.key}]=\"${entry.chunk}\",`).join("\n");
+    const orderLine = orderKeys.join(",");
+    const seedExpression = nexuLuaNumberExpression(seed);
+    const lengthExpression = nexuLuaNumberExpression(sourceBuffer.length);
+    const checksumExpression = nexuLuaNumberExpression(checksum);
+
+    const code = `--[[NEXU OBFUSCATED // V224]]\nreturn(function(...)\nlocal ${payloadTable}={\n${payloadLines}\n}\nlocal ${orderTable}={${orderLine}}\nlocal ${orderedParts}={}\nfor ${loopIndex}=1,#${orderTable} do ${orderedParts}[${loopIndex}]=${payloadTable}[${orderTable}[${loopIndex}]] end\nlocal ${alphabet}=\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/\"\nlocal ${lookup}={}\nfor ${loopIndex}=1,#${alphabet} do ${lookup}[string.byte(${alphabet},${loopIndex})]=${loopIndex}-1 end\nlocal function ${decodeFunction}(${inputValue})\n local ${outputTable},${outputCount},{acc},{bits}={},0,0,0\n for ${loopIndex}=1,#${inputValue} do\n  local ${characterCode}=string.byte(${inputValue},${loopIndex})\n  if ${characterCode}==61 then break end\n  local ${decodedValue}=${lookup}[${characterCode}]\n  if ${decodedValue}~=nil then\n   {acc}={acc}*64+${decodedValue};{bits}={bits}+6\n   if {bits}>=8 then\n    {bits}={bits}-8\n    local ${divisor}=2^{bits}\n    ${outputCount}=${outputCount}+1\n    ${outputTable}[${outputCount}]=string.char(math.floor({acc}/${divisor})%256)\n    {acc}={acc}%${divisor}\n   end\n  end\n end\n return table.concat(${outputTable})\nend\nlocal ${encryptedData}=${decodeFunction}(table.concat(${orderedParts}))\nlocal ${stateName}=${seedExpression}\nlocal ${keyTable}={}\nfor ${loopIndex}=1,64 do ${stateName}=(${stateName}*48271)%2147483647;${keyTable}[${loopIndex}]=${stateName}%256 end\nlocal ${sourceTable},${sourceChecksum},{n}={},0,#${encryptedData}\nfor ${loopIndex}=1,{n} do\n local {j}=${loopIndex}-1\n local {x}=string.byte(${encryptedData},{n}-${loopIndex}+1)\n local {b}=({x}-${keyTable}[({j}%64)+1]-(({j}*29+71)%256)-((({j}%251)*({j}%17)+13)%256))%256\n ${sourceTable}[${loopIndex}]=string.char({b})\n ${sourceChecksum}=(${sourceChecksum}*131+{b})%2147483647\nend\nif {n}~=${lengthExpression} or ${sourceChecksum}~=${checksumExpression} then error(\"NEXU payload integrity error\",0) end\nlocal ${sourceLength}=table.concat(${sourceTable})\nlocal {loader}=loadstring or load\nif type({loader})~=\"function\" then error(\"loadstring is required to run this obfuscated script\",0) end\nlocal {compiled},{compileError}={loader}(${sourceLength})\nif not {compiled} then error({compileError} or \"NEXU compile error\",0) end\nreturn {compiled}(...)\nend)(...)`;
+
+    const replacementNames = {
+        acc: accumulator,
+        bits: bitCount,
+        n: nexuRandomLuaName(),
+        j: nexuRandomLuaName(),
+        x: nexuRandomLuaName(),
+        b: nexuRandomLuaName(),
+        loader: nexuRandomLuaName(),
+        compiled: nexuRandomLuaName(),
+        compileError: nexuRandomLuaName(),
+    };
+    let finalizedCode = code;
+    for (const [placeholder, replacement] of Object.entries(replacementNames)) {
+        finalizedCode = finalizedCode.split(`{${placeholder}}`).join(replacement);
+    }
+
+    return {
+        code: finalizedCode,
+        inputBytes: sourceBuffer.length,
+        outputBytes: Buffer.byteLength(finalizedCode, "utf8"),
+        fingerprint: crypto.createHash("sha256").update(sourceBuffer).digest("hex").slice(0, 16),
+    };
+}
+
+function nexuV224ObfuscatorCss() {
+    return String.raw`
+/* NEXU V224 // PUBLIC LUA OBFUSCATOR */
+body.page-home.nx-v208-home .nx-v224-nav-button{
+    min-height:38px;display:flex;align-items:center;padding:0 14px;border:1px solid rgba(128,99,255,.20);
+    border-radius:11px;color:#aa9cff;background:rgba(128,99,255,.065);font:inherit;font-size:11px;font-weight:850;
+    letter-spacing:.04em;cursor:pointer;transition:color .18s ease,border-color .18s ease,background .18s ease,transform .18s ease;
+}
+body.page-home.nx-v208-home .nx-v224-nav-button:hover{color:#f2edff;border-color:rgba(128,99,255,.40);background:rgba(128,99,255,.12);transform:translateY(-1px);}
+body.page-home.nx-v208-home .nx-v224-obfuscator-trigger{border-color:rgba(128,99,255,.30) !important;background:linear-gradient(135deg,rgba(128,99,255,.15),rgba(32,215,255,.08)) !important;}
+body.nx-v224-modal-open{overflow:hidden !important;}
+.nx-v224-obfuscator-modal[hidden]{display:none !important;}
+.nx-v224-obfuscator-modal{position:fixed;inset:0;z-index:40000;display:grid;place-items:center;padding:18px;}
+.nx-v224-obfuscator-backdrop{position:absolute;inset:0;background:rgba(0,3,8,.82);backdrop-filter:blur(14px);}
+.nx-v224-obfuscator-window{position:relative;width:min(1120px,100%);max-height:min(900px,calc(100vh - 36px));display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(91,218,255,.25);border-radius:25px;background:linear-gradient(145deg,rgba(8,18,29,.99),rgba(4,10,18,.99));box-shadow:0 35px 120px rgba(0,0,0,.70),0 0 0 1px rgba(255,255,255,.035) inset;}
+.nx-v224-obfuscator-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:21px 22px;border-bottom:1px solid rgba(138,205,235,.13);background:linear-gradient(90deg,rgba(32,215,255,.055),rgba(128,99,255,.055));}
+.nx-v224-obfuscator-title span{display:block;color:#7be7ff;font-size:9px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;}
+.nx-v224-obfuscator-title h2{margin:7px 0 0;color:#f5fbff;font-size:25px;line-height:1.08;letter-spacing:-.03em;}
+.nx-v224-obfuscator-close{width:40px;height:40px;display:grid;place-items:center;flex:0 0 40px;border:1px solid rgba(138,205,235,.17);border-radius:12px;color:#a8c0ce;background:#091520;font:inherit;font-size:20px;cursor:pointer;}
+.nx-v224-obfuscator-body{min-height:0;display:flex;flex-direction:column;gap:12px;padding:18px 20px 20px;overflow:auto;}
+.nx-v224-obfuscator-note{margin:0;color:#7f9bad;font-size:12px;line-height:1.6;}
+.nx-v224-obfuscator-editor{width:100%;min-height:430px;resize:vertical;padding:17px;border:1px solid rgba(91,218,255,.18);border-radius:17px;outline:none;color:#dff7ff;background:#02070c;font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:4;box-shadow:0 0 0 1px rgba(255,255,255,.015) inset;}
+.nx-v224-obfuscator-editor:focus{border-color:rgba(91,218,255,.42);box-shadow:0 0 0 3px rgba(32,215,255,.07);}
+.nx-v224-obfuscator-meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;color:#718ea0;font-size:10px;font-weight:800;letter-spacing:.04em;}
+.nx-v224-obfuscator-meta .danger{color:#ff7896;}
+.nx-v224-obfuscator-status{min-height:42px;display:flex;align-items:center;padding:10px 13px;border:1px solid rgba(138,205,235,.12);border-radius:12px;color:#83a1b3;background:rgba(5,13,21,.72);font-size:11px;line-height:1.45;}
+.nx-v224-obfuscator-status.success{color:#9df7d0;border-color:rgba(69,245,177,.25);background:rgba(69,245,177,.055);}
+.nx-v224-obfuscator-status.error{color:#ff9aae;border-color:rgba(255,77,120,.28);background:rgba(255,77,120,.06);}
+.nx-v224-obfuscator-status.busy{color:#a9ecff;border-color:rgba(32,215,255,.26);background:rgba(32,215,255,.055);}
+.nx-v224-obfuscator-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:9px;}
+.nx-v224-obfuscator-actions button{min-height:45px;padding:0 17px;border:1px solid rgba(91,218,255,.19);border-radius:12px;color:#d7edf7;background:#091622;font:inherit;font-size:10px;font-weight:900;letter-spacing:.07em;cursor:pointer;}
+.nx-v224-obfuscator-actions button.primary{color:#031019;border-color:transparent;background:linear-gradient(135deg,#20d7ff,#55b7ff 58%,#9681ff);}
+.nx-v224-obfuscator-actions button.copy{border-color:rgba(69,245,177,.26);color:#aef8d8;background:rgba(69,245,177,.07);}
+.nx-v224-obfuscator-actions button:disabled{opacity:.42;cursor:not-allowed;filter:saturate(.45);}
+@media(max-width:760px){
+ body.page-home.nx-v208-home .nx-v208-nav{display:none !important;}
+ .nx-v224-obfuscator-modal{padding:8px;}
+ .nx-v224-obfuscator-window{max-height:calc(100vh - 16px);border-radius:18px;}
+ .nx-v224-obfuscator-head{padding:17px 16px;}
+ .nx-v224-obfuscator-title h2{font-size:21px;}
+ .nx-v224-obfuscator-body{padding:14px;}
+ .nx-v224-obfuscator-editor{min-height:52vh;font-size:11px;}
+ .nx-v224-obfuscator-actions{display:grid;grid-template-columns:1fr 1fr;}
+ .nx-v224-obfuscator-actions button.primary{grid-column:1/-1;grid-row:1;}
+}
+`;
+}
+
+function nexuV224ObfuscatorMarkup(english = false) {
+    const text = english ? {
+        label: "PUBLIC TOOL // LUAU",
+        title: "Nexu Lua Obfuscator",
+        note: "Paste a Lua/Luau script with up to 150,000 lines. The result replaces the editor content and can then be copied. The payload is encrypted and randomized, but no client-side obfuscation is absolutely irreversible.",
+        placeholder: "Paste your Lua/Luau script here...",
+        lines: "Lines",
+        bytes: "Size",
+        ready: "Paste a script to begin.",
+        close: "Close",
+        obfuscate: "Obfuscate",
+        copy: "Copy result",
+    } : {
+        label: "ÖFFENTLICHES TOOL // LUAU",
+        title: "Nexu Lua Obfuscator",
+        note: "Füge ein Lua-/Luau-Skript mit bis zu 150.000 Zeilen ein. Das Ergebnis ersetzt anschließend den Inhalt des Editors und kann kopiert werden. Der Payload wird verschlüsselt und zufällig aufgebaut; keine clientseitige Obfuskation ist jedoch absolut unknackbar.",
+        placeholder: "Lua-/Luau-Skript hier einfügen ...",
+        lines: "Zeilen",
+        bytes: "Größe",
+        ready: "Füge ein Skript ein, um zu beginnen.",
+        close: "Schließen",
+        obfuscate: "Obfuscaten",
+        copy: "Ergebnis kopieren",
+    };
+    return String.raw`
+<div id="nexuObfuscatorModal" class="nx-v224-obfuscator-modal" hidden aria-hidden="true">
+    <div class="nx-v224-obfuscator-backdrop" data-nexu-obfuscator-close></div>
+    <section class="nx-v224-obfuscator-window" role="dialog" aria-modal="true" aria-labelledby="nexuObfuscatorTitle">
+        <header class="nx-v224-obfuscator-head">
+            <div class="nx-v224-obfuscator-title"><span>${text.label}</span><h2 id="nexuObfuscatorTitle">${text.title}</h2></div>
+            <button class="nx-v224-obfuscator-close" type="button" data-nexu-obfuscator-close aria-label="${text.close}">×</button>
+        </header>
+        <div class="nx-v224-obfuscator-body">
+            <p class="nx-v224-obfuscator-note">${text.note}</p>
+            <textarea id="nexuObfuscatorEditor" class="nx-v224-obfuscator-editor" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="${text.placeholder}"></textarea>
+            <div class="nx-v224-obfuscator-meta"><span id="nexuObfuscatorLines">${text.lines}: 0 / 150.000</span><span id="nexuObfuscatorBytes">${text.bytes}: 0 B / 20 MB</span></div>
+            <div id="nexuObfuscatorStatus" class="nx-v224-obfuscator-status" role="status" aria-live="polite">${text.ready}</div>
+            <div class="nx-v224-obfuscator-actions">
+                <button type="button" data-nexu-obfuscator-close>${text.close}</button>
+                <button id="nexuObfuscatorCopy" class="copy" type="button" disabled>${text.copy}</button>
+                <button id="nexuObfuscatorRun" class="primary" type="button">${text.obfuscate}</button>
+            </div>
+        </div>
+    </section>
+</div>`;
+}
+
+function nexuV224ObfuscatorScript(english = false) {
+    const messages = english ? {
+        open: "Paste a script to begin.", empty: "Please paste a Lua/Luau script first.", tooManyLines: "The script exceeds the limit of 150,000 lines.",
+        tooLarge: "The script exceeds the maximum size of 20 MB.", working: "Encrypting and obfuscating the script...",
+        failed: "Obfuscation failed.", complete: "Obfuscation complete. The editor now contains the protected output.",
+        copied: "The obfuscated script was copied.", copyFailed: "Copying failed. Select the editor content manually.",
+        lines: "Lines", size: "Size", output: "Output", resultChanged: "The result was edited. Obfuscate again before using the result button.",
+    } : {
+        open: "Füge ein Skript ein, um zu beginnen.", empty: "Bitte füge zuerst ein Lua-/Luau-Skript ein.", tooManyLines: "Das Skript überschreitet das Limit von 150.000 Zeilen.",
+        tooLarge: "Das Skript überschreitet die maximale Größe von 20 MB.", working: "Das Skript wird verschlüsselt und obfuskiert ...",
+        failed: "Die Obfuskation ist fehlgeschlagen.", complete: "Obfuskation abgeschlossen. Im Editor steht jetzt das geschützte Ergebnis.",
+        copied: "Das obfuskierte Skript wurde kopiert.", copyFailed: "Kopieren fehlgeschlagen. Markiere den Editorinhalt bitte manuell.",
+        lines: "Zeilen", size: "Größe", output: "Ausgabe", resultChanged: "Das Ergebnis wurde verändert. Obfuskiere erneut, bevor du den Ergebnis-Button verwendest.",
+    };
+    return String.raw`<script>
+(function(){
+    "use strict";
+    var MAX_LINES=150000,MAX_BYTES=20*1024*1024;
+    var modal=document.getElementById("nexuObfuscatorModal");
+    var editor=document.getElementById("nexuObfuscatorEditor");
+    var runButton=document.getElementById("nexuObfuscatorRun");
+    var copyButton=document.getElementById("nexuObfuscatorCopy");
+    var linesNode=document.getElementById("nexuObfuscatorLines");
+    var bytesNode=document.getElementById("nexuObfuscatorBytes");
+    var statusNode=document.getElementById("nexuObfuscatorStatus");
+    var state={busy:false,result:false};
+    var textEncoder=typeof TextEncoder==="function"?new TextEncoder():null;
+    var messages=${JSON.stringify(messages)};
+
+    function byteLength(value){
+        if(textEncoder)return textEncoder.encode(value).length;
+        try{return unescape(encodeURIComponent(value)).length;}catch(_){return value.length;}
+    }
+    function lineCount(value){
+        if(!value)return 0;
+        var lines=1;
+        for(var i=0;i<value.length;i+=1){
+            var code=value.charCodeAt(i);
+            if(code===10||(code===13&&value.charCodeAt(i+1)!==10))lines+=1;
+        }
+        return lines;
+    }
+    function formatBytes(bytes){
+        if(bytes<1024)return String(bytes)+" B";
+        if(bytes<1024*1024)return (bytes/1024).toFixed(1)+" KB";
+        return (bytes/(1024*1024)).toFixed(2)+" MB";
+    }
+    function setStatus(message,type){
+        statusNode.textContent=message;
+        statusNode.className="nx-v224-obfuscator-status"+(type?" "+type:"");
+    }
+    function updateStats(){
+        var value=editor.value||"";
+        var lines=lineCount(value),bytes=byteLength(value);
+        linesNode.textContent=messages.lines+": "+lines.toLocaleString()+" / 150.000";
+        bytesNode.textContent=(state.result?messages.output:messages.size)+": "+formatBytes(bytes)+(state.result?"":" / 20 MB");
+        linesNode.classList.toggle("danger",!state.result&&lines>MAX_LINES);
+        bytesNode.classList.toggle("danger",!state.result&&bytes>MAX_BYTES);
+        return {lines:lines,bytes:bytes};
+    }
+    function setBusy(busy){
+        state.busy=busy;
+        runButton.disabled=busy;
+        copyButton.disabled=busy||!state.result;
+        editor.readOnly=busy;
+    }
+    function openModal(){
+        if(!modal)return;
+        modal.hidden=false;modal.setAttribute("aria-hidden","false");
+        document.body.classList.add("nx-v224-modal-open");
+        setTimeout(function(){editor.focus();},30);
+        if(!state.result)setStatus(messages.open,"");
+        updateStats();
+    }
+    function closeModal(){
+        if(!modal||state.busy)return;
+        modal.hidden=true;modal.setAttribute("aria-hidden","true");
+        document.body.classList.remove("nx-v224-modal-open");
+    }
+    async function runObfuscator(){
+        if(state.busy)return;
+        var source=editor.value||"";
+        var stats=updateStats();
+        if(!source.trim()){setStatus(messages.empty,"error");editor.focus();return;}
+        if(stats.lines>MAX_LINES){setStatus(messages.tooManyLines,"error");return;}
+        if(stats.bytes>MAX_BYTES){setStatus(messages.tooLarge,"error");return;}
+        state.result=false;setBusy(true);setStatus(messages.working,"busy");
+        try{
+            var response=await fetch("/api/obfuscator",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({source:source})});
+            var data=await response.json().catch(function(){return {};});
+            if(!response.ok||!data.success||typeof data.code!=="string")throw new Error(data.error||messages.failed);
+            editor.value=data.code;
+            state.result=true;
+            updateStats();
+            setStatus(messages.complete+" "+messages.output+": "+formatBytes(Number(data.outputBytes)||byteLength(data.code))+".","success");
+        }catch(error){
+            state.result=false;
+            setStatus(String(error&&error.message||messages.failed),"error");
+        }finally{setBusy(false);}
+    }
+    async function copyResult(){
+        if(!state.result||!editor.value)return;
+        try{
+            if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(editor.value);
+            else{editor.focus();editor.select();if(!document.execCommand("copy"))throw new Error("copy");editor.setSelectionRange(0,0);}
+            setStatus(messages.copied,"success");
+        }catch(_){setStatus(messages.copyFailed,"error");}
+    }
+
+    Array.prototype.slice.call(document.querySelectorAll("[data-nexu-obfuscator-open]")).forEach(function(button){button.addEventListener("click",openModal);});
+    Array.prototype.slice.call(document.querySelectorAll("[data-nexu-obfuscator-close]")).forEach(function(button){button.addEventListener("click",closeModal);});
+    runButton.addEventListener("click",runObfuscator);
+    copyButton.addEventListener("click",copyResult);
+    editor.addEventListener("input",function(){
+        if(state.result){state.result=false;copyButton.disabled=true;setStatus(messages.resultChanged,"");}
+        updateStats();
+    });
+    editor.addEventListener("keydown",function(event){if((event.ctrlKey||event.metaKey)&&event.key==="Enter"){event.preventDefault();runObfuscator();}});
+    document.addEventListener("keydown",function(event){if(event.key==="Escape"&&modal&&!modal.hidden){event.preventDefault();closeModal();}},true);
+})();
+</script>`;
+}
+
+homeHtml = function(...args) {
+    let html = NEXU_V224_BASE_HOME_HTML(...args);
+    if (typeof html !== "string" || html.includes("NEXU V224 // PUBLIC LUA OBFUSCATOR")) return html;
+    const english = /<html\s+lang=["']en["']/i.test(html);
+    const navLabel = english ? "Obfuscator" : "Obfuscator";
+    const heroLabel = english ? "Open obfuscator" : "Obfuscator öffnen";
+    const navButton = `<button class="nx-v224-nav-button" type="button" data-nexu-obfuscator-open>${navLabel}</button>`;
+    const heroButton = `<button class="nx-v208-button nx-v224-obfuscator-trigger" type="button" data-nexu-obfuscator-open><span>${heroLabel}</span><b>◇</b></button>`;
+
+    html = html.replace("</style>", nexuV224ObfuscatorCss() + "</style>");
+    html = html.replace("</nav>", navButton + "</nav>");
+    html = html.replace('<div class="nx-v208-hero-actions">', '<div class="nx-v208-hero-actions">' + heroButton);
+    html = html.replace("</body>", nexuV224ObfuscatorMarkup(english) + nexuV224ObfuscatorScript(english) + "</body>");
+    return html;
+};
+
+
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
 if (req.method === "GET" && pathname === "/api/health") {
@@ -14079,6 +14522,60 @@ if (req.method === "GET" && pathname === "/api/health") {
 
 if (req.method === "GET" && pathname === "/api/roblox-avatar") {
     await sendRobloxAvatarImage(res, requestUrl.searchParams.get("userId"));
+    return;
+}
+
+
+if (req.method === "POST" && pathname === "/api/obfuscator") {
+    const rateLimit = consumeNexuObfuscatorRateLimit(req);
+    if (!rateLimit.allowed) {
+        sendJson(res, 429, {
+            success: false,
+            error: `Zu viele Obfuscator-Anfragen. Bitte in ${rateLimit.retryAfterSeconds} Sekunden erneut versuchen.`,
+        }, { "Retry-After": String(rateLimit.retryAfterSeconds) });
+        return;
+    }
+
+    try {
+        const body = await readNexuJsonBodyLimited(req, NEXU_OBFUSCATOR_MAX_REQUEST_BYTES);
+        const source = typeof body.source === "string" ? body.source : "";
+        if (!source.trim()) {
+            sendJson(res, 400, { success: false, error: "Bitte zuerst ein Lua-/Luau-Skript einfügen." });
+            return;
+        }
+        if (source.includes("\u0000")) {
+            sendJson(res, 400, { success: false, error: "Binäre Nullbytes werden im Lua-Quelltext nicht unterstützt." });
+            return;
+        }
+
+        const lines = countNexuSourceLines(source);
+        const inputBytes = Buffer.byteLength(source, "utf8");
+        if (lines > NEXU_OBFUSCATOR_MAX_LINES) {
+            sendJson(res, 413, { success: false, error: `Maximal ${NEXU_OBFUSCATOR_MAX_LINES.toLocaleString("de-DE")} Zeilen sind erlaubt.` });
+            return;
+        }
+        if (inputBytes > NEXU_OBFUSCATOR_MAX_INPUT_BYTES) {
+            sendJson(res, 413, { success: false, error: "Das Skript darf höchstens 20 MB groß sein." });
+            return;
+        }
+
+        const result = obfuscateNexuLuaSource(source);
+        sendJson(res, 200, {
+            success: true,
+            code: result.code,
+            lines,
+            inputBytes: result.inputBytes,
+            outputBytes: result.outputBytes,
+            fingerprint: result.fingerprint,
+        });
+    } catch (error) {
+        const message = error && error.message === "BODY_TOO_LARGE"
+            ? "Die Anfrage ist zu groß. Maximal 20 MB Lua-Quelltext sind erlaubt."
+            : error && error.message === "INVALID_JSON"
+                ? "Ungültige Obfuscator-Anfrage."
+                : "Das Skript konnte nicht obfuskiert werden.";
+        sendJson(res, error && error.message === "BODY_TOO_LARGE" ? 413 : 400, { success: false, error: message });
+    }
     return;
 }
 
@@ -16483,6 +16980,7 @@ async function startNexuServer() {
         console.log("Dashboard-Anmeldung: /");
         console.log("Übersichts-Konten:", dashboardAccounts.size);
         console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V148 SIGNIERT UND NEUSTARTFEST");
+        console.log("Öffentlicher Lua-Obfuscator: /api/obfuscator // 150.000 ZEILEN // 20 MB");
         console.log("Presence: /api/presence");
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
