@@ -7121,8 +7121,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T01:10:27.291Z",
       "firstSeenMs": 1784423427291,
-      "lastSeen": "2026-07-19T01:20:00.000Z",
-      "lastSeenMs": 1784424000000
+      "lastSeen": "2026-07-19T01:35:00.000Z",
+      "lastSeenMs": 1784424900000
     },
     {
       "userId": "4009875708",
@@ -10304,6 +10304,23 @@
       "lastSeenMs": 1784271300000
     },
     {
+      "userId": "8231732219",
+      "username": "Azka_gaming885",
+      "displayName": "Polytoria",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Climb and Steal from Stitch Base🧠",
+      "placeId": 118431078469454,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:36:40.539Z",
+      "firstSeenMs": 1784425000539,
+      "lastSeen": "2026-07-19T01:36:40.539Z",
+      "lastSeenMs": 1784425000539
+    },
+    {
       "userId": "8245444026",
       "username": "Rmalvado06",
       "displayName": "Rmalvado06",
@@ -12833,5 +12850,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:36:00.169Z"
+  "updatedAt": "2026-07-19T01:36:45.546Z"
 }
