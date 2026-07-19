@@ -7164,8 +7164,8 @@
       "displayName": "GOTY",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[X3] +1 Fuga do Castelo de Teclado de Velocidade",
-      "placeId": 113980779438852,
+      "gameName": "(UPD!) +1 Corredor de Chamas de Velocidade",
+      "placeId": 86872309637437,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -13220,5 +13220,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T02:23:38.447Z"
+  "updatedAt": "2026-07-19T02:23:52.587Z"
 }
