@@ -5889,16 +5889,16 @@
       "displayName": "saturogojo",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Iron Man: Reimagined",
-      "placeId": 16929212566,
+      "gameName": "Place 117596343548805",
+      "placeId": 117596343548805,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:05:19.977Z",
       "firstSeenMs": 1784228719977,
-      "lastSeen": "2026-07-18T20:45:00.000Z",
-      "lastSeenMs": 1784407500000
+      "lastSeen": "2026-07-19T01:45:00.000Z",
+      "lastSeenMs": 1784425500000
     },
     {
       "userId": "2066693321",
@@ -12965,5 +12965,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:45:42.480Z"
+  "updatedAt": "2026-07-19T01:45:56.999Z"
 }
