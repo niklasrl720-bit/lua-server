@@ -6904,6 +6904,23 @@
       "lastSeenMs": 1784230941722
     },
     {
+      "userId": "3759932839",
+      "username": "Cepo_deMadeira96",
+      "displayName": "SilasOriginal",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Jogo do lado do servidor (REVISÃO DE INVENTÁRIO)",
+      "placeId": 127079237564071,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:59:29.239Z",
+      "firstSeenMs": 1784422769239,
+      "lastSeen": "2026-07-19T00:59:29.239Z",
+      "lastSeenMs": 1784422769239
+    },
+    {
       "userId": "3852248504",
       "username": "clockwuc",
       "displayName": "clockwuc",
@@ -12646,5 +12663,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:55:22.535Z"
+  "updatedAt": "2026-07-19T00:59:34.244Z"
 }
