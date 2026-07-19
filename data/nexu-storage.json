@@ -6989,6 +6989,23 @@
       "lastSeenMs": 1784405614255
     },
     {
+      "userId": "3872952537",
+      "username": "pdro23444444",
+      "displayName": "GOTY",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[X3] +1 Fuga do Castelo de Teclado de Velocidade",
+      "placeId": 113980779438852,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:22:35.798Z",
+      "firstSeenMs": 1784424155798,
+      "lastSeen": "2026-07-19T01:22:35.798Z",
+      "lastSeenMs": 1784424155798
+    },
+    {
       "userId": "3913477797",
       "username": "roblox_user_3913477797",
       "displayName": "Faceless",
@@ -12782,5 +12799,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:22:15.022Z"
+  "updatedAt": "2026-07-19T01:22:40.802Z"
 }
