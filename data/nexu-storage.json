@@ -542,8 +542,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-17T18:30:11.734Z",
       "firstSeenMs": 1784313011734,
-      "lastSeen": "2026-07-19T00:40:00.000Z",
-      "lastSeenMs": 1784421600000
+      "lastSeen": "2026-07-19T00:45:00.000Z",
+      "lastSeenMs": 1784421900000
     },
     {
       "userId": "10302526420",
@@ -644,8 +644,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T19:00:09.691Z",
       "firstSeenMs": 1784228409691,
-      "lastSeen": "2026-07-19T00:40:00.000Z",
-      "lastSeenMs": 1784421600000
+      "lastSeen": "2026-07-19T00:45:00.000Z",
+      "lastSeenMs": 1784421900000
     },
     {
       "userId": "10427971366",
@@ -10491,6 +10491,23 @@
       "lastSeenMs": 1784260500000
     },
     {
+      "userId": "8543089601",
+      "username": "trulimelo_trulicin",
+      "displayName": "capybara",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Menara Pukulan 2 🖐️",
+      "placeId": 79089892790758,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T00:45:36.736Z",
+      "firstSeenMs": 1784421936736,
+      "lastSeen": "2026-07-19T00:45:36.736Z",
+      "lastSeenMs": 1784421936736
+    },
+    {
       "userId": "8547804259",
       "username": "Espaiqui900",
       "displayName": "Espaiqui900",
@@ -11439,8 +11456,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-19T00:40:00.000Z",
-      "lastSeenMs": 1784421600000
+      "lastSeen": "2026-07-19T00:45:00.000Z",
+      "lastSeenMs": 1784421900000
     },
     {
       "userId": "9262341195",
@@ -11813,8 +11830,8 @@
       "scriptBuild": "NEXU_MENU_V1",
       "firstSeen": "2026-07-19T00:44:58.884Z",
       "firstSeenMs": 1784421898884,
-      "lastSeen": "2026-07-19T00:44:58.884Z",
-      "lastSeenMs": 1784421898884
+      "lastSeen": "2026-07-19T00:45:00.000Z",
+      "lastSeenMs": 1784421900000
     },
     {
       "userId": "9508855732",
@@ -12544,5 +12561,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T00:45:03.889Z"
+  "updatedAt": "2026-07-19T00:45:41.743Z"
 }
