@@ -11936,6 +11936,23 @@
       "lastSeenMs": 1784309100000
     },
     {
+      "userId": "9381857341",
+      "username": "GECE1234868",
+      "displayName": "Wistondarkblue",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[WORLD2] +1 Hız Klavyesi Kaçışı",
+      "placeId": 118941584817777,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V1",
+      "firstSeen": "2026-07-19T01:48:25.262Z",
+      "firstSeenMs": 1784425705262,
+      "lastSeen": "2026-07-19T01:48:25.262Z",
+      "lastSeenMs": 1784425705262
+    },
+    {
       "userId": "9405689037",
       "username": "Znaud_00",
       "displayName": "MOPSIK67",
@@ -12965,5 +12982,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-19T01:47:09.436Z"
+  "updatedAt": "2026-07-19T01:48:30.267Z"
 }
