@@ -14067,15 +14067,20 @@ homeHtml = function(...args) {
 
 
 /* --------------------------------------------------------------------------
- * NEXU V229 // ROBLOX STABLE NUMERIC-HEX LUAU OBFUSCATOR
- * Öffentlicher Startseiten-Obfuscator mit Roblox-sicherem Größenlimit, kompakten numerischen Hex-Blöcken,
+ * NEXU V230 // HIGH-CAPACITY ROBLOX NUMERIC-HEX LUAU OBFUSCATOR
+ * Öffentlicher Startseiten-Obfuscator mit konfigurierbarem Hochkapazitätslimit, kompakten numerischen Hex-Blöcken,
  * speicherschonender Batch-Ausgabe, Frame-Yielding, Integritätsprüfung und Rate-Limit.
  * -------------------------------------------------------------------------- */
 
 const NEXU_V224_BASE_HOME_HTML = homeHtml;
 const NEXU_OBFUSCATOR_MAX_LINES = 150_000;
-const NEXU_OBFUSCATOR_MAX_INPUT_BYTES = 768 * 1024;
-const NEXU_OBFUSCATOR_MAX_REQUEST_BYTES = 2 * 1024 * 1024;
+const NEXU_OBFUSCATOR_MAX_INPUT_MB = (() => {
+    const configured = Number(process.env.NEXU_OBFUSCATOR_MAX_MB || 16);
+    return Number.isFinite(configured) ? Math.min(64, Math.max(1, Math.floor(configured))) : 16;
+})();
+const NEXU_OBFUSCATOR_MAX_INPUT_BYTES = NEXU_OBFUSCATOR_MAX_INPUT_MB * 1024 * 1024;
+const NEXU_OBFUSCATOR_MAX_REQUEST_BYTES = Math.min(96 * 1024 * 1024, NEXU_OBFUSCATOR_MAX_INPUT_BYTES * 2 + 2 * 1024 * 1024);
+const NEXU_OBFUSCATOR_MAX_INPUT_LABEL = NEXU_OBFUSCATOR_MAX_INPUT_MB + " MB";
 const NEXU_OBFUSCATOR_RATE_WINDOW_MS = 60_000;
 const NEXU_OBFUSCATOR_RATE_LIMIT = 6;
 const nexuObfuscatorRateLimits = new Map();
@@ -14383,7 +14388,7 @@ function obfuscateNexuLuaSource(source) {
         clearIndexName, collectName] = names;
 
     const bannerNonce = crypto.randomBytes(8).toString("hex").toUpperCase();
-    const finalizedCode = `--[[NEXU PROTECTED // ${bannerNonce} // V229 ROBLOX STABLE NUMERIC-HEX]]
+    const finalizedCode = `--[[NEXU PROTECTED // ${bannerNonce} // V230 ROBLOX STABLE NUMERIC-HEX]]
 return(function(...)
 local ${payloadName}={
 ${payloadLines}
@@ -14488,7 +14493,7 @@ end)(...)`;
         inputBytes: sourceBuffer.length,
         outputBytes: Buffer.byteLength(finalizedCode, "utf8"),
         numericWords: totalWords,
-        engine: "V229-ROBLOX-STABLE-NUMERIC-HEX",
+        engine: "V230-ROBLOX-STABLE-NUMERIC-HEX",
         target: "Roblox Luau with bit32",
         fingerprint: crypto.createHash("sha256").update(sourceBuffer).digest("hex").slice(0, 16),
     };
@@ -14543,9 +14548,9 @@ body.nx-v224-modal-open{overflow:hidden !important;}
 
 function nexuV224ObfuscatorMarkup(english = false) {
     const text = english ? {
-        label: "PUBLIC TOOL // ROBLOX LUAU FAST MODE",
-        title: "Nexu Roblox/Luau Fast Numeric Obfuscator",
-        note: "Paste a Lua/Luau script with up to 150,000 lines. V229 stores the encrypted payload as compact numeric hexadecimal blocks. The Roblox/Luau bit32 decoder releases encrypted blocks immediately, builds output in small byte batches and yields between sections to reduce memory spikes and client crashes. Dynamic execution requires loadstring or load.",
+        label: "PUBLIC TOOL // ROBLOX LUAU HIGH-CAPACITY MODE",
+        title: "Nexu Roblox/Luau High-Capacity Numeric Obfuscator",
+        note: `Paste a Lua/Luau script with up to 150,000 lines and ${NEXU_OBFUSCATOR_MAX_INPUT_LABEL} source size. V230 stores the encrypted payload as compact numeric hexadecimal blocks. The limit can be changed with NEXU_OBFUSCATOR_MAX_MB (1-64). Very large generated scripts can still exceed the memory limit of a Roblox client or executor. Dynamic execution requires loadstring or load.`,
         placeholder: "Paste your Lua/Luau script here...",
         lines: "Lines",
         bytes: "Size",
@@ -14554,9 +14559,9 @@ function nexuV224ObfuscatorMarkup(english = false) {
         obfuscate: "Obfuscate",
         copy: "Copy result",
     } : {
-        label: "ÖFFENTLICHES TOOL // ROBLOX LUAU FAST-MODUS",
-        title: "Nexu Roblox/Luau Fast Numeric Obfuscator",
-        note: "Füge ein Lua-/Luau-Skript mit bis zu 150.000 Zeilen ein. V229 speichert die verschlüsselte Nutzlast als kompakte numerische Hex-Blöcke. Der Roblox-/Luau-bit32-Decoder gibt verschlüsselte Blöcke sofort frei, baut die Ausgabe in kleinen Byte-Paketen auf und gibt zwischen Abschnitten Frames frei, um Speicher-Spitzen und Client-Abstürze zu reduzieren. Zur dynamischen Ausführung wird loadstring oder load benötigt.",
+        label: "ÖFFENTLICHES TOOL // ROBLOX LUAU HOCHKAPAZITÄTSMODUS",
+        title: "Nexu Roblox/Luau High-Capacity Numeric Obfuscator",
+        note: `Füge ein Lua-/Luau-Skript mit bis zu 150.000 Zeilen und ${NEXU_OBFUSCATOR_MAX_INPUT_LABEL} Quelltextgröße ein. V230 speichert die verschlüsselte Nutzlast als kompakte numerische Hex-Blöcke. Das Limit kann mit NEXU_OBFUSCATOR_MAX_MB zwischen 1 und 64 geändert werden. Sehr große Ausgaben können trotzdem das Speicherlimit eines Roblox-Clients oder Executors überschreiten. Zur dynamischen Ausführung wird loadstring oder load benötigt.`,
         placeholder: "Lua-/Luau-Skript hier einfügen ...",
         lines: "Zeilen",
         bytes: "Größe",
@@ -14576,7 +14581,7 @@ function nexuV224ObfuscatorMarkup(english = false) {
         <div class="nx-v224-obfuscator-body">
             <p class="nx-v224-obfuscator-note">${text.note}</p>
             <textarea id="nexuObfuscatorEditor" class="nx-v224-obfuscator-editor" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="${text.placeholder}"></textarea>
-            <div class="nx-v224-obfuscator-meta"><span id="nexuObfuscatorLines">${text.lines}: 0 / 150.000</span><span id="nexuObfuscatorBytes">${text.bytes}: 0 B / 768 KB</span></div>
+            <div class="nx-v224-obfuscator-meta"><span id="nexuObfuscatorLines">${text.lines}: 0 / 150.000</span><span id="nexuObfuscatorBytes">${text.bytes}: 0 B / ${NEXU_OBFUSCATOR_MAX_INPUT_LABEL}</span></div>
             <div id="nexuObfuscatorStatus" class="nx-v224-obfuscator-status" role="status" aria-live="polite">${text.ready}</div>
             <div class="nx-v224-obfuscator-actions">
                 <button type="button" data-nexu-obfuscator-close>${text.close}</button>
@@ -14591,13 +14596,13 @@ function nexuV224ObfuscatorMarkup(english = false) {
 function nexuV224ObfuscatorScript(english = false) {
     const messages = english ? {
         open: "Paste a script to begin.", empty: "Please paste a Lua/Luau script first.", tooManyLines: "The script exceeds the limit of 150,000 lines.",
-        tooLarge: "The script exceeds the Roblox-safe maximum size of 768 KB.", working: "Encrypting the script as compact numeric-hex blocks and generating the memory-safe Roblox/Luau decoder...",
+        tooLarge: `The script exceeds the configured maximum source size of ${NEXU_OBFUSCATOR_MAX_INPUT_LABEL}.`, working: "Encrypting the script as compact numeric-hex blocks and generating the memory-safe Roblox/Luau decoder...",
         failed: "Obfuscation failed.", complete: "Roblox-stable numeric obfuscation complete. The editor now contains the protected output.",
         copied: "The obfuscated script was copied.", copyFailed: "Copying failed. Select the editor content manually.",
         lines: "Lines", size: "Size", output: "Output", numbers: "numeric words", resultChanged: "The result was edited. Obfuscate again before using the result button.",
     } : {
         open: "Füge ein Skript ein, um zu beginnen.", empty: "Bitte füge zuerst ein Lua-/Luau-Skript ein.", tooManyLines: "Das Skript überschreitet das Limit von 150.000 Zeilen.",
-        tooLarge: "Das Skript überschreitet die Roblox-sichere Maximalgröße von 768 KB.", working: "Das Skript wird als kompakte Zahlenblöcke verschlüsselt und mit dem speicherschonenden Roblox-/Luau-Decoder obfuskiert ...",
+        tooLarge: `Das Skript überschreitet die konfigurierte maximale Quelltextgröße von ${NEXU_OBFUSCATOR_MAX_INPUT_LABEL}.`, working: "Das Skript wird als kompakte Zahlenblöcke verschlüsselt und mit dem speicherschonenden Roblox-/Luau-Decoder obfuskiert ...",
         failed: "Die Obfuskation ist fehlgeschlagen.", complete: "Schnelle numerische Roblox-/Luau-Obfuskation abgeschlossen. Im Editor steht jetzt das geschützte Ergebnis.",
         copied: "Das obfuskierte Skript wurde kopiert.", copyFailed: "Kopieren fehlgeschlagen. Markiere den Editorinhalt bitte manuell.",
         lines: "Zeilen", size: "Größe", output: "Ausgabe", numbers: "Zahlenwörter", resultChanged: "Das Ergebnis wurde verändert. Obfuskiere erneut, bevor du den Ergebnis-Button verwendest.",
@@ -14605,7 +14610,7 @@ function nexuV224ObfuscatorScript(english = false) {
     return String.raw`<script>
 (function(){
     "use strict";
-    var MAX_LINES=150000,MAX_BYTES=768*1024;
+    var MAX_LINES=150000,MAX_BYTES=${NEXU_OBFUSCATOR_MAX_INPUT_BYTES},MAX_BYTES_LABEL=${JSON.stringify(NEXU_OBFUSCATOR_MAX_INPUT_LABEL)};
     var modal=document.getElementById("nexuObfuscatorModal");
     var editor=document.getElementById("nexuObfuscatorEditor");
     var runButton=document.getElementById("nexuObfuscatorRun");
@@ -14643,7 +14648,7 @@ function nexuV224ObfuscatorScript(english = false) {
         var value=editor.value||"";
         var lines=lineCount(value),bytes=byteLength(value);
         linesNode.textContent=messages.lines+": "+lines.toLocaleString()+" / 150.000";
-        bytesNode.textContent=(state.result?messages.output:messages.size)+": "+formatBytes(bytes)+(state.result?"":" / 768 KB");
+        bytesNode.textContent=(state.result?messages.output:messages.size)+": "+formatBytes(bytes)+(state.result?"":" / "+MAX_BYTES_LABEL);
         linesNode.classList.toggle("danger",!state.result&&lines>MAX_LINES);
         bytesNode.classList.toggle("danger",!state.result&&bytes>MAX_BYTES);
         return {lines:lines,bytes:bytes};
@@ -14776,7 +14781,7 @@ if (req.method === "POST" && pathname === "/api/obfuscator") {
             return;
         }
         if (inputBytes > NEXU_OBFUSCATOR_MAX_INPUT_BYTES) {
-            sendJson(res, 413, { success: false, error: "Das Skript darf im Roblox-Sicherheitsmodus höchstens 768 KB groß sein." });
+            sendJson(res, 413, { success: false, error: `Das Skript darf höchstens ${NEXU_OBFUSCATOR_MAX_INPUT_LABEL} groß sein.` });
             return;
         }
 
@@ -14794,7 +14799,7 @@ if (req.method === "POST" && pathname === "/api/obfuscator") {
         });
     } catch (error) {
         const message = error && error.message === "BODY_TOO_LARGE"
-            ? "Die Anfrage ist zu groß. Im Roblox-Sicherheitsmodus sind maximal 768 KB Lua-/Luau-Quelltext erlaubt."
+            ? `Die Anfrage ist zu groß. Erlaubt sind maximal ${NEXU_OBFUSCATOR_MAX_INPUT_LABEL} Lua-/Luau-Quelltext.`
             : error && error.message === "INVALID_JSON"
                 ? "Ungültige Obfuscator-Anfrage."
                 : "Das Skript konnte nicht obfuskiert werden.";
@@ -17204,7 +17209,7 @@ async function startNexuServer() {
         console.log("Dashboard-Anmeldung: /");
         console.log("Übersichts-Konten:", dashboardAccounts.size);
         console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V148 SIGNIERT UND NEUSTARTFEST");
-        console.log("Öffentlicher Roblox/Luau-Obfuscator: /api/obfuscator // V229 STABLE NUMERIC-HEX // MEMORY-BATCHED // 150.000 ZEILEN // 768 KB");
+        console.log("Öffentlicher Roblox/Luau-Obfuscator: /api/obfuscator // V230 HIGH-CAPACITY NUMERIC-HEX // MEMORY-BATCHED // 150.000 ZEILEN // " + NEXU_OBFUSCATOR_MAX_INPUT_LABEL);
         console.log("Presence: /api/presence");
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
