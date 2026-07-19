@@ -5599,6 +5599,7 @@ button,a.back{border-radius:14px;}
 function dashboardHtml(account = null, notice = "") {
 const permissionSnapshot = getDashboardPermissionSnapshot(account || {});
 const permissionJson = JSON.stringify(permissionSnapshot);
+const ownerModeJson = isOwnerDashboardAccount(account || {}) ? "true" : "false";
 const initialMenuUpdate = getMenuUpdateStatus();
 const initialMenuUpdateJson = JSON.stringify(initialMenuUpdate).replace(/</g, "\\u003c");
 const initialMenuStatus = getMenuAvailabilityStatus();
@@ -6308,6 +6309,7 @@ ${dashboardNoticeHtml}
 
 <script>
 const DASHBOARD_PERMISSIONS = ${permissionJson};
+const DASHBOARD_OWNER_MODE = ${ownerModeJson};
 const state = {
     online:false,
     players:[],
@@ -6782,8 +6784,13 @@ function renderPlayer(player,banned) {
     const dmButton = actionableOnline && state.permissions.dm === true
         ? '<button class="action-button dm" data-action="dm" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">NACHRICHT</button>'
         : "";
-    const scareButton = actionableOnline && state.permissions.accountManager === true && String(player.userId || "") !== "${MENU_CREATOR_USER_ID}"
-        ? '<button class="action-button scare" data-action="scare" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '">ERSCHRECKEN</button>'
+    const scareAllowedForCard = DASHBOARD_OWNER_MODE === true &&
+        !banned &&
+        String(player.userId || "") !== "${MENU_CREATOR_USER_ID}";
+    const scareButton = scareAllowedForCard
+        ? '<button class="action-button scare" data-action="scare" data-user-id="' + escapeHtml(player.userId) + '" data-display-name="' + escapeHtml(name) + '" data-username="' + escapeHtml(username) + '" ' +
+            (actionableOnline ? '' : 'disabled title="Spieler ist aktuell nicht vollständig erreichbar"') +
+            '>ERSCHRECKEN</button>'
         : "";
     const actionButtons = banned
         ? (state.permissions.banPlayers === true ? '<button class="action-button unban" data-action="unban" data-user-id="' + escapeHtml(player.userId) + '">ENTSPERREN</button>' : '')
@@ -6876,7 +6883,9 @@ function render() {
     const staleSuffix = state.stale
         ? " // Letzte erfolgreiche Aktualisierung wird weiter angezeigt"
         : "";
-    elements.footerNote.textContent = onlinePlayers.length + " von " + totalOnlineCount + " Online-Spielern angezeigt" + staleSuffix;
+    elements.footerNote.textContent = onlinePlayers.length + " von " + totalOnlineCount + " Online-Spielern angezeigt" +
+        (DASHBOARD_OWNER_MODE ? " // OWNER-ERSCHRECKEN AKTIV" : "") +
+        staleSuffix;
     elements.offlineFooter.textContent = offlinePlayers.length + " von " + totalOfflineCount + " Offline-Spielern angezeigt" + staleSuffix;
     elements.bannedFooter.textContent = bannedPlayers.length + " von " + state.bannedPlayers.length + " gesperrten Nutzern angezeigt" + staleSuffix;
 }
