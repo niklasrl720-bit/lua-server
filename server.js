@@ -93,7 +93,7 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
     .digest("hex");
 const DASHBOARD_ACCOUNT_STORAGE_SECRET = String(process.env.DASHBOARD_ACCOUNT_STORAGE_SECRET || "").trim() || DASHBOARD_SESSION_SIGNING_SECRET;
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxAvatarImageCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const sharedGhostStates = new Map();const ghostSyncRateLimits = new Map();const ghostLastSequences = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const scareCommands = new Map();const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextScareCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxAvatarImageCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const sharedGhostStates = new Map();const ghostSyncRateLimits = new Map();const ghostLastSequences = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const scareCommands = new Map();let scareImageCache = null;let scareImageCacheAtMs = 0;let scareImageFetchPromise = null;const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextScareCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 let globalChatDayKey = "";
 let globalChatResetRevision = 0;
 let globalChatResetAtMs = 0;
@@ -121,6 +121,19 @@ let githubAccountsBranchWarningShown = false;
 const githubAccountsReasons = new Set();
 
 function sendJson(res, statusCode, data, extraHeaders = {}) {res.writeHead(statusCode, {"Content-Type": "application/json; charset=utf-8","Cache-Control": "no-store","X-Content-Type-Options": "nosniff",...extraHeaders,});res.end(JSON.stringify(data));}
+
+function sendBinary(res, statusCode, body, contentType = "application/octet-stream", extraHeaders = {}) {
+    const buffer = Buffer.isBuffer(body) ? body : Buffer.from(body || "");
+    res.writeHead(statusCode, {
+        "Content-Type": contentType,
+        "Content-Length": String(buffer.length),
+        "Cache-Control": "public, max-age=3600",
+        "X-Content-Type-Options": "nosniff",
+        "Access-Control-Allow-Origin": "*",
+        ...extraHeaders,
+    });
+    res.end(buffer);
+}
 
 function sendHtml(res, statusCode, html, extraHeaders = {}) {res.writeHead(statusCode, {"Content-Type": "text/html; charset=utf-8","Cache-Control": "no-store","X-Content-Type-Options": "nosniff","Referrer-Policy": "no-referrer","Content-Security-Policy":"default-src 'self'; " +"img-src 'self' https: data:; " +"style-src 'unsafe-inline'; " +"script-src 'unsafe-inline'; " +"connect-src 'self'; " +"form-action 'self'; " +"base-uri 'none'; " +"frame-ancestors 'none'",...extraHeaders,});res.end(html);}
 
@@ -4951,6 +4964,188 @@ if (command) {
 
 return { command };
 
+}
+
+function isImageBuffer(buffer) {
+    if (!Buffer.isBuffer(buffer) || buffer.length < 128) return false;
+    const png = buffer.length >= 8 &&
+        buffer[0] === 0x89 && buffer[1] === 0x50 &&
+        buffer[2] === 0x4e && buffer[3] === 0x47;
+    const jpeg = buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff;
+    const gif = buffer.slice(0, 6).toString("ascii") === "GIF87a" ||
+        buffer.slice(0, 6).toString("ascii") === "GIF89a";
+    const webp = buffer.length >= 12 &&
+        buffer.slice(0, 4).toString("ascii") === "RIFF" &&
+        buffer.slice(8, 12).toString("ascii") === "WEBP";
+    return png || jpeg || gif || webp;
+}
+
+function detectImageContentType(buffer, fallback = "image/png") {
+    if (!Buffer.isBuffer(buffer)) return fallback;
+    if (buffer[0] === 0xff && buffer[1] === 0xd8) return "image/jpeg";
+    if (buffer.slice(0, 6).toString("ascii").startsWith("GIF8")) return "image/gif";
+    if (
+        buffer.length >= 12 &&
+        buffer.slice(0, 4).toString("ascii") === "RIFF" &&
+        buffer.slice(8, 12).toString("ascii") === "WEBP"
+    ) return "image/webp";
+    return "image/png";
+}
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = 9000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+        return await fetch(url, {
+            redirect: "follow",
+            ...options,
+            signal: controller.signal,
+        });
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
+async function fetchImageCandidate(url) {
+    try {
+        const response = await fetchWithTimeout(url, {
+            headers: {
+                Accept: "image/png,image/jpeg,image/webp,image/gif,image/*,*/*;q=0.5",
+                "User-Agent": "Nexu-Scare-Image-Proxy/1.0",
+            },
+        });
+        if (!response.ok) return null;
+        const buffer = Buffer.from(await response.arrayBuffer());
+        if (!isImageBuffer(buffer)) return null;
+        return {
+            buffer,
+            contentType: detectImageContentType(
+                buffer,
+                String(response.headers.get("content-type") || "image/png").split(";", 1)[0]
+            ),
+        };
+    } catch {
+        return null;
+    }
+}
+
+async function resolveScareImageAsset() {
+    const now = Date.now();
+    if (
+        scareImageCache &&
+        now - scareImageCacheAtMs < 6 * 60 * 60_000
+    ) {
+        return scareImageCache;
+    }
+    if (scareImageFetchPromise) return scareImageFetchPromise;
+
+    scareImageFetchPromise = (async () => {
+        const assetId = SCARE_IMAGE_ASSET_ID;
+
+        // Roblox-Thumbnail-API.
+        try {
+            const metadataResponse = await fetchWithTimeout(
+                "https://thumbnails.roblox.com/v1/assets?assetIds=" +
+                    encodeURIComponent(assetId) +
+                    "&returnPolicy=PlaceHolder&size=700x700&format=Png&isCircular=false",
+                {
+                    headers: {
+                        Accept: "application/json",
+                        "User-Agent": "Nexu-Scare-Image-Proxy/1.0",
+                    },
+                }
+            );
+            if (metadataResponse.ok) {
+                const metadata = await metadataResponse.json().catch(() => null);
+                const row = metadata && Array.isArray(metadata.data)
+                    ? metadata.data[0]
+                    : null;
+                if (row && typeof row.imageUrl === "string" && row.imageUrl) {
+                    const image = await fetchImageCandidate(row.imageUrl);
+                    if (image) return image;
+                }
+            }
+        } catch {}
+
+        // Älterer Asset-Thumbnail-Endpunkt – funktioniert bei vielen alten Decals.
+        for (const size of [420, 700]) {
+            const image = await fetchImageCandidate(
+                "https://www.roblox.com/asset-thumbnail/image?assetId=" +
+                    encodeURIComponent(assetId) +
+                    "&width=" + size +
+                    "&height=" + size +
+                    "&format=png"
+            );
+            if (image) return image;
+        }
+
+        // AssetDelivery kann bei Decals auf die eigentliche Image-ID verweisen.
+        try {
+            const deliveryResponse = await fetchWithTimeout(
+                "https://assetdelivery.roblox.com/v1/asset/?id=" +
+                    encodeURIComponent(assetId),
+                {
+                    headers: {
+                        Accept: "*/*",
+                        "User-Agent": "Nexu-Scare-Image-Proxy/1.0",
+                    },
+                }
+            );
+            if (deliveryResponse.ok) {
+                const deliveryBuffer = Buffer.from(await deliveryResponse.arrayBuffer());
+                if (isImageBuffer(deliveryBuffer)) {
+                    return {
+                        buffer: deliveryBuffer,
+                        contentType: detectImageContentType(deliveryBuffer),
+                    };
+                }
+
+                const deliveryText = deliveryBuffer.toString("utf8");
+                const discoveredIds = [];
+                for (const match of deliveryText.matchAll(
+                    /(?:rbxassetid:\/\/|[?&]id=|assetId["'=:\s]+)(\d{6,})/gi
+                )) {
+                    const discoveredId = String(match[1] || "");
+                    if (
+                        discoveredId &&
+                        discoveredId !== assetId &&
+                        !discoveredIds.includes(discoveredId)
+                    ) {
+                        discoveredIds.push(discoveredId);
+                    }
+                    if (discoveredIds.length >= 6) break;
+                }
+
+                for (const discoveredId of discoveredIds) {
+                    const directImage = await fetchImageCandidate(
+                        "https://assetdelivery.roblox.com/v1/asset/?id=" +
+                            encodeURIComponent(discoveredId)
+                    );
+                    if (directImage) return directImage;
+
+                    const thumbnailImage = await fetchImageCandidate(
+                        "https://www.roblox.com/asset-thumbnail/image?assetId=" +
+                            encodeURIComponent(discoveredId) +
+                            "&width=700&height=700&format=png"
+                    );
+                    if (thumbnailImage) return thumbnailImage;
+                }
+            }
+        } catch {}
+
+        return null;
+    })();
+
+    try {
+        const result = await scareImageFetchPromise;
+        if (result) {
+            scareImageCache = result;
+            scareImageCacheAtMs = Date.now();
+        }
+        return result;
+    } finally {
+        scareImageFetchPromise = null;
+    }
 }
 
 function pruneScareCommands() {const now = Date.now();for (const [userId, command] of scareCommands) {if (!command || now >= command.expiresAtMs) {scareCommands.delete(userId);}}}
@@ -14858,6 +15053,29 @@ if (req.method === "POST" && pathname === "/api/bring/poll") {
             error: "Bring-Poll konnte nicht verarbeitet werden",
         });
     }
+    return;
+}
+
+if (req.method === "GET" && pathname === "/api/scare/image") {
+    const resolvedImage = await resolveScareImageAsset();
+    if (!resolvedImage) {
+        sendJson(res, 404, {
+            success: false,
+            error: "Roblox-Bildasset konnte serverseitig nicht aufgelöst werden",
+            assetId: SCARE_IMAGE_ASSET_ID,
+        });
+        return;
+    }
+
+    sendBinary(
+        res,
+        200,
+        resolvedImage.buffer,
+        resolvedImage.contentType,
+        {
+            "Content-Disposition": 'inline; filename="nexu-scare-image"',
+        }
+    );
     return;
 }
 
