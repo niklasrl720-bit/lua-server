@@ -1,4 +1,5 @@
 // Link- und Werbeschutz: URLs, Einladungen und eindeutige Werbung werden vollständig zensiert.
+// V233: Auslesbare Passwortanzeige über einen separaten AES-256-GCM-Passworttresor in Settings und Owner-Kontoverwaltung.
 // V232: Neu aufgebaute Owner-Kontoverwaltung mit sicherem Passwortreset, Suche, Filtern und verbessertem Layout.
 // V231: Vollständiges Settings-Center, sicherer Passwortwechsel, Themes und DOM-Fehlerbehebung.
 // V222: Erweiterte mehrsprachige Chatmoderation, sexuelle Zeichen-/Emoji-Erkennung und sichere OwnerAccount-Originalansicht.
@@ -94,8 +95,9 @@ const DASHBOARD_SESSION_SIGNING_SECRET = String(process.env.DASHBOARD_SESSION_SE
     ].join("|"), "utf8")
     .digest("hex");
 const DASHBOARD_ACCOUNT_STORAGE_SECRET = String(process.env.DASHBOARD_ACCOUNT_STORAGE_SECRET || "").trim() || DASHBOARD_SESSION_SIGNING_SECRET;
+const NEXU_PASSWORD_VAULT_SECRET = String(process.env.NEXU_PASSWORD_VAULT_SECRET || "").trim() || `${DASHBOARD_ACCOUNT_STORAGE_SECRET}|nexu-password-vault-v1`;
 
-const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const bans = new Map();const avatarCache = new Map();const robloxAvatarImageCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const sharedGhostStates = new Map();const ghostSyncRateLimits = new Map();const ghostLastSequences = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const scareCommands = new Map();let scareImageCache = null;let scareImageCacheAtMs = 0;let scareImageFetchPromise = null;const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextScareCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
+const presence = new Map();const knownPlayers = new Map();const dashboardAccounts = new Map();const passwordRevealRateLimits = new Map();const bans = new Map();const avatarCache = new Map();const robloxAvatarImageCache = new Map();const robloxIdentityCache = new Map();const directMessages = new Map();const dmRateLimits = new Map();const globalChatMessages = [];const chatRateLimits = new Map();const sharedGhostStates = new Map();const ghostSyncRateLimits = new Map();const ghostLastSequences = new Map();const dashboardSessions = new Map();const rememberedDashboardDevices = new Map();const loginRateLimits = new Map();const joinCommands = new Map();const bringCommands = new Map();const scareCommands = new Map();let scareImageCache = null;let scareImageCacheAtMs = 0;let scareImageFetchPromise = null;const shutdownCommandsBySession = new Map();const shutdownCommandsByUser = new Map();let nextDirectMessageId = 1;let nextChatMessageId = 1;let nextJoinCommandId = 1;let nextBringCommandId = 1;let nextScareCommandId = 1;let nextShutdownCommandId = 1;let menuUpdateMutationRevision = 0;let menuUpdateState = {active:false,startedAtMs:0,endsAtMs:0,durationMinutes:0,startedBy:"",startedAt:"",endsAt:""};let menuAvailabilityState = {online:true,changedAtMs:0,changedAt:"",changedBy:""};let githubStorageSha = "";let githubStorageReady = false;let githubStorageDirty = false;let githubStorageTimer = null;let githubStorageDueAtMs = 0;let githubStorageWriteChain = Promise.resolve();const githubStorageReasons = new Set();
 let globalChatDayKey = "";
 let globalChatResetRevision = 0;
 let globalChatResetAtMs = 0;
@@ -1892,6 +1894,102 @@ function normalizeNexuAccountPreferences(raw) {
     };
 }
 
+
+function normalizeNexuPasswordVault(raw) {
+    const vault = raw && typeof raw === "object" ? raw : null;
+    if (!vault || Number(vault.version) !== 1 || String(vault.algorithm || "") !== "aes-256-gcm") return null;
+    const iv = String(vault.iv || "").trim();
+    const tag = String(vault.tag || "").trim();
+    const data = String(vault.data || "").trim();
+    try {
+        if (Buffer.from(iv, "base64").length !== 12) return null;
+        if (Buffer.from(tag, "base64").length !== 16) return null;
+        if (Buffer.from(data, "base64").length < 1) return null;
+    } catch {
+        return null;
+    }
+    return {
+        version: 1,
+        algorithm: "aes-256-gcm",
+        iv,
+        tag,
+        data,
+        updatedAt: cleanText(vault.updatedAt, 64) || "",
+    };
+}
+
+function getNexuPasswordVaultKey() {
+    return crypto.createHash("sha256").update(NEXU_PASSWORD_VAULT_SECRET, "utf8").digest();
+}
+
+function nexuPasswordVaultAad(email) {
+    return Buffer.from(`nexu-password-v1|${cleanDashboardEmail(email)}`, "utf8");
+}
+
+function encryptDashboardPassword(password, email) {
+    const plaintext = String(password || "");
+    const accountEmail = cleanDashboardEmail(email);
+    if (!plaintext || !accountEmail) return null;
+    const iv = crypto.randomBytes(12);
+    const cipher = crypto.createCipheriv("aes-256-gcm", getNexuPasswordVaultKey(), iv);
+    cipher.setAAD(nexuPasswordVaultAad(accountEmail));
+    const ciphertext = Buffer.concat([cipher.update(Buffer.from(plaintext, "utf8")), cipher.final()]);
+    const tag = cipher.getAuthTag();
+    return {
+        version: 1,
+        algorithm: "aes-256-gcm",
+        iv: iv.toString("base64"),
+        tag: tag.toString("base64"),
+        data: ciphertext.toString("base64"),
+        updatedAt: new Date().toISOString(),
+    };
+}
+
+function decryptDashboardPassword(account) {
+    const data = account && typeof account === "object" ? account : null;
+    const vault = normalizeNexuPasswordVault(data && data.passwordVault);
+    const email = cleanDashboardEmail(data && data.email);
+    if (!vault || !email) return null;
+    try {
+        const decipher = crypto.createDecipheriv("aes-256-gcm", getNexuPasswordVaultKey(), Buffer.from(vault.iv, "base64"));
+        decipher.setAAD(nexuPasswordVaultAad(email));
+        decipher.setAuthTag(Buffer.from(vault.tag, "base64"));
+        const plaintext = Buffer.concat([
+            decipher.update(Buffer.from(vault.data, "base64")),
+            decipher.final(),
+        ]).toString("utf8");
+        if (!plaintext || !safeSecretEquals(sha256Hex(plaintext), String(data.passwordHash || ""))) return null;
+        return plaintext;
+    } catch {
+        return null;
+    }
+}
+
+function allowNexuPasswordReveal(req, session) {
+    const key = `${cleanDashboardEmail(session && session.account && session.account.email)}|${getClientIp(req)}`;
+    const now = Date.now();
+    const current = passwordRevealRateLimits.get(key);
+    if (!current || now - current.startedAtMs >= 60_000) {
+        passwordRevealRateLimits.set(key, { startedAtMs: now, count: 1 });
+        return true;
+    }
+    current.count += 1;
+    if (current.count > 20) return false;
+    passwordRevealRateLimits.set(key, current);
+    return true;
+}
+
+function isNexuSameOriginRequest(req) {
+    const origin = String(req.headers.origin || "").trim();
+    if (!origin) return true;
+    try {
+        const host = String(req.headers.host || "").trim().toLowerCase();
+        return Boolean(host && new URL(origin).host.toLowerCase() === host);
+    } catch {
+        return false;
+    }
+}
+
 function normalizeDashboardAccount(raw) {
     const username = cleanDashboardUsername(raw && raw.username);
     const email = cleanDashboardEmail(raw && raw.email) || internalDashboardEmailForUsername(username);
@@ -1907,6 +2005,7 @@ function normalizeDashboardAccount(raw) {
         username,
         email,
         passwordHash,
+        passwordVault: normalizeNexuPasswordVault(raw && raw.passwordVault),
         authVersion: Math.max(1, cleanInteger(raw && raw.authVersion) || 1),
         isOwner,
         robloxUserId,
@@ -2031,6 +2130,7 @@ function serializeDashboardAccountForStorage(raw) {
         username: account.username,
         email: account.email,
         passwordHash: account.passwordHash,
+        passwordVault: normalizeNexuPasswordVault(account.passwordVault),
         authVersion: Math.max(1, cleanInteger(account.authVersion) || 1),
         isOwner: account.isOwner === true,
         robloxUserId: account.robloxUserId,
@@ -15458,6 +15558,95 @@ dashboardAccountsHtml = function(notice = "", error = "", account = null) {
 </html>`;
 };
 
+
+
+/* --------------------------------------------------------------------------
+ * NEXU V233 // READABLE PASSWORD VAULT
+ * Passwörter bleiben gehasht für die Anmeldung und werden zusätzlich einzeln
+ * mit AES-256-GCM verschlüsselt. Sie werden niemals direkt in HTML eingebettet,
+ * sondern nur nach einem bewussten Augen-Klick über eine No-Store-POST-Route geladen.
+ * -------------------------------------------------------------------------- */
+
+function nexuV233PasswordRevealScript(mode) {
+    const ownerMode = mode === "owner";
+    return String.raw`<script>
+(function(){
+    "use strict";
+    if(document.documentElement.dataset.nxV233PasswordReveal==="${ownerMode ? "owner" : "settings"}")return;
+    document.documentElement.dataset.nxV233PasswordReveal="${ownerMode ? "owner" : "settings"}";
+    function one(selector,root){return (root||document).querySelector(selector);}
+    function mask(field){field.type="password";field.value="••••••••••••";field.dataset.nxV233Revealed="0";}
+    async function requestPassword(targetEmail){
+        var response=await fetch("/api/account/password/reveal",{method:"POST",credentials:"same-origin",cache:"no-store",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(targetEmail?{targetEmail:targetEmail}:{})});
+        var payload={};try{payload=await response.json();}catch(_){}
+        if(!response.ok||!payload.success)throw new Error(payload.error||"Passwort konnte nicht geladen werden.");
+        return String(payload.password||"");
+    }
+    ${ownerMode ? String.raw`
+    document.addEventListener("click",async function(event){
+        var button=event.target&&event.target.closest&&event.target.closest("[data-v232-password-eye]");
+        if(!button)return;
+        event.preventDefault();event.stopImmediatePropagation();
+        var row=button.closest(".nx-v232-password-row");
+        var field=row&&one("[data-v232-password-display]",row);
+        var form=button.closest("form");
+        var emailField=form&&one('input[name="accountEmail"]',form);
+        var help=form&&one(".nx-v232-password-help",form);
+        if(!field||!emailField)return;
+        if(field.dataset.nxV233Revealed==="1"){mask(field);button.setAttribute("aria-pressed","false");if(help)help.textContent="Mit dem Auge wird das verschlüsselt gespeicherte Passwort nur bei Bedarf geladen.";return;}
+        button.disabled=true;if(help)help.textContent="Passwort wird sicher entschlüsselt …";
+        try{var password=await requestPassword(emailField.value);field.type="text";field.value=password;field.dataset.nxV233Revealed="1";button.setAttribute("aria-pressed","true");if(help)help.textContent="Passwort ist sichtbar. Klicke erneut auf das Auge, um es wieder zu zensieren.";}
+        catch(error){mask(field);if(help)help.textContent=error&&error.message?error.message:"Passwort ist noch nicht verfügbar.";}
+        finally{button.disabled=false;}
+    },true);
+    ` : String.raw`
+    var field=document.getElementById("nxPasswordDisplay");
+    var button=document.getElementById("nxTogglePasswordDisplay");
+    var status=document.getElementById("nxV233PasswordRevealStatus");
+    if(field)mask(field);
+    if(button)button.addEventListener("click",async function(event){
+        event.preventDefault();event.stopImmediatePropagation();
+        if(!field)return;
+        if(field.dataset.nxV233Revealed==="1"){mask(field);button.setAttribute("aria-pressed","false");if(status)status.textContent="";return;}
+        button.disabled=true;if(status)status.textContent="Passwort wird sicher entschlüsselt …";
+        try{var password=await requestPassword("");field.type="text";field.value=password;field.dataset.nxV233Revealed="1";button.setAttribute("aria-pressed","true");if(status)status.textContent="Passwort sichtbar. Klicke erneut auf das Auge, um es wieder zu zensieren.";}
+        catch(error){mask(field);if(status)status.textContent=error&&error.message?error.message:"Passwort ist noch nicht verfügbar.";}
+        finally{button.disabled=false;}
+    },true);
+    `}
+})();
+</script>`;
+}
+
+const NEXU_V233_BASE_HOME_HTML = homeHtml;
+homeHtml = function(...args) {
+    let html = NEXU_V233_BASE_HOME_HTML(...args);
+    if (typeof html !== "string" || !html.includes('id="nxPasswordDisplay"') || html.includes("NEXU V233 // PASSWORD REVEAL SETTINGS")) return html;
+    html = html.replace('value="nexu-passwort"', 'value="••••••••••••"');
+    html = html.replace('value="nexu-password"', 'value="••••••••••••"');
+    html = html.replace(/Geschützt und nicht auslesbar/g, "Verschlüsselt gespeichert");
+    html = html.replace(/Protected and not readable/g, "Encrypted and available on demand");
+    html = html.replace(/Dein echtes Passwort wird niemals wieder an den Browser gesendet\. Nexu speichert nur einen Einweg-Hash\. Deshalb kann das Passwort geändert, aber nicht angezeigt werden\./g, "Nexu speichert weiterhin einen sicheren Passwort-Hash und zusätzlich eine AES-256-GCM-verschlüsselte Tresorkopie für deine gewünschte Augen-Anzeige.");
+    html = html.replace(/Your real password is never sent back to the browser\. Nexu stores only a one-way password hash, so it can be changed but not displayed\./g, "Nexu keeps the secure password hash and an additional AES-256-GCM encrypted vault copy for the eye display you requested.");
+    html = html.replace('</div><button class="nx-v231-button" type="button" data-nx-password-open>', '</div><small id="nxV233PasswordRevealStatus" class="nx-v231-password-status" aria-live="polite"></small><button class="nx-v231-button" type="button" data-nx-password-open>');
+    html = html.replace("</body>", '<!-- NEXU V233 // PASSWORD REVEAL SETTINGS -->' + nexuV233PasswordRevealScript("settings") + "</body>");
+    return html;
+};
+
+const NEXU_V233_BASE_ACCOUNTS_HTML = dashboardAccountsHtml;
+dashboardAccountsHtml = function(...args) {
+    let html = NEXU_V233_BASE_ACCOUNTS_HTML(...args);
+    if (typeof html !== "string" || !html.includes("NEXU // OWNER ACCOUNT CENTER") || html.includes("NEXU V233 // PASSWORD REVEAL OWNER")) return html;
+    html = html.replace(/Nexu speichert ausschließlich einen SHA-256-Hash\. Das schützt Benutzer bei einem Datenleck\. Über „Passwort zurücksetzen“ vergibst du als Owner direkt ein neues Passwort\./g, "Nexu speichert den Login-Hash und zusätzlich eine AES-256-GCM-verschlüsselte Tresorkopie. Mit dem Auge kannst du das aktuelle Passwort bei Bedarf anzeigen.");
+    html = html.replace(/Der Owner kann Passwörter zurücksetzen, aber niemals das bestehende Passwort auslesen\./g, "Der Owner kann das verschlüsselt gespeicherte Passwort mit dem Auge anzeigen oder direkt zurücksetzen.");
+    html = html.replace(/Nicht auslesbar – nur Hash gespeichert/g, "Verschlüsselt gespeichert");
+    html = html.replace(/Warum das echte Passwort nicht angezeigt wird/g, "Verschlüsselter Passworttresor");
+    html = html.replace(/Passwörter werden nicht entschlüsselbar gespeichert\. Auch der Owner sieht deshalb nur den geschützten Status und kann bei Bedarf sofort ein neues Passwort setzen\./g, "Passwörter werden zusätzlich einzeln mit AES-256-GCM verschlüsselt und erst nach dem Augen-Klick geladen. Alte Accounts werden beim nächsten erfolgreichen Login automatisch in den Tresor übernommen.");
+    html = html.replace(/Das vorherige Passwort kann wegen der sicheren Hash-Speicherung nicht angezeigt oder wiederhergestellt werden\./g, "Das aktuelle Passwort kann über das Auge angezeigt werden. Hier kannst du unabhängig davon sofort ein neues Passwort vergeben.");
+    html = html.replace("</body>", '<!-- NEXU V233 // PASSWORD REVEAL OWNER -->' + nexuV233PasswordRevealScript("owner") + "</body>");
+    return html;
+};
+
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
 if (req.method === "GET" && pathname === "/api/health") {
@@ -15547,6 +15736,58 @@ if (req.method === "GET" && pathname === "/") {
     const authMode = requestUrl.searchParams.get("auth") === "register" ? "register"
         : requestUrl.searchParams.get("auth") === "login" ? "login" : "";
     sendHtml(res, 200, homeHtml(message, "", session && session.account, { authMode }));
+    return;
+}
+
+
+if (req.method === "POST" && pathname === "/api/account/password/reveal") {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
+        sendJson(res, 401, { success: false, error: "Anmeldung erforderlich" });
+        return;
+    }
+    if (!isNexuSameOriginRequest(req)) {
+        sendJson(res, 403, { success: false, error: "Ungültige Anfragequelle" });
+        return;
+    }
+    if (!allowNexuPasswordReveal(req, session)) {
+        sendJson(res, 429, { success: false, error: "Zu viele Passwortabfragen. Bitte kurz warten." });
+        return;
+    }
+    try {
+        const body = await readJsonBody(req);
+        const targetEmail = cleanDashboardEmail(body && body.targetEmail);
+        let target = session.account;
+        if (targetEmail && targetEmail !== cleanDashboardEmail(session.account.email)) {
+            if (!canManageDashboardAccounts(session.account)) {
+                sendJson(res, 403, { success: false, error: "Nur OwnerAccount darf andere Passwörter anzeigen." });
+                return;
+            }
+            target = getDashboardAccountByEmail(targetEmail);
+        }
+        if (!target) {
+            sendJson(res, 404, { success: false, error: "Account wurde nicht gefunden." });
+            return;
+        }
+        const password = decryptDashboardPassword(target);
+        if (!password) {
+            sendJson(res, 409, {
+                success: false,
+                error: "Passwort noch nicht im Tresor. Der Benutzer muss sich einmal normal anmelden oder das Passwort muss einmal geändert werden.",
+            });
+            return;
+        }
+        sendJson(res, 200, { success: true, password }, {
+            "Pragma": "no-cache",
+            "Expires": "0",
+            "Referrer-Policy": "no-referrer",
+        });
+    } catch (error) {
+        sendJson(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, {
+            success: false,
+            error: error.message === "BODY_TOO_LARGE" ? "Anfrage zu groß" : "Passwortabfrage konnte nicht verarbeitet werden.",
+        });
+    }
     return;
 }
 
@@ -15688,6 +15929,7 @@ if (req.method === "POST" && pathname === "/accounts/update") {
             ...target,
             username: nextUsername,
             passwordHash: nextPasswordHash,
+            passwordVault: passwordWasChanged ? encryptDashboardPassword(newPassword, target.email) : target.passwordVault,
             authVersion: passwordWasChanged
                 ? Math.max(1, cleanInteger(target.authVersion) || 1) + 1
                 : Math.max(1, cleanInteger(target.authVersion) || 1),
@@ -15804,7 +16046,7 @@ if (req.method === "POST" && pathname === "/login") {
         const form = await readFormBody(req);
         const username = cleanDashboardUsername(form.username || form.email);
         const password = String(form.password || "");
-        const account = getDashboardAccountByUsername(username);
+        let account = getDashboardAccountByUsername(username);
         const validLogin = Boolean(account && validDashboardAccountPassword(account, password));
         if (!validLogin) {
             console.warn("[NEXU] Fehlgeschlagene Anmeldung von", getClientIp(req));
@@ -15812,6 +16054,18 @@ if (req.method === "POST" && pathname === "/login") {
             return;
         }
         clearLoginAttempts(req);
+        if (!decryptDashboardPassword(account)) {
+            const upgraded = normalizeDashboardAccount({
+                ...account,
+                passwordVault: encryptDashboardPassword(password, account.email),
+                updatedAt: account.updatedAt || new Date().toISOString(),
+            });
+            if (upgraded) {
+                dashboardAccounts.set(upgraded.email, upgraded);
+                saveDashboardAccount();
+                account = upgraded;
+            }
+        }
         const token = createDashboardSession(account);
         const rememberToken = createRememberedDashboardDevice(account);
         console.log("[NEXU] Konto erfolgreich angemeldet");
@@ -15924,6 +16178,7 @@ if (req.method === "POST" && pathname === "/account/password") {
         const updated = normalizeDashboardAccount({
             ...session.account,
             passwordHash: sha256Hex(newPassword),
+            passwordVault: encryptDashboardPassword(newPassword, session.account.email),
             authVersion: Math.max(1, cleanInteger(session.account.authVersion) || 1) + 1,
             updatedAt: new Date().toISOString(),
         });
@@ -16078,7 +16333,8 @@ if (req.method === "POST" && pathname === "/register/request") {
             return;
         }
         if (!robloxIdentity) {sendHtml(res, 400, homeHtml("", "Unter dieser Roblox User-ID wurde kein Benutzer gefunden.", null, { authMode: "register" }));return;}
-        const account = putDashboardAccount({username,email: internalDashboardEmailForUsername(username),passwordHash: sha256Hex(password),language:"en",robloxUserId:robloxIdentity.userId,robloxUsername:robloxIdentity.username,robloxDisplayName:robloxIdentity.displayName,createdAt: new Date().toISOString(),updatedAt: new Date().toISOString()});
+        const registrationEmail = internalDashboardEmailForUsername(username);
+        const account = putDashboardAccount({username,email:registrationEmail,passwordHash:sha256Hex(password),passwordVault:encryptDashboardPassword(password,registrationEmail),language:"en",robloxUserId:robloxIdentity.userId,robloxUsername:robloxIdentity.username,robloxDisplayName:robloxIdentity.displayName,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
         if (!account || !saveDashboardAccount()) {sendHtml(res, 500, homeHtml("", "Konto konnte nicht gespeichert werden.", null, { authMode: "register" }));return;}
         clearLoginAttempts(req);
         const token = createDashboardSession(account);
@@ -18009,10 +18265,11 @@ async function startNexuServer() {
         console.log("GitHub-Datendatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_DATA_PATH}`);
         console.log("GitHub-Accountdatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_ACCOUNTS_PATH}`);
         console.log("Accountdatei-Verschlüsselung:", "AES-256-GCM");
+        console.log("Passworttresor:", "AES-256-GCM // ON-DEMAND REVEAL");
         console.log("Dashboard-Anmeldung: /");
         console.log("Übersichts-Konten:", dashboardAccounts.size);
         console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V148 SIGNIERT UND NEUSTARTFEST");
-        console.log("Öffentlicher Roblox/Luau-Obfuscator: /api/obfuscator // V232 ACCOUNT CENTER + V231 SETTINGS + V230 HIGH-CAPACITY NUMERIC-HEX // MEMORY-BATCHED // 150.000 ZEILEN // " + NEXU_OBFUSCATOR_MAX_INPUT_LABEL);
+        console.log("Öffentlicher Roblox/Luau-Obfuscator: /api/obfuscator // V233 PASSWORD VAULT + V232 ACCOUNT CENTER + V231 SETTINGS + V230 HIGH-CAPACITY NUMERIC-HEX // MEMORY-BATCHED // 150.000 ZEILEN // " + NEXU_OBFUSCATOR_MAX_INPUT_LABEL);
         console.log("Presence: /api/presence");
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
