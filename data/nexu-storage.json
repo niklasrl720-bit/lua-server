@@ -11669,16 +11669,16 @@
       "displayName": "Who_Im",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Выживание в стихийных бедствиях",
-      "placeId": 189707,
+      "gameName": "Вырастить сад 2",
+      "placeId": 97598239454123,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T18:10:23.656Z",
       "firstSeenMs": 1784311823656,
-      "lastSeen": "2026-07-17T18:25:00.000Z",
-      "lastSeenMs": 1784312700000
+      "lastSeen": "2026-07-20T19:20:00.000Z",
+      "lastSeenMs": 1784575200000
     },
     {
       "userId": "8724459266",
@@ -13549,5 +13549,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T19:21:00.289Z"
+  "updatedAt": "2026-07-20T19:23:27.037Z"
 }
