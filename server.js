@@ -1,3 +1,4 @@
+// V234: Globale Autofill-Farbkorrektur, zuverlässiges Settings-Scrolling und neues Nexu-Farbstudio.
 // Link- und Werbeschutz: URLs, Einladungen und eindeutige Werbung werden vollständig zensiert.
 // V233: Auslesbare Passwortanzeige über einen separaten AES-256-GCM-Passworttresor in Settings und Owner-Kontoverwaltung.
 // V232: Neu aufgebaute Owner-Kontoverwaltung mit sicherem Passwortreset, Suche, Filtern und verbessertem Layout.
@@ -15647,6 +15648,213 @@ dashboardAccountsHtml = function(...args) {
     return html;
 };
 
+
+/* --------------------------------------------------------------------------
+ * NEXU V234 // INPUT, SETTINGS SCROLL & COLOR STUDIO
+ * Entfernt Browser-Autofill-Gelb global, macht das Settings-Center zuverlässig
+ * scrollbar und ersetzt die nativen Farbfelder durch ein Nexu-Farbstudio.
+ * -------------------------------------------------------------------------- */
+
+function nexuV234GlobalUiCss() {
+    return String.raw`<!-- NEXU V234 // GLOBAL INPUT + SETTINGS POLISH -->
+<style id="nxV234GlobalUiCss">
+/* Einheitliche dunkle Eingabefelder – auch bei Chrome/Edge/Safari Autofill. */
+:where(input,textarea,select){color-scheme:dark;}
+:where(input,textarea,select):-webkit-autofill,
+:where(input,textarea,select):-webkit-autofill:hover,
+:where(input,textarea,select):-webkit-autofill:focus,
+:where(input,textarea,select):-webkit-autofill:active{
+    -webkit-text-fill-color:#eaf8ff !important;
+    caret-color:#eaf8ff !important;
+    -webkit-box-shadow:0 0 0 1000px #07131f inset !important;
+    box-shadow:0 0 0 1000px #07131f inset !important;
+    border-color:rgba(108,223,255,.28) !important;
+    background-color:#07131f !important;
+    background-image:none !important;
+    transition:background-color 999999s ease-out 0s,color 999999s ease-out 0s !important;
+}
+:where(input,textarea,select):autofill{
+    color:#eaf8ff !important;
+    caret-color:#eaf8ff !important;
+    box-shadow:0 0 0 1000px #07131f inset !important;
+    border-color:rgba(108,223,255,.28) !important;
+    background:#07131f !important;
+}
+:where(input,textarea,select):-moz-autofill{
+    color:#eaf8ff !important;
+    caret-color:#eaf8ff !important;
+    filter:none !important;
+    box-shadow:0 0 0 1000px #07131f inset !important;
+    border-color:rgba(108,223,255,.28) !important;
+    background:#07131f !important;
+}
+:where(input,textarea,select):focus-visible{outline:none !important;}
+
+/* Das Modal selbst darf bei sehr kleinen Viewports scrollen. */
+body.page-home #settingsModal.nx-v231-settings{
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    overscroll-behavior:contain !important;
+    align-items:safe center !important;
+}
+.nx-v231-settings-shell{
+    height:min(820px,calc(100vh - 36px)) !important;
+    height:min(820px,calc(100dvh - 36px)) !important;
+    max-height:none !important;
+    min-height:0 !important;
+}
+.nx-v231-settings-sidebar,.nx-v231-settings-main{min-height:0 !important;}
+.nx-v231-settings-main{
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    overscroll-behavior:contain !important;
+    scrollbar-gutter:stable !important;
+    scrollbar-width:thin;
+    scrollbar-color:color-mix(in srgb,var(--nx-user-accent) 45%,#26394a) rgba(2,8,15,.35);
+}
+.nx-v231-settings-main::-webkit-scrollbar{width:10px;}
+.nx-v231-settings-main::-webkit-scrollbar-track{background:rgba(2,8,15,.34);border-radius:999px;}
+.nx-v231-settings-main::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--nx-user-accent),var(--nx-user-secondary));border:3px solid #07111c;border-radius:999px;}
+.nx-v231-settings-pane{min-height:min-content;}
+.nx-v231-settings-actions{z-index:8;}
+
+/* NEXU Farbstudio */
+.nx-v234-color-preview{
+    position:relative;min-height:150px;margin-bottom:14px;padding:16px;display:grid;
+    grid-template-columns:74px minmax(0,1fr);gap:12px;overflow:hidden;
+    border:1px solid color-mix(in srgb,var(--nx-user-accent) 24%,rgba(255,255,255,.07));
+    border-radius:17px;background:linear-gradient(145deg,rgba(6,15,26,.96),rgba(2,7,14,.96));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 18px 42px rgba(0,0,0,.20);
+}
+.nx-v234-color-preview::before{
+    content:"";position:absolute;width:230px;height:230px;right:-76px;top:-100px;border-radius:50%;
+    background:var(--nx-user-secondary);opacity:.16;filter:blur(34px);pointer-events:none;
+}
+.nx-v234-color-preview::after{
+    content:"";position:absolute;width:210px;height:210px;left:-95px;bottom:-120px;border-radius:50%;
+    background:var(--nx-user-accent);opacity:.18;filter:blur(36px);pointer-events:none;
+}
+.nx-v234-preview-nav,.nx-v234-preview-stage{position:relative;z-index:1;border:1px solid rgba(116,210,255,.10);border-radius:13px;background:rgba(255,255,255,.025);}
+.nx-v234-preview-nav{padding:11px 8px;display:grid;align-content:start;gap:8px;}
+.nx-v234-preview-logo{width:30px;height:30px;margin:0 auto 5px;border-radius:9px;background:linear-gradient(135deg,var(--nx-user-accent),var(--nx-user-secondary));box-shadow:0 8px 24px color-mix(in srgb,var(--nx-user-accent) 28%,transparent);}
+.nx-v234-preview-line{height:6px;border-radius:999px;background:rgba(144,183,205,.14);}.nx-v234-preview-line.active{background:linear-gradient(90deg,var(--nx-user-accent),var(--nx-user-secondary));}
+.nx-v234-preview-stage{padding:15px;display:flex;flex-direction:column;justify-content:space-between;gap:14px;}
+.nx-v234-preview-stage small{color:#7393a7;font-size:8px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;}
+.nx-v234-preview-stage strong{display:block;margin-top:5px;color:#effbff;font-size:17px;letter-spacing:-.025em;}
+.nx-v234-preview-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.nx-v234-preview-card{height:38px;border:1px solid rgba(114,207,255,.10);border-radius:10px;background:linear-gradient(135deg,color-mix(in srgb,var(--nx-user-accent) 14%,transparent),color-mix(in srgb,var(--nx-user-secondary) 10%,transparent));}
+.nx-v234-preview-button{width:max-content;min-width:96px;height:28px;display:grid;place-items:center;border-radius:9px;background:linear-gradient(135deg,var(--nx-user-accent),var(--nx-user-secondary));color:#fff;font-size:8px;font-weight:950;letter-spacing:.09em;box-shadow:0 8px 24px color-mix(in srgb,var(--nx-user-accent) 20%,transparent);}
+.nx-v231-color-row.nx-v234-color-studio{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+.nx-v234-color-control{min-width:0;padding:14px;border:1px solid rgba(108,205,255,.12);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.012));box-shadow:inset 0 1px 0 rgba(255,255,255,.025);}
+.nx-v234-color-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
+.nx-v234-color-head strong{color:#e9f8ff;font-size:11px;}.nx-v234-color-code{padding:5px 8px;border:1px solid rgba(111,207,255,.12);border-radius:999px;background:rgba(1,7,14,.65);color:#7398ad;font:800 9px ui-monospace,SFMono-Regular,Consolas,monospace;text-transform:uppercase;}
+.nx-v234-color-editor{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;}
+.nx-v234-swatch{position:relative;height:48px;overflow:hidden;border:1px solid rgba(255,255,255,.14);border-radius:13px;background:var(--nx-v234-current-color,#00c8ff);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12),0 9px 22px color-mix(in srgb,var(--nx-v234-current-color,#00c8ff) 20%,transparent);}
+.nx-v234-swatch::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.28),transparent 48%,rgba(0,0,0,.14));pointer-events:none;}
+.nx-v234-swatch input[type="color"]{position:absolute;inset:-8px;width:calc(100% + 16px);height:calc(100% + 16px);opacity:0;cursor:pointer;z-index:2;}
+.nx-v234-hex-input{width:100% !important;height:48px !important;padding:0 13px !important;border:1px solid rgba(103,204,255,.15) !important;border-radius:13px !important;background:rgba(1,7,14,.72) !important;color:#eaf8ff !important;font:800 12px ui-monospace,SFMono-Regular,Consolas,monospace !important;text-transform:uppercase;letter-spacing:.06em;outline:none;}
+.nx-v234-hex-input:focus{border-color:color-mix(in srgb,var(--nx-user-accent) 70%,white 8%) !important;box-shadow:0 0 0 3px color-mix(in srgb,var(--nx-user-accent) 12%,transparent) !important;}
+.nx-v234-preset-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px;}
+.nx-v234-preset{position:relative;width:25px;height:25px;padding:0;border:2px solid rgba(255,255,255,.14);border-radius:8px;background:var(--nx-v234-preset);cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18);transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;}
+.nx-v234-preset:hover{transform:translateY(-2px) scale(1.06);border-color:#fff;box-shadow:0 7px 18px color-mix(in srgb,var(--nx-v234-preset) 28%,transparent);}
+.nx-v234-preset[aria-pressed="true"]{border-color:#fff;box-shadow:0 0 0 2px color-mix(in srgb,var(--nx-v234-preset) 30%,transparent);}
+.nx-v234-color-help{display:block;margin-top:9px;color:#58798d;font-size:8px;line-height:1.45;}
+@media(max-width:800px){
+    .nx-v231-settings-shell{height:calc(100dvh - 20px) !important;grid-template-rows:auto minmax(0,1fr) !important;}
+    .nx-v231-settings-sidebar{max-height:none !important;overflow:visible !important;}
+    .nx-v231-settings-main{height:auto !important;}
+}
+@media(max-width:620px){
+    body.page-home #settingsModal.nx-v231-settings{padding:5px !important;place-items:start center !important;}
+    .nx-v231-settings-shell{height:calc(100dvh - 10px) !important;}
+    .nx-v234-color-preview{grid-template-columns:58px minmax(0,1fr);padding:11px;}
+    .nx-v231-color-row.nx-v234-color-studio{grid-template-columns:1fr;}
+}
+@media(max-width:420px){.nx-v234-preview-cards{grid-template-columns:1fr;}.nx-v234-color-editor{grid-template-columns:52px minmax(0,1fr);}}
+</style>`;
+}
+
+function nexuV234SettingsClientScript() {
+    return String.raw`<!-- NEXU V234 // SETTINGS COLOR STUDIO -->
+<script>
+(function(){
+    "use strict";
+    if(document.documentElement.dataset.nxV234Settings==="1")return;
+    document.documentElement.dataset.nxV234Settings="1";
+    var modal=document.getElementById("settingsModal");
+    if(!modal)return;
+    var english=(document.documentElement.lang||"").toLowerCase().indexOf("en")===0;
+    function one(selector,root){return (root||document).querySelector(selector);}
+    function all(selector,root){return Array.prototype.slice.call((root||document).querySelectorAll(selector));}
+    function validHex(value){var clean=String(value||"").trim();if(clean.charAt(0)!=="#")clean="#"+clean;return /^#[0-9a-f]{6}$/i.test(clean)?clean.toLowerCase():"";}
+    function fire(field,type){try{field.dispatchEvent(new Event(type||"input",{bubbles:true}));}catch(_){var event=document.createEvent("Event");event.initEvent(type||"input",true,true);field.dispatchEvent(event);}}
+    function previewMarkup(){
+        var box=document.createElement("div");box.className="nx-v234-color-preview";
+        box.innerHTML='<div class="nx-v234-preview-nav"><div class="nx-v234-preview-logo"></div><i class="nx-v234-preview-line active"></i><i class="nx-v234-preview-line"></i><i class="nx-v234-preview-line"></i><i class="nx-v234-preview-line"></i></div><div class="nx-v234-preview-stage"><div><small>'+(english?'LIVE DESIGN PREVIEW':'LIVE-DESIGNVORSCHAU')+'</small><strong>'+(english?'Your Nexu interface':'Deine Nexu-Oberfläche')+'</strong></div><div class="nx-v234-preview-cards"><i class="nx-v234-preview-card"></i><i class="nx-v234-preview-card"></i></div><div class="nx-v234-preview-button">NEXU</div></div>';
+        return box;
+    }
+    function enhanceField(field,index){
+        var color=one('input[type="color"]',field);if(!color)return;
+        var oldTitle=one("strong",field);var oldValue=one("#nxAccentValue,#nxSecondaryValue",field);
+        var title=oldTitle?oldTitle.textContent:(index===0?(english?"Primary color":"Primärfarbe"):(english?"Secondary color":"Sekundärfarbe"));
+        var valueId=oldValue&&oldValue.id?oldValue.id:(index===0?"nxAccentValue":"nxSecondaryValue");
+        var initial=validHex(color.value)||(index===0?"#00c8ff":"#6f46ff");
+        var presets=index===0?["#00c8ff","#22d3ee","#2dffb3","#1d79ff","#ff4d8d","#ff9f1c"]:["#6f46ff","#9d69ff","#ec62ff","#1d79ff","#00b8d9","#ff3d71"];
+        var card=document.createElement("div");card.className="nx-v234-color-control";
+        var head=document.createElement("div");head.className="nx-v234-color-head";
+        var heading=document.createElement("strong");heading.textContent=title;
+        var code=document.createElement("span");code.className="nx-v234-color-code";code.id=valueId;code.textContent=initial;
+        head.appendChild(heading);head.appendChild(code);
+        var editor=document.createElement("div");editor.className="nx-v234-color-editor";
+        var swatch=document.createElement("div");swatch.className="nx-v234-swatch";swatch.style.setProperty("--nx-v234-current-color",initial);
+        color.setAttribute("aria-label",title);color.autocomplete="off";swatch.appendChild(color);
+        var hex=document.createElement("input");hex.type="text";hex.className="nx-v234-hex-input";hex.value=initial;hex.maxLength=7;hex.autocomplete="off";hex.spellcheck=false;hex.inputMode="text";hex.setAttribute("aria-label",title+(english?" hex value":" Hex-Wert"));
+        editor.appendChild(swatch);editor.appendChild(hex);
+        var list=document.createElement("div");list.className="nx-v234-preset-list";
+        function sync(value,notify){
+            var clean=validHex(value);if(!clean)return false;
+            color.value=clean;hex.value=clean.toUpperCase();code.textContent=clean.toUpperCase();swatch.style.setProperty("--nx-v234-current-color",clean);
+            all(".nx-v234-preset",list).forEach(function(button){button.setAttribute("aria-pressed",String(button.getAttribute("data-color")===clean));});
+            if(notify)fire(color,"input");return true;
+        }
+        presets.forEach(function(value){var button=document.createElement("button");button.type="button";button.className="nx-v234-preset";button.setAttribute("data-color",value);button.setAttribute("aria-label",value);button.style.setProperty("--nx-v234-preset",value);button.addEventListener("click",function(){sync(value,true);});list.appendChild(button);});
+        color.addEventListener("input",function(){sync(color.value,false);});
+        color.addEventListener("change",function(){sync(color.value,true);});
+        hex.addEventListener("input",function(){var clean=validHex(hex.value);hex.setAttribute("aria-invalid",clean?"false":"true");if(clean)sync(clean,true);});
+        hex.addEventListener("blur",function(){if(!sync(hex.value,true)){hex.value=color.value.toUpperCase();hex.setAttribute("aria-invalid","false");}});
+        var help=document.createElement("small");help.className="nx-v234-color-help";help.textContent=english?"Open the color surface, enter a HEX value, or select a Nexu preset.":"Öffne die Farbfläche, gib einen HEX-Wert ein oder wähle ein Nexu-Preset.";
+        card.appendChild(head);card.appendChild(editor);card.appendChild(list);card.appendChild(help);
+        field.replaceWith(card);sync(initial,false);
+    }
+    function enhance(){
+        var row=one(".nx-v231-color-row",modal);if(!row||row.dataset.nxV234Enhanced==="1")return;
+        row.dataset.nxV234Enhanced="1";row.classList.add("nx-v234-color-studio");
+        var card=row.closest(".nx-v231-card");if(card)card.insertBefore(previewMarkup(),row);
+        all(".nx-v231-color-field",row).forEach(enhanceField);
+    }
+    enhance();
+    all("[data-nx-settings-tab]",modal).forEach(function(button){button.addEventListener("click",function(){var main=one(".nx-v231-settings-main",modal);if(main){try{main.scrollTo({top:0,behavior:"smooth"});}catch(_){main.scrollTop=0;}}});});
+    var open=document.getElementById("openSettings");if(open)open.addEventListener("click",function(){enhance();var main=one(".nx-v231-settings-main",modal);if(main)main.scrollTop=0;});
+})();
+</script>`;
+}
+
+const NEXU_V234_BASE_SEND_HTML = sendHtml;
+sendHtml = function(res, statusCode, html, extraHeaders = {}) {
+    let output = html;
+    if (typeof output === "string" && /<\/head>/i.test(output) && !output.includes('id="nxV234GlobalUiCss"')) {
+        output = output.replace(/<\/head>/i, nexuV234GlobalUiCss() + "</head>");
+    }
+    return NEXU_V234_BASE_SEND_HTML(res, statusCode, output, extraHeaders);
+};
+
+const NEXU_V234_BASE_HOME_HTML = homeHtml;
+homeHtml = function(...args) {
+    let html = NEXU_V234_BASE_HOME_HTML(...args);
+    if (typeof html !== "string" || !html.includes('id="settingsModal"') || html.includes("NEXU V234 // SETTINGS COLOR STUDIO")) return html;
+    return html.replace("</body>", nexuV234SettingsClientScript() + "</body>");
+};
+
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
 if (req.method === "GET" && pathname === "/api/health") {
@@ -18269,7 +18477,7 @@ async function startNexuServer() {
         console.log("Dashboard-Anmeldung: /");
         console.log("Übersichts-Konten:", dashboardAccounts.size);
         console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V148 SIGNIERT UND NEUSTARTFEST");
-        console.log("Öffentlicher Roblox/Luau-Obfuscator: /api/obfuscator // V233 PASSWORD VAULT + V232 ACCOUNT CENTER + V231 SETTINGS + V230 HIGH-CAPACITY NUMERIC-HEX // MEMORY-BATCHED // 150.000 ZEILEN // " + NEXU_OBFUSCATOR_MAX_INPUT_LABEL);
+        console.log("Öffentlicher Roblox/Luau-Obfuscator: /api/obfuscator // V234 UI POLISH + V233 PASSWORD VAULT + V232 ACCOUNT CENTER + V231 SETTINGS + V230 HIGH-CAPACITY NUMERIC-HEX // MEMORY-BATCHED // 150.000 ZEILEN // " + NEXU_OBFUSCATOR_MAX_INPUT_LABEL);
         console.log("Presence: /api/presence");
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
