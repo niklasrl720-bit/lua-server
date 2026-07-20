@@ -9221,16 +9221,16 @@
       "displayName": "Yuji",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "(WOD) Juego de rol de inodoro apocalíptico",
-      "placeId": 102917792916356,
+      "gameName": "Brookhaven 🏡 RP",
+      "placeId": 4924922222,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T20:43:14.567Z",
       "firstSeenMs": 1784234594567,
-      "lastSeen": "2026-07-20T01:55:00.000Z",
-      "lastSeenMs": 1784512500000
+      "lastSeen": "2026-07-20T06:45:00.000Z",
+      "lastSeenMs": 1784529900000
     },
     {
       "userId": "6089503220",
@@ -13398,5 +13398,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T06:21:02.274Z"
+  "updatedAt": "2026-07-20T06:49:45.925Z"
 }
