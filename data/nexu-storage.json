@@ -1668,6 +1668,23 @@
       "lastSeenMs": 1784317516939
     },
     {
+      "userId": "10937059641",
+      "username": "Trefttyli26",
+      "displayName": "Trefttyli26",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[ВЕРХ] Просто базовая пластина.",
+      "placeId": 123974602339071,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-20T10:16:06.224Z",
+      "firstSeenMs": 1784542566224,
+      "lastSeen": "2026-07-20T10:16:06.224Z",
+      "lastSeenMs": 1784542566224
+    },
+    {
       "userId": "10938747666",
       "username": "umacriancafeli",
       "displayName": "umacriancafeli",
@@ -13415,5 +13432,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T10:16:00.160Z"
+  "updatedAt": "2026-07-20T10:16:11.227Z"
 }
