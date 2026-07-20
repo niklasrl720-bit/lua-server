@@ -6700,6 +6700,23 @@
       "lastSeenMs": 1784320200000
     },
     {
+      "userId": "3197360190",
+      "username": "Tealer_Sad",
+      "displayName": "Minus",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "แข็งแกร่ง +1 ต่อวินาที 💪",
+      "placeId": 11298617267,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.727.1199",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-20T18:56:20.081Z",
+      "firstSeenMs": 1784573780081,
+      "lastSeen": "2026-07-20T18:56:20.081Z",
+      "lastSeenMs": 1784573780081
+    },
+    {
       "userId": "3232992051",
       "username": "7qvzy",
       "displayName": "isaac",
@@ -13532,5 +13549,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T18:56:04.353Z"
+  "updatedAt": "2026-07-20T18:56:25.087Z"
 }
