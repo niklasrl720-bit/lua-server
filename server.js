@@ -1,3 +1,4 @@
+// V236: Accountgebundene Design-Persistenz, serverseitige Theme-Synchronisierung auf allen Seiten und konfliktfester GitHub-Abgleich.
 // V235: Eigene Settings-Seite unter /settings und einheitliche englische URL-Pfade.
 // Link- und Werbeschutz: URLs, Einladungen und eindeutige Werbung werden vollständig zensiert.
 // V233: Auslesbare Passwortanzeige über einen separaten AES-256-GCM-Passworttresor in Settings und Owner-Kontoverwaltung.
@@ -2014,6 +2015,7 @@ function normalizeDashboardAccount(raw) {
         robloxDisplayName: cleanText(raw && (raw.robloxDisplayName || raw.linkedRobloxDisplayName), 80),
         language: normalizeDashboardLanguage(raw && (raw.language || raw.locale || raw.accountLanguage)),
         preferences: normalizeNexuAccountPreferences(raw || {}),
+        preferencesUpdatedAt: cleanText(raw && (raw.preferencesUpdatedAt || raw.designUpdatedAt), 64) || cleanText(raw && raw.updatedAt, 64) || "",
         access,
         createdAt: cleanText(raw && raw.createdAt, 64) || new Date().toISOString(),
         updatedAt: cleanText(raw && raw.updatedAt, 64) || "",
@@ -2139,6 +2141,7 @@ function serializeDashboardAccountForStorage(raw) {
         robloxDisplayName: account.robloxDisplayName,
         language: normalizeDashboardLanguage(account.language),
         preferences: normalizeNexuAccountPreferences(account.preferences || account),
+        preferencesUpdatedAt: cleanText(account.preferencesUpdatedAt, 64) || cleanText(account.updatedAt, 64) || "",
         access,
         createdAt: account.createdAt,
         updatedAt: account.updatedAt,
@@ -2294,6 +2297,75 @@ function applyDashboardAccountsCore(payload) {
     return buildDashboardAccountsCore();
 }
 
+
+function nexuAccountTimestampMs(value) {
+    const timestamp = Date.parse(String(value || ""));
+    return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
+function nexuPreferenceRichness(raw) {
+    const preferences = normalizeNexuAccountPreferences(raw && (raw.preferences || raw));
+    let score = 0;
+    if (preferences.theme !== NEXU_DEFAULT_ACCOUNT_PREFERENCES.theme) score += 4;
+    if (preferences.accentColor !== NEXU_DEFAULT_ACCOUNT_PREFERENCES.accentColor) score += 3;
+    if (preferences.secondaryColor !== NEXU_DEFAULT_ACCOUNT_PREFERENCES.secondaryColor) score += 3;
+    if (preferences.surfaceStyle !== NEXU_DEFAULT_ACCOUNT_PREFERENCES.surfaceStyle) score += 2;
+    if (preferences.reducedMotion === true) score += 1;
+    if (preferences.compactMode === true) score += 1;
+    return score;
+}
+
+function mergeNexuDashboardAccountRecords(localRaw, remoteRaw) {
+    const local = serializeDashboardAccountForStorage(localRaw || {});
+    const remote = serializeDashboardAccountForStorage(remoteRaw || {});
+    if (!local) return remote;
+    if (!remote) return local;
+
+    const localUpdatedAtMs = nexuAccountTimestampMs(local.updatedAt);
+    const remoteUpdatedAtMs = nexuAccountTimestampMs(remote.updatedAt);
+    const base = localUpdatedAtMs > remoteUpdatedAtMs ? local : remote;
+
+    const localPreferencesAtMs = nexuAccountTimestampMs(local.preferencesUpdatedAt || local.updatedAt);
+    const remotePreferencesAtMs = nexuAccountTimestampMs(remote.preferencesUpdatedAt || remote.updatedAt);
+    let preferenceSource;
+    if (localPreferencesAtMs > remotePreferencesAtMs) preferenceSource = local;
+    else if (remotePreferencesAtMs > localPreferencesAtMs) preferenceSource = remote;
+    else preferenceSource = nexuPreferenceRichness(local) > nexuPreferenceRichness(remote) ? local : remote;
+
+    return serializeDashboardAccountForStorage({
+        ...base,
+        isOwner: local.isOwner === true || remote.isOwner === true,
+        preferences: normalizeNexuAccountPreferences(preferenceSource.preferences || preferenceSource),
+        preferencesUpdatedAt: cleanText(
+            preferenceSource.preferencesUpdatedAt || preferenceSource.updatedAt,
+            64
+        ) || "",
+        createdAt: [local.createdAt, remote.createdAt]
+            .filter(Boolean)
+            .sort()[0] || base.createdAt,
+    });
+}
+
+function mergeNexuDashboardAccountCores(localPayload, remotePayload) {
+    const localCore = normalizeDashboardAccountsCore(localPayload) || { version: 2, accounts: [] };
+    const remoteCore = normalizeDashboardAccountsCore(remotePayload) || { version: 2, accounts: [] };
+    const mergedByEmail = new Map();
+
+    for (const account of remoteCore.accounts) {
+        mergedByEmail.set(cleanDashboardEmail(account.email), account);
+    }
+    for (const account of localCore.accounts) {
+        const email = cleanDashboardEmail(account.email);
+        const existing = mergedByEmail.get(email);
+        mergedByEmail.set(email, existing ? mergeNexuDashboardAccountRecords(account, existing) : account);
+    }
+
+    return normalizeDashboardAccountsCore({
+        version: 2,
+        accounts: [...mergedByEmail.values()],
+    });
+}
+
 async function fetchGitHubAccountsFile() {
     const endpoint = `${githubAccountsEndpoint()}?ref=${encodeURIComponent(GITHUB_DATA_BRANCH)}`;
     const response = await fetch(endpoint, { method: "GET", headers: githubStorageHeaders() });
@@ -2320,36 +2392,46 @@ async function loadGitHubAccounts() {
         console.warn("[NEXU] Separate GitHub-Accountdatei ist nicht vollständig konfiguriert; lokale Accountdatei bleibt aktiv.");
         return false;
     }
+
+    const localCoreBeforeRemoteLoad = buildDashboardAccountsCore();
     try {
         const remote = await fetchGitHubAccountsFile();
         githubAccountsSha = remote.sha || "";
         let remoteCore = null;
         let remoteInvalid = false;
+
         if (remote.exists && remote.payload) {
-            remoteCore = applyDashboardAccountsCore(remote.payload);
+            remoteCore = normalizeDashboardAccountsCore(remote.payload);
             remoteInvalid = !remoteCore;
             if (remoteInvalid) {
                 console.warn("[NEXU] GitHub-Accountdatei ist leer oder ungültig; der gültige lokale Account-Speicher wird zur Reparatur vorgemerkt.");
             }
         }
+
+        const mergedCore = remoteCore
+            ? mergeNexuDashboardAccountCores(localCoreBeforeRemoteLoad, remoteCore)
+            : normalizeDashboardAccountsCore(localCoreBeforeRemoteLoad);
+        if (mergedCore) applyDashboardAccountsCore(mergedCore);
+
         githubAccountsReady = true;
         saveDashboardAccount(false);
         const currentCore = buildDashboardAccountsCore();
         const currentFingerprint = storageFingerprint(currentCore);
         githubAccountsContentFingerprint = remoteCore ? storageFingerprint(remoteCore) : "";
-        console.log(`[NEXU] GitHub-Accountdatei geladen: ${dashboardAccounts.size} Account(s), verschlüsselt.`);
+        console.log(`[NEXU] GitHub-Accountdatei abgeglichen: ${dashboardAccounts.size} Account(s), lokale und entfernte Designstände konfliktfrei zusammengeführt.`);
+
         if (!remote.exists) {
             if (GITHUB_ACCOUNTS_WRITES_ALLOWED) scheduleGitHubAccountsSave("initial-create", 1_000);
         } else if (remoteInvalid) {
             if (GITHUB_ACCOUNTS_WRITES_ALLOWED) scheduleGitHubAccountsSave("repair-invalid-remote", 1_000);
         } else if (GITHUB_ACCOUNTS_WRITES_ALLOWED && githubAccountsContentFingerprint !== currentFingerprint) {
-            scheduleGitHubAccountsSave("startup-merge", 2_500);
+            scheduleGitHubAccountsSave("startup-merge", 1_000);
         }
         return true;
     } catch (error) {
         githubAccountsReady = true;
         githubAccountsContentFingerprint = storageFingerprint(buildDashboardAccountsCore());
-        console.warn("[NEXU] GitHub-Accountdatei konnte nicht geladen werden; lokale Accounts bleiben erhalten:", error.message);
+        console.warn("[NEXU] GitHub-Accountdatei konnte nicht geladen werden; lokale Accounts und Designs bleiben erhalten:", error.message);
         return false;
     }
 }
@@ -14910,7 +14992,11 @@ html{
     --v208-cyan:var(--nx-user-accent) !important;
     --v208-violet:var(--nx-user-secondary) !important;
     --nx-cyan:var(--nx-user-accent) !important;
+    --nx-blue:color-mix(in srgb,var(--nx-user-accent) 64%,var(--nx-user-secondary)) !important;
     --nx-violet:var(--nx-user-secondary) !important;
+    --v208-blue:color-mix(in srgb,var(--nx-user-accent) 64%,var(--nx-user-secondary)) !important;
+    --border:color-mix(in srgb,var(--nx-user-accent) 28%,transparent) !important;
+    --nx-line-strong:color-mix(in srgb,var(--nx-user-accent) 36%,transparent) !important;
     accent-color:var(--nx-user-accent);
 }
 html[data-nx-theme="midnight"] body{
@@ -16072,6 +16158,53 @@ function nexuV235SettingsPageHtml(notice = '', error = '', account = null) {
     return html;
 }
 
+
+/* --------------------------------------------------------------------------
+ * NEXU V236 // ACCOUNT-BOUND DESIGN PERSISTENCE
+ * Der Server ist die Quelle der Wahrheit. Gespeicherte Farben und Darstellungs-
+ * optionen werden auf jeder authentifizierten Seite vor dem Rendern angewendet,
+ * zusätzlich accountgebunden im Browser gespiegelt und beim GitHub-Startabgleich
+ * nicht mehr durch ältere Remote-Daten überschrieben.
+ * -------------------------------------------------------------------------- */
+
+function nexuV236AccountThemeBootstrap(account) {
+    const data = account && typeof account === "object" ? account : null;
+    if (!data || !cleanDashboardEmail(data.email)) return "";
+    const preferences = normalizeNexuAccountPreferences(data.preferences || data);
+    const accountKey = crypto.createHash("sha256")
+        .update(cleanDashboardEmail(data.email), "utf8")
+        .digest("hex")
+        .slice(0, 20);
+    return `<script id="nxV236AccountThemeBoot">(function(){"use strict";var p=${JSON.stringify(preferences)};var k=${JSON.stringify(accountKey)};window.__NEXU_ACCOUNT_PREFERENCES__=p;window.__NEXU_ACCOUNT_THEME_KEY__=k;try{localStorage.setItem("nexu-ui-active-account",k);localStorage.setItem("nexu-ui-preferences-account-"+k,JSON.stringify(p));localStorage.setItem("nexu-ui-preferences-v1",JSON.stringify(p));}catch(_){}var r=document.documentElement;var c=function(v,f){return /^#[0-9a-f]{6}$/i.test(String(v||""))?String(v).toLowerCase():f;};r.dataset.nxTheme={dark:1,midnight:1,oled:1,violet:1}[p.theme]?p.theme:"dark";r.dataset.nxSurface=p.surfaceStyle==="solid"?"solid":"glass";r.dataset.nxMotion=p.reducedMotion===true?"reduce":"full";r.dataset.nxDensity=p.compactMode===true?"compact":"comfortable";r.style.setProperty("--nx-user-accent",c(p.accentColor,"#00c8ff"));r.style.setProperty("--nx-user-secondary",c(p.secondaryColor,"#6f46ff"));if(window.NexuTheme&&typeof window.NexuTheme.apply==="function")window.NexuTheme.apply(p);}());</script>`;
+}
+
+function nexuV236InjectAccountTheme(html, account) {
+    if (typeof html !== "string" || html.includes('id="nxV236AccountThemeBoot"')) return html;
+    const bootstrap = nexuV236AccountThemeBootstrap(account);
+    if (!bootstrap) return html;
+    return html.replace(/<head([^>]*)>/i, function(match) { return match + bootstrap; });
+}
+
+const NEXU_V236_BASE_HOME_HTML = homeHtml;
+homeHtml = function(...args) {
+    return nexuV236InjectAccountTheme(NEXU_V236_BASE_HOME_HTML(...args), args[2]);
+};
+
+const NEXU_V236_BASE_DASHBOARD_HTML = dashboardHtml;
+dashboardHtml = function(account = null, notice = "") {
+    return nexuV236InjectAccountTheme(NEXU_V236_BASE_DASHBOARD_HTML(account, notice), account);
+};
+
+const NEXU_V236_BASE_ACCOUNTS_HTML = dashboardAccountsHtml;
+dashboardAccountsHtml = function(notice = "", error = "", account = null) {
+    return nexuV236InjectAccountTheme(NEXU_V236_BASE_ACCOUNTS_HTML(notice, error, account), account);
+};
+
+const NEXU_V236_BASE_SETTINGS_PAGE_HTML = nexuV235SettingsPageHtml;
+nexuV235SettingsPageHtml = function(notice = "", error = "", account = null) {
+    return nexuV236InjectAccountTheme(NEXU_V236_BASE_SETTINGS_PAGE_HTML(notice, error, account), account);
+};
+
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
 if (req.method === "GET" && pathname === "/api/health") {
@@ -16687,6 +16820,7 @@ if (req.method === "POST" && pathname === "/account/settings") {
             username: nextUsername,
             language: nextLanguage,
             preferences,
+            preferencesUpdatedAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         });
         if (!updated) {
