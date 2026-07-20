@@ -7436,16 +7436,16 @@
       "displayName": "VZX_Eli",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Mordgeheimnis 2",
-      "placeId": 142823291,
+      "gameName": "[WORLD2] +1 Geschwindigkeit Tastatur-Flucht",
+      "placeId": 118941584817777,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T09:32:36.615Z",
       "firstSeenMs": 1784539956615,
-      "lastSeen": "2026-07-20T12:50:00.000Z",
-      "lastSeenMs": 1784551800000
+      "lastSeen": "2026-07-20T13:00:00.000Z",
+      "lastSeenMs": 1784552400000
     },
     {
       "userId": "3991335398",
@@ -13481,5 +13481,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T13:01:04.073Z"
+  "updatedAt": "2026-07-20T13:02:06.361Z"
 }
