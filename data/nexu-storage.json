@@ -13314,8 +13314,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-20T00:27:26.214Z",
         "sentAtMs": 1784507246214
+      },
+      {
+        "id": 1784507251987002,
+        "userId": "11290775764",
+        "roleKey": "vip",
+        "roleTitle": "VIP",
+        "username": "Flasche27200",
+        "displayName": "Flasche27200",
+        "message": "test",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-20T00:27:31.987Z",
+        "sentAtMs": 1784507251987
       }
     ]
   },
-  "updatedAt": "2026-07-20T00:27:27.229Z"
+  "updatedAt": "2026-07-20T00:27:33.012Z"
 }
