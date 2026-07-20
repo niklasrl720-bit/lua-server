@@ -2514,8 +2514,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T12:33:47.498Z",
       "firstSeenMs": 1784550827498,
-      "lastSeen": "2026-07-20T14:15:00.000Z",
-      "lastSeenMs": 1784556900000
+      "lastSeen": "2026-07-20T14:20:00.000Z",
+      "lastSeenMs": 1784557200000
     },
     {
       "userId": "11126047368",
@@ -8065,16 +8065,16 @@
       "displayName": "JaMonti",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[Arcade]",
-      "placeId": 126042865144779,
+      "gameName": "Murderers VS Sheriffs DUELS",
+      "placeId": 12355337193,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T06:26:43.731Z",
       "firstSeenMs": 1784269603731,
-      "lastSeen": "2026-07-17T08:20:00.000Z",
-      "lastSeenMs": 1784276400000
+      "lastSeen": "2026-07-20T14:20:00.000Z",
+      "lastSeenMs": 1784557200000
     },
     {
       "userId": "4541165957",
@@ -13481,5 +13481,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T14:16:06.251Z"
+  "updatedAt": "2026-07-20T14:20:52.741Z"
 }
