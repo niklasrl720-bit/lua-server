@@ -9187,8 +9187,8 @@
       "displayName": "Yuji",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "manía de paseo en carrito",
-      "placeId": 15090870288,
+      "gameName": "(WOD) Juego de rol de inodoro apocalíptico",
+      "placeId": 102917792916356,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
@@ -13349,5 +13349,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T01:41:01.433Z"
+  "updatedAt": "2026-07-20T01:44:09.881Z"
 }
