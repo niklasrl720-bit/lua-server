@@ -6416,16 +6416,16 @@
       "displayName": "doki22811",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Pet Simulator X! 🐾",
-      "placeId": 6284583030,
+      "gameName": "Переживите 99 ночей",
+      "placeId": 126509999114328,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-20T01:35:00.000Z",
-      "lastSeenMs": 1784511300000
+      "lastSeen": "2026-07-20T20:55:00.000Z",
+      "lastSeenMs": 1784580900000
     },
     {
       "userId": "2643166270",
@@ -13549,5 +13549,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T20:56:00.265Z"
+  "updatedAt": "2026-07-20T20:58:14.808Z"
 }
