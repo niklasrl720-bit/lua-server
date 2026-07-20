@@ -7380,6 +7380,23 @@
       "lastSeenMs": 1784331300000
     },
     {
+      "userId": "3974247789",
+      "username": "roblox_user_3974247789",
+      "displayName": "VZX_Eli",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Mordgeheimnis 2",
+      "placeId": 142823291,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-20T09:32:36.615Z",
+      "firstSeenMs": 1784539956615,
+      "lastSeen": "2026-07-20T09:32:36.615Z",
+      "lastSeenMs": 1784539956615
+    },
+    {
       "userId": "3991335398",
       "username": "neonblade20o",
       "displayName": "Idk",
@@ -13398,5 +13415,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T08:31:02.286Z"
+  "updatedAt": "2026-07-20T09:32:41.619Z"
 }
