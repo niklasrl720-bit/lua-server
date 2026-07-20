@@ -7436,8 +7436,8 @@
       "displayName": "VZX_Eli",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[WORLD2] +1 Geschwindigkeit Tastatur-Flucht",
-      "placeId": 118941584817777,
+      "gameName": "Strandflucht | +1 Geschwindigkeit",
+      "placeId": 113780042580709,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
@@ -13481,5 +13481,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T13:16:02.803Z"
+  "updatedAt": "2026-07-20T13:19:39.029Z"
 }
