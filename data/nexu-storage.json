@@ -10564,16 +10564,16 @@
       "displayName": "Chernosigma_8",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "⚡Race Clicker",
-      "placeId": 9285238704,
+      "gameName": "nico's nextbots [open world]",
+      "placeId": 12629753855,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:16:28.179Z",
       "firstSeenMs": 1784225788179,
-      "lastSeen": "2026-07-18T23:20:00.000Z",
-      "lastSeenMs": 1784416800000
+      "lastSeen": "2026-07-20T19:15:00.000Z",
+      "lastSeenMs": 1784574900000
     },
     {
       "userId": "7926460129",
@@ -13549,5 +13549,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T19:16:01.516Z"
+  "updatedAt": "2026-07-20T19:17:23.579Z"
 }
