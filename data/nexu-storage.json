@@ -2,6 +2,23 @@
   "version": 4,
   "players": [
     {
+      "userId": "1",
+      "username": "Roblox",
+      "displayName": "Roblox",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "",
+      "placeId": 0,
+      "executionSource": "",
+      "executionVersion": "",
+      "clientPlatform": "",
+      "scriptBuild": "",
+      "firstSeen": "2026-07-20T11:09:06.284Z",
+      "firstSeenMs": 1784545746284,
+      "lastSeen": "2026-07-20T11:09:06.284Z",
+      "lastSeenMs": 1784545746284
+    },
+    {
       "userId": "1000176308",
       "username": "33eren66",
       "displayName": "AC_33eren66",
@@ -13447,5 +13464,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T11:06:03.087Z"
+  "updatedAt": "2026-07-20T11:09:11.297Z"
 }
