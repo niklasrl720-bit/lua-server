@@ -13500,71 +13500,10 @@
     "changedBy": ""
   },
   "chat": {
-    "dayKey": "2026-07-20",
-    "resetRevision": 4,
-    "resetAtMs": 1784498400125,
-    "messages": [
-      {
-        "id": 1784507246214001,
-        "userId": "11290775764",
-        "roleKey": "vip",
-        "roleTitle": "VIP",
-        "username": "Flasche27200",
-        "displayName": "Flasche27200",
-        "message": "hi",
-        "originalMessage": "",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-07-20T00:27:26.214Z",
-        "sentAtMs": 1784507246214
-      },
-      {
-        "id": 1784507251987002,
-        "userId": "11290775764",
-        "roleKey": "vip",
-        "roleTitle": "VIP",
-        "username": "Flasche27200",
-        "displayName": "Flasche27200",
-        "message": "test",
-        "originalMessage": "",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-07-20T00:27:31.987Z",
-        "sentAtMs": 1784507251987
-      },
-      {
-        "id": 1784521891408003,
-        "userId": "3504968352",
-        "roleKey": "player",
-        "roleTitle": "PLAYERS",
-        "username": "fox_semo",
-        "displayName": "FoX",
-        "message": "pls vip",
-        "originalMessage": "",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-07-20T04:31:31.408Z",
-        "sentAtMs": 1784521891408
-      },
-      {
-        "id": 1784543662006004,
-        "userId": "121836899",
-        "roleKey": "player",
-        "roleTitle": "PLAYERS",
-        "username": "joshuansantiago",
-        "displayName": "Emo_FadedPR",
-        "message": "how we get vip?",
-        "originalMessage": "",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-07-20T10:34:22.006Z",
-        "sentAtMs": 1784543662006
-      }
-    ]
+    "dayKey": "2026-07-21",
+    "resetRevision": 5,
+    "resetAtMs": 1784584800006,
+    "messages": []
   },
-  "updatedAt": "2026-07-20T21:55:27.989Z"
+  "updatedAt": "2026-07-20T22:00:00.825Z"
 }
