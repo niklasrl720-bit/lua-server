@@ -4401,8 +4401,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T20:53:21.242Z",
       "firstSeenMs": 1784235201242,
-      "lastSeen": "2026-07-20T00:50:00.000Z",
-      "lastSeenMs": 1784508600000
+      "lastSeen": "2026-07-20T01:00:00.000Z",
+      "lastSeenMs": 1784509200000
     },
     {
       "userId": "11291339681",
@@ -5549,16 +5549,16 @@
       "displayName": "Emo_FadedPR",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Silent Assassins",
-      "placeId": 103854444055060,
+      "gameName": "🎉 [CH 4] Jailbreak",
+      "placeId": 606849621,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T23:18:37.449Z",
       "firstSeenMs": 1784503117449,
-      "lastSeen": "2026-07-20T00:35:00.000Z",
-      "lastSeenMs": 1784507700000
+      "lastSeen": "2026-07-20T01:00:00.000Z",
+      "lastSeenMs": 1784509200000
     },
     {
       "userId": "1231105181",
@@ -6348,16 +6348,16 @@
       "displayName": "doki22811",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Принцесса Тайкун",
-      "placeId": 3804735158,
+      "gameName": "Супер-герой-магнат",
+      "placeId": 574407221,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-20T00:50:00.000Z",
-      "lastSeenMs": 1784508600000
+      "lastSeen": "2026-07-20T01:00:00.000Z",
+      "lastSeenMs": 1784509200000
     },
     {
       "userId": "2643166270",
@@ -9187,16 +9187,16 @@
       "displayName": "Yuji",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[10º] Legado de Parkour",
-      "placeId": 445664957,
+      "gameName": "(WOD) Juego de rol de inodoro apocalíptico",
+      "placeId": 102917792916356,
       "executionSource": "Delta",
       "executionVersion": "1.1.727.1199",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T20:43:14.567Z",
       "firstSeenMs": 1784234594567,
-      "lastSeen": "2026-07-20T00:45:00.000Z",
-      "lastSeenMs": 1784508300000
+      "lastSeen": "2026-07-20T01:00:00.000Z",
+      "lastSeenMs": 1784509200000
     },
     {
       "userId": "6089503220",
@@ -11101,6 +11101,23 @@
       "firstSeenMs": 1784413504399,
       "lastSeen": "2026-07-18T22:25:04.399Z",
       "lastSeenMs": 1784413504399
+    },
+    {
+      "userId": "8478136025",
+      "username": "roblox_user_8478136025",
+      "displayName": "AbuHamudi",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "German Voice",
+      "placeId": 136162036182779,
+      "executionSource": "Madium",
+      "executionVersion": "1.3.8.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-20T00:51:13.130Z",
+      "firstSeenMs": 1784508673130,
+      "lastSeen": "2026-07-20T00:55:00.000Z",
+      "lastSeenMs": 1784508900000
     },
     {
       "userId": "8488831041",
@@ -13281,13 +13298,13 @@
   ],
   "bans": [],
   "updateState": {
-    "active": true,
-    "startedAtMs": 1784508604176,
-    "endsAtMs": 1784508664176,
-    "durationMinutes": 1,
-    "startedBy": "OwnerAccount",
-    "startedAt": "2026-07-20T00:50:04.176Z",
-    "endsAt": "2026-07-20T00:51:04.176Z"
+    "active": false,
+    "startedAtMs": 0,
+    "endsAtMs": 0,
+    "durationMinutes": 0,
+    "startedBy": "",
+    "startedAt": "",
+    "endsAt": ""
   },
   "menuStatus": {
     "online": true,
@@ -13332,5 +13349,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T00:50:05.680Z"
+  "updatedAt": "2026-07-20T01:00:51.352Z"
 }
