@@ -4401,8 +4401,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T20:53:21.242Z",
       "firstSeenMs": 1784235201242,
-      "lastSeen": "2026-07-19T13:25:00.000Z",
-      "lastSeenMs": 1784467500000
+      "lastSeen": "2026-07-20T00:25:00.000Z",
+      "lastSeenMs": 1784507100000
     },
     {
       "userId": "11291339681",
@@ -13299,7 +13299,23 @@
     "dayKey": "2026-07-20",
     "resetRevision": 4,
     "resetAtMs": 1784498400125,
-    "messages": []
+    "messages": [
+      {
+        "id": 1784507246214001,
+        "userId": "11290775764",
+        "roleKey": "vip",
+        "roleTitle": "VIP",
+        "username": "Flasche27200",
+        "displayName": "Flasche27200",
+        "message": "hi",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-20T00:27:26.214Z",
+        "sentAtMs": 1784507246214
+      }
+    ]
   },
-  "updatedAt": "2026-07-20T00:26:00.964Z"
+  "updatedAt": "2026-07-20T00:27:27.229Z"
 }
