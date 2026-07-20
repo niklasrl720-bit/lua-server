@@ -7941,6 +7941,23 @@
       "lastSeenMs": 1784228100000
     },
     {
+      "userId": "4361706975",
+      "username": "nowszyv9",
+      "displayName": "SN099",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[REGISTER] Jujutsu Shenanigans",
+      "placeId": 9391468976,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-20T15:34:18.719Z",
+      "firstSeenMs": 1784561658719,
+      "lastSeen": "2026-07-20T15:34:18.719Z",
+      "lastSeenMs": 1784561658719
+    },
+    {
       "userId": "4364080942",
       "username": "1639531rahim5193",
       "displayName": "ItzRanbirSide",
@@ -13498,5 +13515,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T15:31:01.615Z"
+  "updatedAt": "2026-07-20T15:34:23.723Z"
 }
