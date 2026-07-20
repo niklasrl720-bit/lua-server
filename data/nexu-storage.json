@@ -6348,16 +6348,16 @@
       "displayName": "doki22811",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Супер-герой-магнат",
-      "placeId": 574407221,
+      "gameName": "[WORLD2] +1 Скорость побега на клавиатуре",
+      "placeId": 118941584817777,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-20T01:15:00.000Z",
-      "lastSeenMs": 1784510100000
+      "lastSeen": "2026-07-20T01:20:00.000Z",
+      "lastSeenMs": 1784510400000
     },
     {
       "userId": "2643166270",
@@ -13349,5 +13349,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T01:21:02.907Z"
+  "updatedAt": "2026-07-20T01:21:08.673Z"
 }
