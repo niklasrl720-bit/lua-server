@@ -1651,6 +1651,23 @@
       "lastSeenMs": 1784414100000
     },
     {
+      "userId": "10924324180",
+      "username": "darkF711",
+      "displayName": "darkF711",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "RIVALS",
+      "placeId": 17625359962,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-20T23:43:34.521Z",
+      "firstSeenMs": 1784591014521,
+      "lastSeen": "2026-07-20T23:43:34.521Z",
+      "lastSeenMs": 1784591014521
+    },
+    {
       "userId": "10930195997",
       "username": "novs124578",
       "displayName": "novs124578",
@@ -13522,5 +13539,5 @@
     "resetAtMs": 1784584800006,
     "messages": []
   },
-  "updatedAt": "2026-07-20T23:41:01.299Z"
+  "updatedAt": "2026-07-20T23:43:39.531Z"
 }
