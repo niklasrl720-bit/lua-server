@@ -4401,8 +4401,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T20:53:21.242Z",
       "firstSeenMs": 1784235201242,
-      "lastSeen": "2026-07-20T00:40:00.000Z",
-      "lastSeenMs": 1784508000000
+      "lastSeen": "2026-07-20T00:45:00.000Z",
+      "lastSeenMs": 1784508300000
     },
     {
       "userId": "11291339681",
@@ -13284,8 +13284,8 @@
       "userId": "11290775764",
       "username": "Flasche27200",
       "displayName": "Flasche27200",
-      "reason": "e",
-      "bannedAt": "2026-07-20T00:41:41.271Z",
+      "reason": "test",
+      "bannedAt": "2026-07-20T00:49:04.008Z",
       "bannedBy": "dashboard"
     }
   ],
@@ -13341,5 +13341,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T00:46:00.742Z"
+  "updatedAt": "2026-07-20T00:49:06.513Z"
 }
