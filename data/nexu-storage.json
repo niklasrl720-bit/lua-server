@@ -6348,16 +6348,16 @@
       "displayName": "doki22811",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Переживите 99 ночей",
-      "placeId": 126509999114328,
+      "gameName": "Принцесса Тайкун",
+      "placeId": 3804735158,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-19T23:00:00.000Z",
-      "lastSeenMs": 1784502000000
+      "lastSeen": "2026-07-20T00:15:00.000Z",
+      "lastSeenMs": 1784506500000
     },
     {
       "userId": "2643166270",
@@ -12000,8 +12000,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-20T00:10:00.000Z",
-      "lastSeenMs": 1784506200000
+      "lastSeen": "2026-07-20T00:15:00.000Z",
+      "lastSeenMs": 1784506500000
     },
     {
       "userId": "9123569216",
@@ -13301,5 +13301,5 @@
     "resetAtMs": 1784498400125,
     "messages": []
   },
-  "updatedAt": "2026-07-20T00:13:25.302Z"
+  "updatedAt": "2026-07-20T00:15:52.330Z"
 }
