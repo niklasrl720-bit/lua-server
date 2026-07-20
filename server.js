@@ -1,4 +1,6 @@
 // Link- und Werbeschutz: URLs, Einladungen und eindeutige Werbung werden vollständig zensiert.
+// V232: Neu aufgebaute Owner-Kontoverwaltung mit sicherem Passwortreset, Suche, Filtern und verbessertem Layout.
+// V231: Vollständiges Settings-Center, sicherer Passwortwechsel, Themes und DOM-Fehlerbehebung.
 // V222: Erweiterte mehrsprachige Chatmoderation, sexuelle Zeichen-/Emoji-Erkennung und sichere OwnerAccount-Originalansicht.
 // V221: Stabilitätsfix – GitHub-Daten standardmäßig auf separatem Branch, kein Render-Redeploy durch Chat-/Spielerspeicherung, sofortiger Serverstart.
 // V220: Globaler Chat bleibt beim Menü-/Serverneustart erhalten und wird ausschließlich beim Tageswechsel um 00:00 Europe/Berlin geleert.
@@ -1854,6 +1856,42 @@ function normalizeDashboardLanguage(value) {
     return DASHBOARD_ACCOUNT_LANGUAGES.has(language) ? language : "en";
 }
 
+const NEXU_ACCOUNT_THEME_KEYS = new Set(["dark", "midnight", "oled", "violet"]);
+const NEXU_ACCOUNT_SURFACE_KEYS = new Set(["glass", "solid"]);
+const NEXU_DEFAULT_ACCOUNT_PREFERENCES = Object.freeze({
+    theme: "dark",
+    accentColor: "#00c8ff",
+    secondaryColor: "#6f46ff",
+    surfaceStyle: "glass",
+    reducedMotion: false,
+    compactMode: false,
+});
+
+function normalizeNexuHexColor(value, fallback) {
+    const color = String(value || "").trim().toLowerCase();
+    return /^#[0-9a-f]{6}$/.test(color) ? color : fallback;
+}
+
+function normalizeNexuBoolean(value) {
+    return value === true || value === 1 || value === "1" || value === "true" || value === "on" || value === "yes";
+}
+
+function normalizeNexuAccountPreferences(raw) {
+    const root = raw && typeof raw === "object" ? raw : {};
+    const nested = root.preferences && typeof root.preferences === "object" ? root.preferences : {};
+    const source = {...root, ...nested};
+    const theme = String(source.theme || source.siteTheme || NEXU_DEFAULT_ACCOUNT_PREFERENCES.theme).trim().toLowerCase();
+    const surfaceStyle = String(source.surfaceStyle || source.surface || NEXU_DEFAULT_ACCOUNT_PREFERENCES.surfaceStyle).trim().toLowerCase();
+    return {
+        theme: NEXU_ACCOUNT_THEME_KEYS.has(theme) ? theme : NEXU_DEFAULT_ACCOUNT_PREFERENCES.theme,
+        accentColor: normalizeNexuHexColor(source.accentColor || source.primaryColor, NEXU_DEFAULT_ACCOUNT_PREFERENCES.accentColor),
+        secondaryColor: normalizeNexuHexColor(source.secondaryColor, NEXU_DEFAULT_ACCOUNT_PREFERENCES.secondaryColor),
+        surfaceStyle: NEXU_ACCOUNT_SURFACE_KEYS.has(surfaceStyle) ? surfaceStyle : NEXU_DEFAULT_ACCOUNT_PREFERENCES.surfaceStyle,
+        reducedMotion: normalizeNexuBoolean(source.reducedMotion),
+        compactMode: normalizeNexuBoolean(source.compactMode),
+    };
+}
+
 function normalizeDashboardAccount(raw) {
     const username = cleanDashboardUsername(raw && raw.username);
     const email = cleanDashboardEmail(raw && raw.email) || internalDashboardEmailForUsername(username);
@@ -1869,11 +1907,13 @@ function normalizeDashboardAccount(raw) {
         username,
         email,
         passwordHash,
+        authVersion: Math.max(1, cleanInteger(raw && raw.authVersion) || 1),
         isOwner,
         robloxUserId,
         robloxUsername: cleanText(raw && (raw.robloxUsername || raw.linkedRobloxUsername), 40),
         robloxDisplayName: cleanText(raw && (raw.robloxDisplayName || raw.linkedRobloxDisplayName), 80),
         language: normalizeDashboardLanguage(raw && (raw.language || raw.locale || raw.accountLanguage)),
+        preferences: normalizeNexuAccountPreferences(raw || {}),
         access,
         createdAt: cleanText(raw && raw.createdAt, 64) || new Date().toISOString(),
         updatedAt: cleanText(raw && raw.updatedAt, 64) || "",
@@ -1991,11 +2031,13 @@ function serializeDashboardAccountForStorage(raw) {
         username: account.username,
         email: account.email,
         passwordHash: account.passwordHash,
+        authVersion: Math.max(1, cleanInteger(account.authVersion) || 1),
         isOwner: account.isOwner === true,
         robloxUserId: account.robloxUserId,
         robloxUsername: account.robloxUsername,
         robloxDisplayName: account.robloxDisplayName,
         language: normalizeDashboardLanguage(account.language),
+        preferences: normalizeNexuAccountPreferences(account.preferences || account),
         access,
         createdAt: account.createdAt,
         updatedAt: account.updatedAt,
@@ -2496,6 +2538,7 @@ function createSignedDashboardSessionToken(account) {
         username: cleanDashboardUsername(account && account.username),
         email: cleanDashboardEmail(account && account.email),
         isOwner: isOwnerDashboardAccount(account),
+        authVersion: Math.max(1, cleanInteger(account && account.authVersion) || 1),
         issuedAtMs: now,
         expiresAtMs: now + DASHBOARD_SESSION_TTL_MS,
     };
@@ -2527,6 +2570,7 @@ function readSignedDashboardSessionToken(token) {
         username,
         email,
         isOwner: payload.isOwner === true || isOwnerDashboardIdentity(username, email, false),
+        authVersion: Math.max(1, cleanInteger(payload.authVersion) || 1),
         expiresAtMs,
     };
 }
@@ -2545,6 +2589,7 @@ function getDashboardSessionEntry(token) {
                 username: owner.username,
                 email: owner.email,
                 isOwner: true,
+                authVersion: Math.max(1, cleanInteger(owner.authVersion) || 1),
                 expiresAtMs: raw,
             }
             : null;
@@ -2567,6 +2612,7 @@ function getDashboardSessionEntry(token) {
         username: account.username,
         email: account.email,
         isOwner: storedOwnerFlag || identityOwnerFlag || isOwnerDashboardAccount(account),
+        authVersion: Math.max(1, cleanInteger(raw.authVersion) || 1),
         expiresAtMs: Number(raw.expiresAtMs) || 0,
     };
 }
@@ -2606,6 +2652,13 @@ function getDashboardSession(req) {
         account = getOwnerDashboardAccount() || getFirstDashboardAccount();
     }
     if (!account) {
+        dashboardSessions.delete(token);
+        return null;
+    }
+
+    const accountAuthVersion = Math.max(1, cleanInteger(account.authVersion) || 1);
+    const sessionAuthVersion = Math.max(1, cleanInteger(entry.authVersion) || 1);
+    if (accountAuthVersion !== sessionAuthVersion) {
         dashboardSessions.delete(token);
         return null;
     }
@@ -2657,6 +2710,7 @@ function createDashboardSession(account = getOwnerDashboardAccount() || getFirst
         username: normalized.username,
         email: normalized.email,
         isOwner: isOwnerDashboardAccount(normalized),
+        authVersion: Math.max(1, cleanInteger(normalized.authVersion) || 1),
         expiresAtMs: Date.now() + DASHBOARD_SESSION_TTL_MS,
     });
     return token;
@@ -8598,7 +8652,7 @@ function nexuV201GermanizeHtml(html) {
         ["DM SENDEN", "DIREKTNACHRICHT SENDEN"],
         ["Control Home", "Steuerzentrale"],
         ["SECURE CHANNEL", "GESICHERTER KANAL"],
-        ["Settings", "Einstellungen"],
+        ["Settings <span>", "Einstellungen <span>"],
         ["Dashboard-Rechte", "Übersichtsrechte"],
         ["Dashboard-Funktionen", "Funktionen der Übersicht"],
         ["NEXU STEUERNETZWERK", "NEXU STEUERNETZWERK"],
@@ -12024,7 +12078,7 @@ homeHtml = function(notice = "", error = "", account = null, options = {}) {
     const authMode = options && (options.authMode === "register" ? "register" : options.authMode === "login" ? "login" : "");
     let html = NEXU_V206_BASE_HOME_HTML(notice, error, effectiveAccount);
     html = html.replace(nexuV200StartupHtml(), "");
-    html = html.replace(/\bnx-booting\b/g, "");
+    html = html.replace(/(<body\b[^>]*\bclass="[^"]*)\s+nx-booting\b([^"]*")/i, "$1$2");
     html = html.replace(/<a class="primary-tile account-admin"[\s\S]*?<\/a>/i, "");
     html = html.replace(/<body([^>]*)>/i, function(match, attributes) {
         let next = attributes || "";
@@ -14733,6 +14787,677 @@ homeHtml = function(...args) {
 };
 
 
+/* --------------------------------------------------------------------------
+ * NEXU V231 // ACCOUNT SETTINGS, SECURITY & PERSONALIZATION
+ * Vollständiges Settings-Center mit getrenntem Passwortwechsel, sicheren
+ * Passwortinformationen, Account-Persistenz, Themes und stabilen DOM-Handlern.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V231_BASE_HOME_HTML = homeHtml;
+const NEXU_V231_BASE_SEND_HTML = sendHtml;
+
+function nexuV231ThemeBootstrapAssets() {
+    return String.raw`<!-- NEXU V231 // THEME BOOTSTRAP -->
+<style id="nxV231ThemeCss">
+:root{
+    --nx-user-accent:#00c8ff;
+    --nx-user-secondary:#6f46ff;
+}
+html{
+    --cyan:var(--nx-user-accent) !important;
+    --violet:var(--nx-user-secondary) !important;
+    --v208-cyan:var(--nx-user-accent) !important;
+    --v208-violet:var(--nx-user-secondary) !important;
+    --nx-cyan:var(--nx-user-accent) !important;
+    --nx-violet:var(--nx-user-secondary) !important;
+    accent-color:var(--nx-user-accent);
+}
+html[data-nx-theme="midnight"] body{
+    background-color:#07101f !important;
+    background-image:radial-gradient(circle at 16% 8%,color-mix(in srgb,var(--nx-user-accent) 18%,transparent),transparent 34rem),radial-gradient(circle at 86% 14%,color-mix(in srgb,var(--nx-user-secondary) 19%,transparent),transparent 38rem) !important;
+}
+html[data-nx-theme="oled"] body{
+    background-color:#000 !important;
+    background-image:radial-gradient(circle at 22% 7%,color-mix(in srgb,var(--nx-user-accent) 11%,transparent),transparent 30rem) !important;
+}
+html[data-nx-theme="violet"] body{
+    background-color:#080616 !important;
+    background-image:radial-gradient(circle at 80% 10%,color-mix(in srgb,var(--nx-user-secondary) 25%,transparent),transparent 38rem),radial-gradient(circle at 18% 18%,color-mix(in srgb,var(--nx-user-accent) 13%,transparent),transparent 33rem) !important;
+}
+html[data-nx-surface="solid"] .panel,
+html[data-nx-surface="solid"] .nx-v208-section,
+html[data-nx-surface="solid"] .nx-v208-header,
+html[data-nx-surface="solid"] .account-menu,
+html[data-nx-surface="solid"] .modal-card{
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+    background-image:none !important;
+}
+html[data-nx-motion="reduce"] *,
+html[data-nx-motion="reduce"] *::before,
+html[data-nx-motion="reduce"] *::after{
+    scroll-behavior:auto !important;
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+}
+html[data-nx-density="compact"] .nx-v208-main{gap:10px !important;}
+html[data-nx-density="compact"] .nx-v208-section{padding-top:0 !important;}
+html[data-nx-density="compact"] .panel,
+html[data-nx-density="compact"] .nx-v208-section{border-radius:18px !important;}
+html[data-nx-density="compact"] .player,
+html[data-nx-density="compact"] .account-card{padding-top:12px !important;padding-bottom:12px !important;}
+</style>
+<script id="nxV231ThemeBoot">
+(function(){
+    "use strict";
+    function validColor(value,fallback){return /^#[0-9a-f]{6}$/i.test(String(value||""))?String(value).toLowerCase():fallback;}
+    function apply(raw){
+        var data=raw&&typeof raw==="object"?raw:{};
+        var themes={dark:1,midnight:1,oled:1,violet:1};
+        var theme=themes[data.theme]?data.theme:"dark";
+        var root=document.documentElement;
+        root.dataset.nxTheme=theme;
+        root.dataset.nxSurface=data.surfaceStyle==="solid"?"solid":"glass";
+        root.dataset.nxMotion=data.reducedMotion===true?"reduce":"full";
+        root.dataset.nxDensity=data.compactMode===true?"compact":"comfortable";
+        root.style.setProperty("--nx-user-accent",validColor(data.accentColor,"#00c8ff"));
+        root.style.setProperty("--nx-user-secondary",validColor(data.secondaryColor,"#6f46ff"));
+    }
+    window.NexuTheme={apply:apply};
+    try{apply(JSON.parse(localStorage.getItem("nexu-ui-preferences-v1")||"{}"));}catch(_){apply({});}
+})();
+</script>`;
+}
+
+sendHtml = function(res, statusCode, html, extraHeaders = {}) {
+    let output = html;
+    if (typeof output === "string" && /<\/head>/i.test(output) && !output.includes('id="nxV231ThemeBoot"')) {
+        output = output.replace(/<\/head>/i, nexuV231ThemeBootstrapAssets() + "</head>");
+    }
+    return NEXU_V231_BASE_SEND_HTML(res, statusCode, output, extraHeaders);
+};
+
+function nexuV231SettingsCss() {
+    return String.raw`
+/* NEXU V231 // SETTINGS CENTER */
+html.nx-settings-open,html.nx-password-open{overflow:hidden !important;}
+body.page-home #settingsModal.nx-v231-settings{
+    position:fixed !important;inset:0 !important;z-index:2147483200 !important;
+    display:grid !important;place-items:center !important;padding:18px !important;
+    background:rgba(0,3,10,.84) !important;backdrop-filter:blur(18px) saturate(125%) !important;
+}
+body.page-home #settingsModal.nx-v231-settings.hidden{display:none !important;}
+.nx-v231-settings-shell{
+    width:min(1040px,100%);max-height:min(820px,calc(100vh - 36px));display:grid;
+    grid-template-columns:245px minmax(0,1fr);overflow:hidden;border:1px solid color-mix(in srgb,var(--nx-user-accent) 26%,rgba(255,255,255,.08));
+    border-radius:28px;background:linear-gradient(145deg,rgba(10,18,31,.98),rgba(3,8,16,.98));
+    box-shadow:0 38px 120px rgba(0,0,0,.72),0 0 70px color-mix(in srgb,var(--nx-user-accent) 9%,transparent);
+}
+.nx-v231-settings-sidebar{padding:24px 18px;border-right:1px solid rgba(110,205,255,.10);background:rgba(2,8,15,.55);display:flex;flex-direction:column;gap:18px;}
+.nx-v231-settings-brand{display:flex;align-items:center;gap:12px;padding:0 7px 12px;}
+.nx-v231-settings-brand-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,var(--nx-user-accent),var(--nx-user-secondary));font-weight:950;color:#fff;box-shadow:0 12px 30px color-mix(in srgb,var(--nx-user-accent) 25%,transparent);}
+.nx-v231-settings-brand strong{display:block;font-size:15px;}.nx-v231-settings-brand span{display:block;margin-top:3px;color:#68879b;font-size:9px;font-weight:850;letter-spacing:.13em;text-transform:uppercase;}
+.nx-v231-settings-tabs{display:grid;gap:7px;}
+.nx-v231-settings-tab{width:100%;min-height:46px;display:flex;align-items:center;gap:11px;padding:0 13px;border:1px solid transparent;border-radius:13px;background:transparent;color:#7f9caf;font:inherit;font-size:11px;font-weight:850;text-align:left;cursor:pointer;}
+.nx-v231-settings-tab i{width:26px;height:26px;display:grid;place-items:center;border-radius:8px;background:rgba(255,255,255,.035);font-style:normal;font-size:9px;}
+.nx-v231-settings-tab.active{color:#effaff;border-color:color-mix(in srgb,var(--nx-user-accent) 25%,transparent);background:linear-gradient(135deg,color-mix(in srgb,var(--nx-user-accent) 14%,transparent),color-mix(in srgb,var(--nx-user-secondary) 8%,transparent));}
+.nx-v231-settings-sidebar-note{margin-top:auto;padding:13px;border:1px solid rgba(100,205,255,.10);border-radius:13px;background:rgba(255,255,255,.018);color:#5f7d90;font-size:9px;line-height:1.55;}
+.nx-v231-settings-main{min-width:0;overflow:auto;padding:28px;}
+.nx-v231-settings-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:24px;}
+.nx-v231-settings-head .eyebrow{margin-bottom:7px;}.nx-v231-settings-head h2{margin:0;font-size:27px;letter-spacing:-.035em;}.nx-v231-settings-head p{margin-top:8px;max-width:620px;font-size:11px;line-height:1.65;}
+.nx-v231-icon-button{width:40px;height:40px;flex:0 0 40px;display:grid;place-items:center;border:1px solid rgba(104,201,255,.17);border-radius:12px;background:rgba(255,255,255,.025);color:#9ab5c5;font:inherit;cursor:pointer;}
+.nx-v231-settings-pane{display:none;}.nx-v231-settings-pane.active{display:block;animation:nxV231PaneIn .25s ease both;}@keyframes nxV231PaneIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.nx-v231-card{padding:20px;border:1px solid rgba(102,203,255,.11);border-radius:18px;background:rgba(255,255,255,.018);}
+.nx-v231-card+.nx-v231-card{margin-top:13px;}.nx-v231-card-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;}.nx-v231-card-title h3{margin:0;font-size:13px;}.nx-v231-card-title span{color:#5f7f92;font-size:9px;}
+.nx-v231-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;}.nx-v231-grid.one{grid-template-columns:1fr;}
+.nx-v231-field label{display:block;margin:0 0 7px;color:#7897aa;font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;}
+.nx-v231-field input,.nx-v231-field select{width:100%;height:46px;border:1px solid rgba(103,204,255,.15);border-radius:12px;padding:0 13px;background:rgba(1,7,14,.74);color:#e9f8ff;font:inherit;font-size:12px;outline:none;}
+.nx-v231-field input:focus,.nx-v231-field select:focus{border-color:color-mix(in srgb,var(--nx-user-accent) 70%,white 8%);box-shadow:0 0 0 3px color-mix(in srgb,var(--nx-user-accent) 12%,transparent);}
+.nx-v231-field input[readonly]{color:#8da8b9;background:rgba(1,7,14,.42);}
+.nx-v231-account-row{display:grid;grid-template-columns:150px minmax(0,1fr) auto;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid rgba(106,203,255,.08);}.nx-v231-account-row:last-child{border-bottom:0;}
+.nx-v231-account-row>span{color:#69889b;font-size:10px;font-weight:800;}.nx-v231-account-row strong{min-width:0;overflow:hidden;text-overflow:ellipsis;color:#eaf8ff;font-size:12px;}.nx-v231-account-row small{color:#57778b;font-size:9px;}
+.nx-v231-password-display{display:flex;align-items:center;gap:8px;}.nx-v231-password-display input{width:min(260px,100%);height:39px;border:1px solid rgba(103,204,255,.13);border-radius:10px;padding:0 11px;background:rgba(1,7,14,.65);color:#b6ccd8;font:inherit;font-size:11px;letter-spacing:.08em;}
+.nx-v231-eye{width:39px;height:39px;display:grid;place-items:center;border:1px solid rgba(103,204,255,.15);border-radius:10px;background:rgba(255,255,255,.025);color:#8fb2c5;cursor:pointer;}.nx-v231-eye svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;}
+.nx-v231-button{min-height:42px;padding:0 16px;border:1px solid color-mix(in srgb,var(--nx-user-accent) 30%,transparent);border-radius:11px;background:linear-gradient(135deg,color-mix(in srgb,var(--nx-user-accent) 18%,transparent),color-mix(in srgb,var(--nx-user-secondary) 12%,transparent));color:#eafaff;font:inherit;font-size:10px;font-weight:900;letter-spacing:.07em;cursor:pointer;}.nx-v231-button.primary{border-color:transparent;background:linear-gradient(135deg,var(--nx-user-accent),var(--nx-user-secondary));color:#fff;}.nx-v231-button.danger{border-color:rgba(255,86,122,.27);background:rgba(255,63,105,.08);color:#ff9db3;}
+.nx-v231-theme-options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}.nx-v231-theme-option{position:relative;cursor:pointer;}.nx-v231-theme-option input{position:absolute;opacity:0;pointer-events:none;}.nx-v231-theme-preview{height:92px;padding:10px;display:flex;align-items:flex-end;border:1px solid rgba(110,205,255,.12);border-radius:14px;background:#050b14;overflow:hidden;}.nx-v231-theme-preview::before{content:"";position:absolute;inset:9px 9px 29px;border-radius:8px;background:linear-gradient(135deg,color-mix(in srgb,var(--preview-a) 35%,#08111c),color-mix(in srgb,var(--preview-b) 26%,#03070e));}.nx-v231-theme-preview{position:relative;}.nx-v231-theme-preview span{position:relative;z-index:1;color:#dff6ff;font-size:9px;font-weight:850;}.nx-v231-theme-option input:checked+.nx-v231-theme-preview{border-color:var(--nx-user-accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--nx-user-accent) 16%,transparent);}
+.nx-v231-color-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}.nx-v231-color-field{display:grid;grid-template-columns:48px 1fr;gap:10px;align-items:center;padding:10px;border:1px solid rgba(106,203,255,.11);border-radius:13px;background:rgba(1,7,14,.42);}.nx-v231-color-field input[type="color"]{width:48px;height:42px;border:0;padding:0;background:transparent;cursor:pointer;}.nx-v231-color-field strong{display:block;font-size:10px;}.nx-v231-color-field span{display:block;margin-top:3px;color:#5f7e91;font-size:9px;}
+.nx-v231-toggle-list{display:grid;gap:9px;}.nx-v231-toggle{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px;border:1px solid rgba(105,202,255,.10);border-radius:13px;background:rgba(255,255,255,.015);cursor:pointer;}.nx-v231-toggle strong{display:block;font-size:11px;}.nx-v231-toggle small{display:block;margin-top:4px;color:#5d7c90;font-size:9px;line-height:1.45;}.nx-v231-switch{position:relative;width:44px;height:24px;flex:0 0 44px;}.nx-v231-switch input{position:absolute;opacity:0;}.nx-v231-switch i{position:absolute;inset:0;border-radius:999px;background:#162432;border:1px solid rgba(110,205,255,.12);transition:.2s;}.nx-v231-switch i::after{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;border-radius:50%;background:#718b9b;transition:.2s;}.nx-v231-switch input:checked+i{background:color-mix(in srgb,var(--nx-user-accent) 32%,#0b1722);}.nx-v231-switch input:checked+i::after{transform:translateX(20px);background:#fff;}
+.nx-v231-settings-actions{position:sticky;bottom:-28px;margin:22px -28px -28px;padding:15px 28px;display:flex;justify-content:space-between;gap:12px;border-top:1px solid rgba(107,204,255,.10);background:rgba(4,10,18,.94);backdrop-filter:blur(16px);}.nx-v231-settings-actions>div{display:flex;gap:9px;}
+.nx-v231-password-modal{position:fixed;inset:0;z-index:2147483400;display:grid;place-items:center;padding:18px;background:rgba(0,2,8,.86);backdrop-filter:blur(18px);}.nx-v231-password-modal[hidden]{display:none !important;}.nx-v231-password-card{width:min(480px,100%);padding:24px;border:1px solid color-mix(in srgb,var(--nx-user-accent) 24%,rgba(255,255,255,.08));border-radius:22px;background:linear-gradient(145deg,#091421,#030912);box-shadow:0 34px 100px rgba(0,0,0,.72);}.nx-v231-password-card h3{margin:8px 0 8px;font-size:22px;}.nx-v231-password-card>p{font-size:10px;margin-bottom:18px;}.nx-v231-password-fields{display:grid;gap:11px;}.nx-v231-password-input{position:relative;}.nx-v231-password-input input{padding-right:48px;}.nx-v231-password-input .nx-v231-eye{position:absolute;right:4px;bottom:4px;border:0;background:transparent;}.nx-v231-password-status{min-height:18px;margin-top:10px;color:#ff91a9;font-size:9px;}.nx-v231-password-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:14px;}
+.nx-v231-security-note{padding:13px;border-left:3px solid var(--nx-user-accent);border-radius:0 12px 12px 0;background:color-mix(in srgb,var(--nx-user-accent) 6%,transparent);color:#718fa2;font-size:9px;line-height:1.6;}
+@media(max-width:800px){.nx-v231-settings-shell{grid-template-columns:1fr;max-height:calc(100vh - 20px);}.nx-v231-settings-sidebar{padding:13px;border-right:0;border-bottom:1px solid rgba(110,205,255,.10);}.nx-v231-settings-brand,.nx-v231-settings-sidebar-note{display:none;}.nx-v231-settings-tabs{grid-template-columns:repeat(3,1fr);}.nx-v231-settings-tab{justify-content:center;padding:0 7px;}.nx-v231-settings-main{padding:20px;}.nx-v231-settings-actions{bottom:-20px;margin:20px -20px -20px;padding:13px 20px;}.nx-v231-theme-options{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){body.page-home #settingsModal.nx-v231-settings{padding:5px !important;}.nx-v231-settings-shell{border-radius:18px;max-height:calc(100vh - 10px);}.nx-v231-settings-tab i{display:none;}.nx-v231-settings-tab{font-size:9px;}.nx-v231-grid,.nx-v231-color-row{grid-template-columns:1fr;}.nx-v231-account-row{grid-template-columns:1fr;gap:6px;}.nx-v231-account-row small{display:none;}.nx-v231-settings-actions{align-items:stretch;flex-direction:column-reverse;}.nx-v231-settings-actions>div{display:grid;grid-template-columns:1fr 1fr;}.nx-v231-button{width:100%;}}
+`;
+}
+
+function nexuV231EyeIcon() {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.8"></circle></svg>';
+}
+
+function nexuV231SettingsMarkup(account, english) {
+    const data = account && typeof account === "object" ? account : {};
+    const preferences = normalizeNexuAccountPreferences(data.preferences || data);
+    const username = cleanDashboardUsername(data.username) || (english ? "Guest" : "Gast");
+    const owner = isOwnerDashboardAccount(data);
+    const robloxUserId = cleanNumericId(data.robloxUserId);
+    const robloxName = cleanText(data.robloxDisplayName || data.robloxUsername, 80) || (robloxUserId ? `Roblox ${robloxUserId}` : (english ? "Not linked" : "Nicht verknüpft"));
+    const createdAt = cleanText(data.createdAt, 64);
+    const updatedAt = cleanText(data.updatedAt, 64);
+    const labels = english ? {
+        settings:"SETTINGS",title:"Your settings",description:"Manage your account, security and the appearance of Nexu.",account:"Account",appearance:"Appearance",security:"Security",close:"Close",profile:"Profile",profileHint:"Stored with your Nexu account",username:"Username",language:"Language",german:"German",english:"English",accountInfo:"Account information",password:"Password",passwordProtected:"Protected and not readable",passwordMasked:"nexu-password",passwordReveal:"Show password status",changePassword:"CHANGE PASSWORD",roblox:"Roblox account",created:"Created",updated:"Last changed",theme:"Site theme",themeHint:"Select the base appearance",dark:"Nexu Dark",midnight:"Midnight",oled:"OLED Black",violet:"Deep Violet",colors:"Accent colors",colorsHint:"Used for buttons, glows and highlights",primary:"Primary color",secondary:"Secondary color",surface:"Surface style",surfaceHint:"Glass or solid panels",glass:"Glass",solid:"Solid",behavior:"Display options",reduceMotion:"Reduce animations",reduceMotionHint:"Disables most transitions and animated effects.",compact:"Compact layout",compactHint:"Reduces spacing in the homepage and overview.",reset:"RESET DESIGN",cancel:"CANCEL",save:"SAVE SETTINGS",securityTitle:"Password and session security",securityText:"Your real password is never sent back to the browser. Nexu stores only a one-way password hash, so it can be changed but not displayed.",otherSessions:"When the password is changed, other active sessions and remembered devices are signed out.",passwordTitle:"Change password",passwordDescription:"Enter your current password and confirm the new password twice.",currentPassword:"Current password",newPassword:"New password",confirmPassword:"Confirm new password",passwordCancel:"CANCEL",passwordSave:"CHANGE PASSWORD",passwordMismatch:"The new passwords do not match.",passwordShort:"The new password must contain at least 8 characters.",never:"Never"
+    } : {
+        settings:"EINSTELLUNGEN",title:"Deine Einstellungen",description:"Verwalte dein Konto, die Sicherheit und das Aussehen von Nexu.",account:"Konto",appearance:"Darstellung",security:"Sicherheit",close:"Schließen",profile:"Profil",profileHint:"Wird mit deinem Nexu-Konto gespeichert",username:"Benutzername",language:"Sprache",german:"Deutsch",english:"Englisch",accountInfo:"Kontoinformationen",password:"Passwort",passwordProtected:"Geschützt und nicht auslesbar",passwordMasked:"nexu-passwort",passwordReveal:"Passwortstatus anzeigen",changePassword:"PASSWORT ÄNDERN",roblox:"Roblox-Konto",created:"Erstellt",updated:"Zuletzt geändert",theme:"Seitendesign",themeHint:"Wähle das grundlegende Erscheinungsbild",dark:"Nexu Dark",midnight:"Midnight",oled:"OLED Schwarz",violet:"Deep Violet",colors:"Akzentfarben",colorsHint:"Für Buttons, Leuchteffekte und Hervorhebungen",primary:"Primärfarbe",secondary:"Sekundärfarbe",surface:"Oberflächenstil",surfaceHint:"Glas- oder feste Flächen",glass:"Glas",solid:"Fest",behavior:"Anzeigeoptionen",reduceMotion:"Animationen reduzieren",reduceMotionHint:"Deaktiviert die meisten Übergänge und Bewegungseffekte.",compact:"Kompakte Ansicht",compactHint:"Verringert Abstände auf der Startseite und in der Übersicht.",reset:"DESIGN ZURÜCKSETZEN",cancel:"ABBRECHEN",save:"EINSTELLUNGEN SPEICHERN",securityTitle:"Passwort- und Sitzungssicherheit",securityText:"Dein echtes Passwort wird niemals wieder an den Browser gesendet. Nexu speichert nur einen Einweg-Hash. Deshalb kann das Passwort geändert, aber nicht angezeigt werden.",otherSessions:"Nach einer Passwortänderung werden andere aktive Sitzungen und gespeicherte Geräte abgemeldet.",passwordTitle:"Passwort ändern",passwordDescription:"Gib dein aktuelles Passwort ein und bestätige das neue Passwort zweimal.",currentPassword:"Aktuelles Passwort",newPassword:"Neues Passwort",confirmPassword:"Neues Passwort bestätigen",passwordCancel:"ABBRECHEN",passwordSave:"PASSWORT ÄNDERN",passwordMismatch:"Die neuen Passwörter stimmen nicht überein.",passwordShort:"Das neue Passwort muss mindestens 8 Zeichen enthalten.",never:"Nie"
+    };
+    const readonly = owner ? " readonly" : "";
+    const checked = (condition) => condition ? " checked" : "";
+    const selected = (condition) => condition ? " selected" : "";
+    const passwordEye = nexuV231EyeIcon();
+    return String.raw`
+<div id="settingsModal" class="modal-backdrop hidden nx-v231-settings" aria-hidden="true">
+    <form id="nxSettingsForm" class="nx-v231-settings-shell" method="post" action="/account/settings" autocomplete="on">
+        <aside class="nx-v231-settings-sidebar">
+            <div class="nx-v231-settings-brand"><div class="nx-v231-settings-brand-mark">N</div><div><strong>Nexu</strong><span>${labels.settings}</span></div></div>
+            <nav class="nx-v231-settings-tabs" aria-label="${labels.settings}">
+                <button class="nx-v231-settings-tab active" type="button" data-nx-settings-tab="account"><i>AC</i>${labels.account}</button>
+                <button class="nx-v231-settings-tab" type="button" data-nx-settings-tab="appearance"><i>UI</i>${labels.appearance}</button>
+                <button class="nx-v231-settings-tab" type="button" data-nx-settings-tab="security"><i>SC</i>${labels.security}</button>
+            </nav>
+            <div class="nx-v231-settings-sidebar-note">${labels.profileHint}</div>
+        </aside>
+        <section class="nx-v231-settings-main">
+            <header class="nx-v231-settings-head"><div><div class="eyebrow">NEXU // ${labels.settings}</div><h2>${labels.title}</h2><p>${labels.description}</p></div><button id="closeSettings" class="nx-v231-icon-button" type="button" aria-label="${labels.close}">×</button></header>
+
+            <div class="nx-v231-settings-pane active" data-nx-settings-pane="account">
+                <section class="nx-v231-card"><div class="nx-v231-card-title"><h3>${labels.profile}</h3><span>${labels.profileHint}</span></div><div class="nx-v231-grid">
+                    <div class="nx-v231-field"><label for="newUsername">${labels.username}</label><input id="newUsername" name="newUsername" type="text" maxlength="80" value="${escapeHtml(username)}" autocomplete="username"${readonly} required></div>
+                    <div class="nx-v231-field"><label for="accountLanguage">${labels.language}</label><select id="accountLanguage" name="language" autocomplete="language"><option value="de"${selected(normalizeDashboardLanguage(data.language)==="de")}>${labels.german}</option><option value="en"${selected(normalizeDashboardLanguage(data.language)==="en")}>${labels.english}</option></select></div>
+                </div></section>
+                <section class="nx-v231-card"><div class="nx-v231-card-title"><h3>${labels.accountInfo}</h3></div>
+                    <div class="nx-v231-account-row"><span>${labels.username}</span><strong>${escapeHtml(username)}</strong><small>${owner ? "OwnerAccount" : "Nexu Account"}</small></div>
+                    <div class="nx-v231-account-row"><span>${labels.password}</span><div class="nx-v231-password-display"><input id="nxPasswordDisplay" type="password" value="${escapeHtml(labels.passwordMasked)}" readonly aria-label="${escapeHtml(labels.password)}"><button id="nxTogglePasswordDisplay" class="nx-v231-eye" type="button" aria-label="${escapeHtml(labels.passwordReveal)}">${passwordEye}</button></div><button class="nx-v231-button" type="button" data-nx-password-open>${labels.changePassword}</button></div>
+                    <div class="nx-v231-account-row"><span>${labels.roblox}</span><strong>${escapeHtml(robloxName)}</strong><small>${robloxUserId ? "ID " + escapeHtml(robloxUserId) : "—"}</small></div>
+                    <div class="nx-v231-account-row"><span>${labels.created}</span><strong>${escapeHtml(createdAt || labels.never)}</strong><small>${labels.updated}: ${escapeHtml(updatedAt || labels.never)}</small></div>
+                </section>
+            </div>
+
+            <div class="nx-v231-settings-pane" data-nx-settings-pane="appearance">
+                <section class="nx-v231-card"><div class="nx-v231-card-title"><h3>${labels.theme}</h3><span>${labels.themeHint}</span></div><div class="nx-v231-theme-options">
+                    <label class="nx-v231-theme-option"><input type="radio" name="theme" value="dark"${checked(preferences.theme==="dark")}><span class="nx-v231-theme-preview" style="--preview-a:#00c8ff;--preview-b:#6f46ff"><span>${labels.dark}</span></span></label>
+                    <label class="nx-v231-theme-option"><input type="radio" name="theme" value="midnight"${checked(preferences.theme==="midnight")}><span class="nx-v231-theme-preview" style="--preview-a:#1d79ff;--preview-b:#00c8ff;background:#07101f"><span>${labels.midnight}</span></span></label>
+                    <label class="nx-v231-theme-option"><input type="radio" name="theme" value="oled"${checked(preferences.theme==="oled")}><span class="nx-v231-theme-preview" style="--preview-a:#00ffb3;--preview-b:#00c8ff;background:#000"><span>${labels.oled}</span></span></label>
+                    <label class="nx-v231-theme-option"><input type="radio" name="theme" value="violet"${checked(preferences.theme==="violet")}><span class="nx-v231-theme-preview" style="--preview-a:#9d69ff;--preview-b:#ec62ff;background:#080616"><span>${labels.violet}</span></span></label>
+                </div></section>
+                <section class="nx-v231-card"><div class="nx-v231-card-title"><h3>${labels.colors}</h3><span>${labels.colorsHint}</span></div><div class="nx-v231-color-row">
+                    <label class="nx-v231-color-field"><input id="nxAccentColor" name="accentColor" type="color" value="${escapeHtml(preferences.accentColor)}"><span><strong>${labels.primary}</strong><span id="nxAccentValue">${escapeHtml(preferences.accentColor)}</span></span></label>
+                    <label class="nx-v231-color-field"><input id="nxSecondaryColor" name="secondaryColor" type="color" value="${escapeHtml(preferences.secondaryColor)}"><span><strong>${labels.secondary}</strong><span id="nxSecondaryValue">${escapeHtml(preferences.secondaryColor)}</span></span></label>
+                </div></section>
+                <section class="nx-v231-card"><div class="nx-v231-card-title"><h3>${labels.surface}</h3><span>${labels.surfaceHint}</span></div><div class="nx-v231-grid">
+                    <label class="nx-v231-toggle"><span><strong>${labels.glass}</strong><small>Blur + transparenter Hintergrund</small></span><span class="nx-v231-switch"><input type="radio" name="surfaceStyle" value="glass"${checked(preferences.surfaceStyle==="glass")}><i></i></span></label>
+                    <label class="nx-v231-toggle"><span><strong>${labels.solid}</strong><small>Klare Flächen ohne Hintergrund-Blur</small></span><span class="nx-v231-switch"><input type="radio" name="surfaceStyle" value="solid"${checked(preferences.surfaceStyle==="solid")}><i></i></span></label>
+                </div></section>
+                <section class="nx-v231-card"><div class="nx-v231-card-title"><h3>${labels.behavior}</h3></div><div class="nx-v231-toggle-list">
+                    <label class="nx-v231-toggle"><span><strong>${labels.reduceMotion}</strong><small>${labels.reduceMotionHint}</small></span><span class="nx-v231-switch"><input type="checkbox" name="reducedMotion" value="1"${checked(preferences.reducedMotion)}><i></i></span></label>
+                    <label class="nx-v231-toggle"><span><strong>${labels.compact}</strong><small>${labels.compactHint}</small></span><span class="nx-v231-switch"><input type="checkbox" name="compactMode" value="1"${checked(preferences.compactMode)}><i></i></span></label>
+                </div></section>
+            </div>
+
+            <div class="nx-v231-settings-pane" data-nx-settings-pane="security">
+                <section class="nx-v231-card"><div class="nx-v231-card-title"><h3>${labels.securityTitle}</h3></div><div class="nx-v231-security-note">${labels.securityText}</div><div style="height:12px"></div><div class="nx-v231-security-note">${labels.otherSessions}</div><div style="height:16px"></div><button class="nx-v231-button primary" type="button" data-nx-password-open>${labels.changePassword}</button></section>
+            </div>
+
+            <footer class="nx-v231-settings-actions"><button id="nxResetDesign" class="nx-v231-button" type="button">${labels.reset}</button><div><button id="nxCancelSettings" class="nx-v231-button" type="button">${labels.cancel}</button><button class="nx-v231-button primary" type="submit">${labels.save}</button></div></footer>
+        </section>
+    </form>
+</div>
+<div id="nxPasswordModal" class="nx-v231-password-modal" hidden aria-hidden="true">
+    <form id="nxPasswordForm" class="nx-v231-password-card" method="post" action="/account/password" autocomplete="off">
+        <div class="eyebrow">NEXU // ${labels.security}</div><h3>${labels.passwordTitle}</h3><p>${labels.passwordDescription}</p>
+        <div class="nx-v231-password-fields">
+            <div class="nx-v231-field nx-v231-password-input"><label for="nxCurrentPassword">${labels.currentPassword}</label><input id="nxCurrentPassword" name="currentPassword" type="password" minlength="1" maxlength="200" autocomplete="current-password" required><button class="nx-v231-eye" type="button" data-nx-eye-for="nxCurrentPassword" aria-label="${labels.passwordReveal}">${passwordEye}</button></div>
+            <div class="nx-v231-field nx-v231-password-input"><label for="nxNewPassword">${labels.newPassword}</label><input id="nxNewPassword" name="newPassword" type="password" minlength="8" maxlength="200" autocomplete="new-password" required><button class="nx-v231-eye" type="button" data-nx-eye-for="nxNewPassword" aria-label="${labels.passwordReveal}">${passwordEye}</button></div>
+            <div class="nx-v231-field nx-v231-password-input"><label for="nxConfirmPassword">${labels.confirmPassword}</label><input id="nxConfirmPassword" name="confirmPassword" type="password" minlength="8" maxlength="200" autocomplete="new-password" required><button class="nx-v231-eye" type="button" data-nx-eye-for="nxConfirmPassword" aria-label="${labels.passwordReveal}">${passwordEye}</button></div>
+        </div>
+        <div id="nxPasswordStatus" class="nx-v231-password-status" aria-live="polite"></div>
+        <div class="nx-v231-password-actions"><button class="nx-v231-button" type="button" data-nx-password-close>${labels.passwordCancel}</button><button class="nx-v231-button primary" type="submit">${labels.passwordSave}</button></div>
+    </form>
+</div>
+<script>window.__NEXU_V231_LABELS__=${JSON.stringify({passwordProtected:labels.passwordProtected,passwordMasked:labels.passwordMasked,passwordMismatch:labels.passwordMismatch,passwordShort:labels.passwordShort})};</script>`;
+}
+
+function nexuV231SettingsClientScript(preferences, english) {
+    const initial = normalizeNexuAccountPreferences(preferences || {});
+    const loaderJson = JSON.stringify(NEXU_LOADER_COMMAND);
+    return String.raw`<script>
+(function(){
+    "use strict";
+    if(document.documentElement.dataset.nxV231Settings==="1")return;
+    document.documentElement.dataset.nxV231Settings="1";
+    var initial=${JSON.stringify(initial)};
+    var labels=window.__NEXU_V231_LABELS__||{};
+    var modal=document.getElementById("settingsModal");
+    var passwordModal=document.getElementById("nxPasswordModal");
+    var settingsForm=document.getElementById("nxSettingsForm");
+    var passwordForm=document.getElementById("nxPasswordForm");
+    function one(selector,root){return (root||document).querySelector(selector);}
+    function all(selector,root){return Array.prototype.slice.call((root||document).querySelectorAll(selector));}
+    function currentPreferences(){
+        if(!settingsForm)return initial;
+        var theme=one('input[name="theme"]:checked',settingsForm);
+        var surface=one('input[name="surfaceStyle"]:checked',settingsForm);
+        return {theme:theme?theme.value:"dark",accentColor:(one('[name="accentColor"]',settingsForm)||{}).value||"#00c8ff",secondaryColor:(one('[name="secondaryColor"]',settingsForm)||{}).value||"#6f46ff",surfaceStyle:surface?surface.value:"glass",reducedMotion:Boolean(one('[name="reducedMotion"]',settingsForm)&&one('[name="reducedMotion"]',settingsForm).checked),compactMode:Boolean(one('[name="compactMode"]',settingsForm)&&one('[name="compactMode"]',settingsForm).checked)};
+    }
+    function applyPreferences(data,persist){
+        if(window.NexuTheme&&typeof window.NexuTheme.apply==="function")window.NexuTheme.apply(data);
+        if(persist){try{localStorage.setItem("nexu-ui-preferences-v1",JSON.stringify(data));}catch(_){}}
+        var a=document.getElementById("nxAccentValue"),b=document.getElementById("nxSecondaryValue");
+        if(a)a.textContent=data.accentColor;if(b)b.textContent=data.secondaryColor;
+    }
+    function showPane(name){
+        all("[data-nx-settings-tab]",modal).forEach(function(button){button.classList.toggle("active",button.getAttribute("data-nx-settings-tab")===name);});
+        all("[data-nx-settings-pane]",modal).forEach(function(pane){pane.classList.toggle("active",pane.getAttribute("data-nx-settings-pane")===name);});
+    }
+    all("[data-nx-settings-tab]",modal).forEach(function(button){button.addEventListener("click",function(){showPane(button.getAttribute("data-nx-settings-tab"));});});
+    if(settingsForm){settingsForm.addEventListener("input",function(){applyPreferences(currentPreferences(),true);});settingsForm.addEventListener("change",function(){applyPreferences(currentPreferences(),true);});settingsForm.addEventListener("submit",function(){applyPreferences(currentPreferences(),true);});}
+    var reset=document.getElementById("nxResetDesign");
+    if(reset)reset.addEventListener("click",function(){
+        var defaults={theme:"dark",accentColor:"#00c8ff",secondaryColor:"#6f46ff",surfaceStyle:"glass",reducedMotion:false,compactMode:false};
+        Object.keys(defaults).forEach(function(key){var fields=all('[name="'+key+'"]',settingsForm);fields.forEach(function(field){if(field.type==="radio"||field.type==="checkbox")field.checked=field.value===String(defaults[key])||(field.type==="checkbox"&&defaults[key]===true);else field.value=defaults[key];});});
+        applyPreferences(defaults,true);
+    });
+    function closeSettings(){if(!modal)return;modal.classList.add("hidden");modal.setAttribute("aria-hidden","true");document.documentElement.classList.remove("nx-settings-open");document.documentElement.style.overflow="";}
+    var cancel=document.getElementById("nxCancelSettings");if(cancel)cancel.addEventListener("click",function(){applyPreferences(initial,true);closeSettings();});
+    function openPassword(){if(!passwordModal)return;passwordModal.hidden=false;passwordModal.setAttribute("aria-hidden","false");document.documentElement.classList.add("nx-password-open");var field=document.getElementById("nxCurrentPassword");if(field)setTimeout(function(){field.focus();},20);}
+    function closePassword(){if(!passwordModal)return;passwordModal.hidden=true;passwordModal.setAttribute("aria-hidden","true");document.documentElement.classList.remove("nx-password-open");var status=document.getElementById("nxPasswordStatus");if(status)status.textContent="";if(passwordForm)passwordForm.reset();}
+    all("[data-nx-password-open]").forEach(function(button){button.addEventListener("click",openPassword);});
+    all("[data-nx-password-close]").forEach(function(button){button.addEventListener("click",closePassword);});
+    if(passwordModal)passwordModal.addEventListener("click",function(event){if(event.target===passwordModal)closePassword();});
+    all("[data-nx-eye-for]").forEach(function(button){button.addEventListener("click",function(){var field=document.getElementById(button.getAttribute("data-nx-eye-for"));if(field)field.type=field.type==="password"?"text":"password";});});
+    var passwordDisplay=document.getElementById("nxPasswordDisplay"),passwordToggle=document.getElementById("nxTogglePasswordDisplay");
+    if(passwordDisplay&&passwordToggle)passwordToggle.addEventListener("click",function(){var reveal=passwordDisplay.type==="password";passwordDisplay.type=reveal?"text":"password";passwordDisplay.value=reveal?(labels.passwordProtected||"Protected"):(labels.passwordMasked||"nexu-password");});
+    if(passwordForm)passwordForm.addEventListener("submit",function(event){var next=document.getElementById("nxNewPassword"),confirm=document.getElementById("nxConfirmPassword"),status=document.getElementById("nxPasswordStatus");if(!next||!confirm)return;if(next.value.length<8){event.preventDefault();if(status)status.textContent=labels.passwordShort||"Password too short.";next.focus();return;}if(next.value!==confirm.value){event.preventDefault();if(status)status.textContent=labels.passwordMismatch||"Passwords do not match.";confirm.focus();return;}if(status)status.textContent="";});
+    document.addEventListener("keydown",function(event){if(event.key!=="Escape")return;if(passwordModal&&!passwordModal.hidden){event.preventDefault();closePassword();}} ,true);
+
+    var copyButton=document.getElementById("copyScriptButton");
+    if(copyButton&&!copyButton.dataset.nxV231Copy){copyButton.dataset.nxV231Copy="1";copyButton.addEventListener("click",async function(){var command=${loaderJson};var copied=false;try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(command);copied=true;}}catch(_){}if(!copied){var helper=document.createElement("textarea");helper.value=command;helper.setAttribute("readonly","");helper.style.position="fixed";helper.style.opacity="0";document.body.appendChild(helper);helper.select();try{copied=document.execCommand("copy");}catch(_){}helper.remove();}var title=document.getElementById("copyScriptTitle"),hint=document.getElementById("copyScriptHint");if(title)title.textContent=copied?${JSON.stringify(english ? "Copied" : "Kopiert")}:${JSON.stringify(english ? "Copy failed" : "Kopieren fehlgeschlagen")};if(hint)hint.textContent=copied?${JSON.stringify(english ? "The Nexu loader is now in your clipboard." : "Der Nexu-Loader ist jetzt in deiner Zwischenablage.")}:${JSON.stringify(english ? "Please allow clipboard access in your browser." : "Bitte Browser-Berechtigung für die Zwischenablage erlauben.")};setTimeout(function(){if(title)title.textContent=${JSON.stringify(english ? "Copy script" : "Skript kopieren")};if(hint)hint.textContent=${JSON.stringify(english ? "Copies the current Nexu loader command to your clipboard." : "Kopiert den aktuellen Nexu-Ladebefehl in die Zwischenablage.")};},2200);});}
+    applyPreferences(initial,true);
+})();
+</script>`;
+}
+
+function nexuV231RemoveLegacySettingsAndScript(html) {
+    const start = html.indexOf('<div id="settingsModal"');
+    if (start < 0) return html;
+    const scriptStart = html.indexOf("<script>", start);
+    if (scriptStart < 0) return html;
+    const scriptEnd = html.indexOf("</script>", scriptStart);
+    if (scriptEnd < 0) return html;
+    return html.slice(0, start) + html.slice(scriptEnd + 9);
+}
+
+homeHtml = function(...args) {
+    let html = NEXU_V231_BASE_HOME_HTML(...args);
+    if (typeof html !== "string" || html.includes("NEXU V231 // SETTINGS CENTER")) return html;
+    const account = args[2] && typeof args[2] === "object" ? args[2] : null;
+    const english = /<html\s+lang=["']en["']/i.test(html);
+    const preferences = normalizeNexuAccountPreferences(account && (account.preferences || account));
+    const authenticated = Boolean(account && cleanDashboardUsername(account.username));
+    html = html.replace("</style>", nexuV231SettingsCss() + "</style>");
+    if (authenticated) {
+        html = nexuV231RemoveLegacySettingsAndScript(html);
+        const sync = `<script>(function(){try{var p=${JSON.stringify(preferences)};localStorage.setItem("nexu-ui-preferences-v1",JSON.stringify(p));if(window.NexuTheme)window.NexuTheme.apply(p);}catch(_){}})();</script>`;
+        html = html.replace("</head>", sync + "</head>");
+        html = html.replace("</body>", nexuV231SettingsMarkup(account, english) + nexuV231SettingsClientScript(preferences, english) + "</body>");
+    }
+    return html;
+};
+
+
+/* --------------------------------------------------------------------------
+ * NEXU V232 // OWNER ACCOUNT MANAGEMENT CENTER
+ * Neu aufgebaute Kontoverwaltung mit Suche, Filtern, klar getrennten Bereichen,
+ * sicherem Owner-Passwortreset und stabilen DOM-Handlern. Echte Passwörter werden
+ * absichtlich niemals gespeichert oder offengelegt; ausschließlich Hash-Status.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V232_BASE_ACCOUNTS_HTML = dashboardAccountsHtml;
+
+function nexuV232FormatAccountDate(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return "Nicht verfügbar";
+    const date = new Date(raw);
+    if (!Number.isFinite(date.getTime())) return raw;
+    try {
+        return new Intl.DateTimeFormat("de-DE", {
+            dateStyle: "medium",
+            timeStyle: "short",
+            timeZone: "Europe/Berlin",
+        }).format(date);
+    } catch {
+        return date.toISOString();
+    }
+}
+
+function nexuV232AccountManagementCss() {
+    return String.raw`
+/* NEXU V232 // OWNER ACCOUNT MANAGEMENT CENTER */
+:root{--v232-panel:rgba(6,13,23,.88);--v232-panel-solid:#07111e;--v232-line:color-mix(in srgb,var(--nx-user-accent,#00c8ff) 18%,rgba(255,255,255,.055));--v232-soft:color-mix(in srgb,var(--nx-user-accent,#00c8ff) 8%,transparent);--v232-danger:#ff5278;--v232-success:#3ef0a7;}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}body.nexu-v232-accounts{color:#e5f4fb;background:#03070e;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden;}
+body.nexu-v232-accounts::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 13% 5%,color-mix(in srgb,var(--nx-user-accent,#00c8ff) 16%,transparent),transparent 32rem),radial-gradient(circle at 89% 11%,color-mix(in srgb,var(--nx-user-secondary,#6f46ff) 17%,transparent),transparent 36rem),linear-gradient(rgba(80,190,240,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(80,190,240,.025) 1px,transparent 1px);background-size:auto,auto,42px 42px,42px 42px;}
+.nx-v232-shell{position:relative;z-index:1;width:min(1460px,calc(100% - 32px));margin:0 auto;padding:24px 0 64px;}
+.nx-v232-topbar{position:sticky;top:14px;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 16px;margin-bottom:18px;border:1px solid var(--v232-line);border-radius:22px;background:rgba(4,10,18,.79);backdrop-filter:blur(22px) saturate(135%);box-shadow:0 18px 55px rgba(0,0,0,.28);}
+.nx-v232-brand{display:flex;align-items:center;gap:13px;min-width:0}.nx-v232-brand-mark{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,var(--nx-user-accent,#00c8ff),var(--nx-user-secondary,#6f46ff));box-shadow:0 12px 30px color-mix(in srgb,var(--nx-user-accent,#00c8ff) 24%,transparent);font-weight:950;color:white}.nx-v232-brand h1{margin:0;font-size:22px;letter-spacing:-.035em}.nx-v232-brand p{margin:4px 0 0;color:#728fa2;font-size:10px;font-weight:750;letter-spacing:.075em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nx-v232-top-actions{display:flex;align-items:center;gap:9px}.nx-v232-link,.nx-v232-button{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;border:1px solid var(--v232-line);border-radius:13px;background:rgba(255,255,255,.025);color:#dcecf5;text-decoration:none;font:inherit;font-size:11px;font-weight:900;letter-spacing:.055em;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease}.nx-v232-link:hover,.nx-v232-button:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--nx-user-accent,#00c8ff) 44%,transparent);background:var(--v232-soft)}
+.nx-v232-notice{margin-bottom:14px;padding:13px 15px;border-radius:15px;font-size:12px;font-weight:780}.nx-v232-notice.success{border:1px solid rgba(62,240,167,.28);background:rgba(7,48,34,.54);color:#baffdf}.nx-v232-notice.error{border:1px solid rgba(255,82,120,.33);background:rgba(58,8,23,.58);color:#ffc1cf}
+.nx-v232-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(360px,.8fr);gap:18px;padding:24px;margin-bottom:16px;border:1px solid var(--v232-line);border-radius:26px;background:linear-gradient(135deg,var(--v232-soft),color-mix(in srgb,var(--nx-user-secondary,#6f46ff) 5%,transparent)),var(--v232-panel);box-shadow:0 28px 85px rgba(0,0,0,.25)}.nx-v232-hero::after{content:"";position:absolute;width:380px;height:380px;right:-180px;top:-230px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--nx-user-accent,#00c8ff) 18%,transparent),transparent 68%);pointer-events:none}.nx-v232-eyebrow{color:var(--nx-user-accent,#00c8ff);font-size:9px;font-weight:950;letter-spacing:.18em;text-transform:uppercase}.nx-v232-hero h2{margin:9px 0 10px;font-size:30px;line-height:1.05;letter-spacing:-.045em}.nx-v232-hero-copy>p{max-width:760px;color:#87a2b4;font-size:12px;line-height:1.7}.nx-v232-security-note{display:flex;align-items:flex-start;gap:10px;margin-top:16px;padding:12px;border:1px solid rgba(255,194,75,.18);border-radius:14px;background:rgba(70,44,5,.20);color:#d8c691;font-size:10px;line-height:1.55}.nx-v232-security-note b{display:block;margin-bottom:2px;color:#ffe49a;font-size:10px}.nx-v232-security-icon{width:28px;height:28px;flex:0 0 28px;display:grid;place-items:center;border-radius:9px;background:rgba(255,194,75,.10);color:#ffd77d;font-weight:950}
+.nx-v232-stats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.nx-v232-stat{padding:15px;border:1px solid rgba(114,205,246,.11);border-radius:17px;background:rgba(1,7,14,.50)}.nx-v232-stat span{display:block;color:#718fa3;font-size:9px;font-weight:850;letter-spacing:.12em;text-transform:uppercase}.nx-v232-stat strong{display:block;margin-top:8px;font-size:24px;letter-spacing:-.04em}.nx-v232-stat small{display:block;margin-top:4px;color:#5d798b;font-size:9px}
+.nx-v232-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;margin-bottom:14px;border:1px solid var(--v232-line);border-radius:18px;background:rgba(5,12,21,.73);backdrop-filter:blur(15px)}.nx-v232-search{position:relative;flex:1;max-width:560px}.nx-v232-search input{width:100%;height:44px;padding:0 42px 0 14px;border:1px solid rgba(104,200,244,.16);border-radius:13px;outline:none;background:rgba(1,7,14,.68);color:#e6f5fc;font:inherit;font-size:12px}.nx-v232-search input:focus{border-color:color-mix(in srgb,var(--nx-user-accent,#00c8ff) 60%,transparent);box-shadow:0 0 0 3px color-mix(in srgb,var(--nx-user-accent,#00c8ff) 9%,transparent)}.nx-v232-search span{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#648398;font-size:14px}.nx-v232-filters{display:flex;flex-wrap:wrap;gap:7px}.nx-v232-filter{min-height:36px;padding:0 12px;border:1px solid rgba(104,200,244,.13);border-radius:11px;background:transparent;color:#7693a5;font:inherit;font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.nx-v232-filter.active{color:#effaff;border-color:color-mix(in srgb,var(--nx-user-accent,#00c8ff) 38%,transparent);background:var(--v232-soft)}
+.nx-v232-account-list{display:grid;gap:14px}.nx-v232-account-card{position:relative;overflow:hidden;border:1px solid var(--v232-line);border-radius:25px;background:linear-gradient(145deg,rgba(255,255,255,.024),rgba(255,255,255,.006)),var(--v232-panel);box-shadow:0 24px 72px rgba(0,0,0,.22)}.nx-v232-account-card[hidden]{display:none!important}.nx-v232-account-card::after{content:"";position:absolute;width:270px;height:270px;right:-170px;top:-165px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--nx-user-accent,#00c8ff) 10%,transparent),transparent 69%);pointer-events:none}.nx-v232-card-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;border-bottom:1px solid rgba(112,204,245,.09)}.nx-v232-identity{display:flex;align-items:center;gap:13px;min-width:0}.nx-v232-avatar{width:58px;height:58px;flex:0 0 58px;border-radius:18px;object-fit:cover;border:1px solid rgba(104,207,249,.26);background:#07111d;box-shadow:0 10px 28px rgba(0,0,0,.25)}.nx-v232-avatar-empty{display:grid;place-items:center;color:#678499;font-size:18px;font-weight:950}.nx-v232-identity-copy{min-width:0}.nx-v232-identity-copy strong{display:block;font-size:18px;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nx-v232-identity-copy small{display:block;margin-top:4px;color:#6f8da0;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nx-v232-roblox{display:block;margin-top:5px;color:#77cde9;font-size:9px;font-style:normal;line-height:1.35}.nx-v232-badges{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:7px}.nx-v232-badge{min-height:27px;display:inline-flex;align-items:center;padding:0 9px;border:1px solid rgba(104,200,244,.16);border-radius:999px;background:rgba(255,255,255,.022);color:#83a0b2;font-size:8px;font-weight:950;letter-spacing:.1em;text-transform:uppercase}.nx-v232-badge.owner{color:#ffe59b;border-color:rgba(255,198,71,.28);background:rgba(65,42,4,.34)}.nx-v232-badge.active{color:#aaffd5;border-color:rgba(62,240,167,.25);background:rgba(5,54,35,.32)}.nx-v232-badge.locked{color:#ffb8c9;border-color:rgba(255,82,120,.25);background:rgba(60,7,23,.32)}
+.nx-v232-form{position:relative;z-index:1;padding:18px 20px 20px}.nx-v232-section-grid{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(330px,.82fr);gap:13px}.nx-v232-section{padding:15px;border:1px solid rgba(111,203,245,.10);border-radius:18px;background:rgba(1,7,14,.37)}.nx-v232-section.full{grid-column:1/-1}.nx-v232-section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px}.nx-v232-section-head h3{margin:0;font-size:13px;letter-spacing:-.01em}.nx-v232-section-head p{margin:4px 0 0;color:#688699;font-size:9px;line-height:1.5}.nx-v232-mini-status{min-height:25px;display:inline-flex;align-items:center;padding:0 8px;border-radius:999px;background:rgba(62,240,167,.07);color:#79e9bb;font-size:8px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.nx-v232-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.nx-v232-field{display:block;color:#7390a2;font-size:8px;font-weight:900;letter-spacing:.105em;text-transform:uppercase}.nx-v232-field.wide{grid-column:1/-1}.nx-v232-field input,.nx-v232-field select{width:100%;height:43px;margin-top:7px;padding:0 12px;border:1px solid rgba(107,201,243,.15);border-radius:12px;outline:none;background:rgba(3,9,16,.78);color:#e2f2fa;font:inherit;font-size:11px;text-transform:none;letter-spacing:0}.nx-v232-field input:focus,.nx-v232-field select:focus{border-color:color-mix(in srgb,var(--nx-user-accent,#00c8ff) 58%,transparent);box-shadow:0 0 0 3px color-mix(in srgb,var(--nx-user-accent,#00c8ff) 8%,transparent)}.nx-v232-field input[readonly]{opacity:.72}.nx-v232-password-row{display:grid;grid-template-columns:minmax(0,1fr) 43px;gap:8px;margin-top:7px}.nx-v232-password-row input{margin:0}.nx-v232-eye{width:43px;height:43px;display:grid;place-items:center;border:1px solid rgba(107,201,243,.15);border-radius:12px;background:rgba(3,9,16,.78);color:#86a4b6;cursor:pointer}.nx-v232-eye svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}.nx-v232-password-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}.nx-v232-reset-password{min-height:39px;padding:0 12px;border:1px solid color-mix(in srgb,var(--nx-user-accent,#00c8ff) 33%,transparent);border-radius:12px;background:var(--v232-soft);color:#dff6ff;font:inherit;font-size:9px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.nx-v232-password-help{margin:10px 0 0;color:#607d90;font-size:9px;line-height:1.55}
+.nx-v232-permission-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.nx-v232-permission{display:flex;align-items:flex-start;gap:9px;min-width:0;padding:11px;border:1px solid rgba(106,198,240,.10);border-radius:13px;background:rgba(255,255,255,.014);color:#d8eaf3;cursor:pointer;transition:border-color .16s ease,background .16s ease,transform .16s ease}.nx-v232-permission:hover{transform:translateY(-1px);border-color:rgba(105,207,249,.25);background:rgba(255,255,255,.024)}.nx-v232-permission input{width:17px;height:17px;flex:0 0 17px;margin:1px 0 0;accent-color:var(--nx-user-accent,#00c8ff)}.nx-v232-permission b{display:block;font-size:10px}.nx-v232-permission small{display:block;margin-top:3px;color:#627f92;font-size:8px;line-height:1.45}.nx-v232-permission.root{border-color:color-mix(in srgb,var(--nx-user-accent,#00c8ff) 25%,transparent);background:var(--v232-soft)}.nx-v232-permission.owner-locked{opacity:.67}.nx-v232-permission.permission-locked{opacity:.4;filter:saturate(.55)}
+.nx-v232-card-footer{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:13px;padding-top:13px;border-top:1px solid rgba(109,201,243,.08)}.nx-v232-meta{display:flex;flex-wrap:wrap;gap:7px 14px;color:#607d90;font-size:8px}.nx-v232-meta b{color:#87a2b3;font-weight:850}.nx-v232-form-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px}.nx-v232-save{min-height:41px;padding:0 15px;border:1px solid color-mix(in srgb,var(--nx-user-accent,#00c8ff) 38%,transparent);border-radius:12px;background:linear-gradient(135deg,color-mix(in srgb,var(--nx-user-accent,#00c8ff) 18%,transparent),color-mix(in srgb,var(--nx-user-secondary,#6f46ff) 11%,transparent));color:#effbff;font:inherit;font-size:9px;font-weight:950;letter-spacing:.09em;text-transform:uppercase;cursor:pointer}.nx-v232-delete{min-height:41px;padding:0 13px;border:1px solid rgba(255,82,120,.27);border-radius:12px;background:rgba(64,7,23,.37);color:#ffc1cf;font:inherit;font-size:9px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.nx-v232-owner-note{color:#8da7b7;font-size:9px;line-height:1.5;text-align:right}
+.nx-v232-empty{padding:40px 20px;border:1px dashed rgba(107,199,241,.17);border-radius:20px;text-align:center;color:#6d899c;background:rgba(3,9,16,.40)}
+.nx-v232-modal{position:fixed;inset:0;z-index:2147483400;display:grid;place-items:center;padding:18px;background:rgba(0,3,9,.84);backdrop-filter:blur(18px) saturate(120%)}.nx-v232-modal[hidden]{display:none!important}.nx-v232-modal-card{width:min(520px,100%);padding:20px;border:1px solid var(--v232-line);border-radius:23px;background:linear-gradient(145deg,rgba(10,19,32,.99),rgba(4,9,17,.99));box-shadow:0 35px 110px rgba(0,0,0,.72)}.nx-v232-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:16px}.nx-v232-modal-head h2{margin:7px 0 0;font-size:21px;letter-spacing:-.03em}.nx-v232-modal-close{width:38px;height:38px;display:grid;place-items:center;border:1px solid rgba(106,199,241,.15);border-radius:11px;background:rgba(255,255,255,.02);color:#87a5b7;font-size:18px;cursor:pointer}.nx-v232-modal-copy{margin:0 0 14px;color:#718fa2;font-size:10px;line-height:1.6}.nx-v232-modal-target{margin-bottom:13px;padding:10px 12px;border:1px solid rgba(104,201,243,.11);border-radius:12px;background:rgba(2,8,15,.52);color:#9cb8c8;font-size:10px}.nx-v232-modal-status{min-height:18px;margin-top:9px;color:#ff9bb1;font-size:9px;font-weight:800}.nx-v232-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}.nx-v232-modal-actions button{min-height:40px;padding:0 13px;border-radius:12px;font:inherit;font-size:9px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.nx-v232-cancel{border:1px solid rgba(106,199,241,.14);background:transparent;color:#8da8b8}.nx-v232-confirm{border:1px solid color-mix(in srgb,var(--nx-user-accent,#00c8ff) 38%,transparent);background:var(--v232-soft);color:#effbff}.nx-v232-confirm-delete{border-color:rgba(255,82,120,.35)!important;background:rgba(64,7,23,.55)!important;color:#ffc2d0!important}
+@media(max-width:1060px){.nx-v232-hero{grid-template-columns:1fr}.nx-v232-section-grid{grid-template-columns:1fr}.nx-v232-section.full{grid-column:auto}.nx-v232-permission-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.nx-v232-shell{width:min(100% - 18px,1460px);padding-top:9px}.nx-v232-topbar{position:relative;top:auto;align-items:flex-start;border-radius:18px}.nx-v232-top-actions{width:100%;justify-content:flex-end}.nx-v232-brand p{white-space:normal}.nx-v232-toolbar{align-items:stretch;flex-direction:column}.nx-v232-search{max-width:none}.nx-v232-filters{overflow:auto;flex-wrap:nowrap;padding-bottom:2px}.nx-v232-filter{white-space:nowrap}.nx-v232-hero{padding:18px;border-radius:21px}.nx-v232-hero h2{font-size:25px}.nx-v232-card-head{align-items:flex-start;flex-direction:column}.nx-v232-badges{justify-content:flex-start}.nx-v232-form{padding:14px}.nx-v232-fields{grid-template-columns:1fr}.nx-v232-field.wide{grid-column:auto}.nx-v232-permission-grid{grid-template-columns:1fr}.nx-v232-card-footer{align-items:stretch;flex-direction:column}.nx-v232-form-actions{justify-content:stretch}.nx-v232-form-actions>*{flex:1}.nx-v232-owner-note{text-align:left}}
+@media(max-width:480px){.nx-v232-topbar{flex-direction:column}.nx-v232-top-actions{justify-content:stretch}.nx-v232-link{width:100%}.nx-v232-stats{grid-template-columns:1fr 1fr}.nx-v232-avatar{width:50px;height:50px;flex-basis:50px;border-radius:15px}.nx-v232-card-head{padding:15px}.nx-v232-modal-actions{flex-direction:column-reverse}.nx-v232-modal-actions button{width:100%}}
+`;
+}
+
+function nexuV232EyeIcon() {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6S2.5 12 2.5 12Z"></path><circle cx="12" cy="12" r="2.7"></circle></svg>';
+}
+
+function nexuV232PermissionMarkup(entry, owner) {
+    const permissionSnapshot = owner ? getDashboardPermissionSnapshot(entry) : (entry.access || {});
+    const dashboardEnabled = owner || permissionSnapshot.menuServer === true;
+    return DASHBOARD_PERMISSION_DEFINITIONS.map((definition) => {
+        const isRoot = definition.key === "menuServer";
+        const checked = owner || permissionSnapshot[definition.key] === true;
+        const locked = !owner && !isRoot && !dashboardEnabled;
+        const disabled = owner || locked;
+        const classes = ["nx-v232-permission"];
+        if (isRoot) classes.push("root");
+        if (owner) classes.push("owner-locked");
+        if (locked) classes.push("permission-locked");
+        const hidden = owner && isRoot ? '<input type="hidden" name="menuServerAccess" value="1">' : "";
+        return '<label class="' + classes.join(" ") + '">' +
+            '<input type="checkbox" name="' + escapeHtml(definition.formName) + '" value="1" ' +
+            (checked ? 'checked ' : '') + (disabled ? 'disabled ' : '') +
+            (isRoot ? 'data-v232-permission-root="1"' : 'data-v232-permission-child="1"') + '>' +
+            '<span><b>' + escapeHtml(definition.title) + '</b><small>' + escapeHtml(definition.description) + '</small></span>' +
+            '</label>' + hidden;
+    }).join("");
+}
+
+dashboardAccountsHtml = function(notice = "", error = "", account = null) {
+    const accountData = account || getOwnerDashboardAccount() || getFirstDashboardAccount() || { username: OWNER_ACCOUNT_USERNAME };
+    const rows = [...dashboardAccounts.values()].sort((left, right) => {
+        const ownerOrder = Number(isOwnerDashboardAccount(right)) - Number(isOwnerDashboardAccount(left));
+        return ownerOrder || String(left.username).localeCompare(String(right.username), "de");
+    });
+    const totalAccounts = rows.length;
+    const linkedAccounts = rows.filter((entry) => Boolean(cleanNumericId(entry.robloxUserId))).length;
+    const dashboardAccountsEnabled = rows.filter((entry) => isOwnerDashboardAccount(entry) || getDashboardPermissionSnapshot(entry).menuServer === true).length;
+    const germanAccounts = rows.filter((entry) => normalizeDashboardLanguage(entry.language) === "de").length;
+    const noticeBlock = notice ? '<div class="nx-v232-notice success" role="status">' + escapeHtml(notice) + '</div>' : "";
+    const errorBlock = error ? '<div class="nx-v232-notice error" role="alert">' + escapeHtml(error) + '</div>' : "";
+    const eyeIcon = nexuV232EyeIcon();
+
+    const cards = rows.map((entry, index) => {
+        const owner = isOwnerDashboardAccount(entry);
+        const permissionSnapshot = getDashboardPermissionSnapshot(entry);
+        const dashboardEnabled = owner || permissionSnapshot.menuServer === true;
+        const username = cleanDashboardUsername(entry.username) || "Unbekannt";
+        const email = cleanDashboardEmail(entry.email);
+        const robloxUserId = cleanNumericId(entry.robloxUserId);
+        const robloxUsername = cleanText(entry.robloxUsername, 40);
+        const robloxDisplayName = cleanText(entry.robloxDisplayName, 80) || robloxUsername;
+        const robloxAvatar = robloxUserId ? "/api/roblox-avatar?userId=" + encodeURIComponent(robloxUserId) : "";
+        const robloxStatus = robloxUserId
+            ? (robloxDisplayName || ("Roblox " + robloxUserId)) + (robloxUsername ? " @" + robloxUsername : "") + " · ID " + robloxUserId
+            : "Noch nicht mit Roblox verbunden";
+        const searchValue = [username, email, robloxUserId, robloxUsername, robloxDisplayName].filter(Boolean).join(" ").toLowerCase();
+        const formId = "nxV232AccountForm" + index;
+        const usernameReadonly = owner ? "readonly" : "";
+        const created = nexuV232FormatAccountDate(entry.createdAt);
+        const updated = nexuV232FormatAccountDate(entry.updatedAt || entry.createdAt);
+        const passwordState = /^[a-f0-9]{64}$/.test(String(entry.passwordHash || "")) ? "Sicher gespeichert" : "Prüfung erforderlich";
+        const deleteBlock = owner
+            ? '<div class="nx-v232-owner-note">Der OwnerAccount ist fest geschützt und kann nicht gelöscht werden.</div>'
+            : '<button class="nx-v232-delete" type="button" data-v232-delete-open data-v232-delete-email="' + escapeHtml(email) + '" data-v232-delete-name="' + escapeHtml(username) + '">Konto löschen</button>';
+        const avatar = robloxAvatar
+            ? '<img class="nx-v232-avatar" src="' + escapeHtml(robloxAvatar) + '" alt="Roblox-Profilbild von ' + escapeHtml(username) + '" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'' + escapeHtml(NEXU_BRAND_LOGO_DATA_URI) + '\'">'
+            : '<div class="nx-v232-avatar nx-v232-avatar-empty" aria-hidden="true">?</div>';
+
+        return '<article class="nx-v232-account-card" data-v232-account-card data-v232-access="' + (dashboardEnabled ? "enabled" : "disabled") + '" data-v232-owner="' + (owner ? "1" : "0") + '" data-v232-search="' + escapeHtml(searchValue) + '">' +
+            '<header class="nx-v232-card-head">' +
+                '<div class="nx-v232-identity">' + avatar + '<div class="nx-v232-identity-copy"><strong>' + escapeHtml(username) + '</strong><small>' + escapeHtml(email) + '</small><em class="nx-v232-roblox">' + escapeHtml(robloxStatus) + '</em></div></div>' +
+                '<div class="nx-v232-badges">' +
+                    (owner ? '<span class="nx-v232-badge owner">Owner geschützt</span>' : '') +
+                    '<span class="nx-v232-badge ' + (dashboardEnabled ? "active" : "locked") + '">' + (dashboardEnabled ? "Übersicht aktiv" : "Übersicht gesperrt") + '</span>' +
+                    '<span class="nx-v232-badge">' + (normalizeDashboardLanguage(entry.language) === "de" ? "Deutsch" : "English") + '</span>' +
+                '</div>' +
+            '</header>' +
+            '<form id="' + formId + '" class="nx-v232-form" method="post" action="/accounts/update" autocomplete="off">' +
+                '<input type="hidden" name="accountEmail" value="' + escapeHtml(email) + '">' +
+                '<input type="hidden" name="newPassword" value="" data-v232-new-password>' +
+                '<input type="hidden" name="confirmPassword" value="" data-v232-confirm-password>' +
+                '<div class="nx-v232-section-grid">' +
+                    '<section class="nx-v232-section">' +
+                        '<div class="nx-v232-section-head"><div><h3>Profil und Roblox-Verknüpfung</h3><p>Identität, Sprache und die eindeutig verknüpfte Roblox User-ID.</p></div><span class="nx-v232-mini-status">Konto ' + (index + 1) + '</span></div>' +
+                        '<div class="nx-v232-fields">' +
+                            '<label class="nx-v232-field">Benutzername<input name="username" maxlength="80" value="' + escapeHtml(username) + '" ' + usernameReadonly + ' required></label>' +
+                            '<label class="nx-v232-field">Sprache<select name="language"><option value="en"' + (normalizeDashboardLanguage(entry.language) === "en" ? " selected" : "") + '>English</option><option value="de"' + (normalizeDashboardLanguage(entry.language) === "de" ? " selected" : "") + '>Deutsch</option></select></label>' +
+                            '<label class="nx-v232-field wide">Roblox User-ID<input name="robloxUserId" inputmode="numeric" pattern="[0-9]+" maxlength="30" value="' + escapeHtml(robloxUserId) + '" placeholder="Roblox User-ID eingeben" required></label>' +
+                        '</div>' +
+                    '</section>' +
+                    '<section class="nx-v232-section">' +
+                        '<div class="nx-v232-section-head"><div><h3>Passwort und Sicherheit</h3><p>Der Owner kann Passwörter zurücksetzen, aber niemals das bestehende Passwort auslesen.</p></div><span class="nx-v232-mini-status">' + escapeHtml(passwordState) + '</span></div>' +
+                        '<label class="nx-v232-field">Aktuelles Passwort' +
+                            '<span class="nx-v232-password-row">' +
+                                '<input type="password" value="nexu-password" readonly tabindex="-1" aria-label="Passwort ist zensiert" data-v232-password-display data-v232-mask="nexu-password" data-v232-reveal="Nicht auslesbar – nur Hash gespeichert">' +
+                                '<button class="nx-v232-eye" type="button" aria-label="Passwortstatus anzeigen" aria-pressed="false" data-v232-password-eye>' + eyeIcon + '</button>' +
+                            '</span>' +
+                        '</label>' +
+                        '<div class="nx-v232-password-actions"><button class="nx-v232-reset-password" type="button" data-v232-password-reset data-v232-form-id="' + formId + '" data-v232-account-name="' + escapeHtml(username) + '">Passwort zurücksetzen</button></div>' +
+                        '<p class="nx-v232-password-help">Nexu speichert ausschließlich einen SHA-256-Hash. Das schützt Benutzer bei einem Datenleck. Über „Passwort zurücksetzen“ vergibst du als Owner direkt ein neues Passwort.</p>' +
+                    '</section>' +
+                    '<section class="nx-v232-section full">' +
+                        '<div class="nx-v232-section-head"><div><h3>Übersichtsrechte</h3><p>„Übersicht öffnen“ ist der Hauptschalter. Deaktivierte Unterrechte werden automatisch gesperrt.</p></div><span class="nx-v232-mini-status">' + (owner ? "Vollzugriff" : (dashboardEnabled ? "Individuell" : "Gesperrt")) + '</span></div>' +
+                        '<div class="nx-v232-permission-grid" data-v232-permission-grid>' + nexuV232PermissionMarkup(entry, owner) + '</div>' +
+                    '</section>' +
+                '</div>' +
+                '<footer class="nx-v232-card-footer">' +
+                    '<div class="nx-v232-meta"><span><b>Erstellt:</b> ' + escapeHtml(created) + '</span><span><b>Letzte Kontoänderung:</b> ' + escapeHtml(updated) + '</span><span><b>Roblox:</b> ' + (robloxUserId ? "Verknüpft" : "Nicht verknüpft") + '</span></div>' +
+                    '<div class="nx-v232-form-actions">' + deleteBlock + '<button class="nx-v232-save" type="submit">Änderungen speichern</button></div>' +
+                '</footer>' +
+            '</form>' +
+        '</article>';
+    }).join("") || '<div class="nx-v232-empty">Keine Accounts vorhanden.</div>';
+
+    return String.raw`<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#03070e">
+<link rel="icon" type="image/png" href="${NEXU_BRAND_LOGO_DATA_URI}">
+<link rel="apple-touch-icon" href="${NEXU_BRAND_LOGO_DATA_URI}">
+<title>Nexu · Kontoverwaltung</title>
+<style>${nexuV232AccountManagementCss()}</style>
+</head>
+<body class="nexu-v232-accounts">
+<main class="nx-v232-shell">
+    <header class="nx-v232-topbar">
+        <div class="nx-v232-brand"><div class="nx-v232-brand-mark" role="img" aria-label="Nexu Logo" style="${NEXU_BRAND_LOGO_INLINE_STYLE}">N</div><div><h1>Kontoverwaltung</h1><p>Owner Center · Eingeloggt als ${escapeHtml(accountData.username || OWNER_ACCOUNT_USERNAME)}</p></div></div>
+        <div class="nx-v232-top-actions"><a class="nx-v232-link" href="/">← Startseite</a></div>
+    </header>
+    ${noticeBlock}${errorBlock}
+    <section class="nx-v232-hero">
+        <div class="nx-v232-hero-copy">
+            <div class="nx-v232-eyebrow">NEXU // OWNER ACCOUNT CENTER</div>
+            <h2>Accounts klar verwalten.<br>Sicherheit vollständig behalten.</h2>
+            <p>Bearbeite Website-Identität, Roblox-Verknüpfung und alle Übersichtsrechte in klar getrennten Bereichen. Suche und Filter helfen auch bei vielen Accounts.</p>
+            <div class="nx-v232-security-note"><span class="nx-v232-security-icon">!</span><div><b>Warum das echte Passwort nicht angezeigt wird</b>Passwörter werden nicht entschlüsselbar gespeichert. Auch der Owner sieht deshalb nur den geschützten Status und kann bei Bedarf sofort ein neues Passwort setzen.</div></div>
+        </div>
+        <div class="nx-v232-stats">
+            <article class="nx-v232-stat"><span>Accounts</span><strong>${totalAccounts}</strong><small>Gesamt gespeichert</small></article>
+            <article class="nx-v232-stat"><span>Übersicht aktiv</span><strong>${dashboardAccountsEnabled}</strong><small>Mit Serverzugriff</small></article>
+            <article class="nx-v232-stat"><span>Roblox verknüpft</span><strong>${linkedAccounts}</strong><small>Eindeutige User-IDs</small></article>
+            <article class="nx-v232-stat"><span>Deutsch</span><strong>${germanAccounts}</strong><small>Kontosprache</small></article>
+        </div>
+    </section>
+    <section class="nx-v232-toolbar" aria-label="Accounts filtern">
+        <label class="nx-v232-search"><input id="nxV232AccountSearch" type="search" autocomplete="off" placeholder="Benutzername, E-Mail, Roblox-ID oder Roblox-Name suchen …" aria-label="Accounts durchsuchen"><span>⌕</span></label>
+        <div class="nx-v232-filters" role="group" aria-label="Zugriffsfilter">
+            <button class="nx-v232-filter active" type="button" data-v232-filter="all">Alle</button>
+            <button class="nx-v232-filter" type="button" data-v232-filter="enabled">Übersicht aktiv</button>
+            <button class="nx-v232-filter" type="button" data-v232-filter="disabled">Gesperrt</button>
+            <button class="nx-v232-filter" type="button" data-v232-filter="owner">Owner</button>
+        </div>
+    </section>
+    <section class="nx-v232-account-list" id="nxV232AccountList">${cards}</section>
+    <div class="nx-v232-empty" id="nxV232NoResults" hidden>Keine Accounts entsprechen deiner Suche oder dem gewählten Filter.</div>
+</main>
+
+<div class="nx-v232-modal" id="nxV232PasswordModal" hidden aria-hidden="true">
+    <form class="nx-v232-modal-card" id="nxV232PasswordForm" autocomplete="off">
+        <div class="nx-v232-modal-head"><div><div class="nx-v232-eyebrow">NEXU // OWNER RESET</div><h2>Passwort zurücksetzen</h2></div><button class="nx-v232-modal-close" type="button" data-v232-password-close aria-label="Schließen">×</button></div>
+        <p class="nx-v232-modal-copy">Du setzt als Owner direkt ein neues Passwort. Das vorherige Passwort kann wegen der sicheren Hash-Speicherung nicht angezeigt oder wiederhergestellt werden.</p>
+        <div class="nx-v232-modal-target">Account: <strong id="nxV232PasswordTarget">–</strong></div>
+        <label class="nx-v232-field">Neues Passwort<span class="nx-v232-password-row"><input id="nxV232NewPassword" type="password" minlength="8" maxlength="200" autocomplete="new-password" required><button class="nx-v232-eye" type="button" data-v232-eye-for="nxV232NewPassword" aria-label="Neues Passwort anzeigen">${eyeIcon}</button></span></label>
+        <label class="nx-v232-field" style="margin-top:10px">Neues Passwort bestätigen<span class="nx-v232-password-row"><input id="nxV232ConfirmPassword" type="password" minlength="8" maxlength="200" autocomplete="new-password" required><button class="nx-v232-eye" type="button" data-v232-eye-for="nxV232ConfirmPassword" aria-label="Passwortbestätigung anzeigen">${eyeIcon}</button></span></label>
+        <div class="nx-v232-modal-status" id="nxV232PasswordStatus" role="alert"></div>
+        <div class="nx-v232-modal-actions"><button class="nx-v232-cancel" type="button" data-v232-password-close>Abbrechen</button><button class="nx-v232-confirm" type="submit">Neues Passwort speichern</button></div>
+    </form>
+</div>
+
+<div class="nx-v232-modal" id="nxV232DeleteModal" hidden aria-hidden="true">
+    <form class="nx-v232-modal-card" id="nxV232DeleteForm" method="post" action="/accounts/delete" role="dialog" aria-modal="true" aria-labelledby="nxV232DeleteTitle">
+        <input type="hidden" name="accountEmail" id="nxV232DeleteEmail" value="">
+        <div class="nx-v232-modal-head"><div><div class="nx-v232-eyebrow">NEXU // KONTOSICHERHEIT</div><h2 id="nxV232DeleteTitle">Konto endgültig löschen?</h2></div><button class="nx-v232-modal-close" type="button" data-v232-delete-close aria-label="Schließen">×</button></div>
+        <p class="nx-v232-modal-copy">Das Website-Konto <strong id="nxV232DeleteTarget">–</strong>, seine Roblox-Verknüpfung und alle Berechtigungen werden dauerhaft entfernt. Diese Aktion lässt sich nicht rückgängig machen.</p>
+        <div class="nx-v232-modal-actions"><button class="nx-v232-cancel" type="button" data-v232-delete-close>Abbrechen</button><button class="nx-v232-confirm nx-v232-confirm-delete" id="nxV232DeleteConfirm" type="submit">Konto löschen</button></div>
+    </form>
+</div>
+
+<script>
+(function(){
+    "use strict";
+    if(document.documentElement.dataset.nxV232Accounts==="1")return;
+    document.documentElement.dataset.nxV232Accounts="1";
+    function all(selector,root){return Array.prototype.slice.call((root||document).querySelectorAll(selector));}
+    function one(selector,root){return (root||document).querySelector(selector);}
+
+    var search=one("#nxV232AccountSearch");
+    var cards=all("[data-v232-account-card]");
+    var filters=all("[data-v232-filter]");
+    var noResults=one("#nxV232NoResults");
+    var activeFilter="all";
+    function updateVisibleCards(){
+        var query=String(search&&search.value||"").trim().toLowerCase();
+        var visible=0;
+        cards.forEach(function(card){
+            var matchesText=!query||String(card.getAttribute("data-v232-search")||"").indexOf(query)!==-1;
+            var matchesFilter=activeFilter==="all"||(activeFilter==="owner"?card.getAttribute("data-v232-owner")==="1":card.getAttribute("data-v232-access")===activeFilter);
+            card.hidden=!(matchesText&&matchesFilter);
+            if(!card.hidden)visible+=1;
+        });
+        if(noResults)noResults.hidden=visible!==0;
+    }
+    if(search)search.addEventListener("input",updateVisibleCards);
+    filters.forEach(function(button){button.addEventListener("click",function(){activeFilter=button.getAttribute("data-v232-filter")||"all";filters.forEach(function(item){item.classList.toggle("active",item===button);});updateVisibleCards();});});
+
+    all("[data-v232-permission-grid]").forEach(function(grid){
+        var root=one('[data-v232-permission-root="1"]',grid);
+        if(!root)return;
+        var children=all('[data-v232-permission-child="1"]',grid);
+        function sync(){
+            var enabled=root.checked===true;
+            children.forEach(function(input){
+                if(input.closest(".owner-locked"))return;
+                input.disabled=!enabled;
+                if(!enabled)input.checked=false;
+                var label=input.closest(".nx-v232-permission");
+                if(label)label.classList.toggle("permission-locked",!enabled);
+            });
+        }
+        root.addEventListener("change",sync);sync();
+    });
+
+    all("[data-v232-password-eye]").forEach(function(button){
+        button.addEventListener("click",function(){
+            var row=button.closest(".nx-v232-password-row");
+            var field=row&&one("[data-v232-password-display]",row);
+            if(!field)return;
+            var reveal=field.type==="password";
+            field.type=reveal?"text":"password";
+            field.value=reveal?field.getAttribute("data-v232-reveal"):field.getAttribute("data-v232-mask");
+            field.setAttribute("aria-label",reveal?"Passwort kann nicht ausgelesen werden":"Passwort ist zensiert");
+            button.setAttribute("aria-pressed",reveal?"true":"false");
+        });
+    });
+    all("[data-v232-eye-for]").forEach(function(button){button.addEventListener("click",function(){var field=document.getElementById(button.getAttribute("data-v232-eye-for"));if(field)field.type=field.type==="password"?"text":"password";});});
+
+    var passwordModal=one("#nxV232PasswordModal");
+    var passwordForm=one("#nxV232PasswordForm");
+    var passwordTarget=one("#nxV232PasswordTarget");
+    var newPassword=one("#nxV232NewPassword");
+    var confirmPassword=one("#nxV232ConfirmPassword");
+    var passwordStatus=one("#nxV232PasswordStatus");
+    var targetAccountForm=null;
+    function openPasswordModal(button){
+        targetAccountForm=document.getElementById(button.getAttribute("data-v232-form-id"));
+        if(!passwordModal||!targetAccountForm)return;
+        if(passwordTarget)passwordTarget.textContent=button.getAttribute("data-v232-account-name")||"Account";
+        if(passwordForm)passwordForm.reset();
+        if(passwordStatus)passwordStatus.textContent="";
+        passwordModal.hidden=false;passwordModal.setAttribute("aria-hidden","false");document.documentElement.style.overflow="hidden";
+        setTimeout(function(){if(newPassword)newPassword.focus();},20);
+    }
+    function closePasswordModal(){
+        if(!passwordModal)return;
+        passwordModal.hidden=true;passwordModal.setAttribute("aria-hidden","true");document.documentElement.style.overflow="";
+        if(passwordForm)passwordForm.reset();if(passwordStatus)passwordStatus.textContent="";targetAccountForm=null;
+    }
+    all("[data-v232-password-reset]").forEach(function(button){button.addEventListener("click",function(){openPasswordModal(button);});});
+    all("[data-v232-password-close]").forEach(function(button){button.addEventListener("click",closePasswordModal);});
+    if(passwordModal)passwordModal.addEventListener("click",function(event){if(event.target===passwordModal)closePasswordModal();});
+    if(passwordForm)passwordForm.addEventListener("submit",function(event){
+        event.preventDefault();
+        if(!targetAccountForm||!newPassword||!confirmPassword)return;
+        if(newPassword.value.length<8){if(passwordStatus)passwordStatus.textContent="Das neue Passwort muss mindestens 8 Zeichen haben.";newPassword.focus();return;}
+        if(newPassword.value!==confirmPassword.value){if(passwordStatus)passwordStatus.textContent="Die beiden neuen Passwörter stimmen nicht überein.";confirmPassword.focus();return;}
+        if(!targetAccountForm.reportValidity()){closePasswordModal();return;}
+        var hiddenNew=one("[data-v232-new-password]",targetAccountForm);
+        var hiddenConfirm=one("[data-v232-confirm-password]",targetAccountForm);
+        if(hiddenNew)hiddenNew.value=newPassword.value;
+        if(hiddenConfirm)hiddenConfirm.value=confirmPassword.value;
+        targetAccountForm.requestSubmit();
+    });
+
+    var deleteModal=one("#nxV232DeleteModal");
+    var deleteConfirm=one("#nxV232DeleteConfirm");
+    var deleteEmail=one("#nxV232DeleteEmail");
+    var deleteTarget=one("#nxV232DeleteTarget");
+    function closeDeleteModal(){if(deleteModal){deleteModal.hidden=true;deleteModal.setAttribute("aria-hidden","true");document.documentElement.style.overflow="";}if(deleteEmail)deleteEmail.value="";if(deleteTarget)deleteTarget.textContent="–";}
+    all("[data-v232-delete-open]").forEach(function(button){button.addEventListener("click",function(){if(deleteEmail)deleteEmail.value=button.getAttribute("data-v232-delete-email")||"";if(deleteTarget)deleteTarget.textContent=button.getAttribute("data-v232-delete-name")||"Account";if(deleteModal){deleteModal.hidden=false;deleteModal.setAttribute("aria-hidden","false");document.documentElement.style.overflow="hidden";if(deleteConfirm)deleteConfirm.focus();}});});
+    all("[data-v232-delete-close]").forEach(function(button){button.addEventListener("click",closeDeleteModal);});
+    if(deleteModal)deleteModal.addEventListener("click",function(event){if(event.target===deleteModal)closeDeleteModal();});
+
+    document.addEventListener("keydown",function(event){
+        if(event.key!=="Escape")return;
+        if(passwordModal&&!passwordModal.hidden){event.preventDefault();closePasswordModal();return;}
+        if(deleteModal&&!deleteModal.hidden){event.preventDefault();closeDeleteModal();}
+    },true);
+})();
+</script>
+</body>
+</html>`;
+};
+
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
 if (req.method === "GET" && pathname === "/api/health") {
@@ -14810,9 +15535,11 @@ if (req.method === "POST" && pathname === "/api/obfuscator") {
 
 if (req.method === "GET" && pathname === "/") {
     const session = getDashboardSession(req);
-    const message = requestUrl.searchParams.get("settings") === "updated"
-        ? "Kontoeinstellungen wurden gespeichert."
-        : requestUrl.searchParams.get("account") === "deleted"
+    const message = requestUrl.searchParams.get("password") === "updated"
+        ? "Passwort wurde geändert. Andere Sitzungen und gespeicherte Geräte wurden abgemeldet."
+        : requestUrl.searchParams.get("settings") === "updated"
+            ? "Kontoeinstellungen wurden gespeichert."
+            : requestUrl.searchParams.get("account") === "deleted"
             ? "Konto wurde gelöscht."
             : requestUrl.searchParams.get("logout") === "1"
                 ? "Du wurdest erfolgreich abgemeldet."
@@ -14955,11 +15682,15 @@ if (req.method === "POST" && pathname === "/accounts/update") {
             }
             nextPasswordHash = sha256Hex(newPassword);
         }
+        const passwordWasChanged = nextPasswordHash !== target.passwordHash;
         const dashboardAccessEnabled = form.menuServerAccess === "1" || form.menuServerAccess === "on";
         const updated = normalizeDashboardAccount({
             ...target,
             username: nextUsername,
             passwordHash: nextPasswordHash,
+            authVersion: passwordWasChanged
+                ? Math.max(1, cleanInteger(target.authVersion) || 1) + 1
+                : Math.max(1, cleanInteger(target.authVersion) || 1),
             robloxUserId: robloxIdentity.userId,
             robloxUsername: robloxIdentity.username,
             robloxDisplayName: robloxIdentity.displayName,
@@ -14988,18 +15719,39 @@ if (req.method === "POST" && pathname === "/accounts/update") {
             sendHtml(res, 500, dashboardAccountsHtml("", "Account konnte nicht gespeichert werden.", session.account));
             return;
         }
-        for (const [token, raw] of dashboardSessions) {
-            if (raw && raw.email === updated.email) {
-                dashboardSessions.set(token, { ...raw, username: updated.username, email: updated.email });
+        if (passwordWasChanged) {
+            for (const [token, raw] of dashboardSessions) {
+                if (raw && raw.email === updated.email) dashboardSessions.delete(token);
             }
-        }
-        for (const [tokenHash, entry] of rememberedDashboardDevices) {
-            if (entry && entry.email === updated.email) {
-                rememberedDashboardDevices.set(tokenHash, { ...entry, username: updated.username, email: updated.email });
+            for (const [tokenHash, entry] of rememberedDashboardDevices) {
+                if (entry && entry.email === updated.email) rememberedDashboardDevices.delete(tokenHash);
+            }
+        } else {
+            for (const [token, raw] of dashboardSessions) {
+                if (raw && raw.email === updated.email) {
+                    dashboardSessions.set(token, {
+                        ...raw,
+                        username: updated.username,
+                        email: updated.email,
+                        authVersion: Math.max(1, cleanInteger(updated.authVersion) || 1),
+                    });
+                }
+            }
+            for (const [tokenHash, entry] of rememberedDashboardDevices) {
+                if (entry && entry.email === updated.email) {
+                    rememberedDashboardDevices.set(tokenHash, { ...entry, username: updated.username, email: updated.email });
+                }
             }
         }
         saveRememberedDashboardDevices();
-        redirect(res, "/accounts?updated=1");
+        if (passwordWasChanged && session.email === updated.email) {
+            const refreshedToken = createDashboardSession(updated);
+            redirect(res, "/accounts?updated=1", {
+                "Set-Cookie": dashboardCookie(req, refreshedToken, DASHBOARD_SESSION_TTL_MS / 1000),
+            });
+        } else {
+            redirect(res, "/accounts?updated=1");
+        }
     } catch (error) {
         sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, dashboardAccountsHtml("", "Account konnte nicht verarbeitet werden.", session.account));
     }
@@ -15142,6 +15894,73 @@ if (req.method === "POST" && pathname === "/logout") {
 }
 
 
+if (req.method === "POST" && pathname === "/account/password") {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
+        redirect(res, "/?auth=login");
+        return;
+    }
+    try {
+        const form = await readFormBody(req);
+        const currentPassword = String(form.currentPassword || "");
+        const newPassword = String(form.newPassword || "");
+        const confirmPassword = String(form.confirmPassword || "");
+        if (!validDashboardAccountPassword(session.account, currentPassword)) {
+            sendHtml(res, 403, homeHtml("", "Aktuelles Passwort ist falsch.", session.account));
+            return;
+        }
+        if (newPassword.length < 8) {
+            sendHtml(res, 400, homeHtml("", "Das neue Passwort muss mindestens 8 Zeichen haben.", session.account));
+            return;
+        }
+        if (newPassword !== confirmPassword) {
+            sendHtml(res, 400, homeHtml("", "Neue Passwörter stimmen nicht überein.", session.account));
+            return;
+        }
+        if (safeSecretEquals(sha256Hex(newPassword), session.account.passwordHash)) {
+            sendHtml(res, 400, homeHtml("", "Das neue Passwort muss sich vom aktuellen Passwort unterscheiden.", session.account));
+            return;
+        }
+        const updated = normalizeDashboardAccount({
+            ...session.account,
+            passwordHash: sha256Hex(newPassword),
+            authVersion: Math.max(1, cleanInteger(session.account.authVersion) || 1) + 1,
+            updatedAt: new Date().toISOString(),
+        });
+        if (!updated) {
+            sendHtml(res, 500, homeHtml("", "Passwort konnte nicht gespeichert werden.", session.account));
+            return;
+        }
+        dashboardAccounts.set(updated.email, updated);
+        if (!saveDashboardAccount()) {
+            sendHtml(res, 500, homeHtml("", "Passwort konnte nicht gespeichert werden.", session.account));
+            return;
+        }
+        for (const [token, entry] of dashboardSessions) {
+            if (token !== session.token && entry && entry.email === updated.email) dashboardSessions.delete(token);
+        }
+        for (const [tokenHash, entry] of rememberedDashboardDevices) {
+            if (entry && entry.email === updated.email) rememberedDashboardDevices.delete(tokenHash);
+        }
+        saveRememberedDashboardDevices();
+        if (session.token) {
+            dashboardSessions.set(session.token, {
+                username: updated.username,
+                email: updated.email,
+                authVersion: Math.max(1, cleanInteger(updated.authVersion) || 1),
+                expiresAtMs: session.expiresAtMs,
+            });
+        }
+        const refreshedToken = createDashboardSession(updated);
+        redirect(res, "/?password=updated", {
+            "Set-Cookie": dashboardCookie(req, refreshedToken, DASHBOARD_SESSION_TTL_MS / 1000),
+        });
+    } catch (error) {
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, homeHtml("", "Passwortänderung konnte nicht verarbeitet werden.", session.account));
+    }
+    return;
+}
+
 if (req.method === "POST" && pathname === "/account/settings") {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
@@ -15153,9 +15972,7 @@ if (req.method === "POST" && pathname === "/account/settings") {
         const requestedUsername = cleanDashboardUsername(form.newUsername);
         const nextUsername = isOwnerDashboardAccount(session.account) ? OWNER_ACCOUNT_USERNAME : requestedUsername;
         const nextLanguage = normalizeDashboardLanguage(form.language);
-        const currentPassword = String(form.currentPassword || "");
-        const nextPassword = String(form.newPassword || "");
-        const confirmPassword = String(form.confirmPassword || "");
+        const preferences = normalizeNexuAccountPreferences(form);
 
         if (!nextUsername) {
             sendHtml(res, 400, homeHtml("", "Benutzername ungültig. Erlaubt sind 3-80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", session.account));
@@ -15165,23 +15982,13 @@ if (req.method === "POST" && pathname === "/account/settings") {
             sendHtml(res, 409, homeHtml("", "Dieser Benutzername ist bereits vergeben.", session.account));
             return;
         }
-        if (!validDashboardAccountPassword(session.account, currentPassword)) {
-            sendHtml(res, 403, homeHtml("", "Aktuelles Passwort ist falsch.", session.account));
-            return;
-        }
-        let nextPasswordHash = session.account.passwordHash;
-        if (nextPassword !== "" || confirmPassword !== "") {
-            if (nextPassword.length < 8) {
-                sendHtml(res, 400, homeHtml("", "Das neue Passwort muss mindestens 8 Zeichen haben.", session.account));
-                return;
-            }
-            if (nextPassword !== confirmPassword) {
-                sendHtml(res, 400, homeHtml("", "Neue Passwörter stimmen nicht überein.", session.account));
-                return;
-            }
-            nextPasswordHash = sha256Hex(nextPassword);
-        }
-        const updated = normalizeDashboardAccount({...session.account, username: nextUsername, language: nextLanguage, passwordHash: nextPasswordHash, updatedAt: new Date().toISOString()});
+        const updated = normalizeDashboardAccount({
+            ...session.account,
+            username: nextUsername,
+            language: nextLanguage,
+            preferences,
+            updatedAt: new Date().toISOString(),
+        });
         if (!updated) {
             sendHtml(res, 500, homeHtml("", "Account konnte nicht gespeichert werden.", session.account));
             return;
@@ -15191,7 +15998,7 @@ if (req.method === "POST" && pathname === "/account/settings") {
             sendHtml(res, 500, homeHtml("", "Account konnte nicht gespeichert werden.", session.account));
             return;
         }
-        if (session && session.token) {
+        if (session.token) {
             dashboardSessions.set(session.token, {
                 username: updated.username,
                 email: updated.email,
@@ -15200,11 +16007,7 @@ if (req.method === "POST" && pathname === "/account/settings") {
         }
         for (const [tokenHash, entry] of rememberedDashboardDevices) {
             if (entry && entry.email === updated.email) {
-                rememberedDashboardDevices.set(tokenHash, {
-                    ...entry,
-                    username: updated.username,
-                    email: updated.email,
-                });
+                rememberedDashboardDevices.set(tokenHash, {...entry, username: updated.username, email: updated.email});
             }
         }
         saveRememberedDashboardDevices();
@@ -17209,7 +18012,7 @@ async function startNexuServer() {
         console.log("Dashboard-Anmeldung: /");
         console.log("Übersichts-Konten:", dashboardAccounts.size);
         console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V148 SIGNIERT UND NEUSTARTFEST");
-        console.log("Öffentlicher Roblox/Luau-Obfuscator: /api/obfuscator // V230 HIGH-CAPACITY NUMERIC-HEX // MEMORY-BATCHED // 150.000 ZEILEN // " + NEXU_OBFUSCATOR_MAX_INPUT_LABEL);
+        console.log("Öffentlicher Roblox/Luau-Obfuscator: /api/obfuscator // V232 ACCOUNT CENTER + V231 SETTINGS + V230 HIGH-CAPACITY NUMERIC-HEX // MEMORY-BATCHED // 150.000 ZEILEN // " + NEXU_OBFUSCATOR_MAX_INPUT_LABEL);
         console.log("Presence: /api/presence");
         console.log("Presence-Aufbewahrung:", Math.round(PRESENCE_ENTRY_RETENTION_MS / 1000), "Sekunden");
         console.log("Presence-Neustart-Schutz:", Math.round(PRESENCE_RESTART_GRACE_MS / 1000), "Sekunden");
