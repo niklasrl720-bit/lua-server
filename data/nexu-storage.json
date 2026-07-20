@@ -10564,8 +10564,8 @@
       "displayName": "Chernosigma_8",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "nico's nextbots [open world]",
-      "placeId": 12629753855,
+      "gameName": "nico's nextbots [legacy]",
+      "placeId": 16208246546,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -13549,5 +13549,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T19:26:00.350Z"
+  "updatedAt": "2026-07-20T19:27:11.757Z"
 }
