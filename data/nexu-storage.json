@@ -5595,6 +5595,23 @@
       "lastSeenMs": 1784428777326
     },
     {
+      "userId": "11317450046",
+      "username": "sfqguoj01",
+      "displayName": "sfqguoj01",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[FPS] Terrain d'armes FFA",
+      "placeId": 12137249458,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-20T23:18:58.868Z",
+      "firstSeenMs": 1784589538868,
+      "lastSeen": "2026-07-20T23:18:58.868Z",
+      "lastSeenMs": 1784589538868
+    },
+    {
       "userId": "1177195747",
       "username": "giovajaket",
       "displayName": "ggiova_101",
@@ -13505,5 +13522,5 @@
     "resetAtMs": 1784584800006,
     "messages": []
   },
-  "updatedAt": "2026-07-20T23:16:04.279Z"
+  "updatedAt": "2026-07-20T23:19:03.875Z"
 }
