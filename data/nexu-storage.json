@@ -1345,6 +1345,23 @@
       "lastSeenMs": 1784261700000
     },
     {
+      "userId": "10767901292",
+      "username": "youRkID_6",
+      "displayName": "LUCIFER",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "עולם הכיף 🎉 - בואו לכיף ישראל",
+      "placeId": 7999948656,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-20T15:16:24.130Z",
+      "firstSeenMs": 1784560584130,
+      "lastSeen": "2026-07-20T15:16:24.130Z",
+      "lastSeenMs": 1784560584130
+    },
+    {
       "userId": "10768762997",
       "username": "Rabbid_1b",
       "displayName": "JR_SAWIT",
@@ -13481,5 +13498,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T15:16:01.466Z"
+  "updatedAt": "2026-07-20T15:16:29.137Z"
 }
