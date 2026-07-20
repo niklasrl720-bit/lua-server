@@ -12854,6 +12854,23 @@
       "lastSeenMs": 1784295300000
     },
     {
+      "userId": "9558589496",
+      "username": "Levi2cm",
+      "displayName": "TungTungTungSahur",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Mordgeheimnis 2",
+      "placeId": 142823291,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-20T16:22:13.832Z",
+      "firstSeenMs": 1784564533832,
+      "lastSeen": "2026-07-20T16:22:13.832Z",
+      "lastSeenMs": 1784564533832
+    },
+    {
       "userId": "9560485554",
       "username": "Mickeymouse0838",
       "displayName": "alex",
@@ -13515,5 +13532,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T16:20:12.203Z"
+  "updatedAt": "2026-07-20T16:22:18.837Z"
 }
