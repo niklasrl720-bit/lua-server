@@ -5583,16 +5583,16 @@
       "displayName": "Emo_FadedPR",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Silent Assassins",
-      "placeId": 103854444055060,
+      "gameName": "The Penthouse 🔊",
+      "placeId": 17619231559,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T23:18:37.449Z",
       "firstSeenMs": 1784503117449,
-      "lastSeen": "2026-07-20T11:05:00.000Z",
-      "lastSeenMs": 1784545500000
+      "lastSeen": "2026-07-20T11:50:00.000Z",
+      "lastSeenMs": 1784548200000
     },
     {
       "userId": "1231105181",
@@ -13464,5 +13464,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T11:23:54.195Z"
+  "updatedAt": "2026-07-20T11:51:25.079Z"
 }
