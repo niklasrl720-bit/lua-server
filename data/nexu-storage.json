@@ -8427,11 +8427,11 @@
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-17T14:55:00.000Z",
-      "lastSeenMs": 1784300100000
+      "lastSeen": "2026-07-20T08:10:00.000Z",
+      "lastSeenMs": 1784535000000
     },
     {
       "userId": "5111527490",
@@ -13398,5 +13398,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T06:56:00.056Z"
+  "updatedAt": "2026-07-20T08:12:39.265Z"
 }
