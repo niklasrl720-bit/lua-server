@@ -406,8 +406,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-20T19:40:00.000Z",
-      "lastSeenMs": 1784576400000
+      "lastSeen": "2026-07-20T23:30:00.000Z",
+      "lastSeenMs": 1784590200000
     },
     {
       "userId": "10203550652",
@@ -5600,8 +5600,8 @@
       "displayName": "sfqguoj01",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🧤] Désamorçage",
-      "placeId": 79393329652220,
+      "gameName": "Matchmaking",
+      "placeId": 117398147513099,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
@@ -13522,5 +13522,5 @@
     "resetAtMs": 1784584800006,
     "messages": []
   },
-  "updatedAt": "2026-07-20T23:31:03.052Z"
+  "updatedAt": "2026-07-20T23:33:30.361Z"
 }
