@@ -483,16 +483,16 @@
       "displayName": "ASTOR",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Epic Minigames ✨",
-      "placeId": 277751860,
+      "gameName": "Horrific Housing",
+      "placeId": 263761432,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:43:26.364Z",
       "firstSeenMs": 1784238206364,
-      "lastSeen": "2026-07-17T18:15:00.000Z",
-      "lastSeenMs": 1784312100000
+      "lastSeen": "2026-07-20T13:50:00.000Z",
+      "lastSeenMs": 1784555400000
     },
     {
       "userId": "10239833814",
@@ -2514,8 +2514,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T12:33:47.498Z",
       "firstSeenMs": 1784550827498,
-      "lastSeen": "2026-07-20T13:45:00.000Z",
-      "lastSeenMs": 1784555100000
+      "lastSeen": "2026-07-20T13:50:00.000Z",
+      "lastSeenMs": 1784555400000
     },
     {
       "userId": "11126047368",
@@ -13481,5 +13481,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T13:46:00.498Z"
+  "updatedAt": "2026-07-20T13:51:02.740Z"
 }
