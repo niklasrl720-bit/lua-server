@@ -6938,6 +6938,23 @@
       "lastSeenMs": 1784333700000
     },
     {
+      "userId": "3504968352",
+      "username": "fox_semo",
+      "displayName": "FoX",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "مكان التسكع في ليبيا",
+      "placeId": 140345177508605,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-20T03:06:54.144Z",
+      "firstSeenMs": 1784516814144,
+      "lastSeen": "2026-07-20T03:06:54.144Z",
+      "lastSeenMs": 1784516814144
+    },
+    {
       "userId": "3521311307",
       "username": "Denis987947",
       "displayName": "Denis987947",
@@ -13349,5 +13366,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T02:59:47.752Z"
+  "updatedAt": "2026-07-20T03:06:59.148Z"
 }
