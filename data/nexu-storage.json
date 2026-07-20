@@ -5549,16 +5549,16 @@
       "displayName": "Emo_FadedPR",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "😈 Split or Steal Brainrot [AUCTION Mode]",
-      "placeId": 70959844973091,
+      "gameName": "💈 Be A Hair?",
+      "placeId": 139054513518556,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T23:18:37.449Z",
       "firstSeenMs": 1784503117449,
-      "lastSeen": "2026-07-19T23:25:00.000Z",
-      "lastSeenMs": 1784503500000
+      "lastSeen": "2026-07-20T00:10:00.000Z",
+      "lastSeenMs": 1784506200000
     },
     {
       "userId": "1231105181",
@@ -13301,5 +13301,5 @@
     "resetAtMs": 1784498400125,
     "messages": []
   },
-  "updatedAt": "2026-07-20T00:11:01.944Z"
+  "updatedAt": "2026-07-20T00:13:25.302Z"
 }
