@@ -12230,16 +12230,16 @@
       "displayName": "Femto",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Sobrevivência de Desastres Naturais",
-      "placeId": 189707,
+      "gameName": "[INSANO] Tabela de Dificuldade do JStar Obby 2! ⭐",
+      "placeId": 14207734586,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-20T01:45:00.000Z",
-      "lastSeenMs": 1784511900000
+      "lastSeen": "2026-07-20T05:50:00.000Z",
+      "lastSeenMs": 1784526600000
     },
     {
       "userId": "9262341195",
@@ -13398,5 +13398,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T05:16:02.784Z"
+  "updatedAt": "2026-07-20T05:54:24.535Z"
 }
