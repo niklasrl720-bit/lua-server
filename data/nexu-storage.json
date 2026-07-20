@@ -4401,8 +4401,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T20:53:21.242Z",
       "firstSeenMs": 1784235201242,
-      "lastSeen": "2026-07-20T00:45:00.000Z",
-      "lastSeenMs": 1784508300000
+      "lastSeen": "2026-07-20T00:50:00.000Z",
+      "lastSeenMs": 1784508600000
     },
     {
       "userId": "11291339681",
@@ -6356,8 +6356,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-20T00:45:00.000Z",
-      "lastSeenMs": 1784508300000
+      "lastSeen": "2026-07-20T00:50:00.000Z",
+      "lastSeenMs": 1784508600000
     },
     {
       "userId": "2643166270",
@@ -13279,24 +13279,15 @@
       "lastSeenMs": 1784310000000
     }
   ],
-  "bans": [
-    {
-      "userId": "11290775764",
-      "username": "Flasche27200",
-      "displayName": "Flasche27200",
-      "reason": "test",
-      "bannedAt": "2026-07-20T00:49:04.008Z",
-      "bannedBy": "dashboard"
-    }
-  ],
+  "bans": [],
   "updateState": {
-    "active": false,
-    "startedAtMs": 0,
-    "endsAtMs": 0,
-    "durationMinutes": 0,
-    "startedBy": "",
-    "startedAt": "",
-    "endsAt": ""
+    "active": true,
+    "startedAtMs": 1784508604176,
+    "endsAtMs": 1784508664176,
+    "durationMinutes": 1,
+    "startedBy": "OwnerAccount",
+    "startedAt": "2026-07-20T00:50:04.176Z",
+    "endsAt": "2026-07-20T00:51:04.176Z"
   },
   "menuStatus": {
     "online": true,
@@ -13341,5 +13332,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T00:49:06.513Z"
+  "updatedAt": "2026-07-20T00:50:05.680Z"
 }
