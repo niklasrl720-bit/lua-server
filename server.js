@@ -1,4 +1,4 @@
-// V234: Globale Autofill-Farbkorrektur, zuverlässiges Settings-Scrolling und neues Nexu-Farbstudio.
+// V235: Eigene Settings-Seite unter /settings und einheitliche englische URL-Pfade.
 // Link- und Werbeschutz: URLs, Einladungen und eindeutige Werbung werden vollständig zensiert.
 // V233: Auslesbare Passwortanzeige über einen separaten AES-256-GCM-Passworttresor in Settings und Owner-Kontoverwaltung.
 // V232: Neu aufgebaute Owner-Kontoverwaltung mit sicherem Passwortreset, Suche, Filtern und verbessertem Layout.
@@ -15855,6 +15855,223 @@ homeHtml = function(...args) {
     return html.replace("</body>", nexuV234SettingsClientScript() + "</body>");
 };
 
+
+
+/* --------------------------------------------------------------------------
+ * NEXU V235 // DEDICATED SETTINGS PAGE + ENGLISH URL ROUTES
+ * Einstellungen laufen als echte Seite unter /settings. Sichtbare Navigation
+ * verwendet ausschließlich englische URL-Pfade; alte Pfade bleiben Redirects.
+ * -------------------------------------------------------------------------- */
+
+const NEXU_V235_BASE_HOME_HTML = homeHtml;
+const NEXU_V235_BASE_OVERVIEW_HTML = dashboardHtml;
+const NEXU_V235_BASE_ACCOUNTS_HTML = dashboardAccountsHtml;
+
+function nexuV235CanonicalizePublicPaths(html) {
+    if (typeof html !== "string") return html;
+    return html
+        .replaceAll('/api/uebersicht/runtime', '/api/overview/runtime')
+        .replaceAll('/menu-server/update/cancel', '/overview/update/cancel')
+        .replaceAll('href="/uebersicht', 'href="/overview')
+        .replaceAll("href='/uebersicht", "href='/overview")
+        .replaceAll('href="/menu-server', 'href="/overview')
+        .replaceAll("href='/menu-server", "href='/overview")
+        .replaceAll('window.location.replace("/uebersicht', 'window.location.replace("/overview')
+        .replaceAll("window.location.replace('/uebersicht", "window.location.replace('/overview")
+        .replaceAll('overviewLink.href="/uebersicht"', 'overviewLink.href="/overview"')
+        .replaceAll("overviewLink.href='/uebersicht'", "overviewLink.href='/overview'");
+}
+
+function nexuV235SettingsMenuLink(html) {
+    if (typeof html !== "string") return html;
+    return html.replace(
+        /<button id="openSettings" class="menu-item" type="button">([\s\S]*?)<\/button>/,
+        '<a class="menu-item nx-v235-settings-link" href="/settings">$1</a>'
+    );
+}
+
+function nexuV235AddSettingsNavigation(html, pageType) {
+    if (typeof html !== "string" || html.includes('nx-v235-direct-settings-link')) return html;
+    const localizedSettings = /<html\s+lang=["']en["']/i.test(html) ? 'Settings' : 'Einstellungen';
+    const link = '<a class="logout-button nx-v235-direct-settings-link" href="/settings" style="display:inline-flex;align-items:center;text-decoration:none;border-color:rgba(74,178,230,.32);color:var(--text);background:rgba(7,13,23,.72);">' + localizedSettings + '</a>';
+    if (pageType === 'overview') {
+        return html.replace('<form class="logout-form" method="post" action="/logout">', link + '<form class="logout-form" method="post" action="/logout">');
+    }
+    if (pageType === 'accounts') {
+        const overviewLabel = /<html\s+lang=["']en["']/i.test(html) ? 'Overview' : 'Übersicht';
+        const settingsLink = '<a class="nx-v232-link nx-v235-direct-settings-link" href="/settings">' + localizedSettings + '</a>';
+        const overviewLink = '<a class="nx-v232-link" href="/overview">' + overviewLabel + '</a>';
+        if (html.includes('<div class="nx-v232-top-actions">')) {
+            return html.replace(/(<div class="nx-v232-top-actions">[\s\S]*?)(<\/div>)/, '$1' + overviewLink + settingsLink + '$2');
+        }
+        const logoutPatterns = [
+            '<form class="logout-form" method="post" action="/logout">',
+            '<form method="post" action="/logout">'
+        ];
+        for (const pattern of logoutPatterns) {
+            if (html.includes(pattern)) return html.replace(pattern, link + pattern);
+        }
+    }
+    return html;
+}
+
+homeHtml = function(...args) {
+    let html = NEXU_V235_BASE_HOME_HTML(...args);
+    html = nexuV235CanonicalizePublicPaths(html);
+    html = nexuV235SettingsMenuLink(html);
+    return html;
+};
+
+dashboardHtml = function(...args) {
+    let html = NEXU_V235_BASE_OVERVIEW_HTML(...args);
+    html = nexuV235CanonicalizePublicPaths(html);
+    html = nexuV235AddSettingsNavigation(html, 'overview');
+    return html;
+};
+
+dashboardAccountsHtml = function(...args) {
+    let html = NEXU_V235_BASE_ACCOUNTS_HTML(...args);
+    html = nexuV235CanonicalizePublicPaths(html);
+    html = nexuV235AddSettingsNavigation(html, 'accounts');
+    return html;
+};
+
+function nexuV235AddBodyClass(html, className) {
+    return String(html || '').replace(/<body([^>]*)>/i, function(match, attributes) {
+        let next = attributes || '';
+        if (/\bclass\s*=\s*"[^"]*"/i.test(next)) {
+            next = next.replace(/\bclass\s*=\s*"([^"]*)"/i, function(_, current) {
+                const values = new Set(String(current || '').split(/\s+/).filter(Boolean));
+                values.add(className);
+                return 'class="' + Array.from(values).join(' ') + '"';
+            });
+        } else {
+            next += ' class="' + className + '"';
+        }
+        return '<body' + next + '>';
+    });
+}
+
+function nexuV235SettingsPageCss() {
+    return String.raw`
+/* NEXU V235 // DEDICATED SETTINGS PAGE */
+body.page-settings{
+    display:block !important;min-height:100vh !important;padding:0 !important;
+    overflow-x:hidden !important;overflow-y:auto !important;background:#02060c !important;
+}
+body.page-settings > main,
+body.page-settings > .nx-startup,
+body.page-settings > .nx-ambient,
+body.page-settings > .nx-progress-line,
+body.page-settings > [data-nexu-obfuscator-modal]{display:none !important;}
+body.page-home.page-settings #settingsModal.nx-v231-settings{
+    position:relative !important;inset:auto !important;z-index:10 !important;
+    width:100% !important;min-height:100vh !important;display:block !important;
+    padding:0 0 54px !important;overflow:visible !important;
+    background:
+        radial-gradient(circle at 15% 0%,color-mix(in srgb,var(--nx-user-accent) 16%,transparent),transparent 34rem),
+        radial-gradient(circle at 88% 8%,color-mix(in srgb,var(--nx-user-secondary) 15%,transparent),transparent 38rem),
+        linear-gradient(145deg,#02060c,#06101b 55%,#02060c) !important;
+    backdrop-filter:none !important;-webkit-backdrop-filter:none !important;
+}
+body.page-home.page-settings #settingsModal.nx-v231-settings.hidden{display:block !important;}
+.nx-v235-settings-topbar{
+    position:sticky;top:0;z-index:60;width:100%;border-bottom:1px solid rgba(102,205,255,.11);
+    background:rgba(2,8,15,.84);backdrop-filter:blur(22px) saturate(135%);-webkit-backdrop-filter:blur(22px) saturate(135%);
+}
+.nx-v235-settings-topbar-inner{
+    width:min(1280px,calc(100% - 34px));min-height:74px;margin:0 auto;display:flex;align-items:center;gap:20px;
+}
+.nx-v235-settings-brand{display:flex;align-items:center;gap:11px;color:#effaff;text-decoration:none;white-space:nowrap;}
+.nx-v235-settings-brand img{width:40px;height:40px;border-radius:12px;object-fit:cover;box-shadow:0 10px 26px color-mix(in srgb,var(--nx-user-accent) 22%,transparent);}
+.nx-v235-settings-brand strong{display:block;font-size:14px;}.nx-v235-settings-brand small{display:block;margin-top:2px;color:#658498;font-size:8px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;}
+.nx-v235-settings-nav{display:flex;align-items:center;gap:7px;margin-left:auto;}
+.nx-v235-settings-nav a{
+    min-height:38px;padding:0 13px;display:inline-flex;align-items:center;border:1px solid transparent;border-radius:11px;
+    color:#7999ac;text-decoration:none;font-size:10px;font-weight:850;letter-spacing:.035em;
+}
+.nx-v235-settings-nav a:hover{color:#e9faff;border-color:rgba(108,208,255,.15);background:rgba(255,255,255,.025);}
+.nx-v235-settings-nav a.active{color:#fff;border-color:color-mix(in srgb,var(--nx-user-accent) 30%,transparent);background:linear-gradient(135deg,color-mix(in srgb,var(--nx-user-accent) 15%,transparent),color-mix(in srgb,var(--nx-user-secondary) 10%,transparent));}
+.nx-v235-settings-logout{margin:0;}.nx-v235-settings-logout button{height:38px;padding:0 13px;border:1px solid rgba(255,100,130,.18);border-radius:11px;background:rgba(255,70,106,.055);color:#f39caf;font:inherit;font-size:9px;font-weight:900;cursor:pointer;}
+.nx-v235-settings-flash{width:min(1280px,calc(100% - 34px));margin:20px auto -6px;padding:13px 15px;border:1px solid rgba(100,207,255,.15);border-radius:13px;background:rgba(5,16,27,.82);color:#b7d5e4;font-size:10px;font-weight:750;}
+.nx-v235-settings-flash.success{border-color:rgba(69,245,177,.22);color:#9af1ca;}.nx-v235-settings-flash.error{border-color:rgba(255,91,126,.25);color:#ff9db3;}
+body.page-settings .nx-v231-settings-shell{
+    width:min(1280px,calc(100% - 34px)) !important;height:auto !important;min-height:calc(100vh - 134px) !important;
+    max-height:none !important;margin:24px auto 0 !important;overflow:visible !important;grid-template-columns:260px minmax(0,1fr) !important;
+    border-radius:26px !important;
+}
+body.page-settings .nx-v231-settings-sidebar{position:sticky;top:98px;align-self:start;min-height:calc(100vh - 150px) !important;border-radius:26px 0 0 26px;}
+body.page-settings .nx-v231-settings-main{height:auto !important;min-height:calc(100vh - 150px) !important;overflow:visible !important;padding:30px !important;}
+body.page-settings .nx-v231-settings-actions{bottom:0;margin-bottom:-30px;}
+body.page-settings .nx-v231-icon-button{display:inline-grid;text-decoration:none;}
+body.page-settings .nx-v235-page-cancel{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;}
+@media(max-width:900px){
+    .nx-v235-settings-topbar-inner{min-height:66px;gap:10px;}.nx-v235-settings-brand div{display:none;}
+    .nx-v235-settings-nav{overflow-x:auto;scrollbar-width:none;}.nx-v235-settings-nav::-webkit-scrollbar{display:none;}
+    body.page-settings .nx-v231-settings-shell{grid-template-columns:1fr !important;}
+    body.page-settings .nx-v231-settings-sidebar{position:relative;top:auto;min-height:0 !important;border-radius:24px 24px 0 0;}
+    body.page-settings .nx-v231-settings-main{min-height:0 !important;}
+}
+@media(max-width:620px){
+    .nx-v235-settings-topbar-inner,.nx-v235-settings-flash,body.page-settings .nx-v231-settings-shell{width:min(100% - 12px,1280px) !important;}
+    .nx-v235-settings-nav a{padding:0 9px;font-size:9px;}.nx-v235-settings-logout button{padding:0 9px;}
+    body.page-home.page-settings #settingsModal.nx-v231-settings{padding-bottom:12px !important;}
+    body.page-settings .nx-v231-settings-main{padding:18px !important;}
+    body.page-settings .nx-v231-settings-actions{margin-left:-18px;margin-right:-18px;margin-bottom:-18px;padding-left:18px;padding-right:18px;}
+}
+`;
+}
+
+function nexuV235SettingsHeader(account, english) {
+    const data = account && typeof account === 'object' ? account : {};
+    const overviewLink = canAccessMenuServer(data)
+        ? `<a href="/overview">${english ? 'Overview' : 'Übersicht'}</a>`
+        : '';
+    const accountsLink = canManageDashboardAccounts(data)
+        ? `<a href="/accounts">${english ? 'Accounts' : 'Accounts'}</a>`
+        : '';
+    const avatarUserId = cleanNumericId(data.robloxUserId);
+    const avatarUrl = avatarUserId ? `/api/roblox-avatar?userId=${encodeURIComponent(avatarUserId)}` : NEXU_BRAND_LOGO_DATA_URI;
+    return String.raw`<header class="nx-v235-settings-topbar"><div class="nx-v235-settings-topbar-inner">
+        <a class="nx-v235-settings-brand" href="/"><img src="${escapeHtml(avatarUrl)}" alt=""><div><strong>Nexu</strong><small>${english ? 'Account center' : 'Kontozentrale'}</small></div></a>
+        <nav class="nx-v235-settings-nav" aria-label="${english ? 'Page navigation' : 'Seitennavigation'}">
+            <a href="/">${english ? 'Home' : 'Startseite'}</a>${overviewLink}${accountsLink}<a class="active" href="/settings" aria-current="page">${english ? 'Settings' : 'Einstellungen'}</a>
+        </nav>
+        <form class="nx-v235-settings-logout" method="post" action="/logout"><button type="submit">${english ? 'SIGN OUT' : 'ABMELDEN'}</button></form>
+    </div></header>`;
+}
+
+function nexuV235SettingsPageHtml(notice = '', error = '', account = null) {
+    const data = account && typeof account === 'object' ? account : null;
+    if (!data) return homeHtml(notice, error, account);
+    const english = normalizeDashboardLanguage(data.language) === 'en';
+    let html = NEXU_V235_BASE_HOME_HTML('', '', data);
+    html = nexuV235CanonicalizePublicPaths(html);
+    html = nexuV235AddBodyClass(html, 'page-settings');
+    html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>Nexu ${english ? 'Settings' : 'Einstellungen'}</title>`);
+    html = html.replace('</style>', nexuV235SettingsPageCss() + '</style>');
+    html = html.replace(
+        '<div id="settingsModal" class="modal-backdrop hidden nx-v231-settings" aria-hidden="true">',
+        '<div id="settingsModal" class="modal-backdrop nx-v231-settings nx-v235-settings-page" aria-hidden="false">' + nexuV235SettingsHeader(data, english)
+    );
+    html = html.replace(
+        /<button id="closeSettings" class="nx-v231-icon-button" type="button" aria-label="([^"]*)">×<\/button>/,
+        '<a class="nx-v231-icon-button" href="/" aria-label="$1">×</a>'
+    );
+    html = html.replace(
+        /<button id="nxCancelSettings" class="nx-v231-button" type="button">([\s\S]*?)<\/button>/,
+        '<a class="nx-v231-button nx-v235-page-cancel" href="/">$1</a>'
+    );
+    const flash = error
+        ? `<div class="nx-v235-settings-flash error" role="alert">${escapeHtml(error)}</div>`
+        : notice
+            ? `<div class="nx-v235-settings-flash success" role="status">${escapeHtml(notice)}</div>`
+            : '';
+    if (flash) html = html.replace(/<\/header>\s*(<form id="nxSettingsForm")/, '</header>' + flash + '$1');
+    html = html.replace(/<script>[\s\S]*?document\.documentElement\.dataset\.nxSettingsFixV223[\s\S]*?<\/script>/, function(block) { return block; });
+    return html;
+}
+
 const server = http.createServer(async (req, res) => {const requestUrl = new URL(req.url, "http://localhost");const pathname = requestUrl.pathname;
 
 if (req.method === "GET" && pathname === "/api/health") {
@@ -16009,7 +16226,27 @@ if (req.method === "GET" && pathname === "/register") {
     return;
 }
 
+if (req.method === "GET" && pathname === "/settings") {
+    const session = getDashboardSession(req);
+    if (!session || !session.account) {
+        redirect(res, "/?auth=login");
+        return;
+    }
+    const notice = requestUrl.searchParams.get("updated") === "1"
+        ? "Kontoeinstellungen wurden gespeichert."
+        : requestUrl.searchParams.get("password") === "updated"
+            ? "Passwort wurde geändert. Andere Sitzungen wurden abgemeldet."
+            : "";
+    sendHtml(res, 200, nexuV235SettingsPageHtml(notice, "", session.account));
+    return;
+}
+
 if (req.method === "GET" && (pathname === "/menu-server" || pathname === "/uebersicht")) {
+    redirect(res, "/overview" + (requestUrl.search || ""));
+    return;
+}
+
+if (req.method === "GET" && pathname === "/overview") {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
         redirect(res, "/?auth=login");
@@ -16034,7 +16271,7 @@ if (req.method === "GET" && (pathname === "/menu-server" || pathname === "/ueber
     return;
 }
 
-if (req.method === "POST" && pathname === "/menu-server/update/cancel") {
+if (req.method === "POST" && (pathname === "/overview/update/cancel" || pathname === "/menu-server/update/cancel")) {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
         redirect(res, "/?auth=login");
@@ -16046,7 +16283,7 @@ if (req.method === "POST" && pathname === "/menu-server/update/cancel") {
     }
     const result = cancelMenuUpdate();
     console.log(`[NEXU] Skript-Aktualisierung ${result.wasActive ? "über Dashboard-Formular beendet" : "war bereits inaktiv"}: ${session.username}`);
-    redirect(res, result.wasActive ? "/uebersicht?update=cancelled" : "/uebersicht?update=already-inactive");
+    redirect(res, result.wasActive ? "/overview?update=cancelled" : "/overview?update=already-inactive");
     return;
 }
 
@@ -16368,19 +16605,19 @@ if (req.method === "POST" && pathname === "/account/password") {
         const newPassword = String(form.newPassword || "");
         const confirmPassword = String(form.confirmPassword || "");
         if (!validDashboardAccountPassword(session.account, currentPassword)) {
-            sendHtml(res, 403, homeHtml("", "Aktuelles Passwort ist falsch.", session.account));
+            sendHtml(res, 403, nexuV235SettingsPageHtml("", "Aktuelles Passwort ist falsch.", session.account));
             return;
         }
         if (newPassword.length < 8) {
-            sendHtml(res, 400, homeHtml("", "Das neue Passwort muss mindestens 8 Zeichen haben.", session.account));
+            sendHtml(res, 400, nexuV235SettingsPageHtml("", "Das neue Passwort muss mindestens 8 Zeichen haben.", session.account));
             return;
         }
         if (newPassword !== confirmPassword) {
-            sendHtml(res, 400, homeHtml("", "Neue Passwörter stimmen nicht überein.", session.account));
+            sendHtml(res, 400, nexuV235SettingsPageHtml("", "Neue Passwörter stimmen nicht überein.", session.account));
             return;
         }
         if (safeSecretEquals(sha256Hex(newPassword), session.account.passwordHash)) {
-            sendHtml(res, 400, homeHtml("", "Das neue Passwort muss sich vom aktuellen Passwort unterscheiden.", session.account));
+            sendHtml(res, 400, nexuV235SettingsPageHtml("", "Das neue Passwort muss sich vom aktuellen Passwort unterscheiden.", session.account));
             return;
         }
         const updated = normalizeDashboardAccount({
@@ -16391,12 +16628,12 @@ if (req.method === "POST" && pathname === "/account/password") {
             updatedAt: new Date().toISOString(),
         });
         if (!updated) {
-            sendHtml(res, 500, homeHtml("", "Passwort konnte nicht gespeichert werden.", session.account));
+            sendHtml(res, 500, nexuV235SettingsPageHtml("", "Passwort konnte nicht gespeichert werden.", session.account));
             return;
         }
         dashboardAccounts.set(updated.email, updated);
         if (!saveDashboardAccount()) {
-            sendHtml(res, 500, homeHtml("", "Passwort konnte nicht gespeichert werden.", session.account));
+            sendHtml(res, 500, nexuV235SettingsPageHtml("", "Passwort konnte nicht gespeichert werden.", session.account));
             return;
         }
         for (const [token, entry] of dashboardSessions) {
@@ -16415,11 +16652,11 @@ if (req.method === "POST" && pathname === "/account/password") {
             });
         }
         const refreshedToken = createDashboardSession(updated);
-        redirect(res, "/?password=updated", {
+        redirect(res, "/settings?password=updated", {
             "Set-Cookie": dashboardCookie(req, refreshedToken, DASHBOARD_SESSION_TTL_MS / 1000),
         });
     } catch (error) {
-        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, homeHtml("", "Passwortänderung konnte nicht verarbeitet werden.", session.account));
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, nexuV235SettingsPageHtml("", "Passwortänderung konnte nicht verarbeitet werden.", session.account));
     }
     return;
 }
@@ -16438,11 +16675,11 @@ if (req.method === "POST" && pathname === "/account/settings") {
         const preferences = normalizeNexuAccountPreferences(form);
 
         if (!nextUsername) {
-            sendHtml(res, 400, homeHtml("", "Benutzername ungültig. Erlaubt sind 3-80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", session.account));
+            sendHtml(res, 400, nexuV235SettingsPageHtml("", "Benutzername ungültig. Erlaubt sind 3-80 Zeichen: Buchstaben, Zahlen, Punkt, Unterstrich, @ und -.", session.account));
             return;
         }
         if (dashboardUsernameExists(nextUsername, session.account.email)) {
-            sendHtml(res, 409, homeHtml("", "Dieser Benutzername ist bereits vergeben.", session.account));
+            sendHtml(res, 409, nexuV235SettingsPageHtml("", "Dieser Benutzername ist bereits vergeben.", session.account));
             return;
         }
         const updated = normalizeDashboardAccount({
@@ -16453,12 +16690,12 @@ if (req.method === "POST" && pathname === "/account/settings") {
             updatedAt: new Date().toISOString(),
         });
         if (!updated) {
-            sendHtml(res, 500, homeHtml("", "Account konnte nicht gespeichert werden.", session.account));
+            sendHtml(res, 500, nexuV235SettingsPageHtml("", "Account konnte nicht gespeichert werden.", session.account));
             return;
         }
         dashboardAccounts.set(updated.email, updated);
         if (!saveDashboardAccount()) {
-            sendHtml(res, 500, homeHtml("", "Account konnte nicht gespeichert werden.", session.account));
+            sendHtml(res, 500, nexuV235SettingsPageHtml("", "Account konnte nicht gespeichert werden.", session.account));
             return;
         }
         if (session.token) {
@@ -16474,9 +16711,9 @@ if (req.method === "POST" && pathname === "/account/settings") {
             }
         }
         saveRememberedDashboardDevices();
-        redirect(res, "/?settings=updated");
+        redirect(res, "/settings?updated=1");
     } catch (error) {
-        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, homeHtml("", "Account-Einstellungen konnten nicht verarbeitet werden.", session.account));
+        sendHtml(res, error.message === "BODY_TOO_LARGE" ? 413 : 400, nexuV235SettingsPageHtml("", "Account-Einstellungen konnten nicht verarbeitet werden.", session.account));
     }
     return;
 }
@@ -16565,7 +16802,7 @@ if (req.method === "POST" && pathname === "/register/verify") {
 
 
 
-if (req.method === "GET" && pathname === "/api/uebersicht/runtime") {
+if (req.method === "GET" && (pathname === "/api/overview/runtime" || pathname === "/api/uebersicht/runtime")) {
     const session = getDashboardSession(req);
     if (!session || !session.account) {
         sendJson(res, 401, { success: false, error: "Anmeldung erforderlich" });
@@ -18474,7 +18711,7 @@ async function startNexuServer() {
         console.log("GitHub-Accountdatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_ACCOUNTS_PATH}`);
         console.log("Accountdatei-Verschlüsselung:", "AES-256-GCM");
         console.log("Passworttresor:", "AES-256-GCM // ON-DEMAND REVEAL");
-        console.log("Dashboard-Anmeldung: /");
+        console.log("Dashboard-Anmeldung: /");console.log("Settings-Seite: /settings");console.log("Übersicht: /overview");
         console.log("Übersichts-Konten:", dashboardAccounts.size);
         console.log("Owner-Account vorhanden:", getOwnerDashboardAccount() ? "JA" : "NEIN");console.log("Owner-Rundsendung:", getOwnerDashboardAccount() && hasDashboardPermission(getOwnerDashboardAccount(), "dm") ? "FREIGEGEBEN" : "NICHT FREIGEGEBEN");console.log("Owner-Session-Fix:", "V148 SIGNIERT UND NEUSTARTFEST");
         console.log("Öffentlicher Roblox/Luau-Obfuscator: /api/obfuscator // V234 UI POLISH + V233 PASSWORD VAULT + V232 ACCOUNT CENTER + V231 SETTINGS + V230 HIGH-CAPACITY NUMERIC-HEX // MEMORY-BATCHED // 150.000 ZEILEN // " + NEXU_OBFUSCATOR_MAX_INPUT_LABEL);
