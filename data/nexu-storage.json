@@ -13279,16 +13279,7 @@
       "lastSeenMs": 1784310000000
     }
   ],
-  "bans": [
-    {
-      "userId": "11290775764",
-      "username": "Flasche27200",
-      "displayName": "Flasche27200",
-      "reason": "test",
-      "bannedAt": "2026-07-20T00:38:24.741Z",
-      "bannedBy": "dashboard"
-    }
-  ],
+  "bans": [],
   "updateState": {
     "active": false,
     "startedAtMs": 0,
@@ -13341,5 +13332,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-20T00:38:27.245Z"
+  "updatedAt": "2026-07-20T00:38:57.810Z"
 }
