@@ -13429,8 +13429,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-20T04:31:31.408Z",
         "sentAtMs": 1784521891408
+      },
+      {
+        "id": 1784543662006004,
+        "userId": "121836899",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "joshuansantiago",
+        "displayName": "Emo_FadedPR",
+        "message": "how we get vip?",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-20T10:34:22.006Z",
+        "sentAtMs": 1784543662006
       }
     ]
   },
-  "updatedAt": "2026-07-20T10:31:02.340Z"
+  "updatedAt": "2026-07-20T10:34:23.034Z"
 }
