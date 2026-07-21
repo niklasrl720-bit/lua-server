@@ -5668,16 +5668,16 @@
       "displayName": "Emo_FadedPR",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "The Penthouse 🔊",
-      "placeId": 17619231559,
+      "gameName": "🌟 Free Boombox/Radio 🌟",
+      "placeId": 6116002492,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T23:18:37.449Z",
       "firstSeenMs": 1784503117449,
-      "lastSeen": "2026-07-21T07:30:00.000Z",
-      "lastSeenMs": 1784619000000
+      "lastSeen": "2026-07-21T07:35:00.000Z",
+      "lastSeenMs": 1784619300000
     },
     {
       "userId": "1231105181",
@@ -13589,5 +13589,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T07:31:03.890Z"
+  "updatedAt": "2026-07-21T07:36:05.494Z"
 }
