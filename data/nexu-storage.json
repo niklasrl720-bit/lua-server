@@ -1741,16 +1741,16 @@
       "displayName": "Trefttyli26",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[ВЕРХ] Просто базовая пластина.",
-      "placeId": 123974602339071,
+      "gameName": "Постройте лодку для сокровищ",
+      "placeId": 537413528,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T10:16:06.224Z",
       "firstSeenMs": 1784542566224,
-      "lastSeen": "2026-07-20T10:20:00.000Z",
-      "lastSeenMs": 1784542800000
+      "lastSeen": "2026-07-21T09:50:00.000Z",
+      "lastSeenMs": 1784627400000
     },
     {
       "userId": "10938747666",
@@ -8600,8 +8600,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-21T09:45:00.000Z",
-      "lastSeenMs": 1784627100000
+      "lastSeen": "2026-07-21T09:50:00.000Z",
+      "lastSeenMs": 1784627400000
     },
     {
       "userId": "5111527490",
@@ -9365,8 +9365,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T04:46:24.467Z",
       "firstSeenMs": 1784522784467,
-      "lastSeen": "2026-07-21T09:45:00.000Z",
-      "lastSeenMs": 1784627100000
+      "lastSeen": "2026-07-21T09:50:00.000Z",
+      "lastSeenMs": 1784627400000
     },
     {
       "userId": "6070402361",
@@ -13589,5 +13589,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T09:47:56.404Z"
+  "updatedAt": "2026-07-21T09:50:49.715Z"
 }
