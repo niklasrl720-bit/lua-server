@@ -886,6 +886,23 @@
       "lastSeenMs": 1784331900000
     },
     {
+      "userId": "10532819886",
+      "username": "2x2zxxx",
+      "displayName": "Noxstalker",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Создатель аватаров каталога",
+      "placeId": 7041939546,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-21T17:54:02.075Z",
+      "firstSeenMs": 1784656442075,
+      "lastSeen": "2026-07-21T17:54:02.075Z",
+      "lastSeenMs": 1784656442075
+    },
+    {
       "userId": "10534661561",
       "username": "Jeanpapazezi",
       "displayName": "Umh",
@@ -13623,5 +13640,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T17:52:40.498Z"
+  "updatedAt": "2026-07-21T17:54:07.081Z"
 }
