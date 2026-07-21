@@ -6161,16 +6161,16 @@
       "displayName": "JOY9415",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "עולם הכיף 🎉 - בואו לכיף ישראל",
-      "placeId": 7999948656,
+      "gameName": "🎉 [CH 4] Jailbreak",
+      "placeId": 606849621,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-18T18:56:59.270Z",
       "firstSeenMs": 1784401019270,
-      "lastSeen": "2026-07-18T18:56:59.270Z",
-      "lastSeenMs": 1784401019270
+      "lastSeen": "2026-07-21T23:35:00.000Z",
+      "lastSeenMs": 1784676900000
     },
     {
       "userId": "1989339160",
@@ -13641,5 +13641,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-21T23:36:02.941Z"
+  "updatedAt": "2026-07-21T23:39:10.888Z"
 }
