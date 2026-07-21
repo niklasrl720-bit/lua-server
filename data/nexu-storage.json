@@ -398,16 +398,16 @@
       "displayName": "znxklas198",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "MIKROFON HOCH 🔊",
-      "placeId": 6884319169,
+      "gameName": "Gefängnis-RP - Öffentlich",
+      "placeId": 102718061120016,
       "executionSource": "Madium",
       "executionVersion": "1.3.8.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-07-21T00:30:00.000Z",
-      "lastSeenMs": 1784593800000
+      "lastSeen": "2026-07-21T00:35:00.000Z",
+      "lastSeenMs": 1784594100000
     },
     {
       "userId": "10203550652",
@@ -13539,5 +13539,5 @@
     "resetAtMs": 1784584800006,
     "messages": []
   },
-  "updatedAt": "2026-07-21T00:34:30.794Z"
+  "updatedAt": "2026-07-21T00:36:34.572Z"
 }
