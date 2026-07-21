@@ -13636,26 +13636,10 @@
     "changedBy": ""
   },
   "chat": {
-    "dayKey": "2026-07-21",
-    "resetRevision": 5,
-    "resetAtMs": 1784584800006,
-    "messages": [
-      {
-        "id": 1784608319029001,
-        "userId": "1012891388",
-        "roleKey": "player",
-        "roleTitle": "PLAYERS",
-        "username": "KekePika250",
-        "displayName": "gogo",
-        "message": "oi",
-        "originalMessage": "",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-07-21T04:31:59.029Z",
-        "sentAtMs": 1784608319029
-      }
-    ]
+    "dayKey": "2026-07-22",
+    "resetRevision": 6,
+    "resetAtMs": 1784671200124,
+    "messages": []
   },
-  "updatedAt": "2026-07-21T21:56:04.602Z"
+  "updatedAt": "2026-07-21T22:00:00.922Z"
 }
