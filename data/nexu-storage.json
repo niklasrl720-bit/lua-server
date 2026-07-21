@@ -9391,16 +9391,16 @@
       "displayName": "Yuji",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "manía de paseo en carrito",
-      "placeId": 15090870288,
+      "gameName": "Desempaquetado del bloque de inodoro Skibidi afortunado",
+      "placeId": 82638887916462,
       "executionSource": "Delta",
       "executionVersion": "1.2.729.840",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T20:43:14.567Z",
       "firstSeenMs": 1784234594567,
-      "lastSeen": "2026-07-21T05:45:00.000Z",
-      "lastSeenMs": 1784612700000
+      "lastSeen": "2026-07-21T06:45:00.000Z",
+      "lastSeenMs": 1784616300000
     },
     {
       "userId": "6089503220",
@@ -13589,5 +13589,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T06:26:08.308Z"
+  "updatedAt": "2026-07-21T06:46:00.834Z"
 }
