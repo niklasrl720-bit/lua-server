@@ -6810,13 +6810,13 @@
       "gameName": "แข็งแกร่ง +1 ต่อวินาที 💪",
       "placeId": 11298617267,
       "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
+      "executionVersion": "1.2.729.840",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T18:56:20.081Z",
       "firstSeenMs": 1784573780081,
-      "lastSeen": "2026-07-20T21:05:00.000Z",
-      "lastSeenMs": 1784581500000
+      "lastSeen": "2026-07-21T19:05:00.000Z",
+      "lastSeenMs": 1784660700000
     },
     {
       "userId": "3232992051",
@@ -13657,5 +13657,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T19:06:01.173Z"
+  "updatedAt": "2026-07-21T19:08:10.448Z"
 }
