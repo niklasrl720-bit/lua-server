@@ -9391,16 +9391,16 @@
       "displayName": "Yuji",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Brookhaven 🏡 RP",
-      "placeId": 4924922222,
+      "gameName": "manía de paseo en carrito",
+      "placeId": 15090870288,
       "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
+      "executionVersion": "1.2.729.840",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T20:43:14.567Z",
       "firstSeenMs": 1784234594567,
-      "lastSeen": "2026-07-20T06:55:00.000Z",
-      "lastSeenMs": 1784530500000
+      "lastSeen": "2026-07-21T05:30:00.000Z",
+      "lastSeenMs": 1784611800000
     },
     {
       "userId": "6089503220",
@@ -13572,5 +13572,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T04:41:00.257Z"
+  "updatedAt": "2026-07-21T05:32:24.800Z"
 }
