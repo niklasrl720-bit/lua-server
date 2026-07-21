@@ -8031,16 +8031,16 @@
       "displayName": "SN099",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Nightbound",
-      "placeId": 137064773215574,
+      "gameName": "Carry Me! [2 Player Obby]",
+      "placeId": 14373879477,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T15:34:18.719Z",
       "firstSeenMs": 1784561658719,
-      "lastSeen": "2026-07-21T14:25:00.000Z",
-      "lastSeenMs": 1784643900000
+      "lastSeen": "2026-07-21T14:30:00.000Z",
+      "lastSeenMs": 1784644200000
     },
     {
       "userId": "4364080942",
@@ -13606,5 +13606,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T14:26:03.842Z"
+  "updatedAt": "2026-07-21T14:34:39.851Z"
 }
