@@ -5676,8 +5676,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T23:18:37.449Z",
       "firstSeenMs": 1784503117449,
-      "lastSeen": "2026-07-21T07:15:00.000Z",
-      "lastSeenMs": 1784618100000
+      "lastSeen": "2026-07-21T07:20:00.000Z",
+      "lastSeenMs": 1784618400000
     },
     {
       "userId": "1231105181",
@@ -8022,8 +8022,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T15:34:18.719Z",
       "firstSeenMs": 1784561658719,
-      "lastSeen": "2026-07-21T07:15:00.000Z",
-      "lastSeenMs": 1784618100000
+      "lastSeen": "2026-07-21T07:20:00.000Z",
+      "lastSeenMs": 1784618400000
     },
     {
       "userId": "4364080942",
@@ -9578,16 +9578,16 @@
       "displayName": "MrPancakeMan556",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🗺️YARIMADA] ENTRENCHED 🥀",
-      "placeId": 3678761576,
+      "gameName": "[🌊W102] Obby But You’re On a Bike",
+      "placeId": 14184086618,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T06:09:48.628Z",
       "firstSeenMs": 1784268588628,
-      "lastSeen": "2026-07-20T03:35:00.000Z",
-      "lastSeenMs": 1784518500000
+      "lastSeen": "2026-07-21T07:20:00.000Z",
+      "lastSeenMs": 1784618400000
     },
     {
       "userId": "7050793518",
@@ -13589,5 +13589,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T07:17:25.110Z"
+  "updatedAt": "2026-07-21T07:20:34.581Z"
 }
