@@ -1532,6 +1532,23 @@
       "lastSeenMs": 1784428296365
     },
     {
+      "userId": "1085761257",
+      "username": "fwforgot",
+      "displayName": "forgot",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Touch Hockey",
+      "placeId": 17018154575,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-21T03:58:49.126Z",
+      "firstSeenMs": 1784606329126,
+      "lastSeen": "2026-07-21T03:58:49.126Z",
+      "lastSeenMs": 1784606329126
+    },
+    {
       "userId": "10860088451",
       "username": "noname2r50",
       "displayName": "noname2r50",
@@ -13539,5 +13556,5 @@
     "resetAtMs": 1784584800006,
     "messages": []
   },
-  "updatedAt": "2026-07-21T02:01:01.079Z"
+  "updatedAt": "2026-07-21T03:58:54.133Z"
 }
