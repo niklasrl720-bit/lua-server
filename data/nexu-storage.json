@@ -9360,13 +9360,13 @@
       "gameName": "Magnate de la Mansión 🌴🏠",
       "placeId": 12912731475,
       "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
+      "executionVersion": "1.2.729.840",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T04:46:24.467Z",
       "firstSeenMs": 1784522784467,
-      "lastSeen": "2026-07-20T05:15:00.000Z",
-      "lastSeenMs": 1784524500000
+      "lastSeen": "2026-07-21T08:35:00.000Z",
+      "lastSeenMs": 1784622900000
     },
     {
       "userId": "6070402361",
@@ -13589,5 +13589,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T07:51:00.751Z"
+  "updatedAt": "2026-07-21T08:36:30.811Z"
 }
