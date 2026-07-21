@@ -172,6 +172,23 @@
       "lastSeenMs": 1784281800000
     },
     {
+      "userId": "10087156537",
+      "username": "r1ch40i",
+      "displayName": "r1ch40i",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Greek Voice 🔊",
+      "placeId": 91932055090151,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-21T16:18:13.338Z",
+      "firstSeenMs": 1784650693338,
+      "lastSeen": "2026-07-21T16:18:13.338Z",
+      "lastSeenMs": 1784650693338
+    },
+    {
       "userId": "10092070559",
       "username": "Aco233971",
       "displayName": "XDEMON",
@@ -13606,5 +13623,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T16:11:01.654Z"
+  "updatedAt": "2026-07-21T16:18:18.343Z"
 }
