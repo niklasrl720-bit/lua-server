@@ -5719,16 +5719,16 @@
       "displayName": "Emo_FadedPR",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "🌟 Free Boombox/Radio 🌟",
-      "placeId": 6116002492,
+      "gameName": "The Walking Dead Online 3 [BETA]",
+      "placeId": 128039018996175,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T23:18:37.449Z",
       "firstSeenMs": 1784503117449,
-      "lastSeen": "2026-07-21T07:40:00.000Z",
-      "lastSeenMs": 1784619600000
+      "lastSeen": "2026-07-21T19:15:00.000Z",
+      "lastSeenMs": 1784661300000
     },
     {
       "userId": "1231105181",
@@ -13657,5 +13657,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T19:16:00.028Z"
+  "updatedAt": "2026-07-21T19:19:18.518Z"
 }
