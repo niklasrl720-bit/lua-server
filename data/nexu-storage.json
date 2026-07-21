@@ -11154,6 +11154,23 @@
       "lastSeenMs": 1784322440288
     },
     {
+      "userId": "8314291524",
+      "username": "ghoulKtillmyqiunqe",
+      "displayName": "arima",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
+      "executionSource": "Real",
+      "executionVersion": "1.4.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-21T18:24:21.209Z",
+      "firstSeenMs": 1784658261209,
+      "lastSeen": "2026-07-21T18:24:21.209Z",
+      "lastSeenMs": 1784658261209
+    },
+    {
       "userId": "8321393734",
       "username": "Samsanti_92",
       "displayName": "Samsanti_92",
@@ -13640,5 +13657,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T18:21:00.345Z"
+  "updatedAt": "2026-07-21T18:24:26.217Z"
 }
