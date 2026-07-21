@@ -2144,6 +2144,23 @@
       "lastSeenMs": 1784244000000
     },
     {
+      "userId": "11033418806",
+      "username": "bellzkyz123",
+      "displayName": "bellzkyz123",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "แข็งแกร่ง +1 ต่อวินาที 💪",
+      "placeId": 11298617267,
+      "executionSource": "Delta",
+      "executionVersion": "1.2.729.840",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-21T12:33:42.677Z",
+      "firstSeenMs": 1784637222677,
+      "lastSeen": "2026-07-21T12:33:42.677Z",
+      "lastSeenMs": 1784637222677
+    },
+    {
       "userId": "11037073593",
       "username": "fdf5hcc5",
       "displayName": "Two",
@@ -13589,5 +13606,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T12:31:04.463Z"
+  "updatedAt": "2026-07-21T12:33:47.684Z"
 }
