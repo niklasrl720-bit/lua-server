@@ -13554,7 +13554,23 @@
     "dayKey": "2026-07-21",
     "resetRevision": 5,
     "resetAtMs": 1784584800006,
-    "messages": []
+    "messages": [
+      {
+        "id": 1784608319029001,
+        "userId": "1012891388",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "KekePika250",
+        "displayName": "gogo",
+        "message": "oi",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-21T04:31:59.029Z",
+        "sentAtMs": 1784608319029
+      }
+    ]
   },
-  "updatedAt": "2026-07-21T04:31:24.951Z"
+  "updatedAt": "2026-07-21T04:32:00.053Z"
 }
