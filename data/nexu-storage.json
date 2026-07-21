@@ -185,8 +185,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T16:18:13.338Z",
       "firstSeenMs": 1784650693338,
-      "lastSeen": "2026-07-21T16:55:00.000Z",
-      "lastSeenMs": 1784652900000
+      "lastSeen": "2026-07-21T17:00:00.000Z",
+      "lastSeenMs": 1784653200000
     },
     {
       "userId": "10092070559",
@@ -1367,16 +1367,16 @@
       "displayName": "LUCIFER",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "עולם הכיף 🎉 - בואו לכיף ישראל",
-      "placeId": 7999948656,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T15:16:24.130Z",
       "firstSeenMs": 1784560584130,
-      "lastSeen": "2026-07-21T16:05:00.000Z",
-      "lastSeenMs": 1784649900000
+      "lastSeen": "2026-07-21T17:00:00.000Z",
+      "lastSeenMs": 1784653200000
     },
     {
       "userId": "10768762997",
@@ -13623,5 +13623,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T16:56:01.939Z"
+  "updatedAt": "2026-07-21T17:00:32.595Z"
 }
