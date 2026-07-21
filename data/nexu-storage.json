@@ -8014,16 +8014,16 @@
       "displayName": "SN099",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "The Wild West",
-      "placeId": 2317712696,
+      "gameName": "NightboundLobby",
+      "placeId": 135739469505435,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T15:34:18.719Z",
       "firstSeenMs": 1784561658719,
-      "lastSeen": "2026-07-21T10:15:00.000Z",
-      "lastSeenMs": 1784628900000
+      "lastSeen": "2026-07-21T11:15:00.000Z",
+      "lastSeenMs": 1784632500000
     },
     {
       "userId": "4364080942",
@@ -13589,5 +13589,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T11:16:00.383Z"
+  "updatedAt": "2026-07-21T11:18:34.883Z"
 }
