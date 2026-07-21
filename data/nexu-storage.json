@@ -1741,16 +1741,16 @@
       "displayName": "Trefttyli26",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Постройте лодку для сокровищ",
-      "placeId": 537413528,
+      "gameName": "Том 1",
+      "placeId": 74672283292083,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T10:16:06.224Z",
       "firstSeenMs": 1784542566224,
-      "lastSeen": "2026-07-21T10:00:00.000Z",
-      "lastSeenMs": 1784628000000
+      "lastSeen": "2026-07-21T10:15:00.000Z",
+      "lastSeenMs": 1784628900000
     },
     {
       "userId": "10938747666",
@@ -13589,5 +13589,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T10:16:05.686Z"
+  "updatedAt": "2026-07-21T10:18:28.778Z"
 }
