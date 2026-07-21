@@ -10882,6 +10882,23 @@
       "lastSeenMs": 1784228100000
     },
     {
+      "userId": "8085495916",
+      "username": "PIKUTO2525",
+      "displayName": "takana",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "動物病院",
+      "placeId": 104522435597696,
+      "executionSource": "Delta",
+      "executionVersion": "1.2.729.840",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-21T05:32:31.020Z",
+      "firstSeenMs": 1784611951020,
+      "lastSeen": "2026-07-21T05:32:31.020Z",
+      "lastSeenMs": 1784611951020
+    },
+    {
       "userId": "8094696043",
       "username": "sifou_928",
       "displayName": "itz_okk",
@@ -13572,5 +13589,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T05:32:24.800Z"
+  "updatedAt": "2026-07-21T05:32:36.026Z"
 }
