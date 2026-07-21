@@ -12995,16 +12995,16 @@
       "displayName": "TungTungTungSahur",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Mordgeheimnis 2",
-      "placeId": 142823291,
+      "gameName": "Deutsche Stimme",
+      "placeId": 136162036182779,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T16:22:13.832Z",
       "firstSeenMs": 1784564533832,
-      "lastSeen": "2026-07-21T16:10:00.000Z",
-      "lastSeenMs": 1784650200000
+      "lastSeen": "2026-07-21T17:40:00.000Z",
+      "lastSeenMs": 1784655600000
     },
     {
       "userId": "9560485554",
@@ -13623,5 +13623,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T17:41:01.675Z"
+  "updatedAt": "2026-07-21T17:41:42.710Z"
 }
