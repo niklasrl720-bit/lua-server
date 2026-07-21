@@ -8031,16 +8031,16 @@
       "displayName": "SN099",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "NightboundLobby",
-      "placeId": 135739469505435,
+      "gameName": "Nightbound",
+      "placeId": 137064773215574,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T15:34:18.719Z",
       "firstSeenMs": 1784561658719,
-      "lastSeen": "2026-07-21T11:20:00.000Z",
-      "lastSeenMs": 1784632800000
+      "lastSeen": "2026-07-21T13:20:00.000Z",
+      "lastSeenMs": 1784640000000
     },
     {
       "userId": "4364080942",
@@ -13606,5 +13606,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-21T13:01:00.421Z"
+  "updatedAt": "2026-07-21T13:23:08.697Z"
 }
