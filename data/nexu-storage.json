@@ -10338,6 +10338,23 @@
       "lastSeenMs": 1784417281996
     },
     {
+      "userId": "7686500176",
+      "username": "ALXMNKT",
+      "displayName": "resurrectings",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[⚽SOCCER]🦎 Chameleon!",
+      "placeId": 74511210941284,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-22T20:53:42.926Z",
+      "firstSeenMs": 1784753622926,
+      "lastSeen": "2026-07-22T20:53:42.926Z",
+      "lastSeenMs": 1784753622926
+    },
+    {
       "userId": "7692971188",
       "username": "dunglele3",
       "displayName": "Nk_admin",
@@ -13692,5 +13709,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T20:52:40.618Z"
+  "updatedAt": "2026-07-22T20:53:47.931Z"
 }
