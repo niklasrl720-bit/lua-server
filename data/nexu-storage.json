@@ -2208,8 +2208,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T12:33:42.677Z",
       "firstSeenMs": 1784637222677,
-      "lastSeen": "2026-07-22T19:05:00.000Z",
-      "lastSeenMs": 1784747100000
+      "lastSeen": "2026-07-22T19:10:00.000Z",
+      "lastSeenMs": 1784747400000
     },
     {
       "userId": "11037073593",
@@ -13080,16 +13080,16 @@
       "displayName": "Boi67",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "ASMR-Keyboard-Turm 🎧",
-      "placeId": 83471552202911,
+      "gameName": "Deutsche Stimme",
+      "placeId": 136162036182779,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T16:22:13.832Z",
       "firstSeenMs": 1784564533832,
-      "lastSeen": "2026-07-22T14:35:00.000Z",
-      "lastSeenMs": 1784730900000
+      "lastSeen": "2026-07-22T19:10:00.000Z",
+      "lastSeenMs": 1784747400000
     },
     {
       "userId": "9560485554",
@@ -13692,5 +13692,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T19:06:05.866Z"
+  "updatedAt": "2026-07-22T19:10:28.814Z"
 }
