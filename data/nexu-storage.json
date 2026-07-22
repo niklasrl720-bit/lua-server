@@ -4393,8 +4393,8 @@
       "displayName": "jogadorapost",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Tycoon de Poderes Elementares",
-      "placeId": 10253248401,
+      "gameName": "Roube um Brainrot [Novos Servidores de Jogadores]",
+      "placeId": 96342491571673,
       "executionSource": "Delta",
       "executionVersion": "1.2.729.840",
       "clientPlatform": "Android",
@@ -13692,5 +13692,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T16:36:02.063Z"
+  "updatedAt": "2026-07-22T16:39:15.343Z"
 }
