@@ -1724,16 +1724,16 @@
       "displayName": "darkF711",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "+1 Pickaxe Swing Escape",
-      "placeId": 82554996468034,
+      "gameName": "Aimbot Shooter",
+      "placeId": 139579714097474,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T23:43:34.521Z",
       "firstSeenMs": 1784591014521,
-      "lastSeen": "2026-07-22T20:45:00.000Z",
-      "lastSeenMs": 1784753100000
+      "lastSeen": "2026-07-22T20:50:00.000Z",
+      "lastSeenMs": 1784753400000
     },
     {
       "userId": "10930195997",
@@ -2208,8 +2208,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T12:33:42.677Z",
       "firstSeenMs": 1784637222677,
-      "lastSeen": "2026-07-22T20:45:00.000Z",
-      "lastSeenMs": 1784753100000
+      "lastSeen": "2026-07-22T20:50:00.000Z",
+      "lastSeenMs": 1784753400000
     },
     {
       "userId": "11037073593",
@@ -13692,5 +13692,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T20:46:00.824Z"
+  "updatedAt": "2026-07-22T20:50:48.178Z"
 }
