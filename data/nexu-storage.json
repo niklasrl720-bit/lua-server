@@ -12004,6 +12004,23 @@
       "lastSeenMs": 1784328900000
     },
     {
+      "userId": "8823336441",
+      "username": "dih_bouncer",
+      "displayName": "dih_bouncer",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Dog Walk 🐶 [2 Player Obby]",
+      "placeId": 99758842280353,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-22T23:08:32.055Z",
+      "firstSeenMs": 1784761712055,
+      "lastSeen": "2026-07-22T23:08:32.055Z",
+      "lastSeenMs": 1784761712055
+    },
+    {
       "userId": "8825146444",
       "username": "joandk12",
       "displayName": "4x_naoya",
@@ -13709,5 +13726,5 @@
     "resetAtMs": 1784757600154,
     "messages": []
   },
-  "updatedAt": "2026-07-22T23:06:02.759Z"
+  "updatedAt": "2026-07-22T23:08:37.060Z"
 }
