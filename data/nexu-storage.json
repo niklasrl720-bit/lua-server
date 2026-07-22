@@ -13043,7 +13043,7 @@
     {
       "userId": "9558589496",
       "username": "Levi2cm",
-      "displayName": "TungTungTungSahur",
+      "displayName": "Boi67",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
       "gameName": "Deutsche Stimme",
@@ -13054,8 +13054,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T16:22:13.832Z",
       "firstSeenMs": 1784564533832,
-      "lastSeen": "2026-07-22T10:30:00.000Z",
-      "lastSeenMs": 1784716200000
+      "lastSeen": "2026-07-22T11:40:00.000Z",
+      "lastSeenMs": 1784720400000
     },
     {
       "userId": "9560485554",
@@ -13658,5 +13658,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T10:31:01.434Z"
+  "updatedAt": "2026-07-22T11:41:00.260Z"
 }
