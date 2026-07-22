@@ -13284,16 +13284,16 @@
       "displayName": "KingXD4081",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🔥AURA] Phonk Edit Tower 🎶",
-      "placeId": 101480963912212,
+      "gameName": "FUSE| +1 Speed Keyboard Escape | Candy & Chocolate",
+      "placeId": 95082159892680,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-17T18:40:00.000Z",
-      "lastSeenMs": 1784313600000
+      "lastSeen": "2026-07-22T11:45:00.000Z",
+      "lastSeenMs": 1784720700000
     },
     {
       "userId": "9786800904",
@@ -13658,5 +13658,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T11:46:00.352Z"
+  "updatedAt": "2026-07-22T11:49:23.607Z"
 }
