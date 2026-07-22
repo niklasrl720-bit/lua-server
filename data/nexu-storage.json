@@ -185,8 +185,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T16:18:13.338Z",
       "firstSeenMs": 1784650693338,
-      "lastSeen": "2026-07-22T02:25:00.000Z",
-      "lastSeenMs": 1784687100000
+      "lastSeen": "2026-07-22T02:30:00.000Z",
+      "lastSeenMs": 1784687400000
     },
     {
       "userId": "10092070559",
@@ -5736,16 +5736,16 @@
       "displayName": "Emo_FadedPR",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "MIC UP 🔊 18+",
-      "placeId": 15546218972,
+      "gameName": "[UPDATE] Fix It Up!",
+      "placeId": 72712036210947,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T23:18:37.449Z",
       "firstSeenMs": 1784503117449,
-      "lastSeen": "2026-07-22T02:00:00.000Z",
-      "lastSeenMs": 1784685600000
+      "lastSeen": "2026-07-22T02:30:00.000Z",
+      "lastSeenMs": 1784687400000
     },
     {
       "userId": "1231105181",
@@ -5829,8 +5829,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T23:51:29.415Z",
       "firstSeenMs": 1784245889415,
-      "lastSeen": "2026-07-22T02:25:00.000Z",
-      "lastSeenMs": 1784687100000
+      "lastSeen": "2026-07-22T02:30:00.000Z",
+      "lastSeenMs": 1784687400000
     },
     {
       "userId": "1407975513",
@@ -13658,5 +13658,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T02:26:02.382Z"
+  "updatedAt": "2026-07-22T02:30:07.832Z"
 }
