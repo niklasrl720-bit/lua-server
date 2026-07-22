@@ -13046,16 +13046,16 @@
       "displayName": "Boi67",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🎯] MM2: PVP",
-      "placeId": 83325975879599,
+      "gameName": "ASMR-Keyboard-Turm 🎧",
+      "placeId": 83471552202911,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T16:22:13.832Z",
       "firstSeenMs": 1784564533832,
-      "lastSeen": "2026-07-22T14:05:00.000Z",
-      "lastSeenMs": 1784729100000
+      "lastSeen": "2026-07-22T14:20:00.000Z",
+      "lastSeenMs": 1784730000000
     },
     {
       "userId": "9560485554",
@@ -13658,5 +13658,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T14:21:07.462Z"
+  "updatedAt": "2026-07-22T14:23:39.372Z"
 }
