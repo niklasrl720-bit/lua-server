@@ -12009,16 +12009,16 @@
       "displayName": "dih_bouncer",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Dog Walk 🐶 [2 Player Obby]",
-      "placeId": 99758842280353,
+      "gameName": "Get hit by a TRUCK!",
+      "placeId": 92566878532403,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-22T23:08:32.055Z",
       "firstSeenMs": 1784761712055,
-      "lastSeen": "2026-07-22T23:08:32.055Z",
-      "lastSeenMs": 1784761712055
+      "lastSeen": "2026-07-22T23:10:00.000Z",
+      "lastSeenMs": 1784761800000
     },
     {
       "userId": "8825146444",
@@ -13726,5 +13726,5 @@
     "resetAtMs": 1784757600154,
     "messages": []
   },
-  "updatedAt": "2026-07-22T23:11:02.026Z"
+  "updatedAt": "2026-07-22T23:11:15.871Z"
 }
