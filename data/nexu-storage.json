@@ -2208,8 +2208,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T12:33:42.677Z",
       "firstSeenMs": 1784637222677,
-      "lastSeen": "2026-07-22T16:15:00.000Z",
-      "lastSeenMs": 1784736900000
+      "lastSeen": "2026-07-22T16:20:00.000Z",
+      "lastSeenMs": 1784737200000
     },
     {
       "userId": "11037073593",
@@ -4386,6 +4386,23 @@
       "firstSeenMs": 1784296529889,
       "lastSeen": "2026-07-17T17:40:00.000Z",
       "lastSeenMs": 1784310000000
+    },
+    {
+      "userId": "11286729222",
+      "username": "jogadorapost",
+      "displayName": "jogadorapost",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Tycoon de Poderes Elementares",
+      "placeId": 10253248401,
+      "executionSource": "Delta",
+      "executionVersion": "1.2.729.840",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-22T16:20:25.249Z",
+      "firstSeenMs": 1784737225249,
+      "lastSeen": "2026-07-22T16:20:25.249Z",
+      "lastSeenMs": 1784737225249
     },
     {
       "userId": "11287230344",
@@ -13675,5 +13692,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T16:16:03.757Z"
+  "updatedAt": "2026-07-22T16:20:30.256Z"
 }
