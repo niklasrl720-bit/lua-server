@@ -7725,16 +7725,16 @@
       "displayName": "Macaronii",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🚓 POLICE] Roanoke, VA Driving RP",
-      "placeId": 2418863943,
+      "gameName": "☢️ +1 Speed Keyboard: Escape the Backrooms",
+      "placeId": 72409505931586,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T00:39:03.817Z",
       "firstSeenMs": 1784248743817,
-      "lastSeen": "2026-07-17T05:50:00.000Z",
-      "lastSeenMs": 1784267400000
+      "lastSeen": "2026-07-22T06:15:00.000Z",
+      "lastSeenMs": 1784700900000
     },
     {
       "userId": "4116981317",
@@ -13658,5 +13658,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T05:37:14.137Z"
+  "updatedAt": "2026-07-22T06:19:16.349Z"
 }
