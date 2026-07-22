@@ -12536,16 +12536,16 @@
       "displayName": "Femto",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Fuga da Prisão de Erling Haaland! (Obby)",
-      "placeId": 110560446797236,
+      "gameName": "MushYO! 🔊",
+      "placeId": 17274762379,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-22T07:00:00.000Z",
-      "lastSeenMs": 1784703600000
+      "lastSeen": "2026-07-22T15:30:00.000Z",
+      "lastSeenMs": 1784734200000
     },
     {
       "userId": "9262341195",
@@ -13675,5 +13675,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T15:31:02.912Z"
+  "updatedAt": "2026-07-22T15:33:51.384Z"
 }
