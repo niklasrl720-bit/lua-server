@@ -12366,16 +12366,16 @@
       "displayName": "skrappz",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Murder Mystery 2",
-      "placeId": 142823291,
+      "gameName": "[⚽SOCCER]🦎 Chameleon!",
+      "placeId": 74511210941284,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-21T19:55:00.000Z",
-      "lastSeenMs": 1784663700000
+      "lastSeen": "2026-07-22T20:50:00.000Z",
+      "lastSeenMs": 1784753400000
     },
     {
       "userId": "9123569216",
@@ -13692,5 +13692,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T20:50:48.178Z"
+  "updatedAt": "2026-07-22T20:52:40.618Z"
 }
