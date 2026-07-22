@@ -1724,16 +1724,16 @@
       "displayName": "darkF711",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "RIVALS",
-      "placeId": 17625359962,
+      "gameName": "+1 Pickaxe Swing Escape",
+      "placeId": 82554996468034,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T23:43:34.521Z",
       "firstSeenMs": 1784591014521,
-      "lastSeen": "2026-07-20T23:45:00.000Z",
-      "lastSeenMs": 1784591100000
+      "lastSeen": "2026-07-22T20:35:00.000Z",
+      "lastSeenMs": 1784752500000
     },
     {
       "userId": "10930195997",
@@ -13692,5 +13692,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T20:36:02.304Z"
+  "updatedAt": "2026-07-22T20:37:32.047Z"
 }
