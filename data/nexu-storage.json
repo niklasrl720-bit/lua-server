@@ -5736,16 +5736,16 @@
       "displayName": "Emo_FadedPR",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[UPDATE] Fix It Up!",
-      "placeId": 72712036210947,
+      "gameName": "The Penthouse 🔊",
+      "placeId": 17619231559,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T23:18:37.449Z",
       "firstSeenMs": 1784503117449,
-      "lastSeen": "2026-07-22T02:30:00.000Z",
-      "lastSeenMs": 1784687400000
+      "lastSeen": "2026-07-22T02:45:00.000Z",
+      "lastSeenMs": 1784688300000
     },
     {
       "userId": "1231105181",
@@ -13658,5 +13658,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T02:46:04.544Z"
+  "updatedAt": "2026-07-22T02:47:15.551Z"
 }
