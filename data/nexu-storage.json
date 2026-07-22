@@ -5736,16 +5736,16 @@
       "displayName": "Emo_FadedPR",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "The Penthouse 🔊",
-      "placeId": 17619231559,
+      "gameName": "MIC UP 🔊 18+",
+      "placeId": 15546218972,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T23:18:37.449Z",
       "firstSeenMs": 1784503117449,
-      "lastSeen": "2026-07-22T03:00:00.000Z",
-      "lastSeenMs": 1784689200000
+      "lastSeen": "2026-07-22T03:45:00.000Z",
+      "lastSeenMs": 1784691900000
     },
     {
       "userId": "1231105181",
@@ -13658,5 +13658,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T03:25:00.785Z"
+  "updatedAt": "2026-07-22T03:48:39.251Z"
 }
