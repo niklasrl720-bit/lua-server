@@ -5736,16 +5736,16 @@
       "displayName": "Emo_FadedPR",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "MIC UP 🔊 18+",
-      "placeId": 15546218972,
+      "gameName": "The Walking Dead Online 3 [BETA]",
+      "placeId": 128039018996175,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T23:18:37.449Z",
       "firstSeenMs": 1784503117449,
-      "lastSeen": "2026-07-22T04:20:00.000Z",
-      "lastSeenMs": 1784694000000
+      "lastSeen": "2026-07-22T04:30:00.000Z",
+      "lastSeenMs": 1784694600000
     },
     {
       "userId": "1231105181",
@@ -13658,5 +13658,5 @@
     "resetAtMs": 1784671200124,
     "messages": []
   },
-  "updatedAt": "2026-07-22T04:21:06.210Z"
+  "updatedAt": "2026-07-22T04:30:26.633Z"
 }
