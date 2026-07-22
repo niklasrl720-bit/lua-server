@@ -185,8 +185,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T16:18:13.338Z",
       "firstSeenMs": 1784650693338,
-      "lastSeen": "2026-07-22T23:10:00.000Z",
-      "lastSeenMs": 1784761800000
+      "lastSeen": "2026-07-22T23:15:00.000Z",
+      "lastSeenMs": 1784762100000
     },
     {
       "userId": "10092070559",
@@ -12009,16 +12009,16 @@
       "displayName": "dih_bouncer",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Get hit by a TRUCK!",
-      "placeId": 92566878532403,
+      "gameName": "Steal Ice Cream from Kids! 🍦",
+      "placeId": 90427575650929,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-22T23:08:32.055Z",
       "firstSeenMs": 1784761712055,
-      "lastSeen": "2026-07-22T23:10:00.000Z",
-      "lastSeenMs": 1784761800000
+      "lastSeen": "2026-07-22T23:15:00.000Z",
+      "lastSeenMs": 1784762100000
     },
     {
       "userId": "8825146444",
@@ -12731,8 +12731,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T01:31:02.186Z",
       "firstSeenMs": 1784251862186,
-      "lastSeen": "2026-07-22T23:10:00.000Z",
-      "lastSeenMs": 1784761800000
+      "lastSeen": "2026-07-22T23:15:00.000Z",
+      "lastSeenMs": 1784762100000
     },
     {
       "userId": "9381857341",
@@ -13726,5 +13726,5 @@
     "resetAtMs": 1784757600154,
     "messages": []
   },
-  "updatedAt": "2026-07-22T23:11:15.871Z"
+  "updatedAt": "2026-07-22T23:15:33.146Z"
 }
