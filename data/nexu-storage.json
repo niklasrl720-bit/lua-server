@@ -5731,6 +5731,23 @@
       "lastSeenMs": 1784590500000
     },
     {
+      "userId": "11334968368",
+      "username": "Gatoze016",
+      "displayName": "Gatoze016",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Rencontrez des gens dans le monde entier 🔊",
+      "placeId": 78699621133325,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-23T01:36:53.014Z",
+      "firstSeenMs": 1784770613014,
+      "lastSeen": "2026-07-23T01:36:53.014Z",
+      "lastSeenMs": 1784770613014
+    },
+    {
       "userId": "1177195747",
       "username": "giovajaket",
       "displayName": "ggiova_101",
@@ -13743,5 +13760,5 @@
     "resetAtMs": 1784757600154,
     "messages": []
   },
-  "updatedAt": "2026-07-23T01:36:04.841Z"
+  "updatedAt": "2026-07-23T01:36:58.019Z"
 }
