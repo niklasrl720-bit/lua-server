@@ -7767,8 +7767,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T00:39:03.817Z",
       "firstSeenMs": 1784248743817,
-      "lastSeen": "2026-07-23T10:45:00.000Z",
-      "lastSeenMs": 1784803500000
+      "lastSeen": "2026-07-23T10:50:00.000Z",
+      "lastSeenMs": 1784803800000
     },
     {
       "userId": "4116981317",
@@ -13165,7 +13165,7 @@
       "displayName": "Boi67",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Deutsche Stimme",
+      "gameName": "UNBAN-Welle | Deutsche Stimme",
       "placeId": 136162036182779,
       "executionSource": "Solara",
       "executionVersion": "3.0",
@@ -13173,8 +13173,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T16:22:13.832Z",
       "firstSeenMs": 1784564533832,
-      "lastSeen": "2026-07-22T21:50:00.000Z",
-      "lastSeenMs": 1784757000000
+      "lastSeen": "2026-07-23T10:50:00.000Z",
+      "lastSeenMs": 1784803800000
     },
     {
       "userId": "9560485554",
@@ -13823,5 +13823,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T10:47:19.011Z"
+  "updatedAt": "2026-07-23T10:50:53.309Z"
 }
