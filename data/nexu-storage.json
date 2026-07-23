@@ -7759,16 +7759,16 @@
       "displayName": "Macaronii",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Vehicle Legends 🏎️ Cars!",
-      "placeId": 4566572536,
+      "gameName": "[VOLVO] Driving Empire 🏎️ Car Racing📦RP",
+      "placeId": 3351674303,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T00:39:03.817Z",
       "firstSeenMs": 1784248743817,
-      "lastSeen": "2026-07-23T09:55:00.000Z",
-      "lastSeenMs": 1784800500000
+      "lastSeen": "2026-07-23T10:45:00.000Z",
+      "lastSeenMs": 1784803500000
     },
     {
       "userId": "4116981317",
@@ -13823,5 +13823,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T10:21:01.214Z"
+  "updatedAt": "2026-07-23T10:47:19.011Z"
 }
