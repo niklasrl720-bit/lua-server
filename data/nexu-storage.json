@@ -185,8 +185,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T16:18:13.338Z",
       "firstSeenMs": 1784650693338,
-      "lastSeen": "2026-07-23T05:35:00.000Z",
-      "lastSeenMs": 1784784900000
+      "lastSeen": "2026-07-23T05:40:00.000Z",
+      "lastSeenMs": 1784785200000
     },
     {
       "userId": "10092070559",
@@ -1392,8 +1392,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T15:16:24.130Z",
       "firstSeenMs": 1784560584130,
-      "lastSeen": "2026-07-23T05:35:00.000Z",
-      "lastSeenMs": 1784784900000
+      "lastSeen": "2026-07-23T05:40:00.000Z",
+      "lastSeenMs": 1784785200000
     },
     {
       "userId": "10768762997",
@@ -7759,16 +7759,16 @@
       "displayName": "Macaronii",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "WORLD 2",
-      "placeId": 83969013041344,
+      "gameName": "[VOLVO] Driving Empire 🏎️ Car Racing📦RP",
+      "placeId": 3351674303,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T00:39:03.817Z",
       "firstSeenMs": 1784248743817,
-      "lastSeen": "2026-07-22T06:40:00.000Z",
-      "lastSeenMs": 1784702400000
+      "lastSeen": "2026-07-23T05:40:00.000Z",
+      "lastSeenMs": 1784785200000
     },
     {
       "userId": "4116981317",
@@ -13791,5 +13791,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T05:36:03.311Z"
+  "updatedAt": "2026-07-23T05:40:46.388Z"
 }
