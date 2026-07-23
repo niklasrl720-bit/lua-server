@@ -7776,16 +7776,16 @@
       "displayName": "Macaronii",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "🌊 Dragon Fighters Tsunami Escape!",
-      "placeId": 127426371793697,
+      "gameName": "[VOLVO] Driving Empire 🏎️ Car Racing📦RP",
+      "placeId": 3351674303,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T00:39:03.817Z",
       "firstSeenMs": 1784248743817,
-      "lastSeen": "2026-07-23T11:35:00.000Z",
-      "lastSeenMs": 1784806500000
+      "lastSeen": "2026-07-23T22:00:00.000Z",
+      "lastSeenMs": 1784844000000
     },
     {
       "userId": "4116981317",
@@ -13811,5 +13811,5 @@
     "resetAtMs": 1784844000178,
     "messages": []
   },
-  "updatedAt": "2026-07-23T22:01:05.003Z"
+  "updatedAt": "2026-07-23T22:04:50.492Z"
 }
