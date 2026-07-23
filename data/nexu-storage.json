@@ -13758,7 +13758,23 @@
     "dayKey": "2026-07-23",
     "resetRevision": 7,
     "resetAtMs": 1784757600154,
-    "messages": []
+    "messages": [
+      {
+        "id": 1784781668827002,
+        "userId": "10767901292",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "youRkID_6",
+        "displayName": "LUCIFER",
+        "message": "HOW I GET VIP ?",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-23T04:41:08.827Z",
+        "sentAtMs": 1784781668827
+      }
+    ]
   },
-  "updatedAt": "2026-07-23T04:41:01.655Z"
+  "updatedAt": "2026-07-23T04:41:09.901Z"
 }
