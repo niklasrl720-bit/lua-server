@@ -5736,16 +5736,16 @@
       "displayName": "Gatoze016",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Emden d'urgence",
-      "placeId": 12716055617,
+      "gameName": "Mise en micro tunisienne | 🔊",
+      "placeId": 75589258781566,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-23T01:36:53.014Z",
       "firstSeenMs": 1784770613014,
-      "lastSeen": "2026-07-23T02:10:00.000Z",
-      "lastSeenMs": 1784772600000
+      "lastSeen": "2026-07-23T02:20:00.000Z",
+      "lastSeenMs": 1784773200000
     },
     {
       "userId": "1177195747",
@@ -13760,5 +13760,5 @@
     "resetAtMs": 1784757600154,
     "messages": []
   },
-  "updatedAt": "2026-07-23T02:12:36.484Z"
+  "updatedAt": "2026-07-23T02:22:33.709Z"
 }
