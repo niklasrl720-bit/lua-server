@@ -185,8 +185,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T16:18:13.338Z",
       "firstSeenMs": 1784650693338,
-      "lastSeen": "2026-07-23T07:45:00.000Z",
-      "lastSeenMs": 1784792700000
+      "lastSeen": "2026-07-23T07:50:00.000Z",
+      "lastSeenMs": 1784793000000
     },
     {
       "userId": "10092070559",
@@ -12621,16 +12621,16 @@
       "displayName": "Femto",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "🚩Expedição Antártica",
-      "placeId": 2693023319,
+      "gameName": "MushYO! 🔊",
+      "placeId": 17274762379,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-23T04:10:00.000Z",
-      "lastSeenMs": 1784779800000
+      "lastSeen": "2026-07-23T07:50:00.000Z",
+      "lastSeenMs": 1784793000000
     },
     {
       "userId": "9262341195",
@@ -13806,5 +13806,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T07:46:00.438Z"
+  "updatedAt": "2026-07-23T07:50:53.054Z"
 }
