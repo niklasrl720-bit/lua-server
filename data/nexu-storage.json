@@ -3033,16 +3033,16 @@
       "displayName": "p_nickbroski",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Prison Life",
-      "placeId": 155615604,
+      "gameName": "Chicken Farm 🐣",
+      "placeId": 137233438285284,
       "executionSource": "Delta",
       "executionVersion": "1.2.729.840",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-23T19:50:35.483Z",
       "firstSeenMs": 1784836235483,
-      "lastSeen": "2026-07-23T19:55:00.000Z",
-      "lastSeenMs": 1784836500000
+      "lastSeen": "2026-07-23T20:10:00.000Z",
+      "lastSeenMs": 1784837400000
     },
     {
       "userId": "11206878595",
@@ -13840,5 +13840,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T19:56:02.374Z"
+  "updatedAt": "2026-07-23T20:11:44.432Z"
 }
