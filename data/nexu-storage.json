@@ -11069,6 +11069,23 @@
       "lastSeenMs": 1784244283900
     },
     {
+      "userId": "8101763529",
+      "username": "ryuaorpa",
+      "displayName": "roxyuel",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "한국 머더",
+      "placeId": 5720801512,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-23T10:19:08.236Z",
+      "firstSeenMs": 1784801948236,
+      "lastSeen": "2026-07-23T10:19:08.236Z",
+      "lastSeenMs": 1784801948236
+    },
+    {
       "userId": "8106390228",
       "username": "Erika_red5",
       "displayName": "YES_BAN",
@@ -13806,5 +13823,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T09:56:00.615Z"
+  "updatedAt": "2026-07-23T10:19:13.245Z"
 }
