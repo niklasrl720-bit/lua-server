@@ -6773,16 +6773,16 @@
       "displayName": "Migot20",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "EAT A FRIEND",
-      "placeId": 17011539675,
+      "gameName": "Valoblox",
+      "placeId": 11746368176,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T15:21:04.529Z",
       "firstSeenMs": 1784301664529,
-      "lastSeen": "2026-07-17T16:25:00.000Z",
-      "lastSeenMs": 1784305500000
+      "lastSeen": "2026-07-23T17:55:00.000Z",
+      "lastSeenMs": 1784829300000
     },
     {
       "userId": "3094716420",
@@ -13823,5 +13823,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T17:56:05.395Z"
+  "updatedAt": "2026-07-23T17:59:20.989Z"
 }
