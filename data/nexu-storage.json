@@ -5770,16 +5770,16 @@
       "displayName": "Emo_FadedPR",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "The Walking Dead Online 3 [BETA]",
-      "placeId": 128039018996175,
+      "gameName": "💈 Be A Hair?",
+      "placeId": 139054513518556,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T23:18:37.449Z",
       "firstSeenMs": 1784503117449,
-      "lastSeen": "2026-07-22T04:55:00.000Z",
-      "lastSeenMs": 1784696100000
+      "lastSeen": "2026-07-23T06:55:00.000Z",
+      "lastSeenMs": 1784789700000
     },
     {
       "userId": "1231105181",
@@ -13791,5 +13791,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T06:56:00.253Z"
+  "updatedAt": "2026-07-23T06:58:56.266Z"
 }
