@@ -13788,8 +13788,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-23T04:41:39.787Z",
         "sentAtMs": 1784781699787
+      },
+      {
+        "id": 1784792640945004,
+        "userId": "10937059641",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "Trefttyli26",
+        "displayName": "Trefttyli26",
+        "message": "вфвфвф",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-23T07:44:00.945Z",
+        "sentAtMs": 1784792640945
       }
     ]
   },
-  "updatedAt": "2026-07-23T07:41:12.955Z"
+  "updatedAt": "2026-07-23T07:44:01.981Z"
 }
