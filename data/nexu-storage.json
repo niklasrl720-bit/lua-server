@@ -6594,8 +6594,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-23T21:35:00.000Z",
-      "lastSeenMs": 1784842500000
+      "lastSeen": "2026-07-23T21:40:00.000Z",
+      "lastSeenMs": 1784842800000
     },
     {
       "userId": "2643166270",
@@ -11312,16 +11312,16 @@
       "displayName": "arima",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Murder Mystery 2",
-      "placeId": 142823291,
+      "gameName": "🦄My Little Pony Tycoon - 2 Player",
+      "placeId": 133665380455574,
       "executionSource": "Real",
-      "executionVersion": "1.4.0",
+      "executionVersion": "1.5.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T18:24:21.209Z",
       "firstSeenMs": 1784658261209,
-      "lastSeen": "2026-07-21T18:25:00.000Z",
-      "lastSeenMs": 1784658300000
+      "lastSeen": "2026-07-23T21:40:00.000Z",
+      "lastSeenMs": 1784842800000
     },
     {
       "userId": "8321393734",
@@ -13857,5 +13857,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T21:36:01.174Z"
+  "updatedAt": "2026-07-23T21:40:11.058Z"
 }
