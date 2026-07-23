@@ -8434,6 +8434,23 @@
       "lastSeenMs": 1784294400000
     },
     {
+      "userId": "4754052881",
+      "username": "ITMEMMMM0",
+      "displayName": "thatboycisco",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "🍀RNG Battles",
+      "placeId": 100490989733123,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-23T00:27:51.409Z",
+      "firstSeenMs": 1784766471409,
+      "lastSeen": "2026-07-23T00:27:51.409Z",
+      "lastSeenMs": 1784766471409
+    },
+    {
       "userId": "4771189114",
       "username": "666inferno666pint",
       "displayName": "SL_Victor",
@@ -13726,5 +13743,5 @@
     "resetAtMs": 1784757600154,
     "messages": []
   },
-  "updatedAt": "2026-07-23T00:26:02.444Z"
+  "updatedAt": "2026-07-23T00:27:56.415Z"
 }
