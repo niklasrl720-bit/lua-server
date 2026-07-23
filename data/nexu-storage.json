@@ -6594,8 +6594,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-23T21:10:00.000Z",
-      "lastSeenMs": 1784841000000
+      "lastSeen": "2026-07-23T21:15:00.000Z",
+      "lastSeenMs": 1784841300000
     },
     {
       "userId": "2643166270",
@@ -10989,16 +10989,16 @@
       "displayName": "azizlefeuj",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Murder Mystery 2",
-      "placeId": 142823291,
+      "gameName": "Mad City: Chapter 2",
+      "placeId": 1224212277,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-23T21:09:39.141Z",
       "firstSeenMs": 1784840979141,
-      "lastSeen": "2026-07-23T21:09:39.141Z",
-      "lastSeenMs": 1784840979141
+      "lastSeen": "2026-07-23T21:15:00.000Z",
+      "lastSeenMs": 1784841300000
     },
     {
       "userId": "8073725607",
@@ -13857,5 +13857,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T21:11:04.003Z"
+  "updatedAt": "2026-07-23T21:15:52.457Z"
 }
