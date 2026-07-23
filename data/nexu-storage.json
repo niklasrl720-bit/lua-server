@@ -13773,8 +13773,23 @@
         "moderationScore": 0,
         "sentAt": "2026-07-23T04:41:08.827Z",
         "sentAtMs": 1784781668827
+      },
+      {
+        "id": 1784781699787003,
+        "userId": "10767901292",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "youRkID_6",
+        "displayName": "LUCIFER",
+        "message": "YOU HAVE SERVER OF DISCORD",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-23T04:41:39.787Z",
+        "sentAtMs": 1784781699787
       }
     ]
   },
-  "updatedAt": "2026-07-23T04:41:09.901Z"
+  "updatedAt": "2026-07-23T04:41:40.937Z"
 }
