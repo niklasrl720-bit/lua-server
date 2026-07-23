@@ -1792,16 +1792,16 @@
       "displayName": "Trefttyli26",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Глава ярости 1",
-      "placeId": 128715637193371,
+      "gameName": "Том 1",
+      "placeId": 74672283292083,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T10:16:06.224Z",
       "firstSeenMs": 1784542566224,
-      "lastSeen": "2026-07-23T09:05:00.000Z",
-      "lastSeenMs": 1784797500000
+      "lastSeen": "2026-07-23T09:30:00.000Z",
+      "lastSeenMs": 1784799000000
     },
     {
       "userId": "10938747666",
@@ -13806,5 +13806,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T09:31:04.577Z"
+  "updatedAt": "2026-07-23T09:31:33.698Z"
 }
