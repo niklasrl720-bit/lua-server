@@ -6586,16 +6586,16 @@
       "displayName": "doki22811",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Переживите 99 ночей",
-      "placeId": 126509999114328,
+      "gameName": "Королева магнатов",
+      "placeId": 12327098687,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-23T21:50:00.000Z",
-      "lastSeenMs": 1784843400000
+      "lastSeen": "2026-07-23T21:55:00.000Z",
+      "lastSeenMs": 1784843700000
     },
     {
       "userId": "2643166270",
@@ -13857,5 +13857,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T21:56:00.665Z"
+  "updatedAt": "2026-07-23T21:56:53.220Z"
 }
