@@ -6594,8 +6594,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T19:52:33.044Z",
       "firstSeenMs": 1784317953044,
-      "lastSeen": "2026-07-23T22:25:00.000Z",
-      "lastSeenMs": 1784845500000
+      "lastSeen": "2026-07-23T22:30:00.000Z",
+      "lastSeenMs": 1784845800000
     },
     {
       "userId": "2643166270",
@@ -7784,8 +7784,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T00:39:03.817Z",
       "firstSeenMs": 1784248743817,
-      "lastSeen": "2026-07-23T22:25:00.000Z",
-      "lastSeenMs": 1784845500000
+      "lastSeen": "2026-07-23T22:30:00.000Z",
+      "lastSeenMs": 1784845800000
     },
     {
       "userId": "4116981317",
@@ -11312,16 +11312,16 @@
       "displayName": "arima",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "🦄My Little Pony Tycoon - 2 Player",
-      "placeId": 133665380455574,
+      "gameName": "Whos That Quiz! [UPDATE!]",
+      "placeId": 108993920856628,
       "executionSource": "Real",
-      "executionVersion": "1.5.0",
+      "executionVersion": "1.6.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T18:24:21.209Z",
       "firstSeenMs": 1784658261209,
-      "lastSeen": "2026-07-23T21:40:00.000Z",
-      "lastSeenMs": 1784842800000
+      "lastSeen": "2026-07-23T22:30:00.000Z",
+      "lastSeenMs": 1784845800000
     },
     {
       "userId": "8321393734",
@@ -13811,5 +13811,5 @@
     "resetAtMs": 1784844000178,
     "messages": []
   },
-  "updatedAt": "2026-07-23T22:26:00.628Z"
+  "updatedAt": "2026-07-23T22:31:01.604Z"
 }
