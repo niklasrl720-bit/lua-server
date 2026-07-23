@@ -3028,6 +3028,23 @@
       "lastSeenMs": 1784481300000
     },
     {
+      "userId": "11206763430",
+      "username": "p_nickbroski",
+      "displayName": "p_nickbroski",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Prison Life",
+      "placeId": 155615604,
+      "executionSource": "Delta",
+      "executionVersion": "1.2.729.840",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-23T19:50:35.483Z",
+      "firstSeenMs": 1784836235483,
+      "lastSeen": "2026-07-23T19:50:35.483Z",
+      "lastSeenMs": 1784836235483
+    },
+    {
       "userId": "11206878595",
       "username": "udioek8w",
       "displayName": "666",
@@ -13823,5 +13840,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T18:06:03.861Z"
+  "updatedAt": "2026-07-23T19:50:40.489Z"
 }
