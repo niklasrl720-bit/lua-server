@@ -11312,16 +11312,16 @@
       "displayName": "arima",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Whos That Quiz! [UPDATE!]",
-      "placeId": 108993920856628,
+      "gameName": "[RD] Camp Server",
+      "placeId": 4939362930,
       "executionSource": "Real",
       "executionVersion": "1.6.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T18:24:21.209Z",
       "firstSeenMs": 1784658261209,
-      "lastSeen": "2026-07-23T22:35:00.000Z",
-      "lastSeenMs": 1784846100000
+      "lastSeen": "2026-07-23T22:55:00.000Z",
+      "lastSeenMs": 1784847300000
     },
     {
       "userId": "8321393734",
@@ -13811,5 +13811,5 @@
     "resetAtMs": 1784844000178,
     "messages": []
   },
-  "updatedAt": "2026-07-23T22:56:02.905Z"
+  "updatedAt": "2026-07-23T22:57:11.794Z"
 }
