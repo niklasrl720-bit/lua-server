@@ -313,16 +313,16 @@
       "displayName": "gogo",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Game1234's Place.",
-      "placeId": 12253922014,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T22:59:26.536Z",
       "firstSeenMs": 1784329166536,
-      "lastSeen": "2026-07-21T04:40:00.000Z",
-      "lastSeenMs": 1784608800000
+      "lastSeen": "2026-07-23T15:45:00.000Z",
+      "lastSeenMs": 1784821500000
     },
     {
       "userId": "10135335294",
@@ -13823,5 +13823,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-23T15:46:00.087Z"
+  "updatedAt": "2026-07-23T15:49:22.031Z"
 }
