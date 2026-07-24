@@ -13704,6 +13704,23 @@
       "lastSeenMs": 1784256600000
     },
     {
+      "userId": "9954301897",
+      "username": "fixeraad",
+      "displayName": "fixeraad",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Fisch 🐟 [ROAMING FISH]",
+      "placeId": 16732694052,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-24T14:15:45.514Z",
+      "firstSeenMs": 1784902545514,
+      "lastSeen": "2026-07-24T14:15:45.514Z",
+      "lastSeenMs": 1784902545514
+    },
+    {
       "userId": "9976689243",
       "username": "eeerrr6634",
       "displayName": "eeerrr6634",
@@ -13845,5 +13862,5 @@
     "resetAtMs": 1784844000178,
     "messages": []
   },
-  "updatedAt": "2026-07-24T14:10:56.576Z"
+  "updatedAt": "2026-07-24T14:15:50.520Z"
 }
