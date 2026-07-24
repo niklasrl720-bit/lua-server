@@ -13233,16 +13233,16 @@
       "displayName": "Boi67",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "UNBAN-Welle | Deutsche Stimme",
-      "placeId": 136162036182779,
+      "gameName": "Mordgeheimnis 2",
+      "placeId": 142823291,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T16:22:13.832Z",
       "firstSeenMs": 1784564533832,
-      "lastSeen": "2026-07-23T15:05:00.000Z",
-      "lastSeenMs": 1784819100000
+      "lastSeen": "2026-07-24T21:00:00.000Z",
+      "lastSeenMs": 1784926800000
     },
     {
       "userId": "9560485554",
@@ -13862,5 +13862,5 @@
     "resetAtMs": 1784844000178,
     "messages": []
   },
-  "updatedAt": "2026-07-24T20:46:28.959Z"
+  "updatedAt": "2026-07-24T21:03:16.386Z"
 }
