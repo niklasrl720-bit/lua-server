@@ -8774,6 +8774,23 @@
       "lastSeenMs": 1784300700000
     },
     {
+      "userId": "5136565677",
+      "username": "dapickle_master17",
+      "displayName": "pickle_touchor",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[REGISTER] Jujutsu Shenanigans",
+      "placeId": 9391468976,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-24T01:04:57.506Z",
+      "firstSeenMs": 1784855097506,
+      "lastSeen": "2026-07-24T01:04:57.506Z",
+      "lastSeenMs": 1784855097506
+    },
+    {
       "userId": "5137203777",
       "username": "Ghost1864953",
       "displayName": "GHOST14hsjrjw",
@@ -13811,5 +13828,5 @@
     "resetAtMs": 1784844000178,
     "messages": []
   },
-  "updatedAt": "2026-07-24T01:01:02.036Z"
+  "updatedAt": "2026-07-24T01:05:02.510Z"
 }
