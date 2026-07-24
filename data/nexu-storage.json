@@ -5753,16 +5753,16 @@
       "displayName": "Gatoze016",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "LE DÉSERT",
-      "placeId": 16389398622,
+      "gameName": "[ÉCHANGE!] 1 planche = $1/s",
+      "placeId": 86674945688264,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-23T01:36:53.014Z",
       "firstSeenMs": 1784770613014,
-      "lastSeen": "2026-07-24T22:15:00.000Z",
-      "lastSeenMs": 1784931300000
+      "lastSeen": "2026-07-24T22:30:00.000Z",
+      "lastSeenMs": 1784932200000
     },
     {
       "userId": "11343712647",
@@ -13879,5 +13879,5 @@
     "resetAtMs": 1784930400164,
     "messages": []
   },
-  "updatedAt": "2026-07-24T22:31:00.099Z"
+  "updatedAt": "2026-07-24T22:32:58.249Z"
 }
