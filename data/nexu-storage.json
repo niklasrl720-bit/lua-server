@@ -177,16 +177,16 @@
       "displayName": "r1ch40i",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Catalog Avatar Creator",
-      "placeId": 7041939546,
+      "gameName": "Greek Voice 🔊",
+      "placeId": 91932055090151,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-21T16:18:13.338Z",
       "firstSeenMs": 1784650693338,
-      "lastSeen": "2026-07-24T04:15:00.000Z",
-      "lastSeenMs": 1784866500000
+      "lastSeen": "2026-07-24T14:20:00.000Z",
+      "lastSeenMs": 1784902800000
     },
     {
       "userId": "10092070559",
@@ -13862,5 +13862,5 @@
     "resetAtMs": 1784844000178,
     "messages": []
   },
-  "updatedAt": "2026-07-24T14:15:50.520Z"
+  "updatedAt": "2026-07-24T14:20:45.818Z"
 }
