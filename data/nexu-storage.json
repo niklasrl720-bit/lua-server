@@ -8383,6 +8383,23 @@
       "lastSeenMs": 1784231100000
     },
     {
+      "userId": "456397890",
+      "username": "xXELETRICCHARGERXx",
+      "displayName": "Coolin",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Drill Blocks for Brainrots",
+      "placeId": 78177131121429,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-25T00:35:03.144Z",
+      "firstSeenMs": 1784939703144,
+      "lastSeen": "2026-07-25T00:35:03.144Z",
+      "lastSeenMs": 1784939703144
+    },
+    {
       "userId": "4656891186",
       "username": "Rock24kp_m",
       "displayName": "nuuni",
@@ -13879,5 +13896,5 @@
     "resetAtMs": 1784930400164,
     "messages": []
   },
-  "updatedAt": "2026-07-24T23:51:04.768Z"
+  "updatedAt": "2026-07-25T00:35:08.154Z"
 }
