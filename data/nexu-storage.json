@@ -3861,6 +3861,23 @@
       "lastSeenMs": 1784274600000
     },
     {
+      "userId": "11260894607",
+      "username": "loyal_hacker2",
+      "displayName": "real_hacker",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[UPD] FIFA Super Soccer",
+      "placeId": 12177325772,
+      "executionSource": "Delta",
+      "executionVersion": "1.2.729.840",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-25T04:43:40.342Z",
+      "firstSeenMs": 1784954620342,
+      "lastSeen": "2026-07-25T04:43:40.342Z",
+      "lastSeenMs": 1784954620342
+    },
+    {
       "userId": "11262867143",
       "username": "666hyb1",
       "displayName": "666hyb1",
@@ -13896,5 +13913,5 @@
     "resetAtMs": 1784930400164,
     "messages": []
   },
-  "updatedAt": "2026-07-25T04:40:20.499Z"
+  "updatedAt": "2026-07-25T04:43:45.348Z"
 }
