@@ -6297,16 +6297,16 @@
       "displayName": "JOY9415",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🖼️ MUSEUM] Chameleon",
-      "placeId": 110808833601416,
+      "gameName": "[WORLD4 - BBNO] +1 Speed Keyboard Escape",
+      "placeId": 75012837977315,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-18T18:56:59.270Z",
       "firstSeenMs": 1784401019270,
-      "lastSeen": "2026-07-24T19:20:00.000Z",
-      "lastSeenMs": 1784920800000
+      "lastSeen": "2026-07-25T17:20:00.000Z",
+      "lastSeenMs": 1785000000000
     },
     {
       "userId": "1989339160",
@@ -13947,5 +13947,5 @@
     "resetAtMs": 1784930400164,
     "messages": []
   },
-  "updatedAt": "2026-07-25T17:21:01.362Z"
+  "updatedAt": "2026-07-25T17:24:36.488Z"
 }
