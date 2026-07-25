@@ -5782,6 +5782,23 @@
       "lastSeenMs": 1784932200000
     },
     {
+      "userId": "11342692379",
+      "username": "xkopion09",
+      "displayName": "SKASE",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Natural Disaster Survival",
+      "placeId": 189707,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-25T06:06:05.732Z",
+      "firstSeenMs": 1784959565732,
+      "lastSeen": "2026-07-25T06:06:05.732Z",
+      "lastSeenMs": 1784959565732
+    },
+    {
       "userId": "11343712647",
       "username": "PolinaVarenik2015",
       "displayName": "PolinaVarenik2015",
@@ -13913,5 +13930,5 @@
     "resetAtMs": 1784930400164,
     "messages": []
   },
-  "updatedAt": "2026-07-25T06:02:53.960Z"
+  "updatedAt": "2026-07-25T06:06:10.741Z"
 }
