@@ -9607,6 +9607,23 @@
       "lastSeenMs": 1784881800000
     },
     {
+      "userId": "6056978014",
+      "username": "motmot_1670",
+      "displayName": "villain_ARCmotmot",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Roll in a Cart",
+      "placeId": 73904017172892,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-25T07:43:21.291Z",
+      "firstSeenMs": 1784965401291,
+      "lastSeen": "2026-07-25T07:43:21.291Z",
+      "lastSeenMs": 1784965401291
+    },
+    {
       "userId": "6070402361",
       "username": "qqrtqr1h1o45m1o4",
       "displayName": "qqrtqr1h1o45m1o4",
@@ -13930,5 +13947,5 @@
     "resetAtMs": 1784930400164,
     "messages": []
   },
-  "updatedAt": "2026-07-25T07:41:00.689Z"
+  "updatedAt": "2026-07-25T07:43:26.296Z"
 }
