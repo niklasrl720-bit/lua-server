@@ -12213,16 +12213,16 @@
       "displayName": "dih_bouncer",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Steal Ice Cream from Kids! 🍦",
-      "placeId": 90427575650929,
+      "gameName": "[REVAMP] Power Lifters 💪",
+      "placeId": 123414640536127,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-22T23:08:32.055Z",
       "firstSeenMs": 1784761712055,
-      "lastSeen": "2026-07-22T23:15:00.000Z",
-      "lastSeenMs": 1784762100000
+      "lastSeen": "2026-07-25T10:05:00.000Z",
+      "lastSeenMs": 1784973900000
     },
     {
       "userId": "8825146444",
@@ -13947,5 +13947,5 @@
     "resetAtMs": 1784930400164,
     "messages": []
   },
-  "updatedAt": "2026-07-25T09:48:42.784Z"
+  "updatedAt": "2026-07-25T10:06:23.318Z"
 }
