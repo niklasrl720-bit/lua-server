@@ -6951,8 +6951,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T18:56:20.081Z",
       "firstSeenMs": 1784573780081,
-      "lastSeen": "2026-07-25T20:30:00.000Z",
-      "lastSeenMs": 1785011400000
+      "lastSeen": "2026-07-25T20:35:00.000Z",
+      "lastSeenMs": 1785011700000
     },
     {
       "userId": "3232992051",
@@ -7733,8 +7733,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T21:18:06.632Z",
       "firstSeenMs": 1784323086632,
-      "lastSeen": "2026-07-25T20:30:00.000Z",
-      "lastSeenMs": 1785011400000
+      "lastSeen": "2026-07-25T20:35:00.000Z",
+      "lastSeenMs": 1785011700000
     },
     {
       "userId": "3999014180",
@@ -12837,6 +12837,23 @@
       "lastSeenMs": 1784243700000
     },
     {
+      "userId": "9295734208",
+      "username": "c_hill2",
+      "displayName": "seehil",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[DUELS] 4v4",
+      "placeId": 123627218337521,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-25T20:35:39.563Z",
+      "firstSeenMs": 1785011739563,
+      "lastSeen": "2026-07-25T20:35:39.563Z",
+      "lastSeenMs": 1785011739563
+    },
+    {
       "userId": "9297629319",
       "username": "that1_person631",
       "displayName": "min",
@@ -13947,5 +13964,5 @@
     "resetAtMs": 1784930400164,
     "messages": []
   },
-  "updatedAt": "2026-07-25T20:31:05.485Z"
+  "updatedAt": "2026-07-25T20:35:44.568Z"
 }
