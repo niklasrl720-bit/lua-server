@@ -6297,16 +6297,16 @@
       "displayName": "JOY9415",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[WORLD4 - BBNO] +1 Speed Keyboard Escape",
-      "placeId": 75012837977315,
+      "gameName": "עולם הכיף 🎉 - בואו לכיף ישראל",
+      "placeId": 7999948656,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-18T18:56:59.270Z",
       "firstSeenMs": 1784401019270,
-      "lastSeen": "2026-07-25T17:30:00.000Z",
-      "lastSeenMs": 1785000600000
+      "lastSeen": "2026-07-26T23:20:00.000Z",
+      "lastSeenMs": 1785108000000
     },
     {
       "userId": "1989339160",
@@ -13998,5 +13998,5 @@
     "resetAtMs": 1785103200228,
     "messages": []
   },
-  "updatedAt": "2026-07-26T23:21:02.167Z"
+  "updatedAt": "2026-07-26T23:22:02.792Z"
 }
