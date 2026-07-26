@@ -12822,19 +12822,19 @@
     {
       "userId": "9247923083",
       "username": "EuropeeeNo1",
-      "displayName": "Femto",
+      "displayName": "P90",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "🚩Expedição Antártica",
-      "placeId": 2693023319,
+      "gameName": "Mistério Assassino 2",
+      "placeId": 142823291,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-24T23:50:00.000Z",
-      "lastSeenMs": 1784937000000
+      "lastSeen": "2026-07-26T08:45:00.000Z",
+      "lastSeenMs": 1785055500000
     },
     {
       "userId": "9262341195",
@@ -13998,5 +13998,5 @@
     "resetAtMs": 1785016800023,
     "messages": []
   },
-  "updatedAt": "2026-07-26T08:40:38.139Z"
+  "updatedAt": "2026-07-26T08:48:04.014Z"
 }
