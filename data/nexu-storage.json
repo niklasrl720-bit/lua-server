@@ -7725,16 +7725,16 @@
       "displayName": "Idk",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Murder Mystery 2",
-      "placeId": 142823291,
+      "gameName": "♾️🦉[KUZEN + INF SLOTS] Ro-Ghoul [ALPHA]",
+      "placeId": 914010731,
       "executionSource": "Real",
       "executionVersion": "1.6.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T21:18:06.632Z",
       "firstSeenMs": 1784323086632,
-      "lastSeen": "2026-07-26T15:00:00.000Z",
-      "lastSeenMs": 1785078000000
+      "lastSeen": "2026-07-26T15:05:00.000Z",
+      "lastSeenMs": 1785078300000
     },
     {
       "userId": "3999014180",
@@ -13998,5 +13998,5 @@
     "resetAtMs": 1785016800023,
     "messages": []
   },
-  "updatedAt": "2026-07-26T15:06:02.789Z"
+  "updatedAt": "2026-07-26T15:08:23.518Z"
 }
