@@ -10491,6 +10491,23 @@
       "lastSeenMs": 1784310469706
     },
     {
+      "userId": "767125044",
+      "username": "niklascoscia",
+      "displayName": "Vyrxis",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Klippen Sie es 😂🎬👗",
+      "placeId": 11765402359,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-26T08:40:33.131Z",
+      "firstSeenMs": 1785055233131,
+      "lastSeen": "2026-07-26T08:40:33.131Z",
+      "lastSeenMs": 1785055233131
+    },
+    {
       "userId": "7681443524",
       "username": "vitindo_92",
       "displayName": "silva",
@@ -13981,5 +13998,5 @@
     "resetAtMs": 1785016800023,
     "messages": []
   },
-  "updatedAt": "2026-07-26T06:01:03.817Z"
+  "updatedAt": "2026-07-26T08:40:38.139Z"
 }
