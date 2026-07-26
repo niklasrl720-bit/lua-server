@@ -12140,6 +12140,23 @@
       "lastSeenMs": 1784306500299
     },
     {
+      "userId": "8757228830",
+      "username": "Namkhing_6233",
+      "displayName": "Melody",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "แข็งแกร่ง +1 ต่อวินาที 💪",
+      "placeId": 11298617267,
+      "executionSource": "Delta",
+      "executionVersion": "1.2.729.840",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-26T04:15:17.135Z",
+      "firstSeenMs": 1785039317135,
+      "lastSeen": "2026-07-26T04:15:17.135Z",
+      "lastSeenMs": 1785039317135
+    },
+    {
       "userId": "8785383597",
       "username": "cheater200311",
       "displayName": "HFM",
@@ -13964,5 +13981,5 @@
     "resetAtMs": 1785016800023,
     "messages": []
   },
-  "updatedAt": "2026-07-26T04:11:02.551Z"
+  "updatedAt": "2026-07-26T04:15:22.140Z"
 }
