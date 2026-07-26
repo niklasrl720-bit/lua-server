@@ -12638,16 +12638,16 @@
       "displayName": "skrappz",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Hide and Seek Extreme",
-      "placeId": 205224386,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-26T04:50:00.000Z",
-      "lastSeenMs": 1785041400000
+      "lastSeen": "2026-07-26T22:55:00.000Z",
+      "lastSeenMs": 1785106500000
     },
     {
       "userId": "9123569216",
@@ -13998,5 +13998,5 @@
     "resetAtMs": 1785103200228,
     "messages": []
   },
-  "updatedAt": "2026-07-26T22:56:05.015Z"
+  "updatedAt": "2026-07-26T22:56:29.236Z"
 }
