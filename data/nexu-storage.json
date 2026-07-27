@@ -14078,26 +14078,10 @@
     "changedBy": ""
   },
   "chat": {
-    "dayKey": "2026-07-27",
-    "resetRevision": 11,
-    "resetAtMs": 1785103200228,
-    "messages": [
-      {
-        "id": 1785177678657005,
-        "userId": "1885968454",
-        "roleKey": "player",
-        "roleTitle": "PLAYERS",
-        "username": "Johnnnyfronny",
-        "displayName": "Johnny Incarnation",
-        "message": "yo",
-        "originalMessage": "",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-07-27T18:41:18.657Z",
-        "sentAtMs": 1785177678657
-      }
-    ]
+    "dayKey": "2026-07-28",
+    "resetRevision": 12,
+    "resetAtMs": 1785189600262,
+    "messages": []
   },
-  "updatedAt": "2026-07-27T21:46:06.400Z"
+  "updatedAt": "2026-07-27T22:00:01.062Z"
 }
