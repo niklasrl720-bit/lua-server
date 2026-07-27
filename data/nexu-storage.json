@@ -8864,16 +8864,16 @@
       "displayName": "plow1k",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Брукхейвен 🏡 RP",
-      "placeId": 4924922222,
+      "gameName": "Башня Ада",
+      "placeId": 1962086868,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:19:10.501Z",
       "firstSeenMs": 1784225950501,
-      "lastSeen": "2026-07-26T19:40:00.000Z",
-      "lastSeenMs": 1785094800000
+      "lastSeen": "2026-07-27T13:45:00.000Z",
+      "lastSeenMs": 1785159900000
     },
     {
       "userId": "5111527490",
@@ -14066,5 +14066,5 @@
     "resetAtMs": 1785103200228,
     "messages": []
   },
-  "updatedAt": "2026-07-27T12:06:45.545Z"
+  "updatedAt": "2026-07-27T13:49:15.401Z"
 }
