@@ -7618,6 +7618,23 @@
       "lastSeenMs": 1784422769239
     },
     {
+      "userId": "3785154228",
+      "username": "DeMarcusthet",
+      "displayName": "DeMarcusthet",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Classic mode",
+      "placeId": 2092166489,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-27T10:05:47.468Z",
+      "firstSeenMs": 1785146747468,
+      "lastSeen": "2026-07-27T10:05:47.468Z",
+      "lastSeenMs": 1785146747468
+    },
+    {
       "userId": "3852248504",
       "username": "clockwuc",
       "displayName": "clockwuc",
@@ -14032,5 +14049,5 @@
     "resetAtMs": 1785103200228,
     "messages": []
   },
-  "updatedAt": "2026-07-27T09:56:03.019Z"
+  "updatedAt": "2026-07-27T10:05:52.473Z"
 }
