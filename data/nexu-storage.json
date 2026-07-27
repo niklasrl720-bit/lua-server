@@ -12043,16 +12043,16 @@
       "displayName": "BrandonLee",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Voxel Destruction Physics",
-      "placeId": 11594344738,
+      "gameName": "Climb Scary Worm Tower 3",
+      "placeId": 136070094363960,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:35:11.965Z",
       "firstSeenMs": 1784237711965,
-      "lastSeen": "2026-07-24T17:50:00.000Z",
-      "lastSeenMs": 1784915400000
+      "lastSeen": "2026-07-27T03:10:00.000Z",
+      "lastSeenMs": 1785121800000
     },
     {
       "userId": "8704708435",
@@ -13998,5 +13998,5 @@
     "resetAtMs": 1785103200228,
     "messages": []
   },
-  "updatedAt": "2026-07-27T01:01:03.932Z"
+  "updatedAt": "2026-07-27T03:14:41.788Z"
 }
