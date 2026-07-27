@@ -6203,8 +6203,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-27T09:40:30.016Z",
       "firstSeenMs": 1785145230016,
-      "lastSeen": "2026-07-27T18:40:00.000Z",
-      "lastSeenMs": 1785177600000
+      "lastSeen": "2026-07-27T18:45:00.000Z",
+      "lastSeenMs": 1785177900000
     },
     {
       "userId": "1891206840",
@@ -8109,6 +8109,23 @@
       "firstSeenMs": 1784422434557,
       "lastSeen": "2026-07-19T01:10:00.000Z",
       "lastSeenMs": 1784423400000
+    },
+    {
+      "userId": "4204299075",
+      "username": "0AWESOMEZEST",
+      "displayName": "LexiQueen",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "💪Muscle Legends",
+      "placeId": 3623096087,
+      "executionSource": "Delta",
+      "executionVersion": "1.2.729.840",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-27T18:45:54.976Z",
+      "firstSeenMs": 1785177954976,
+      "lastSeen": "2026-07-27T18:45:54.976Z",
+      "lastSeenMs": 1785177954976
     },
     {
       "userId": "4212061169",
@@ -14082,5 +14099,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-27T18:41:20.009Z"
+  "updatedAt": "2026-07-27T18:45:59.981Z"
 }
