@@ -6173,6 +6173,23 @@
       "lastSeenMs": 1784321400000
     },
     {
+      "userId": "1885968454",
+      "username": "Johnnnyfronny",
+      "displayName": "Johnny Incarnation",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "💪Muscle Legends",
+      "placeId": 3623096087,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-27T09:40:30.016Z",
+      "firstSeenMs": 1785145230016,
+      "lastSeen": "2026-07-27T09:40:30.016Z",
+      "lastSeenMs": 1785145230016
+    },
+    {
       "userId": "1891206840",
       "username": "Denasia_123",
       "displayName": "nae",
@@ -13998,5 +14015,5 @@
     "resetAtMs": 1785103200228,
     "messages": []
   },
-  "updatedAt": "2026-07-27T06:01:02.009Z"
+  "updatedAt": "2026-07-27T09:40:35.034Z"
 }
