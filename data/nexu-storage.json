@@ -12616,6 +12616,23 @@
       "lastSeenMs": 1784410800000
     },
     {
+      "userId": "9072990907",
+      "username": "lavraivixi",
+      "displayName": "zeyrox",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "RIVAUX",
+      "placeId": 17625359962,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-27T12:06:40.536Z",
+      "firstSeenMs": 1785154000536,
+      "lastSeen": "2026-07-27T12:06:40.536Z",
+      "lastSeenMs": 1785154000536
+    },
+    {
       "userId": "9079676706",
       "username": "Adrian1161653",
       "displayName": "Naoya",
@@ -14049,5 +14066,5 @@
     "resetAtMs": 1785103200228,
     "messages": []
   },
-  "updatedAt": "2026-07-27T11:56:00.662Z"
+  "updatedAt": "2026-07-27T12:06:45.545Z"
 }
