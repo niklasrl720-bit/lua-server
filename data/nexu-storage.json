@@ -12978,16 +12978,16 @@
       "displayName": "P90",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "MushYO! 🔊",
-      "placeId": 17274762379,
+      "gameName": "Exército Brasileiro 🔊 RP",
+      "placeId": 73283852203739,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-29T04:45:00.000Z",
-      "lastSeenMs": 1785300300000
+      "lastSeen": "2026-07-29T04:55:00.000Z",
+      "lastSeenMs": 1785300900000
     },
     {
       "userId": "9262341195",
@@ -14151,5 +14151,5 @@
     "resetAtMs": 1785276000087,
     "messages": []
   },
-  "updatedAt": "2026-07-29T04:46:00.017Z"
+  "updatedAt": "2026-07-29T04:55:44.174Z"
 }
