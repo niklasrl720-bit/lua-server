@@ -14163,26 +14163,10 @@
     "changedBy": ""
   },
   "chat": {
-    "dayKey": "2026-07-29",
-    "resetRevision": 13,
-    "resetAtMs": 1785276000087,
-    "messages": [
-      {
-        "id": 1785341568567006,
-        "userId": "11334968368",
-        "roleKey": "player",
-        "roleTitle": "PLAYERS",
-        "username": "Gatoze016",
-        "displayName": "Gatoze016",
-        "message": "w",
-        "originalMessage": "",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-07-29T16:12:48.567Z",
-        "sentAtMs": 1785341568567
-      }
-    ]
+    "dayKey": "2026-07-30",
+    "resetRevision": 14,
+    "resetAtMs": 1785362400152,
+    "messages": []
   },
-  "updatedAt": "2026-07-29T21:56:16.021Z"
+  "updatedAt": "2026-07-29T22:00:00.950Z"
 }
