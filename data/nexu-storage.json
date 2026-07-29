@@ -9068,16 +9068,16 @@
       "displayName": "Nooby6",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Grimpez et lâchez un bloc chanceux",
-      "placeId": 96401370703274,
+      "gameName": "✈️ Avion en papier pour les Brainrots",
+      "placeId": 110373292461174,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-28T20:38:12.203Z",
       "firstSeenMs": 1785271092203,
-      "lastSeen": "2026-07-29T16:30:00.000Z",
-      "lastSeenMs": 1785342600000
+      "lastSeen": "2026-07-29T16:35:00.000Z",
+      "lastSeenMs": 1785342900000
     },
     {
       "userId": "5178371959",
@@ -14184,5 +14184,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-29T16:31:01.473Z"
+  "updatedAt": "2026-07-29T16:35:08.677Z"
 }
