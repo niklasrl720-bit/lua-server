@@ -9068,16 +9068,16 @@
       "displayName": "Nooby6",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Courses de motos 🏍️",
-      "placeId": 106425431775947,
+      "gameName": "Grimpez et lâchez un bloc chanceux",
+      "placeId": 96401370703274,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-28T20:38:12.203Z",
       "firstSeenMs": 1785271092203,
-      "lastSeen": "2026-07-28T21:10:00.000Z",
-      "lastSeenMs": 1785273000000
+      "lastSeen": "2026-07-29T16:25:00.000Z",
+      "lastSeenMs": 1785342300000
     },
     {
       "userId": "5178371959",
@@ -14184,5 +14184,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-29T16:21:02.916Z"
+  "updatedAt": "2026-07-29T16:25:06.511Z"
 }
