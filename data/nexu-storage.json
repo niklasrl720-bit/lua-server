@@ -6802,6 +6802,23 @@
       "lastSeenMs": 1784405590484
     },
     {
+      "userId": "28208784",
+      "username": "CollyColly34",
+      "displayName": "CollyColly34",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Death Order Game",
+      "placeId": 97367341645905,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-29T06:31:10.122Z",
+      "firstSeenMs": 1785306670122,
+      "lastSeen": "2026-07-29T06:31:10.122Z",
+      "lastSeenMs": 1785306670122
+    },
+    {
       "userId": "2821234045",
       "username": "sneidertest",
       "displayName": "Bmw2007",
@@ -14151,5 +14168,5 @@
     "resetAtMs": 1785276000087,
     "messages": []
   },
-  "updatedAt": "2026-07-29T06:11:00.396Z"
+  "updatedAt": "2026-07-29T06:31:15.129Z"
 }
