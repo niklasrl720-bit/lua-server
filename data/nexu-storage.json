@@ -9660,19 +9660,19 @@
     {
       "userId": "5824637159",
       "username": "Bellz_Semipro",
-      "displayName": "Janangkann",
+      "displayName": "Bellz_Semipro",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
       "gameName": "แข็งแกร่ง +1 ต่อวินาที 💪",
       "placeId": 11298617267,
       "executionSource": "Delta",
-      "executionVersion": "1.2.729.840",
+      "executionVersion": "1.1.731.944",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T01:52:26.443Z",
       "firstSeenMs": 1784425946443,
-      "lastSeen": "2026-07-27T11:55:00.000Z",
-      "lastSeenMs": 1785153300000
+      "lastSeen": "2026-07-29T09:55:00.000Z",
+      "lastSeenMs": 1785318900000
     },
     {
       "userId": "5843349211",
@@ -14168,5 +14168,5 @@
     "resetAtMs": 1785276000087,
     "messages": []
   },
-  "updatedAt": "2026-07-29T06:31:15.129Z"
+  "updatedAt": "2026-07-29T09:59:54.996Z"
 }
