@@ -10083,6 +10083,23 @@
       "lastSeenMs": 1784313021732
     },
     {
+      "userId": "7120241008",
+      "username": "yno35o",
+      "displayName": "d4rkz1npng",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[UP] Apenas uma base.",
+      "placeId": 123974602339071,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-29T00:27:36.726Z",
+      "firstSeenMs": 1785284856726,
+      "lastSeen": "2026-07-29T00:27:36.726Z",
+      "lastSeenMs": 1785284856726
+    },
+    {
       "userId": "7153858132",
       "username": "Serenityrabbit_9",
       "displayName": "Haru_Alt",
@@ -14134,5 +14151,5 @@
     "resetAtMs": 1785276000087,
     "messages": []
   },
-  "updatedAt": "2026-07-28T22:13:53.852Z"
+  "updatedAt": "2026-07-29T00:27:41.733Z"
 }
