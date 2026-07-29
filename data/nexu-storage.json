@@ -12978,16 +12978,16 @@
       "displayName": "P90",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🚗] Ro-vibrações 🔊",
-      "placeId": 121692407072104,
+      "gameName": "MushYO! 🔊",
+      "placeId": 17274762379,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-07-29T02:05:00.000Z",
-      "lastSeenMs": 1785290700000
+      "lastSeen": "2026-07-29T04:00:00.000Z",
+      "lastSeenMs": 1785297600000
     },
     {
       "userId": "9262341195",
@@ -14151,5 +14151,5 @@
     "resetAtMs": 1785276000087,
     "messages": []
   },
-  "updatedAt": "2026-07-29T02:06:04.722Z"
+  "updatedAt": "2026-07-29T04:04:39.759Z"
 }
