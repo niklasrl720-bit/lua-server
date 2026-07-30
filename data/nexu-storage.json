@@ -8617,8 +8617,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-25T00:35:03.144Z",
       "firstSeenMs": 1784939703144,
-      "lastSeen": "2026-07-30T19:45:00.000Z",
-      "lastSeenMs": 1785440700000
+      "lastSeen": "2026-07-30T19:50:00.000Z",
+      "lastSeenMs": 1785441000000
     },
     {
       "userId": "4656891186",
@@ -12264,16 +12264,16 @@
       "displayName": "BrandonLee",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[FPS] One Tap",
-      "placeId": 90568084448279,
+      "gameName": "[UPD]Brisket Survival",
+      "placeId": 100428687810944,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:35:11.965Z",
       "firstSeenMs": 1784237711965,
-      "lastSeen": "2026-07-28T04:00:00.000Z",
-      "lastSeenMs": 1785211200000
+      "lastSeen": "2026-07-30T19:50:00.000Z",
+      "lastSeenMs": 1785441000000
     },
     {
       "userId": "8704708435",
@@ -14236,5 +14236,5 @@
     "resetAtMs": 1785362400152,
     "messages": []
   },
-  "updatedAt": "2026-07-30T19:48:53.382Z"
+  "updatedAt": "2026-07-30T19:50:09.748Z"
 }
