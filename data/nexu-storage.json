@@ -13811,16 +13811,16 @@
       "displayName": "KingXD4081",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Break Tape For Brainrots",
-      "placeId": 104339804279870,
+      "gameName": "[👑] +1 Aura Per Click",
+      "placeId": 109509029034984,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-30T08:30:00.000Z",
-      "lastSeenMs": 1785400200000
+      "lastSeen": "2026-07-30T11:25:00.000Z",
+      "lastSeenMs": 1785410700000
     },
     {
       "userId": "9786800904",
@@ -14202,5 +14202,5 @@
     "resetAtMs": 1785362400152,
     "messages": []
   },
-  "updatedAt": "2026-07-30T11:21:02.606Z"
+  "updatedAt": "2026-07-30T11:26:13.680Z"
 }
