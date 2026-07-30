@@ -12876,16 +12876,16 @@
       "displayName": "skrappz_DOA",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Da Hood ⚽",
-      "placeId": 2788229376,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-07-30T11:20:00.000Z",
-      "lastSeenMs": 1785410400000
+      "lastSeen": "2026-07-30T22:40:00.000Z",
+      "lastSeenMs": 1785451200000
     },
     {
       "userId": "9123569216",
@@ -14236,5 +14236,5 @@
     "resetAtMs": 1785448800183,
     "messages": []
   },
-  "updatedAt": "2026-07-30T22:00:01.002Z"
+  "updatedAt": "2026-07-30T22:41:25.899Z"
 }
