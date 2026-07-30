@@ -2280,6 +2280,23 @@
       "lastSeenMs": 1784247053166
     },
     {
+      "userId": "11056129934",
+      "username": "NikoTheProYT",
+      "displayName": "NikoTheProYT",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "(🦅LICENSED FORDS!) Greenville",
+      "placeId": 891852901,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-30T02:31:58.707Z",
+      "firstSeenMs": 1785378718707,
+      "lastSeen": "2026-07-30T02:31:58.707Z",
+      "lastSeenMs": 1785378718707
+    },
+    {
       "userId": "11058653499",
       "username": "AlibekGribko",
       "displayName": "44444444444444444444",
@@ -14168,5 +14185,5 @@
     "resetAtMs": 1785362400152,
     "messages": []
   },
-  "updatedAt": "2026-07-29T22:16:06.594Z"
+  "updatedAt": "2026-07-30T02:32:03.714Z"
 }
