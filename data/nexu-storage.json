@@ -13811,16 +13811,16 @@
       "displayName": "KingXD4081",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[⚽SOCCER]🦎 Chameleon!",
-      "placeId": 74511210941284,
+      "gameName": "New Player Servers",
+      "placeId": 87531672335231,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-22T12:05:00.000Z",
-      "lastSeenMs": 1784721900000
+      "lastSeen": "2026-07-30T07:20:00.000Z",
+      "lastSeenMs": 1785396000000
     },
     {
       "userId": "9786800904",
@@ -14202,5 +14202,5 @@
     "resetAtMs": 1785362400152,
     "messages": []
   },
-  "updatedAt": "2026-07-30T07:21:04.459Z"
+  "updatedAt": "2026-07-30T07:24:03.550Z"
 }
