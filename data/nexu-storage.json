@@ -13811,16 +13811,16 @@
       "displayName": "KingXD4081",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "New Player Servers",
-      "placeId": 87531672335231,
+      "gameName": "✈️ Paper Plane for Brainrots",
+      "placeId": 110373292461174,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-30T07:25:00.000Z",
-      "lastSeenMs": 1785396300000
+      "lastSeen": "2026-07-30T07:35:00.000Z",
+      "lastSeenMs": 1785396900000
     },
     {
       "userId": "9786800904",
@@ -14202,5 +14202,5 @@
     "resetAtMs": 1785362400152,
     "messages": []
   },
-  "updatedAt": "2026-07-30T07:36:02.100Z"
+  "updatedAt": "2026-07-30T07:39:41.004Z"
 }
