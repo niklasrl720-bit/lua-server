@@ -12650,6 +12650,23 @@
       "lastSeenMs": 1784265721664
     },
     {
+      "userId": "8945690615",
+      "username": "sourbeastieSABacc",
+      "displayName": "raidingyou_DOA",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Da Hood ⚽",
+      "placeId": 2788229376,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-31T05:54:31.967Z",
+      "firstSeenMs": 1785477271967,
+      "lastSeen": "2026-07-31T05:54:31.967Z",
+      "lastSeenMs": 1785477271967
+    },
+    {
       "userId": "8945888250",
       "username": "Megaladon_froget8542",
       "displayName": "Azrael",
@@ -14253,5 +14270,5 @@
     "resetAtMs": 1785448800183,
     "messages": []
   },
-  "updatedAt": "2026-07-31T05:51:00.426Z"
+  "updatedAt": "2026-07-31T05:54:36.972Z"
 }
