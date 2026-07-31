@@ -5838,16 +5838,16 @@
       "displayName": "Gatoze016",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[X20] Course de chevaux 🐎 [FIN DE SEMAINE]",
-      "placeId": 93787311916283,
+      "gameName": "[X2] 🐒 +1 Évasion de singe rapide",
+      "placeId": 114697347887839,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-23T01:36:53.014Z",
       "firstSeenMs": 1784770613014,
-      "lastSeen": "2026-07-31T14:05:00.000Z",
-      "lastSeenMs": 1785506700000
+      "lastSeen": "2026-07-31T20:15:00.000Z",
+      "lastSeenMs": 1785528900000
     },
     {
       "userId": "11342692379",
@@ -14318,5 +14318,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-31T20:01:03.263Z"
+  "updatedAt": "2026-07-31T20:19:59.512Z"
 }
