@@ -5838,16 +5838,16 @@
       "displayName": "Gatoze016",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Randonnée pour Brainrot !",
-      "placeId": 105094274942273,
+      "gameName": "[X20] Course de chevaux 🐎 [FIN DE SEMAINE]",
+      "placeId": 93787311916283,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-23T01:36:53.014Z",
       "firstSeenMs": 1784770613014,
-      "lastSeen": "2026-07-31T12:25:00.000Z",
-      "lastSeenMs": 1785500700000
+      "lastSeen": "2026-07-31T13:55:00.000Z",
+      "lastSeenMs": 1785506100000
     },
     {
       "userId": "11342692379",
@@ -14301,5 +14301,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-31T13:41:01.369Z"
+  "updatedAt": "2026-07-31T13:57:41.034Z"
 }
