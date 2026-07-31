@@ -1392,8 +1392,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T15:16:24.130Z",
       "firstSeenMs": 1784560584130,
-      "lastSeen": "2026-07-31T18:05:00.000Z",
-      "lastSeenMs": 1785521100000
+      "lastSeen": "2026-07-31T18:10:00.000Z",
+      "lastSeenMs": 1785521400000
     },
     {
       "userId": "10768762997",
@@ -7011,16 +7011,16 @@
       "displayName": "XSET_Niko",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "(🦅LICENSED FORDS!) Greenville",
-      "placeId": 891852901,
+      "gameName": "Tower of Hell",
+      "placeId": 1962086868,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-30T02:56:24.845Z",
       "firstSeenMs": 1785380184845,
-      "lastSeen": "2026-07-31T18:00:00.000Z",
-      "lastSeenMs": 1785520800000
+      "lastSeen": "2026-07-31T18:10:00.000Z",
+      "lastSeenMs": 1785521400000
     },
     {
       "userId": "3143794926",
@@ -14318,5 +14318,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-31T18:08:17.048Z"
+  "updatedAt": "2026-07-31T18:10:33.579Z"
 }
