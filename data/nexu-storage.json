@@ -6005,19 +6005,19 @@
     {
       "userId": "1356739077",
       "username": "XxjavierXx251clon",
-      "displayName": "Javier_gamer",
+      "displayName": "Javier",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "The Rake REMASTERADO",
-      "placeId": 2413927524,
+      "gameName": "+18 Conoce gente de todo el mundo 🔊",
+      "placeId": 110570058234582,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T23:51:29.415Z",
       "firstSeenMs": 1784245889415,
-      "lastSeen": "2026-07-22T02:45:00.000Z",
-      "lastSeenMs": 1784688300000
+      "lastSeen": "2026-07-31T17:05:00.000Z",
+      "lastSeenMs": 1785517500000
     },
     {
       "userId": "1407975513",
@@ -14301,5 +14301,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-31T16:16:04.557Z"
+  "updatedAt": "2026-07-31T17:05:08.190Z"
 }
