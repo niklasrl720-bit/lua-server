@@ -14299,41 +14299,10 @@
     "changedBy": ""
   },
   "chat": {
-    "dayKey": "2026-07-31",
-    "resetRevision": 15,
-    "resetAtMs": 1785448800183,
-    "messages": [
-      {
-        "id": 1785500828757007,
-        "userId": "10199760908",
-        "roleKey": "creator",
-        "roleTitle": "MENU CREATOR",
-        "username": "znxklas198",
-        "displayName": "znxklas198",
-        "message": "test",
-        "originalMessage": "",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-07-31T12:27:08.757Z",
-        "sentAtMs": 1785500828757
-      },
-      {
-        "id": 1785500837139008,
-        "userId": "10199760908",
-        "roleKey": "creator",
-        "roleTitle": "MENU CREATOR",
-        "username": "znxklas198",
-        "displayName": "znxklas198",
-        "message": "hi",
-        "originalMessage": "",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-07-31T12:27:17.139Z",
-        "sentAtMs": 1785500837139
-      }
-    ]
+    "dayKey": "2026-08-01",
+    "resetRevision": 16,
+    "resetAtMs": 1785535200082,
+    "messages": []
   },
-  "updatedAt": "2026-07-31T21:56:03.619Z"
+  "updatedAt": "2026-07-31T22:00:00.879Z"
 }
