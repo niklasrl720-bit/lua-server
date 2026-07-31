@@ -13131,8 +13131,8 @@
       "displayName": "P90",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🚗] Ro-vibrações 🔊",
-      "placeId": 121692407072104,
+      "gameName": "Um Lugar Tranquilo: Zona Morta (Pré-Alfa)",
+      "placeId": 106920577206536,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -14304,5 +14304,5 @@
     "resetAtMs": 1785535200082,
     "messages": []
   },
-  "updatedAt": "2026-07-31T23:14:27.780Z"
+  "updatedAt": "2026-07-31T23:14:50.778Z"
 }
