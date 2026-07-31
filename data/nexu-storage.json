@@ -1384,8 +1384,8 @@
       "displayName": "LUCIFER",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "עולם הכיף 🎉 - בואו לכיף ישראל",
-      "placeId": 7999948656,
+      "gameName": "[🎉] בואו למועדון",
+      "placeId": 7692026064,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
@@ -14270,5 +14270,5 @@
     "resetAtMs": 1785448800183,
     "messages": []
   },
-  "updatedAt": "2026-07-31T11:21:03.954Z"
+  "updatedAt": "2026-07-31T11:23:14.180Z"
 }
