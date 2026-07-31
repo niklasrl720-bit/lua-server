@@ -8436,7 +8436,7 @@
     {
       "userId": "440077558",
       "username": "5OBULLETS",
-      "displayName": "000",
+      "displayName": "000_DOA",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
       "gameName": "Da Hood ⚽",
@@ -8447,8 +8447,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-30T11:32:30.398Z",
       "firstSeenMs": 1785411150398,
-      "lastSeen": "2026-07-30T11:35:00.000Z",
-      "lastSeenMs": 1785411300000
+      "lastSeen": "2026-07-31T05:45:00.000Z",
+      "lastSeenMs": 1785476700000
     },
     {
       "userId": "4405561372",
@@ -14253,5 +14253,5 @@
     "resetAtMs": 1785448800183,
     "messages": []
   },
-  "updatedAt": "2026-07-31T05:48:28.445Z"
+  "updatedAt": "2026-07-31T05:49:58.409Z"
 }
