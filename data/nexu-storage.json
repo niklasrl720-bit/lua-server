@@ -12689,16 +12689,16 @@
       "displayName": "raidingyou_DOA",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Da Hood ⚽",
-      "placeId": 2788229376,
+      "gameName": "Da Hood [VC]",
+      "placeId": 7213786345,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-31T05:54:31.967Z",
       "firstSeenMs": 1785477271967,
-      "lastSeen": "2026-07-31T06:45:00.000Z",
-      "lastSeenMs": 1785480300000
+      "lastSeen": "2026-07-31T20:45:00.000Z",
+      "lastSeenMs": 1785530700000
     },
     {
       "userId": "8945888250",
@@ -14335,5 +14335,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-31T20:46:01.027Z"
+  "updatedAt": "2026-07-31T20:49:38.093Z"
 }
