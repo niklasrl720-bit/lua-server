@@ -9029,6 +9029,23 @@
       "lastSeenMs": 1784422200000
     },
     {
+      "userId": "5113078254",
+      "username": "sshbbxd",
+      "displayName": "sshbbxd",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "בואו לבית מלון🏝️ (חזר!)",
+      "placeId": 10971802789,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-07-31T20:40:20.084Z",
+      "firstSeenMs": 1785530420084,
+      "lastSeen": "2026-07-31T20:40:20.084Z",
+      "lastSeenMs": 1785530420084
+    },
+    {
       "userId": "5131378969",
       "username": "Felix_228362",
       "displayName": "Felix_225",
@@ -14318,5 +14335,5 @@
       }
     ]
   },
-  "updatedAt": "2026-07-31T20:31:02.963Z"
+  "updatedAt": "2026-07-31T20:40:25.090Z"
 }
