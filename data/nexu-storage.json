@@ -14268,7 +14268,23 @@
     "dayKey": "2026-07-31",
     "resetRevision": 15,
     "resetAtMs": 1785448800183,
-    "messages": []
+    "messages": [
+      {
+        "id": 1785500828757007,
+        "userId": "10199760908",
+        "roleKey": "creator",
+        "roleTitle": "MENU CREATOR",
+        "username": "znxklas198",
+        "displayName": "znxklas198",
+        "message": "test",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-07-31T12:27:08.757Z",
+        "sentAtMs": 1785500828757
+      }
+    ]
   },
-  "updatedAt": "2026-07-31T12:26:59.488Z"
+  "updatedAt": "2026-07-31T12:27:09.797Z"
 }
