@@ -13913,16 +13913,16 @@
       "displayName": "KingXD4081",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Third World",
-      "placeId": 121956648506820,
+      "gameName": "[🔥AURA] Phonk Edit Tower 🎶",
+      "placeId": 101480963912212,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-07-30T11:50:00.000Z",
-      "lastSeenMs": 1785412200000
+      "lastSeen": "2026-08-01T12:00:00.000Z",
+      "lastSeenMs": 1785585600000
     },
     {
       "userId": "9786800904",
@@ -14304,5 +14304,5 @@
     "resetAtMs": 1785535200082,
     "messages": []
   },
-  "updatedAt": "2026-08-01T12:01:01.195Z"
+  "updatedAt": "2026-08-01T12:03:14.679Z"
 }
