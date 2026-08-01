@@ -5838,16 +5838,16 @@
       "displayName": "Gatoze016",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[Mise à jour Porsche] Empire de conduite🏎️ Course automobile📦RP",
-      "placeId": 3351674303,
+      "gameName": "Blocs de perçage pour les Brainrots",
+      "placeId": 78177131121429,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-23T01:36:53.014Z",
       "firstSeenMs": 1784770613014,
-      "lastSeen": "2026-07-31T20:30:00.000Z",
-      "lastSeenMs": 1785529800000
+      "lastSeen": "2026-08-01T13:45:00.000Z",
+      "lastSeenMs": 1785591900000
     },
     {
       "userId": "11342692379",
@@ -14304,5 +14304,5 @@
     "resetAtMs": 1785535200082,
     "messages": []
   },
-  "updatedAt": "2026-08-01T13:46:03.443Z"
+  "updatedAt": "2026-08-01T13:48:30.470Z"
 }
