@@ -4461,16 +4461,16 @@
       "displayName": "jogadorapost",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Blox Fruits | Terceiro Mar",
-      "placeId": 100117331123089,
+      "gameName": "Teste de Omnidroids",
+      "placeId": 74942575319599,
       "executionSource": "Delta",
       "executionVersion": "1.1.731.944",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-22T16:20:25.249Z",
       "firstSeenMs": 1784737225249,
-      "lastSeen": "2026-08-01T17:35:00.000Z",
-      "lastSeenMs": 1785605700000
+      "lastSeen": "2026-08-01T19:50:00.000Z",
+      "lastSeenMs": 1785613800000
     },
     {
       "userId": "11286809741",
@@ -6016,8 +6016,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T23:51:29.415Z",
       "firstSeenMs": 1784245889415,
-      "lastSeen": "2026-08-01T19:45:00.000Z",
-      "lastSeenMs": 1785613500000
+      "lastSeen": "2026-08-01T19:50:00.000Z",
+      "lastSeenMs": 1785613800000
     },
     {
       "userId": "1407975513",
@@ -12952,8 +12952,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:13.454Z",
       "firstSeenMs": 1784225113454,
-      "lastSeen": "2026-08-01T19:45:00.000Z",
-      "lastSeenMs": 1785613500000
+      "lastSeen": "2026-08-01T19:50:00.000Z",
+      "lastSeenMs": 1785613800000
     },
     {
       "userId": "9123569216",
@@ -14304,5 +14304,5 @@
     "resetAtMs": 1785535200082,
     "messages": []
   },
-  "updatedAt": "2026-08-01T19:46:04.800Z"
+  "updatedAt": "2026-08-01T19:50:20.023Z"
 }
