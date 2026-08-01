@@ -4461,16 +4461,16 @@
       "displayName": "jogadorapost",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🛸] Vender Limões 🍋",
-      "placeId": 79268393072444,
+      "gameName": "Blox Fruits | Terceiro Mar",
+      "placeId": 100117331123089,
       "executionSource": "Delta",
-      "executionVersion": "1.2.729.840",
+      "executionVersion": "1.1.731.944",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-22T16:20:25.249Z",
       "firstSeenMs": 1784737225249,
-      "lastSeen": "2026-07-25T22:00:00.000Z",
-      "lastSeenMs": 1785016800000
+      "lastSeen": "2026-08-01T17:30:00.000Z",
+      "lastSeenMs": 1785605400000
     },
     {
       "userId": "11286809741",
@@ -14304,5 +14304,5 @@
     "resetAtMs": 1785535200082,
     "messages": []
   },
-  "updatedAt": "2026-08-01T17:31:36.543Z"
+  "updatedAt": "2026-08-01T17:33:20.711Z"
 }
