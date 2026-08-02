@@ -14333,26 +14333,10 @@
     "changedBy": ""
   },
   "chat": {
-    "dayKey": "2026-08-02",
-    "resetRevision": 17,
-    "resetAtMs": 1785621600237,
-    "messages": [
-      {
-        "id": 1785707038210009,
-        "userId": "3131691464",
-        "roleKey": "player",
-        "roleTitle": "PLAYERS",
-        "username": "Niko_infinite23",
-        "displayName": "XSET_Niko",
-        "message": "yo",
-        "originalMessage": "",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-08-02T21:43:58.210Z",
-        "sentAtMs": 1785707038210
-      }
-    ]
+    "dayKey": "2026-08-03",
+    "resetRevision": 18,
+    "resetAtMs": 1785708000274,
+    "messages": []
   },
-  "updatedAt": "2026-08-02T21:56:05.356Z"
+  "updatedAt": "2026-08-02T22:00:01.105Z"
 }
