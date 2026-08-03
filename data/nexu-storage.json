@@ -13981,16 +13981,16 @@
       "displayName": "KingXD4081",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "💥 Extreme Gear Troll Tower",
-      "placeId": 103285721487694,
+      "gameName": "Break Tape For Brainrots",
+      "placeId": 104339804279870,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-08-02T17:20:00.000Z",
-      "lastSeenMs": 1785691200000
+      "lastSeen": "2026-08-03T16:20:00.000Z",
+      "lastSeenMs": 1785774000000
     },
     {
       "userId": "9786800904",
@@ -14372,5 +14372,5 @@
     "resetAtMs": 1785708000274,
     "messages": []
   },
-  "updatedAt": "2026-08-03T14:41:01.449Z"
+  "updatedAt": "2026-08-03T16:23:01.385Z"
 }
