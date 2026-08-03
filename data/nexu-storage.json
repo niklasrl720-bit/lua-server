@@ -7929,16 +7929,16 @@
       "displayName": "Idk",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "game",
-      "placeId": 125224440903394,
+      "gameName": "Murder Mystery 2",
+      "placeId": 142823291,
       "executionSource": "Real",
       "executionVersion": "1.7.4",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T21:18:06.632Z",
       "firstSeenMs": 1784323086632,
-      "lastSeen": "2026-08-02T22:05:00.000Z",
-      "lastSeenMs": 1785708300000
+      "lastSeen": "2026-08-03T13:50:00.000Z",
+      "lastSeenMs": 1785765000000
     },
     {
       "userId": "3996091825",
@@ -14372,5 +14372,5 @@
     "resetAtMs": 1785708000274,
     "messages": []
   },
-  "updatedAt": "2026-08-03T13:54:06.224Z"
+  "updatedAt": "2026-08-03T13:54:35.910Z"
 }
