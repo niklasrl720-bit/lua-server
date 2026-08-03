@@ -13250,16 +13250,16 @@
       "displayName": "seehil",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🔱UPD] Speed Training⚡",
-      "placeId": 105553804282308,
+      "gameName": "+1 Pickaxe Swing Escape",
+      "placeId": 82554996468034,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-25T20:35:39.563Z",
       "firstSeenMs": 1785011739563,
-      "lastSeen": "2026-07-30T19:20:00.000Z",
-      "lastSeenMs": 1785439200000
+      "lastSeen": "2026-08-03T18:35:00.000Z",
+      "lastSeenMs": 1785782100000
     },
     {
       "userId": "9297629319",
@@ -14372,5 +14372,5 @@
     "resetAtMs": 1785708000274,
     "messages": []
   },
-  "updatedAt": "2026-08-03T17:46:04.683Z"
+  "updatedAt": "2026-08-03T18:38:27.618Z"
 }
