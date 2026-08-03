@@ -7057,6 +7057,23 @@
       "lastSeenMs": 1784259333959
     },
     {
+      "userId": "311660687",
+      "username": "trollboy05",
+      "displayName": "Angel_DOA",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Da Hood ⚽",
+      "placeId": 2788229376,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-08-03T23:28:33.817Z",
+      "firstSeenMs": 1785799713817,
+      "lastSeen": "2026-08-03T23:28:33.817Z",
+      "lastSeenMs": 1785799713817
+    },
+    {
       "userId": "3131691464",
       "username": "Niko_infinite23",
       "displayName": "XSET_Niko",
@@ -14372,5 +14389,5 @@
     "resetAtMs": 1785794400127,
     "messages": []
   },
-  "updatedAt": "2026-08-03T22:16:04.555Z"
+  "updatedAt": "2026-08-03T23:28:38.823Z"
 }
