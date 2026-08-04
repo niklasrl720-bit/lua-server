@@ -14435,26 +14435,10 @@
     "changedBy": ""
   },
   "chat": {
-    "dayKey": "2026-08-04",
-    "resetRevision": 19,
-    "resetAtMs": 1785794400127,
-    "messages": [
-      {
-        "id": 1785857988720010,
-        "userId": "8101763529",
-        "roleKey": "player",
-        "roleTitle": "PLAYERS",
-        "username": "ryuaorpa",
-        "displayName": "roxyuel",
-        "message": "tprt",
-        "originalMessage": "",
-        "moderated": false,
-        "moderationCategory": "",
-        "moderationScore": 0,
-        "sentAt": "2026-08-04T15:39:48.720Z",
-        "sentAtMs": 1785857988720
-      }
-    ]
+    "dayKey": "2026-08-05",
+    "resetRevision": 20,
+    "resetAtMs": 1785880800138,
+    "messages": []
   },
-  "updatedAt": "2026-08-04T21:56:06.257Z"
+  "updatedAt": "2026-08-04T22:00:00.988Z"
 }
