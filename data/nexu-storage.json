@@ -2960,6 +2960,23 @@
       "lastSeenMs": 1784326800000
     },
     {
+      "userId": "11183536730",
+      "username": "Greeyytr",
+      "displayName": "ujustun",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "The Strongest Battlegrounds",
+      "placeId": 10449761463,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-08-04T11:15:11.444Z",
+      "firstSeenMs": 1785842111444,
+      "lastSeen": "2026-08-04T11:15:11.444Z",
+      "lastSeenMs": 1785842111444
+    },
+    {
       "userId": "11185260337",
       "username": "michael475424",
       "displayName": "michael475424",
@@ -14406,5 +14423,5 @@
     "resetAtMs": 1785794400127,
     "messages": []
   },
-  "updatedAt": "2026-08-04T11:01:03.259Z"
+  "updatedAt": "2026-08-04T11:15:16.453Z"
 }
