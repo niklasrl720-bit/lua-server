@@ -9875,8 +9875,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-19T01:52:26.443Z",
       "firstSeenMs": 1784425946443,
-      "lastSeen": "2026-08-01T12:10:00.000Z",
-      "lastSeenMs": 1785586200000
+      "lastSeen": "2026-08-04T12:00:00.000Z",
+      "lastSeenMs": 1785844800000
     },
     {
       "userId": "5843349211",
@@ -14423,5 +14423,5 @@
     "resetAtMs": 1785794400127,
     "messages": []
   },
-  "updatedAt": "2026-08-04T11:15:16.453Z"
+  "updatedAt": "2026-08-04T12:00:42.990Z"
 }
