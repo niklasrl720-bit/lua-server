@@ -14421,7 +14421,23 @@
     "dayKey": "2026-08-04",
     "resetRevision": 19,
     "resetAtMs": 1785794400127,
-    "messages": []
+    "messages": [
+      {
+        "id": 1785857988720010,
+        "userId": "8101763529",
+        "roleKey": "player",
+        "roleTitle": "PLAYERS",
+        "username": "ryuaorpa",
+        "displayName": "roxyuel",
+        "message": "tprt",
+        "originalMessage": "",
+        "moderated": false,
+        "moderationCategory": "",
+        "moderationScore": 0,
+        "sentAt": "2026-08-04T15:39:48.720Z",
+        "sentAtMs": 1785857988720
+      }
+    ]
   },
-  "updatedAt": "2026-08-04T15:38:48.804Z"
+  "updatedAt": "2026-08-04T15:39:49.759Z"
 }
