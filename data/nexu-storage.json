@@ -1940,6 +1940,23 @@
       "lastSeenMs": 1784268215485
     },
     {
+      "userId": "10968970913",
+      "username": "TimmyBug2186",
+      "displayName": "TimmyBug2186",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Horse World - Virtuality Stable",
+      "placeId": 1690195335,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.55",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-08-04T05:39:30.804Z",
+      "firstSeenMs": 1785821970804,
+      "lastSeen": "2026-08-04T05:39:30.804Z",
+      "lastSeenMs": 1785821970804
+    },
+    {
       "userId": "10975814662",
       "username": "imnotakidah",
       "displayName": "imnotakidah",
@@ -14389,5 +14406,5 @@
     "resetAtMs": 1785794400127,
     "messages": []
   },
-  "updatedAt": "2026-08-04T02:06:05.794Z"
+  "updatedAt": "2026-08-04T05:39:35.811Z"
 }
