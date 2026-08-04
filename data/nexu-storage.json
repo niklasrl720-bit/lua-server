@@ -7295,6 +7295,23 @@
       "lastSeenMs": 1784251645004
     },
     {
+      "userId": "3355641055",
+      "username": "shaharm17",
+      "displayName": "shaharm17",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "[SUMMER] Murder Duels",
+      "placeId": 120851538706364,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.731.944",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-08-04T20:33:38.506Z",
+      "firstSeenMs": 1785875618506,
+      "lastSeen": "2026-08-04T20:33:38.506Z",
+      "lastSeenMs": 1785875618506
+    },
+    {
       "userId": "3366186862",
       "username": "RodGamyt",
       "displayName": "RodGamR",
@@ -14439,5 +14456,5 @@
       }
     ]
   },
-  "updatedAt": "2026-08-04T20:31:05.727Z"
+  "updatedAt": "2026-08-04T20:33:43.514Z"
 }
