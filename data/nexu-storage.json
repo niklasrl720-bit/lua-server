@@ -11652,16 +11652,16 @@
       "displayName": "roxyuel",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🍉수박] 동굴 부대",
-      "placeId": 96256228241730,
+      "gameName": "한국 머더",
+      "placeId": 5720801512,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-23T10:19:08.236Z",
       "firstSeenMs": 1784801948236,
-      "lastSeen": "2026-08-04T23:20:00.000Z",
-      "lastSeenMs": 1785885600000
+      "lastSeen": "2026-08-05T03:30:00.000Z",
+      "lastSeenMs": 1785900600000
     },
     {
       "userId": "8106390228",
@@ -14440,5 +14440,5 @@
     "resetAtMs": 1785880800138,
     "messages": []
   },
-  "updatedAt": "2026-08-05T03:06:10.650Z"
+  "updatedAt": "2026-08-05T03:31:59.463Z"
 }
