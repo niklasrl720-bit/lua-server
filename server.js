@@ -1,7 +1,8 @@
+// V247: OpenRouter-Integration mit Poolside Laguna XS 2.1 Free, großem Code-Kontext, stabiler Fehlerbehandlung und professionellem Lua-/Luau-Modus.
 // V244: Stabilere lange KI-Antworten, adaptive Reasoning-Budgets, Fallback-Modell und sprachgebundener Profi-Code-Modus.
 // V243: Fortlaufender Code-Arbeitskontext, normale Antworten und Rückfragen im Code-Modus sowie Codeausgabe ausschließlich im Code-Modus.
-// V242: Token-sicherer Groq-Code-Modus, internes Nexu-Seitenwissen, reine Codeausgaben, pausierbares Auto-Scrollen und dauerhaft sichtbare Code-Kopfleisten.
-// V241: Professioneller Lua-/Luau-Code-Modus mit strenger Roblox-Architekturprüfung, interner Qualitätskontrolle, deterministischerer Codeausgabe und stabileren Groq-Anfragen.
+// V242: Token-sicherer KI-Code-Modus, internes Nexu-Seitenwissen, reine Codeausgaben, pausierbares Auto-Scrollen und dauerhaft sichtbare Code-Kopfleisten.
+// V241: Professioneller Lua-/Luau-Code-Modus mit strenger Roblox-Architekturprüfung, interner Qualitätskontrolle, deterministischerer Codeausgabe und stabileren KI-Anfragen.
 // V240: Robuster Nexu-KI-Chat mit garantiertem Verlauf-Scroll, Auto-Follow, 100k-Nachrichten, eigenen Benachrichtigungen und KI-Titeln.
 // V236: Accountgebundene Design-Persistenz, serverseitige Theme-Synchronisierung auf allen Seiten und konfliktfester GitHub-Abgleich.
 // V235: Eigene Settings-Seite unter /settings und einheitliche englische URL-Pfade.
@@ -16212,45 +16213,47 @@ nexuV235SettingsPageHtml = function(notice = "", error = "", account = null) {
 
 
 /* --------------------------------------------------------------------------
- * NEXU V245 // ACCOUNT-BOUND NEXU FORGE AI // GROQ
+ * NEXU V247 // ACCOUNT-BOUND NEXU FORGE AI // OPENROUTER + POOLSIDE
  * Geschützte KI-Seite mit accountgebundenen Chats, Lua-/Luau-Code-Modus,
  * verschlüsselter Persistenz und konfliktarmem GitHub-Datenbranch-Abgleich.
  * package.json bleibt unverändert; Node.js 18+ stellt fetch bereits bereit.
  * -------------------------------------------------------------------------- */
 
 const NEXU_AI_NAME = String(process.env.NEXU_AI_NAME || "Nexu Forge AI").trim() || "Nexu Forge AI";
-const NEXU_AI_API_KEY = String(process.env.GROQ_API_KEY || "").trim();
-const NEXU_AI_MODEL = String(process.env.GROQ_MODEL || "openai/gpt-oss-120b").trim() || "openai/gpt-oss-120b";
-const NEXU_AI_FALLBACK_MODEL = String(process.env.GROQ_FALLBACK_MODEL || "qwen/qwen3.6-27b").trim() || "qwen/qwen3.6-27b";
-// A second, coding-focused model can review compact Code-mode answers. The
-// original answer remains the fallback, so a reviewer outage never breaks chat.
-const NEXU_AI_CODE_REVIEW_MODEL = String(process.env.GROQ_CODE_REVIEW_MODEL || "qwen/qwen3.6-27b").trim() || "qwen/qwen3.6-27b";
-const NEXU_AI_CODE_REVIEW_ENABLED = !/^(?:0|false|off|no)$/i.test(String(process.env.GROQ_CODE_REVIEW_ENABLED || "true").trim());
-const NEXU_AI_API_URL = String(process.env.GROQ_API_URL || "https://api.groq.com/openai/v1/responses").trim() || "https://api.groq.com/openai/v1/responses";
+const NEXU_AI_API_KEY = String(process.env.OPENROUTER_API_KEY || "").trim();
+const NEXU_AI_MODEL = String(process.env.OPENROUTER_MODEL || "poolside/laguna-xs-2.1:free").trim() || "poolside/laguna-xs-2.1:free";
+const NEXU_AI_FALLBACK_MODEL = String(process.env.OPENROUTER_FALLBACK_MODEL || "").trim();
+const NEXU_AI_CODE_REVIEW_MODEL = String(process.env.OPENROUTER_CODE_REVIEW_MODEL || NEXU_AI_MODEL).trim() || NEXU_AI_MODEL;
+// Ein zweiter Review-Aufruf verbraucht eine weitere kostenlose OpenRouter-Anfrage.
+// Deshalb ist er standardmäßig aus und kann bewusst per Environment aktiviert werden.
+const NEXU_AI_CODE_REVIEW_ENABLED = !/^(?:0|false|off|no)$/i.test(String(process.env.OPENROUTER_CODE_REVIEW_ENABLED || "false").trim());
+const NEXU_AI_API_URL = String(process.env.OPENROUTER_API_BASE_URL || "https://openrouter.ai/api/v1/chat/completions").trim().replace(/\/+$/, "");
+const NEXU_AI_SITE_URL = String(process.env.OPENROUTER_SITE_URL || process.env.RENDER_EXTERNAL_URL || "").trim();
+const NEXU_AI_SITE_TITLE = String(process.env.OPENROUTER_SITE_TITLE || NEXU_AI_NAME).trim() || NEXU_AI_NAME;
 const NEXU_AI_CHAT_FILE_PATH = String(process.env.NEXU_AI_CHAT_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-ai-chats.json"));
 const GITHUB_AI_CHATS_PATH = String(process.env.GITHUB_AI_CHATS_PATH || "data/nexu-ai-chats.json").trim() || "data/nexu-ai-chats.json";
 const NEXU_AI_STORAGE_SECRET = String(process.env.NEXU_AI_STORAGE_SECRET || "").trim() || `${DASHBOARD_ACCOUNT_STORAGE_SECRET}|nexu-ai-chats-v1`;
 const NEXU_AI_MAX_CHATS_PER_ACCOUNT = 20;
 const NEXU_AI_MAX_MESSAGES_PER_CHAT = 240;
-const NEXU_AI_CONTEXT_MESSAGES = 80;
-const NEXU_AI_MAX_CONTEXT_CHARS = 100_000;
-const NEXU_AI_MAX_MESSAGE_CHARS = 100_000;
-const NEXU_AI_MAX_STORED_RESPONSE_CHARS = 100_000;
+const NEXU_AI_CONTEXT_MESSAGES = 120;
+const NEXU_AI_MAX_CONTEXT_CHARS = 800_000;
+const NEXU_AI_MAX_MESSAGE_CHARS = 250_000;
+const NEXU_AI_MAX_STORED_RESPONSE_CHARS = 250_000;
 const NEXU_AI_RATE_WINDOW_MS = 60_000;
 const NEXU_AI_RATE_LIMIT = 10;
-const NEXU_AI_REQUEST_TIMEOUT_MS = 240_000;
-const NEXU_AI_MAX_REQUEST_BYTES = 1_500_000;
-// Free Groq projects currently expose an 8K TPM bucket for GPT-OSS. Keep a real
-// reserve for visible output instead of allowing reasoning to consume everything.
-const NEXU_AI_TPM_BUDGET = Math.max(3_600, Math.min(7_200, Number.parseInt(String(process.env.GROQ_TPM_BUDGET || "7000"), 10) || 7_000));
-const NEXU_AI_FALLBACK_TPM_BUDGET = Math.max(4_000, Math.min(11_000, Number.parseInt(String(process.env.GROQ_FALLBACK_TPM_BUDGET || "10400"), 10) || 10_400));
-const NEXU_AI_CODE_REVIEW_TPM_BUDGET = Math.max(3_600, Math.min(10_500, Number.parseInt(String(process.env.GROQ_CODE_REVIEW_TPM_BUDGET || "7600"), 10) || 7_600));
-const NEXU_AI_CODE_REVIEW_MAX_DRAFT_CHARS = Math.max(4_000, Math.min(40_000, Number.parseInt(String(process.env.GROQ_CODE_REVIEW_MAX_DRAFT_CHARS || "22000"), 10) || 22_000));
-const NEXU_AI_TPM_SAFETY_TOKENS = 520;
-const NEXU_AI_CODE_DESIRED_OUTPUT_TOKENS = 2_800;
-const NEXU_AI_NORMAL_DESIRED_OUTPUT_TOKENS = 1_800;
-const NEXU_AI_CODE_MIN_OUTPUT_TOKENS = 900;
-const NEXU_AI_NORMAL_MIN_OUTPUT_TOKENS = 420;
+const NEXU_AI_REQUEST_TIMEOUT_MS = 300_000;
+const NEXU_AI_MAX_REQUEST_BYTES = 4_000_000;
+// Poolside Laguna XS 2.1 bietet rund 262k Kontext und bis zu 32k Ausgabe.
+// Die Anwendung bleibt bewusst darunter und reserviert Platz für die Antwort.
+const NEXU_AI_TPM_BUDGET = Math.max(40_000, Math.min(248_000, Number.parseInt(String(process.env.OPENROUTER_CONTEXT_BUDGET || "240000"), 10) || 240_000));
+const NEXU_AI_FALLBACK_TPM_BUDGET = Math.max(40_000, Math.min(248_000, Number.parseInt(String(process.env.OPENROUTER_FALLBACK_CONTEXT_BUDGET || "220000"), 10) || 220_000));
+const NEXU_AI_CODE_REVIEW_TPM_BUDGET = Math.max(30_000, Math.min(220_000, Number.parseInt(String(process.env.OPENROUTER_CODE_REVIEW_CONTEXT_BUDGET || "160000"), 10) || 160_000));
+const NEXU_AI_CODE_REVIEW_MAX_DRAFT_CHARS = Math.max(8_000, Math.min(120_000, Number.parseInt(String(process.env.OPENROUTER_CODE_REVIEW_MAX_DRAFT_CHARS || "80000"), 10) || 80_000));
+const NEXU_AI_TPM_SAFETY_TOKENS = 8_000;
+const NEXU_AI_CODE_DESIRED_OUTPUT_TOKENS = 30_000;
+const NEXU_AI_NORMAL_DESIRED_OUTPUT_TOKENS = 10_000;
+const NEXU_AI_CODE_MIN_OUTPUT_TOKENS = 1_200;
+const NEXU_AI_NORMAL_MIN_OUTPUT_TOKENS = 500;
 const NEXU_AI_MIN_VISIBLE_RESPONSE_CHARS = 24;
 
 const nexuAiChatsByAccount = new Map();
@@ -16761,29 +16764,24 @@ function buildNexuAiInstructions(chat, account, options = {}) {
 }
 
 function extractNexuAiResponseText(payload) {
-    if (payload && typeof payload.output_text === "string" && payload.output_text.trim()) return payload.output_text.trim();
-    const parts = [];
-    for (const item of Array.isArray(payload && payload.output) ? payload.output : []) {
-        if (!item || item.type !== "message") continue;
-        for (const content of Array.isArray(item.content) ? item.content : []) {
-            if (content && (content.type === "output_text" || content.type === "text") && typeof content.text === "string") parts.push(content.text);
-            else if (content && content.type === "refusal" && typeof content.refusal === "string") parts.push(content.refusal);
-        }
+    const message = payload && payload.choices && payload.choices[0] && payload.choices[0].message;
+    const content = message && message.content;
+    if (typeof content === "string") return content.trim();
+    if (Array.isArray(content)) {
+        return content.map((part) => {
+            if (typeof part === "string") return part;
+            if (part && typeof part.text === "string") return part.text;
+            if (part && part.type === "text" && typeof part.content === "string") return part.content;
+            return "";
+        }).filter(Boolean).join("\n").trim();
     }
-    if (parts.length) return parts.join("\n").trim();
-    const chatContent = payload && payload.choices && payload.choices[0] && payload.choices[0].message && payload.choices[0].message.content;
-    if (typeof chatContent === "string" && chatContent.trim()) return chatContent.trim();
-    if (Array.isArray(chatContent)) {
-        return chatContent.map((part) => part && typeof part.text === "string" ? part.text : "").filter(Boolean).join("\n").trim();
-    }
+    if (typeof (payload && payload.output_text) === "string") return payload.output_text.trim();
     return "";
 }
 
 function estimateNexuAiTextTokens(value) {
     const source = String(value || "");
     if (!source) return 0;
-    // Conservative for German prose and source code. Over-estimating is safer
-    // than triggering Groq's requested-token TPM rejection.
     return Math.max(1, Math.ceil(Buffer.byteLength(source, "utf8") / 3));
 }
 
@@ -16800,7 +16798,7 @@ function trimNexuAiContextContent(content, limit) {
     const source = String(content || "");
     if (source.length <= limit) return source;
     if (limit < 240) return source.slice(-limit);
-    const marker = "\n\n[... Mittelteil automatisch wegen des Groq-Tokenlimits gekürzt; Anfang und Ende bleiben erhalten ...]\n\n";
+    const marker = "\n\n[... Mittelteil automatisch wegen des OpenRouter-Kontextlimits gekürzt; Anfang und Ende bleiben erhalten ...]\n\n";
     const usable = Math.max(1, limit - marker.length);
     const headLength = Math.floor(usable * 0.52);
     const tailLength = usable - headLength;
@@ -16814,134 +16812,98 @@ function buildNexuAiContextMessages(chat, maxInputTokens = NEXU_AI_TPM_BUDGET) {
     const source = (Array.isArray(chat && chat.messages) ? chat.messages : [])
         .slice(-NEXU_AI_CONTEXT_MESSAGES)
         .filter((message) => message && (message.role === "user" || message.role === "assistant") && String(message.content || ""));
-    const tokenLimit = Math.max(256, Math.floor(Number(maxInputTokens) || 256));
+    const tokenLimit = Math.max(2_000, Math.floor(Number(maxInputTokens) || 2_000));
     if (!source.length) return { messages: [], truncated: false, estimatedTokens: 0 };
 
     const latestIndex = source.length - 1;
     const recentCodeIndexes = [];
-    for (let index = latestIndex; index >= 0 && recentCodeIndexes.length < 3; index -= 1) {
+    for (let index = latestIndex; index >= 0 && recentCodeIndexes.length < 5; index -= 1) {
         if (/```[\s\S]*?```/.test(String(source[index].content || ""))) recentCodeIndexes.push(index);
     }
-
     const priority = [latestIndex];
     for (const index of recentCodeIndexes) {
         if (!priority.includes(index)) priority.push(index);
         const previousIndex = index - 1;
         if (previousIndex >= 0 && source[previousIndex] && source[previousIndex].role === "user" && !priority.includes(previousIndex)) priority.push(previousIndex);
     }
-    for (let index = latestIndex - 1; index >= 0; index -= 1) {
-        if (!priority.includes(index)) priority.push(index);
-    }
+    for (let index = latestIndex - 1; index >= 0; index -= 1) if (!priority.includes(index)) priority.push(index);
 
     const selected = new Map();
     let usedTokens = 0;
     let usedChars = 0;
     let truncated = false;
-
     for (const index of priority) {
         const message = source[index];
         const rawContent = String(message.content || "");
         const remainingTokens = tokenLimit - usedTokens - 10;
         const remainingChars = NEXU_AI_MAX_CONTEXT_CHARS - usedChars;
-        if (remainingTokens <= 0 || remainingChars <= 0) {
-            truncated = true;
-            break;
-        }
-
-        const codeRank = recentCodeIndexes.indexOf(index);
-        let perMessageTokens = remainingTokens;
-        if (index === latestIndex && codeRank < 0) {
-            perMessageTokens = Math.min(remainingTokens, Math.max(300, Math.floor(tokenLimit * 0.38)));
-        } else if (codeRank === 0) {
-            perMessageTokens = Math.min(remainingTokens, Math.max(520, Math.floor(tokenLimit * 0.54)));
-        } else if (codeRank > 0) {
-            perMessageTokens = Math.min(remainingTokens, Math.max(260, Math.floor(tokenLimit * 0.24)));
-        } else {
-            perMessageTokens = Math.min(remainingTokens, Math.max(180, Math.floor(tokenLimit * 0.18)));
-        }
-        const charLimit = Math.min(remainingChars, Math.max(1, perMessageTokens * 3));
+        if (remainingTokens <= 0 || remainingChars <= 0) { truncated = true; break; }
+        const charLimit = Math.min(remainingChars, Math.max(1, remainingTokens * 3));
         const content = trimNexuAiContextContent(rawContent, charLimit);
         if (!content) continue;
-
         selected.set(index, { role: message.role, content });
         usedTokens += 10 + estimateNexuAiTextTokens(content);
         usedChars += content.length;
         if (content.length < rawContent.length) truncated = true;
     }
-
     if (selected.size < source.length) truncated = true;
     const messages = [...selected.entries()].sort((a, b) => a[0] - b[0]).map((entry) => entry[1]);
     return { messages, truncated, estimatedTokens: estimateNexuAiInputTokens(messages) };
 }
 
 function fitNexuAiProviderRequest({ instructions, input, desiredOutputTokens, minOutputTokens, tokenBudget = NEXU_AI_TPM_BUDGET }) {
-    const budget = Math.max(1_200, Math.floor(Number(tokenBudget) || NEXU_AI_TPM_BUDGET));
-    const safety = Math.min(NEXU_AI_TPM_SAFETY_TOKENS, Math.floor(budget * 0.14));
-    const instructionTokens = estimateNexuAiTextTokens(instructions) + 12;
-    const minimumOutput = Math.max(220, Math.floor(Number(minOutputTokens) || 220));
-    const desiredOutput = Math.max(minimumOutput, Math.floor(Number(desiredOutputTokens) || minimumOutput));
-    const distributableTokens = Math.max(400, budget - safety - instructionTokens);
-    const outputReserve = Math.max(minimumOutput, Math.min(desiredOutput, Math.floor(distributableTokens * 0.45)));
-    const allowedInputTokens = Math.max(180, distributableTokens - outputReserve);
-    const context = buildNexuAiContextMessages({ messages: Array.isArray(input) ? input : [] }, allowedInputTokens);
-    const usedInputTokens = context.estimatedTokens;
-    const availableOutput = Math.max(220, budget - safety - instructionTokens - usedInputTokens);
-    const maxOutputTokens = Math.max(220, Math.min(desiredOutput, availableOutput));
+    const contextWindow = Math.max(4_000, Math.floor(Number(tokenBudget) || NEXU_AI_TPM_BUDGET));
+    const instructionTokens = estimateNexuAiTextTokens(instructions) + 16;
+    const minimumOutput = Math.max(128, Math.min(32_000, Math.floor(Number(minOutputTokens) || 128)));
+    let outputTokens = Math.max(minimumOutput, Math.min(32_000, Math.floor(Number(desiredOutputTokens) || minimumOutput)));
+
+    // OpenRouter/Poolside zählt Eingabe, Reasoning und sichtbare Ausgabe in das
+    // Modellfenster. Mindestens 1.000 Tokens Gesprächskontext bleiben erhalten.
+    const maximumOutputForWindow = Math.max(minimumOutput, contextWindow - instructionTokens - NEXU_AI_TPM_SAFETY_TOKENS - 1_000);
+    outputTokens = Math.min(outputTokens, maximumOutputForWindow);
+    const allowedConversationTokens = Math.max(1_000, contextWindow - instructionTokens - NEXU_AI_TPM_SAFETY_TOKENS - outputTokens);
+    const context = buildNexuAiContextMessages({ messages: Array.isArray(input) ? input : [] }, allowedConversationTokens);
 
     return {
         input: context.messages,
-        maxOutputTokens,
+        maxOutputTokens: outputTokens,
         truncated: Boolean(context.truncated),
-        estimatedInputTokens: instructionTokens + usedInputTokens,
-        estimatedTotalTokens: instructionTokens + usedInputTokens + maxOutputTokens + safety,
+        estimatedInputTokens: instructionTokens + context.estimatedTokens,
+        estimatedTotalTokens: instructionTokens + context.estimatedTokens + outputTokens,
     };
 }
 
-function isNexuAiOversizedTpmError(response, payload) {
-    if (!response || response.status !== 429) return false;
-    const message = String(payload && payload.error && payload.error.message || "");
-    return /request too large|tokens per minute|\bTPM\b|requested\s+\d+/i.test(message);
-}
-
 function nexuAiPublicProviderError(response, payload) {
-    const apiMessage = cleanText(payload && payload.error && payload.error.message, 400);
-    if (response.status === 401) return "Der Groq-API-Schlüssel ist ungültig oder nicht freigeschaltet.";
-    if (response.status === 403) return "Das ausgewählte Groq-Modell ist für dieses Projekt nicht freigeschaltet.";
-    if (response.status === 429 && /request too large|tokens per minute|\bTPM\b|requested\s+\d+/i.test(apiMessage)) return "Die Anfrage war größer als das aktuell verfügbare Groq-Tokenbudget. Nexu hat automatisch gekürzt und ein Ausweichmodell versucht.";
-    if (response.status === 429) return "Das Groq-Limit wurde erreicht. Bitte kurz warten und erneut versuchen.";
-    if (response.status >= 500) return "Der KI-Dienst ist gerade nicht erreichbar.";
-    return apiMessage || "Die KI-Anfrage wurde abgelehnt.";
+    const apiMessage = cleanText(payload && payload.error && payload.error.message, 500);
+    if (response.status === 400) return apiMessage || "Die OpenRouter-Anfrage enthält ungültige Daten.";
+    if (response.status === 401) return "Der OPENROUTER_API_KEY ist ungültig.";
+    if (response.status === 402) return "OpenRouter verlangt für diese Anfrage Guthaben. Prüfe, ob wirklich das kostenlose Modell ausgewählt ist.";
+    if (response.status === 403) return "Der OpenRouter-Schlüssel hat keinen Zugriff auf dieses Modell.";
+    if (response.status === 404) return "Das ausgewählte OpenRouter-Modell wurde nicht gefunden. Prüfe OPENROUTER_MODEL.";
+    if (response.status === 413) return "Die Anfrage ist für OpenRouter zu groß. Nexu versucht beim nächsten Senden automatisch weniger Verlauf zu verwenden.";
+    if (response.status === 429) return "Das kostenlose OpenRouter-Limit wurde erreicht. Bitte kurz warten und erneut versuchen.";
+    if (response.status >= 500) return "OpenRouter oder der Modellanbieter ist gerade vorübergehend nicht erreichbar.";
+    return apiMessage || "Die OpenRouter-Anfrage wurde abgelehnt.";
 }
 
 function nexuAiRetryDelayMs(response, attempt) {
     const retryAfter = Number.parseFloat(String(response && response.headers && response.headers.get("retry-after") || ""));
-    if (Number.isFinite(retryAfter) && retryAfter >= 0 && retryAfter <= 15) return Math.max(250, Math.round(retryAfter * 1000));
-    return Math.min(4_000, 500 * (2 ** attempt)) + crypto.randomInt(0, 250);
+    if (Number.isFinite(retryAfter) && retryAfter >= 0 && retryAfter <= 30) return Math.max(300, Math.round(retryAfter * 1000));
+    return Math.min(8_000, 700 * (2 ** attempt)) + crypto.randomInt(0, 350);
 }
 
 function nexuAiShouldRetryProviderResponse(response) {
     if (!response) return true;
-    return response.status === 408 || response.status === 409 || response.status === 425 || response.status === 502 || response.status === 503 || response.status === 504;
-}
-
-function isNexuAiGptOssModel(model) {
-    return /^openai\/gpt-oss-/i.test(String(model || ""));
-}
-
-function isNexuAiQwen36Model(model) {
-    return /^qwen\/qwen3\.6-27b$/i.test(String(model || ""));
+    return response.status === 408 || response.status === 409 || response.status === 425 || response.status === 429 || response.status === 500 || response.status === 502 || response.status === 503 || response.status === 504;
 }
 
 function normalizeNexuAiReasoningEffort(model, requested) {
     const value = String(requested || "").trim().toLowerCase();
-    if (isNexuAiGptOssModel(model)) return ["low", "medium", "high"].includes(value) ? value : "low";
-    if (isNexuAiQwen36Model(model)) return value === "none" ? "none" : "default";
-    return "";
-}
-
-function isNexuAiCompletePayload(payload) {
-    const status = String(payload && payload.status || "").toLowerCase();
-    return !status || status === "completed";
+    if (value === "high" || value === "xhigh" || value === "max") return "medium";
+    if (value === "medium") return "medium";
+    if (value === "minimal") return "minimal";
+    if (value === "none") return "none";
+    return "low";
 }
 
 function isNexuAiUsableText(text, codeMode) {
@@ -16949,7 +16911,6 @@ function isNexuAiUsableText(text, codeMode) {
     if (value.length < NEXU_AI_MIN_VISIBLE_RESPONSE_CHARS) return false;
     const withoutTitle = value.replace(/^\s*\[\[NEXU_TITLE:[^\]\r\n]{1,100}\]\]\s*/i, "").trim();
     if (withoutTitle.length < NEXU_AI_MIN_VISIBLE_RESPONSE_CHARS) return false;
-    if (/^<think>[\s\S]*<\/think>\s*$/i.test(withoutTitle)) return false;
     if (codeMode) {
         const fences = (withoutTitle.match(/```/g) || []).length;
         if (fences % 2 !== 0) return false;
@@ -16960,141 +16921,134 @@ function isNexuAiUsableText(text, codeMode) {
 
 function buildNexuAiProviderProfiles(reasoningEffort, temperature, options = {}) {
     const primaryModel = String(options.primaryModel || NEXU_AI_MODEL).trim() || NEXU_AI_MODEL;
-    const fallbackModel = Object.prototype.hasOwnProperty.call(options, "fallbackModel")
-        ? String(options.fallbackModel || "").trim()
-        : NEXU_AI_FALLBACK_MODEL;
-    const primaryBudget = Math.max(1_200, Math.floor(Number(options.primaryTokenBudget) || NEXU_AI_TPM_BUDGET));
-    const fallbackBudget = Math.max(1_200, Math.floor(Number(options.fallbackTokenBudget) || NEXU_AI_FALLBACK_TPM_BUDGET));
-    const profiles = [{
-        model: primaryModel,
-        tokenBudget: primaryBudget,
-        reasoningEffort: normalizeNexuAiReasoningEffort(primaryModel, reasoningEffort),
-        temperature,
-        fallback: false,
-    }];
-    if (fallbackModel && fallbackModel !== primaryModel) {
-        profiles.push({
-            model: fallbackModel,
-            tokenBudget: fallbackBudget,
-            reasoningEffort: normalizeNexuAiReasoningEffort(fallbackModel, reasoningEffort),
-            temperature: Number.isFinite(temperature) ? Math.max(0.35, Math.min(0.65, temperature + 0.04)) : 0.5,
-            fallback: true,
-        });
-    }
+    const fallbackModel = Object.prototype.hasOwnProperty.call(options, "fallbackModel") ? String(options.fallbackModel || "").trim() : NEXU_AI_FALLBACK_MODEL;
+    const primaryBudget = Math.max(2_000, Math.floor(Number(options.primaryTokenBudget) || NEXU_AI_TPM_BUDGET));
+    const fallbackBudget = Math.max(2_000, Math.floor(Number(options.fallbackTokenBudget) || NEXU_AI_FALLBACK_TPM_BUDGET));
+    const profiles = [{ model: primaryModel, tokenBudget: primaryBudget, reasoningEffort: normalizeNexuAiReasoningEffort(primaryModel, reasoningEffort), temperature, fallback: false }];
+    if (fallbackModel && fallbackModel !== primaryModel) profiles.push({ model: fallbackModel, tokenBudget: fallbackBudget, reasoningEffort: normalizeNexuAiReasoningEffort(fallbackModel, reasoningEffort), temperature, fallback: true });
     return profiles;
 }
 
+function nexuAiOpenRouterMessages(instructions, input) {
+    const messages = [{ role: "system", content: String(instructions || "") }];
+    for (const message of Array.isArray(input) ? input : []) {
+        if (!message || !String(message.content || "").trim()) continue;
+        const role = message.role === "assistant" ? "assistant" : "user";
+        const content = String(message.content || "");
+        const previous = messages.at(-1);
+        if (previous && previous.role === role && role !== "system") previous.content += "\n\n" + content;
+        else messages.push({ role, content });
+    }
+    if (messages.length === 1) messages.push({ role: "user", content: "Bitte antworte auf Deutsch." });
+    return messages;
+}
+
+function nexuAiOpenRouterFinishReason(payload) {
+    return String(payload && payload.choices && payload.choices[0] && payload.choices[0].finish_reason || "").toUpperCase();
+}
+
+function nexuAiOpenRouterHeaders() {
+    const headers = {
+        Authorization: `Bearer ${NEXU_AI_API_KEY}`,
+        "Content-Type": "application/json",
+        "X-Title": NEXU_AI_SITE_TITLE,
+        "X-OpenRouter-Title": NEXU_AI_SITE_TITLE,
+    };
+    if (NEXU_AI_SITE_URL) headers["HTTP-Referer"] = NEXU_AI_SITE_URL;
+    return headers;
+}
+
+function nexuAiLooksLikeContextError(payload) {
+    const message = String(payload && payload.error && payload.error.message || "");
+    return /(?:context|token|prompt).*(?:too (?:large|long)|exceed|maximum|limit)|request too large/i.test(message);
+}
+
 async function requestNexuAiProviderText({ instructions, input, maxOutputTokens, minOutputTokens = 220, reasoningEffort, temperature, safetyIdentifier, codeMode = false, timeoutMs = NEXU_AI_REQUEST_TIMEOUT_MS, primaryModel = NEXU_AI_MODEL, fallbackModel = NEXU_AI_FALLBACK_MODEL, primaryTokenBudget = NEXU_AI_TPM_BUDGET, fallbackTokenBudget = NEXU_AI_FALLBACK_TPM_BUDGET }) {
-    if (!NEXU_AI_API_KEY) throw Object.assign(new Error("GROQ_API_KEY ist auf dem Server noch nicht gesetzt."), { statusCode: 503 });
+    if (!NEXU_AI_API_KEY) throw Object.assign(new Error("OPENROUTER_API_KEY ist auf dem Server noch nicht gesetzt."), { statusCode: 503 });
     let lastError = null;
     let bestPartial = "";
 
-    for (const profile of buildNexuAiProviderProfiles(reasoningEffort, temperature, {
-        primaryModel,
-        fallbackModel,
-        primaryTokenBudget,
-        fallbackTokenBudget,
-    })) {
-        let prepared = fitNexuAiProviderRequest({
-            instructions,
-            input,
-            desiredOutputTokens: maxOutputTokens,
-            minOutputTokens,
-            tokenBudget: profile.tokenBudget,
-        });
+    for (const profile of buildNexuAiProviderProfiles(reasoningEffort, temperature, { primaryModel, fallbackModel, primaryTokenBudget, fallbackTokenBudget })) {
+        let activeTokenBudget = profile.tokenBudget;
+        let prepared = fitNexuAiProviderRequest({ instructions, input, desiredOutputTokens: maxOutputTokens, minOutputTokens, tokenBudget: activeTokenBudget });
+        let useReasoning = profile.reasoningEffort !== "none";
 
-        let activeReasoningEffort = profile.reasoningEffort;
-        for (let attempt = 0; attempt < 2; attempt += 1) {
+        for (let attempt = 0; attempt < 3; attempt += 1) {
             const controller = new AbortController();
             const timeout = setTimeout(() => controller.abort(), timeoutMs);
             if (typeof timeout.unref === "function") timeout.unref();
             try {
                 const body = {
                     model: profile.model,
-                    instructions,
-                    input: prepared.input,
-                    max_output_tokens: prepared.maxOutputTokens,
-                    text: { format: { type: "text" } },
-                    user: safetyIdentifier,
-                    top_p: 0.95,
+                    messages: nexuAiOpenRouterMessages(instructions, prepared.input),
+                    max_tokens: prepared.maxOutputTokens,
+                    temperature: Number.isFinite(Number(profile.temperature)) ? Number(profile.temperature) : 0.5,
+                    stream: false,
                 };
-                if (activeReasoningEffort) body.reasoning = { effort: activeReasoningEffort };
-                if (Number.isFinite(profile.temperature)) body.temperature = Math.max(0, Math.min(2, profile.temperature));
+                if (safetyIdentifier) body.user = String(safetyIdentifier).slice(0, 128);
+                if (useReasoning) body.reasoning = { effort: profile.reasoningEffort, exclude: true };
 
                 const response = await fetch(NEXU_AI_API_URL, {
                     method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${NEXU_AI_API_KEY}`,
-                        "Content-Type": "application/json",
-                    },
+                    headers: nexuAiOpenRouterHeaders(),
                     body: JSON.stringify(body),
                     signal: controller.signal,
                 });
                 const payload = await response.json().catch(() => ({}));
-
                 if (!response.ok) {
-                    const publicError = Object.assign(new Error(nexuAiPublicProviderError(response, payload)), {
-                        statusCode: response.status >= 400 && response.status < 600 ? response.status : 502,
-                    });
-                    if (response.status === 401) throw publicError;
+                    const publicError = Object.assign(new Error(nexuAiPublicProviderError(response, payload)), { statusCode: response.status >= 400 && response.status < 600 ? response.status : 502 });
                     lastError = publicError;
+                    const rawMessage = String(payload && payload.error && payload.error.message || "");
 
-                    const rawProviderMessage = String(payload && payload.error && payload.error.message || "");
-                    if (attempt === 0 && response.status === 400 && activeReasoningEffort && /reasoning|effort|unsupported|unknown field|invalid parameter/i.test(rawProviderMessage)) {
-                        activeReasoningEffort = "";
-                        await new Promise((resolve) => setTimeout(resolve, 120));
+                    if (attempt === 0 && response.status === 400 && useReasoning && /reasoning|unsupported parameter|unknown field/i.test(rawMessage)) {
+                        useReasoning = false;
                         continue;
                     }
-
-                    if (attempt === 0 && isNexuAiOversizedTpmError(response, payload)) {
-                        prepared = fitNexuAiProviderRequest({
-                            instructions,
-                            input,
-                            desiredOutputTokens: Math.max(minOutputTokens, Math.floor(prepared.maxOutputTokens * 0.72)),
-                            minOutputTokens: Math.max(220, Math.floor(minOutputTokens * 0.75)),
-                            tokenBudget: Math.max(2_400, Math.floor(profile.tokenBudget * 0.72)),
-                        });
-                        prepared.truncated = true;
-                        await new Promise((resolve) => setTimeout(resolve, 450));
+                    if (attempt < 2 && (response.status === 400 || response.status === 413) && nexuAiLooksLikeContextError(payload)) {
+                        activeTokenBudget = Math.max(30_000, Math.floor(activeTokenBudget * 0.68));
+                        prepared = fitNexuAiProviderRequest({ instructions, input, desiredOutputTokens: Math.max(minOutputTokens, Math.floor(maxOutputTokens * 0.82)), minOutputTokens, tokenBudget: activeTokenBudget });
                         continue;
                     }
-
-                    if (attempt === 0 && nexuAiShouldRetryProviderResponse(response)) {
+                    if (attempt < 2 && nexuAiShouldRetryProviderResponse(response)) {
                         await new Promise((resolve) => setTimeout(resolve, nexuAiRetryDelayMs(response, attempt)));
                         continue;
                     }
+                    if (response.status === 401 || response.status === 402 || response.status === 403) throw publicError;
                     break;
                 }
 
                 const responseText = extractNexuAiResponseText(payload);
                 if (responseText.length > bestPartial.length) bestPartial = responseText;
-                const complete = isNexuAiCompletePayload(payload);
-                if (complete && isNexuAiUsableText(responseText, codeMode)) {
+                const finishReason = nexuAiOpenRouterFinishReason(payload);
+                if (isNexuAiUsableText(responseText, codeMode) && finishReason !== "CONTENT_FILTER" && finishReason !== "ERROR") {
                     return {
                         text: responseText,
-                        truncated: Boolean(prepared.truncated),
+                        truncated: Boolean(prepared.truncated || finishReason === "LENGTH" || finishReason === "MAX_TOKENS"),
                         maxOutputTokens: prepared.maxOutputTokens,
-                        estimatedTotalTokens: prepared.estimatedTotalTokens,
-                        model: profile.model,
+                        estimatedTotalTokens: Number(payload && payload.usage && payload.usage.total_tokens) || prepared.estimatedTotalTokens,
+                        model: String(payload && payload.model || profile.model),
                         fallbackUsed: profile.fallback,
                     };
                 }
-
-                lastError = Object.assign(new Error(complete
-                    ? "Die KI hat keine verwertbare Textantwort zurückgegeben."
-                    : "Die KI-Antwort wurde vor dem sichtbaren Endergebnis abgebrochen."), { statusCode: 502 });
+                lastError = Object.assign(new Error(
+                    finishReason === "LENGTH" || finishReason === "MAX_TOKENS"
+                        ? "Die OpenRouter-Antwort wurde am Ausgabelimit abgeschnitten."
+                        : finishReason === "CONTENT_FILTER"
+                            ? "OpenRouter hat diese Anfrage aufgrund der Sicherheitsregeln blockiert."
+                            : "OpenRouter hat keine verwertbare Textantwort zurückgegeben."
+                ), { statusCode: 502 });
                 break;
             } catch (error) {
                 const normalized = error && error.name === "AbortError"
-                    ? Object.assign(new Error("Die KI-Anfrage hat zu lange gedauert und wurde beendet."), { statusCode: 504 })
+                    ? Object.assign(new Error("Die OpenRouter-Anfrage hat zu lange gedauert und wurde beendet."), { statusCode: 504 })
                     : error;
                 lastError = normalized;
-                const retryableNetworkError = !normalized || !Number.isInteger(normalized.statusCode) || normalized.statusCode >= 500;
-                if (attempt === 0 && retryableNetworkError) {
+                const retryable = !normalized || !Number.isInteger(normalized.statusCode) || normalized.statusCode >= 429;
+                if (attempt < 2 && retryable) {
                     await new Promise((resolve) => setTimeout(resolve, nexuAiRetryDelayMs(null, attempt)));
                     continue;
                 }
-                if (normalized && normalized.statusCode === 401) throw normalized;
+                if (normalized && (normalized.statusCode === 401 || normalized.statusCode === 402 || normalized.statusCode === 403)) throw normalized;
                 break;
             } finally {
                 clearTimeout(timeout);
@@ -17103,16 +17057,9 @@ async function requestNexuAiProviderText({ instructions, input, maxOutputTokens,
     }
 
     if (bestPartial && isNexuAiUsableText(bestPartial, false) && !codeMode) {
-        return {
-            text: bestPartial,
-            truncated: true,
-            maxOutputTokens: 0,
-            estimatedTotalTokens: 0,
-            model: NEXU_AI_MODEL,
-            fallbackUsed: false,
-        };
+        return { text: bestPartial, truncated: true, maxOutputTokens: 0, estimatedTotalTokens: 0, model: NEXU_AI_MODEL, fallbackUsed: false };
     }
-    throw lastError || Object.assign(new Error("Die KI konnte keine vollständige Textantwort erzeugen."), { statusCode: 502 });
+    throw lastError || Object.assign(new Error("OpenRouter konnte keine vollständige Textantwort erzeugen."), { statusCode: 502 });
 }
 
 function extractNexuAiEmbeddedTitle(value) {
@@ -17233,13 +17180,13 @@ async function reviewNexuAiCodeAnswer(session, chat, draftAnswer) {
         const result = await requestNexuAiProviderText({
             instructions: buildNexuAiCodeReviewInstructions(chat),
             input: [{ role: "user", content: reviewPayload }],
-            maxOutputTokens: Math.max(1_200, Math.min(3_200, Math.ceil(estimateNexuAiTextTokens(draft) * 1.12))),
-            minOutputTokens: 720,
+            maxOutputTokens: Math.max(2_000, Math.min(24_000, Math.ceil(estimateNexuAiTextTokens(draft) * 1.18))),
+            minOutputTokens: 1_000,
             reasoningEffort: "medium",
             temperature: 0.45,
             safetyIdentifier: nexuAiSafetyIdentifier(session),
             codeMode: true,
-            timeoutMs: 180_000,
+            timeoutMs: 300_000,
             primaryModel: NEXU_AI_CODE_REVIEW_MODEL,
             fallbackModel: "",
             primaryTokenBudget: NEXU_AI_CODE_REVIEW_TPM_BUDGET,
@@ -17258,21 +17205,16 @@ async function requestNexuAiCompletion(session, chat, options = {}) {
     const desiredOutputTokens = codeMode ? NEXU_AI_CODE_DESIRED_OUTPUT_TOKENS : NEXU_AI_NORMAL_DESIRED_OUTPUT_TOKENS;
     const minOutputTokens = codeMode ? NEXU_AI_CODE_MIN_OUTPUT_TOKENS : NEXU_AI_NORMAL_MIN_OUTPUT_TOKENS;
     const instructions = buildNexuAiInstructions(chat, session.account, { requestTitle: Boolean(options.requestTitle) });
-    const instructionTokens = estimateNexuAiTextTokens(instructions) + 12;
-    const maxContextTokens = Math.max(320, NEXU_AI_TPM_BUDGET - NEXU_AI_TPM_SAFETY_TOKENS - instructionTokens - minOutputTokens);
+    const instructionTokens = estimateNexuAiTextTokens(instructions) + 16;
+    const maxContextTokens = Math.max(4_000, NEXU_AI_TPM_BUDGET - NEXU_AI_TPM_SAFETY_TOKENS - instructionTokens);
     const context = buildNexuAiContextMessages(chat, maxContextTokens);
-    // High reasoning can consume the entire completion budget before any visible
-    // answer is emitted. Medium is reserved for compact requests; long or trimmed
-    // workspaces deliberately use low reasoning and preserve final-answer tokens.
-    const reasoningEffort = codeMode
-        ? (context.truncated || context.estimatedTokens > 2_600 ? "low" : context.estimatedTokens < 1_250 ? "high" : "medium")
-        : "low";
+    const reasoningEffort = codeMode ? "medium" : (context.estimatedTokens > 180_000 ? "minimal" : "low");
 
     const providerResult = await requestNexuAiProviderText({
         instructions,
-        input: Array.isArray(chat.messages) ? chat.messages : context.messages,
+        input: context.messages,
         reasoningEffort,
-        temperature: codeMode ? 0.5 : 0.62,
+        temperature: codeMode ? 0.35 : 0.62,
         maxOutputTokens: desiredOutputTokens,
         minOutputTokens,
         safetyIdentifier: nexuAiSafetyIdentifier(session),
@@ -17288,9 +17230,7 @@ async function requestNexuAiCompletion(session, chat, options = {}) {
         answer = review.text;
         qualityReviewed = review.reviewed;
     } else answer = enforceNexuAiNormalMode(answer);
-    if (!answer.trim()) {
-        throw Object.assign(new Error("Die KI hat trotz Ausweichmodell keine sichtbare Textantwort erzeugt. Bitte sende die Anfrage erneut."), { statusCode: 502 });
-    }
+    if (!answer.trim()) throw Object.assign(new Error("OpenRouter hat keine sichtbare Textantwort erzeugt. Bitte sende die Anfrage erneut."), { statusCode: 502 });
 
     return {
         text: answer.slice(0, NEXU_AI_MAX_STORED_RESPONSE_CHARS),
@@ -17344,7 +17284,7 @@ async function requestNexuAiTitle(session, chat, messageText) {
 
 function nexuAiHomeAddonCss() {
     return String.raw`
-/* NEXU V245 // STARTSEITEN-ZUGANG ZUR KI */
+/* NEXU V247 // STARTSEITEN-ZUGANG ZUR KI */
 .nx-v237-ai-section{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:28px;margin-top:18px;padding:30px;border:1px solid color-mix(in srgb,var(--nx-user-accent,#00c8ff) 22%,rgba(135,192,224,.12));border-radius:24px;background:radial-gradient(circle at 7% 0%,color-mix(in srgb,var(--nx-user-accent,#00c8ff) 17%,transparent),transparent 28rem),linear-gradient(145deg,rgba(7,19,31,.94),rgba(5,11,20,.96));box-shadow:0 28px 70px rgba(0,0,0,.24)}
 .nx-v237-ai-section:after{content:"AI";position:absolute;right:22px;bottom:-58px;color:color-mix(in srgb,var(--nx-user-accent,#00c8ff) 5%,transparent);font-size:190px;font-weight:950;letter-spacing:-.08em;pointer-events:none}.nx-v237-ai-copy{position:relative;z-index:1}.nx-v237-ai-badge{display:inline-flex;align-items:center;gap:8px;color:#6fe3ff;font-size:8px;font-weight:950;letter-spacing:.17em;text-transform:uppercase}.nx-v237-ai-badge i{width:7px;height:7px;border-radius:50%;background:#55f5b6;box-shadow:0 0 14px rgba(85,245,182,.75)}.nx-v237-ai-section h2{margin:10px 0 8px;color:#f1fbff;font-size:28px;letter-spacing:-.045em}.nx-v237-ai-section p{max-width:720px;color:#7895a7;font-size:11px;line-height:1.7}.nx-v237-ai-points{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.nx-v237-ai-points span{padding:7px 9px;border:1px solid rgba(130,196,229,.12);border-radius:9px;background:rgba(255,255,255,.025);color:#9ab5c4;font-size:8px;font-weight:850}.nx-v237-ai-open{position:relative;z-index:1;min-width:176px;min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 17px;border:1px solid color-mix(in srgb,var(--nx-user-accent,#00c8ff) 36%,transparent);border-radius:13px;color:#f3fcff;text-decoration:none;background:linear-gradient(135deg,color-mix(in srgb,var(--nx-user-accent,#00c8ff) 20%,transparent),color-mix(in srgb,var(--nx-user-secondary,#6f46ff) 14%,transparent)),#091623;font-size:9px;font-weight:950;letter-spacing:.075em}.nx-v237-ai-open:hover{transform:translateY(-2px);box-shadow:0 16px 35px color-mix(in srgb,var(--nx-user-accent,#00c8ff) 13%,transparent)}
 @media(max-width:760px){.nx-v237-ai-section{grid-template-columns:1fr;padding:22px}.nx-v237-ai-open{width:100%}.nx-v237-ai-section h2{font-size:23px}}
@@ -17388,7 +17328,7 @@ function nexuAiPageHtml(account) {
         userAvatar,
         configured: Boolean(NEXU_AI_API_KEY),
         model: NEXU_AI_MODEL,
-        provider: "Groq",
+        provider: "OpenRouter",
         maxMessageChars: NEXU_AI_MAX_MESSAGE_CHARS,
     };
     const safeClientConfig = JSON.stringify(clientConfig).replace(/</g, "\\u003c");
@@ -17431,7 +17371,7 @@ function nexuAiPageHtml(account) {
 <section class="nx-ai-main">
 <header class="nx-ai-top"><button class="nx-ai-mobile" id="nxAiMobile" type="button">☰</button><div class="nx-ai-title"><h1 id="nxAiTitle">${english ? "New chat" : "Neuer Chat"}</h1><p id="nxAiMeta">${escapeHtml(NEXU_AI_NAME)} · ${escapeHtml(NEXU_AI_MODEL)}</p></div><div class="nx-ai-controls"><div class="nx-ai-segment"><button class="nx-ai-mode active" type="button" data-mode="normal">NORMAL</button><button class="nx-ai-mode" type="button" data-mode="code">CODE</button></div><select class="nx-ai-language" id="nxAiLanguage" aria-label="Code language"><option value="luau">Luau / Roblox</option><option value="lua">Lua 5.4</option></select><a class="nx-ai-nav" href="/settings">${english ? "SETTINGS" : "EINSTELLUNGEN"}</a><a class="nx-ai-nav" href="/">HOME</a></div></header>
 <div class="nx-ai-message-stage"><main class="nx-ai-messages" id="nxAiMessages" role="log" aria-live="polite" aria-relevant="additions" tabindex="0"></main><button class="nx-ai-jump" id="nxAiJump" type="button">↓ ${english ? "Latest" : "Neueste"}</button></div>
-<div class="nx-ai-compose-wrap">${NEXU_AI_API_KEY ? "" : `<div class="nx-ai-config-warning">${english ? "The server is missing GROQ_API_KEY. Chat management works, but the AI cannot answer yet." : "Auf dem Server fehlt GROQ_API_KEY. Die Chatverwaltung funktioniert, aber die KI kann noch nicht antworten."}</div>`}<div class="nx-ai-compose"><textarea class="nx-ai-input" id="nxAiInput" rows="1" maxlength="${NEXU_AI_MAX_MESSAGE_CHARS}" placeholder="${english ? "Write a message…" : "Schreibe eine Nachricht…"}"></textarea><button class="nx-ai-send" id="nxAiSend" type="button" aria-label="Send">↑</button></div><div class="nx-ai-compose-info"><span>${english ? "Enter sends · Shift+Enter creates a line break" : "Enter sendet · Shift+Enter macht einen Zeilenumbruch"}</span><span class="nx-ai-char-count" id="nxAiCount">0 / ${NEXU_AI_MAX_MESSAGE_CHARS.toLocaleString(english ? "en-US" : "de-DE")}</span></div></div>
+<div class="nx-ai-compose-wrap">${NEXU_AI_API_KEY ? "" : `<div class="nx-ai-config-warning">${english ? "The server is missing OPENROUTER_API_KEY. Chat management works, but the AI cannot answer yet." : "Auf dem Server fehlt OPENROUTER_API_KEY. Die Chatverwaltung funktioniert, aber die KI kann noch nicht antworten."}</div>`}<div class="nx-ai-compose"><textarea class="nx-ai-input" id="nxAiInput" rows="1" maxlength="${NEXU_AI_MAX_MESSAGE_CHARS}" placeholder="${english ? "Write a message…" : "Schreibe eine Nachricht…"}"></textarea><button class="nx-ai-send" id="nxAiSend" type="button" aria-label="Send">↑</button></div><div class="nx-ai-compose-info"><span>${english ? "Enter sends · Shift+Enter creates a line break" : "Enter sendet · Shift+Enter macht einen Zeilenumbruch"}</span><span class="nx-ai-char-count" id="nxAiCount">0 / ${NEXU_AI_MAX_MESSAGE_CHARS.toLocaleString(english ? "en-US" : "de-DE")}</span></div></div>
 </section>
 </div>
 <div class="nx-ai-toast-stack" id="nxAiToasts" aria-live="polite" aria-atomic="false"></div>
@@ -17479,7 +17419,7 @@ async function deleteChat(id,chatTitle){if(!(await askDelete(chatTitle)))return;
 async function updateSettings(next){if(!state.chat){if(Object.prototype.hasOwnProperty.call(next,"mode"))state.draftMode=next.mode==="code"?"code":"normal";if(Object.prototype.hasOwnProperty.call(next,"language"))state.draftLanguage=next.language==="lua"?"lua":"luau";syncControls();renderMessages({forceBottom:true});return}var previous=Object.assign({},state.chat);Object.assign(state.chat,next);syncControls();try{var data=await api("/api/ai/chats/update",{method:"POST",body:JSON.stringify(Object.assign({chatId:state.chat.id},next))});state.chat=data.chat;var summary=state.chats.find(function(item){return item.id===state.chat.id});if(summary)Object.assign(summary,{mode:state.chat.mode,language:state.chat.language,title:state.chat.title,updatedAt:state.chat.updatedAt});syncControls();renderList()}catch(error){state.chat=previous;syncControls();notify(error.message,true)}}
 function animateChatTitle(chatId,newTitle){var token=++state.titleToken,row=Array.prototype.find.call(list.querySelectorAll(".nx-ai-chat-item"),function(item){return item.dataset.chatId===chatId}),sideTitle=row&&row.querySelector(".nx-ai-chat-open strong"),topActive=state.activeId===chatId;if(!newTitle)return Promise.resolve();if(sideTitle){sideTitle.textContent="";sideTitle.classList.add("is-typing")}if(topActive){title.textContent="";title.classList.add("is-typing")}var index=0;return new Promise(function(resolve){function step(){if(token!==state.titleToken){resolve();return}var chunk=Math.max(1,Math.ceil(newTitle.length/24));index=Math.min(newTitle.length,index+chunk);var shown=newTitle.slice(0,index);if(sideTitle)sideTitle.textContent=shown;if(topActive)title.textContent=shown;if(index<newTitle.length){setTimeout(step,45)}else{if(sideTitle)sideTitle.classList.remove("is-typing");if(topActive)title.classList.remove("is-typing");resolve()}}step()})}
 function animateAssistantMessage(message){var token=++state.animationToken,text=String(message.content||"");state.animating=true;syncControls();renderMessages({forceBottom:false,omitId:message.id});var built=createMessageRow(message,true);messages.appendChild(built.row);if(state.followLatest&&!state.userDetached)scrollToLatest(false,"auto");var reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(reduced||!text){built.content.classList.remove("typing");built.content.innerHTML=renderMarkdown(text);bindCopyButtons(built.row);state.animating=false;syncControls();if(state.followLatest&&!state.userDetached)scrollToLatest(false,"smooth");return Promise.resolve()}var targetMs=Math.min(7000,Math.max(1400,text.length*7)),frames=Math.max(1,Math.round(targetMs/32)),chunk=Math.max(1,Math.ceil(text.length/frames)),index=0;return new Promise(function(resolve){function step(){if(token!==state.animationToken){state.animating=false;syncControls();resolve();return}index=Math.min(text.length,index+chunk);built.content.textContent=text.slice(0,index);if(state.followLatest&&!state.userDetached)scrollToLatest(false,"auto");else updateJump();if(index<text.length){setTimeout(step,32)}else{built.content.classList.remove("typing");built.content.innerHTML=renderMarkdown(text);bindCopyButtons(built.row);state.animating=false;syncControls();if(state.followLatest&&!state.userDetached)scrollToLatest(false,"smooth");else updateJump();resolve()}}step()})}
-async function sendMessage(){var text=input.value.trim();if(!text||state.sending||state.animating)return;if(!cfg.configured){notify(t("GROQ_API_KEY fehlt auf dem Server.","GROQ_API_KEY is missing on the server."),true);return}try{await ensureDraftChat()}catch(error){notify(error.message,true);return}state.sending=true;state.followLatest=true;state.userDetached=false;var oldTitle=state.chat.title,optimistic={id:"local-"+Date.now(),role:"user",content:text,createdAt:new Date().toISOString()};state.chat.messages=state.chat.messages||[];state.chat.messages.push(optimistic);input.value="";autoGrow();syncControls();renderMessages({forceBottom:true});try{var data=await api("/api/ai/message",{method:"POST",body:JSON.stringify({chatId:state.chat.id,message:text})});var newAssistant=(data.chat.messages||[]).slice().reverse().find(function(item){return item.role==="assistant"});state.chat=data.chat;var summary=state.chats.find(function(item){return item.id===state.chat.id});if(summary)Object.assign(summary,data.summary);state.chats.sort(function(a,b){return String(b.updatedAt).localeCompare(String(a.updatedAt))});state.sending=false;renderList();syncControls();if(data.contextTrimmed)notify(t("Der Text war größer als das kostenlose Groq-Tokenlimit. Nexu hat den Anfang und das Ende automatisch beibehalten und den Mittelteil gekürzt.","The text exceeded the free Groq token limit. Nexu automatically kept the beginning and end and shortened the middle."),"info");var titlePromise=isDefaultTitle(oldTitle)&&!isDefaultTitle(state.chat.title)?animateChatTitle(state.chat.id,state.chat.title):Promise.resolve();if(newAssistant)await animateAssistantMessage(newAssistant);else renderMessages({forceBottom:false});await titlePromise}catch(error){state.chat.messages=state.chat.messages.filter(function(item){return item.id!==optimistic.id});state.sending=false;renderMessages({forceBottom:false});notify(error.message,true)}finally{state.sending=false;syncControls();input.focus()}}
+async function sendMessage(){var text=input.value.trim();if(!text||state.sending||state.animating)return;if(!cfg.configured){notify(t("OPENROUTER_API_KEY fehlt auf dem Server.","OPENROUTER_API_KEY is missing on the server."),true);return}try{await ensureDraftChat()}catch(error){notify(error.message,true);return}state.sending=true;state.followLatest=true;state.userDetached=false;var oldTitle=state.chat.title,optimistic={id:"local-"+Date.now(),role:"user",content:text,createdAt:new Date().toISOString()};state.chat.messages=state.chat.messages||[];state.chat.messages.push(optimistic);input.value="";autoGrow();syncControls();renderMessages({forceBottom:true});try{var data=await api("/api/ai/message",{method:"POST",body:JSON.stringify({chatId:state.chat.id,message:text})});var newAssistant=(data.chat.messages||[]).slice().reverse().find(function(item){return item.role==="assistant"});state.chat=data.chat;var summary=state.chats.find(function(item){return item.id===state.chat.id});if(summary)Object.assign(summary,data.summary);state.chats.sort(function(a,b){return String(b.updatedAt).localeCompare(String(a.updatedAt))});state.sending=false;renderList();syncControls();if(data.contextTrimmed)notify(t("Der Text war größer als das OpenRouter-Kontextlimit. Nexu hat den Anfang und das Ende automatisch beibehalten und den Mittelteil gekürzt.","The text exceeded the OpenRouter context limit. Nexu automatically kept the beginning and end and shortened the middle."),"info");var titlePromise=isDefaultTitle(oldTitle)&&!isDefaultTitle(state.chat.title)?animateChatTitle(state.chat.id,state.chat.title):Promise.resolve();if(newAssistant)await animateAssistantMessage(newAssistant);else renderMessages({forceBottom:false});await titlePromise}catch(error){state.chat.messages=state.chat.messages.filter(function(item){return item.id!==optimistic.id});state.sending=false;renderMessages({forceBottom:false});notify(error.message,true)}finally{state.sending=false;syncControls();input.focus()}}
 document.getElementById("nxAiNew").addEventListener("click",function(){state.draftMode=effectiveMode();state.draftLanguage=effectiveLanguage();startNewDraft()});
 document.getElementById("nxAiMobile").addEventListener("click",function(){side.classList.toggle("open")});
 Array.prototype.forEach.call(document.querySelectorAll(".nx-ai-mode"),function(button){button.addEventListener("click",function(){updateSettings({mode:button.dataset.mode})})});
@@ -17557,7 +17497,7 @@ if (req.method === "GET" && pathname === "/api/ai/chats") {
     const chats = getNexuAiChats(session, true)
         .map(serializeNexuAiChatSummary)
         .sort((left, right) => String(right.updatedAt).localeCompare(String(left.updatedAt)));
-    sendJson(res, 200, { success: true, chats, configured: Boolean(NEXU_AI_API_KEY), model: NEXU_AI_MODEL, provider: "Groq" });
+    sendJson(res, 200, { success: true, chats, configured: Boolean(NEXU_AI_API_KEY), model: NEXU_AI_MODEL, provider: "OpenRouter" });
     return;
 }
 
@@ -20371,7 +20311,7 @@ async function startNexuServer() {
         console.log("Spieler-Speicher:", KNOWN_PLAYERS_FILE_PATH);
         console.log("Account-Speicher:", DASHBOARD_ACCOUNT_FILE_PATH);
         console.log("Nexu-AI-Chat-Speicher:", NEXU_AI_CHAT_FILE_PATH);
-        console.log("Nexu AI:", NEXU_AI_API_KEY ? `AKTIV // GROQ // ${NEXU_AI_MODEL}` : "GROQ_API_KEY FEHLT");
+        console.log("Nexu AI:", NEXU_AI_API_KEY ? `AKTIV // OPENROUTER // ${NEXU_AI_MODEL}` : "OPENROUTER_API_KEY FEHLT");
         console.log("GitHub-Speicher:", isGitHubStorageConfigured() ? "AKTIV" : "NICHT KONFIGURIERT");
         console.log("GitHub-Datenbranch:", GITHUB_DATA_BRANCH, "// Deploy-Branch:", GITHUB_DEPLOY_BRANCH);
         console.log("GitHub-Datendatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_DATA_PATH}`);
