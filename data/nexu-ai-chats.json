@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "encrypted": true,
+  "algorithm": "aes-256-gcm",
+  "iv": "h779nbXLzvSjDIg5",
+  "tag": "f8A99bpSSCAsvwokGHXQAg==",
+  "data": "4y+accjcSgVbuaaTNVdppIM9xdBMN+ds4FP5",
+  "accountCount": 0,
+  "updatedAt": "2026-08-05T09:24:00.069Z"
+}
