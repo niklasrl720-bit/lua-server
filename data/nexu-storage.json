@@ -13284,16 +13284,16 @@
       "displayName": "Gullit",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🚗] Ro-vibrações 🔊",
-      "placeId": 121692407072104,
+      "gameName": "[👨‍🍳COOK] MushYO! 🔊",
+      "placeId": 17274762379,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:09:55.876Z",
       "firstSeenMs": 1784236195876,
-      "lastSeen": "2026-08-04T19:10:00.000Z",
-      "lastSeenMs": 1785870600000
+      "lastSeen": "2026-08-05T23:35:00.000Z",
+      "lastSeenMs": 1785972900000
     },
     {
       "userId": "9262341195",
@@ -14457,5 +14457,5 @@
     "resetAtMs": 1785967200114,
     "messages": []
   },
-  "updatedAt": "2026-08-05T23:36:04.944Z"
+  "updatedAt": "2026-08-05T23:38:21.993Z"
 }
