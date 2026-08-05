@@ -16212,7 +16212,7 @@ nexuV235SettingsPageHtml = function(notice = "", error = "", account = null) {
 
 
 /* --------------------------------------------------------------------------
- * NEXU V239 // ACCOUNT-BOUND NEXU FORGE AI // GROQ
+ * NEXU V245 // ACCOUNT-BOUND NEXU FORGE AI // GROQ
  * Geschützte KI-Seite mit accountgebundenen Chats, Lua-/Luau-Code-Modus,
  * verschlüsselter Persistenz und konfliktarmem GitHub-Datenbranch-Abgleich.
  * package.json bleibt unverändert; Node.js 18+ stellt fetch bereits bereit.
@@ -16221,7 +16221,11 @@ nexuV235SettingsPageHtml = function(notice = "", error = "", account = null) {
 const NEXU_AI_NAME = String(process.env.NEXU_AI_NAME || "Nexu Forge AI").trim() || "Nexu Forge AI";
 const NEXU_AI_API_KEY = String(process.env.GROQ_API_KEY || "").trim();
 const NEXU_AI_MODEL = String(process.env.GROQ_MODEL || "openai/gpt-oss-120b").trim() || "openai/gpt-oss-120b";
-const NEXU_AI_FALLBACK_MODEL = String(process.env.GROQ_FALLBACK_MODEL || "llama-3.3-70b-versatile").trim() || "llama-3.3-70b-versatile";
+const NEXU_AI_FALLBACK_MODEL = String(process.env.GROQ_FALLBACK_MODEL || "qwen/qwen3.6-27b").trim() || "qwen/qwen3.6-27b";
+// A second, coding-focused model can review compact Code-mode answers. The
+// original answer remains the fallback, so a reviewer outage never breaks chat.
+const NEXU_AI_CODE_REVIEW_MODEL = String(process.env.GROQ_CODE_REVIEW_MODEL || "qwen/qwen3.6-27b").trim() || "qwen/qwen3.6-27b";
+const NEXU_AI_CODE_REVIEW_ENABLED = !/^(?:0|false|off|no)$/i.test(String(process.env.GROQ_CODE_REVIEW_ENABLED || "true").trim());
 const NEXU_AI_API_URL = String(process.env.GROQ_API_URL || "https://api.groq.com/openai/v1/responses").trim() || "https://api.groq.com/openai/v1/responses";
 const NEXU_AI_CHAT_FILE_PATH = String(process.env.NEXU_AI_CHAT_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-ai-chats.json"));
 const GITHUB_AI_CHATS_PATH = String(process.env.GITHUB_AI_CHATS_PATH || "data/nexu-ai-chats.json").trim() || "data/nexu-ai-chats.json";
@@ -16240,6 +16244,8 @@ const NEXU_AI_MAX_REQUEST_BYTES = 1_500_000;
 // reserve for visible output instead of allowing reasoning to consume everything.
 const NEXU_AI_TPM_BUDGET = Math.max(3_600, Math.min(7_200, Number.parseInt(String(process.env.GROQ_TPM_BUDGET || "7000"), 10) || 7_000));
 const NEXU_AI_FALLBACK_TPM_BUDGET = Math.max(4_000, Math.min(11_000, Number.parseInt(String(process.env.GROQ_FALLBACK_TPM_BUDGET || "10400"), 10) || 10_400));
+const NEXU_AI_CODE_REVIEW_TPM_BUDGET = Math.max(3_600, Math.min(10_500, Number.parseInt(String(process.env.GROQ_CODE_REVIEW_TPM_BUDGET || "7600"), 10) || 7_600));
+const NEXU_AI_CODE_REVIEW_MAX_DRAFT_CHARS = Math.max(4_000, Math.min(40_000, Number.parseInt(String(process.env.GROQ_CODE_REVIEW_MAX_DRAFT_CHARS || "22000"), 10) || 22_000));
 const NEXU_AI_TPM_SAFETY_TOKENS = 520;
 const NEXU_AI_CODE_DESIRED_OUTPUT_TOKENS = 2_800;
 const NEXU_AI_NORMAL_DESIRED_OUTPUT_TOKENS = 1_800;
@@ -16701,40 +16707,53 @@ function buildNexuAiInstructions(chat, account, options = {}) {
         targetIsLua
             ? "Never use Roblox APIs or Luau-only syntax. If the request is specifically about Roblox, explain the mismatch and ask the user to select Roblox Luau."
             : "Use Roblox APIs only when the request is about Roblox; otherwise write valid Luau compatible with the stated environment.",
-        "Act as a senior engineer and debugger. Prioritize: correctness, security, lifecycle safety, maintainability, clarity, then brevity.",
-        "Treat the conversation as one continuous coding workspace. Words such as 'das Script', 'mach das', 'ändere dies', 'geht nicht' and 'passiert nichts' refer to the latest relevant script unless the user clearly starts a new project.",
-        "Preserve existing names, architecture and unrelated behavior while fixing or extending code. Do not replace the whole system merely because a local correction is easier.",
-        "For a bug report, first give a short concrete diagnosis tied to the supplied code/behavior. Then provide the corrected complete section or file.",
-        "For a build request, briefly state the architecture and exact placement before the code. After code, include a compact verification checklist when useful.",
-        "Always return a normal text answer as well as code when code is needed. Do not return an unexplained code dump.",
-        "Ask exactly one focused clarification question only when a missing fact truly prevents a correct implementation. Otherwise state reasonable assumptions and deliver a working solution immediately.",
-        "All executable code must be inside fenced code blocks. Explanations, diagnoses, placement and questions stay outside code blocks.",
-        "Return complete working code: no pseudocode, fake APIs, TODOs, omitted sections, ellipses standing for code, or 'rest of code here'.",
-        "Every referenced dependency, object, event, module, function and variable must exist in supplied context, be created in the answer, or be listed as required setup.",
-        "For multiple files, give exact name, type, location and creation order before each complete block.",
-        "Before answering, silently inspect syntax, scope, nil paths, data flow, initialization order, failure paths, concurrency, duplicate events, re-entrancy, cleanup, cancellation, performance and security boundaries. Fix defects before returning the final answer.",
-        "Prefer event-driven designs, small cohesive functions, descriptive names and early returns. Avoid uncontrolled loops, duplicate connections, stale references and unnecessary abstractions.",
-        "Keep the visible response organized: short diagnosis/plan, setup or placement, code, then verification. For a tiny question, answer naturally without forcing code.",
+        "Work like a senior production engineer, not a snippet generator. Correctness and a solution that actually fits the user's existing project are more important than producing code quickly.",
+        "Treat the conversation as one continuous coding workspace. Words such as 'das Script', 'mach das', 'ändere dies', 'geht nicht' and 'passiert nichts' refer to the latest relevant script and its surrounding setup unless the user clearly starts a new project.",
+        "First infer the requested behavior, existing architecture, execution environment, object hierarchy, trust boundary and state lifecycle. Silently build a small implementation plan before writing the visible answer.",
+        "Preserve existing public names, data formats, remotes, object paths and unrelated behavior. Make the smallest complete change that solves the request; do not rewrite a working system merely to show a different style.",
+        "When the supplied code is incomplete, distinguish facts from assumptions. Ask one focused question only if the missing information makes a correct implementation impossible; otherwise state the assumptions and continue.",
+        "For bug reports, connect the symptom to a concrete cause in the supplied code. Check execution location, event connection, object path, nil timing, state transitions, client/server ownership and whether the relevant function is ever reached.",
+        "For feature requests, choose an architecture appropriate to the actual size: avoid both giant monolithic scripts and pointless micro-modules. Split files only when they have distinct responsibilities or trust boundaries.",
+        "Before returning code, silently perform a review pass: parse mentally, trace the main success path and failure paths, verify every identifier and dependency, check edge cases, and repair any issue found.",
+        "Never invent services, methods, properties, events, enums, datatypes, libraries or framework behavior. If an external dependency is required, name it explicitly and do not pretend it already exists.",
+        "Return complete runnable code for every changed file or a precisely bounded replacement section when that is safer. Never use TODOs, pseudocode, omitted branches, ellipses standing for code or 'rest of code here'.",
+        "Every referenced object, event, module, function and variable must either exist in the supplied code, be created in the answer, or be listed in exact setup steps.",
+        "For multiple files, state exact Explorer/filesystem location, script type, name and creation order before each block. Keep interfaces between files explicit.",
+        "Use defensive validation at external boundaries, but do not add noisy pcall wrappers or excessive abstractions around ordinary local logic.",
+        "Prefer descriptive names, early returns, cohesive functions, deterministic cleanup, bounded retries and event-driven state. Avoid uncontrolled loops, duplicate connections, stale references, race-prone flags and hidden global state.",
+        "Keep comments useful: explain non-obvious intent, invariants and security decisions; do not narrate every obvious line.",
+        "Match the user's requested scope. Do not add unrelated systems, monetization, analytics, data persistence or UI redesigns unless they are necessary for the requested behavior.",
+        "Always provide a normal text response. Use this visible order when code is needed: concise diagnosis or design decision, exact placement/setup, complete code, then a short test checklist. For a small conceptual question, answer naturally without forcing code.",
+        "If the user reports that a previous answer does not work, do not repeat it unchanged. Re-evaluate assumptions, identify what was missed and return a materially corrected version.",
+        "All executable code must be inside fenced code blocks. Explanations, placement instructions, assumptions and questions remain outside code blocks.",
     ];
 
     const targetRules = targetIsLua ? [
-        "Target standard Lua 5.4 exactly. Do not use Luau type annotations, +=, continue, Roblox globals, Roblox datatypes or Roblox services.",
-        "Standard Lua has no built-in GUI, networking, filesystem portability, async runtime or class system; state host-library requirements instead of inventing APIs.",
-        "Avoid accidental globals. Use local by default, pcall/xpcall for recoverable boundaries, deterministic cleanup and metatables only when they improve the design.",
-        "Write code that parses under Lua 5.4 and keep module return values and require paths explicit.",
+        "Target standard Lua 5.4 exactly. Do not use Luau type annotations, compound assignment, continue, Roblox globals, Roblox datatypes or Roblox services.",
+        "Standard Lua has no built-in GUI, networking, filesystem portability, async runtime or class system. Name the real host API or library requirement instead of inventing one.",
+        "Avoid accidental globals. Use local by default, explicit module return values, clear ownership of mutable state and deterministic resource cleanup.",
+        "Use pcall/xpcall only at recoverable external boundaries. Preserve useful error details and do not swallow failures silently.",
+        "Choose tables, closures and metatables only where they make the design clearer. Avoid fake class frameworks and unnecessary inheritance.",
+        "Code must parse under Lua 5.4. Verify require paths, varargs, iteration, table mutation during iteration, coroutine lifecycle and nil semantics.",
+        "For performance-sensitive work, avoid repeated allocations in hot loops and document any host-specific timing or I/O assumption.",
     ] : [
         "Target current Roblox Studio Luau and only real Roblox services, classes, properties, methods, events, enums and datatypes. Never invent Roblox APIs.",
-        "State exact Explorer placement and distinguish Script, LocalScript and ModuleScript. Never use Players.LocalPlayer on the server or DataStoreService on the client.",
-        "Keep authoritative game state on the server. Validate client values, types, ranges, ownership, state, distance, permissions and cooldowns before changing rewards, currency, inventory, damage or progression.",
-        "Use RemoteEvents for one-way communication and RemoteFunctions only for truly synchronous replies. Add server-side validation and anti-spam where actions are exploitable.",
-        "Use game:GetService. Use WaitForChild only for real initialization/replication dependencies; use FindFirstChild with explicit nil handling when absence is valid.",
-        "Use task.wait/task.spawn/task.delay instead of deprecated wait/spawn/delay. Prefer modern constraints and APIs unless compatibility with supplied code requires otherwise.",
-        "Handle CharacterAdded and respawns; reacquire character-dependent instances and do not retain stale references.",
-        "Disconnect RBXScriptConnections and destroy temporary instances at end of lifetime. Do not assume external Maid/Janitor packages unless included.",
-        "For DataStore code, use server-only access, pcall, UpdateAsync where concurrency matters, defaults/schema handling, bounded retries and honest save guarantees.",
-        "For UI, keep input/presentation on the client and authoritative state on the server. For Touched/physics, handle repeated events and use robust overlap/server checks where appropriate.",
-        "Use --!strict and useful types for new substantial modules when compatible; do not force a legacy snippet into a breaking rewrite.",
-        "Never output executor-only globals or exploit APIs such as getgenv, hookmetamethod, fireproximityprompt, syn or remote loadstring loaders.",
+        "State exact Explorer placement and distinguish Script, LocalScript and ModuleScript. Verify that every referenced Instance exists at that path or create it explicitly.",
+        "Respect Roblox's execution model: never use Players.LocalPlayer on the server, DataStoreService on the client, client-only UI/input APIs on the server or server-only authority on the client.",
+        "Keep authoritative game state on the server. Treat every client payload as untrusted and validate type, bounds, ownership, current state, distance, permission and cooldown before changing rewards, currency, inventory, damage or progression.",
+        "Use RemoteEvents for one-way communication and RemoteFunctions only when a synchronous return is truly necessary. Avoid yielding server callbacks for long work and add per-player anti-spam where abuse matters.",
+        "Use game:GetService. Use WaitForChild only for genuine initialization or replication dependencies and preferably with a timeout when indefinite waiting would hide a broken hierarchy. Use FindFirstChild when absence is valid and handle nil explicitly.",
+        "Use task.wait, task.spawn and task.delay instead of deprecated wait, spawn and delay. Avoid task.spawn as a substitute for proper ownership, cancellation or error handling.",
+        "Handle CharacterAdded, CharacterRemoving, PlayerRemoving and respawns when state depends on a character. Reacquire character Instances and never retain stale Humanoid, Head or RootPart references.",
+        "Track and disconnect RBXScriptConnections, cancel owned tasks where practical and destroy temporary Instances. Do not assume Maid, Janitor, Trove or Promise packages unless the answer includes or the user already has them.",
+        "For DataStore code, use server-only access, pcall, UpdateAsync where concurrency matters, defaults and schema migration, bounded retries with backoff, BindToClose/PlayerRemoving coordination and honest handling of failed saves.",
+        "For UI, keep input and presentation on the client while the server owns secure state. Avoid rebuilding entire interfaces on every change and prevent duplicate button/event connections.",
+        "For Touched and physics interactions, account for repeated contacts, multiple body parts, streaming and network ownership. Use robust overlap or server validation when rewards or security depend on contact.",
+        "For loops and RunService callbacks, choose the correct event, disconnect it when no longer needed and avoid per-frame work that can be event-driven or cached.",
+        "Use --!strict and useful exported types for new substantial modules when it improves reliability. Do not force a legacy snippet into a breaking type rewrite unless requested.",
+        "When using CollectionService, Attributes, tags, Profile/DataStore wrappers or custom frameworks, only rely on them if the project already contains them or provide the complete setup.",
+        "Never output executor-only globals or exploit APIs such as getgenv, hookmetamethod, fireproximityprompt, syn, identifyexecutor or remote loadstring loaders.",
+        "Before finalizing, verify Roblox-specific lifecycle and security: replication direction, remote trust, server authority, respawn behavior, connection cleanup, DataStore budget/failure behavior and exact object hierarchy.",
     ];
 
     if (options.requestTitle) engineeringRules.push("Start with exactly [[NEXU_TITLE: short German title]] on its own line, then answer normally. This line is removed before display.");
@@ -16799,16 +16818,17 @@ function buildNexuAiContextMessages(chat, maxInputTokens = NEXU_AI_TPM_BUDGET) {
     if (!source.length) return { messages: [], truncated: false, estimatedTokens: 0 };
 
     const latestIndex = source.length - 1;
-    let latestCodeIndex = -1;
-    for (let index = latestIndex - 1; index >= 0; index -= 1) {
-        if (/```[\s\S]*?```/.test(String(source[index].content || ""))) {
-            latestCodeIndex = index;
-            break;
-        }
+    const recentCodeIndexes = [];
+    for (let index = latestIndex; index >= 0 && recentCodeIndexes.length < 3; index -= 1) {
+        if (/```[\s\S]*?```/.test(String(source[index].content || ""))) recentCodeIndexes.push(index);
     }
 
     const priority = [latestIndex];
-    if (latestCodeIndex >= 0) priority.push(latestCodeIndex);
+    for (const index of recentCodeIndexes) {
+        if (!priority.includes(index)) priority.push(index);
+        const previousIndex = index - 1;
+        if (previousIndex >= 0 && source[previousIndex] && source[previousIndex].role === "user" && !priority.includes(previousIndex)) priority.push(previousIndex);
+    }
     for (let index = latestIndex - 1; index >= 0; index -= 1) {
         if (!priority.includes(index)) priority.push(index);
     }
@@ -16828,9 +16848,17 @@ function buildNexuAiContextMessages(chat, maxInputTokens = NEXU_AI_TPM_BUDGET) {
             break;
         }
 
+        const codeRank = recentCodeIndexes.indexOf(index);
         let perMessageTokens = remainingTokens;
-        if (index === latestIndex) perMessageTokens = Math.min(remainingTokens, Math.max(360, Math.floor(tokenLimit * 0.58)));
-        else if (index === latestCodeIndex) perMessageTokens = Math.min(remainingTokens, Math.max(480, Math.floor(tokenLimit * 0.52)));
+        if (index === latestIndex && codeRank < 0) {
+            perMessageTokens = Math.min(remainingTokens, Math.max(300, Math.floor(tokenLimit * 0.38)));
+        } else if (codeRank === 0) {
+            perMessageTokens = Math.min(remainingTokens, Math.max(520, Math.floor(tokenLimit * 0.54)));
+        } else if (codeRank > 0) {
+            perMessageTokens = Math.min(remainingTokens, Math.max(260, Math.floor(tokenLimit * 0.24)));
+        } else {
+            perMessageTokens = Math.min(remainingTokens, Math.max(180, Math.floor(tokenLimit * 0.18)));
+        }
         const charLimit = Math.min(remainingChars, Math.max(1, perMessageTokens * 3));
         const content = trimNexuAiContextContent(rawContent, charLimit);
         if (!content) continue;
@@ -16900,6 +16928,17 @@ function isNexuAiGptOssModel(model) {
     return /^openai\/gpt-oss-/i.test(String(model || ""));
 }
 
+function isNexuAiQwen36Model(model) {
+    return /^qwen\/qwen3\.6-27b$/i.test(String(model || ""));
+}
+
+function normalizeNexuAiReasoningEffort(model, requested) {
+    const value = String(requested || "").trim().toLowerCase();
+    if (isNexuAiGptOssModel(model)) return ["low", "medium", "high"].includes(value) ? value : "low";
+    if (isNexuAiQwen36Model(model)) return value === "none" ? "none" : "default";
+    return "";
+}
+
 function isNexuAiCompletePayload(payload) {
     const status = String(payload && payload.status || "").toLowerCase();
     return !status || status === "completed";
@@ -16919,32 +16958,43 @@ function isNexuAiUsableText(text, codeMode) {
     return true;
 }
 
-function buildNexuAiProviderProfiles(reasoningEffort, temperature) {
+function buildNexuAiProviderProfiles(reasoningEffort, temperature, options = {}) {
+    const primaryModel = String(options.primaryModel || NEXU_AI_MODEL).trim() || NEXU_AI_MODEL;
+    const fallbackModel = Object.prototype.hasOwnProperty.call(options, "fallbackModel")
+        ? String(options.fallbackModel || "").trim()
+        : NEXU_AI_FALLBACK_MODEL;
+    const primaryBudget = Math.max(1_200, Math.floor(Number(options.primaryTokenBudget) || NEXU_AI_TPM_BUDGET));
+    const fallbackBudget = Math.max(1_200, Math.floor(Number(options.fallbackTokenBudget) || NEXU_AI_FALLBACK_TPM_BUDGET));
     const profiles = [{
-        model: NEXU_AI_MODEL,
-        tokenBudget: NEXU_AI_TPM_BUDGET,
-        reasoningEffort: isNexuAiGptOssModel(NEXU_AI_MODEL) ? (reasoningEffort || "low") : "",
+        model: primaryModel,
+        tokenBudget: primaryBudget,
+        reasoningEffort: normalizeNexuAiReasoningEffort(primaryModel, reasoningEffort),
         temperature,
         fallback: false,
     }];
-    if (NEXU_AI_FALLBACK_MODEL && NEXU_AI_FALLBACK_MODEL !== NEXU_AI_MODEL) {
+    if (fallbackModel && fallbackModel !== primaryModel) {
         profiles.push({
-            model: NEXU_AI_FALLBACK_MODEL,
-            tokenBudget: NEXU_AI_FALLBACK_TPM_BUDGET,
-            reasoningEffort: isNexuAiGptOssModel(NEXU_AI_FALLBACK_MODEL) ? "low" : "",
-            temperature: Number.isFinite(temperature) ? Math.max(0.25, Math.min(0.65, temperature + 0.08)) : 0.5,
+            model: fallbackModel,
+            tokenBudget: fallbackBudget,
+            reasoningEffort: normalizeNexuAiReasoningEffort(fallbackModel, reasoningEffort),
+            temperature: Number.isFinite(temperature) ? Math.max(0.35, Math.min(0.65, temperature + 0.04)) : 0.5,
             fallback: true,
         });
     }
     return profiles;
 }
 
-async function requestNexuAiProviderText({ instructions, input, maxOutputTokens, minOutputTokens = 220, reasoningEffort, temperature, safetyIdentifier, codeMode = false, timeoutMs = NEXU_AI_REQUEST_TIMEOUT_MS }) {
+async function requestNexuAiProviderText({ instructions, input, maxOutputTokens, minOutputTokens = 220, reasoningEffort, temperature, safetyIdentifier, codeMode = false, timeoutMs = NEXU_AI_REQUEST_TIMEOUT_MS, primaryModel = NEXU_AI_MODEL, fallbackModel = NEXU_AI_FALLBACK_MODEL, primaryTokenBudget = NEXU_AI_TPM_BUDGET, fallbackTokenBudget = NEXU_AI_FALLBACK_TPM_BUDGET }) {
     if (!NEXU_AI_API_KEY) throw Object.assign(new Error("GROQ_API_KEY ist auf dem Server noch nicht gesetzt."), { statusCode: 503 });
     let lastError = null;
     let bestPartial = "";
 
-    for (const profile of buildNexuAiProviderProfiles(reasoningEffort, temperature)) {
+    for (const profile of buildNexuAiProviderProfiles(reasoningEffort, temperature, {
+        primaryModel,
+        fallbackModel,
+        primaryTokenBudget,
+        fallbackTokenBudget,
+    })) {
         let prepared = fitNexuAiProviderRequest({
             instructions,
             input,
@@ -16953,6 +17003,7 @@ async function requestNexuAiProviderText({ instructions, input, maxOutputTokens,
             tokenBudget: profile.tokenBudget,
         });
 
+        let activeReasoningEffort = profile.reasoningEffort;
         for (let attempt = 0; attempt < 2; attempt += 1) {
             const controller = new AbortController();
             const timeout = setTimeout(() => controller.abort(), timeoutMs);
@@ -16967,7 +17018,7 @@ async function requestNexuAiProviderText({ instructions, input, maxOutputTokens,
                     user: safetyIdentifier,
                     top_p: 0.95,
                 };
-                if (profile.reasoningEffort) body.reasoning = { effort: profile.reasoningEffort };
+                if (activeReasoningEffort) body.reasoning = { effort: activeReasoningEffort };
                 if (Number.isFinite(profile.temperature)) body.temperature = Math.max(0, Math.min(2, profile.temperature));
 
                 const response = await fetch(NEXU_AI_API_URL, {
@@ -16987,6 +17038,13 @@ async function requestNexuAiProviderText({ instructions, input, maxOutputTokens,
                     });
                     if (response.status === 401) throw publicError;
                     lastError = publicError;
+
+                    const rawProviderMessage = String(payload && payload.error && payload.error.message || "");
+                    if (attempt === 0 && response.status === 400 && activeReasoningEffort && /reasoning|effort|unsupported|unknown field|invalid parameter/i.test(rawProviderMessage)) {
+                        activeReasoningEffort = "";
+                        await new Promise((resolve) => setTimeout(resolve, 120));
+                        continue;
+                    }
 
                     if (attempt === 0 && isNexuAiOversizedTpmError(response, payload)) {
                         prepared = fitNexuAiProviderRequest({
@@ -17090,6 +17148,111 @@ function enforceNexuAiNormalMode(value) {
         .trim();
 }
 
+function latestNexuAiUserMessage(chat) {
+    const messages = Array.isArray(chat && chat.messages) ? chat.messages : [];
+    for (let index = messages.length - 1; index >= 0; index -= 1) {
+        if (messages[index] && messages[index].role === "user" && String(messages[index].content || "").trim()) return String(messages[index].content).trim();
+    }
+    return "";
+}
+
+function extractNexuAiFencedCode(value) {
+    const source = String(value || "");
+    const blocks = [];
+    const pattern = /```([^\r\n`]*)\r?\n?([\s\S]*?)```/g;
+    let match;
+    while ((match = pattern.exec(source))) blocks.push({ language: String(match[1] || "").trim().toLowerCase(), code: String(match[2] || "") });
+    return blocks;
+}
+
+function nexuAiCodeAnswerQuality(value, language) {
+    const source = String(value || "").trim();
+    if (!source) return -10_000;
+    const blocks = extractNexuAiFencedCode(source);
+    const codeChars = blocks.reduce((total, block) => total + block.code.length, 0);
+    let score = Math.min(80, Math.floor(source.length / 180)) + Math.min(120, Math.floor(codeChars / 120));
+    if (blocks.length) score += 80;
+    if (/\b(?:TODO|FIXME|rest of code|restlicher code|implementation omitted|code hier einfügen)\b/i.test(source)) score -= 260;
+    if (/\.\.\.(?:\s*--)?\s*(?:rest|weiter|remaining)/i.test(source)) score -= 180;
+    if ((source.match(/```/g) || []).length % 2 !== 0) score -= 500;
+    if (language === "lua" && blocks.some((block) => block.language && block.language !== "lua")) score -= 120;
+    if (language === "luau" && blocks.some((block) => block.language && !["luau", "lua"].includes(block.language))) score -= 120;
+    if (language === "lua" && /\b(?:game:GetService|Instance\.new|Players\.LocalPlayer|Enum\.)\b/.test(source)) score -= 400;
+    if (language === "luau" && /\b(?:getgenv|hookmetamethod|fireproximityprompt|identifyexecutor|syn\.)\b/i.test(source)) score -= 600;
+    if (blocks.length && source.replace(/```[^\r\n`]*\r?\n?[\s\S]*?```/g, "").trim().length >= 40) score += 35;
+    return score;
+}
+
+function chooseNexuAiReviewedCodeAnswer(draft, reviewed, language) {
+    const original = String(draft || "").trim();
+    const candidate = String(reviewed || "").trim();
+    if (!isNexuAiUsableText(candidate, true)) return original;
+    const originalBlocks = extractNexuAiFencedCode(original);
+    const candidateBlocks = extractNexuAiFencedCode(candidate);
+    const originalCodeChars = originalBlocks.reduce((total, block) => total + block.code.length, 0);
+    const candidateCodeChars = candidateBlocks.reduce((total, block) => total + block.code.length, 0);
+    if (originalCodeChars > 600 && candidateCodeChars < Math.floor(originalCodeChars * 0.42)) return original;
+    const originalScore = nexuAiCodeAnswerQuality(original, language);
+    const candidateScore = nexuAiCodeAnswerQuality(candidate, language);
+    return candidateScore >= originalScore - 8 ? candidate : original;
+}
+
+function buildNexuAiCodeReviewInstructions(chat) {
+    const targetIsLua = chat.language === "lua";
+    const target = targetIsLua ? "Lua 5.4" : "Roblox Studio Luau";
+    const fence = targetIsLua ? "lua" : "luau";
+    return [
+        `You are the final senior code reviewer for a ${target} answer.`,
+        "Return the complete improved user-facing answer, not review notes and not a score.",
+        "Preserve the requested behavior and existing interfaces. Repair concrete defects, missing setup, wrong assumptions, invented APIs, lifecycle bugs, security holes and incomplete sections.",
+        "Do not remove necessary files or functionality merely to shorten the answer. Do not introduce TODOs, pseudocode or omitted code.",
+        "Keep explanations concise but useful: diagnosis/design, exact placement, complete code, short verification steps.",
+        `Every executable code block must use the ${fence} fence and must be valid for ${target}.`,
+        targetIsLua
+            ? "Reject Roblox and Luau-only APIs or syntax. Use only Lua 5.4 plus explicitly named host libraries."
+            : "Use only real Roblox APIs; enforce client/server boundaries, remote validation, respawn handling, cleanup and exact Explorer paths where relevant.",
+        "Silently inspect syntax, scope, initialization order, nil paths, event duplication, concurrency, cleanup, performance and security before returning the replacement answer.",
+        "Do not mention that another model drafted the answer or that you reviewed it.",
+    ].join("\n");
+}
+
+async function reviewNexuAiCodeAnswer(session, chat, draftAnswer) {
+    const draft = String(draftAnswer || "").trim();
+    if (!NEXU_AI_CODE_REVIEW_ENABLED || !NEXU_AI_CODE_REVIEW_MODEL || draft.length < 120 || draft.length > NEXU_AI_CODE_REVIEW_MAX_DRAFT_CHARS) {
+        return { text: draft, reviewed: false };
+    }
+    const latestRequest = latestNexuAiUserMessage(chat);
+    const reviewPayload = [
+        "ORIGINAL USER REQUEST:",
+        trimNexuAiContextContent(latestRequest, 8_000),
+        "",
+        "DRAFT ANSWER TO CORRECT AND REPLACE:",
+        draft,
+    ].join("\n");
+    try {
+        const result = await requestNexuAiProviderText({
+            instructions: buildNexuAiCodeReviewInstructions(chat),
+            input: [{ role: "user", content: reviewPayload }],
+            maxOutputTokens: Math.max(1_200, Math.min(3_200, Math.ceil(estimateNexuAiTextTokens(draft) * 1.12))),
+            minOutputTokens: 720,
+            reasoningEffort: "medium",
+            temperature: 0.45,
+            safetyIdentifier: nexuAiSafetyIdentifier(session),
+            codeMode: true,
+            timeoutMs: 180_000,
+            primaryModel: NEXU_AI_CODE_REVIEW_MODEL,
+            fallbackModel: "",
+            primaryTokenBudget: NEXU_AI_CODE_REVIEW_TPM_BUDGET,
+        });
+        const normalized = normalizeNexuAiCodeMode(extractNexuAiEmbeddedTitle(result.text).text);
+        const selected = chooseNexuAiReviewedCodeAnswer(draft, normalized, chat.language);
+        return { text: selected, reviewed: selected !== draft };
+    } catch (error) {
+        console.warn("[NEXU AI] Code-Review übersprungen:", error && error.message ? error.message : error);
+        return { text: draft, reviewed: false };
+    }
+}
+
 async function requestNexuAiCompletion(session, chat, options = {}) {
     const codeMode = chat.mode === "code";
     const desiredOutputTokens = codeMode ? NEXU_AI_CODE_DESIRED_OUTPUT_TOKENS : NEXU_AI_NORMAL_DESIRED_OUTPUT_TOKENS;
@@ -17102,14 +17265,14 @@ async function requestNexuAiCompletion(session, chat, options = {}) {
     // answer is emitted. Medium is reserved for compact requests; long or trimmed
     // workspaces deliberately use low reasoning and preserve final-answer tokens.
     const reasoningEffort = codeMode
-        ? (context.truncated || context.estimatedTokens > 2_100 ? "low" : "medium")
+        ? (context.truncated || context.estimatedTokens > 2_600 ? "low" : context.estimatedTokens < 1_250 ? "high" : "medium")
         : "low";
 
     const providerResult = await requestNexuAiProviderText({
         instructions,
         input: Array.isArray(chat.messages) ? chat.messages : context.messages,
         reasoningEffort,
-        temperature: codeMode ? 0.45 : 0.62,
+        temperature: codeMode ? 0.5 : 0.62,
         maxOutputTokens: desiredOutputTokens,
         minOutputTokens,
         safetyIdentifier: nexuAiSafetyIdentifier(session),
@@ -17118,8 +17281,13 @@ async function requestNexuAiCompletion(session, chat, options = {}) {
 
     const embedded = extractNexuAiEmbeddedTitle(providerResult.text);
     let answer = embedded.text;
-    if (codeMode) answer = normalizeNexuAiCodeMode(answer);
-    else answer = enforceNexuAiNormalMode(answer);
+    let qualityReviewed = false;
+    if (codeMode) {
+        answer = normalizeNexuAiCodeMode(answer);
+        const review = await reviewNexuAiCodeAnswer(session, chat, answer);
+        answer = review.text;
+        qualityReviewed = review.reviewed;
+    } else answer = enforceNexuAiNormalMode(answer);
     if (!answer.trim()) {
         throw Object.assign(new Error("Die KI hat trotz Ausweichmodell keine sichtbare Textantwort erzeugt. Bitte sende die Anfrage erneut."), { statusCode: 502 });
     }
@@ -17129,6 +17297,7 @@ async function requestNexuAiCompletion(session, chat, options = {}) {
         generatedTitle: embedded.title,
         contextTrimmed: Boolean(context.truncated || providerResult.truncated),
         fallbackUsed: Boolean(providerResult.fallbackUsed),
+        qualityReviewed,
     };
 }
 
@@ -17175,7 +17344,7 @@ async function requestNexuAiTitle(session, chat, messageText) {
 
 function nexuAiHomeAddonCss() {
     return String.raw`
-/* NEXU V239 // STARTSEITEN-ZUGANG ZUR KI */
+/* NEXU V245 // STARTSEITEN-ZUGANG ZUR KI */
 .nx-v237-ai-section{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:28px;margin-top:18px;padding:30px;border:1px solid color-mix(in srgb,var(--nx-user-accent,#00c8ff) 22%,rgba(135,192,224,.12));border-radius:24px;background:radial-gradient(circle at 7% 0%,color-mix(in srgb,var(--nx-user-accent,#00c8ff) 17%,transparent),transparent 28rem),linear-gradient(145deg,rgba(7,19,31,.94),rgba(5,11,20,.96));box-shadow:0 28px 70px rgba(0,0,0,.24)}
 .nx-v237-ai-section:after{content:"AI";position:absolute;right:22px;bottom:-58px;color:color-mix(in srgb,var(--nx-user-accent,#00c8ff) 5%,transparent);font-size:190px;font-weight:950;letter-spacing:-.08em;pointer-events:none}.nx-v237-ai-copy{position:relative;z-index:1}.nx-v237-ai-badge{display:inline-flex;align-items:center;gap:8px;color:#6fe3ff;font-size:8px;font-weight:950;letter-spacing:.17em;text-transform:uppercase}.nx-v237-ai-badge i{width:7px;height:7px;border-radius:50%;background:#55f5b6;box-shadow:0 0 14px rgba(85,245,182,.75)}.nx-v237-ai-section h2{margin:10px 0 8px;color:#f1fbff;font-size:28px;letter-spacing:-.045em}.nx-v237-ai-section p{max-width:720px;color:#7895a7;font-size:11px;line-height:1.7}.nx-v237-ai-points{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.nx-v237-ai-points span{padding:7px 9px;border:1px solid rgba(130,196,229,.12);border-radius:9px;background:rgba(255,255,255,.025);color:#9ab5c4;font-size:8px;font-weight:850}.nx-v237-ai-open{position:relative;z-index:1;min-width:176px;min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 17px;border:1px solid color-mix(in srgb,var(--nx-user-accent,#00c8ff) 36%,transparent);border-radius:13px;color:#f3fcff;text-decoration:none;background:linear-gradient(135deg,color-mix(in srgb,var(--nx-user-accent,#00c8ff) 20%,transparent),color-mix(in srgb,var(--nx-user-secondary,#6f46ff) 14%,transparent)),#091623;font-size:9px;font-weight:950;letter-spacing:.075em}.nx-v237-ai-open:hover{transform:translateY(-2px);box-shadow:0 16px 35px color-mix(in srgb,var(--nx-user-accent,#00c8ff) 13%,transparent)}
 @media(max-width:760px){.nx-v237-ai-section{grid-template-columns:1fr;padding:22px}.nx-v237-ai-open{width:100%}.nx-v237-ai-section h2{font-size:23px}}
@@ -17558,6 +17727,7 @@ if (req.method === "POST" && pathname === "/api/ai/message") {
             generatedTitle,
             contextTrimmed: Boolean(completion && completion.contextTrimmed),
             fallbackUsed: Boolean(completion && completion.fallbackUsed),
+            qualityReviewed: Boolean(completion && completion.qualityReviewed),
         });
     } catch (error) {
         if (chat && userMessageId) {
