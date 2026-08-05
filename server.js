@@ -16208,16 +16208,16 @@ nexuV235SettingsPageHtml = function(notice = "", error = "", account = null) {
 
 
 /* --------------------------------------------------------------------------
- * NEXU V237 // ACCOUNT-BOUND NEXU FORGE AI
+ * NEXU V238 // ACCOUNT-BOUND NEXU FORGE AI // GROQ
  * Geschützte KI-Seite mit accountgebundenen Chats, Lua-/Luau-Code-Modus,
  * verschlüsselter Persistenz und konfliktarmem GitHub-Datenbranch-Abgleich.
  * package.json bleibt unverändert; Node.js 18+ stellt fetch bereits bereit.
  * -------------------------------------------------------------------------- */
 
 const NEXU_AI_NAME = String(process.env.NEXU_AI_NAME || "Nexu Forge AI").trim() || "Nexu Forge AI";
-const NEXU_AI_API_KEY = String(process.env.OPENAI_API_KEY || "").trim();
-const NEXU_AI_MODEL = String(process.env.NEXU_AI_MODEL || "gpt-5.6").trim() || "gpt-5.6";
-const NEXU_AI_API_URL = String(process.env.OPENAI_API_URL || "https://api.openai.com/v1/responses").trim() || "https://api.openai.com/v1/responses";
+const NEXU_AI_API_KEY = String(process.env.GROQ_API_KEY || "").trim();
+const NEXU_AI_MODEL = String(process.env.GROQ_MODEL || "openai/gpt-oss-120b").trim() || "openai/gpt-oss-120b";
+const NEXU_AI_API_URL = String(process.env.GROQ_API_URL || "https://api.groq.com/openai/v1/responses").trim() || "https://api.groq.com/openai/v1/responses";
 const NEXU_AI_CHAT_FILE_PATH = String(process.env.NEXU_AI_CHAT_FILE_PATH || path.join(NEXU_DATA_DIRECTORY, "nexu-ai-chats.json"));
 const GITHUB_AI_CHATS_PATH = String(process.env.GITHUB_AI_CHATS_PATH || "data/nexu-ai-chats.json").trim() || "data/nexu-ai-chats.json";
 const NEXU_AI_STORAGE_SECRET = String(process.env.NEXU_AI_STORAGE_SECRET || "").trim() || `${DASHBOARD_ACCOUNT_STORAGE_SECRET}|nexu-ai-chats-v1`;
@@ -16645,7 +16645,7 @@ function extractNexuAiResponseText(payload) {
 }
 
 async function requestNexuAiCompletion(session, chat) {
-    if (!NEXU_AI_API_KEY) throw Object.assign(new Error("OPENAI_API_KEY ist auf dem Server noch nicht gesetzt."), { statusCode: 503 });
+    if (!NEXU_AI_API_KEY) throw Object.assign(new Error("GROQ_API_KEY ist auf dem Server noch nicht gesetzt."), { statusCode: 503 });
     const messages = chat.messages.slice(-NEXU_AI_CONTEXT_MESSAGES).map((message) => ({ role: message.role, content: message.content }));
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), NEXU_AI_REQUEST_TIMEOUT_MS);
@@ -16662,10 +16662,9 @@ async function requestNexuAiCompletion(session, chat) {
                 instructions: buildNexuAiInstructions(chat, session.account),
                 input: messages,
                 reasoning: { effort: chat.mode === "code" ? "high" : "medium" },
-                text: { verbosity: chat.mode === "code" ? "high" : "medium" },
                 max_output_tokens: chat.mode === "code" ? 8_000 : 4_500,
                 store: false,
-                safety_identifier: nexuAiSafetyIdentifier(session),
+                user: nexuAiSafetyIdentifier(session),
             }),
             signal: controller.signal,
         });
@@ -16673,9 +16672,11 @@ async function requestNexuAiCompletion(session, chat) {
         if (!response.ok) {
             const apiMessage = cleanText(payload && payload.error && payload.error.message, 400);
             const publicMessage = response.status === 401
-                ? "Der OpenAI-API-Schlüssel ist ungültig oder nicht freigeschaltet."
-                : response.status === 429
-                    ? "Das KI-Limit oder Guthaben wurde erreicht. Bitte später erneut versuchen."
+                ? "Der Groq-API-Schlüssel ist ungültig oder nicht freigeschaltet."
+                : response.status === 403
+                    ? "Das ausgewählte Groq-Modell ist für dieses Projekt nicht freigeschaltet."
+                    : response.status === 429
+                        ? "Das kostenlose Groq-Limit wurde erreicht. Bitte später erneut versuchen."
                     : response.status >= 500
                         ? "Der KI-Dienst ist gerade nicht erreichbar."
                         : apiMessage || "Die KI-Anfrage wurde abgelehnt.";
@@ -16738,6 +16739,7 @@ function nexuAiPageHtml(account) {
         userAvatar,
         configured: Boolean(NEXU_AI_API_KEY),
         model: NEXU_AI_MODEL,
+        provider: "Groq",
     };
     let html = String.raw`<!doctype html>
 <html lang="${english ? "en" : "de"}">
@@ -16761,7 +16763,7 @@ function nexuAiPageHtml(account) {
 <main class="nx-ai-main">
 <header class="nx-ai-top"><button class="nx-ai-mobile" id="nxAiMobile" type="button">☰</button><div class="nx-ai-title"><h1 id="nxAiTitle">${english ? "New chat" : "Neuer Chat"}</h1><p id="nxAiMeta">${escapeHtml(NEXU_AI_NAME)} · ${escapeHtml(NEXU_AI_MODEL)}</p></div><div class="nx-ai-controls"><div class="nx-ai-segment"><button class="nx-ai-mode active" type="button" data-mode="normal">${english ? "NORMAL" : "NORMAL"}</button><button class="nx-ai-mode" type="button" data-mode="code">CODE</button></div><select class="nx-ai-language" id="nxAiLanguage" aria-label="Code language"><option value="luau">Luau / Roblox</option><option value="lua">Lua 5.4</option></select><a class="nx-ai-nav" href="/settings">${english ? "SETTINGS" : "EINSTELLUNGEN"}</a><a class="nx-ai-nav" href="/">HOME</a></div></header>
 <section class="nx-ai-messages" id="nxAiMessages"></section>
-<div class="nx-ai-compose-wrap">${NEXU_AI_API_KEY ? "" : `<div class="nx-ai-config-warning">${english ? "The server is missing OPENAI_API_KEY. Chat management works, but the AI cannot answer yet." : "Auf dem Server fehlt OPENAI_API_KEY. Die Chatverwaltung funktioniert, aber die KI kann noch nicht antworten."}</div>`}<div class="nx-ai-compose"><textarea class="nx-ai-input" id="nxAiInput" rows="1" maxlength="${NEXU_AI_MAX_MESSAGE_CHARS}" placeholder="${english ? "Write a message…" : "Schreibe eine Nachricht…"}"></textarea><button class="nx-ai-send" id="nxAiSend" type="button" aria-label="Send">↑</button></div><div class="nx-ai-footnote">${english ? "Enter sends · Shift+Enter creates a line break · AI answers can contain mistakes." : "Enter sendet · Shift+Enter macht einen Zeilenumbruch · KI-Antworten können Fehler enthalten."}</div></div>
+<div class="nx-ai-compose-wrap">${NEXU_AI_API_KEY ? "" : `<div class="nx-ai-config-warning">${english ? "The server is missing GROQ_API_KEY. Chat management works, but the AI cannot answer yet." : "Auf dem Server fehlt GROQ_API_KEY. Die Chatverwaltung funktioniert, aber die KI kann noch nicht antworten."}</div>`}<div class="nx-ai-compose"><textarea class="nx-ai-input" id="nxAiInput" rows="1" maxlength="${NEXU_AI_MAX_MESSAGE_CHARS}" placeholder="${english ? "Write a message…" : "Schreibe eine Nachricht…"}"></textarea><button class="nx-ai-send" id="nxAiSend" type="button" aria-label="Send">↑</button></div><div class="nx-ai-footnote">${english ? "Enter sends · Shift+Enter creates a line break · AI answers can contain mistakes." : "Enter sendet · Shift+Enter macht einen Zeilenumbruch · KI-Antworten können Fehler enthalten."}</div></div>
 </main></div><div class="nx-ai-toast" id="nxAiToast"></div>
 <script>
 (function(){"use strict";
@@ -16784,7 +16786,7 @@ async function openChat(id,rerenderList){try{var data=await api("/api/ai/chat?id
 async function newChat(){try{var data=await api("/api/ai/chats/create",{method:"POST",body:JSON.stringify({mode:"normal",language:"luau"})});state.chats.unshift(data.chat);await openChat(data.chat.id);input.focus()}catch(error){notify(error.message,true)}}
 async function deleteChat(id,chatTitle){if(!confirm(t('Chat "'+chatTitle+'" wirklich löschen?','Delete chat "'+chatTitle+'"?')))return;try{await api("/api/ai/chats/delete",{method:"POST",body:JSON.stringify({chatId:id})});state.chats=state.chats.filter(function(chat){return chat.id!==id});if(state.activeId===id){state.activeId="";state.chat=null;var next=state.chats[0];if(next)await openChat(next.id,false);else{syncControls();renderMessages()}}renderList();notify(t("Chat gelöscht.","Chat deleted."))}catch(error){notify(error.message,true)}}
 async function updateSettings(next){if(!state.chat)return;var previous=Object.assign({},state.chat);Object.assign(state.chat,next);syncControls();try{var data=await api("/api/ai/chats/update",{method:"POST",body:JSON.stringify(Object.assign({chatId:state.chat.id},next))});state.chat=data.chat;var summary=state.chats.find(function(item){return item.id===state.chat.id});if(summary)Object.assign(summary,{mode:state.chat.mode,language:state.chat.language,title:state.chat.title,updatedAt:state.chat.updatedAt});syncControls();renderList()}catch(error){state.chat=previous;syncControls();notify(error.message,true)}}
-async function sendMessage(){var text=input.value.trim();if(!text||state.sending)return;if(!cfg.configured){notify(t("OPENAI_API_KEY fehlt auf dem Server.","OPENAI_API_KEY is missing on the server."),true);return}if(!state.chat){await newChat();if(!state.chat)return}state.sending=true;var optimistic={id:"local-"+Date.now(),role:"user",content:text,createdAt:new Date().toISOString()};state.chat.messages=state.chat.messages||[];state.chat.messages.push(optimistic);input.value="";autoGrow();syncControls();renderMessages();try{var data=await api("/api/ai/message",{method:"POST",body:JSON.stringify({chatId:state.chat.id,message:text})});state.chat=data.chat;var summary=state.chats.find(function(item){return item.id===state.chat.id});if(summary)Object.assign(summary,data.summary);state.chats.sort(function(a,b){return String(b.updatedAt).localeCompare(String(a.updatedAt))});renderList()}catch(error){state.chat.messages=state.chat.messages.filter(function(item){return item.id!==optimistic.id});var box=document.createElement("div");box.className="nx-ai-error";box.textContent=error.message;messages.appendChild(box);notify(error.message,true)}finally{state.sending=false;syncControls();renderMessages();input.focus()}}
+async function sendMessage(){var text=input.value.trim();if(!text||state.sending)return;if(!cfg.configured){notify(t("GROQ_API_KEY fehlt auf dem Server.","GROQ_API_KEY is missing on the server."),true);return}if(!state.chat){await newChat();if(!state.chat)return}state.sending=true;var optimistic={id:"local-"+Date.now(),role:"user",content:text,createdAt:new Date().toISOString()};state.chat.messages=state.chat.messages||[];state.chat.messages.push(optimistic);input.value="";autoGrow();syncControls();renderMessages();try{var data=await api("/api/ai/message",{method:"POST",body:JSON.stringify({chatId:state.chat.id,message:text})});state.chat=data.chat;var summary=state.chats.find(function(item){return item.id===state.chat.id});if(summary)Object.assign(summary,data.summary);state.chats.sort(function(a,b){return String(b.updatedAt).localeCompare(String(a.updatedAt))});renderList()}catch(error){state.chat.messages=state.chat.messages.filter(function(item){return item.id!==optimistic.id});var box=document.createElement("div");box.className="nx-ai-error";box.textContent=error.message;messages.appendChild(box);notify(error.message,true)}finally{state.sending=false;syncControls();renderMessages();input.focus()}}
 document.getElementById("nxAiNew").addEventListener("click",newChat);document.getElementById("nxAiMobile").addEventListener("click",function(){side.classList.toggle("open")});Array.prototype.forEach.call(document.querySelectorAll(".nx-ai-mode"),function(button){button.addEventListener("click",function(){updateSettings({mode:button.dataset.mode})})});language.addEventListener("change",function(){updateSettings({language:language.value})});send.addEventListener("click",sendMessage);input.addEventListener("input",autoGrow);input.addEventListener("keydown",function(event){if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();sendMessage()}});window.addEventListener("keydown",function(event){if(event.key==="Escape")side.classList.remove("open")});refreshChats().catch(function(error){notify(error.message,true);renderMessages()});syncControls();autoGrow();
 })();
 </script>
@@ -16840,7 +16842,7 @@ if (req.method === "GET" && pathname === "/api/ai/chats") {
     const chats = getNexuAiChats(session, true)
         .map(serializeNexuAiChatSummary)
         .sort((left, right) => String(right.updatedAt).localeCompare(String(left.updatedAt)));
-    sendJson(res, 200, { success: true, chats, configured: Boolean(NEXU_AI_API_KEY), model: NEXU_AI_MODEL });
+    sendJson(res, 200, { success: true, chats, configured: Boolean(NEXU_AI_API_KEY), model: NEXU_AI_MODEL, provider: "Groq" });
     return;
 }
 
@@ -19646,7 +19648,7 @@ async function startNexuServer() {
         console.log("Spieler-Speicher:", KNOWN_PLAYERS_FILE_PATH);
         console.log("Account-Speicher:", DASHBOARD_ACCOUNT_FILE_PATH);
         console.log("Nexu-AI-Chat-Speicher:", NEXU_AI_CHAT_FILE_PATH);
-        console.log("Nexu AI:", NEXU_AI_API_KEY ? `AKTIV // ${NEXU_AI_MODEL}` : "OPENAI_API_KEY FEHLT");
+        console.log("Nexu AI:", NEXU_AI_API_KEY ? `AKTIV // GROQ // ${NEXU_AI_MODEL}` : "GROQ_API_KEY FEHLT");
         console.log("GitHub-Speicher:", isGitHubStorageConfigured() ? "AKTIV" : "NICHT KONFIGURIERT");
         console.log("GitHub-Datenbranch:", GITHUB_DATA_BRANCH, "// Deploy-Branch:", GITHUB_DEPLOY_BRANCH);
         console.log("GitHub-Datendatei:", `${GITHUB_DATA_OWNER}/${GITHUB_DATA_REPO}/${GITHUB_DATA_PATH}`);
