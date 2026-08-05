@@ -14049,16 +14049,16 @@
       "displayName": "KingXD4081",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Build a Base and Steal (NEW PLAYER SERVERS)",
-      "placeId": 82441325527385,
+      "gameName": "Break Tape For Brainrots",
+      "placeId": 104339804279870,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.55",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-08-03T17:45:00.000Z",
-      "lastSeenMs": 1785779100000
+      "lastSeen": "2026-08-05T06:20:00.000Z",
+      "lastSeenMs": 1785910800000
     },
     {
       "userId": "9786800904",
@@ -14440,5 +14440,5 @@
     "resetAtMs": 1785880800138,
     "messages": []
   },
-  "updatedAt": "2026-08-05T05:16:07.106Z"
+  "updatedAt": "2026-08-05T06:24:33.962Z"
 }
