@@ -1,3 +1,4 @@
+// V243: Fortlaufender Code-Arbeitskontext, normale Antworten und Rückfragen im Code-Modus sowie Codeausgabe ausschließlich im Code-Modus.
 // V242: Token-sicherer Groq-Code-Modus, internes Nexu-Seitenwissen, reine Codeausgaben, pausierbares Auto-Scrollen und dauerhaft sichtbare Code-Kopfleisten.
 // V241: Professioneller Lua-/Luau-Code-Modus mit strenger Roblox-Architekturprüfung, interner Qualitätskontrolle, deterministischerer Codeausgabe und stabileren Groq-Anfragen.
 // V240: Robuster Nexu-KI-Chat mit garantiertem Verlauf-Scroll, Auto-Follow, 100k-Nachrichten, eigenen Benachrichtigungen und KI-Titeln.
@@ -16694,19 +16695,23 @@ function buildNexuAiInstructions(chat, account, options = {}) {
         "Act as a senior software engineer, debugger, and code reviewer. Optimize first for correctness, then security, maintainability, clarity, and only then brevity.",
         "Infer the requested behavior, runtime, ownership boundaries, object hierarchy, data flow, lifecycle, and failure cases before designing the solution.",
         "Use the smallest architecture that fully solves the request. Do not create unnecessary frameworks or abstractions for a small task.",
-        "If a missing detail truly changes correctness, ask one focused question only as code comments inside a fenced code block. Otherwise choose the safest conventional assumption and record it as a short code comment.",
-        "Return only fenced source-code blocks. Never write prose, headings, lists or explanations outside code blocks. Put placement, setup, assumptions, root-cause notes and verification notes as concise comments inside the relevant code block.",
-        "If multiple files are required, return one complete fenced code block per file and begin each block with comments containing the exact file name, script type and placement.",
+        "Treat this chat as one continuous coding workspace. Unless the user clearly starts a new project, references such as 'das Script', 'der Code', 'mach das', 'ändere dies', 'es geht nicht' or 'passiert nicht' refer to the most recent relevant code supplied by either side.",
+        "Stay attached to the current script and architecture. Continue, repair, or extend the latest version instead of starting over, renaming everything, removing unrelated features, or returning a disconnected replacement.",
+        "When the user reports that something does not work, first respond with a short concrete diagnosis based on the current script and the reported behavior. Then provide the corrected code or exact changed section. Do not ignore the failure report and merely repeat the previous solution.",
+        "If the exact current script, runtime error, Explorer hierarchy, or required behavior is genuinely missing and correctness depends on it, ask one focused clarification question in normal prose. It is allowed to answer without code while waiting for that information.",
+        "In Code mode, answer naturally like a coding assistant: use a brief explanation, diagnosis, setup note, or question when useful, followed by fenced code blocks when code is needed. Do not force every response to contain code.",
+        "All actual source code must be inside fenced code blocks with the correct language tag. Never place executable code in ordinary prose.",
+        "If multiple files are required, return one complete fenced code block per file and clearly state the exact file name, script type, placement, and creation order directly before its block.",
         "Never output pseudo-code, fake APIs, placeholder functions, TODO sections, omitted middle sections, or comments such as 'rest of code here' when the user asks for working code.",
         "Every referenced variable, function, event, module, instance, folder, RemoteEvent, RemoteFunction, attribute, and dependency must either be created in the answer, already exist in the supplied code, or be explicitly listed as a required setup item.",
         "For a multi-file solution, provide the exact Explorer or filesystem location, script type, file name, creation order, and complete contents of every required file.",
-        "Preserve unrelated behavior when repairing existing code. Put the concrete root cause in a short comment at the top of the corrected complete section or file.",
+        "Preserve unrelated behavior when repairing existing code. Explain the concrete root cause briefly before the corrected code and change only what is necessary unless a larger rewrite is technically required.",
         "Check syntax, variable scope, shadowing, nil paths, type mismatches, wrong property names, event connection lifetime, repeated triggers, race conditions, re-entrancy, cleanup, cancellation, error handling, and performance hot spots.",
         "Prefer event-driven logic over polling. Avoid uncontrolled loops, per-frame work, duplicate connections, and memory leaks.",
         "Use descriptive names, small cohesive functions, early returns, and comments only for non-obvious decisions.",
-        "Do not silently change the user's requested behavior. Mention any necessary behavioral change.",
-        "Before returning the answer, silently perform a final quality gate: trace the main success path, important failure paths, initialization order, and cleanup path; then correct defects you find. Return only the polished result, not private reasoning.",
-        "For non-trivial systems, include exact placement/setup and a compact verification checklist only as comments inside the complete code blocks. For tiny fixes, return only the smallest complete working code block.",
+        "Do not silently change the user's requested behavior. Mention any necessary behavioral change before the code.",
+        "Before returning the answer, silently perform a final quality gate: trace the main success path, important failure paths, initialization order, and cleanup path; then correct defects you find. Return only the polished answer, not private reasoning.",
+        "For non-trivial systems, include exact placement/setup and a compact verification checklist after the code. For tiny fixes, provide the brief diagnosis and the smallest complete working change.",
     ];
 
     const targetRules = chat.language === "luau" ? [
@@ -16735,7 +16740,7 @@ function buildNexuAiInstructions(chat, account, options = {}) {
     ];
 
     if (options.requestTitle) {
-        engineeringRules.push("Begin the response with exactly one metadata line in this format: [[NEXU_TITLE: short German title]]. After that metadata line, output only fenced code blocks. The metadata line is removed before the user sees it.");
+        engineeringRules.push("Begin the response with exactly one metadata line in this format: [[NEXU_TITLE: short German title]]. After that metadata line, answer normally and include fenced code blocks only when code is useful. The metadata line is removed before the user sees it.");
     }
     return common.concat(engineeringRules, targetRules).join("\n");
 }
@@ -17007,20 +17012,13 @@ function normalizeNexuAiFenceLanguage(value, fallback) {
     return language || fallback;
 }
 
-function enforceNexuAiCodeOnly(value, chat) {
+function normalizeNexuAiCodeMode(value) {
     const source = String(value || "").trim();
-    const fallbackLanguage = chat && chat.language === "lua" ? "lua" : "luau";
-    const blocks = [];
-    const pattern = /```([^\r\n`]*)\r?\n?([\s\S]*?)```/g;
-    let match = null;
-    while ((match = pattern.exec(source)) !== null) {
-        const language = normalizeNexuAiFenceLanguage(match[1], fallbackLanguage);
-        const code = String(match[2] || "").replace(/^\s*\n|\n\s*$/g, "");
-        if (code.trim()) blocks.push(`\`\`\`${language}\n${code}\n\`\`\``);
-    }
-    if (blocks.length) return blocks.join("\n\n");
-    if (!source) return `\`\`\`${fallbackLanguage}\n-- Die KI hat keinen Code zurückgegeben.\n\`\`\``;
-    return `\`\`\`${fallbackLanguage}\n${source}\n\`\`\``;
+    if (!source) return "";
+    return source
+        .replace(/^\s*\[\[NEXU_TITLE:[^\]\r\n]{1,100}\]\]\s*/i, "")
+        .replace(/\n{4,}/g, "\n\n\n")
+        .trim();
 }
 
 function enforceNexuAiNormalMode(value) {
@@ -17053,11 +17051,11 @@ async function requestNexuAiCompletion(session, chat, options = {}) {
 
     const embedded = extractNexuAiEmbeddedTitle(providerResult.text);
     let answer = embedded.text;
-    if (codeMode) answer = enforceNexuAiCodeOnly(answer, chat);
+    if (codeMode) answer = normalizeNexuAiCodeMode(answer);
     else answer = enforceNexuAiNormalMode(answer);
     if (!answer.trim()) {
         answer = codeMode
-            ? enforceNexuAiCodeOnly("-- Die KI konnte für diese Anfrage keinen vollständigen Code erzeugen.", chat)
+            ? "Ich konnte daraus noch keine zuverlässige Lösung ableiten. Schick mir bitte den aktuellen Script-Stand und die genaue Fehlermeldung oder beschreibe, was stattdessen passiert."
             : "Die KI konnte für diese Anfrage keine vollständige Antwort erzeugen.";
     }
 
@@ -17132,7 +17130,7 @@ homeHtml = function(...args) {
             <div class="nx-v237-ai-copy">
                 <div class="nx-v237-ai-badge"><i></i><span>${english ? "Account-bound AI workspace" : "Accountgebundener KI-Arbeitsbereich"}</span></div>
                 <h2>${escapeHtml(NEXU_AI_NAME)}</h2>
-                <p>${english ? "Create separate conversations, ask general questions or switch to a dedicated Lua and Roblox Luau coding mode with stronger debugging rules." : "Erstelle getrennte Chats, stelle allgemeine Fragen oder wechsle in einen eigenen Lua- und Roblox-Luau-Code-Modus mit stärkerer Fehleranalyse."}</p>
+                <p>${english ? "Create separate conversations, ask general questions or switch to a dedicated Lua and Roblox Luau coding mode with stronger debugging rules." : "Erstelle getrennte Chats, stelle allgemeine Fragen oder wechsle in einen eigenen Lua- und Roblox-Luau-Code-Modus mit fortlaufendem Script-Kontext und stärkerer Fehleranalyse."}</p>
                 <div class="nx-v237-ai-points"><span>${english ? "Separate chats" : "Getrennte Chats"}</span><span>Lua & Luau</span><span>${english ? "Error analysis" : "Fehleranalyse"}</span><span>${english ? "Account storage" : "Account-Speicherung"}</span></div>
             </div>
             <a class="nx-v237-ai-open" href="/ai"><span>${isGuest ? (english ? "SIGN IN TO OPEN" : "ANMELDEN & ÖFFNEN") : (english ? "OPEN NEXU AI" : "NEXU KI ÖFFNEN")}</span><b>→</b></a>
