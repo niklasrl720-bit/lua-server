@@ -15,8 +15,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-20T11:09:06.284Z",
       "firstSeenMs": 1784545746284,
-      "lastSeen": "2026-08-05T11:00:00.000Z",
-      "lastSeenMs": 1785927600000
+      "lastSeen": "2026-08-05T11:15:00.000Z",
+      "lastSeenMs": 1785928500000
     },
     {
       "userId": "1000176308",
@@ -423,8 +423,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T18:05:08.288Z",
       "firstSeenMs": 1784225108288,
-      "lastSeen": "2026-08-05T11:00:00.000Z",
-      "lastSeenMs": 1785927600000
+      "lastSeen": "2026-08-05T11:15:00.000Z",
+      "lastSeenMs": 1785928500000
     },
     {
       "userId": "10203550652",
@@ -9059,8 +9059,8 @@
       "scriptBuild": "",
       "firstSeen": "2026-07-16T18:05:08.415Z",
       "firstSeenMs": 1784225108415,
-      "lastSeen": "2026-08-05T11:00:00.000Z",
-      "lastSeenMs": 1785927600000
+      "lastSeen": "2026-08-05T11:15:00.000Z",
+      "lastSeenMs": 1785928500000
     },
     {
       "userId": "5005775489",
@@ -14457,5 +14457,5 @@
     "resetAtMs": 1785880800138,
     "messages": []
   },
-  "updatedAt": "2026-08-05T11:03:00.713Z"
+  "updatedAt": "2026-08-05T11:17:28.528Z"
 }
