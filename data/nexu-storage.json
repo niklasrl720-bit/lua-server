@@ -667,19 +667,19 @@
     {
       "userId": "1032380742",
       "username": "dacher1983",
-      "displayName": "SONAR",
+      "displayName": "REGULAR_HUMAN33",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
       "gameName": "Catalog Avatar Creator",
       "placeId": 7041939546,
       "executionSource": "Arceus X",
-      "executionVersion": "2.2.7",
+      "executionVersion": "2.2.9",
       "clientPlatform": "Android",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T18:21:03.905Z",
       "firstSeenMs": 1784312463905,
-      "lastSeen": "2026-07-17T23:40:00.000Z",
-      "lastSeenMs": 1784331600000
+      "lastSeen": "2026-08-06T23:35:00.000Z",
+      "lastSeenMs": 1786059300000
     },
     {
       "userId": "10342998762",
@@ -14474,5 +14474,5 @@
     "resetAtMs": 1786053600124,
     "messages": []
   },
-  "updatedAt": "2026-08-06T23:36:01.744Z"
+  "updatedAt": "2026-08-06T23:36:21.668Z"
 }
