@@ -7507,13 +7507,13 @@
       "gameName": "Greek Voice 🔊",
       "placeId": 91932055090151,
       "executionSource": "Xeno",
-      "executionVersion": "v1.3.55",
+      "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:28:57.499Z",
       "firstSeenMs": 1784237337499,
-      "lastSeen": "2026-08-05T23:50:00.000Z",
-      "lastSeenMs": 1785973800000
+      "lastSeen": "2026-08-06T22:00:00.000Z",
+      "lastSeenMs": 1786053600000
     },
     {
       "userId": "3504968352",
@@ -14474,5 +14474,5 @@
     "resetAtMs": 1786053600124,
     "messages": []
   },
-  "updatedAt": "2026-08-06T22:00:00.896Z"
+  "updatedAt": "2026-08-06T22:01:30.740Z"
 }
