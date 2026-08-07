@@ -2387,16 +2387,16 @@
       "displayName": "Travel_Telepathy",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Bab 1: Rumah Ilmuwan Gila",
-      "placeId": 99300844802654,
+      "gameName": "Naiki Menara Dumpling Squishy yang Menakutkan",
+      "placeId": 72151034082236,
       "executionSource": "Delta",
-      "executionVersion": "1.1.727.1199",
+      "executionVersion": "1.1.731.944",
       "clientPlatform": "Android",
-      "scriptBuild": "NEXU_MENU_V1",
+      "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T05:53:21.611Z",
       "firstSeenMs": 1784267601611,
-      "lastSeen": "2026-07-17T05:53:21.611Z",
-      "lastSeenMs": 1784267601611
+      "lastSeen": "2026-08-07T16:50:00.000Z",
+      "lastSeenMs": 1786121400000
     },
     {
       "userId": "11072047697",
@@ -14474,5 +14474,5 @@
     "resetAtMs": 1786053600124,
     "messages": []
   },
-  "updatedAt": "2026-08-07T15:21:05.281Z"
+  "updatedAt": "2026-08-07T16:51:51.907Z"
 }
