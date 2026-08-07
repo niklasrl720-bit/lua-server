@@ -8762,16 +8762,16 @@
       "displayName": "Coolin",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[W2]+[2X] +1 Power Per Click ⚔️",
-      "placeId": 74889851913797,
+      "gameName": "[NOW!] +1 Cut Grass Adventure",
+      "placeId": 90086669327265,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-25T00:35:03.144Z",
       "firstSeenMs": 1784939703144,
-      "lastSeen": "2026-08-07T15:20:00.000Z",
-      "lastSeenMs": 1786116000000
+      "lastSeen": "2026-08-07T18:00:00.000Z",
+      "lastSeenMs": 1786125600000
     },
     {
       "userId": "4656891186",
@@ -14474,5 +14474,5 @@
     "resetAtMs": 1786053600124,
     "messages": []
   },
-  "updatedAt": "2026-08-07T17:06:01.533Z"
+  "updatedAt": "2026-08-07T18:03:20.308Z"
 }
