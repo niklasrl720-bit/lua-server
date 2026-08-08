@@ -8014,16 +8014,16 @@
       "displayName": "VZX_Eli",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Spiel",
-      "placeId": 125224440903394,
+      "gameName": "Mordgeheimnis 2",
+      "placeId": 142823291,
       "executionSource": "Solara",
       "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-20T09:32:36.615Z",
       "firstSeenMs": 1784539956615,
-      "lastSeen": "2026-08-07T14:15:00.000Z",
-      "lastSeenMs": 1786112100000
+      "lastSeen": "2026-08-08T12:45:00.000Z",
+      "lastSeenMs": 1786193100000
     },
     {
       "userId": "3991335398",
@@ -14508,5 +14508,5 @@
     "resetAtMs": 1786140000133,
     "messages": []
   },
-  "updatedAt": "2026-08-08T10:43:25.004Z"
+  "updatedAt": "2026-08-08T12:49:34.229Z"
 }
