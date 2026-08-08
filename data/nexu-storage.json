@@ -12650,6 +12650,23 @@
       "lastSeenMs": 1784425800000
     },
     {
+      "userId": "8806646361",
+      "username": "kakaw8328",
+      "displayName": "kakaw8328",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Загадка убийства 2",
+      "placeId": 142823291,
+      "executionSource": "Delta",
+      "executionVersion": "1.2.731.944",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-08-08T10:43:20.000Z",
+      "firstSeenMs": 1786185800000,
+      "lastSeen": "2026-08-08T10:43:20.000Z",
+      "lastSeenMs": 1786185800000
+    },
+    {
       "userId": "8808861528",
       "username": "tdofUgw",
       "displayName": "Rizz",
@@ -14491,5 +14508,5 @@
     "resetAtMs": 1786140000133,
     "messages": []
   },
-  "updatedAt": "2026-08-08T03:26:02.890Z"
+  "updatedAt": "2026-08-08T10:43:25.004Z"
 }
