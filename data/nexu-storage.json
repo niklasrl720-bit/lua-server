@@ -8606,19 +8606,19 @@
     {
       "userId": "440077558",
       "username": "000xdz",
-      "displayName": "000_DOA",
+      "displayName": "000",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
       "gameName": "Da Hood ⚽",
       "placeId": 2788229376,
-      "executionSource": "Potassium",
-      "executionVersion": "v2.3.5",
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-30T11:32:30.398Z",
       "firstSeenMs": 1785411150398,
-      "lastSeen": "2026-08-05T00:00:00.000Z",
-      "lastSeenMs": 1785888000000
+      "lastSeen": "2026-08-08T02:30:00.000Z",
+      "lastSeenMs": 1786156200000
     },
     {
       "userId": "4405561372",
@@ -14491,5 +14491,5 @@
     "resetAtMs": 1786140000133,
     "messages": []
   },
-  "updatedAt": "2026-08-08T02:31:00.405Z"
+  "updatedAt": "2026-08-08T02:32:41.598Z"
 }
