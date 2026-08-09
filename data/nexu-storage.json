@@ -14117,16 +14117,16 @@
       "displayName": "KingXD4081",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Cocos Time Trial 2 ⏰",
-      "placeId": 5589967659,
+      "gameName": "[🏖️] Wall Hop Practice",
+      "placeId": 5044920251,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-08-09T13:05:00.000Z",
-      "lastSeenMs": 1786280700000
+      "lastSeen": "2026-08-09T14:40:00.000Z",
+      "lastSeenMs": 1786286400000
     },
     {
       "userId": "9786800904",
@@ -14508,5 +14508,5 @@
     "resetAtMs": 1786226400143,
     "messages": []
   },
-  "updatedAt": "2026-08-09T14:41:03.780Z"
+  "updatedAt": "2026-08-09T14:42:01.129Z"
 }
