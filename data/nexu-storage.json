@@ -8031,16 +8031,16 @@
       "displayName": "Idk",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Murder Mystery 2",
-      "placeId": 142823291,
+      "gameName": "드림코어 타워",
+      "placeId": 17815921147,
       "executionSource": "Real",
       "executionVersion": "1.9.0",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T21:18:06.632Z",
       "firstSeenMs": 1784323086632,
-      "lastSeen": "2026-08-09T12:55:00.000Z",
-      "lastSeenMs": 1786280100000
+      "lastSeen": "2026-08-09T13:00:00.000Z",
+      "lastSeenMs": 1786280400000
     },
     {
       "userId": "3996091825",
@@ -14125,8 +14125,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-08-09T12:55:00.000Z",
-      "lastSeenMs": 1786280100000
+      "lastSeen": "2026-08-09T13:00:00.000Z",
+      "lastSeenMs": 1786280400000
     },
     {
       "userId": "9786800904",
@@ -14508,5 +14508,5 @@
     "resetAtMs": 1786226400143,
     "messages": []
   },
-  "updatedAt": "2026-08-09T12:56:00.277Z"
+  "updatedAt": "2026-08-09T13:00:59.252Z"
 }
