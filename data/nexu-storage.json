@@ -13386,16 +13386,16 @@
       "displayName": "seehil",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "+1 Pickaxe Swing Escape",
+      "gameName": "[PETS!] +1 Pickaxe Swing Escape",
       "placeId": 82554996468034,
       "executionSource": "Xeno",
-      "executionVersion": "v1.3.55",
+      "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-25T20:35:39.563Z",
       "firstSeenMs": 1785011739563,
-      "lastSeen": "2026-08-03T18:50:00.000Z",
-      "lastSeenMs": 1785783000000
+      "lastSeen": "2026-08-09T19:40:00.000Z",
+      "lastSeenMs": 1786304400000
     },
     {
       "userId": "9297629319",
@@ -14508,5 +14508,5 @@
     "resetAtMs": 1786226400143,
     "messages": []
   },
-  "updatedAt": "2026-08-09T19:41:01.426Z"
+  "updatedAt": "2026-08-09T19:42:17.912Z"
 }
