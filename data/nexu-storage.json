@@ -8779,16 +8779,16 @@
       "displayName": "Coolin",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[NOW!] +1 Cut Grass Adventure",
-      "placeId": 90086669327265,
+      "gameName": "+1 Height Per Jump",
+      "placeId": 137202615981355,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-25T00:35:03.144Z",
       "firstSeenMs": 1784939703144,
-      "lastSeen": "2026-08-07T18:45:00.000Z",
-      "lastSeenMs": 1786128300000
+      "lastSeen": "2026-08-09T19:25:00.000Z",
+      "lastSeenMs": 1786303500000
     },
     {
       "userId": "4656891186",
@@ -14508,5 +14508,5 @@
     "resetAtMs": 1786226400143,
     "messages": []
   },
-  "updatedAt": "2026-08-09T18:21:05.800Z"
+  "updatedAt": "2026-08-09T19:27:58.076Z"
 }
