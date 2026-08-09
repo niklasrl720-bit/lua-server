@@ -8779,16 +8779,16 @@
       "displayName": "Coolin",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "+1 Height Per Jump",
-      "placeId": 137202615981355,
+      "gameName": "[W3] +1 Followers Per Click",
+      "placeId": 98695134949589,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-25T00:35:03.144Z",
       "firstSeenMs": 1784939703144,
-      "lastSeen": "2026-08-09T19:40:00.000Z",
-      "lastSeenMs": 1786304400000
+      "lastSeen": "2026-08-09T20:50:00.000Z",
+      "lastSeenMs": 1786308600000
     },
     {
       "userId": "4656891186",
@@ -14508,5 +14508,5 @@
     "resetAtMs": 1786226400143,
     "messages": []
   },
-  "updatedAt": "2026-08-09T20:51:01.893Z"
+  "updatedAt": "2026-08-09T20:54:04.615Z"
 }
