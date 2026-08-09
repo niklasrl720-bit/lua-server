@@ -8609,7 +8609,7 @@
       "displayName": "000",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Da Hood ⚽",
+      "gameName": "Da Hood",
       "placeId": 2788229376,
       "executionSource": "Solara",
       "executionVersion": "3.0",
@@ -8617,8 +8617,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-30T11:32:30.398Z",
       "firstSeenMs": 1785411150398,
-      "lastSeen": "2026-08-09T03:05:00.000Z",
-      "lastSeenMs": 1786244700000
+      "lastSeen": "2026-08-09T17:25:00.000Z",
+      "lastSeenMs": 1786296300000
     },
     {
       "userId": "4405561372",
@@ -14508,5 +14508,5 @@
     "resetAtMs": 1786226400143,
     "messages": []
   },
-  "updatedAt": "2026-08-09T16:26:01.084Z"
+  "updatedAt": "2026-08-09T17:26:29.030Z"
 }
