@@ -14117,16 +14117,16 @@
       "displayName": "KingXD4081",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Push Rock for Brainrots!",
-      "placeId": 75888315541325,
+      "gameName": "Chained [2 Player Obby]",
+      "placeId": 18334179599,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-08-09T16:25:00.000Z",
-      "lastSeenMs": 1786292700000
+      "lastSeen": "2026-08-10T06:45:00.000Z",
+      "lastSeenMs": 1786344300000
     },
     {
       "userId": "9786800904",
@@ -14508,5 +14508,5 @@
     "resetAtMs": 1786312800157,
     "messages": []
   },
-  "updatedAt": "2026-08-09T22:11:04.378Z"
+  "updatedAt": "2026-08-10T06:46:50.924Z"
 }
