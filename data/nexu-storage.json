@@ -14117,16 +14117,16 @@
       "displayName": "KingXD4081",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Chained [2 Player Obby]",
-      "placeId": 18334179599,
+      "gameName": "Parkour For Brainrots",
+      "placeId": 96718909195517,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T14:57:45.227Z",
       "firstSeenMs": 1784300265227,
-      "lastSeen": "2026-08-10T07:05:00.000Z",
-      "lastSeenMs": 1786345500000
+      "lastSeen": "2026-08-10T13:30:00.000Z",
+      "lastSeenMs": 1786368600000
     },
     {
       "userId": "9786800904",
@@ -14508,5 +14508,5 @@
     "resetAtMs": 1786312800157,
     "messages": []
   },
-  "updatedAt": "2026-08-10T07:06:02.494Z"
+  "updatedAt": "2026-08-10T13:33:15.675Z"
 }
