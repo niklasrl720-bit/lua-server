@@ -8796,16 +8796,16 @@
       "displayName": "Coolin",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[W3] +1 Followers Per Click",
-      "placeId": 98695134949589,
+      "gameName": "[UPD] Load The Truck!",
+      "placeId": 120491560796071,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-25T00:35:03.144Z",
       "firstSeenMs": 1784939703144,
-      "lastSeen": "2026-08-09T21:20:00.000Z",
-      "lastSeenMs": 1786310400000
+      "lastSeen": "2026-08-11T05:10:00.000Z",
+      "lastSeenMs": 1786425000000
     },
     {
       "userId": "4656891186",
@@ -14525,5 +14525,5 @@
     "resetAtMs": 1786399200183,
     "messages": []
   },
-  "updatedAt": "2026-08-10T22:00:00.959Z"
+  "updatedAt": "2026-08-11T05:10:48.901Z"
 }
