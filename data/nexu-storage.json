@@ -3555,6 +3555,23 @@
       "lastSeenMs": 1784248990751
     },
     {
+      "userId": "11240738616",
+      "username": "Mr_NaZo0",
+      "displayName": "Mr_NaZo0",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "تشغيل الميكروفون التونسي | 🔊",
+      "placeId": 75589258781566,
+      "executionSource": "Solara",
+      "executionVersion": "3.0",
+      "clientPlatform": "Windows",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-08-11T11:16:08.761Z",
+      "firstSeenMs": 1786446968761,
+      "lastSeen": "2026-08-11T11:16:08.761Z",
+      "lastSeenMs": 1786446968761
+    },
+    {
       "userId": "11242459156",
       "username": "THEchudNugget",
       "displayName": "THEchudNugget",
@@ -14525,5 +14542,5 @@
     "resetAtMs": 1786399200183,
     "messages": []
   },
-  "updatedAt": "2026-08-11T06:11:01.739Z"
+  "updatedAt": "2026-08-11T11:16:13.764Z"
 }
