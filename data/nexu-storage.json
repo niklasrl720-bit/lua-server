@@ -13420,16 +13420,16 @@
       "displayName": "seehil",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[PETS!] +1 Pickaxe Swing Escape",
-      "placeId": 82554996468034,
+      "gameName": "Magic Loot[🦖Dino Event]",
+      "placeId": 133188236593503,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-25T20:35:39.563Z",
       "firstSeenMs": 1785011739563,
-      "lastSeen": "2026-08-09T20:50:00.000Z",
-      "lastSeenMs": 1786308600000
+      "lastSeen": "2026-08-12T20:20:00.000Z",
+      "lastSeenMs": 1786566000000
     },
     {
       "userId": "9297629319",
@@ -14542,5 +14542,5 @@
     "resetAtMs": 1786485600192,
     "messages": []
   },
-  "updatedAt": "2026-08-12T19:07:25.993Z"
+  "updatedAt": "2026-08-12T20:24:30.237Z"
 }
