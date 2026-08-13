@@ -12519,16 +12519,16 @@
       "displayName": "BrandonLee",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Survive 99 Nights",
-      "placeId": 126509999114328,
+      "gameName": "+1 Cut Grass Adventure",
+      "placeId": 90086669327265,
       "executionSource": "Xeno",
-      "executionVersion": "v1.3.55",
+      "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:35:11.965Z",
       "firstSeenMs": 1784237711965,
-      "lastSeen": "2026-07-31T08:00:00.000Z",
-      "lastSeenMs": 1785484800000
+      "lastSeen": "2026-08-13T03:20:00.000Z",
+      "lastSeenMs": 1786591200000
     },
     {
       "userId": "8704708435",
@@ -14542,5 +14542,5 @@
     "resetAtMs": 1786572000205,
     "messages": []
   },
-  "updatedAt": "2026-08-13T03:23:18.403Z"
+  "updatedAt": "2026-08-13T03:24:41.449Z"
 }
