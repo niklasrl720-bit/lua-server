@@ -4461,16 +4461,16 @@
       "displayName": "wsgwiththeguys",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Hide and Seek Extreme",
-      "placeId": 205224386,
+      "gameName": "+1 Cut Grass Adventure",
+      "placeId": 90086669327265,
       "executionSource": "Xeno",
-      "executionVersion": "v1.3.55",
+      "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T01:23:31.722Z",
       "firstSeenMs": 1784251411722,
-      "lastSeen": "2026-07-27T06:00:00.000Z",
-      "lastSeenMs": 1785132000000
+      "lastSeen": "2026-08-13T03:20:00.000Z",
+      "lastSeenMs": 1786591200000
     },
     {
       "userId": "11284061402",
@@ -14542,5 +14542,5 @@
     "resetAtMs": 1786572000205,
     "messages": []
   },
-  "updatedAt": "2026-08-13T02:41:04.645Z"
+  "updatedAt": "2026-08-13T03:23:18.403Z"
 }
