@@ -4580,16 +4580,16 @@
       "displayName": "ginastiaisland",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[RESTOCK] UGC Obby Grátis (AFK ou Jogar)",
-      "placeId": 80692223709267,
+      "gameName": "Criador de Conteúdo Tycoon",
+      "placeId": 71852303862507,
       "executionSource": "Delta",
-      "executionVersion": "1.1.731.944",
+      "executionVersion": "1.1.733.988",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-30T15:20:28.251Z",
       "firstSeenMs": 1785424828251,
-      "lastSeen": "2026-08-05T18:20:00.000Z",
-      "lastSeenMs": 1785954000000
+      "lastSeen": "2026-08-15T19:15:00.000Z",
+      "lastSeenMs": 1786821300000
     },
     {
       "userId": "11287172692",
@@ -14559,5 +14559,5 @@
     "resetAtMs": 1786744800257,
     "messages": []
   },
-  "updatedAt": "2026-08-15T19:16:05.733Z"
+  "updatedAt": "2026-08-15T19:16:30.834Z"
 }
