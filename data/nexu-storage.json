@@ -12536,8 +12536,8 @@
       "displayName": "BrandonLee",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "RIVALS",
-      "placeId": 17625359962,
+      "gameName": "Matchmaking",
+      "placeId": 117398147513099,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
@@ -14559,5 +14559,5 @@
     "resetAtMs": 1786744800257,
     "messages": []
   },
-  "updatedAt": "2026-08-15T02:00:07.458Z"
+  "updatedAt": "2026-08-15T02:01:15.850Z"
 }
