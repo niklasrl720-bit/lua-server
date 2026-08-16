@@ -6003,6 +6003,23 @@
       "lastSeenMs": 1784933700000
     },
     {
+      "userId": "11519390419",
+      "username": "toodtt7",
+      "displayName": "toodtt7",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Simulador de Aranha 🕷️",
+      "placeId": 18599080824,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.733.988",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-08-16T17:19:01.575Z",
+      "firstSeenMs": 1786900741575,
+      "lastSeen": "2026-08-16T17:19:01.575Z",
+      "lastSeenMs": 1786900741575
+    },
+    {
       "userId": "1177195747",
       "username": "giovajaket",
       "displayName": "ggiova_101",
@@ -14576,5 +14593,5 @@
     "resetAtMs": 1786831200277,
     "messages": []
   },
-  "updatedAt": "2026-08-16T13:51:00.527Z"
+  "updatedAt": "2026-08-16T17:19:06.579Z"
 }
