@@ -9017,16 +9017,16 @@
       "displayName": "kai",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Doomspire Warfare",
-      "placeId": 109989029858912,
+      "gameName": "MARKED (Gun Testing)",
+      "placeId": 115121468427840,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "2026-07-11_EVIL_XENO_V191",
       "firstSeen": "2026-08-16T11:18:27.973Z",
       "firstSeenMs": 1786879107973,
-      "lastSeen": "2026-08-16T11:25:00.000Z",
-      "lastSeenMs": 1786879500000
+      "lastSeen": "2026-08-16T13:40:00.000Z",
+      "lastSeenMs": 1786887600000
     },
     {
       "userId": "4818481640",
@@ -14576,5 +14576,5 @@
     "resetAtMs": 1786831200277,
     "messages": []
   },
-  "updatedAt": "2026-08-16T11:26:04.128Z"
+  "updatedAt": "2026-08-16T13:40:24.671Z"
 }
