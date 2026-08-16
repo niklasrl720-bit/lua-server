@@ -9012,6 +9012,23 @@
       "lastSeenMs": 1784317815149
     },
     {
+      "userId": "4803875654",
+      "username": "Yusgz_yg",
+      "displayName": "kai",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Doomspire Warfare",
+      "placeId": 109989029858912,
+      "executionSource": "Xeno",
+      "executionVersion": "v1.3.60",
+      "clientPlatform": "Windows",
+      "scriptBuild": "2026-07-11_EVIL_XENO_V191",
+      "firstSeen": "2026-08-16T11:18:27.973Z",
+      "firstSeenMs": 1786879107973,
+      "lastSeen": "2026-08-16T11:18:27.973Z",
+      "lastSeenMs": 1786879107973
+    },
+    {
       "userId": "4818481640",
       "username": "Naibal14",
       "displayName": "Naibal14",
@@ -14559,5 +14576,5 @@
     "resetAtMs": 1786831200277,
     "messages": []
   },
-  "updatedAt": "2026-08-16T10:31:58.092Z"
+  "updatedAt": "2026-08-16T11:18:32.976Z"
 }
