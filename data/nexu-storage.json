@@ -8830,16 +8830,16 @@
       "displayName": "Coolin",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "🧈 +1 Jump Crunchy ASMR Escape!",
-      "placeId": 83264774625004,
+      "gameName": "Would You Rather: Youtubers Tower",
+      "placeId": 126127396518967,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-25T00:35:03.144Z",
       "firstSeenMs": 1784939703144,
-      "lastSeen": "2026-08-17T00:45:00.000Z",
-      "lastSeenMs": 1786927500000
+      "lastSeen": "2026-08-17T19:45:00.000Z",
+      "lastSeenMs": 1786995900000
     },
     {
       "userId": "4656891186",
@@ -14593,5 +14593,5 @@
     "resetAtMs": 1786917600086,
     "messages": []
   },
-  "updatedAt": "2026-08-17T19:46:50.236Z"
+  "updatedAt": "2026-08-17T19:47:06.760Z"
 }
