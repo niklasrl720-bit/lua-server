@@ -8830,16 +8830,16 @@
       "displayName": "Coolin",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "The Lanes 🎳 Bowling",
-      "placeId": 1333478699,
+      "gameName": "⚽ Jump To Steal Soccer Players ⚽",
+      "placeId": 133294838637122,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-25T00:35:03.144Z",
       "firstSeenMs": 1784939703144,
-      "lastSeen": "2026-08-13T05:05:00.000Z",
-      "lastSeenMs": 1786597500000
+      "lastSeen": "2026-08-17T00:25:00.000Z",
+      "lastSeenMs": 1786926300000
     },
     {
       "userId": "4656891186",
@@ -14593,5 +14593,5 @@
     "resetAtMs": 1786917600086,
     "messages": []
   },
-  "updatedAt": "2026-08-16T22:00:00.857Z"
+  "updatedAt": "2026-08-17T00:30:04.054Z"
 }
