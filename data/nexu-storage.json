@@ -8838,8 +8838,8 @@
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-25T00:35:03.144Z",
       "firstSeenMs": 1784939703144,
-      "lastSeen": "2026-08-17T00:25:00.000Z",
-      "lastSeenMs": 1786926300000
+      "lastSeen": "2026-08-17T00:30:00.000Z",
+      "lastSeenMs": 1786926600000
     },
     {
       "userId": "4656891186",
@@ -12570,16 +12570,16 @@
       "displayName": "BrandonLee",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "Matchmaking",
-      "placeId": 117398147513099,
+      "gameName": "⚽ Jump To Steal Soccer Players ⚽",
+      "placeId": 133294838637122,
       "executionSource": "Xeno",
       "executionVersion": "v1.3.60",
       "clientPlatform": "Windows",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-16T21:35:11.965Z",
       "firstSeenMs": 1784237711965,
-      "lastSeen": "2026-08-15T02:00:00.000Z",
-      "lastSeenMs": 1786759200000
+      "lastSeen": "2026-08-17T00:30:00.000Z",
+      "lastSeenMs": 1786926600000
     },
     {
       "userId": "8704708435",
@@ -14593,5 +14593,5 @@
     "resetAtMs": 1786917600086,
     "messages": []
   },
-  "updatedAt": "2026-08-17T00:30:04.054Z"
+  "updatedAt": "2026-08-17T00:30:40.505Z"
 }
