@@ -2404,16 +2404,16 @@
       "displayName": "Travel_Telepathy",
       "roleKey": "",
       "roleUpdatedAtMs": 0,
-      "gameName": "[🍌 UPD] Berkembang & Bertahan Hidup",
-      "placeId": 125977609033603,
+      "gameName": "+1 Air Drain Per Klik",
+      "placeId": 103883942725157,
       "executionSource": "Delta",
       "executionVersion": "1.1.733.988",
       "clientPlatform": "Android",
       "scriptBuild": "NEXU_MENU_V2",
       "firstSeen": "2026-07-17T05:53:21.611Z",
       "firstSeenMs": 1784267601611,
-      "lastSeen": "2026-08-16T18:40:00.000Z",
-      "lastSeenMs": 1786905600000
+      "lastSeen": "2026-08-18T11:30:00.000Z",
+      "lastSeenMs": 1787052600000
     },
     {
       "userId": "11072047697",
@@ -14593,5 +14593,5 @@
     "resetAtMs": 1787004000100,
     "messages": []
   },
-  "updatedAt": "2026-08-18T04:03:50.216Z"
+  "updatedAt": "2026-08-18T11:30:43.731Z"
 }
