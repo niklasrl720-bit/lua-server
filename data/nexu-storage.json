@@ -7601,6 +7601,23 @@
       "lastSeenMs": 1784528400000
     },
     {
+      "userId": "3511400013",
+      "username": "OrchidL3af",
+      "displayName": "Kylo",
+      "roleKey": "",
+      "roleUpdatedAtMs": 0,
+      "gameName": "Zombie Rush Survival 🧟‍♂️",
+      "placeId": 82457571485380,
+      "executionSource": "Delta",
+      "executionVersion": "1.1.733.988",
+      "clientPlatform": "Android",
+      "scriptBuild": "NEXU_MENU_V2",
+      "firstSeen": "2026-08-19T07:00:46.027Z",
+      "firstSeenMs": 1787122846027,
+      "lastSeen": "2026-08-19T07:00:46.027Z",
+      "lastSeenMs": 1787122846027
+    },
+    {
       "userId": "3521311307",
       "username": "Denis987947",
       "displayName": "Denis987947",
@@ -14593,5 +14610,5 @@
     "resetAtMs": 1787090400134,
     "messages": []
   },
-  "updatedAt": "2026-08-18T22:00:00.909Z"
+  "updatedAt": "2026-08-19T07:00:51.031Z"
 }
