@@ -13,16 +13,16 @@
     "startedBy": ""
   },
   "menuStatus": {
-    "online": false,
-    "changedAtMs": 1787448270434,
-    "changedAt": "2026-08-23T01:24:30.434Z",
+    "online": true,
+    "changedAtMs": 1787523222681,
+    "changedAt": "2026-08-23T22:13:42.681Z",
     "changedBy": "niklasrl720-bit"
   },
   "chat": {
-    "dayKey": "2026-08-23",
+    "dayKey": "2026-08-24",
     "resetRevision": 0,
     "resetAtMs": 0,
     "messages": []
   },
-  "updatedAt": "2026-08-23T01:26:55.611Z"
+  "updatedAt": "2026-08-23T22:13:42.681Z"
 }
